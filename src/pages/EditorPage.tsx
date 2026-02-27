@@ -17,6 +17,8 @@ import SettingsForm from '../components/editor/SettingsForm';
 import ATSAudit from '../components/editor/ATSAudit';
 import ResumePreview from '../components/preview/ResumePreview';
 import Logo from '../components/Logo';
+import PaymentModal from '../components/payment/PaymentModal';
+import PostDownloadModal from '../components/payment/PostDownloadModal';
 import { cn } from '../lib/utils';
 
 type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'settings';
@@ -24,13 +26,24 @@ type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'ce
 export default function EditorPage() {
   const [activeTab, setActiveTab] = useState<Tab>('personal');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
   const { data, loadExampleData, resetData } = useResumeStore();
   
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
     documentTitle: `${data.personalInfo.fullName || 'Resume'}_CV`,
+    onAfterPrint: () => setShowPostDownloadModal(true),
   });
+
+  const handleExportClick = () => {
+    if (data.isPremium) {
+      handlePrint();
+    } else {
+      setShowPaymentModal(true);
+    }
+  };
 
   const tabs = [
     { id: 'personal', label: 'Personal', icon: User },
@@ -127,7 +140,7 @@ export default function EditorPage() {
             </span>
           </button>
           <button 
-            onClick={() => handlePrint()}
+            onClick={handleExportClick}
             className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-full flex items-center gap-2 font-medium transition-colors text-sm shadow-md shadow-indigo-600/20"
           >
             <Download size={16} />
@@ -224,6 +237,20 @@ export default function EditorPage() {
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <PaymentModal 
+        isOpen={showPaymentModal} 
+        onClose={() => setShowPaymentModal(false)} 
+        onSuccess={() => {
+          setShowPaymentModal(false);
+          handlePrint();
+        }}
+      />
+      <PostDownloadModal 
+        isOpen={showPostDownloadModal} 
+        onClose={() => setShowPostDownloadModal(false)} 
+      />
     </div>
   );
 }

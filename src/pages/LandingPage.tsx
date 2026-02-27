@@ -18,6 +18,7 @@ export default function LandingPage() {
         <div className="flex items-center gap-6 flex-1">
           <a href="#features" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 hidden sm:block">Features</a>
           <a href="#process" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 hidden sm:block">How it works</a>
+          <Link to="/hash-hunt" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 hidden sm:block">Hash Hunt Jobs</Link>
         </div>
         
         {/* Centered Logo */}
@@ -189,6 +190,7 @@ export default function LandingPage() {
               <h4 className="text-white font-semibold mb-4">Product</h4>
               <ul className="space-y-2 text-sm">
                 <li><Link to="/editor" className="hover:text-white transition-colors">Resume Builder</Link></li>
+                <li><Link to="/hash-hunt" className="hover:text-white transition-colors">Hash Hunt Jobs</Link></li>
                 <li><a href="#" className="hover:text-white transition-colors">Templates</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Cover Letter</a></li>
               </ul>
