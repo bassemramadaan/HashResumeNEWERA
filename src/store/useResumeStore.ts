@@ -77,7 +77,7 @@ const initialData: ResumeData = {
   certifications: [],
   settings: {
     template: 'modern',
-    themeColor: '#22C55E', // Green
+    themeColor: '#4F46E5', // Green
     language: 'en',
     isFreshGrad: false,
   },
@@ -281,7 +281,7 @@ export const useResumeStore = create<ResumeStore>()(
             ],
             settings: {
               template: 'modern',
-              themeColor: '#22C55E',
+              themeColor: '#4F46E5',
               language: 'en',
               isFreshGrad: false,
             },
