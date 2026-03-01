@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Lock, Key, MessageCircle, CheckCircle, X, Loader2 } from 'lucide-react';
 
@@ -24,16 +24,21 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
     setError('');
 
     try {
-      // Call the Google Apps Script endpoint
-      const response = await fetch(`https://script.google.com/macros/s/AKfycbwu93DNeKqcO_JYt-qGPi-E6UW7hNoRT7LRdg6_UuAyxNEkQYuYFmXVo55yy68q-GfF9A/exec?code=${encodeURIComponent(code)}`);
+      // Call the backend endpoint
+      const response = await fetch('/api/verify-code', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+      });
       
-      // We expect the script to return JSON like { "valid": true } or { "status": "success" }
       const data = await response.json();
 
-      if (data.valid || data.success || data.status === 'success') {
+      if (data.success) {
         onSuccess();
       } else {
-        setError('Invalid or already used code. Please try again.');
+        setError(data.message || 'Invalid or already used code. Please try again.');
       }
     } catch (err) {
       console.error('Verification error:', err);
@@ -52,7 +57,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
           onClick={onClose}
         />
         
@@ -64,7 +69,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
         >
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-full transition-colors z-10"
+            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-10"
           >
             <X size={20} />
           </button>
@@ -75,25 +80,25 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             </div>
             
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-zinc-900 mb-2">Unlock Premium Export</h2>
-              <p className="text-zinc-600">Get unlimited PDF exports and premium features for 6 months.</p>
+              <h2 className="text-2xl font-bold text-slate-900 mb-2">Unlock Premium Export</h2>
+              <p className="text-slate-600">Get unlimited PDF exports and premium features for 6 months.</p>
               
               <div className="mt-6 flex items-center justify-center gap-3">
-                <span className="text-4xl font-black text-zinc-900">25 EGP</span>
-                <span className="text-lg text-zinc-400 line-through font-medium">99 EGP</span>
+                <span className="text-4xl font-black text-slate-900">25 EGP</span>
+                <span className="text-lg text-slate-400 line-through font-medium">99 EGP</span>
               </div>
             </div>
 
             <div className="space-y-4 mb-8">
-              <div className="flex items-center gap-3 text-sm text-zinc-700">
+              <div className="flex items-center gap-3 text-sm text-slate-700">
                 <CheckCircle size={18} className="text-emerald-500" />
                 <span>Unlimited PDF exports</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-zinc-700">
+              <div className="flex items-center gap-3 text-sm text-slate-700">
                 <CheckCircle size={18} className="text-emerald-500" />
                 <span>All premium templates</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-zinc-700">
+              <div className="flex items-center gap-3 text-sm text-slate-700">
                 <CheckCircle size={18} className="text-emerald-500" />
                 <span>Valid for 6 months</span>
               </div>
@@ -101,17 +106,17 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
 
             <form onSubmit={handleVerify} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-zinc-700 mb-1.5">Enter your activation code</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">Enter your activation code</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Key size={18} className="text-zinc-400" />
+                    <Key size={18} className="text-slate-400" />
                   </div>
                   <input
                     type="text"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="e.g. HASH-1234-ABCD"
-                    className="block w-full pl-10 pr-3 py-3 border border-zinc-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow uppercase"
+                    className="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow uppercase"
                   />
                 </div>
                 {error && <p className="mt-2 text-sm text-rose-500 font-medium">{error}</p>}
@@ -126,8 +131,8 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               </button>
             </form>
 
-            <div className="mt-6 pt-6 border-t border-zinc-100 text-center">
-              <p className="text-sm text-zinc-500 mb-3">Don't have a code?</p>
+            <div className="mt-6 pt-6 border-t border-slate-100 text-center">
+              <p className="text-sm text-slate-500 mb-3">Don't have a code?</p>
               <a 
                 href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20Hash%20Resume%20code" 
                 target="_blank" 

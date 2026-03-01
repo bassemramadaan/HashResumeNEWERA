@@ -5,17 +5,16 @@ import Logo from '../components/Logo';
 
 export default function HashHuntPage() {
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-900 font-sans selection:bg-indigo-200 selection:text-indigo-900">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900">
       {/* Navbar */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
         <div className="flex items-center gap-6 flex-1">
-          <Link to="/" className="text-sm font-medium text-zinc-600 hover:text-zinc-900 hidden sm:block">Back to Resume Builder</Link>
+          <Link to="/" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">Back to Resume Builder</Link>
         </div>
         
         {/* Centered Logo */}
-        <div className="flex items-center justify-center gap-3 absolute left-1/2 -translate-x-1/2">
+        <div className="flex items-center justify-center absolute left-1/2 -translate-x-1/2">
           <Logo className="w-12 h-12 text-indigo-600" />
-          <span className="text-2xl font-bold tracking-tight text-zinc-900 hidden sm:block">Hash Hunt</span>
         </div>
 
         <div className="flex items-center justify-end gap-6 flex-1">
@@ -50,7 +49,7 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-extrabold tracking-tight text-zinc-900 mb-6"
+            className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 mb-6 font-display"
           >
             Let the jobs <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">find you.</span>
@@ -60,7 +59,7 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-zinc-600 max-w-2xl mx-auto mb-10"
+            className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10"
           >
             Upload your resume to Hash Hunt and get matched with top companies actively hiring. We partner directly with employers to fast-track your application.
           </motion.p>
@@ -85,15 +84,15 @@ export default function HashHuntPage() {
       </section>
 
       {/* How it works */}
-      <section className="py-24 bg-white border-y border-zinc-200">
+      <section className="py-24 bg-white border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 mb-4">How Hash Hunt Works</h2>
-            <p className="text-lg text-zinc-600 max-w-2xl mx-auto">Your next career move is just a few clicks away.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">How Hash Hunt Works</h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">Your next career move is just a few clicks away.</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-12 relative">
-            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-zinc-100 -z-10"></div>
+            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-slate-100 -z-10"></div>
             
             {[
               { icon: Briefcase, title: "1. Build Your Resume", desc: "Use Hash Resume to create a professional, ATS-friendly CV." },
@@ -101,11 +100,11 @@ export default function HashHuntPage() {
               { icon: Building2, title: "3. Get Matched", desc: "Our team matches your profile with partner companies looking for your skills." }
             ].map((item, i) => (
               <div key={i} className="text-center relative group">
-                <div className="w-24 h-24 mx-auto bg-white border-4 border-zinc-50 group-hover:border-indigo-50 rounded-full flex items-center justify-center text-indigo-600 mb-6 shadow-sm transition-colors">
+                <div className="w-24 h-24 mx-auto bg-white border-4 border-slate-50 group-hover:border-indigo-50 rounded-full flex items-center justify-center text-indigo-600 mb-6 shadow-sm transition-colors">
                   <item.icon size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-zinc-900 mb-3">{item.title}</h3>
-                <p className="text-zinc-600">{item.desc}</p>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
+                <p className="text-slate-600">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -113,13 +112,13 @@ export default function HashHuntPage() {
       </section>
 
       {/* Benefits */}
-      <section className="py-24 bg-zinc-50">
+      <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-indigo-900 rounded-3xl p-8 md:p-16 text-center md:text-left flex flex-col md:flex-row items-center gap-12 shadow-2xl overflow-hidden relative">
             <div className="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-indigo-500 rounded-full blur-3xl opacity-20"></div>
             
             <div className="flex-1 relative z-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Why join Hash Hunt?</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display">Why join Hash Hunt?</h2>
               <ul className="space-y-4">
                 {[
                   "Direct access to hiring managers, skipping the ATS black hole.",
@@ -159,14 +158,14 @@ export default function HashHuntPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-zinc-900 text-zinc-400 py-12 border-t border-zinc-800">
+      <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <Logo className="w-10 h-10 text-indigo-500" />
-            <span className="text-2xl font-bold text-white">Hash Resume</span>
+          <div className="flex flex-col items-center justify-center mb-6">
+            <Logo className="w-10 h-10 text-indigo-500 mb-2" />
+            <span className="text-2xl font-black text-white font-display">Hash Resume</span>
           </div>
           <p className="text-sm mb-8">Professional resumes, simplified. Built with privacy in mind.</p>
-          <div className="pt-8 border-t border-zinc-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="pt-8 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
             <p>© {new Date().getFullYear()} Hash Resume. All rights reserved.</p>
             <div className="flex gap-4">
               <Link to="/" className="hover:text-white transition-colors">Resume Builder</Link>

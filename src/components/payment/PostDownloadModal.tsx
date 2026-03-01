@@ -16,7 +16,7 @@ export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModal
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
           onClick={onClose}
         />
         
@@ -28,7 +28,7 @@ export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModal
         >
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-full transition-colors z-10"
+            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-10"
           >
             <X size={20} />
           </button>
@@ -38,8 +38,8 @@ export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModal
               <PartyPopper size={40} />
             </div>
             
-            <h2 className="text-3xl font-bold text-zinc-900 mb-4">Resume Downloaded!</h2>
-            <p className="text-lg text-zinc-600 mb-8 max-w-sm mx-auto">
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Resume Downloaded!</h2>
+            <p className="text-lg text-slate-600 mb-8 max-w-sm mx-auto">
               Your professional resume is ready. Now, let us help you land your dream job.
             </p>
 
@@ -48,21 +48,21 @@ export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModal
                 <div className="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center">
                   <Briefcase size={20} />
                 </div>
-                <h3 className="text-xl font-bold text-zinc-900">Join Hash Hunt</h3>
+                <h3 className="text-xl font-bold text-slate-900">Join Hash Hunt</h3>
               </div>
-              <p className="text-zinc-600 mb-4">
+              <p className="text-slate-600 mb-4">
                 Upload your newly created resume to our exclusive talent pool. We partner with top companies to match you with the perfect role.
               </p>
               <ul className="space-y-2 mb-6">
-                <li className="flex items-center gap-2 text-sm text-zinc-700">
+                <li className="flex items-center gap-2 text-sm text-slate-700">
                   <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
                   Direct access to hiring managers
                 </li>
-                <li className="flex items-center gap-2 text-sm text-zinc-700">
+                <li className="flex items-center gap-2 text-sm text-slate-700">
                   <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
                   Personalized job matching
                 </li>
-                <li className="flex items-center gap-2 text-sm text-zinc-700">
+                <li className="flex items-center gap-2 text-sm text-slate-700">
                   <div className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
                   100% free for candidates
                 </li>
@@ -82,7 +82,7 @@ export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModal
 
             <button 
               onClick={onClose}
-              className="text-sm font-medium text-zinc-500 hover:text-zinc-800 transition-colors"
+              className="text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors"
             >
               Maybe later, I'll apply on my own
             </button>

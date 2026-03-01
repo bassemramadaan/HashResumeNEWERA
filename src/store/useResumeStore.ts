@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { temporal } from 'zundo';
 
 export type Experience = {
   id: string;
@@ -40,7 +41,6 @@ export type PersonalInfo = {
   phone: string;
   address: string;
   linkedin: string;
-  dob: string;
   summary: string;
 };
 
@@ -52,7 +52,7 @@ export type ResumeData = {
   projects: Project[];
   certifications: Certification[];
   settings: {
-    template: 'modern' | 'classic' | 'creative';
+    template: 'modern' | 'classic' | 'creative' | 'minimal' | 'tech' | 'executive';
     themeColor: string;
     language: 'en' | 'ar';
     isFreshGrad: boolean;
@@ -68,7 +68,6 @@ const initialData: ResumeData = {
     phone: '',
     address: '',
     linkedin: '',
-    dob: '',
     summary: '',
   },
   experience: [],
@@ -78,7 +77,7 @@ const initialData: ResumeData = {
   certifications: [],
   settings: {
     template: 'modern',
-    themeColor: '#4F46E5', // Green
+    themeColor: '#2563EB', // Green
     language: 'en',
     isFreshGrad: false,
   },
@@ -111,8 +110,9 @@ type ResumeStore = {
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
 export const useResumeStore = create<ResumeStore>()(
-  persist(
-    (set) => ({
+  temporal(
+    persist(
+      (set) => ({
       data: initialData,
       updatePersonalInfo: (info) =>
         set((state) => ({
@@ -235,7 +235,6 @@ export const useResumeStore = create<ResumeStore>()(
               phone: '+1 (555) 123-4567',
               address: 'San Francisco, CA',
               linkedin: 'linkedin.com/in/johndoe',
-              dob: '1990-01-01',
               summary:
                 'Experienced Software Engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Well-versed in technology and writing code to create systems that are reliable and user-friendly.',
             },
@@ -288,7 +287,7 @@ export const useResumeStore = create<ResumeStore>()(
             ],
             settings: {
               template: 'modern',
-              themeColor: '#4F46E5',
+              themeColor: '#2563EB',
               language: 'en',
               isFreshGrad: false,
             },
@@ -299,5 +298,6 @@ export const useResumeStore = create<ResumeStore>()(
     {
       name: 'hash-resume-storage',
     }
+  )
   )
 );

@@ -1,7 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  input, textarea {
+    unicode-bidi: plaintext;
+    text-align: start;
+  }
+
+  /* Dark mode global styles for forms and cards */
+  .dark {
+    color-scheme: dark;
+  }
+  
+  .dark .editor-form input, .dark .editor-form textarea {
+    @apply bg-slate-800 border-slate-700 text-white placeholder-slate-400 focus:border-indigo-500 focus:ring-indigo-500/50;
+  }
+  
+  .dark .editor-form label {
+    @apply text-slate-300;
+  }
+  
+  .dark .editor-form .bg-white {
+    @apply bg-slate-800 border-slate-700;
+  }
+  
+  .dark .editor-form .text-slate-900 {
+    @apply text-white;
+  }
+  
+  .dark .editor-form .text-slate-700 {
+    @apply text-slate-300;
+  }
+  
+  .dark .editor-form .text-slate-600 {
+    @apply text-slate-400;
+  }
+  
+  .dark .editor-form .text-slate-500 {
+    @apply text-slate-400;
+  }
+  
+  .dark .editor-form .bg-slate-50 {
+    @apply bg-slate-900;
+  }
+  
+  .dark .editor-form .bg-slate-100 {
+    @apply bg-slate-800;
+  }
+  
+  .dark .editor-form .border-slate-100, .dark .editor-form .border-slate-200 {
+    @apply border-slate-700;
+  }
+}
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  overscroll-behavior-y: none;
 }
 
 /* Custom Scrollbar */
@@ -13,11 +76,11 @@ html {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d4d4d8;
+  background: #cbd5e1;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1aa;
+  background: #94a3b8;
 }
 
 /* Hide scrollbar for horizontal tabs */
