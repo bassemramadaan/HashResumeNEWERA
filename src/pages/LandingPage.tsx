@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
+import Testimonials from '../components/Testimonials';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
@@ -87,14 +88,33 @@ export default function LandingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="mt-8 flex flex-col items-center gap-3"
+            className="mt-12 flex flex-col items-center gap-6"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium border border-indigo-100">
-              <ShieldCheck size={16} />
-              {t.privacyBadge}
+            {/* Stats Badge */}
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white shadow-lg shadow-indigo-100 border border-indigo-50">
+              <div className="flex -space-x-2 rtl:space-x-reverse">
+                {[1,2,3].map(i => (
+                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-600">
+                    {i === 3 ? '91%' : <Users size={14} />}
+                  </div>
+                ))}
+              </div>
+              <div className="text-left rtl:text-right">
+                <p className="text-sm font-bold text-slate-900 flex items-center gap-1">
+                  <TrendingUp size={14} className="text-emerald-500" />
+                  {t.statsText}
+                </p>
+              </div>
             </div>
-            <div className="text-sm text-slate-500 font-medium">
-              <span className="font-bold text-indigo-600">Hash Resume</span> {t.partOf}
+
+            <div className="flex flex-col items-center gap-3">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium border border-indigo-100">
+                <ShieldCheck size={16} />
+                {t.privacyBadge}
+              </div>
+              <div className="text-sm text-slate-500 font-medium">
+                <span className="font-bold text-indigo-600">Hash Resume</span> {t.partOf}
+              </div>
             </div>
           </motion.div>
         </div>
@@ -216,6 +236,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <Testimonials />
 
       {/* FAQ Section */}
       <FAQ />
