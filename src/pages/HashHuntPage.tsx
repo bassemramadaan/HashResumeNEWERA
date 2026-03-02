@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Briefcase, Building2, Search, ArrowRight, CheckCircle2, ExternalLink, MapPin, Clock, DollarSign } from 'lucide-react';
+import { Briefcase, Building2, Search, ArrowRight, CheckCircle2, ExternalLink, MapPin, Clock, DollarSign, Bookmark } from 'lucide-react';
 import Logo from '../components/Logo';
 import React, { useState, useEffect } from 'react';
 
@@ -18,7 +18,7 @@ interface Job {
   code?: string;
 }
 
-const JobCard: React.FC<{ job: Job }> = ({ job }) => {
+const JobCard: React.FC<{ job: Job; isSaved: boolean; onToggleSave: () => void }> = ({ job, isSaved, onToggleSave }) => {
   const applyUrl = "https://forms.gle/h1UNQfD55dc2o8wM6";
   
   return (
@@ -45,9 +45,25 @@ const JobCard: React.FC<{ job: Job }> = ({ job }) => {
             <p className="text-sm text-slate-500 font-medium">{job.company}</p>
           </div>
         </div>
-        {job.postedAt && (
-          <span className="text-xs font-medium text-slate-500 bg-slate-50 px-2.5 py-1 rounded-full whitespace-nowrap border border-slate-100 group-hover:bg-white group-hover:shadow-sm transition-all">{job.postedAt}</span>
-        )}
+        <div className="flex flex-col items-end gap-2">
+          <button 
+            onClick={(e) => {
+              e.preventDefault();
+              onToggleSave();
+            }}
+            className={`p-2 rounded-full shadow-sm border transition-all duration-200 ${
+              isSaved 
+                ? 'bg-indigo-50 border-indigo-100 text-indigo-600' 
+                : 'bg-white border-slate-100 text-slate-400 hover:text-indigo-600 hover:bg-slate-50'
+            }`}
+            title={isSaved ? "Remove from saved" : "Save job"}
+          >
+            <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />
+          </button>
+          {job.postedAt && (
+            <span className="text-xs font-medium text-slate-500 bg-slate-50 px-2.5 py-1 rounded-full whitespace-nowrap border border-slate-100 group-hover:bg-white group-hover:shadow-sm transition-all">{job.postedAt}</span>
+          )}
+        </div>
       </div>
       
       <div className="flex flex-wrap gap-2 mb-5 relative z-10">
@@ -94,6 +110,20 @@ export default function HashHuntPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [savedJobIds, setSavedJobIds] = useState<string[]>(() => {
+    const saved = localStorage.getItem('savedJobs');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const toggleSaveJob = (jobId: string) => {
+    setSavedJobIds(prev => {
+      const newSaved = prev.includes(jobId)
+        ? prev.filter(id => id !== jobId)
+        : [...prev, jobId];
+      localStorage.setItem('savedJobs', JSON.stringify(newSaved));
+      return newSaved;
+    });
+  };
 
   useEffect(() => {
     async function fetchJobs() {
@@ -264,7 +294,12 @@ export default function HashHuntPage() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {jobs.map((job) => (
-                <JobCard key={job.jobId} job={job} />
+                <JobCard 
+                  key={job.jobId} 
+                  job={job} 
+                  isSaved={savedJobIds.includes(job.jobId)}
+                  onToggleSave={() => toggleSaveJob(job.jobId)}
+                />
               ))}
             </div>
           )}

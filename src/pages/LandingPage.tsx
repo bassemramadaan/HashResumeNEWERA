@@ -37,26 +37,7 @@ export default function LandingPage() {
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-indigo-400 opacity-20 blur-[100px]"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-100/80 backdrop-blur-sm text-indigo-800 text-sm font-medium mb-3 border border-indigo-200"
-          >
-            <ShieldCheck size={16} />
-            Your data never leaves your device — 100% private
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="flex items-center justify-center mb-8"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-violet-100/80 backdrop-blur-sm text-violet-800 text-sm font-medium border border-violet-200">
-              <span className="font-bold">Hash Resume</span> is a part of Hash Social Media Marketing Agency
-            </div>
-          </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
@@ -88,6 +69,21 @@ export default function LandingPage() {
               Build My Resume
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-8 flex flex-col items-center gap-3"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-medium border border-indigo-100">
+              <ShieldCheck size={16} />
+              Your data never leaves your device — 100% private
+            </div>
+            <div className="text-sm text-slate-500 font-medium">
+              <span className="font-bold text-indigo-600">Hash Resume</span> is a part of Hash Social Media Marketing Agency
+            </div>
           </motion.div>
         </div>
       </section>

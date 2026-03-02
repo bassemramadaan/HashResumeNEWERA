@@ -53,7 +53,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
                     <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -left-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
                     <div className="flex justify-between items-baseline mb-1">
                       <h4 className="font-bold text-slate-900 text-[15px]">{exp.position}</h4>
-                      <span className="text-sm font-medium text-slate-500 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
+                      <span className="text-sm font-medium text-slate-500">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
                     </div>
                     <div className="text-sm font-semibold text-slate-600 mb-2">{exp.company}</div>
                     <p className="text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">{exp.description}</p>
@@ -77,7 +77,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
                     <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -left-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
                     <div className="flex justify-between items-baseline mb-1">
                       <h4 className="font-bold text-slate-900 text-[15px]">{edu.degree}</h4>
-                      <span className="text-sm font-medium text-slate-500 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100">{edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}</span>
+                      <span className="text-sm font-medium text-slate-500">{edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}</span>
                     </div>
                     <div className="text-sm font-semibold text-slate-600 mb-1">{edu.institution}</div>
                     {edu.description && <p className="text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">{edu.description}</p>}
@@ -103,8 +103,9 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
               </h3>
               <div className="flex flex-wrap gap-2">
                 {skills.map((skill, index) => (
-                  <span key={index} className="text-sm bg-slate-50 text-slate-700 px-3 py-1.5 rounded-lg font-medium border border-slate-200">
+                  <span key={index} className="text-sm font-medium text-slate-700">
                     {skill}
+                    {index < skills.length - 1 && <span className="mx-2 text-slate-300">•</span>}
                   </span>
                 ))}
               </div>
@@ -125,7 +126,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
                   <div key={proj.id}>
                     <div className="flex justify-between items-baseline mb-1">
                       <h4 className="font-bold text-slate-900 text-[15px]">{proj.name}</h4>
-                      {proj.link && <a href={proj.link} className="text-xs font-medium text-indigo-600 hover:underline bg-indigo-50 px-2 py-0.5 rounded">Link</a>}
+                      {proj.link && <a href={proj.link} className="text-xs font-medium text-indigo-600 hover:underline">Link</a>}
                     </div>
                     <p className="text-sm text-slate-700 whitespace-pre-wrap leading-relaxed">{proj.description}</p>
                   </div>
@@ -143,10 +144,11 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
               </h3>
               <div className="space-y-4">
                 {certifications.map((cert) => (
-                  <div key={cert.id} className="bg-slate-50 p-3 rounded-lg border border-slate-100">
-                    <h4 className="font-bold text-slate-900 text-sm mb-1">{cert.name}</h4>
-                    <div className="flex justify-between text-xs font-medium text-slate-500">
+                  <div key={cert.id} className="mb-3 last:mb-0">
+                    <h4 className="font-bold text-slate-900 text-sm">{cert.name}</h4>
+                    <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
                       <span>{cert.issuer}</span>
+                      {cert.issuer && cert.date && <span>•</span>}
                       <span>{cert.date}</span>
                     </div>
                   </div>
@@ -309,8 +311,9 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
               <h3 className="text-lg font-bold uppercase tracking-widest mb-4 border-b-2 border-white/20 pb-2">Skills</h3>
               <div className="flex flex-wrap gap-2">
                 {skills.map((skill, index) => (
-                  <span key={index} className="text-sm bg-white/15 px-3 py-1.5 rounded-lg font-medium">
+                  <span key={index} className="text-sm font-medium opacity-90">
                     {skill}
+                    {index < skills.length - 1 && <span className="mx-2 opacity-50">•</span>}
                   </span>
                 ))}
               </div>
@@ -358,7 +361,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
                     <div key={exp.id} className="relative">
                       <div className="flex justify-between items-baseline mb-1">
                         <h4 className="font-bold text-slate-900 text-lg">{exp.position}</h4>
-                        <span className="text-sm font-bold text-white px-2.5 py-1 rounded-md" style={{ backgroundColor: themeColor }}>{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
+                        <span className="text-sm font-bold opacity-90">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
                       </div>
                       <div className="text-[15px] font-bold text-slate-500 mb-3 uppercase tracking-wide">{exp.company}</div>
                       <p className="text-[15px] leading-relaxed text-slate-700 whitespace-pre-wrap">{exp.description}</p>
@@ -489,8 +492,9 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
           <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-slate-400 mb-8 text-center border-b border-slate-100 pb-4">Skills</h3>
           <div className="flex flex-wrap justify-center gap-3">
             {skills.map((skill, index) => (
-              <span key={index} className="text-[15px] text-slate-600 px-4 py-1.5 border border-slate-200 rounded-full bg-slate-50">
+              <span key={index} className="text-[15px] text-slate-600 font-medium">
                 {skill}
+                {index < skills.length - 1 && <span className="mx-2 text-slate-300">/</span>}
               </span>
             ))}
           </div>
@@ -541,8 +545,9 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
           <h3 className="text-lg font-bold mb-4" style={{ color: themeColor }}># skills</h3>
           <div className="flex flex-wrap gap-3 pl-4">
             {skills.map((skill, index) => (
-              <span key={index} className="text-[15px] bg-slate-200 text-slate-800 px-3 py-1.5 rounded font-medium">
+              <span key={index} className="text-[15px] text-slate-800 font-medium">
                 {skill}
+                {index < skills.length - 1 && <span className="mx-2 text-slate-400">;</span>}
               </span>
             ))}
           </div>
