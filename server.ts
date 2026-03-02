@@ -59,26 +59,52 @@ async function startServer() {
       const parsed = Papa.parse(csvText, {
         header: true,
         skipEmptyLines: true,
-        transformHeader: (header: string) => header.trim().toLowerCase().replace(/\s+/g, '_')
+        transformHeader: (header: string) => header.trim().toLowerCase().replace(/[:\s]+/g, '_').replace(/_+$/, '')
       });
 
-      // Map CSV columns to Job interface
-      // Assuming columns: Job Title, Company, Location, Type, Salary, Description, Job Code, etc.
-      const jobs = parsed.data
-        .map((row: any, index: number) => ({
-          jobId: row.job_code || row.code || `job-${index}`,
-          title: row.job_title || row.title || "",
-          company: row.company || "Confidential",
-          location: row.location || "Remote",
-          type: row.type || row.employment_type || "Full-time",
-          salary: row.salary || "Competitive",
-          postedAt: row.posted_date || "Recently",
-          description: row.description || "",
-          code: row.job_code || row.code || ""
-        }))
-        .filter((job: any) => job.title && job.title !== "Untitled Role");
+      const jobs: any[] = [];
+      let currentJob: any = null;
 
-      res.json({ jobs });
+      parsed.data.forEach((row: any) => {
+        // Check if this is a new job row (has a job code)
+        // The sheet has "Jop Code" (typo) -> jop_code
+        const jobCode = row.jop_code || row.job_code || row.code;
+        
+        if (jobCode) {
+          // Start new job
+          currentJob = {
+            jobId: jobCode,
+            title: row.job_title || row.title || "",
+            company: row.company || "Confidential",
+            location: row.location || "Remote",
+            type: "Full-time", // Default as not in sheet
+            salary: "Competitive", // Default as not in sheet
+            postedAt: "Recently", // Default as not in sheet
+            responsibilities: [],
+            skills: [],
+            code: jobCode
+          };
+          jobs.push(currentJob);
+        }
+        
+        if (currentJob) {
+          if (row.key_responsibilities) currentJob.responsibilities.push(row.key_responsibilities);
+          if (row.required_skills) currentJob.skills.push(row.required_skills);
+        }
+      });
+
+      // Format description and cleanup
+      const formattedJobs = jobs
+        .filter(job => job.title && job.title !== "Untitled Role")
+        .map(job => ({
+          ...job,
+          description: [
+            job.responsibilities.length > 0 ? "Key Responsibilities:\n" + job.responsibilities.map((r: string) => "• " + r).join("\n") : "",
+            job.skills.length > 0 ? "Required Skills:\n" + job.skills.map((s: string) => "• " + s).join("\n") : ""
+          ].filter(Boolean).join("\n\n")
+        }));
+
+      res.json({ jobs: formattedJobs });
     } catch (error) {
       console.error("Error fetching jobs:", error);
       res.status(500).json({ error: "Failed to fetch jobs" });

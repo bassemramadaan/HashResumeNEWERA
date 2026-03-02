@@ -128,10 +128,8 @@ export default function HashHuntPage() {
   useEffect(() => {
     async function fetchJobs() {
       try {
-        const apiUrl = import.meta.env.VITE_JOBS_API;
-        if (!apiUrl) {
-          throw new Error('API URL not configured');
-        }
+        // Use the local API endpoint which now handles the Google Sheet sync correctly
+        const apiUrl = "/api/jobs";
         
         const res = await fetch(apiUrl);
         if (!res.ok) throw new Error('Failed to fetch jobs');
