@@ -7,10 +7,9 @@ import { cn } from '../../lib/utils';
 const STOP_WORDS = new Set(['the', 'and', 'a', 'to', 'of', 'in', 'i', 'is', 'that', 'it', 'on', 'you', 'this', 'for', 'but', 'with', 'are', 'have', 'be', 'at', 'or', 'as', 'was', 'so', 'if', 'out', 'not', 'we', 'my', 'by', 'from', 'an', 'will', 'can', 'about', 'which', 'your', 'all', 'has', 'one', 'more', 'do', 'their', 'there', 'what', 'who', 'when', 'where', 'why', 'how', 'any', 'some', 'such', 'into', 'up', 'down', 'over', 'under', 'between', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now']);
 
 export default function ATSAudit() {
-  const { data } = useResumeStore();
-  const { personalInfo, experience, education, skills } = data;
-  const [jobDescription, setJobDescription] = useState('');
-  const [showMatcher, setShowMatcher] = useState(false);
+  const { data, updateJobDescription } = useResumeStore();
+  const { personalInfo, experience, education, skills, jobDescription } = data;
+  const [showMatcher, setShowMatcher] = useState(!!jobDescription);
 
   const isEmpty = !personalInfo.fullName && !personalInfo.email && experience.length === 0 && education.length === 0 && skills.length === 0;
 
@@ -133,7 +132,7 @@ export default function ATSAudit() {
 
   // Job Description Matching Logic
   const matchResults = useMemo(() => {
-    if (!jobDescription.trim()) return null;
+    if (!jobDescription || !jobDescription.trim()) return null;
 
     // Extract words from JD
     const jdWords = jobDescription.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 2 && !STOP_WORDS.has(w));
@@ -290,7 +289,7 @@ export default function ATSAudit() {
                 </label>
                 <textarea
                   value={jobDescription}
-                  onChange={(e) => setJobDescription(e.target.value)}
+                  onChange={(e) => updateJobDescription(e.target.value)}
                   placeholder="Paste the requirements and responsibilities from the job posting..."
                   className="w-full h-40 p-4 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm"
                 />

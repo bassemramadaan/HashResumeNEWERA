@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useThemeStore } from '../store/useThemeStore';
+import { useOnboardingStore } from '../store/useOnboardingStore';
 import PersonalInfoForm from '../components/editor/PersonalInfoForm';
 import ExperienceForm from '../components/editor/ExperienceForm';
 import EducationForm from '../components/editor/EducationForm';
@@ -22,9 +23,19 @@ import ResumePreview from '../components/preview/ResumePreview';
 import Logo from '../components/Logo';
 import PaymentModal from '../components/payment/PaymentModal';
 import PostDownloadModal from '../components/payment/PostDownloadModal';
+import OnboardingTour from '../components/OnboardingTour';
+import ResumeCheckerModal from '../components/editor/ResumeCheckerModal';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../lib/utils';
 
 type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'settings';
+
+interface TabItem {
+  id: Tab;
+  label: string;
+  icon: React.ElementType;
+  tourId?: string;
+}
 
 export default function EditorPage() {
   const [activeTab, setActiveTab] = useState<Tab>('personal');
@@ -32,12 +43,23 @@ export default function EditorPage() {
   const [showFullPreview, setShowFullPreview] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
+  const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const { data, loadExampleData, resetData } = useResumeStore();
   const { theme, toggleTheme } = useThemeStore();
+  const { hasSeenOnboarding, startOnboarding } = useOnboardingStore();
   
   // Zundo hooks for undo/redo
   const { undo, redo, pastStates, futureStates } = useStore(useResumeStore.temporal);
+
+  // Start onboarding if not seen
+  useEffect(() => {
+    if (!hasSeenOnboarding) {
+      // Small delay to ensure UI is rendered
+      const timer = setTimeout(() => startOnboarding(), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [hasSeenOnboarding, startOnboarding]);
 
   // Auto-save indicator effect
   useEffect(() => {
@@ -74,6 +96,11 @@ export default function EditorPage() {
   });
 
   const handleExportClick = () => {
+    setShowResumeChecker(true);
+  };
+
+  const handleProceedToExport = () => {
+    setShowResumeChecker(false);
     if (data.isPremium) {
       handlePrint();
     } else {
@@ -81,16 +108,16 @@ export default function EditorPage() {
     }
   };
 
-  const tabs = [
-    { id: 'personal', label: 'Personal', icon: User },
-    { id: 'experience', label: 'Experience', icon: Briefcase },
+  const tabs: TabItem[] = [
+    { id: 'personal', label: 'Personal', icon: User, tourId: 'personal-info' },
+    { id: 'experience', label: 'Experience', icon: Briefcase, tourId: 'experience-section' },
     { id: 'education', label: 'Education', icon: GraduationCap },
-    { id: 'skills', label: 'Skills', icon: Wrench },
+    { id: 'skills', label: 'Skills', icon: Wrench, tourId: 'skills-section' },
     { id: 'projects', label: 'Projects', icon: FolderGit2 },
     { id: 'certifications', label: 'Certifications', icon: Award },
     { id: 'ats-audit', label: 'ATS Audit', icon: Target },
     { id: 'settings', label: 'Settings', icon: Settings },
-  ] as const;
+  ];
 
   const calculateATSScore = () => {
     // Return 0 if completely empty
@@ -127,6 +154,8 @@ export default function EditorPage() {
 
   return (
     <div className="flex flex-col h-screen bg-slate-50 dark:bg-slate-900 overflow-hidden font-sans transition-colors duration-200">
+      <OnboardingTour />
+      
       {/* Top Navbar */}
       <header className="h-16 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-4 sm:px-6 flex items-center justify-between shrink-0 z-30 relative transition-colors duration-200">
         {/* Left Actions */}
@@ -175,6 +204,8 @@ export default function EditorPage() {
           </div>
 
           <div className="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-full p-1 border border-slate-200 dark:border-slate-700">
+            <LanguageSwitcher className="hover:bg-white dark:hover:bg-slate-700" />
+            <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-1" />
             <button
               onClick={toggleTheme}
               className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-700 transition-colors"
@@ -220,6 +251,7 @@ export default function EditorPage() {
           </button>
           <button 
             onClick={handleExportClick}
+            data-tour="export-button"
             className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-full flex items-center gap-2 font-medium transition-colors text-sm shadow-md shadow-indigo-600/20"
           >
             <Download size={16} />
@@ -243,6 +275,7 @@ export default function EditorPage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
+              data-tour={tab.tourId}
               className={cn(
                 "relative flex items-center justify-center w-10 h-10 rounded-full transition-colors group",
                 isActive ? "text-indigo-600 dark:text-indigo-400" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
@@ -279,6 +312,7 @@ export default function EditorPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
+                data-tour={tab.tourId}
                 className={cn(
                   "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors",
                   isActive ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800" : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 border border-transparent"
@@ -328,10 +362,13 @@ export default function EditorPage() {
         </div>
 
         {/* Preview Area */}
-        <div className={cn(
-          "bg-slate-200/50 dark:bg-slate-900/80 border-l border-slate-200 dark:border-slate-700 flex-col h-full overflow-hidden relative transition-colors duration-200",
-          showMobilePreview ? "flex w-full absolute inset-0 z-50 bg-slate-100 dark:bg-slate-900" : "hidden md:flex md:w-[45%] lg:w-[50%]"
-        )}>
+        <div 
+          data-tour="preview-pane"
+          className={cn(
+            "bg-slate-200/50 dark:bg-slate-900/80 border-l border-slate-200 dark:border-slate-700 flex-col h-full overflow-hidden relative transition-colors duration-200",
+            showMobilePreview ? "flex w-full absolute inset-0 z-50 bg-slate-100 dark:bg-slate-900" : "hidden md:flex md:w-[45%] lg:w-[50%]"
+          )}
+        >
           <div className="h-14 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-700 flex items-center justify-between px-6 shrink-0 absolute top-0 left-0 right-0 z-10 transition-colors duration-200">
             <div className="flex items-center gap-2">
               {showMobilePreview && (
@@ -389,6 +426,12 @@ export default function EditorPage() {
           </div>
         )}
       </AnimatePresence>
+
+      <ResumeCheckerModal 
+        isOpen={showResumeChecker} 
+        onClose={() => setShowResumeChecker(false)} 
+        onProceed={handleProceedToExport} 
+      />
 
       <PaymentModal 
         isOpen={showPaymentModal} 

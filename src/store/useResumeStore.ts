@@ -57,6 +57,7 @@ export type ResumeData = {
     language: 'en' | 'ar';
     isFreshGrad: boolean;
   };
+  jobDescription: string;
   isPremium: boolean;
 };
 
@@ -81,6 +82,7 @@ const initialData: ResumeData = {
     language: 'en',
     isFreshGrad: false,
   },
+  jobDescription: '',
   isPremium: false,
 };
 
@@ -102,6 +104,7 @@ type ResumeStore = {
   updateCertification: (id: string, cert: Partial<Certification>) => void;
   removeCertification: (id: string) => void;
   updateSettings: (settings: Partial<ResumeData['settings']>) => void;
+  updateJobDescription: (jd: string) => void;
   unlockPremium: () => void;
   resetData: () => void;
   loadExampleData: () => void;
@@ -220,6 +223,10 @@ export const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           data: { ...state.data, settings: { ...state.data.settings, ...settings } },
         })),
+      updateJobDescription: (jd) =>
+        set((state) => ({
+          data: { ...state.data, jobDescription: jd },
+        })),
       unlockPremium: () =>
         set((state) => ({
           data: { ...state.data, isPremium: true },
@@ -291,6 +298,7 @@ export const useResumeStore = create<ResumeStore>()(
               language: 'en',
               isFreshGrad: false,
             },
+            jobDescription: '',
             isPremium: false,
           },
         }),

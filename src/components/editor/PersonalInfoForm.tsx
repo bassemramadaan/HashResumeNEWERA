@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { User, Mail, Phone, MapPin, Linkedin, Calendar, FileText, Sparkles } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Linkedin, Calendar, FileText, Sparkles, AlertCircle } from 'lucide-react';
 
 const SUMMARY_SUGGESTIONS = [
   "Results-driven professional with a proven track record of delivering high-quality solutions and exceeding performance targets.",
@@ -14,10 +14,35 @@ export default function PersonalInfoForm() {
   const { data, updatePersonalInfo } = useResumeStore();
   const { personalInfo } = data;
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  const validate = (name: string, value: string) => {
+    let error = '';
+    if (name === 'fullName' && !value.trim()) error = 'Full Name is required';
+    if (name === 'jobTitle' && !value.trim()) error = 'Job Title is required';
+    if (name === 'email') {
+      if (!value.trim()) error = 'Email is required';
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = 'Invalid email address';
+    }
+    return error;
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    const error = validate(name, value);
+    setErrors(prev => ({ ...prev, [name]: error }));
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     updatePersonalInfo({ [name]: value });
+    
+    if (touched[name]) {
+      const error = validate(name, value);
+      setErrors(prev => ({ ...prev, [name]: error }));
+    }
   };
 
   return (
@@ -29,10 +54,10 @@ export default function PersonalInfoForm() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <label htmlFor="fullName" className="text-sm font-medium text-slate-700">Full Name</label>
+          <label htmlFor="fullName" className="text-sm font-medium text-slate-700">Full Name <span className="text-rose-500">*</span></label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <User className="h-4 w-4 text-slate-400" />
+              <User className={`h-4 w-4 ${errors.fullName ? 'text-rose-400' : 'text-slate-400'}`} />
             </div>
             <input
               type="text"
@@ -40,17 +65,26 @@ export default function PersonalInfoForm() {
               name="fullName"
               value={personalInfo.fullName}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+              onBlur={handleBlur}
+              className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors ${
+                errors.fullName ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200'
+              }`}
               placeholder="John Doe"
             />
+            {errors.fullName && (
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <AlertCircle className="h-4 w-4 text-rose-500" />
+              </div>
+            )}
           </div>
+          {errors.fullName && <p className="text-xs text-rose-500 mt-1">{errors.fullName}</p>}
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="jobTitle" className="text-sm font-medium text-slate-700">Job Title</label>
+          <label htmlFor="jobTitle" className="text-sm font-medium text-slate-700">Job Title <span className="text-rose-500">*</span></label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FileText className="h-4 w-4 text-slate-400" />
+              <FileText className={`h-4 w-4 ${errors.jobTitle ? 'text-rose-400' : 'text-slate-400'}`} />
             </div>
             <input
               type="text"
@@ -58,17 +92,26 @@ export default function PersonalInfoForm() {
               name="jobTitle"
               value={personalInfo.jobTitle}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+              onBlur={handleBlur}
+              className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors ${
+                errors.jobTitle ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200'
+              }`}
               placeholder="Senior Software Engineer"
             />
+            {errors.jobTitle && (
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <AlertCircle className="h-4 w-4 text-rose-500" />
+              </div>
+            )}
           </div>
+          {errors.jobTitle && <p className="text-xs text-rose-500 mt-1">{errors.jobTitle}</p>}
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium text-slate-700">Email Address</label>
+          <label htmlFor="email" className="text-sm font-medium text-slate-700">Email Address <span className="text-rose-500">*</span></label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Mail className="h-4 w-4 text-slate-400" />
+              <Mail className={`h-4 w-4 ${errors.email ? 'text-rose-400' : 'text-slate-400'}`} />
             </div>
             <input
               type="email"
@@ -76,10 +119,19 @@ export default function PersonalInfoForm() {
               name="email"
               value={personalInfo.email}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+              onBlur={handleBlur}
+              className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors ${
+                errors.email ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200'
+              }`}
               placeholder="john.doe@example.com"
             />
+            {errors.email && (
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <AlertCircle className="h-4 w-4 text-rose-500" />
+              </div>
+            )}
           </div>
+          {errors.email && <p className="text-xs text-rose-500 mt-1">{errors.email}</p>}
         </div>
 
         <div className="space-y-2">
