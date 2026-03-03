@@ -1,10 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Hash Blue (Professional Primary - Overrides Indigo) */
+  --color-indigo-50: #eff4ff;
+  --color-indigo-100: #dbe6ff;
+  --color-indigo-200: #b0caff;
+  --color-indigo-300: #7faaff;
+  --color-indigo-400: #4d8aff;
+  --color-indigo-500: #1a6aff;
+  --color-indigo-600: #0052ff;
+  --color-indigo-700: #0040cc;
+  --color-indigo-800: #002f99;
+  --color-indigo-900: #001f66;
+  --color-indigo-950: #001033;
+
+  /* Hash Cyan (Vibrant Secondary - Overrides Violet) */
+  --color-violet-50: #e5faff;
+  --color-violet-100: #ccf5ff;
+  --color-violet-200: #99ebff;
+  --color-violet-300: #66e0ff;
+  --color-violet-400: #33d6ff;
+  --color-violet-500: #00ccff;
+  --color-violet-600: #00a3cc;
+  --color-violet-700: #007a99;
+  --color-violet-800: #005266;
+  --color-violet-900: #002933;
+  --color-violet-950: #00141a;
 }
 
 @layer base {
