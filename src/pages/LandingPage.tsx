@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
+import WizardShowcase from '../components/WizardShowcase';
+import ResumeShowcase from '../components/ResumeShowcase';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
+import { blogPosts } from '../data/blogPosts';
 
 export default function LandingPage() {
   const { language } = useLanguageStore();
@@ -27,6 +30,7 @@ export default function LandingPage() {
           <a href="#features" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">{t.features}</a>
           <a href="#process" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">{t.howItWorks}</a>
           <Link to="/cover-letter" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">{t.coverLetter}</Link>
+          <Link to="/blog" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">{t.blog}</Link>
           <Link to="/hash-hunt" className="text-sm font-medium text-indigo-600 hover:text-indigo-800 hidden sm:block">{t.hashHuntJobs}</Link>
         </div>
         
@@ -209,36 +213,77 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Process Section */}
-      <section id="process" className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">{t.howItWorks}</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">Three simple steps to your next career move.</p>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-12 relative">
-            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-slate-200 -z-10"></div>
-            
-            {[
-              { step: "01", title: t.step1Title, desc: t.step1Desc },
-              { step: "02", title: t.step2Title, desc: t.step2Desc },
-              { step: "03", title: t.step3Title, desc: t.step3Desc }
-            ].map((item, i) => (
-              <div key={i} className="text-center relative group">
-                <div className="w-24 h-24 mx-auto bg-white border-4 border-slate-100 group-hover:border-indigo-100 rounded-full flex items-center justify-center text-3xl font-black text-slate-300 group-hover:text-indigo-600 mb-6 shadow-sm transition-colors">
-                  {item.step}
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-slate-600">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* Wizard Showcase (Replaces Process) */}
+      <section id="process">
+        <WizardShowcase />
       </section>
+
+      {/* Resume Showcase */}
+      <ResumeShowcase />
 
       {/* Testimonials Section */}
       <Testimonials />
+
+      {/* Latest Blog Posts */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">
+                {language === 'ar' ? 'أحدث المقالات' : 'Latest from the Blog'}
+              </h2>
+              <p className="text-lg text-slate-600 max-w-2xl">
+                {language === 'ar' 
+                  ? 'نصائح مهنية لمساعدتك في الحصول على وظيفتك التالية.' 
+                  : 'Career advice to help you land your next job.'}
+              </p>
+            </div>
+            <Link to="/blog" className="hidden sm:flex items-center gap-2 text-indigo-600 font-medium hover:gap-3 transition-all">
+              {language === 'ar' ? 'عرض كل المقالات' : 'View all articles'}
+              <ArrowRight size={20} className="rtl:rotate-180" />
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {blogPosts.slice(0, 3).map((post, index) => (
+              <div key={post.id} className="group cursor-pointer">
+                <Link to={`/blog/${post.id}`} className="block overflow-hidden rounded-2xl mb-4 h-48 relative">
+                  <img 
+                    src={post.image} 
+                    alt={post.title[language]} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </Link>
+                <div className="flex items-center gap-4 text-xs text-slate-500 mb-3">
+                  <span className="flex items-center gap-1">
+                    <Calendar size={14} />
+                    {post.date}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Clock size={14} />
+                    {post.readTime[language]}
+                  </span>
+                </div>
+                <Link to={`/blog/${post.id}`} className="block mb-2">
+                  <h3 className="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-2">
+                    {post.title[language]}
+                  </h3>
+                </Link>
+                <p className="text-slate-600 text-sm line-clamp-2">
+                  {post.excerpt[language]}
+                </p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-8 text-center sm:hidden">
+            <Link to="/blog" className="inline-flex items-center gap-2 text-indigo-600 font-medium">
+              {language === 'ar' ? 'عرض كل المقالات' : 'View all articles'}
+              <ArrowRight size={20} className="rtl:rotate-180" />
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* FAQ Section */}
       <FAQ />
@@ -276,6 +321,7 @@ export default function LandingPage() {
               <ul className="space-y-2 text-sm md:text-right">
                 <li><Link to="/editor" className="hover:text-white transition-colors">{t.resumeBuilder}</Link></li>
                 <li><Link to="/cover-letter" className="hover:text-white transition-colors">{t.coverLetter}</Link></li>
+                <li><Link to="/blog" className="hover:text-white transition-colors">{t.blog}</Link></li>
                 <li><Link to="/hash-hunt" className="hover:text-white transition-colors">{t.hashHuntJobs}</Link></li>
               </ul>
             </div>

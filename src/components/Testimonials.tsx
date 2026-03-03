@@ -25,6 +25,42 @@ export default function Testimonials() {
       role: t.testimonial3Role,
       text: t.testimonial3Text,
       initials: language === 'ar' ? 'ن س' : 'NS'
+    },
+    {
+      name: t.testimonial4Name,
+      role: t.testimonial4Role,
+      text: t.testimonial4Text,
+      initials: language === 'ar' ? 'م ع' : 'ME'
+    },
+    {
+      name: t.testimonial5Name,
+      role: t.testimonial5Role,
+      text: t.testimonial5Text,
+      initials: language === 'ar' ? 'ف ع' : 'FA'
+    },
+    {
+      name: t.testimonial6Name,
+      role: t.testimonial6Role,
+      text: t.testimonial6Text,
+      initials: language === 'ar' ? 'ج ث' : 'JA'
+    },
+    {
+      name: t.testimonial7Name,
+      role: t.testimonial7Role,
+      text: t.testimonial7Text,
+      initials: language === 'ar' ? 'ك و' : 'KW'
+    },
+    {
+      name: t.testimonial8Name,
+      role: t.testimonial8Role,
+      text: t.testimonial8Text,
+      initials: language === 'ar' ? 'ر ح' : 'RA'
+    },
+    {
+      name: t.testimonial9Name,
+      role: t.testimonial9Role,
+      text: t.testimonial9Text,
+      initials: language === 'ar' ? 'ف س' : 'FS'
     }
   ];
 
