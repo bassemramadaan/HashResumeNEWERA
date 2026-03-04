@@ -145,7 +145,7 @@ export default function OnboardingTour() {
             />
             {/* Highlight border */}
             <motion.div 
-              className="absolute border-2 border-indigo-500 rounded-lg shadow-[0_0_0_4px_rgba(99,102,241,0.2)]"
+              className="absolute border-2 border-indigo-500 dark:border-indigo-400 rounded-lg shadow-[0_0_0_4px_rgba(99,102,241,0.2)] dark:shadow-[0_0_0_4px_rgba(129,140,248,0.2)]"
               initial={false}
               animate={{
                 top: targetRect.top - 4,
@@ -159,7 +159,7 @@ export default function OnboardingTour() {
 
           {/* Tooltip */}
           <motion.div
-            className="fixed z-50 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 w-80 max-w-[90vw]"
+            className="fixed z-50 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 w-80 max-w-[90vw] transition-colors"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ 
               opacity: 1, 
@@ -170,22 +170,22 @@ export default function OnboardingTour() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             <div className="flex justify-between items-start mb-2">
-              <span className="text-xs font-bold text-indigo-600 uppercase tracking-wider">
+              <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">
                 Step {currentStep + 1} of {STEPS.length}
               </span>
-              <button onClick={skipOnboarding} className="text-slate-400 hover:text-slate-600">
+              <button onClick={skipOnboarding} className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
                 <X size={16} />
               </button>
             </div>
             
-            <h3 className="text-lg font-bold text-slate-900 mb-2">{step.title}</h3>
-            <p className="text-slate-600 text-sm mb-6 leading-relaxed">{step.content}</p>
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{step.title}</h3>
+            <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">{step.content}</p>
             
             <div className="flex justify-between items-center">
               <button 
                 onClick={prevStep}
                 disabled={currentStep === 0}
-                className={`text-sm font-medium flex items-center gap-1 ${currentStep === 0 ? 'text-slate-300 cursor-not-allowed' : 'text-slate-600 hover:text-indigo-600'}`}
+                className={`text-sm font-medium flex items-center gap-1 transition-colors ${currentStep === 0 ? 'text-slate-300 dark:text-slate-700 cursor-not-allowed' : 'text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400'}`}
               >
                 <ChevronLeft size={16} />
                 Back
@@ -193,7 +193,7 @@ export default function OnboardingTour() {
               
               <button 
                 onClick={isLastStep ? stopOnboarding : nextStep}
-                className="bg-indigo-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-indigo-700 transition-colors flex items-center gap-1"
+                className="bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-1 shadow-lg shadow-indigo-600/20 dark:shadow-indigo-900/30"
               >
                 {isLastStep ? 'Finish' : 'Next'}
                 {!isLastStep && <ChevronRight size={16} />}

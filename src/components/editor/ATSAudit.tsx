@@ -17,17 +17,17 @@ export default function ATSAudit() {
     return (
       <div className="space-y-6 font-sans">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-            <Target className="text-indigo-500" size={24} />
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <Target className="text-indigo-500 dark:text-indigo-400" size={24} />
             ATS Resume Audit
           </h2>
         </div>
-        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 text-center">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Activity className="text-slate-400" size={32} />
+        <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 text-center transition-colors">
+          <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors ring-1 ring-slate-900/5 dark:ring-slate-100/10">
+            <Activity className="text-slate-400 dark:text-slate-500" size={32} />
           </div>
-          <h3 className="text-xl font-bold text-slate-900 mb-2">No Data to Analyze</h3>
-          <p className="text-slate-500 max-w-md mx-auto">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">No Data to Analyze</h3>
+          <p className="text-slate-500 dark:text-slate-400 max-w-md mx-auto">
             Please fill in your personal information, experience, education, and skills to get an ATS score and personalized suggestions.
           </p>
         </div>
@@ -119,15 +119,15 @@ export default function ATSAudit() {
   }
 
   const getScoreColor = (s: number) => {
-    if (s >= 80) return "text-indigo-500";
-    if (s >= 50) return "text-yellow-500";
-    return "text-red-500";
+    if (s >= 80) return "text-indigo-500 dark:text-indigo-400";
+    if (s >= 50) return "text-yellow-500 dark:text-yellow-400";
+    return "text-red-500 dark:text-red-400";
   };
 
   const getScoreBg = (s: number) => {
-    if (s >= 80) return "bg-indigo-500";
-    if (s >= 50) return "bg-yellow-500";
-    return "bg-red-500";
+    if (s >= 80) return "bg-indigo-500 dark:bg-indigo-400";
+    if (s >= 50) return "bg-yellow-500 dark:bg-yellow-400";
+    return "bg-red-500 dark:bg-red-400";
   };
 
   // Job Description Matching Logic
@@ -168,16 +168,16 @@ export default function ATSAudit() {
   return (
     <div className="space-y-6 font-sans">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-          <Target className="text-indigo-500" size={24} />
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+          <Target className="text-indigo-500 dark:text-indigo-400" size={24} />
           ATS Resume Audit
         </h2>
       </div>
 
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100">
+      <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
         
         {/* Score Header */}
-        <div className="flex flex-col md:flex-row items-center gap-8 mb-10 pb-10 border-b border-slate-100">
+        <div className="flex flex-col md:flex-row items-center gap-8 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800">
           <div className="relative flex items-center justify-center shrink-0">
             <svg className="w-40 h-40 transform -rotate-90">
               <circle
@@ -187,7 +187,7 @@ export default function ATSAudit() {
                 stroke="currentColor"
                 strokeWidth="12"
                 fill="transparent"
-                className="text-slate-100"
+                className="text-slate-100 dark:text-slate-800 transition-colors"
               />
               <circle
                 cx="80"
@@ -205,15 +205,15 @@ export default function ATSAudit() {
               <span className={cn("text-4xl font-black tracking-tighter", getScoreColor(score))}>
                 {score}
               </span>
-              <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">/ 100</span>
+              <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">/ 100</span>
             </div>
           </div>
           
           <div className="text-center md:text-left">
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
               {score >= 80 ? "Great Job! You're ATS Ready." : score >= 50 ? "Good start, but needs work." : "Needs significant improvements."}
             </h3>
-            <p className="text-slate-600 leading-relaxed max-w-lg">
+            <p className="text-slate-600 dark:text-slate-400 leading-relaxed max-w-lg">
               Applicant Tracking Systems (ATS) scan resumes for keywords, formatting, and completeness. 
               Follow the suggestions below to improve your score and increase your chances of landing an interview.
             </p>
@@ -223,20 +223,20 @@ export default function ATSAudit() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Improvements */}
           <div className="space-y-4">
-            <h4 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <AlertCircle className="text-red-500" size={20} />
+            <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <AlertCircle className="text-red-500 dark:text-red-400" size={20} />
               To Improve ({improvements.length})
             </h4>
             {improvements.length === 0 ? (
-              <div className="p-4 bg-indigo-50 text-indigo-700 rounded-xl text-sm font-medium border border-indigo-100">
+              <div className="p-4 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-xl text-sm font-medium border border-indigo-100 dark:border-indigo-800/50 transition-colors">
                 Perfect! No major improvements needed.
               </div>
             ) : (
               <ul className="space-y-3">
                 {improvements.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 p-4 bg-red-50/50 rounded-xl border border-red-100">
-                    <div className="mt-0.5 shrink-0 w-1.5 h-1.5 rounded-full bg-red-500" />
-                    <span className="text-sm text-slate-700 leading-relaxed">{item}</span>
+                  <li key={i} className="flex items-start gap-3 p-4 bg-red-50/50 dark:bg-red-900/20 rounded-xl border border-red-100 dark:border-red-800/50 transition-colors">
+                    <div className="mt-0.5 shrink-0 w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-red-400" />
+                    <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -245,20 +245,20 @@ export default function ATSAudit() {
 
           {/* Good Points */}
           <div className="space-y-4">
-            <h4 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-              <CheckCircle2 className="text-indigo-500" size={20} />
+            <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <CheckCircle2 className="text-indigo-500 dark:text-indigo-400" size={20} />
               Looking Good ({goodPoints.length})
             </h4>
             {goodPoints.length === 0 ? (
-              <div className="p-4 bg-slate-50 text-slate-500 rounded-xl text-sm font-medium border border-slate-100">
+              <div className="p-4 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl text-sm font-medium border border-slate-100 dark:border-slate-700 transition-colors">
                 Fill out your resume to see what you're doing well.
               </div>
             ) : (
               <ul className="space-y-3">
                 {goodPoints.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 p-4 bg-indigo-50/50 rounded-xl border border-indigo-100">
-                    <CheckCircle2 className="shrink-0 text-indigo-500 mt-0.5" size={16} />
-                    <span className="text-sm text-slate-700 leading-relaxed">{item}</span>
+                  <li key={i} className="flex items-start gap-3 p-4 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800/50 transition-colors">
+                    <CheckCircle2 className="shrink-0 text-indigo-500 dark:text-indigo-400 mt-0.5" size={16} />
+                    <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{item}</span>
                   </li>
                 ))}
               </ul>
@@ -267,15 +267,15 @@ export default function ATSAudit() {
         </div>
 
         {/* Job Description Matcher (FREE) */}
-        <div className="mt-12 pt-10 border-t border-slate-100">
+        <div className="mt-12 pt-10 border-t border-slate-100 dark:border-slate-800 transition-colors">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-              <Briefcase className="text-indigo-500" size={24} />
-              Job Description Matcher <span className="bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ml-2">Free</span>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Briefcase className="text-indigo-500 dark:text-indigo-400" size={24} />
+              Job Description Matcher <span className="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 text-xs px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ml-2">Free</span>
             </h3>
             <button 
               onClick={() => setShowMatcher(!showMatcher)}
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-full transition-colors"
+              className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-4 py-2 rounded-full transition-colors"
             >
               {showMatcher ? 'Hide Matcher' : 'Compare with JD'}
             </button>
@@ -283,62 +283,62 @@ export default function ATSAudit() {
 
           {showMatcher && (
             <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-300">
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200">
-                <label className="block text-sm font-bold text-slate-700 mb-2">
+              <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 transition-colors">
+                <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">
                   Paste Job Description Here
                 </label>
                 <textarea
                   value={jobDescription}
                   onChange={(e) => updateJobDescription(e.target.value)}
                   placeholder="Paste the requirements and responsibilities from the job posting..."
-                  className="w-full h-40 p-4 rounded-xl border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm"
+                  className="w-full h-40 p-4 rounded-xl border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm"
                 />
               </div>
 
               {matchResults && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="md:col-span-1 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center">
-                    <div className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2">Match Score</div>
+                  <div className="md:col-span-1 bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col items-center justify-center text-center transition-colors">
+                    <div className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-2">Match Score</div>
                     <div className={cn(
                       "text-5xl font-black tracking-tighter mb-2",
-                      matchResults.matchPercentage >= 70 ? "text-emerald-500" : matchResults.matchPercentage >= 40 ? "text-yellow-500" : "text-red-500"
+                      matchResults.matchPercentage >= 70 ? "text-emerald-500 dark:text-emerald-400" : matchResults.matchPercentage >= 40 ? "text-yellow-500 dark:text-yellow-400" : "text-red-500 dark:text-red-400"
                     )}>
                       {matchResults.matchPercentage}%
                     </div>
-                    <p className="text-xs text-slate-500 font-medium">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                       Based on top 20 keywords
                     </p>
                   </div>
 
                   <div className="md:col-span-2 space-y-6">
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                        <AlertCircle className="text-red-500" size={16} />
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                        <AlertCircle className="text-red-500 dark:text-red-400" size={16} />
                         Missing Keywords ({matchResults.missing.length})
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {matchResults.missing.length > 0 ? matchResults.missing.map(kw => (
-                          <span key={kw} className="bg-red-50 text-red-700 border border-red-100 px-3 py-1 rounded-full text-xs font-medium">
+                          <span key={kw} className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-3 py-1 rounded-full text-xs font-medium transition-colors">
                             {kw}
                           </span>
                         )) : (
-                          <span className="text-sm text-slate-500 italic">No missing keywords found!</span>
+                          <span className="text-sm text-slate-500 dark:text-slate-400 italic">No missing keywords found!</span>
                         )}
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                        <CheckCircle2 className="text-emerald-500" size={16} />
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                        <CheckCircle2 className="text-emerald-500 dark:text-emerald-400" size={16} />
                         Matched Keywords ({matchResults.matched.length})
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {matchResults.matched.length > 0 ? matchResults.matched.map(kw => (
-                          <span key={kw} className="bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 rounded-full text-xs font-medium">
+                          <span key={kw} className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 px-3 py-1 rounded-full text-xs font-medium transition-colors">
                             {kw}
                           </span>
                         )) : (
-                          <span className="text-sm text-slate-500 italic">No matched keywords yet.</span>
+                          <span className="text-sm text-slate-500 dark:text-slate-400 italic">No matched keywords yet.</span>
                         )}
                       </div>
                     </div>

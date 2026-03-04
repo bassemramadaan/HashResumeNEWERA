@@ -65,40 +65,40 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden"
+          className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800"
         >
           <button 
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-10"
+            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors z-10"
           >
             <X size={20} />
           </button>
 
           <div className="p-8">
-            <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+            <div className="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mb-6 mx-auto">
               <Lock size={32} />
             </div>
             
             <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-slate-900 mb-2">Unlock Premium Export</h2>
-              <p className="text-slate-600">Get unlimited PDF exports and premium features for 6 months.</p>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Unlock Premium Export</h2>
+              <p className="text-slate-600 dark:text-slate-400">Get unlimited PDF exports and premium features for 6 months.</p>
               
               <div className="mt-6 flex items-center justify-center gap-3">
-                <span className="text-4xl font-black text-slate-900">25 EGP</span>
-                <span className="text-lg text-slate-400 line-through font-medium">99 EGP</span>
+                <span className="text-4xl font-black text-slate-900 dark:text-white">25 EGP</span>
+                <span className="text-lg text-slate-400 dark:text-slate-500 line-through font-medium">99 EGP</span>
               </div>
             </div>
 
             <div className="space-y-4 mb-8">
-              <div className="flex items-center gap-3 text-sm text-slate-700">
+              <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
                 <CheckCircle size={18} className="text-emerald-500" />
                 <span>Unlimited PDF exports</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-slate-700">
+              <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
                 <CheckCircle size={18} className="text-emerald-500" />
                 <span>All premium templates</span>
               </div>
-              <div className="flex items-center gap-3 text-sm text-slate-700">
+              <div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
                 <CheckCircle size={18} className="text-emerald-500" />
                 <span>Valid for 6 months</span>
               </div>
@@ -106,17 +106,17 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
 
             <form onSubmit={handleVerify} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Enter your activation code</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Enter your activation code</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Key size={18} className="text-slate-400" />
+                    <Key size={18} className="text-slate-400 dark:text-slate-500" />
                   </div>
                   <input
                     type="text"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="e.g. HASH-1234-ABCD"
-                    className="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow uppercase"
+                    className="block w-full pl-10 pr-3 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow uppercase"
                   />
                 </div>
                 {error && <p className="mt-2 text-sm text-rose-500 font-medium">{error}</p>}
@@ -125,19 +125,19 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               <button
                 type="submit"
                 disabled={isLoading || !code.trim()}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 dark:disabled:bg-indigo-900/50 text-white py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
               >
                 {isLoading ? <Loader2 size={20} className="animate-spin" /> : 'Unlock Now'}
               </button>
             </form>
 
-            <div className="mt-6 pt-6 border-t border-slate-100 text-center">
-              <p className="text-sm text-slate-500 mb-3">Don't have a code?</p>
+            <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3">Don't have a code?</p>
               <a 
                 href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20Hash%20Resume%20code" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-4 py-2 rounded-full transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 px-4 py-2 rounded-full transition-colors"
               >
                 <MessageCircle size={18} />
                 Get Code via WhatsApp

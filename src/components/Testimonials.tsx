@@ -65,21 +65,21 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="py-24 bg-slate-50 border-t border-slate-200">
+    <section className="py-24 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display">
             {t.testimonialsTitle}
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             {t.testimonialsSubtitle}
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((item, i) => (
-            <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative">
-              <Quote className="absolute top-6 right-6 text-indigo-100 w-10 h-10" />
+            <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-md transition-shadow relative">
+              <Quote className="absolute top-6 right-6 text-indigo-100 dark:text-indigo-900/30 w-10 h-10" />
               
               <div className="flex items-center gap-1 text-amber-400 mb-6">
                 {[...Array(5)].map((_, i) => (
@@ -87,17 +87,17 @@ export default function Testimonials() {
                 ))}
               </div>
 
-              <p className="text-slate-600 mb-8 leading-relaxed relative z-10">
+              <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed relative z-10">
                 "{item.text}"
               </p>
 
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-lg shrink-0">
+                <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-700 dark:text-indigo-400 font-bold text-lg shrink-0">
                   {item.initials}
                 </div>
                 <div>
-                  <h4 className="font-bold text-slate-900">{item.name}</h4>
-                  <p className="text-sm text-slate-500">{item.role}</p>
+                  <h4 className="font-bold text-slate-900 dark:text-white">{item.name}</h4>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{item.role}</p>
                 </div>
               </div>
             </div>

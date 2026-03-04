@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, FileText, Sparkles, Copy, Check } from 'lucide-react';
+import ThemeToggle from '../components/ThemeToggle';
 
 export default function CoverLetterPage() {
   const [formData, setFormData] = useState({
@@ -63,97 +64,98 @@ ${formData.fullName}`;
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col font-sans transition-colors duration-300">
       {/* Navbar */}
-      <nav className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+      <nav className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50 transition-colors">
         <div className="flex items-center gap-4">
-          <Link to="/" className="text-slate-500 hover:text-slate-900 transition-colors">
+          <Link to="/" className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors">
             <ArrowLeft size={24} />
           </Link>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
               <FileText className="text-white w-5 h-5" />
             </div>
-            <span className="text-xl font-black tracking-tight text-slate-900">Cover Letter Builder</span>
+            <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">Cover Letter Builder</span>
           </div>
         </div>
+        <ThemeToggle />
       </nav>
 
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Input Form */}
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 space-y-6">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6">Job Details</h2>
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-8 space-y-6 transition-colors">
+          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Job Details</h2>
           
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Your Full Name</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Your Full Name</label>
               <input
                 type="text"
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="John Doe"
               />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Job Title</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Job Title</label>
                 <input
                   type="text"
                   name="jobTitle"
                   value={formData.jobTitle}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                   placeholder="Software Engineer"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Company Name</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Company Name</label>
                 <input
                   type="text"
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                  className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                   placeholder="Acme Corp"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Hiring Manager (Optional)</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Hiring Manager (Optional)</label>
               <input
                 type="text"
                 name="hiringManager"
                 value={formData.hiringManager}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="Jane Smith"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Key Skills to Highlight</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Key Skills to Highlight</label>
               <input
                 type="text"
                 name="skills"
                 value={formData.skills}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="React, Node.js, Team Leadership"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Job Description Snippet (Optional)</label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Job Description Snippet (Optional)</label>
               <textarea
                 name="jobDescription"
                 value={formData.jobDescription}
                 onChange={handleChange}
                 rows={4}
-                className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+                className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none transition-colors"
                 placeholder="Paste a few sentences from the job description..."
               />
             </div>
@@ -162,7 +164,7 @@ ${formData.fullName}`;
           <button
             onClick={generateCoverLetter}
             disabled={!formData.fullName || !formData.jobTitle || !formData.companyName || isGenerating}
-            className="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
+            className="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-2"
           >
             {isGenerating ? (
               <>
@@ -179,13 +181,13 @@ ${formData.fullName}`;
         </div>
 
         {/* Output Area */}
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 flex flex-col">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-8 flex flex-col transition-colors">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-slate-900">Your Cover Letter</h2>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Your Cover Letter</h2>
             {generatedLetter && (
               <button
                 onClick={copyToClipboard}
-                className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors bg-slate-100 hover:bg-indigo-50 px-4 py-2 rounded-full"
+                className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 px-4 py-2 rounded-full"
               >
                 {copied ? <Check size={16} className="text-emerald-500" /> : <Copy size={16} />}
                 {copied ? 'Copied!' : 'Copy Text'}
@@ -198,16 +200,16 @@ ${formData.fullName}`;
               <textarea
                 value={generatedLetter}
                 onChange={(e) => setGeneratedLetter(e.target.value)}
-                className="w-full h-full min-h-[500px] p-6 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none font-serif text-slate-800 leading-relaxed"
+                className="w-full h-full min-h-[500px] p-6 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none font-serif text-slate-800 dark:text-slate-200 leading-relaxed transition-colors"
               />
             </div>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-center border-2 border-dashed border-slate-200 rounded-2xl p-8 bg-slate-50">
-              <div className="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mb-4">
-                <FileText className="text-indigo-300 w-8 h-8" />
+            <div className="flex-1 flex flex-col items-center justify-center text-center border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-2xl p-8 bg-slate-50 dark:bg-slate-800/50 transition-colors">
+              <div className="w-16 h-16 bg-indigo-50 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mb-4">
+                <FileText className="text-indigo-300 dark:text-indigo-500 w-8 h-8" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">No Letter Generated Yet</h3>
-              <p className="text-slate-500 max-w-sm">
+              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">No Letter Generated Yet</h3>
+              <p className="text-slate-500 dark:text-slate-400 max-w-sm">
                 Fill out the job details on the left and click "Generate Cover Letter" to create a professional, tailored letter.
               </p>
             </div>

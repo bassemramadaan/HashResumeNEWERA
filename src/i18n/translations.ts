@@ -75,8 +75,21 @@ export const translations = {
       connect: "Connect with us",
       product: "Product",
       resumeBuilder: "Resume Builder",
+      feedback: "Feedback",
       rightsReserved: "Hash Resume. All rights reserved.",
       privateFooter: "100% Private. Your data stays on your device."
+    },
+    feedbackModal: {
+      title: "How was your experience?",
+      subtitle: "Your opinion matters to us 🙏",
+      namePlaceholder: "Your Name (Optional)",
+      commentPlaceholder: "Tell us what you think...",
+      noThanks: "No thanks",
+      submit: "Submit Feedback",
+      sending: "Sending...",
+      thankYouTitle: "Thank You!",
+      thankYouMessage: "Your feedback helps us improve Hash Resume.",
+      close: "Close"
     }
   },
   ar: {
@@ -155,8 +168,21 @@ export const translations = {
       connect: "تواصل معنا",
       product: "المنتج",
       resumeBuilder: "منشئ السيرة الذاتية",
+      feedback: "رأيك يهمنا",
       rightsReserved: "Hash Resume. جميع الحقوق محفوظة.",
       privateFooter: "100% خاص. بياناتك تبقى على جهازك."
+    },
+    feedbackModal: {
+      title: "كيف كانت تجربتك؟",
+      subtitle: "رأيك يهمنا 🙏",
+      namePlaceholder: "اسمك (اختياري)",
+      commentPlaceholder: "اكتب تعليقك هنا...",
+      noThanks: "لا شكراً",
+      submit: "إرسال التقييم",
+      sending: "جاري الإرسال...",
+      thankYouTitle: "شكراً جزيلاً!",
+      thankYouMessage: "تقييمك يساعدنا على تحسين Hash Resume.",
+      close: "إغلاق"
     }
   }
 };

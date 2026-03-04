@@ -3,14 +3,16 @@ import { Settings, Palette, LayoutTemplate, Globe, GraduationCap } from 'lucide-
 import { cn } from '../../lib/utils';
 
 const COLORS = [
-  { name: 'Green', value: '#2563EB' },
-  { name: 'Blue', value: '#3B82F6' },
-  { name: 'Indigo', value: '#6366F1' },
-  { name: 'Purple', value: '#A855F7' },
-  { name: 'Rose', value: '#F43F5E' },
-  { name: 'Orange', value: '#F97316' },
+  { name: 'Navy', value: '#1e3a8a' },
+  { name: 'Blue', value: '#2563eb' },
+  { name: 'Cyan', value: '#0891b2' },
+  { name: 'Teal', value: '#0d9488' },
+  { name: 'Green', value: '#16a34a' },
+  { name: 'Purple', value: '#9333ea' },
+  { name: 'Rose', value: '#e11d48' },
+  { name: 'Orange', value: '#ea580c' },
   { name: 'Slate', value: '#475569' },
-  { name: 'Black', value: '#0F172A' },
+  { name: 'Black', value: '#000000' },
 ];
 
 const TEMPLATES = [
@@ -28,20 +30,20 @@ export default function SettingsForm() {
 
   return (
     <div className="space-y-6 font-sans">
-      <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-        <Settings className="text-indigo-500" size={24} />
+      <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+        <Settings className="text-indigo-500 dark:text-indigo-400" size={24} />
         Resume Settings
       </h2>
 
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 space-y-8">
+      <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 space-y-8 transition-colors">
         
         {/* Template Selection */}
         <div className="space-y-4">
-          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <LayoutTemplate size={20} className="text-slate-400" />
+          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <LayoutTemplate size={20} className="text-slate-400 dark:text-slate-500" />
             Template Style
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {TEMPLATES.map((template) => (
               <button
                 key={template.id}
@@ -49,12 +51,12 @@ export default function SettingsForm() {
                 className={cn(
                   "p-4 rounded-xl border-2 text-left transition-all",
                   settings.template === template.id
-                    ? "border-indigo-500 bg-indigo-50"
-                    : "border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                    ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 dark:border-indigo-500"
+                    : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
                 )}
               >
-                <div className="font-bold text-slate-900 mb-1">{template.name}</div>
-                <div className="text-xs text-slate-500">{template.description}</div>
+                <div className="font-bold text-slate-900 dark:text-white mb-1">{template.name}</div>
+                <div className="text-xs text-slate-500 dark:text-slate-400">{template.description}</div>
               </button>
             ))}
           </div>
@@ -62,8 +64,8 @@ export default function SettingsForm() {
 
         {/* Theme Color */}
         <div className="space-y-4">
-          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <Palette size={20} className="text-slate-400" />
+          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <Palette size={20} className="text-slate-400 dark:text-slate-500" />
             Theme Color
           </h3>
           <div className="flex flex-wrap gap-3">
@@ -74,14 +76,14 @@ export default function SettingsForm() {
                 className={cn(
                   "w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center",
                   settings.themeColor === color.value
-                    ? "border-slate-900 scale-110"
+                    ? "border-slate-900 dark:border-white scale-110"
                     : "border-transparent hover:scale-105"
                 )}
                 style={{ backgroundColor: color.value }}
                 title={color.name}
               >
                 {settings.themeColor === color.value && (
-                  <div className="w-3 h-3 bg-white rounded-full" />
+                  <div className="w-3 h-3 bg-white rounded-full shadow-sm" />
                 )}
               </button>
             ))}
@@ -90,8 +92,8 @@ export default function SettingsForm() {
 
         {/* Language */}
         <div className="space-y-4">
-          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <Globe size={20} className="text-slate-400" />
+          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <Globe size={20} className="text-slate-400 dark:text-slate-500" />
             Language
           </h3>
           <div className="flex gap-4">
@@ -100,8 +102,8 @@ export default function SettingsForm() {
               className={cn(
                 "px-6 py-2.5 rounded-xl border-2 font-medium transition-all",
                 settings.language === 'en'
-                  ? "border-indigo-500 bg-indigo-50 text-indigo-700"
-                  : "border-slate-200 text-slate-600 hover:border-slate-300"
+                  ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
+                  : "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
               )}
             >
               English
@@ -111,8 +113,8 @@ export default function SettingsForm() {
               className={cn(
                 "px-6 py-2.5 rounded-xl border-2 font-medium transition-all",
                 settings.language === 'ar'
-                  ? "border-indigo-500 bg-indigo-50 text-indigo-700"
-                  : "border-slate-200 text-slate-600 hover:border-slate-300"
+                  ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
+                  : "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
               )}
             >
               العربية
@@ -122,8 +124,8 @@ export default function SettingsForm() {
 
         {/* Fresh Graduate Mode */}
         <div className="space-y-4">
-          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <GraduationCap size={20} className="text-slate-400" />
+          <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <GraduationCap size={20} className="text-slate-400 dark:text-slate-500" />
             Fresh Graduate Mode
           </h3>
           <label className="flex items-start gap-3 cursor-pointer group">
@@ -138,7 +140,7 @@ export default function SettingsForm() {
                 "w-5 h-5 rounded border transition-colors flex items-center justify-center",
                 settings.isFreshGrad 
                   ? "bg-indigo-500 border-indigo-500" 
-                  : "border-slate-300 group-hover:border-indigo-400"
+                  : "border-slate-300 dark:border-slate-600 group-hover:border-indigo-400 dark:group-hover:border-indigo-500 bg-white dark:bg-slate-800"
               )}>
                 {settings.isFreshGrad && (
                   <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,8 +150,8 @@ export default function SettingsForm() {
               </div>
             </div>
             <div>
-              <div className="font-medium text-slate-900">Enable Fresh Graduate Mode</div>
-              <div className="text-sm text-slate-500">
+              <div className="font-medium text-slate-900 dark:text-white">Enable Fresh Graduate Mode</div>
+              <div className="text-sm text-slate-500 dark:text-slate-400">
                 This will automatically reorder your resume to show Education before Experience, which is recommended for recent graduates.
               </div>
             </div>

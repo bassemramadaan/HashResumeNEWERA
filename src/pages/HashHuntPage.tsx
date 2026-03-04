@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Briefcase, Building2, Search, ArrowRight, CheckCircle2, ExternalLink, MapPin, Clock, DollarSign, Bookmark } from 'lucide-react';
 import Logo from '../components/Logo';
+import ThemeToggle from '../components/ThemeToggle';
 import React, { useState, useEffect } from 'react';
 
 interface Job {
@@ -27,13 +28,13 @@ const JobCard: React.FC<{ job: Job; isSaved: boolean; onToggleSave: () => void }
       whileInView={{ opacity: 1, y: 0 }}
       whileHover={{ y: -5, scale: 1.01 }}
       viewport={{ once: true }}
-      className="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-xl transition-all duration-300 hover:border-indigo-100 group flex flex-col h-full relative overflow-hidden"
+      className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-800 hover:shadow-xl dark:hover:shadow-indigo-900/20 transition-all duration-300 hover:border-indigo-100 dark:hover:border-indigo-900/50 group flex flex-col h-full relative overflow-hidden"
     >
-      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-50 to-transparent rounded-bl-full -mr-8 -mt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+      <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-50 dark:from-indigo-900/30 to-transparent rounded-bl-full -mr-8 -mt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
       <div className="flex items-start justify-between mb-5 relative z-10">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 font-bold text-xl overflow-hidden shrink-0 border border-slate-100 group-hover:border-indigo-100 transition-colors shadow-sm">
+          <div className="w-14 h-14 bg-slate-50 dark:bg-slate-800 rounded-xl flex items-center justify-center text-slate-400 dark:text-slate-500 font-bold text-xl overflow-hidden shrink-0 border border-slate-100 dark:border-slate-700 group-hover:border-indigo-100 dark:group-hover:border-indigo-500/30 transition-colors shadow-sm">
             {job.logo ? (
               <img src={job.logo} alt={job.company} className="w-full h-full object-cover" />
             ) : (
@@ -41,8 +42,8 @@ const JobCard: React.FC<{ job: Job; isSaved: boolean; onToggleSave: () => void }
             )}
           </div>
           <div>
-            <h3 className="font-bold text-lg text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1 mb-1">{job.title}</h3>
-            <p className="text-sm text-slate-500 font-medium">{job.company}</p>
+            <h3 className="font-bold text-lg text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-1 mb-1">{job.title}</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">{job.company}</p>
           </div>
         </div>
         <div className="flex flex-col items-end gap-2">
@@ -53,50 +54,50 @@ const JobCard: React.FC<{ job: Job; isSaved: boolean; onToggleSave: () => void }
             }}
             className={`p-2 rounded-full shadow-sm border transition-all duration-200 ${
               isSaved 
-                ? 'bg-indigo-50 border-indigo-100 text-indigo-600' 
-                : 'bg-white border-slate-100 text-slate-400 hover:text-indigo-600 hover:bg-slate-50'
+                ? 'bg-indigo-50 dark:bg-indigo-900/50 border-indigo-100 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400' 
+                : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-700'
             }`}
             title={isSaved ? "Remove from saved" : "Save job"}
           >
             <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />
           </button>
           {job.postedAt && (
-            <span className="text-xs font-medium text-slate-500 bg-slate-50 px-2.5 py-1 rounded-full whitespace-nowrap border border-slate-100 group-hover:bg-white group-hover:shadow-sm transition-all">{job.postedAt}</span>
+            <span className="text-xs font-medium text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 px-2.5 py-1 rounded-full whitespace-nowrap border border-slate-100 dark:border-slate-700 group-hover:bg-white dark:group-hover:bg-slate-700 group-hover:shadow-sm transition-all">{job.postedAt}</span>
           )}
         </div>
       </div>
       
       <div className="flex flex-wrap gap-2 mb-5 relative z-10">
-        <div className="flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 group-hover:bg-indigo-50/50 group-hover:text-indigo-700 group-hover:border-indigo-100 transition-colors">
-          <MapPin size={14} className="text-slate-400 group-hover:text-indigo-500" />
+        <div className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-700 group-hover:bg-indigo-50/50 dark:group-hover:bg-indigo-900/30 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 group-hover:border-indigo-100 dark:group-hover:border-indigo-800 transition-colors">
+          <MapPin size={14} className="text-slate-400 dark:text-slate-500 group-hover:text-indigo-500 dark:group-hover:text-indigo-400" />
           {job.location}
         </div>
-        <div className="flex items-center gap-1.5 text-xs font-medium text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 group-hover:bg-indigo-50/50 group-hover:text-indigo-700 group-hover:border-indigo-100 transition-colors">
-          <Briefcase size={14} className="text-slate-400 group-hover:text-indigo-500" />
+        <div className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-100 dark:border-slate-700 group-hover:bg-indigo-50/50 dark:group-hover:bg-indigo-900/30 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 group-hover:border-indigo-100 dark:group-hover:border-indigo-800 transition-colors">
+          <Briefcase size={14} className="text-slate-400 dark:text-slate-500 group-hover:text-indigo-500 dark:group-hover:text-indigo-400" />
           {job.type}
         </div>
         {job.code && (
-          <div className="flex items-center gap-1.5 text-xs font-medium text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100 font-mono">
+          <div className="flex items-center gap-1.5 text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/50 px-3 py-1.5 rounded-lg border border-indigo-100 dark:border-indigo-800 font-mono">
             #{job.code}
           </div>
         )}
       </div>
 
       {job.description && (
-        <p className="text-sm text-slate-600 mb-6 line-clamp-3 flex-grow leading-relaxed relative z-10">
+        <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 line-clamp-3 flex-grow leading-relaxed relative z-10">
           {job.description}
         </p>
       )}
       
-      <div className="flex items-center justify-between mt-auto pt-5 border-t border-slate-50 relative z-10">
-        <span className="text-xs font-medium text-slate-500">
-          Use code <span className="font-mono text-indigo-600 font-bold bg-indigo-50 px-1.5 py-0.5 rounded ml-1">{job.code || 'N/A'}</span>
+      <div className="flex items-center justify-between mt-auto pt-5 border-t border-slate-50 dark:border-slate-800 relative z-10">
+        <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+          Use code <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold bg-indigo-50 dark:bg-indigo-900/50 px-1.5 py-0.5 rounded ml-1">{job.code || 'N/A'}</span>
         </span>
         <a 
           href={applyUrl}
           target="_blank" 
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 hover:text-indigo-700 z-20 group/btn"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 z-20 group/btn"
         >
           Apply Now 
           <ExternalLink size={14} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
@@ -153,19 +154,20 @@ export default function HashHuntPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
       {/* Navbar */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
         <div className="flex items-center gap-6 flex-1">
-          <Link to="/" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">Back to Resume Builder</Link>
+          <Link to="/" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hidden sm:block">Back to Resume Builder</Link>
         </div>
         
         {/* Centered Logo */}
         <div className="flex items-center justify-center absolute left-1/2 -translate-x-1/2">
-          <Logo className="w-12 h-12 text-indigo-600" />
+          <Logo className="w-12 h-12 text-indigo-600 dark:text-indigo-400" />
         </div>
 
-        <div className="flex items-center justify-end gap-6 flex-1">
+        <div className="flex items-center justify-end gap-4 flex-1">
+          <ThemeToggle />
           <a 
             href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
             target="_blank" 
@@ -179,15 +181,15 @@ export default function HashHuntPage() {
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-indigo-400 opacity-20 blur-[100px]"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-indigo-400 opacity-20 dark:opacity-30 blur-[100px]"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-100/80 backdrop-blur-sm text-indigo-800 text-sm font-medium mb-8 border border-indigo-200"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-100/80 dark:bg-indigo-900/50 backdrop-blur-sm text-indigo-800 dark:text-indigo-300 text-sm font-medium mb-8 border border-indigo-200 dark:border-indigo-800"
           >
             <Briefcase size={16} />
             Exclusive Job Opportunities
@@ -197,17 +199,17 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 mb-6 font-display"
+            className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white mb-6 font-display"
           >
             Let the jobs <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">find you.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400">find you.</span>
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-8"
+            className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8"
           >
             Browse exclusive roles from our partner companies or upload your resume to get matched automatically.
           </motion.p>
@@ -230,12 +232,12 @@ export default function HashHuntPage() {
             </div>
 
             {!loading && (
-              <div className="flex items-center gap-2 text-slate-500 bg-white/50 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+              <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm">
                 <div className="relative flex h-3 w-3">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
                 </div>
-                <span className="font-medium text-slate-700">{jobs.length}</span>
+                <span className="font-medium text-slate-700 dark:text-slate-300">{jobs.length}</span>
                 <span>active opportunities available now</span>
               </div>
             )}
@@ -244,11 +246,11 @@ export default function HashHuntPage() {
       </section>
 
       {/* Jobs List Section */}
-      <section className="py-12 bg-white border-t border-slate-200 min-h-[400px]">
+      <section className="py-12 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 min-h-[400px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-slate-900 font-display">Latest Opportunities</h2>
-            <div className="text-sm text-slate-500">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white font-display">Latest Opportunities</h2>
+            <div className="text-sm text-slate-500 dark:text-slate-400">
               {loading ? 'Loading jobs...' : `${jobs.length} jobs found`}
             </div>
           </div>
@@ -256,38 +258,38 @@ export default function HashHuntPage() {
           {loading ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-slate-100 animate-pulse h-64">
+                <div key={i} className="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-100 dark:border-slate-700 animate-pulse h-64">
                   <div className="flex gap-4 mb-4">
-                    <div className="w-12 h-12 bg-slate-200 rounded-lg"></div>
+                    <div className="w-12 h-12 bg-slate-200 dark:bg-slate-700 rounded-lg"></div>
                     <div className="flex-1 space-y-2">
-                      <div className="h-4 bg-slate-200 rounded w-3/4"></div>
-                      <div className="h-3 bg-slate-200 rounded w-1/2"></div>
+                      <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+                      <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/2"></div>
                     </div>
                   </div>
                   <div className="space-y-2 mb-6">
-                    <div className="h-3 bg-slate-200 rounded w-full"></div>
-                    <div className="h-3 bg-slate-200 rounded w-5/6"></div>
+                    <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-full"></div>
+                    <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-5/6"></div>
                   </div>
                   <div className="flex gap-2 mt-auto">
-                    <div className="h-6 w-20 bg-slate-200 rounded-full"></div>
-                    <div className="h-6 w-20 bg-slate-200 rounded-full"></div>
+                    <div className="h-6 w-20 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                    <div className="h-6 w-20 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
                   </div>
                 </div>
               ))}
             </div>
           ) : error ? (
-            <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200">
-              <p className="text-slate-500 mb-4">{error}</p>
+            <div className="text-center py-12 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-800">
+              <p className="text-slate-500 dark:text-slate-400 mb-4">{error}</p>
               <button 
                 onClick={() => window.location.reload()} 
-                className="text-indigo-600 font-medium hover:underline"
+                className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline"
               >
                 Try refreshing the page
               </button>
             </div>
           ) : jobs.length === 0 ? (
-            <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200">
-              <p className="text-slate-500">No jobs found at the moment. Check back later!</p>
+            <div className="text-center py-12 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-800">
+              <p className="text-slate-500 dark:text-slate-400">No jobs found at the moment. Check back later!</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -305,15 +307,15 @@ export default function HashHuntPage() {
       </section>
 
       {/* How it works */}
-      <section className="py-24 bg-slate-50 border-t border-slate-200">
+      <section className="py-24 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">How Hash Hunt Works</h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">Your next career move is just a few clicks away.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display">How Hash Hunt Works</h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">Your next career move is just a few clicks away.</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-12 relative">
-            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-slate-100 -z-10"></div>
+            <div className="hidden md:block absolute top-12 left-[20%] right-[20%] h-0.5 bg-slate-100 dark:bg-slate-800 -z-10"></div>
             
             {[
               { icon: Briefcase, title: "1. Build Your Resume", desc: "Use Hash Resume to create a professional, ATS-friendly CV." },
@@ -321,11 +323,11 @@ export default function HashHuntPage() {
               { icon: Building2, title: "3. Get Matched", desc: "Our team matches your profile with partner companies looking for your skills." }
             ].map((item, i) => (
               <div key={i} className="text-center relative group">
-                <div className="w-24 h-24 mx-auto bg-white border-4 border-slate-50 group-hover:border-indigo-50 rounded-full flex items-center justify-center text-indigo-600 mb-6 shadow-sm transition-colors">
+                <div className="w-24 h-24 mx-auto bg-white dark:bg-slate-900 border-4 border-slate-50 dark:border-slate-950 group-hover:border-indigo-50 dark:group-hover:border-indigo-900/30 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-6 shadow-sm transition-colors">
                   <item.icon size={32} />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                <p className="text-slate-600">{item.desc}</p>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{item.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -333,9 +335,9 @@ export default function HashHuntPage() {
       </section>
 
       {/* Benefits */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-24 bg-slate-50 dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-indigo-900 rounded-3xl p-8 md:p-16 text-center md:text-left flex flex-col md:flex-row items-center gap-12 shadow-2xl overflow-hidden relative">
+          <div className="bg-indigo-900 dark:bg-indigo-950 rounded-3xl p-8 md:p-16 text-center md:text-left flex flex-col md:flex-row items-center gap-12 shadow-2xl overflow-hidden relative border border-indigo-800/50">
             <div className="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-indigo-500 rounded-full blur-3xl opacity-20"></div>
             
             <div className="flex-1 relative z-10">

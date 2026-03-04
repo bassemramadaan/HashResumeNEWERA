@@ -6,7 +6,7 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, Moon, Sun
+  Undo2, Redo2, CheckCircle2, Maximize2, X, Moon, Sun, MessageCircle
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useThemeStore } from '../store/useThemeStore';
@@ -23,6 +23,7 @@ import ResumePreview from '../components/preview/ResumePreview';
 import Logo from '../components/Logo';
 import PaymentModal from '../components/payment/PaymentModal';
 import PostDownloadModal from '../components/payment/PostDownloadModal';
+import FeedbackModal from '../components/FeedbackModal';
 import OnboardingTour from '../components/OnboardingTour';
 import ResumeCheckerModal from '../components/editor/ResumeCheckerModal';
 import LanguageSwitcher from '../components/LanguageSwitcher';
@@ -43,6 +44,7 @@ export default function EditorPage() {
   const [showFullPreview, setShowFullPreview] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const { data, loadExampleData, resetData } = useResumeStore();
@@ -92,7 +94,10 @@ export default function EditorPage() {
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
     documentTitle: `${data.personalInfo.fullName || 'Resume'}_CV`,
-    onAfterPrint: () => setShowPostDownloadModal(true),
+    onAfterPrint: () => {
+      setShowPostDownloadModal(true);
+      setTimeout(() => setShowFeedbackModal(true), 2000);
+    },
   });
 
   const handleExportClick = () => {
@@ -229,6 +234,14 @@ export default function EditorPage() {
               title="Redo (Ctrl+Y)"
             >
               <Redo2 size={16} />
+            </button>
+            <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-1" />
+            <button
+              onClick={() => setShowFeedbackModal(true)}
+              className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-slate-700 transition-colors"
+              title="Give Feedback"
+            >
+              <MessageCircle size={16} />
             </button>
           </div>
 
@@ -382,7 +395,7 @@ export default function EditorPage() {
           </div>
           
           <div className="flex-1 overflow-y-auto p-4 md:p-8 pt-20 flex justify-center items-start">
-            <div className="w-full max-w-[210mm] bg-white shadow-xl rounded-sm overflow-hidden scale-[0.85] sm:scale-95 md:scale-100 origin-top transition-transform">
+            <div className="w-full max-w-[210mm] bg-white shadow-xl dark:shadow-indigo-900/20 rounded-sm overflow-hidden scale-[0.85] sm:scale-95 md:scale-100 origin-top transition-transform ring-1 ring-slate-900/5 dark:ring-slate-100/10">
               <ResumePreview ref={componentRef} />
             </div>
           </div>
@@ -444,6 +457,10 @@ export default function EditorPage() {
       <PostDownloadModal 
         isOpen={showPostDownloadModal} 
         onClose={() => setShowPostDownloadModal(false)} 
+      />
+      <FeedbackModal 
+        isOpen={showFeedbackModal} 
+        onClose={() => setShowFeedbackModal(false)} 
       />
     </div>
   );

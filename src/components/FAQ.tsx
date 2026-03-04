@@ -29,25 +29,25 @@ export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="py-24 bg-slate-50">
+    <section id="faq" className="py-24 bg-slate-50 dark:bg-slate-900/50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">Frequently Asked Questions</h2>
-          <p className="text-lg text-slate-600">Got questions? We've got answers.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display">Frequently Asked Questions</h2>
+          <p className="text-lg text-slate-600 dark:text-slate-400">Got questions? We've got answers.</p>
         </div>
 
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+            <div key={index} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-colors">
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 transition-colors"
+                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
               >
-                <span className="font-semibold text-slate-900">{faq.question}</span>
+                <span className="font-semibold text-slate-900 dark:text-white">{faq.question}</span>
                 {openIndex === index ? (
-                  <ChevronUp className="text-indigo-500" size={20} />
+                  <ChevronUp className="text-indigo-500 dark:text-indigo-400" size={20} />
                 ) : (
-                  <ChevronDown className="text-slate-400" size={20} />
+                  <ChevronDown className="text-slate-400 dark:text-slate-500" size={20} />
                 )}
               </button>
               <AnimatePresence>
@@ -58,7 +58,7 @@ export default function FAQ() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <div className="px-6 pb-4 text-slate-600 leading-relaxed border-t border-slate-50">
+                    <div className="px-6 pb-4 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-50 dark:border-slate-800">
                       {faq.answer}
                     </div>
                   </motion.div>
