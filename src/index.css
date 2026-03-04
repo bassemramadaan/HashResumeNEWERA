@@ -6,31 +6,31 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  /* Professional Modern Blue (Replaces Indigo) - Trustworthy, Tech-forward */
-  --color-indigo-50: #eff6ff;
-  --color-indigo-100: #dbeafe;
-  --color-indigo-200: #bfdbfe;
-  --color-indigo-300: #93c5fd;
-  --color-indigo-400: #60a5fa;
-  --color-indigo-500: #3b82f6;
-  --color-indigo-600: #2563eb;
-  --color-indigo-700: #1d4ed8;
-  --color-indigo-800: #1e40af;
-  --color-indigo-900: #1e3a8a;
-  --color-indigo-950: #172554;
+  /* Modern Vibrant Violet (Replaces Indigo) - Trendy, AI-forward, Attractive */
+  --color-indigo-50: #f5f3ff;
+  --color-indigo-100: #ede9fe;
+  --color-indigo-200: #ddd6fe;
+  --color-indigo-300: #c4b5fd;
+  --color-indigo-400: #a78bfa;
+  --color-indigo-500: #8b5cf6;
+  --color-indigo-600: #7c3aed;
+  --color-indigo-700: #6d28d9;
+  --color-indigo-800: #5b21b6;
+  --color-indigo-900: #4c1d95;
+  --color-indigo-950: #2e1065;
 
-  /* Modern Teal Accent (Replaces Violet) - Fresh, Clean */
-  --color-violet-50: #f0fdfa;
-  --color-violet-100: #ccfbf1;
-  --color-violet-200: #99f6e4;
-  --color-violet-300: #5eead4;
-  --color-violet-400: #2dd4bf;
-  --color-violet-500: #14b8a6;
-  --color-violet-600: #0d9488;
-  --color-violet-700: #0f766e;
-  --color-violet-800: #115e59;
-  --color-violet-900: #134e4a;
-  --color-violet-950: #042f2e;
+  /* Premium Zinc (Replaces Slate) - Sleek, High-end Dark Mode */
+  --color-slate-50: #fafafa;
+  --color-slate-100: #f4f4f5;
+  --color-slate-200: #e4e4e7;
+  --color-slate-300: #d4d4d8;
+  --color-slate-400: #a1a1aa;
+  --color-slate-500: #71717a;
+  --color-slate-600: #52525b;
+  --color-slate-700: #3f3f46;
+  --color-slate-800: #27272a;
+  --color-slate-900: #18181b;
+  --color-slate-950: #09090b;
 }
 
 @layer base {
@@ -49,7 +49,7 @@
   }
 
   .dark .editor-form input, .dark .editor-form textarea {
-    @apply bg-slate-900/50 border-slate-700 text-white placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500/20;
+    @apply bg-slate-900/50 border-slate-800 text-white placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500/50 transition-all;
   }
   
   .dark .editor-form label {
@@ -57,7 +57,7 @@
   }
   
   .dark .editor-form .bg-white {
-    @apply bg-slate-900 border-slate-800;
+    @apply bg-slate-900 border-slate-800 shadow-lg shadow-black/20;
   }
   
   .dark .editor-form .text-slate-900 {

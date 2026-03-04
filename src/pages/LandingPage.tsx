@@ -51,10 +51,61 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-32 overflow-hidden">
+        {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute left-1/4 top-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-20 dark:opacity-30 blur-[120px]"></div>
         <div className="absolute right-1/4 top-20 -z-10 h-[400px] w-[400px] rounded-full bg-violet-500 opacity-20 dark:opacity-30 blur-[120px]"></div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 h-[600px] w-[800px] rounded-full bg-emerald-500 opacity-10 dark:opacity-10 blur-[150px]"></div>
         
+        {/* Floating Abstract Shapes */}
+        <motion.div 
+          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }} 
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-20 left-[10%] -z-10 hidden lg:block opacity-50 dark:opacity-30"
+        >
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 0L38.5967 25.4033L64 32L38.5967 38.5967L32 64L25.4033 38.5967L0 32L25.4033 25.4033L32 0Z" fill="url(#paint0_linear)"/>
+            <defs>
+              <linearGradient id="paint0_linear" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#6366F1" />
+                <stop offset="1" stopColor="#8B5CF6" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </motion.div>
+
+        <motion.div 
+          animate={{ y: [0, 30, 0], rotate: [0, -10, 0] }} 
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-40 right-[15%] -z-10 hidden lg:block opacity-40 dark:opacity-20"
+        >
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="url(#paint1_linear)" strokeWidth="4" strokeDasharray="8 8"/>
+            <defs>
+              <linearGradient id="paint1_linear" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#8B5CF6" />
+                <stop offset="1" stopColor="#EC4899" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </motion.div>
+
+        <motion.div 
+          animate={{ y: [0, -15, 0], x: [0, 15, 0] }} 
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-20 left-[20%] -z-10 hidden lg:block opacity-30 dark:opacity-20"
+        >
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="0" width="28.2843" height="28.2843" transform="rotate(45 20 0)" stroke="url(#paint2_linear)" strokeWidth="3"/>
+            <defs>
+              <linearGradient id="paint2_linear" x1="20" y1="0" x2="48.2843" y2="28.2843" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#10B981" />
+                <stop offset="1" stopColor="#3B82F6" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </motion.div>
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
 
           
