@@ -29,23 +29,33 @@ export default function LandingPage() {
       </div>
 
       {/* Navbar */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
-        <div className="flex items-center gap-6 flex-1">
-          <a href="#features" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hidden sm:block">{t.features}</a>
-          <a href="#process" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hidden sm:block">{t.howItWorks}</a>
-          <Link to="/cover-letter" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hidden sm:block">{t.coverLetter}</Link>
-          <Link to="/blog" className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hidden sm:block">{t.blog}</Link>
-          <Link to="/hash-hunt" className="text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 hidden sm:block">{t.hashHuntJobs}</Link>
-        </div>
-        
-        {/* Centered Logo */}
-        <div className="flex items-center justify-center absolute left-1/2 -translate-x-1/2">
-          <Logo className="w-12 h-12 text-indigo-600 dark:text-indigo-400" />
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative z-50">
+        {/* Left: Logo & Primary Links */}
+        <div className="flex items-center gap-8">
+          <Link to="/" className="flex items-center gap-2 group">
+            <Logo className="w-10 h-10 text-indigo-600 dark:text-indigo-400 group-hover:scale-105 transition-transform" />
+            <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white hidden sm:block">Hash Resume</span>
+          </Link>
+          
+          <div className="hidden lg:flex items-center gap-6 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md px-6 py-2.5 rounded-full border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
+            <a href="#features" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{t.features}</a>
+            <a href="#process" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{t.howItWorks}</a>
+            <Link to="/cover-letter" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{t.coverLetter}</Link>
+            <Link to="/blog" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{t.blog}</Link>
+            <Link to="/hash-hunt" className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 hover:opacity-80 transition-opacity">{t.hashHuntJobs}</Link>
+          </div>
         </div>
 
-        <div className="flex items-center justify-end gap-4 flex-1">
-          <ThemeToggle />
-          <LanguageSwitcher />
+        {/* Right: Secondary Actions & CTA */}
+        <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-2 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md px-2 py-1.5 rounded-full border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
+            <ThemeToggle />
+            <div className="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
+            <LanguageSwitcher />
+          </div>
+          <Link to="/editor" className="hidden sm:flex bg-indigo-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-600/20 hover:-translate-y-0.5 transition-all items-center gap-2">
+            {t.buildResume}
+          </Link>
         </div>
       </nav>
 
@@ -54,7 +64,7 @@ export default function LandingPage() {
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute left-1/4 top-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-20 dark:opacity-30 blur-[120px]"></div>
-        <div className="absolute right-1/4 top-20 -z-10 h-[400px] w-[400px] rounded-full bg-violet-500 opacity-20 dark:opacity-30 blur-[120px]"></div>
+        <div className="absolute right-1/4 top-20 -z-10 h-[400px] w-[400px] rounded-full bg-cyan-500 opacity-20 dark:opacity-30 blur-[120px]"></div>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 h-[600px] w-[800px] rounded-full bg-emerald-500 opacity-10 dark:opacity-10 blur-[150px]"></div>
         
         {/* Floating Abstract Shapes */}
@@ -115,19 +125,23 @@ export default function LandingPage() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white mb-6 font-display"
           >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 block mb-2 md:mb-4 text-4xl md:text-5xl">{t.heroTitle1}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 block mb-2 md:mb-4 text-4xl md:text-5xl">{t.heroTitle1}</span>
             {t.heroTitle2}<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400">{t.heroTitle3}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400">{t.heroTitle3}</span>
           </motion.h1>
           
-          <motion.p 
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-10"
+            className="max-w-3xl mx-auto mb-10"
           >
-            {t.heroSubtitle}
-          </motion.p>
+            <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200/60 dark:border-slate-800/60 p-6 rounded-3xl shadow-lg shadow-indigo-500/5">
+              <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                {t.heroSubtitle}
+              </p>
+            </div>
+          </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -169,12 +183,13 @@ export default function LandingPage() {
             </div>
 
             <div className="flex flex-col items-center gap-3">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium border border-indigo-100 dark:border-indigo-800">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-sm font-medium border border-emerald-100 dark:border-emerald-800">
                 <ShieldCheck size={16} />
                 {t.privacyBadge}
               </div>
-              <div className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+              <div className="text-sm text-slate-500 dark:text-slate-400 font-medium flex items-center justify-center gap-1.5">
                 <span className="font-bold text-indigo-600 dark:text-indigo-400">Hash Resume</span> {t.partOf}
+                <img src="https://flagcdn.com/w20/eg.png" alt="Egypt Flag" className="w-4 h-auto rounded-sm shadow-sm" />
               </div>
             </div>
           </motion.div>
@@ -242,7 +257,7 @@ export default function LandingPage() {
               </Link>
             </div>
             <div className="flex-1 relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 to-violet-100 dark:from-indigo-900/30 dark:to-violet-900/30 rounded-3xl transform rotate-3 scale-95 -z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 to-cyan-100 dark:from-indigo-900/30 dark:to-cyan-900/30 rounded-3xl transform rotate-3 scale-95 -z-10"></div>
               <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
                 <div className="space-y-4 opacity-50 pointer-events-none select-none">
                   <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded w-1/3"></div>

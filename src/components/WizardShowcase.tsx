@@ -21,8 +21,8 @@ export default function WizardShowcase() {
       title: language === 'ar' ? 'أضف الخبرات' : 'Add Experience',
       desc: language === 'ar' ? 'احصل على اقتراحات مدعومة بالذكاء الاصطناعي' : 'Get AI-powered suggestions',
       icon: Briefcase,
-      color: 'bg-violet-500',
-      shadow: 'shadow-violet-500/30'
+      color: 'bg-cyan-500',
+      shadow: 'shadow-cyan-500/30'
     },
     {
       id: 2,
@@ -100,7 +100,13 @@ export default function WizardShowcase() {
           {/* Steps Navigation */}
           <div className="w-full lg:w-5/12 space-y-6 relative">
             {/* Connecting line */}
-            <div className="absolute left-8 top-10 bottom-10 w-0.5 bg-slate-200 dark:bg-slate-800 hidden md:block"></div>
+            <div className="absolute left-8 top-10 bottom-10 w-1 bg-slate-200 dark:bg-slate-800 hidden md:block rounded-full overflow-hidden">
+              <motion.div 
+                className="absolute top-0 left-0 w-full bg-indigo-500 dark:bg-indigo-400 rounded-full"
+                animate={{ height: `${(activeStep / (steps.length - 1)) * 100}%` }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+              />
+            </div>
             
             {steps.map((step, index) => (
               <button
@@ -109,13 +115,19 @@ export default function WizardShowcase() {
                 className={`w-full text-left p-6 rounded-2xl transition-all duration-500 flex items-start gap-6 group relative z-10 ${
                   activeStep === index 
                     ? 'bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-black/40 border border-slate-200 dark:border-slate-800 scale-[1.02]' 
-                    : 'bg-transparent hover:bg-white/50 dark:hover:bg-slate-900/50 border border-transparent'
+                    : 'bg-transparent hover:bg-white/50 dark:hover:bg-slate-900/50 border border-transparent opacity-70 hover:opacity-100'
                 }`}
               >
-                <div className={`w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center text-white transition-all duration-500 shadow-lg ${
+                <div className={`w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center text-white transition-all duration-500 shadow-lg relative ${
                   activeStep === index ? `${step.color} ${step.shadow}` : 'bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 shadow-none'
                 }`}>
-                  <step.icon size={28} />
+                  <step.icon size={28} className={activeStep === index ? "animate-pulse" : ""} />
+                  {activeStep === index && (
+                    <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                    </span>
+                  )}
                 </div>
                 <div className="flex-1 pt-2">
                   <h3 className={`font-bold text-xl mb-2 transition-colors duration-300 ${activeStep === index ? 'text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400'}`}>
@@ -192,13 +204,13 @@ export default function WizardShowcase() {
                     <div className="space-y-8">
                       <div className="flex items-center justify-between mb-6">
                         <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
-                        <div className="px-4 py-2 bg-violet-100 dark:bg-violet-900/30 rounded-full flex items-center gap-2 text-violet-600 dark:text-violet-400 text-sm font-medium border border-violet-200 dark:border-violet-800/50">
+                        <div className="px-4 py-2 bg-cyan-100 dark:bg-cyan-900/30 rounded-full flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-sm font-medium border border-cyan-200 dark:border-cyan-800/50">
                           <Sparkles size={16} />
                           AI Assist
                         </div>
                       </div>
                       {[1, 2].map((i) => (
-                        <div key={i} className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50 dark:bg-slate-900/50 space-y-4 hover:border-violet-300 dark:hover:border-violet-700 transition-colors">
+                        <div key={i} className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50 dark:bg-slate-900/50 space-y-4 hover:border-cyan-300 dark:hover:border-cyan-700 transition-colors">
                           <div className="flex justify-between items-start">
                             <div className="space-y-2 w-2/3">
                               <div className="h-5 bg-slate-300 dark:bg-slate-700 rounded w-3/4"></div>
@@ -206,7 +218,7 @@ export default function WizardShowcase() {
                             </div>
                             <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded-full w-24"></div>
                           </div>
-                          <div className="space-y-3 pl-5 border-l-2 border-violet-200 dark:border-violet-800/50 pt-2">
+                          <div className="space-y-3 pl-5 border-l-2 border-cyan-200 dark:border-cyan-800/50 pt-2">
                             <div className="h-2.5 bg-slate-300 dark:bg-slate-700 rounded w-full"></div>
                             <div className="h-2.5 bg-slate-300 dark:bg-slate-700 rounded w-5/6"></div>
                             <div className="h-2.5 bg-slate-300 dark:bg-slate-700 rounded w-4/5"></div>

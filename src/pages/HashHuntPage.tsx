@@ -202,7 +202,7 @@ export default function HashHuntPage() {
             className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white mb-6 font-display"
           >
             Let the jobs <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400">find you.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400">find you.</span>
           </motion.h1>
           
           <motion.p 
