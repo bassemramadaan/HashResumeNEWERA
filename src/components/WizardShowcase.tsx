@@ -10,24 +10,24 @@ export default function WizardShowcase() {
   const steps = [
     {
       id: 0,
-      title: language === 'ar' ? 'أدخل بياناتك' : 'Enter Your Details',
-      desc: language === 'ar' ? 'نماذج ذكية وسهلة الاستخدام' : 'Smart, easy-to-use forms',
+      title: language === 'ar' ? 'أدخل بياناتك الأساسية' : '1. Enter Your Details',
+      desc: language === 'ar' ? 'املأ معلوماتك الشخصية في نماذج ذكية وسهلة الاستخدام.' : 'Fill in your personal info using our smart, intuitive forms.',
       icon: User,
       color: 'bg-indigo-500',
       shadow: 'shadow-indigo-500/30'
     },
     {
       id: 1,
-      title: language === 'ar' ? 'أضف الخبرات' : 'Add Experience',
-      desc: language === 'ar' ? 'احصل على اقتراحات مدعومة بالذكاء الاصطناعي' : 'Get AI-powered suggestions',
+      title: language === 'ar' ? 'أضف خبراتك بذكاء' : '2. Add Experience',
+      desc: language === 'ar' ? 'احصل على اقتراحات مدعومة بالذكاء الاصطناعي لكتابة مهامك.' : 'Get AI-powered suggestions to perfectly describe your past roles.',
       icon: Briefcase,
       color: 'bg-cyan-500',
       shadow: 'shadow-cyan-500/30'
     },
     {
       id: 2,
-      title: language === 'ar' ? 'حمل السيرة الذاتية' : 'Download Resume',
-      desc: language === 'ar' ? 'تنسيق PDF مثالي وجاهز للتقديم' : 'Perfect PDF, ready to apply',
+      title: language === 'ar' ? 'حمل سيرتك الذاتية' : '3. Download & Apply',
+      desc: language === 'ar' ? 'احصل على ملف PDF بتنسيق مثالي وجاهز للتقديم فوراً.' : 'Export a perfectly formatted PDF, ready to land your next job.',
       icon: FileText,
       color: 'bg-emerald-500',
       shadow: 'shadow-emerald-500/30'
