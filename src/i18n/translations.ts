@@ -1,8 +1,6 @@
 export const translations = {
   en: {
     landing: {
-      support: "Need help? Chat with us on WhatsApp",
-      contactSupport: "Contact Support",
       features: "Features",
       howItWorks: "How it works",
       coverLetter: "Cover Letter",
@@ -103,8 +101,6 @@ export const translations = {
   },
   ar: {
     landing: {
-      support: "تحتاج مساعدة؟ تواصل معنا عبر واتساب",
-      contactSupport: "تواصل مع الدعم",
       features: "المميزات",
       howItWorks: "كيف يعمل",
       coverLetter: "خطاب التقديم",

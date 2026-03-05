@@ -3,7 +3,7 @@ import { Globe } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { cn } from '../lib/utils';
 
-export default function LanguageSwitcher({ className }: { className?: string }) {
+export default function LanguageSwitcher({ className, size = 16 }: { className?: string; size?: number }) {
   const { language, setLanguage } = useLanguageStore();
 
   return (
@@ -16,7 +16,7 @@ export default function LanguageSwitcher({ className }: { className?: string }) 
       )}
       title={language === 'en' ? 'Switch to Arabic' : 'Switch to English'}
     >
-      <Globe size={16} />
+      <Globe size={size} />
       <span>{language === 'en' ? 'العربية' : 'English'}</span>
     </button>
   );
