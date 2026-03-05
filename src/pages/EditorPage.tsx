@@ -292,7 +292,7 @@ export default function EditorPage() {
               {activeTab.replace('-', ' ')}
             </h1>
             <div className="flex items-center gap-3">
-              <button onClick={loadExampleData} className="text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 px-3 py-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+              <button onClick={loadExampleData} className="text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-3 py-1.5 rounded-full transition-colors border border-indigo-200 dark:border-indigo-800 shadow-sm">
                 Load Example
               </button>
               <button onClick={resetData} className="text-xs font-medium text-rose-500 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 px-3 py-1.5 rounded-full hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-colors">
