@@ -69,7 +69,7 @@ export default function PersonalInfoForm() {
               className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.fullName ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
-              placeholder="John Doe"
+              placeholder="Ahmed Hassan"
             />
             {errors.fullName && (
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -123,7 +123,7 @@ export default function PersonalInfoForm() {
               className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.email ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
-              placeholder="john.doe@example.com"
+              placeholder="ahmed.hassan@example.com"
             />
             {errors.email && (
               <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -147,7 +147,7 @@ export default function PersonalInfoForm() {
               value={personalInfo.phone}
               onChange={handleChange}
               className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-              placeholder="+1 (555) 123-4567"
+              placeholder="+20 100 123 4567"
             />
           </div>
         </div>
@@ -165,7 +165,7 @@ export default function PersonalInfoForm() {
               value={personalInfo.address}
               onChange={handleChange}
               className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-              placeholder="San Francisco, CA"
+              placeholder="Cairo, Egypt"
             />
           </div>
         </div>
@@ -183,7 +183,7 @@ export default function PersonalInfoForm() {
               value={personalInfo.linkedin}
               onChange={handleChange}
               className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-              placeholder="linkedin.com/in/johndoe"
+              placeholder="linkedin.com/in/ahmedhassan"
             />
           </div>
         </div>

@@ -236,19 +236,19 @@ export const useResumeStore = create<ResumeStore>()(
         set({
           data: {
             personalInfo: {
-              fullName: 'John Doe',
+              fullName: 'Ahmed Hassan',
               jobTitle: 'Senior Software Engineer',
-              email: 'john.doe@example.com',
-              phone: '+1 (555) 123-4567',
-              address: 'San Francisco, CA',
-              linkedin: 'linkedin.com/in/johndoe',
+              email: 'ahmed.hassan@example.com',
+              phone: '+20 100 123 4567',
+              address: 'Cairo, Egypt',
+              linkedin: 'linkedin.com/in/ahmedhassan',
               summary:
                 'Experienced Software Engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Well-versed in technology and writing code to create systems that are reliable and user-friendly.',
             },
             experience: [
               {
                 id: generateId(),
-                company: 'Tech Solutions Inc.',
+                company: 'Nile Tech Solutions',
                 position: 'Senior Frontend Developer',
                 startDate: '2020-01',
                 endDate: 'Present',
@@ -257,7 +257,7 @@ export const useResumeStore = create<ResumeStore>()(
               },
               {
                 id: generateId(),
-                company: 'Web Innovations LLC',
+                company: 'Cairo Innovations LLC',
                 position: 'Frontend Developer',
                 startDate: '2017-06',
                 endDate: '2019-12',
@@ -268,7 +268,7 @@ export const useResumeStore = create<ResumeStore>()(
             education: [
               {
                 id: generateId(),
-                institution: 'University of Technology',
+                institution: 'Cairo University',
                 degree: 'Bachelor of Science in Computer Science',
                 startDate: '2013-09',
                 endDate: '2017-05',
@@ -281,7 +281,7 @@ export const useResumeStore = create<ResumeStore>()(
                 id: generateId(),
                 name: 'E-commerce Platform',
                 description: 'A full-stack e-commerce platform built with MERN stack.',
-                link: 'github.com/johndoe/ecommerce',
+                link: 'github.com/ahmedhassan/ecommerce',
               },
             ],
             certifications: [
