@@ -27,6 +27,7 @@ import FeedbackModal from '../components/FeedbackModal';
 import OnboardingTour from '../components/OnboardingTour';
 import ResumeCheckerModal from '../components/editor/ResumeCheckerModal';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import ThemeToggle from '../components/ThemeToggle';
 import { cn } from '../lib/utils';
 
 type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'settings';
@@ -161,123 +162,85 @@ export default function EditorPage() {
     <div className="flex flex-col h-screen bg-slate-50 dark:bg-slate-900 overflow-hidden font-sans transition-colors duration-200">
       <OnboardingTour />
       
-      {/* Top Navbar */}
-      <header className="h-16 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-4 sm:px-6 flex items-center justify-between shrink-0 z-30 relative transition-colors duration-200">
-        {/* Left Actions */}
-        <div className="flex items-center justify-start w-1/3">
-          <Link to="/" className="flex items-center text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-            <ChevronLeft size={20} />
-            <span className="hidden sm:block ml-1 text-sm font-medium">Home</span>
+      {/* Floating Dock Navbar (Top) */}
+      <div className="fixed top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none">
+        <nav className="pointer-events-auto flex items-center gap-2 p-2 rounded-full bg-slate-200/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800 shadow-2xl shadow-black/5 transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
+          
+          {/* Home / Logo */}
+          <Link to="/" className="flex items-center justify-center w-10 h-10 bg-white dark:bg-slate-800 rounded-full shadow-sm text-indigo-600 dark:text-indigo-400 hover:scale-105 transition-transform shrink-0" title="Back to Home">
+            <Logo className="w-6 h-6" />
           </Link>
-        </div>
 
-        {/* Centered Logo */}
-        <div className="flex items-center justify-center absolute left-1/2 -translate-x-1/2">
-          <Link to="/" className="flex items-center text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
-            <Logo className="w-8 h-8 text-indigo-600 dark:text-indigo-400 shrink-0" />
-          </Link>
-        </div>
+          {/* Separator */}
+          <div className="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1 hidden sm:block"></div>
 
-        {/* Right Actions */}
-        <div className="flex items-center justify-end gap-2 sm:gap-3 w-1/3">
-          <div className="hidden lg:flex items-center gap-2 mr-2">
+          {/* Undo/Redo */}
+          <div className="flex items-center gap-1">
+            <button onClick={() => undo()} disabled={pastStates.length === 0} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 disabled:opacity-30 transition-colors" title="Undo (Ctrl+Z)">
+              <Undo2 size={18} />
+            </button>
+            <button onClick={() => redo()} disabled={futureStates.length === 0} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 disabled:opacity-30 transition-colors" title="Redo (Ctrl+Y)">
+              <Redo2 size={18} />
+            </button>
+          </div>
+
+          {/* Separator */}
+          <div className="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1 hidden sm:block"></div>
+
+          {/* Theme/Lang/Feedback */}
+          <div className="flex items-center gap-1">
+            <ThemeToggle />
+            <LanguageSwitcher />
+            <button onClick={() => setShowFeedbackModal(true)} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Feedback">
+              <MessageCircle size={18} />
+            </button>
+          </div>
+
+          {/* Saving Indicator */}
+          <div className="hidden lg:flex items-center px-2 min-w-[80px] justify-center">
             <AnimatePresence mode="wait">
               {isSaving ? (
-                <motion.div
-                  key="saving"
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -5 }}
-                  className="flex items-center gap-1.5 text-xs font-medium text-slate-400"
-                >
-                  <div className="w-3 h-3 border-2 border-slate-300 border-t-slate-500 rounded-full animate-spin" />
-                  Saving...
+                <motion.div key="saving" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
+                  <div className="w-2 h-2 border-2 border-slate-300 border-t-slate-500 rounded-full animate-spin" />
+                  Saving
                 </motion.div>
               ) : (
-                <motion.div
-                  key="saved"
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -5 }}
-                  className="flex items-center gap-1.5 text-xs font-medium text-emerald-500"
-                >
-                  <CheckCircle2 size={14} />
+                <motion.div key="saved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-xs font-medium text-emerald-500">
+                  <CheckCircle2 size={12} />
                   Saved
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          <div className="hidden md:flex items-center gap-1 bg-slate-100 dark:bg-slate-800 rounded-full p-1 border border-slate-200 dark:border-slate-700">
-            <LanguageSwitcher className="hover:bg-white dark:hover:bg-slate-700" />
-            <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-1" />
-            <button
-              onClick={toggleTheme}
-              className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-700 transition-colors"
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            >
-              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-            </button>
-            <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-1" />
-            <button
-              onClick={() => undo()}
-              disabled={pastStates.length === 0}
-              className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
-              title="Undo (Ctrl+Z)"
-            >
-              <Undo2 size={16} />
-            </button>
-            <button
-              onClick={() => redo()}
-              disabled={futureStates.length === 0}
-              className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-30 disabled:hover:bg-transparent transition-colors"
-              title="Redo (Ctrl+Y)"
-            >
-              <Redo2 size={16} />
-            </button>
-            <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-1" />
-            <button
-              onClick={() => setShowFeedbackModal(true)}
-              className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-slate-700 transition-colors"
-              title="Give Feedback"
-            >
-              <MessageCircle size={16} />
-            </button>
-          </div>
-
-          <button 
-            onClick={() => setActiveTab('ats-audit')}
-            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors border border-slate-200 dark:border-slate-700"
-          >
+          {/* ATS Score */}
+          <button onClick={() => setActiveTab('ats-audit')} className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 transition-colors border border-slate-200/50 dark:border-slate-700/50">
             <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">ATS</span>
             <span className={cn("text-sm font-black", atsScore >= 80 ? "text-emerald-500" : atsScore >= 50 ? "text-amber-500" : "text-rose-500")}>
               {atsScore}%
             </span>
           </button>
-          <button 
-            onClick={() => setShowFullPreview(true)}
-            className="hidden lg:flex items-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 px-4 py-2.5 rounded-full font-medium transition-colors text-sm border border-slate-200 dark:border-slate-700"
-            title="Full Page Preview"
-          >
-            <Maximize2 size={16} />
-            <span className="hidden xl:block">Preview</span>
+
+          {/* Preview (Desktop) */}
+          <button onClick={() => setShowFullPreview(true)} className="hidden lg:flex items-center justify-center w-10 h-10 text-slate-600 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-colors" title="Full Preview">
+            <Maximize2 size={20} />
           </button>
-          <button 
-            onClick={handleExportClick}
-            data-tour="export-button"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-full flex items-center gap-2 font-medium transition-colors text-sm shadow-md shadow-indigo-600/20"
-          >
-            <Download size={16} />
-            <span className="hidden sm:block">Export</span>
+
+          {/* Mobile Preview Toggle */}
+           <button onClick={() => setShowMobilePreview(true)} className="md:hidden flex items-center justify-center w-10 h-10 text-slate-600 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-colors">
+            <Eye size={20} />
           </button>
-          <button 
-            onClick={() => setShowMobilePreview(true)}
-            className="md:hidden flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-full text-sm font-medium"
-          >
-            <Eye size={16} />
+
+          {/* Export (Primary) */}
+          <button onClick={handleExportClick} className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full shadow-lg hover:scale-105 transition-transform shrink-0 group" title="Export Resume">
+            <Download size={20} className="group-hover:translate-y-0.5 transition-transform" />
           </button>
-        </div>
-      </header>
+
+        </nav>
+      </div>
+
+      {/* Spacer for fixed dock */}
+      <div className="h-24 shrink-0" />
 
       {/* Floating Compact Navbar (Bottom) */}
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 hidden md:flex items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl p-1.5 rounded-full border border-slate-200/50 dark:border-slate-700/50 shadow-2xl shadow-indigo-900/10 transition-colors duration-200">

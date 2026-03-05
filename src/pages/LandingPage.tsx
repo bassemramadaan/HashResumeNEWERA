@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target, Plus, Briefcase } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
@@ -21,180 +21,205 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
       {/* WhatsApp Support Banner */}
-      <div className="bg-indigo-600 dark:bg-indigo-700 text-white text-sm py-2 px-4 flex items-center justify-center gap-2 font-medium">
+      <div className="bg-indigo-600 dark:bg-indigo-700 text-white text-sm py-2 px-4 flex items-center justify-center gap-2 font-medium relative z-[60]">
         <MessageCircle size={16} />
         <span>{t.support}</span>
         <a href="https://wa.me/201101007965" target="_blank" rel="noopener noreferrer" className="underline hover:text-indigo-100 ml-2">{t.contactSupport}</a>
       </div>
 
-      {/* Navbar */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative z-50">
-        {/* Left: Logo & Primary Links */}
-        <div className="flex items-center gap-8">
-          <Link to="/" className="flex items-center gap-2 group">
-            <Logo className="w-10 h-10 text-indigo-600 dark:text-indigo-400 group-hover:scale-105 transition-transform" />
-            <span className="font-bold text-xl tracking-tight text-slate-900 dark:text-white hidden sm:block">Hash Resume</span>
-          </Link>
+      {/* Floating Dock Navbar */}
+      <div className="sticky top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8">
+        <nav className="pointer-events-auto flex items-center gap-2 p-2 rounded-full bg-slate-200/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800 shadow-2xl shadow-black/5 transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
           
-          <div className="hidden lg:flex items-center gap-6 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md px-6 py-2.5 rounded-full border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
-            <a href="#features" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{t.features}</a>
-            <a href="#process" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{t.howItWorks}</a>
-            <Link to="/cover-letter" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{t.coverLetter}</Link>
-            <Link to="/blog" className="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{t.blog}</Link>
-            <Link to="/hash-hunt" className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 hover:opacity-80 transition-opacity flex items-center gap-1.5">
+          {/* Logo / Home */}
+          <Link to="/" className="flex items-center justify-center w-10 h-10 bg-white dark:bg-slate-800 rounded-full shadow-sm text-indigo-600 dark:text-indigo-400 hover:scale-105 transition-transform shrink-0">
+            <Logo className="w-6 h-6" />
+          </Link>
+
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center px-2 gap-1">
+            <a href="#features" className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.features}</a>
+            <a href="#process" className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.howItWorks}</a>
+            <Link to="/cover-letter" className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.coverLetter}</Link>
+            <Link to="/blog" className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.blog}</Link>
+            <Link to="/hash-hunt" className="px-4 py-2 text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 hover:opacity-80 transition-opacity flex items-center gap-1.5 whitespace-nowrap">
               <Target size={16} className="text-indigo-600 dark:text-indigo-400" />
               {t.hashHuntJobs}
             </Link>
           </div>
-        </div>
 
-        {/* Right: Secondary Actions & CTA */}
-        <div className="flex items-center gap-3 sm:gap-4">
-          <div className="flex items-center gap-2 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md px-2 py-1.5 rounded-full border border-slate-200/50 dark:border-slate-800/50 shadow-sm">
+          {/* Separator */}
+          <div className="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1 hidden md:block"></div>
+
+          {/* Secondary Actions */}
+          <div className="flex items-center gap-2 px-2">
             <ThemeToggle />
-            <div className="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
             <LanguageSwitcher />
           </div>
-          <Link to="/editor" className="hidden sm:flex bg-indigo-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-indigo-700 hover:shadow-lg hover:shadow-indigo-600/20 hover:-translate-y-0.5 transition-all items-center gap-2">
-            {t.buildResume}
+
+          {/* Primary Action (Plus Button) */}
+          <Link to="/editor" className="flex items-center justify-center w-10 h-10 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full shadow-lg hover:scale-105 transition-transform group shrink-0" title={t.buildResume}>
+            <Plus size={20} className="group-hover:rotate-90 transition-transform" />
           </Link>
-        </div>
-      </nav>
+        </nav>
+      </div>
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-32 overflow-hidden">
+      <section className="relative pt-10 pb-20 lg:pt-20 lg:pb-32 overflow-hidden">
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute left-1/4 top-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-20 dark:opacity-30 blur-[120px]"></div>
         <div className="absolute right-1/4 top-20 -z-10 h-[400px] w-[400px] rounded-full bg-cyan-500 opacity-20 dark:opacity-30 blur-[120px]"></div>
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 h-[600px] w-[800px] rounded-full bg-emerald-500 opacity-10 dark:opacity-10 blur-[150px]"></div>
         
-        {/* Floating Abstract Shapes */}
-        <motion.div 
-          animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }} 
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-20 left-[10%] -z-10 hidden lg:block opacity-50 dark:opacity-30"
-        >
-          <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M32 0L38.5967 25.4033L64 32L38.5967 38.5967L32 64L25.4033 38.5967L0 32L25.4033 25.4033L32 0Z" fill="url(#paint0_linear)"/>
-            <defs>
-              <linearGradient id="paint0_linear" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#6366F1" />
-                <stop offset="1" stopColor="#8B5CF6" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </motion.div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+            
+            {/* Left Column: Text & CTA */}
+            <div className="flex-1 text-center lg:text-left rtl:lg:text-right">
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white mb-6 font-display"
+              >
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 block mb-2 md:mb-4 text-4xl md:text-5xl">{t.heroTitle1}</span>
+                {t.heroTitle2}<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400">{t.heroTitle3}</span>
+              </motion.h1>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="mb-10"
+              >
+                <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200/60 dark:border-slate-800/60 p-6 rounded-3xl shadow-lg shadow-indigo-500/5 inline-block lg:block">
+                  <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                    {t.heroSubtitle}
+                  </p>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4"
+              >
+                <Link to="/editor" className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-700 dark:hover:bg-indigo-500 transition-all shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-2 group">
+                  {t.buildResume}
+                  <ArrowRight size={20} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
+                </Link>
+                <Link to="/cover-letter" className="w-full sm:w-auto bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-50 dark:hover:bg-slate-800 transition-all shadow-sm flex items-center justify-center gap-2 group">
+                  <PenTool size={20} />
+                  {t.createCoverLetter}
+                </Link>
+              </motion.div>
 
-        <motion.div 
-          animate={{ y: [0, 30, 0], rotate: [0, -10, 0] }} 
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-40 right-[15%] -z-10 hidden lg:block opacity-40 dark:opacity-20"
-        >
-          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="24" cy="24" r="22" stroke="url(#paint1_linear)" strokeWidth="4" strokeDasharray="8 8"/>
-            <defs>
-              <linearGradient id="paint1_linear" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#8B5CF6" />
-                <stop offset="1" stopColor="#EC4899" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </motion.div>
-
-        <motion.div 
-          animate={{ y: [0, -15, 0], x: [0, 15, 0] }} 
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-20 left-[20%] -z-10 hidden lg:block opacity-30 dark:opacity-20"
-        >
-          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="20" y="0" width="28.2843" height="28.2843" transform="rotate(45 20 0)" stroke="url(#paint2_linear)" strokeWidth="3"/>
-            <defs>
-              <linearGradient id="paint2_linear" x1="20" y1="0" x2="48.2843" y2="28.2843" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#10B981" />
-                <stop offset="1" stopColor="#3B82F6" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </motion.div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white mb-6 font-display"
-          >
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 block mb-2 md:mb-4 text-4xl md:text-5xl">{t.heroTitle1}</span>
-            {t.heroTitle2}<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400">{t.heroTitle3}</span>
-          </motion.h1>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="max-w-3xl mx-auto mb-10"
-          >
-            <div className="bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-slate-200/60 dark:border-slate-800/60 p-6 rounded-3xl shadow-lg shadow-indigo-500/5">
-              <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                {t.heroSubtitle}
-              </p>
-            </div>
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <Link to="/editor" className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-700 dark:hover:bg-indigo-500 transition-all shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-2 group">
-              {t.buildResume}
-              <ArrowRight size={20} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
-            </Link>
-            <Link to="/cover-letter" className="w-full sm:w-auto bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-50 dark:hover:bg-slate-800 transition-all shadow-sm flex items-center justify-center gap-2 group">
-              <PenTool size={20} />
-              {t.createCoverLetter}
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="mt-12 flex flex-col items-center gap-6"
-          >
-            {/* Stats Badge */}
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white dark:bg-slate-900 shadow-lg shadow-indigo-100 dark:shadow-none border border-indigo-50 dark:border-slate-800">
-              <div className="flex -space-x-2 rtl:space-x-reverse">
-                {[1,2,3].map(i => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-xs font-bold text-indigo-600 dark:text-indigo-400">
-                    {i === 3 ? '91%' : <Users size={14} />}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="mt-12 flex flex-col lg:flex-row items-center lg:items-start gap-6"
+              >
+                {/* Stats Badge */}
+                <div className="inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white dark:bg-slate-900 shadow-lg shadow-indigo-100 dark:shadow-none border border-indigo-50 dark:border-slate-800">
+                  <div className="flex -space-x-2 rtl:space-x-reverse">
+                    {[1,2,3].map(i => (
+                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                        {i === 3 ? '91%' : <Users size={14} />}
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-              <div className="text-left rtl:text-right">
-                <p className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1">
-                  <TrendingUp size={14} className="text-emerald-500 dark:text-emerald-400" />
-                  {t.statsText}
-                </p>
-              </div>
+                  <div className="text-left rtl:text-right">
+                    <p className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1">
+                      <TrendingUp size={14} className="text-emerald-500 dark:text-emerald-400" />
+                      {t.statsText}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col lg:items-start items-center gap-2">
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-sm font-medium border border-emerald-100 dark:border-emerald-800">
+                    <ShieldCheck size={16} />
+                    {t.privacyBadge}
+                  </div>
+                </div>
+              </motion.div>
             </div>
 
-            <div className="flex flex-col items-center gap-3">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-sm font-medium border border-emerald-100 dark:border-emerald-800">
-                <ShieldCheck size={16} />
-                {t.privacyBadge}
-              </div>
-              <div className="text-sm text-slate-500 dark:text-slate-400 font-medium flex items-center justify-center gap-1.5">
-                <span className="font-bold text-indigo-600 dark:text-indigo-400">Hash Resume</span> {t.partOf}
-                <img src="https://flagcdn.com/w20/eg.png" alt="Egypt Flag" className="w-4 h-auto rounded-sm shadow-sm" />
-              </div>
+            {/* Right Column: 3D Illustration & Floating Elements */}
+            <div className="flex-1 relative w-full max-w-lg lg:max-w-none">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                className="relative z-10"
+              >
+                {/* Main Character Image (3D Style) */}
+                <div className="relative rounded-[3rem] overflow-hidden border-8 border-white dark:border-slate-800 shadow-2xl shadow-indigo-500/20 bg-indigo-100 dark:bg-slate-800 aspect-[4/5] lg:aspect-square">
+                  <img 
+                    src="https://images.unsplash.com/photo-1553877606-3c66687f0182?auto=format&fit=crop&w=1000&q=80" 
+                    alt="Happy professional getting hired" 
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/50 to-transparent"></div>
+                </div>
+
+                {/* Floating Card 1: ATS Score */}
+                <motion.div 
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-8 -left-8 bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 flex items-center gap-3 z-20"
+                >
+                  <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                    <Target size={24} />
+                  </div>
+                  <div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">ATS Score</p>
+                    <p className="text-xl font-bold text-slate-900 dark:text-white">98/100</p>
+                  </div>
+                </motion.div>
+
+                {/* Floating Card 2: Job Offer */}
+                <motion.div 
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute -bottom-8 -right-8 bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 flex items-center gap-3 z-20"
+                >
+                  <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                    <Briefcase size={24} />
+                  </div>
+                  <div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">New Job Offer</p>
+                    <p className="text-lg font-bold text-slate-900 dark:text-white">Senior Designer</p>
+                  </div>
+                </motion.div>
+
+                {/* Floating Card 3: Resume File */}
+                <motion.div 
+                  animate={{ x: [0, 10, 0], rotate: [0, 5, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                  className="absolute top-1/2 -right-12 bg-white dark:bg-slate-900 p-3 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 z-20 hidden sm:block"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="w-10 h-10 bg-rose-100 dark:bg-rose-900/30 rounded-lg flex items-center justify-center text-rose-500">
+                      <FileText size={20} />
+                    </div>
+                    <div className="pr-2">
+                      <div className="h-2 w-16 bg-slate-200 dark:bg-slate-700 rounded-full mb-1"></div>
+                      <div className="h-2 w-10 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Decorative Elements */}
+                <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-indigo-500/20 dark:bg-indigo-500/10 blur-[100px] rounded-full"></div>
+              </motion.div>
             </div>
-          </motion.div>
+
+          </div>
         </div>
       </section>
 
