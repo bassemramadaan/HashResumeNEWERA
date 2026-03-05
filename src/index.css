@@ -48,6 +48,10 @@
     @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors duration-300 ease-in-out;
   }
 
+  ::selection {
+    @apply bg-indigo-200 text-indigo-900 dark:bg-indigo-900 dark:text-indigo-100;
+  }
+
   .dark .editor-form input, .dark .editor-form textarea {
     @apply bg-slate-900/50 border-slate-800 text-white placeholder-slate-500 focus:border-indigo-500 focus:ring-indigo-500/50 transition-all;
   }

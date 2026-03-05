@@ -190,7 +190,7 @@ export default function EditorPage() {
           {/* Theme/Lang/Feedback */}
           <div className="flex items-center gap-1">
             <ThemeToggle />
-            <LanguageSwitcher />
+            <LanguageSwitcher className="[&>span]:hidden sm:[&>span]:inline" />
             <button onClick={() => setShowFeedbackModal(true)} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Feedback">
               <MessageCircle size={18} />
             </button>
