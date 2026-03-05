@@ -243,44 +243,8 @@ export default function EditorPage() {
       <div className="h-24 shrink-0" />
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 hidden md:flex items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl p-1.5 rounded-full border border-slate-200/50 dark:border-slate-700/50 shadow-2xl shadow-indigo-900/10 transition-colors duration-200">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              data-tour={tab.tourId}
-              className={cn(
-                "relative flex items-center justify-center w-10 h-10 rounded-full transition-colors group",
-                isActive ? "text-indigo-600 dark:text-indigo-400" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
-              )}
-            >
-              {isActive && (
-                <motion.div
-                  layoutId="activeTabBottom"
-                  className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/30 rounded-full shadow-sm border border-indigo-100/50 dark:border-indigo-800/50"
-                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-              <span className="relative z-10">
-                <Icon size={18} className={isActive ? "text-indigo-600 dark:text-indigo-400" : ""} />
-              </span>
-              
-              {/* Tooltip */}
-              <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-900 text-white text-xs font-medium rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-xl">
-                {tab.label}
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
-              </div>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Mobile/Tablet Tabs Scrollable Row */}
-      <div className="md:hidden bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 overflow-x-auto scrollbar-hide shrink-0 transition-colors duration-200">
-        <div className="flex p-2 gap-2 min-w-max">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl p-2 rounded-full border border-slate-200/50 dark:border-slate-700/50 shadow-2xl shadow-indigo-900/10 transition-colors duration-200 max-w-[95vw] overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-1 min-w-max">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -290,12 +254,26 @@ export default function EditorPage() {
                 onClick={() => setActiveTab(tab.id)}
                 data-tour={tab.tourId}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors",
-                  isActive ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-800" : "text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 border border-transparent"
+                  "relative flex items-center justify-center w-12 h-12 rounded-full transition-colors group shrink-0",
+                  isActive ? "text-indigo-600 dark:text-indigo-400" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
                 )}
               >
-                <Icon size={16} className={isActive ? "text-indigo-600 dark:text-indigo-400" : ""} />
-                <span>{tab.label}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="activeTabBottom"
+                    className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/30 rounded-full shadow-sm border border-indigo-100/50 dark:border-indigo-800/50"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10">
+                  <Icon size={24} className={isActive ? "text-indigo-600 dark:text-indigo-400" : ""} />
+                </span>
+                
+                {/* Tooltip */}
+                <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-900 text-white text-xs font-medium rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-xl hidden md:block">
+                  {tab.label}
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
+                </div>
               </button>
             );
           })}

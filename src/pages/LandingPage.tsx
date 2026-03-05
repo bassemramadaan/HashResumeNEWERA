@@ -148,74 +148,84 @@ export default function LandingPage() {
               </motion.div>
             </div>
 
-            {/* Right Column: 3D Illustration & Floating Elements */}
-            <div className="flex-1 relative w-full max-w-lg lg:max-w-none">
+            {/* Right Column: Abstract Composition */}
+            <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end">
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8 }}
-                className="relative z-10"
+                className="relative z-10 w-full max-w-[450px] aspect-square"
               >
-                {/* Main Character Image (3D Style) */}
-                <div className="relative rounded-[3rem] overflow-hidden border-8 border-white dark:border-slate-800 shadow-2xl shadow-indigo-500/20 bg-indigo-100 dark:bg-slate-800 aspect-[4/5] lg:aspect-square">
-                  <img 
-                    src="https://images.unsplash.com/photo-1553877606-3c66687f0182?auto=format&fit=crop&w=1000&q=80" 
-                    alt="Happy professional getting hired" 
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-indigo-900/50 to-transparent"></div>
+                {/* Main Abstract Shape - Simple Gradient Card */}
+                <div className="absolute inset-0 bg-indigo-500/20 dark:bg-indigo-500/10 rounded-[3rem] rotate-6 blur-3xl"></div>
+                <div className="relative w-full h-full bg-gradient-to-br from-indigo-50 via-slate-50 to-white dark:from-slate-800 dark:via-slate-900 dark:to-slate-950 rounded-[2.5rem] border border-white/60 dark:border-slate-700 shadow-2xl shadow-indigo-500/10 overflow-hidden">
+                   {/* Subtle Inner Grid */}
+                   <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+                   
+                   {/* Abstract Resume Representation */}
+                   <div className="absolute inset-0 flex items-center justify-center opacity-50">
+                      <div className="w-3/4 h-3/4 bg-white/40 dark:bg-slate-800/40 rounded-2xl border border-white/50 dark:border-slate-700/50 p-6 space-y-4 backdrop-blur-sm">
+                        <div className="flex gap-4">
+                          <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-700"></div>
+                          <div className="space-y-2 flex-1">
+                            <div className="h-3 w-1/2 bg-slate-300 dark:bg-slate-600 rounded-full"></div>
+                            <div className="h-2 w-1/3 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                          </div>
+                        </div>
+                        <div className="space-y-2 pt-4">
+                          <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                          <div className="h-2 w-5/6 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                          <div className="h-2 w-4/6 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                        </div>
+                      </div>
+                   </div>
                 </div>
 
-                {/* Floating Card 1: ATS Score */}
+                {/* Floating Card 1: ATS Score (Top Left) */}
                 <motion.div 
-                  animate={{ y: [0, -10, 0] }}
+                  animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-8 -left-8 bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 flex items-center gap-3 z-20"
+                  className="absolute -top-6 -left-6 bg-white dark:bg-slate-800 p-3 pr-5 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-3 z-20"
                 >
-                  <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                    <Target size={24} />
+                  <div className="relative w-12 h-12 flex items-center justify-center bg-emerald-50 dark:bg-emerald-900/20 rounded-full">
+                     <Target className="text-emerald-500 w-6 h-6" />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">ATS Score</p>
-                    <p className="text-xl font-bold text-slate-900 dark:text-white">98/100</p>
+                    <p className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold">ATS Score</p>
+                    <p className="text-xl font-black text-slate-900 dark:text-white">98/100</p>
                   </div>
                 </motion.div>
 
-                {/* Floating Card 2: Job Offer */}
+                {/* Floating Card 2: Job Offer (Bottom Right) */}
                 <motion.div 
-                  animate={{ y: [0, 10, 0] }}
+                  animate={{ y: [0, 8, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute -bottom-8 -right-8 bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 flex items-center gap-3 z-20"
+                  className="absolute -bottom-6 -right-2 bg-white dark:bg-slate-800 p-3 pr-5 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-3 z-20"
                 >
-                  <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                    <Briefcase size={24} />
+                  <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/50 rounded-xl flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                    <Briefcase size={20} />
                   </div>
                   <div>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">New Job Offer</p>
-                    <p className="text-lg font-bold text-slate-900 dark:text-white">Senior Designer</p>
+                    <p className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold">New Offer</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">Senior Designer</p>
                   </div>
                 </motion.div>
 
-                {/* Floating Card 3: Resume File */}
+                {/* Floating Card 3: Resume File (Middle Right) */}
                 <motion.div 
-                  animate={{ x: [0, 10, 0], rotate: [0, 5, 0] }}
+                  animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute top-1/2 -right-12 bg-white dark:bg-slate-900 p-3 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 z-20 hidden sm:block"
+                  className="absolute top-1/2 -right-8 transform -translate-y-1/2 bg-white dark:bg-slate-800 p-3 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 z-20 hidden sm:flex items-center gap-3"
                 >
-                  <div className="flex items-center gap-2">
-                    <div className="w-10 h-10 bg-rose-100 dark:bg-rose-900/30 rounded-lg flex items-center justify-center text-rose-500">
+                   <div className="w-10 h-10 bg-rose-50 dark:bg-rose-900/20 rounded-xl flex items-center justify-center text-rose-500">
                       <FileText size={20} />
-                    </div>
-                    <div className="pr-2">
-                      <div className="h-2 w-16 bg-slate-200 dark:bg-slate-700 rounded-full mb-1"></div>
-                      <div className="h-2 w-10 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                    </div>
-                  </div>
+                   </div>
+                   <div className="space-y-1.5 pr-2">
+                      <div className="h-1.5 w-12 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                      <div className="h-1.5 w-8 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+                   </div>
                 </motion.div>
 
-                {/* Decorative Elements */}
-                <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-indigo-500/20 dark:bg-indigo-500/10 blur-[100px] rounded-full"></div>
               </motion.div>
             </div>
 
