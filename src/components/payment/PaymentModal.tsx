@@ -81,7 +81,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Unlock Premium Export</h2>
-              <p className="text-slate-600 dark:text-slate-400">Get unlimited PDF exports and premium features for 6 months.</p>
+              <p className="text-slate-600 dark:text-slate-400">One-time fee for unlimited PDF exports and premium features.</p>
               
               <div className="mt-6 flex items-center justify-center gap-3">
                 <span className="text-4xl font-black text-slate-900 dark:text-white">25 EGP</span>
