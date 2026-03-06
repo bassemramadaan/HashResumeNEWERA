@@ -33,7 +33,10 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center px-2 gap-2">
             <a href="#features" className="px-5 py-2.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.features}</a>
             <a href="#process" className="px-5 py-2.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.howItWorks}</a>
-            <Link to="/cover-letter" className="px-5 py-2.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.coverLetter}</Link>
+            <Link to="/cover-letter" className="px-5 py-2.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap flex items-center gap-2">
+              <PenTool size={16} />
+              {t.coverLetter}
+            </Link>
             <Link to="/blog" className="px-5 py-2.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.blog}</Link>
             <Link to="/hash-hunt" className="px-5 py-2.5 text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 hover:opacity-80 transition-opacity flex items-center gap-2 whitespace-nowrap">
               <Target size={20} className="text-indigo-600 dark:text-indigo-400" />

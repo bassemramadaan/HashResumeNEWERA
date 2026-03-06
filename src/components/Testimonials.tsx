@@ -106,69 +106,107 @@ export default function Testimonials() {
     }
   ];
 
+  // Split testimonials into two rows
+  const row1 = testimonials.slice(0, 6);
+  const row2 = testimonials.slice(6, 12);
+
+  const TestimonialCard = ({ item }: { item: typeof testimonials[0] }) => (
+    <div className="w-[350px] shrink-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm p-5 rounded-2xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-300 mx-3">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-inner`}>
+            {item.initials}
+          </div>
+          <div>
+            <h4 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1">
+              {item.name}
+              <BadgeCheck size={14} className="text-indigo-500 dark:text-indigo-400" />
+            </h4>
+            <div className="flex items-center gap-1 text-amber-400 mt-0.5">
+              {[...Array(5)].map((_, idx) => (
+                <Star key={idx} size={10} fill="currentColor" />
+              ))}
+            </div>
+          </div>
+        </div>
+        <Quote className="text-slate-200 dark:text-slate-800 w-6 h-6" />
+      </div>
+
+      <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4 line-clamp-3">
+        "{item.text}"
+      </p>
+
+      <div className="pt-3 border-t border-slate-100 dark:border-slate-800/50">
+        <ul className="text-[11px] text-slate-500 dark:text-slate-400 font-medium space-y-1">
+          <li className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
+            <MapPin size={10} />
+            {item.country}
+          </li>
+          <li className="flex items-center gap-1.5">
+            <Briefcase size={10} />
+            {item.role}
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+
   return (
-    <section className="py-24 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 relative overflow-hidden">
+    <section className="py-20 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 relative overflow-hidden">
+      <style>{`
+        @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        @keyframes scroll-reverse {
+          0% { transform: translateX(-50%); }
+          100% { transform: translateX(0); }
+        }
+        .animate-scroll {
+          animation: scroll 40s linear infinite;
+        }
+        .animate-scroll-reverse {
+          animation: scroll-reverse 40s linear infinite;
+        }
+        .pause-on-hover:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-indigo-500/10 dark:bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none"></div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium text-sm mb-6 border border-indigo-200 dark:border-indigo-800/50">
-            <Star size={16} className="fill-indigo-700 dark:fill-indigo-300" />
-            {t.testimonialsTitle}
-          </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 font-display tracking-tight">
-            {language === 'ar' ? 'ماذا يقولون عنا؟' : 'Loved by Professionals'}
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            {t.testimonialsSubtitle}
-          </p>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-12 text-center">
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium text-xs mb-4 border border-indigo-200 dark:border-indigo-800/50">
+          <Star size={14} className="fill-indigo-700 dark:fill-indigo-300" />
+          {t.testimonialsTitle}
         </div>
+        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display tracking-tight">
+          {language === 'ar' ? 'ماذا يقولون عنا؟' : 'Loved by Professionals'}
+        </h2>
+        <p className="text-base text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
+          {t.testimonialsSubtitle}
+        </p>
+      </div>
 
-        {/* Masonry Layout Board */}
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
-          {testimonials.map((item, i) => (
-            <div 
-              key={i} 
-              className="break-inside-avoid bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm p-6 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/10 dark:hover:shadow-indigo-500/5 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-300 relative group"
-            >
-              <Quote className="absolute top-6 right-6 text-slate-100 dark:text-slate-800 w-12 h-12 -z-10 group-hover:text-indigo-50 dark:group-hover:text-indigo-900/20 transition-colors" />
-              
-              <div className="flex items-center gap-1 text-amber-400 mb-4">
-                {[...Array(5)].map((_, idx) => (
-                  <Star key={idx} size={14} fill="currentColor" />
-                ))}
-              </div>
-
-              <p className="text-slate-700 dark:text-slate-300 mb-6 leading-relaxed text-base relative z-10 font-medium">
-                "{item.text}"
-              </p>
-
-              <div className="flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800/50">
-                <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white font-bold text-lg shrink-0 shadow-inner`}>
-                  {item.initials}
-                </div>
-                <div>
-                  <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                    {item.name}
-                    <BadgeCheck size={16} className="text-indigo-500 dark:text-indigo-400" />
-                  </h4>
-                  <ul className="text-xs text-slate-500 dark:text-slate-400 font-medium space-y-1 mt-1">
-                    <li className="flex items-center gap-1 text-slate-400 dark:text-slate-500">
-                      <MapPin size={12} />
-                      {item.country}
-                    </li>
-                    <li className="flex items-center gap-1">
-                      <Briefcase size={12} />
-                      {item.role}
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+      <div className="relative w-full overflow-hidden space-y-8">
+        {/* Row 1: Left Scroll */}
+        <div className="flex w-max animate-scroll pause-on-hover">
+          {[...row1, ...row1, ...row1].map((item, i) => (
+            <TestimonialCard key={`row1-${i}`} item={item} />
           ))}
         </div>
+
+        {/* Row 2: Right Scroll */}
+        <div className="flex w-max animate-scroll-reverse pause-on-hover">
+          {[...row2, ...row2, ...row2].map((item, i) => (
+            <TestimonialCard key={`row2-${i}`} item={item} />
+          ))}
+        </div>
+        
+        {/* Fade Edges */}
+        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-slate-50 dark:from-slate-950 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent z-10 pointer-events-none"></div>
       </div>
     </section>
   );
