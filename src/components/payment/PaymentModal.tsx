@@ -83,9 +83,16 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Unlock Premium Export</h2>
               <p className="text-slate-600 dark:text-slate-400">One-time fee for unlimited PDF exports and premium features.</p>
               
-              <div className="mt-6 flex items-center justify-center gap-3">
-                <span className="text-4xl font-black text-slate-900 dark:text-white">25 EGP</span>
-                <span className="text-lg text-slate-400 dark:text-slate-500 line-through font-medium">99 EGP</span>
+              <div className="mt-6 flex flex-col items-center gap-2">
+                <div className="flex items-center justify-center gap-3">
+                  <span className="text-4xl font-black text-slate-900 dark:text-white">25 EGP</span>
+                  <span className="text-lg text-slate-400 dark:text-slate-500 line-through font-medium">99 EGP</span>
+                </div>
+                <div className="flex items-center gap-3 text-sm font-medium text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
+                  <span>≈ 2.00 SAR</span>
+                  <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-slate-600"></span>
+                  <span>≈ 2.00 AED</span>
+                </div>
               </div>
             </div>
 
