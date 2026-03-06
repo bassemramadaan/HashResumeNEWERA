@@ -137,9 +137,9 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                 href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20Hash%20Resume%20code" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 px-4 py-2 rounded-full transition-colors"
+                className="w-full inline-flex items-center justify-center gap-3 text-lg font-bold text-white bg-emerald-500 hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700 px-6 py-4 rounded-xl shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 hover:-translate-y-0.5 transition-all duration-200"
               >
-                <MessageCircle size={18} />
+                <MessageCircle size={24} />
                 Get Code via WhatsApp
               </a>
             </div>

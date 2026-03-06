@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, Quote, BadgeCheck } from 'lucide-react';
+import { Star, Quote, BadgeCheck, MapPin, Briefcase } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 
@@ -11,6 +11,7 @@ export default function Testimonials() {
     {
       name: t.testimonial1Name,
       role: t.testimonial1Role,
+      country: t.testimonial1Country,
       text: t.testimonial1Text,
       initials: language === 'ar' ? 'أ ح' : 'AH',
       gradient: 'from-blue-500 to-cyan-500'
@@ -18,6 +19,7 @@ export default function Testimonials() {
     {
       name: t.testimonial2Name,
       role: t.testimonial2Role,
+      country: t.testimonial2Country,
       text: t.testimonial2Text,
       initials: language === 'ar' ? 'م ق' : 'MQ',
       gradient: 'from-emerald-500 to-teal-500'
@@ -25,6 +27,7 @@ export default function Testimonials() {
     {
       name: t.testimonial3Name,
       role: t.testimonial3Role,
+      country: t.testimonial3Country,
       text: t.testimonial3Text,
       initials: language === 'ar' ? 'ن س' : 'NS',
       gradient: 'from-purple-500 to-pink-500'
@@ -32,6 +35,7 @@ export default function Testimonials() {
     {
       name: t.testimonial4Name,
       role: t.testimonial4Role,
+      country: t.testimonial4Country,
       text: t.testimonial4Text,
       initials: language === 'ar' ? 'م ع' : 'ME',
       gradient: 'from-orange-500 to-amber-500'
@@ -39,6 +43,7 @@ export default function Testimonials() {
     {
       name: t.testimonial5Name,
       role: t.testimonial5Role,
+      country: t.testimonial5Country,
       text: t.testimonial5Text,
       initials: language === 'ar' ? 'ف ع' : 'FA',
       gradient: 'from-indigo-500 to-blue-500'
@@ -46,6 +51,7 @@ export default function Testimonials() {
     {
       name: t.testimonial6Name,
       role: t.testimonial6Role,
+      country: t.testimonial6Country,
       text: t.testimonial6Text,
       initials: language === 'ar' ? 'ج ث' : 'JA',
       gradient: 'from-rose-500 to-red-500'
@@ -53,6 +59,7 @@ export default function Testimonials() {
     {
       name: t.testimonial7Name,
       role: t.testimonial7Role,
+      country: t.testimonial7Country,
       text: t.testimonial7Text,
       initials: language === 'ar' ? 'ك و' : 'KW',
       gradient: 'from-cyan-500 to-blue-500'
@@ -60,6 +67,7 @@ export default function Testimonials() {
     {
       name: t.testimonial8Name,
       role: t.testimonial8Role,
+      country: t.testimonial8Country,
       text: t.testimonial8Text,
       initials: language === 'ar' ? 'ر ح' : 'RA',
       gradient: 'from-fuchsia-500 to-purple-500'
@@ -67,6 +75,7 @@ export default function Testimonials() {
     {
       name: t.testimonial9Name,
       role: t.testimonial9Role,
+      country: t.testimonial9Country,
       text: t.testimonial9Text,
       initials: language === 'ar' ? 'ف س' : 'FS',
       gradient: 'from-teal-500 to-emerald-500'
@@ -74,6 +83,7 @@ export default function Testimonials() {
     {
       name: t.testimonial10Name,
       role: t.testimonial10Role,
+      country: t.testimonial10Country,
       text: t.testimonial10Text,
       initials: language === 'ar' ? 'م ع' : 'MA',
       gradient: 'from-amber-500 to-orange-500'
@@ -81,6 +91,7 @@ export default function Testimonials() {
     {
       name: t.testimonial11Name,
       role: t.testimonial11Role,
+      country: t.testimonial11Country,
       text: t.testimonial11Text,
       initials: language === 'ar' ? 'ع ط' : 'OT',
       gradient: 'from-violet-500 to-indigo-500'
@@ -88,6 +99,7 @@ export default function Testimonials() {
     {
       name: t.testimonial12Name,
       role: t.testimonial12Role,
+      country: t.testimonial12Country,
       text: t.testimonial12Text,
       initials: language === 'ar' ? 'ل م' : 'LM',
       gradient: 'from-pink-500 to-rose-500'
@@ -142,7 +154,16 @@ export default function Testimonials() {
                     {item.name}
                     <BadgeCheck size={16} className="text-indigo-500 dark:text-indigo-400" />
                   </h4>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{item.role}</p>
+                  <ul className="text-xs text-slate-500 dark:text-slate-400 font-medium space-y-1 mt-1">
+                    <li className="flex items-center gap-1 text-slate-400 dark:text-slate-500">
+                      <MapPin size={12} />
+                      {item.country}
+                    </li>
+                    <li className="flex items-center gap-1">
+                      <Briefcase size={12} />
+                      {item.role}
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
