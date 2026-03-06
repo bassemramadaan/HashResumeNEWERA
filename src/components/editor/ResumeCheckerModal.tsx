@@ -104,11 +104,17 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                   {/* Glow Effect */}
                   <div className={cn(
                     "absolute inset-0 rounded-full blur-3xl opacity-20 transform scale-75 transition-colors duration-500",
-                    score >= 80 ? "bg-emerald-500" : score >= 50 ? "bg-amber-500" : "bg-rose-500"
+                    score >= 80 ? "bg-gradient-to-r from-indigo-500 to-cyan-500" : score >= 50 ? "bg-amber-500" : "bg-rose-500"
                   )} />
 
                   <div className="relative">
                     <svg className="w-48 h-48 transform -rotate-90 drop-shadow-sm">
+                      <defs>
+                        <linearGradient id="modal-score-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" className="text-indigo-600 dark:text-indigo-400" stopColor="currentColor" />
+                          <stop offset="100%" className="text-cyan-600 dark:text-cyan-400" stopColor="currentColor" />
+                        </linearGradient>
+                      </defs>
                       {/* Background Track */}
                       <circle
                         cx="96"
@@ -124,7 +130,7 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                         cx="96"
                         cy="96"
                         r="88"
-                        stroke="currentColor"
+                        stroke={score >= 80 ? "url(#modal-score-gradient)" : "currentColor"}
                         strokeWidth="16"
                         fill="transparent"
                         strokeDasharray={553} // 2 * pi * 88
@@ -132,7 +138,7 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                         strokeLinecap="round"
                         className={cn(
                           "transition-all duration-1000 ease-out",
-                          score >= 80 ? "text-emerald-500" : score >= 50 ? "text-amber-500" : "text-rose-500"
+                          score < 80 ? (score >= 50 ? "text-amber-500" : "text-rose-500") : ""
                         )}
                       />
                     </svg>
@@ -141,7 +147,7 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                       <span className={cn(
                         "text-5xl font-black tracking-tighter transition-colors duration-500",
-                        score >= 80 ? "text-emerald-600 dark:text-emerald-400" : score >= 50 ? "text-amber-600 dark:text-amber-400" : "text-rose-600 dark:text-rose-400"
+                        score >= 80 ? "bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent" : score >= 50 ? "text-amber-600 dark:text-amber-400" : "text-rose-600 dark:text-rose-400"
                       )}>
                         {score}%
                       </span>

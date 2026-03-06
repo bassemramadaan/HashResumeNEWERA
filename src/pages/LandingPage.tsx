@@ -144,9 +144,11 @@ export default function LandingPage() {
                 </div>
 
                 <div className="flex flex-col lg:items-start items-center gap-2">
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-sm font-medium border border-emerald-100 dark:border-emerald-800">
-                    <ShieldCheck size={16} />
-                    {t.privacyBadge}
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-sm font-medium border border-indigo-100 dark:border-indigo-800">
+                    <ShieldCheck size={16} className="text-indigo-600 dark:text-indigo-400" />
+                    <span className="bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent font-bold">
+                      {t.privacyBadge}
+                    </span>
                   </div>
                 </div>
               </motion.div>

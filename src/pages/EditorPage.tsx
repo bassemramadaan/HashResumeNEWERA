@@ -217,9 +217,9 @@ export default function EditorPage() {
                   Saving
                 </motion.div>
               ) : (
-                <motion.div key="saved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-xs font-medium text-emerald-500">
-                  <CheckCircle2 size={12} />
-                  Saved
+                <motion.div key="saved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-xs font-medium">
+                  <CheckCircle2 size={12} className="text-indigo-500 dark:text-indigo-400" />
+                  <span className="bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent font-bold">Saved</span>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -228,7 +228,7 @@ export default function EditorPage() {
           {/* ATS Score */}
           <button onClick={() => setActiveTab('ats-audit')} className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 transition-colors border border-slate-200/50 dark:border-slate-700/50">
             <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">ATS</span>
-            <span className={cn("text-sm font-black", atsScore >= 80 ? "text-emerald-500" : atsScore >= 50 ? "text-amber-500" : "text-rose-500")}>
+            <span className={cn("text-sm font-black", atsScore >= 80 ? "bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent" : atsScore >= 50 ? "text-amber-500" : "text-rose-500")}>
               {atsScore}%
             </span>
           </button>

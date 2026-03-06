@@ -182,6 +182,12 @@ export default function ATSAudit() {
         <div className="flex flex-col md:flex-row items-center gap-8 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800">
           <div className="relative flex items-center justify-center shrink-0">
             <svg className="w-40 h-40 transform -rotate-90">
+              <defs>
+                <linearGradient id="score-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" className="text-indigo-600 dark:text-indigo-400" stopColor="currentColor" />
+                  <stop offset="100%" className="text-cyan-600 dark:text-cyan-400" stopColor="currentColor" />
+                </linearGradient>
+              </defs>
               <circle
                 cx="80"
                 cy="80"
@@ -195,16 +201,19 @@ export default function ATSAudit() {
                 cx="80"
                 cy="80"
                 r="70"
-                stroke="currentColor"
+                stroke={score >= 80 ? "url(#score-gradient)" : "currentColor"}
                 strokeWidth="12"
                 fill="transparent"
                 strokeDasharray={440}
                 strokeDashoffset={440 - (440 * score) / 100}
-                className={cn("transition-all duration-1000 ease-out", getScoreColor(score))}
+                className={cn("transition-all duration-1000 ease-out", score < 80 ? getScoreColor(score) : "")}
               />
             </svg>
             <div className="absolute flex flex-col items-center justify-center">
-              <span className={cn("text-4xl font-black tracking-tighter", getScoreColor(score))}>
+              <span className={cn(
+                "text-4xl font-black tracking-tighter", 
+                score >= 80 ? "bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent" : getScoreColor(score)
+              )}>
                 {score}
               </span>
               <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">/ 100</span>
