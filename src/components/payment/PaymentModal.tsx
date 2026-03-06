@@ -98,7 +98,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                     <EmiratesDirhamIcon className="w-5 h-5" /> 2.00 AED
                   </span>
                   <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 dark:bg-slate-800 text-sm font-semibold text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                    <DollarSign className="w-5 h-5" /> 0.50 USD
+                    <DollarSign className="w-5 h-5" /> 1.00 USD
                   </span>
                 </div>
               </div>
