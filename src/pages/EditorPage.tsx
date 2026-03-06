@@ -6,7 +6,7 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, Moon, Sun, MessageCircle
+  Undo2, Redo2, CheckCircle2, Maximize2, X, Moon, Sun, MessageCircle, ArrowRight
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useThemeStore } from '../store/useThemeStore';
@@ -157,6 +157,18 @@ export default function EditorPage() {
   };
 
   const atsScore = calculateATSScore();
+  const activeTabIndex = tabs.findIndex(t => t.id === activeTab) + 1;
+
+  const tabDescriptions: Record<Tab, string> = {
+    personal: 'Your basic information and contact details.',
+    experience: 'Your professional work history and achievements.',
+    education: 'Your academic background and qualifications.',
+    skills: 'Your technical and soft skills expertise.',
+    projects: 'Showcase your best work and personal projects.',
+    certifications: 'Professional certifications and awards.',
+    'ats-audit': 'Optimize your resume for applicant tracking systems.',
+    settings: 'Customize your resume template and appearance.'
+  };
 
   return (
     <div className="flex flex-col h-screen bg-slate-50 dark:bg-slate-900 overflow-hidden font-sans transition-colors duration-200">
@@ -164,7 +176,7 @@ export default function EditorPage() {
       
       {/* Floating Dock Navbar (Top) */}
       <div className="fixed top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none">
-        <nav className="pointer-events-auto flex items-center gap-2 p-2 rounded-full bg-slate-200/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800 shadow-2xl shadow-black/5 transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
+        <nav className="pointer-events-auto flex items-center gap-2 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
           
           {/* Home / Logo */}
           <Link to="/" className="flex items-center justify-center w-10 h-10 bg-white dark:bg-slate-800 rounded-full shadow-sm text-indigo-600 dark:text-indigo-400 hover:scale-105 transition-transform shrink-0" title="Back to Home">
@@ -172,7 +184,7 @@ export default function EditorPage() {
           </Link>
 
           {/* Separator */}
-          <div className="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1 hidden sm:block"></div>
+          <div className="w-px h-6 bg-slate-200 dark:bg-slate-800 mx-1 hidden sm:block"></div>
 
           {/* Undo/Redo */}
           <div className="flex items-center gap-1">
@@ -185,7 +197,7 @@ export default function EditorPage() {
           </div>
 
           {/* Separator */}
-          <div className="w-px h-6 bg-slate-300 dark:bg-slate-700 mx-1 hidden sm:block"></div>
+          <div className="w-px h-6 bg-slate-200 dark:bg-slate-800 mx-1 hidden sm:block"></div>
 
           {/* Theme/Lang/Feedback */}
           <div className="flex items-center gap-1">
@@ -230,12 +242,6 @@ export default function EditorPage() {
            <button onClick={() => setShowMobilePreview(true)} className="md:hidden flex items-center justify-center w-10 h-10 text-slate-600 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-colors">
             <Eye size={20} />
           </button>
-
-          {/* Export (Primary) */}
-          <button onClick={handleExportClick} className="flex items-center justify-center w-10 h-10 bg-indigo-600 text-white rounded-full shadow-lg hover:scale-105 transition-transform shrink-0 group" title="Export Resume">
-            <Download size={20} className="group-hover:translate-y-0.5 transition-transform" />
-          </button>
-
         </nav>
       </div>
 
@@ -243,8 +249,8 @@ export default function EditorPage() {
       <div className="h-24 shrink-0" />
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl p-2 rounded-full border border-slate-200/50 dark:border-slate-700/50 shadow-2xl shadow-indigo-900/10 transition-colors duration-200 max-w-[95vw] overflow-x-auto scrollbar-hide">
-        <div className="flex items-center gap-1 min-w-max">
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl p-2 rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 max-w-[95vw] overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-1.5 min-w-max px-1">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -254,29 +260,38 @@ export default function EditorPage() {
                 onClick={() => setActiveTab(tab.id)}
                 data-tour={tab.tourId}
                 className={cn(
-                  "relative flex items-center justify-center w-12 h-12 rounded-full transition-colors group shrink-0",
-                  isActive ? "text-indigo-600 dark:text-indigo-400" : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700"
+                  "relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 group shrink-0",
+                  isActive 
+                    ? "bg-black text-white shadow-lg scale-110" 
+                    : "text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
                 )}
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeTabBottom"
-                    className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/30 rounded-full shadow-sm border border-indigo-100/50 dark:border-indigo-800/50"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
                 <span className="relative z-10">
-                  <Icon size={24} className={isActive ? "text-indigo-600 dark:text-indigo-400" : ""} />
+                  <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
                 </span>
                 
                 {/* Tooltip */}
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-slate-900 text-white text-xs font-medium rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-xl hidden md:block">
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-xl hidden md:block border border-white/10">
                   {tab.label}
                   <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
                 </div>
               </button>
             );
           })}
+
+          {/* Separator */}
+          <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-2"></div>
+
+          {/* Start / Export Button */}
+          <button 
+            onClick={handleExportClick}
+            className="flex items-center gap-3 bg-[#E2FF6F] hover:bg-[#D4FF3F] text-black font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
+          >
+            <span className="text-sm tracking-tight">Export</span>
+            <div className="bg-black rounded-full p-2 group-hover:translate-x-0.5 transition-transform">
+              <ArrowRight size={18} className="text-white" />
+            </div>
+          </button>
         </div>
       </div>
 
@@ -287,15 +302,22 @@ export default function EditorPage() {
           "flex-1 flex flex-col h-full overflow-hidden transition-all duration-300 bg-slate-50/50 dark:bg-slate-900/50",
           showMobilePreview ? "hidden md:flex" : "flex"
         )}>
-          <div className="h-14 bg-transparent flex items-center justify-between px-6 shrink-0 mt-2">
-            <h1 className="text-xl font-bold text-slate-800 dark:text-slate-200 capitalize">
+          <div className="flex flex-col items-center text-center px-6 pt-12 pb-8 shrink-0">
+            <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center text-slate-400 font-medium mb-6 border border-slate-100 dark:border-slate-700">
+              {activeTabIndex}
+            </div>
+            <h1 className="text-4xl font-black text-slate-900 dark:text-white mb-3 tracking-tight capitalize">
               {activeTab.replace('-', ' ')}
             </h1>
-            <div className="flex items-center gap-3">
-              <button onClick={loadExampleData} className="text-xs font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-3 py-1.5 rounded-full transition-colors border border-indigo-200 dark:border-indigo-800 shadow-sm">
+            <p className="text-slate-500 dark:text-slate-400 text-base font-medium max-w-xs leading-relaxed">
+              {tabDescriptions[activeTab]}
+            </p>
+            
+            <div className="flex items-center gap-3 mt-8">
+              <button onClick={loadExampleData} className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-4 py-2 rounded-full transition-all border border-indigo-100 dark:border-indigo-800/50 shadow-sm">
                 Load Example
               </button>
-              <button onClick={resetData} className="text-xs font-medium text-rose-500 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 px-3 py-1.5 rounded-full hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-colors">
+              <button onClick={resetData} className="text-xs font-bold uppercase tracking-widest text-rose-500 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 px-4 py-2 rounded-full hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-all">
                 Clear All
               </button>
             </div>

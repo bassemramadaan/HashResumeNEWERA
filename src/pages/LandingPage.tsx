@@ -22,7 +22,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
       {/* Floating Dock Navbar */}
       <div className="sticky top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8">
-        <nav className="pointer-events-auto flex items-center gap-3 p-3 rounded-full bg-slate-200/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800 shadow-2xl shadow-black/5 transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
+        <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
           
           {/* Logo / Home */}
           <Link to="/" className="flex items-center justify-center w-12 h-12 bg-white dark:bg-slate-800 rounded-full shadow-sm text-indigo-600 dark:text-indigo-400 hover:scale-105 transition-transform shrink-0">
@@ -30,32 +30,38 @@ export default function LandingPage() {
           </Link>
 
           {/* Navigation Links */}
-          <div className="hidden md:flex items-center px-2 gap-2">
-            <a href="#features" className="px-5 py-2.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.features}</a>
-            <a href="#process" className="px-5 py-2.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.howItWorks}</a>
-            <Link to="/cover-letter" className="px-5 py-2.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap flex items-center gap-2">
-              <PenTool size={16} />
+          <div className="hidden md:flex items-center px-2 gap-1">
+            <a href="#features" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.features}</a>
+            <a href="#process" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.howItWorks}</a>
+            <Link to="/cover-letter" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap flex items-center gap-2">
+              <PenTool size={14} />
               {t.coverLetter}
             </Link>
-            <Link to="/blog" className="px-5 py-2.5 text-base font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.blog}</Link>
-            <Link to="/hash-hunt" className="px-5 py-2.5 text-base font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 hover:opacity-80 transition-opacity flex items-center gap-2 whitespace-nowrap">
-              <Target size={20} className="text-indigo-600 dark:text-indigo-400" />
+            <Link to="/blog" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.blog}</Link>
+            <Link to="/hash-hunt" className="px-4 py-2 text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 hover:opacity-80 transition-opacity flex items-center gap-2 whitespace-nowrap">
+              <Target size={18} className="text-indigo-600 dark:text-indigo-400" />
               {t.hashHuntJobs}
             </Link>
           </div>
 
           {/* Separator */}
-          <div className="w-px h-8 bg-slate-300 dark:bg-slate-700 mx-2 hidden md:block"></div>
+          <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-1 hidden md:block"></div>
 
           {/* Secondary Actions */}
-          <div className="flex items-center gap-3 px-2">
-            <ThemeToggle size={24} className="p-2.5" />
-            <LanguageSwitcher size={20} className="text-base px-4 py-2" />
+          <div className="flex items-center gap-2 px-1">
+            <ThemeToggle size={20} className="p-2.5" />
+            <LanguageSwitcher size={18} className="text-sm px-4 py-2" />
           </div>
 
-          {/* Primary Action (Plus Button) */}
-          <Link to="/editor" className="flex items-center justify-center w-12 h-12 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-full shadow-lg hover:scale-105 transition-transform group shrink-0" title={t.buildResume}>
-            <Plus size={24} className="group-hover:rotate-90 transition-transform" />
+          {/* Primary Action (Build Resume) */}
+          <Link 
+            to="/editor" 
+            className="flex items-center gap-3 bg-[#E2FF6F] hover:bg-[#D4FF3F] text-black font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
+          >
+            <span className="text-sm tracking-tight hidden sm:inline">{t.buildResume}</span>
+            <div className="bg-black rounded-full p-2 group-hover:translate-x-0.5 transition-transform">
+              <ArrowRight size={18} className="text-white" />
+            </div>
           </Link>
         </nav>
       </div>

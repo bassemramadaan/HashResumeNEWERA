@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Briefcase, Building2, Search, ArrowRight, CheckCircle2, ExternalLink, MapPin, Clock, DollarSign, Bookmark } from 'lucide-react';
+import { Briefcase, Building2, Search, ArrowRight, CheckCircle2, ExternalLink, MapPin, Clock, DollarSign, Bookmark, ArrowLeft } from 'lucide-react';
 import Logo from '../components/Logo';
 import ThemeToggle from '../components/ThemeToggle';
 import React, { useState, useEffect } from 'react';
@@ -155,29 +155,37 @@ export default function HashHuntPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
-      {/* Navbar */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
-        <div className="flex items-center gap-6 flex-1">
-          <Link to="/" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hidden sm:block">Back to Resume Builder</Link>
-        </div>
-        
-        {/* Centered Logo */}
-        <div className="flex items-center justify-center absolute left-1/2 -translate-x-1/2">
-          <Logo className="w-12 h-12 text-indigo-600 dark:text-indigo-400" />
-        </div>
+      {/* Floating Dock Navbar */}
+      <div className="sticky top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8">
+        <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
+          
+          {/* Back Button */}
+          <Link to="/" className="flex items-center justify-center w-12 h-12 bg-white dark:bg-slate-800 rounded-full shadow-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-transform shrink-0">
+            <ArrowLeft size={24} />
+          </Link>
 
-        <div className="flex items-center justify-end gap-4 flex-1">
-          <ThemeToggle />
-          <a 
-            href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bg-indigo-600 text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20 flex items-center gap-2"
-          >
-            Submit Resume <ExternalLink size={16} />
-          </a>
-        </div>
-      </nav>
+          {/* Logo */}
+          <div className="flex items-center justify-center px-4">
+            <Logo className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+          </div>
+
+          {/* Separator */}
+          <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-1"></div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-3 px-2">
+            <ThemeToggle />
+            <a 
+              href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-indigo-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 flex items-center gap-2 whitespace-nowrap"
+            >
+              Submit Resume <ExternalLink size={16} />
+            </a>
+          </div>
+        </nav>
+      </div>
 
       {/* Hero Section */}
       <section className="relative pt-20 pb-20 overflow-hidden">
