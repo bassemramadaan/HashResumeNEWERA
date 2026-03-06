@@ -87,7 +87,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                 </p>
                 <button 
                   onClick={onClose} 
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-xl font-medium transition-colors"
+                  className="bg-[#E2FF6F] hover:bg-[#D4FF3F] text-black px-6 py-2 rounded-xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#E2FF6F]/20"
                 >
                   {t.close}
                 </button>
@@ -148,7 +148,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   <button
                     onClick={handleSubmit}
                     disabled={!rating || loading}
-                    className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 dark:disabled:bg-indigo-900/50 text-white py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 bg-[#E2FF6F] hover:bg-[#D4FF3F] disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 text-black py-2.5 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 shadow-lg shadow-[#E2FF6F]/20"
                   >
                     {loading ? (
                       <>

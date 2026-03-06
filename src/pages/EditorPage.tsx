@@ -381,7 +381,7 @@ export default function EditorPage() {
                 <div className="flex items-center gap-3">
                   <button 
                     onClick={handleExportClick}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-full flex items-center gap-2 font-medium transition-colors text-sm shadow-md"
+                    className="bg-[#E2FF6F] hover:bg-[#D4FF3F] text-black px-5 py-2 rounded-full flex items-center gap-2 font-bold transition-all text-sm shadow-lg shadow-[#E2FF6F]/20 hover:scale-105 active:scale-95"
                   >
                     <Download size={16} />
                     Export PDF

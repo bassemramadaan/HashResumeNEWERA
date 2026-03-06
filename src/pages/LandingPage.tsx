@@ -108,9 +108,11 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4"
               >
-                <Link to="/editor" className="w-full sm:w-auto bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-700 dark:hover:bg-indigo-500 transition-all shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-2 group">
+                <Link to="/editor" className="w-full sm:w-auto bg-[#E2FF6F] text-black px-8 py-4 rounded-full text-lg font-bold hover:bg-[#D4FF3F] transition-all shadow-xl shadow-[#E2FF6F]/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
                   {t.buildResume}
-                  <ArrowRight size={20} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
+                  <div className="bg-black rounded-full p-1.5 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform">
+                    <ArrowRight size={18} className="text-white" />
+                  </div>
                 </Link>
                 <Link to="/cover-letter" className="w-full sm:w-auto bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-50 dark:hover:bg-slate-800 transition-all shadow-sm flex items-center justify-center gap-2 group">
                   <PenTool size={20} />
@@ -319,7 +321,7 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Link to="/cover-letter" className="bg-indigo-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:scale-105 transition-transform">
+                  <Link to="/cover-letter" className="bg-[#E2FF6F] text-black px-8 py-3 rounded-full font-bold shadow-lg shadow-[#E2FF6F]/20 hover:scale-105 active:scale-95 transition-all">
                     {t.startWriting}
                   </Link>
                 </div>

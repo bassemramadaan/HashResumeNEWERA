@@ -140,7 +140,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               <button
                 type="submit"
                 disabled={isLoading || !code.trim()}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 dark:disabled:bg-indigo-900/50 text-white py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-[#E2FF6F] hover:bg-[#D4FF3F] disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 text-black py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 shadow-lg shadow-[#E2FF6F]/20"
               >
                 {isLoading ? <Loader2 size={20} className="animate-spin" /> : 'Unlock Now'}
               </button>

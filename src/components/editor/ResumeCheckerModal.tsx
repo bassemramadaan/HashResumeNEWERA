@@ -202,7 +202,7 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                   "px-5 py-2 rounded-full text-sm font-medium text-white flex items-center gap-2 transition-colors shadow-sm",
                   criticalFailures.length > 0 
                     ? "bg-rose-600 hover:bg-rose-700" 
-                    : "bg-indigo-600 hover:bg-indigo-700"
+                    : "bg-[#E2FF6F] hover:bg-[#D4FF3F] text-black shadow-lg shadow-[#E2FF6F]/20 hover:scale-[1.02] active:scale-95"
                 )}
               >
                 {criticalFailures.length > 0 ? 'Ignore & Export' : 'Continue to Export'}

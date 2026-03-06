@@ -179,9 +179,12 @@ export default function HashHuntPage() {
               href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="bg-indigo-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 flex items-center gap-2 whitespace-nowrap"
+              className="bg-[#E2FF6F] text-black px-6 py-2.5 rounded-full text-sm font-bold hover:bg-[#D4FF3F] transition-all shadow-lg shadow-[#E2FF6F]/20 flex items-center gap-2 whitespace-nowrap group hover:scale-105 active:scale-95"
             >
-              Submit Resume <ExternalLink size={16} />
+              Submit Resume 
+              <div className="bg-black rounded-full p-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                <ExternalLink size={14} className="text-white" />
+              </div>
             </a>
           </div>
         </nav>
@@ -233,9 +236,12 @@ export default function HashHuntPage() {
                 href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-indigo-600 text-white px-8 py-3.5 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-600/20 flex items-center gap-2 hover:scale-105 active:scale-95"
+                className="bg-[#E2FF6F] text-black px-8 py-3.5 rounded-full text-lg font-bold hover:bg-[#D4FF3F] transition-all shadow-lg shadow-[#E2FF6F]/20 flex items-center gap-2 hover:scale-105 active:scale-95 group"
               >
-                Submit Resume <ExternalLink size={20} />
+                Submit Resume 
+                <div className="bg-black rounded-full p-1.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                  <ExternalLink size={16} className="text-white" />
+                </div>
               </a>
             </div>
 

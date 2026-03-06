@@ -73,7 +73,7 @@ export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModal
                 target="_blank" 
                 rel="noopener noreferrer"
                 onClick={onClose}
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20 dark:shadow-none"
+                className="w-full bg-[#E2FF6F] hover:bg-[#D4FF3F] text-black py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-[#E2FF6F]/20 hover:scale-[1.02] active:scale-95"
               >
                 Submit Resume to Hash Hunt
                 <ExternalLink size={18} />

@@ -56,7 +56,7 @@ export default function SkillsForm() {
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="bg-indigo-500 hover:bg-indigo-600 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white px-4 py-2.5 rounded-xl font-medium transition-colors flex items-center gap-2"
+              className="bg-[#E2FF6F] hover:bg-[#D4FF3F] disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 text-black px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm shadow-[#E2FF6F]/20"
             >
               <Plus size={18} />
               <span className="hidden sm:inline">Add</span>
