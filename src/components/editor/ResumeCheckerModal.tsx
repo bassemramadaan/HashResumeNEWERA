@@ -99,35 +99,56 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
 
             {/* Content */}
             <div className="p-6 overflow-y-auto flex-1">
-              <div className="flex items-center justify-center mb-8">
-                <div className="relative">
-                  <svg className="w-24 h-24 transform -rotate-90">
-                    <circle
-                      cx="48"
-                      cy="48"
-                      r="40"
-                      stroke="currentColor"
-                      strokeWidth="8"
-                      fill="transparent"
-                      className="text-slate-100 dark:text-slate-700"
-                    />
-                    <circle
-                      cx="48"
-                      cy="48"
-                      r="40"
-                      stroke="currentColor"
-                      strokeWidth="8"
-                      fill="transparent"
-                      strokeDasharray={251}
-                      strokeDashoffset={251 - (251 * score) / 100}
-                      className={cn(
-                        "transition-all duration-1000 ease-out",
-                        score >= 80 ? "text-emerald-500" : score >= 50 ? "text-amber-500" : "text-rose-500"
-                      )}
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-slate-900 dark:text-white">
-                    {score}%
+              <div className="flex items-center justify-center mb-10 mt-4">
+                <div className="relative flex items-center justify-center">
+                  {/* Glow Effect */}
+                  <div className={cn(
+                    "absolute inset-0 rounded-full blur-3xl opacity-20 transform scale-75 transition-colors duration-500",
+                    score >= 80 ? "bg-emerald-500" : score >= 50 ? "bg-amber-500" : "bg-rose-500"
+                  )} />
+
+                  <div className="relative">
+                    <svg className="w-48 h-48 transform -rotate-90 drop-shadow-sm">
+                      {/* Background Track */}
+                      <circle
+                        cx="96"
+                        cy="96"
+                        r="88"
+                        stroke="currentColor"
+                        strokeWidth="16"
+                        fill="transparent"
+                        className="text-slate-100 dark:text-slate-800/50"
+                      />
+                      {/* Progress Circle */}
+                      <circle
+                        cx="96"
+                        cy="96"
+                        r="88"
+                        stroke="currentColor"
+                        strokeWidth="16"
+                        fill="transparent"
+                        strokeDasharray={553} // 2 * pi * 88
+                        strokeDashoffset={553 - (553 * score) / 100}
+                        strokeLinecap="round"
+                        className={cn(
+                          "transition-all duration-1000 ease-out",
+                          score >= 80 ? "text-emerald-500" : score >= 50 ? "text-amber-500" : "text-rose-500"
+                        )}
+                      />
+                    </svg>
+                    
+                    {/* Center Text */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                      <span className={cn(
+                        "text-5xl font-black tracking-tighter transition-colors duration-500",
+                        score >= 80 ? "text-emerald-600 dark:text-emerald-400" : score >= 50 ? "text-amber-600 dark:text-amber-400" : "text-rose-600 dark:text-rose-400"
+                      )}>
+                        {score}%
+                      </span>
+                      <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">
+                        Resume Score
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -13,6 +13,40 @@ export default function ATSAudit() {
 
   const isEmpty = !personalInfo.fullName && !personalInfo.email && experience.length === 0 && education.length === 0 && skills.length === 0;
 
+  const matchResults = useMemo(() => {
+    if (!jobDescription || !jobDescription.trim()) return null;
+
+    // Extract words from JD
+    const jdWords = jobDescription.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 2 && !STOP_WORDS.has(w));
+    
+    // Extract words from Resume
+    const resumeText = [
+      personalInfo.summary,
+      ...experience.map(e => `${e.position} ${e.company} ${e.description}`),
+      ...education.map(e => `${e.degree} ${e.institution} ${e.description}`),
+      ...skills
+    ].join(' ').toLowerCase().replace(/[^\w\s]/g, '');
+    
+    const resumeWords = new Set(resumeText.split(/\s+/));
+
+    // Calculate frequencies in JD to find important keywords
+    const wordFreq: Record<string, number> = {};
+    jdWords.forEach(w => { wordFreq[w] = (wordFreq[w] || 0) + 1; });
+
+    // Sort by frequency to get top keywords
+    const topKeywords = Object.entries(wordFreq)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 20)
+      .map(entry => entry[0]);
+
+    const matched = topKeywords.filter(kw => resumeWords.has(kw));
+    const missing = topKeywords.filter(kw => !resumeWords.has(kw));
+    
+    const matchPercentage = topKeywords.length > 0 ? Math.round((matched.length / topKeywords.length) * 100) : 0;
+
+    return { matchPercentage, matched, missing };
+  }, [jobDescription, personalInfo, experience, education, skills]);
+
   if (isEmpty) {
     return (
       <div className="space-y-6 font-sans">
@@ -131,39 +165,7 @@ export default function ATSAudit() {
   };
 
   // Job Description Matching Logic
-  const matchResults = useMemo(() => {
-    if (!jobDescription || !jobDescription.trim()) return null;
-
-    // Extract words from JD
-    const jdWords = jobDescription.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 2 && !STOP_WORDS.has(w));
-    
-    // Extract words from Resume
-    const resumeText = [
-      personalInfo.summary,
-      ...experience.map(e => `${e.position} ${e.company} ${e.description}`),
-      ...education.map(e => `${e.degree} ${e.institution} ${e.description}`),
-      ...skills
-    ].join(' ').toLowerCase().replace(/[^\w\s]/g, '');
-    
-    const resumeWords = new Set(resumeText.split(/\s+/));
-
-    // Calculate frequencies in JD to find important keywords
-    const wordFreq: Record<string, number> = {};
-    jdWords.forEach(w => { wordFreq[w] = (wordFreq[w] || 0) + 1; });
-
-    // Sort by frequency to get top keywords
-    const topKeywords = Object.entries(wordFreq)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 20)
-      .map(entry => entry[0]);
-
-    const matched = topKeywords.filter(kw => resumeWords.has(kw));
-    const missing = topKeywords.filter(kw => !resumeWords.has(kw));
-    
-    const matchPercentage = topKeywords.length > 0 ? Math.round((matched.length / topKeywords.length) * 100) : 0;
-
-    return { matchPercentage, matched, missing };
-  }, [jobDescription, personalInfo, experience, education, skills]);
+  // matchResults is calculated above to respect Rules of Hooks
 
   return (
     <div className="space-y-6 font-sans">
