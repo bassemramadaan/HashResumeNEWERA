@@ -116,8 +116,8 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                         r="88"
                         stroke="currentColor"
                         strokeWidth="16"
-                        fill="transparent"
-                        className="text-slate-100 dark:text-slate-800/50"
+                        fill="currentColor"
+                        className="text-slate-100 dark:text-slate-800/50 fill-white dark:fill-slate-800"
                       />
                       {/* Progress Circle */}
                       <circle
