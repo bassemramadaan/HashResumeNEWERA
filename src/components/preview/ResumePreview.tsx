@@ -10,14 +10,14 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
   const themeColor = settings.themeColor || '#2563EB';
 
   const renderModern = () => (
-    <div className="font-sans text-slate-800 leading-relaxed p-8 md:p-12">
+    <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-12">
       {/* Header */}
       <header className="mb-8 border-b-2 pb-6" style={{ borderColor: themeColor }}>
-        <h1 className="text-4xl font-black uppercase tracking-tight mb-2" style={{ color: themeColor }}>
+        <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-2" style={{ color: themeColor }}>
           {personalInfo.fullName || 'Your Name'}
         </h1>
         {personalInfo.jobTitle && (
-          <h2 className="text-xl font-medium text-slate-600 mb-4">{personalInfo.jobTitle}</h2>
+          <h2 className="text-lg md:text-xl font-medium text-slate-600 mb-4">{personalInfo.jobTitle}</h2>
         )}
         <div className="flex flex-wrap gap-y-2 gap-x-4 text-sm text-slate-600 font-medium">
           {personalInfo.email && <div className="flex items-center gap-1.5"><Mail size={14} className="text-slate-400" />{personalInfo.email}</div>}
@@ -51,7 +51,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
                 {experience.map((exp) => (
                   <div key={exp.id} className="relative pl-4 border-l-2 border-slate-200">
                     <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -left-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
-                    <div className="flex justify-between items-baseline mb-1">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                       <h4 className="font-bold text-slate-900 text-[15px]">{exp.position}</h4>
                       <span className="text-sm font-medium text-slate-500">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
                     </div>
@@ -75,7 +75,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
                 {education.map((edu) => (
                   <div key={edu.id} className="relative pl-4 border-l-2 border-slate-200">
                     <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -left-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
-                    <div className="flex justify-between items-baseline mb-1">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                       <h4 className="font-bold text-slate-900 text-[15px]">{edu.degree}</h4>
                       <span className="text-sm font-medium text-slate-500">{edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}</span>
                     </div>
@@ -92,7 +92,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
       })}
 
       {/* Two Column Layout for the rest */}
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           {/* Skills */}
           {skills.length > 0 && (
@@ -162,22 +162,22 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
   );
 
   const renderClassic = () => (
-    <div className="font-serif text-slate-900 leading-tight p-8 md:p-12 max-w-[850px] mx-auto">
+    <div className="font-serif text-slate-900 leading-tight p-6 md:p-12 max-w-[850px] mx-auto">
       {/* Header */}
       <header className="mb-8 text-center border-b-2 border-slate-800 pb-6">
-        <h1 className="text-4xl font-bold uppercase tracking-widest mb-3 text-slate-900">
+        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-3 text-slate-900">
           {personalInfo.fullName || 'Your Name'}
         </h1>
         {personalInfo.jobTitle && (
-          <h2 className="text-xl italic text-slate-700 mb-4">{personalInfo.jobTitle}</h2>
+          <h2 className="text-lg md:text-xl italic text-slate-700 mb-4">{personalInfo.jobTitle}</h2>
         )}
         <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-slate-600">
           {personalInfo.address && <span>{personalInfo.address}</span>}
-          {personalInfo.address && (personalInfo.phone || personalInfo.email) && <span className="text-slate-400">•</span>}
+          {personalInfo.address && (personalInfo.phone || personalInfo.email) && <span className="text-slate-400 hidden md:inline">•</span>}
           {personalInfo.phone && <span>{personalInfo.phone}</span>}
-          {personalInfo.phone && personalInfo.email && <span className="text-slate-400">•</span>}
+          {personalInfo.phone && personalInfo.email && <span className="text-slate-400 hidden md:inline">•</span>}
           {personalInfo.email && <span>{personalInfo.email}</span>}
-          {personalInfo.linkedin && <span className="text-slate-400">•</span>}
+          {personalInfo.linkedin && <span className="text-slate-400 hidden md:inline">•</span>}
           {personalInfo.linkedin && <span>{personalInfo.linkedin}</span>}
         </div>
       </header>
@@ -199,7 +199,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
               <div className="space-y-6">
                 {experience.map((exp) => (
                   <div key={exp.id}>
-                    <div className="flex justify-between items-baseline mb-1">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                       <h4 className="font-bold text-[17px] text-slate-900">{exp.position}</h4>
                       <span className="text-[15px] italic text-slate-600">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
                     </div>
@@ -219,7 +219,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
               <div className="space-y-5">
                 {education.map((edu) => (
                   <div key={edu.id}>
-                    <div className="flex justify-between items-baseline mb-1">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                       <h4 className="font-bold text-[17px] text-slate-900">{edu.institution}</h4>
                       <span className="text-[15px] italic text-slate-600">{edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}</span>
                     </div>
@@ -257,7 +257,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
           <div className="space-y-5">
             {projects.map((proj) => (
               <div key={proj.id}>
-                <div className="flex justify-between items-baseline mb-1">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                   <h4 className="font-bold text-[17px] text-slate-900">{proj.name}</h4>
                   {proj.link && <span className="text-sm italic text-slate-500">{proj.link}</span>}
                 </div>
@@ -274,7 +274,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
           <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">Certifications</h3>
           <div className="space-y-3">
             {certifications.map((cert) => (
-              <div key={cert.id} className="flex justify-between items-baseline text-[15px]">
+              <div key={cert.id} className="flex flex-col md:flex-row md:justify-between md:items-baseline text-[15px]">
                 <span className="font-bold text-slate-900">{cert.name} <span className="font-normal italic text-slate-600">({cert.issuer})</span></span>
                 <span className="italic text-slate-600">{cert.date}</span>
               </div>
@@ -286,15 +286,15 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
   );
 
   const renderCreative = () => (
-    <div className="font-sans flex min-h-[297mm]">
+    <div className="font-sans flex flex-col md:flex-row min-h-[297mm]">
       {/* Left Sidebar */}
-      <div className="w-[35%] p-8 text-white flex flex-col" style={{ backgroundColor: themeColor }}>
+      <div className="w-full md:w-[35%] p-6 md:p-8 text-white flex flex-col" style={{ backgroundColor: themeColor }}>
         <div className="mb-10">
-          <h1 className="text-4xl font-black uppercase tracking-tight mb-2 leading-none">
+          <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-2 leading-none">
             {personalInfo.fullName || 'Your Name'}
           </h1>
           {personalInfo.jobTitle && (
-            <h2 className="text-xl font-medium opacity-90">{personalInfo.jobTitle}</h2>
+            <h2 className="text-lg md:text-xl font-medium opacity-90">{personalInfo.jobTitle}</h2>
           )}
         </div>
 
@@ -337,10 +337,10 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
       </div>
 
       {/* Right Content */}
-      <div className="w-[65%] p-10 bg-white text-slate-800">
+      <div className="w-full md:w-[65%] p-6 md:p-10 bg-white text-slate-800">
         {personalInfo.summary && (
           <section className="mb-10">
-            <h3 className="text-2xl font-black uppercase tracking-wider mb-4 text-slate-900 flex items-center gap-3">
+            <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-4 text-slate-900 flex items-center gap-3">
               <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
               Profile
             </h3>
@@ -352,14 +352,14 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
           if (section === 'experience' && experience.length > 0) {
             return (
               <section key="experience" className="mb-10">
-                <h3 className="text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
                   <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
                   Experience
                 </h3>
                 <div className="space-y-8">
                   {experience.map((exp) => (
                     <div key={exp.id} className="relative">
-                      <div className="flex justify-between items-baseline mb-1">
+                      <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                         <h4 className="font-bold text-slate-900 text-lg">{exp.position}</h4>
                         <span className="text-sm font-bold opacity-90">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
                       </div>
@@ -375,14 +375,14 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
           if (section === 'education' && education.length > 0) {
             return (
               <section key="education" className="mb-10">
-                <h3 className="text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
                   <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
                   Education
                 </h3>
                 <div className="space-y-6">
                   {education.map((edu) => (
                     <div key={edu.id}>
-                      <div className="flex justify-between items-baseline mb-1">
+                      <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                         <h4 className="font-bold text-slate-900 text-lg">{edu.degree}</h4>
                         <span className="text-sm font-bold text-slate-500">{edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}</span>
                       </div>
@@ -400,14 +400,14 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
 
         {projects.length > 0 && (
           <section className="mb-10">
-            <h3 className="text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
+            <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
               <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
               Projects
             </h3>
             <div className="space-y-6">
               {projects.map((proj) => (
                 <div key={proj.id}>
-                  <div className="flex justify-between items-baseline mb-1">
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                     <h4 className="font-bold text-slate-900 text-lg">{proj.name}</h4>
                     {proj.link && <a href={proj.link} className="text-sm font-bold hover:underline" style={{ color: themeColor }}>View Project</a>}
                   </div>
@@ -422,10 +422,10 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
   );
 
   const renderMinimal = () => (
-    <div className="font-sans text-slate-800 leading-relaxed p-10 md:p-14 max-w-[850px] mx-auto">
+    <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-14 max-w-[850px] mx-auto">
       <header className="mb-12 text-center">
-        <h1 className="text-4xl font-light tracking-[0.15em] text-slate-900 mb-3 uppercase">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.jobTitle && <h2 className="text-xl font-medium text-slate-500 mb-5 tracking-widest uppercase">{personalInfo.jobTitle}</h2>}
+        <h1 className="text-3xl md:text-4xl font-light tracking-[0.15em] text-slate-900 mb-3 uppercase">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.jobTitle && <h2 className="text-lg md:text-xl font-medium text-slate-500 mb-5 tracking-widest uppercase">{personalInfo.jobTitle}</h2>}
         <div className="flex flex-wrap justify-center gap-6 text-[15px] text-slate-500">
           {personalInfo.email && <span>{personalInfo.email}</span>}
           {personalInfo.phone && <span>{personalInfo.phone}</span>}
@@ -519,12 +519,12 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
   );
 
   const renderTech = () => (
-    <div className="font-mono text-slate-800 leading-relaxed p-8 md:p-12 bg-slate-50 min-h-full">
+    <div className="font-mono text-slate-800 leading-relaxed p-6 md:p-12 bg-slate-50 min-h-full">
       <header className="mb-10 border-b-2 border-slate-300 pb-8">
-        <h1 className="text-4xl font-bold text-slate-900 mb-3 tracking-tight" style={{ color: themeColor }}>
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 tracking-tight" style={{ color: themeColor }}>
           &gt; {personalInfo.fullName || 'Your Name'}
         </h1>
-        {personalInfo.jobTitle && <h2 className="text-xl text-slate-600 mb-5">/* {personalInfo.jobTitle} */</h2>}
+        {personalInfo.jobTitle && <h2 className="text-lg md:text-xl text-slate-600 mb-5">/* {personalInfo.jobTitle} */</h2>}
         <div className="flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-slate-600">
           {personalInfo.email && <div><span className="font-semibold" style={{ color: themeColor }}>email:</span> '{personalInfo.email}'</div>}
           {personalInfo.phone && <div><span className="font-semibold" style={{ color: themeColor }}>phone:</span> '{personalInfo.phone}'</div>}
@@ -562,7 +562,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
               <div className="space-y-8 pl-4">
                 {experience.map((exp) => (
                   <div key={exp.id}>
-                    <div className="flex justify-between items-baseline mb-2">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
                       <h4 className="font-bold text-slate-900 text-[17px]">{exp.position} <span className="text-slate-500 font-normal">@ {exp.company}</span></h4>
                       <span className="text-[15px] text-slate-500 font-medium">[{exp.startDate} - {exp.endDate || 'present'}]</span>
                     </div>
@@ -581,7 +581,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
               <div className="space-y-6 pl-4">
                 {education.map((edu) => (
                   <div key={edu.id}>
-                    <div className="flex justify-between items-baseline mb-2">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
                       <h4 className="font-bold text-slate-900 text-[17px]">{edu.degree}</h4>
                       <span className="text-[15px] text-slate-500 font-medium">[{edu.startDate} - {edu.endDate || 'present'}]</span>
                     </div>
@@ -602,7 +602,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
           <div className="space-y-8 pl-4">
             {projects.map((proj) => (
               <div key={proj.id}>
-                <div className="flex justify-between items-baseline mb-2">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
                   <h4 className="font-bold text-slate-900 text-[17px]">{proj.name}</h4>
                   {proj.link && <a href={proj.link} className="text-[15px] hover:underline font-medium" style={{ color: themeColor }}>[link]</a>}
                 </div>
@@ -616,10 +616,10 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
   );
 
   const renderExecutive = () => (
-    <div className="font-serif text-slate-900 leading-relaxed p-8 md:p-12">
+    <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12">
       <header className="mb-10 flex flex-col items-center border-b-[3px] pb-8" style={{ borderColor: themeColor }}>
-        <h1 className="text-4xl font-bold uppercase tracking-widest mb-3 text-center">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.jobTitle && <h2 className="text-xl font-medium text-slate-600 mb-5 text-center uppercase tracking-wider">{personalInfo.jobTitle}</h2>}
+        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-3 text-center">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.jobTitle && <h2 className="text-lg md:text-xl font-medium text-slate-600 mb-5 text-center uppercase tracking-wider">{personalInfo.jobTitle}</h2>}
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[15px] font-sans text-slate-600">
           {personalInfo.address && <span className="flex items-center gap-1.5"><MapPin size={16} />{personalInfo.address}</span>}
           {personalInfo.phone && <span className="flex items-center gap-1.5"><Phone size={16} />{personalInfo.phone}</span>}
@@ -635,8 +635,8 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
         </section>
       )}
 
-      <div className="grid grid-cols-3 gap-10">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="md:col-span-2">
           {(settings.isFreshGrad ? ['education', 'experience'] : ['experience', 'education']).map((section) => {
             if (section === 'experience' && experience.length > 0) {
               return (
@@ -645,7 +645,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
                   <div className="space-y-8">
                     {experience.map((exp) => (
                       <div key={exp.id}>
-                        <div className="flex justify-between items-baseline mb-1">
+                        <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                           <h4 className="font-bold text-lg">{exp.position}</h4>
                           <span className="text-[15px] font-sans font-medium text-slate-600">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
                         </div>
@@ -665,7 +665,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
                   <div className="space-y-6">
                     {education.map((edu) => (
                       <div key={edu.id}>
-                        <div className="flex justify-between items-baseline mb-1">
+                        <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                           <h4 className="font-bold text-lg">{edu.degree}</h4>
                           <span className="text-[15px] font-sans font-medium text-slate-600">{edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}</span>
                         </div>
@@ -681,7 +681,7 @@ const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
           })}
         </div>
 
-        <div className="col-span-1">
+        <div className="md:col-span-1">
           {skills.length > 0 && (
             <section className="mb-10">
               <h3 className="text-lg font-bold uppercase tracking-widest mb-5 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Core Competencies</h3>
