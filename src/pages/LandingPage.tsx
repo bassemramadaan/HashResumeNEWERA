@@ -445,68 +445,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Case Studies Section */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white font-display mb-6">
-              {language === 'ar' ? 'دراسات حالة ومراجعات مستقلة' : 'Case Studies & Independent Reviews'}
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400">
-              {language === 'ar' 
-                ? 'اكتشف كيف ساعدت منصتنا الآلاف في الحصول على وظائف أحلامهم في كبرى الشركات التقنية.' 
-                : 'Discover how our platform has helped thousands land their dream jobs at top tech companies.'}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                company: "Google",
-                role: "Senior Software Engineer",
-                increase: "+45%",
-                metric: language === 'ar' ? 'زيادة في الردود' : 'Interview Rate',
-                story: language === 'ar' 
-                  ? 'بعد استخدام Hash Resume لتحديث سيرتي الذاتية، ارتفعت نسبة الردود على طلبات التوظيف بشكل ملحوظ.'
-                  : 'After using Hash Resume to optimize my CV for ATS, my interview callback rate increased significantly.'
-              },
-              {
-                company: "Microsoft",
-                role: "Product Manager",
-                increase: "2x",
-                metric: language === 'ar' ? 'سرعة التوظيف' : 'Faster Hiring',
-                story: language === 'ar'
-                  ? 'ميزة إنشاء الرسائل التعريفية بالذكاء الاصطناعي وفرت علي ساعات من الكتابة لكل طلب توظيف.'
-                  : 'The AI cover letter generator saved me hours of writing for each application.'
-              },
-              {
-                company: "Amazon",
-                role: "Data Scientist",
-                increase: "100%",
-                metric: language === 'ar' ? 'تخطي نظام ATS' : 'ATS Pass Rate',
-                story: language === 'ar'
-                  ? 'تحليل ATS ساعدني في اكتشاف الكلمات المفتاحية المفقودة التي كانت تمنع سيرتي من الوصول للمدراء.'
-                  : 'The ATS audit helped me discover missing keywords that were preventing my resume from reaching managers.'
-              }
-            ].map((study, idx) => (
-              <div key={idx} className="bg-white dark:bg-slate-950 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition-shadow">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="font-bold text-slate-900 dark:text-white text-xl">{study.company}</div>
-                  <div className="text-sm font-medium text-[#f16529] dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 px-3 py-1 rounded-full">
-                    {study.role}
-                  </div>
-                </div>
-                <div className="mb-6">
-                  <div className="text-4xl font-black text-slate-900 dark:text-white mb-1">{study.increase}</div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold">{study.metric}</div>
-                </div>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">"{study.story}"</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section */}
       <FAQ />
 
