@@ -219,11 +219,11 @@ export default function OnboardingTour() {
                 
                 <button 
                   onClick={isLastStep ? stopOnboarding : nextStep}
-                  className="bg-[#E2FF6F] hover:bg-[#D4FF3F] text-black px-5 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-1 shadow-lg shadow-[#E2FF6F]/20 hover:shadow-[#E2FF6F]/40 hover:-translate-y-0.5 active:scale-95 group"
+                  className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white px-5 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-1 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:scale-95 group"
                 >
                   {isLastStep ? 'Finish Tour' : 'Next Step'}
                   {!isLastStep && (
-                    <div className="bg-black rounded-full p-0.5 group-hover:translate-x-0.5 transition-transform ml-1">
+                    <div className="bg-white/20 rounded-full p-0.5 group-hover:translate-x-0.5 transition-transform ml-1">
                       <ChevronRight size={14} className="text-white" />
                     </div>
                   )}

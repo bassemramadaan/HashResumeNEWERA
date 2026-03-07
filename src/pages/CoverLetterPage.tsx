@@ -181,16 +181,16 @@ ${formData.fullName}`;
           <button
             onClick={generateCoverLetter}
             disabled={!formData.fullName || !formData.jobTitle || !formData.companyName || isGenerating}
-            className="w-full mt-6 bg-[#E2FF6F] hover:bg-[#D4FF3F] disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:text-slate-500 text-black px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-[#E2FF6F]/20 flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-95"
+            className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 dark:disabled:from-slate-700 dark:disabled:to-slate-700 disabled:text-slate-500 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-95"
           >
             {isGenerating ? (
               <>
-                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 Generating...
               </>
             ) : (
               <>
-                <div className="bg-black rounded-full p-1.5 group-hover:rotate-12 transition-transform">
+                <div className="bg-white/20 rounded-full p-1.5 group-hover:rotate-12 transition-transform">
                   <Sparkles size={16} className="text-white" />
                 </div>
                 Generate Cover Letter

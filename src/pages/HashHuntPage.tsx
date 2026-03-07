@@ -185,10 +185,10 @@ export default function HashHuntPage() {
               href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="bg-[#E2FF6F] text-black px-6 py-2.5 rounded-full text-sm font-bold hover:bg-[#D4FF3F] transition-all shadow-lg shadow-[#E2FF6F]/20 flex items-center gap-2 whitespace-nowrap group hover:scale-105 active:scale-95"
+              className="bg-gradient-to-r from-indigo-600 to-cyan-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:from-indigo-700 hover:to-cyan-700 transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 whitespace-nowrap group hover:scale-105 active:scale-95"
             >
               Submit Resume 
-              <div className="bg-black rounded-full p-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+              <div className="bg-white/20 rounded-full p-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
                 <ExternalLink size={14} className="text-white" />
               </div>
             </a>
@@ -242,10 +242,10 @@ export default function HashHuntPage() {
                 href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="bg-[#E2FF6F] text-black px-8 py-3.5 rounded-full text-lg font-bold hover:bg-[#D4FF3F] transition-all shadow-lg shadow-[#E2FF6F]/20 flex items-center gap-2 hover:scale-105 active:scale-95 group"
+                className="bg-gradient-to-r from-indigo-600 to-cyan-600 text-white px-8 py-3.5 rounded-full text-lg font-bold hover:from-indigo-700 hover:to-cyan-700 transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 hover:scale-105 active:scale-95 group"
               >
                 Submit Resume 
-                <div className="bg-black rounded-full p-1.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
+                <div className="bg-white/20 rounded-full p-1.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
                   <ExternalLink size={16} className="text-white" />
                 </div>
               </a>

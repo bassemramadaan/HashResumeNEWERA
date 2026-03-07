@@ -287,10 +287,10 @@ export default function EditorPage() {
           {/* Start / Export Button */}
           <button 
             onClick={handleExportClick}
-            className="flex items-center gap-3 bg-[#E2FF6F] hover:bg-[#D4FF3F] text-black font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
+            className="flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
           >
             <span className="text-sm tracking-tight">Export</span>
-            <div className="bg-black rounded-full p-2 group-hover:translate-x-0.5 transition-transform">
+            <div className="bg-white/20 rounded-full p-2 group-hover:translate-x-0.5 transition-transform">
               <ArrowRight size={18} className="text-white" />
             </div>
           </button>
@@ -383,7 +383,7 @@ export default function EditorPage() {
                 <div className="flex items-center gap-3">
                   <button 
                     onClick={handleExportClick}
-                    className="bg-[#E2FF6F] hover:bg-[#D4FF3F] text-black px-5 py-2 rounded-full flex items-center gap-2 font-bold transition-all text-sm shadow-lg shadow-[#E2FF6F]/20 hover:scale-105 active:scale-95"
+                    className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white px-5 py-2 rounded-full flex items-center gap-2 font-bold transition-all text-sm shadow-lg shadow-indigo-500/20 hover:scale-105 active:scale-95"
                   >
                     <Download size={16} />
                     Export PDF
