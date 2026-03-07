@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { motion, AnimatePresence } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
@@ -172,6 +173,11 @@ export default function EditorPage() {
 
   return (
     <div className="flex flex-col h-screen bg-slate-50 dark:bg-slate-900 overflow-hidden font-sans transition-colors duration-200">
+      <Helmet>
+        <title>Resume Editor - Hash Resume</title>
+        <meta name="description" content="Build your professional resume with our easy-to-use editor. Real-time preview and ATS optimization." />
+        <link rel="canonical" href="https://hashresume.com/editor" />
+      </Helmet>
       <OnboardingTour />
       
       {/* Floating Dock Navbar (Top) */}

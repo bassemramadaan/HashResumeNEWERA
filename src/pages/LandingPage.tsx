@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
 import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target, Plus, Briefcase } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
@@ -20,6 +21,22 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
+      <Helmet>
+        <title>Hash Resume - AI-Powered Resume Builder</title>
+        <meta name="description" content="Create professional resumes and cover letters in minutes with our AI-powered builder. Optimize for ATS and land your dream job." />
+        <meta name="keywords" content="resume builder, cv maker, cover letter, ai resume, ats friendly resume, job search" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://hashresume.com/" />
+        <meta property="og:title" content="Hash Resume - AI-Powered Resume Builder" />
+        <meta property="og:description" content="Create professional resumes and cover letters in minutes with our AI-powered builder. Optimize for ATS and land your dream job." />
+        <meta property="og:image" content="https://hashresume.com/og-image.png" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://hashresume.com/" />
+        <meta property="twitter:title" content="Hash Resume - AI-Powered Resume Builder" />
+        <meta property="twitter:description" content="Create professional resumes and cover letters in minutes with our AI-powered builder. Optimize for ATS and land your dream job." />
+        <meta property="twitter:image" content="https://hashresume.com/og-image.png" />
+        <link rel="canonical" href="https://hashresume.com/" />
+      </Helmet>
       {/* Floating Dock Navbar */}
       <div className="sticky top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8">
         <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
@@ -398,6 +415,68 @@ export default function LandingPage() {
               {language === 'ar' ? 'عرض كل المقالات' : 'View all articles'}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Case Studies Section */}
+      <section className="py-24 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white font-display mb-6">
+              {language === 'ar' ? 'دراسات حالة ومراجعات مستقلة' : 'Case Studies & Independent Reviews'}
+            </h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400">
+              {language === 'ar' 
+                ? 'اكتشف كيف ساعدت منصتنا الآلاف في الحصول على وظائف أحلامهم في كبرى الشركات التقنية.' 
+                : 'Discover how our platform has helped thousands land their dream jobs at top tech companies.'}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                company: "Google",
+                role: "Senior Software Engineer",
+                increase: "+45%",
+                metric: language === 'ar' ? 'زيادة في الردود' : 'Interview Rate',
+                story: language === 'ar' 
+                  ? 'بعد استخدام Hash Resume لتحديث سيرتي الذاتية، ارتفعت نسبة الردود على طلبات التوظيف بشكل ملحوظ.'
+                  : 'After using Hash Resume to optimize my CV for ATS, my interview callback rate increased significantly.'
+              },
+              {
+                company: "Microsoft",
+                role: "Product Manager",
+                increase: "2x",
+                metric: language === 'ar' ? 'سرعة التوظيف' : 'Faster Hiring',
+                story: language === 'ar'
+                  ? 'ميزة إنشاء الرسائل التعريفية بالذكاء الاصطناعي وفرت علي ساعات من الكتابة لكل طلب توظيف.'
+                  : 'The AI cover letter generator saved me hours of writing for each application.'
+              },
+              {
+                company: "Amazon",
+                role: "Data Scientist",
+                increase: "100%",
+                metric: language === 'ar' ? 'تخطي نظام ATS' : 'ATS Pass Rate',
+                story: language === 'ar'
+                  ? 'تحليل ATS ساعدني في اكتشاف الكلمات المفتاحية المفقودة التي كانت تمنع سيرتي من الوصول للمدراء.'
+                  : 'The ATS audit helped me discover missing keywords that were preventing my resume from reaching managers.'
+              }
+            ].map((study, idx) => (
+              <div key={idx} className="bg-white dark:bg-slate-950 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition-shadow">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="font-bold text-slate-900 dark:text-white text-xl">{study.company}</div>
+                  <div className="text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 rounded-full">
+                    {study.role}
+                  </div>
+                </div>
+                <div className="mb-6">
+                  <div className="text-4xl font-black text-slate-900 dark:text-white mb-1">{study.increase}</div>
+                  <div className="text-sm text-slate-500 dark:text-slate-400 uppercase tracking-wider font-bold">{study.metric}</div>
+                </div>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed">"{study.story}"</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

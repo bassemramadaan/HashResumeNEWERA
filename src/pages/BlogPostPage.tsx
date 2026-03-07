@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
+import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Calendar, Clock, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { blogPosts } from '../data/blogPosts';
@@ -22,6 +23,17 @@ export default function BlogPostPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-50 transition-colors duration-300">
+      <Helmet>
+        <title>{post.title[language]} - Hash Resume Blog</title>
+        <meta name="description" content={post.excerpt[language]} />
+        <meta property="og:title" content={post.title[language]} />
+        <meta property="og:description" content={post.excerpt[language]} />
+        <meta property="og:image" content={post.image} />
+        <meta property="twitter:title" content={post.title[language]} />
+        <meta property="twitter:description" content={post.excerpt[language]} />
+        <meta property="twitter:image" content={post.image} />
+        <link rel="canonical" href={`https://hashresume.com/blog/${post.id}`} />
+      </Helmet>
       {/* Navbar */}
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
         <div className="flex items-center gap-6 flex-1">

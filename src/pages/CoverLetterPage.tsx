@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, FileText, Sparkles, Copy, Check } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 
@@ -65,6 +66,11 @@ ${formData.fullName}`;
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col font-sans transition-colors duration-300">
+      <Helmet>
+        <title>AI Cover Letter Builder - Hash Resume</title>
+        <meta name="description" content="Generate personalized, professional cover letters in seconds using AI. Tailored to the job description and your skills." />
+        <link rel="canonical" href="https://hashresume.com/cover-letter" />
+      </Helmet>
       {/* Floating Dock Navbar */}
       <div className="sticky top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8">
         <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
