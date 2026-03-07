@@ -129,7 +129,7 @@ export default function OnboardingTour() {
         <>
           {/* Overlay with hole */}
           <div className="fixed inset-0 z-50 pointer-events-none">
-            <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] transition-all duration-300" 
+            <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px] transition-all duration-300 overflow-hidden" 
                  style={{
                    clipPath: `polygon(
                      0% 0%, 
@@ -144,7 +144,20 @@ export default function OnboardingTour() {
                      ${targetRect.left}px ${targetRect.top}px
                    )`
                  }}
-            />
+            >
+              {/* Background Ambient Graphics */}
+              <motion.div 
+                className="absolute top-[10%] left-[10%] w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] bg-orange-500/20 rounded-full blur-[100px] pointer-events-none mix-blend-screen"
+                animate={{ x: [0, 50, 0], y: [0, -50, 0], scale: [1, 1.1, 1] }}
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div 
+                className="absolute bottom-[10%] right-[10%] w-[30vw] h-[30vw] max-w-[400px] max-h-[400px] bg-red-500/20 rounded-full blur-[100px] pointer-events-none mix-blend-screen"
+                animate={{ x: [0, -50, 0], y: [0, 50, 0], scale: [1, 1.2, 1] }}
+                transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+            </div>
             {/* Highlight border */}
             <motion.div 
               className="absolute border-2 border-[#f16529] dark:border-orange-400 rounded-xl shadow-[0_0_20px_rgba(241,101,41,0.4)] dark:shadow-[0_0_20px_rgba(251,146,60,0.4)]"
@@ -177,12 +190,54 @@ export default function OnboardingTour() {
           >
             {/* Background decoration */}
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/10 dark:bg-orange-500/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-red-500/10 dark:bg-red-500/20 rounded-full blur-2xl pointer-events-none"></div>
+            
+            {/* Abstract Graphic */}
+            <motion.div 
+              animate={{ rotate: 360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute top-0 right-0 -mt-4 -mr-4 opacity-20 dark:opacity-10 pointer-events-none"
+            >
+              <svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 0L100 50L50 100L0 50L50 0Z" stroke="url(#paint0_linear_onboarding)" strokeWidth="2" strokeDasharray="4 4"/>
+                <defs>
+                  <linearGradient id="paint0_linear_onboarding" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#f16529" />
+                    <stop offset="1" stopColor="#e44d26" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </motion.div>
+
+            <motion.div 
+              animate={{ y: [0, -10, 0], x: [0, 10, 0] }} 
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute bottom-0 left-0 -mb-4 -ml-4 opacity-20 dark:opacity-10 pointer-events-none"
+            >
+              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="38" stroke="url(#paint1_linear_onboarding)" strokeWidth="2" strokeDasharray="4 4"/>
+                <defs>
+                  <linearGradient id="paint1_linear_onboarding" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#f59e0b" />
+                    <stop offset="1" stopColor="#ef4444" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </motion.div>
 
             <div className="relative z-10">
               <div className="flex justify-between items-start mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center text-[#f16529] dark:text-orange-400">
-                    <StepIcon size={16} />
+                <div className="flex items-center gap-3">
+                  <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/40 dark:to-red-900/40 flex items-center justify-center text-[#f16529] dark:text-orange-400 shadow-inner border border-orange-200/50 dark:border-orange-700/50">
+                    <motion.div
+                      key={currentStep}
+                      initial={{ scale: 0.5, rotate: -15, opacity: 0 }}
+                      animate={{ scale: 1, rotate: 0, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      <StepIcon size={20} strokeWidth={2.5} />
+                    </motion.div>
+                    <div className="absolute inset-0 bg-[#f16529] opacity-20 blur-md rounded-xl"></div>
                   </div>
                   <span className="text-xs font-bold text-[#f16529] dark:text-orange-400 uppercase tracking-wider flex items-center gap-1">
                     <Sparkles size={12} />

@@ -57,8 +57,8 @@ export default function WizardShowcase() {
           <path d="M40 0L80 40L40 80L0 40L40 0Z" stroke="url(#paint0_linear_wizard)" strokeWidth="2" strokeDasharray="4 4"/>
           <defs>
             <linearGradient id="paint0_linear_wizard" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#6366F1" />
-              <stop offset="1" stopColor="#8B5CF6" />
+              <stop stopColor="#f16529" />
+              <stop offset="1" stopColor="#e44d26" />
             </linearGradient>
           </defs>
         </svg>
@@ -73,8 +73,8 @@ export default function WizardShowcase() {
           <circle cx="30" cy="30" r="28" stroke="url(#paint1_linear_wizard)" strokeWidth="4"/>
           <defs>
             <linearGradient id="paint1_linear_wizard" x1="0" y1="0" x2="60" y2="60" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#10B981" />
-              <stop offset="1" stopColor="#3B82F6" />
+              <stop stopColor="#f59e0b" />
+              <stop offset="1" stopColor="#ef4444" />
             </linearGradient>
           </defs>
         </svg>
