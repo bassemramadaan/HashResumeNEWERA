@@ -8,7 +8,6 @@ import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
 import WizardShowcase from '../components/WizardShowcase';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import ThemeToggle from '../components/ThemeToggle';
 import FeedbackModal from '../components/FeedbackModal';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
@@ -66,7 +65,6 @@ export default function LandingPage() {
 
           {/* Secondary Actions */}
           <div className="flex items-center gap-2 px-1">
-            <ThemeToggle size={20} className="p-2.5" />
             <LanguageSwitcher size={18} className="text-sm px-4 py-2" />
           </div>
 

@@ -1,21 +1,26 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
 type ThemeStore = {
   theme: 'light' | 'dark';
-  toggleTheme: () => void;
   setTheme: (theme: 'light' | 'dark') => void;
+  toggleTheme: () => void;
 };
 
-export const useThemeStore = create<ThemeStore>()(
-  persist(
-    (set) => ({
-      theme: 'light',
-      toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
-      setTheme: (theme) => set({ theme }),
-    }),
-    {
-      name: 'theme-storage',
-    }
-  )
-);
+const getSystemTheme = (): 'light' | 'dark' => {
+  if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    return 'dark';
+  }
+  return 'light';
+};
+
+export const useThemeStore = create<ThemeStore>((set) => ({
+  theme: getSystemTheme(),
+  setTheme: (theme) => set({ theme }),
+  toggleTheme: () => set((state) => ({ theme: state.theme === 'light' ? 'dark' : 'light' })),
+}));
+
+if (typeof window !== 'undefined' && window.matchMedia) {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+    useThemeStore.getState().setTheme(e.matches ? 'dark' : 'light');
+  });
+}

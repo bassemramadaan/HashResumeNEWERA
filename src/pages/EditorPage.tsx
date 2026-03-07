@@ -7,10 +7,9 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, Moon, Sun, MessageCircle, ArrowRight
+  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
-import { useThemeStore } from '../store/useThemeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
 import PersonalInfoForm from '../components/editor/PersonalInfoForm';
 import ExperienceForm from '../components/editor/ExperienceForm';
@@ -28,7 +27,6 @@ import FeedbackModal from '../components/FeedbackModal';
 import OnboardingTour from '../components/OnboardingTour';
 import ResumeCheckerModal from '../components/editor/ResumeCheckerModal';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import ThemeToggle from '../components/ThemeToggle';
 import { cn } from '../lib/utils';
 
 type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'settings';
@@ -50,7 +48,6 @@ export default function EditorPage() {
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const { data, loadExampleData, resetData } = useResumeStore();
-  const { theme, toggleTheme } = useThemeStore();
   const { hasSeenOnboarding, startOnboarding } = useOnboardingStore();
   
   // Zundo hooks for undo/redo
@@ -207,7 +204,6 @@ export default function EditorPage() {
 
           {/* Theme/Lang/Feedback */}
           <div className="flex items-center gap-1">
-            <ThemeToggle />
             <LanguageSwitcher className="[&>span]:hidden sm:[&>span]:inline" />
             <button onClick={() => setShowFeedbackModal(true)} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Feedback">
               <MessageCircle size={18} />
