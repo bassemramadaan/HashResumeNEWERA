@@ -147,7 +147,7 @@ export default function OnboardingTour() {
             />
             {/* Highlight border */}
             <motion.div 
-              className="absolute border-2 border-indigo-500 dark:border-indigo-400 rounded-xl shadow-[0_0_20px_rgba(99,102,241,0.4)] dark:shadow-[0_0_20px_rgba(129,140,248,0.4)]"
+              className="absolute border-2 border-[#f16529] dark:border-orange-400 rounded-xl shadow-[0_0_20px_rgba(241,101,41,0.4)] dark:shadow-[0_0_20px_rgba(251,146,60,0.4)]"
               initial={false}
               animate={{
                 top: targetRect.top - 6,
@@ -157,8 +157,8 @@ export default function OnboardingTour() {
               }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-              <div className="absolute -top-2 -right-2 w-4 h-4 bg-indigo-500 rounded-full animate-ping"></div>
-              <div className="absolute -top-2 -right-2 w-4 h-4 bg-indigo-500 rounded-full"></div>
+              <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#f16529] rounded-full animate-ping"></div>
+              <div className="absolute -top-2 -right-2 w-4 h-4 bg-[#f16529] rounded-full"></div>
             </motion.div>
           </div>
 
@@ -176,15 +176,15 @@ export default function OnboardingTour() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             {/* Background decoration */}
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/10 dark:bg-indigo-500/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/10 dark:bg-orange-500/20 rounded-full blur-2xl pointer-events-none"></div>
 
             <div className="relative z-10">
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                  <div className="w-8 h-8 rounded-full bg-orange-100 dark:bg-orange-900/50 flex items-center justify-center text-[#f16529] dark:text-orange-400">
                     <StepIcon size={16} />
                   </div>
-                  <span className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider flex items-center gap-1">
+                  <span className="text-xs font-bold text-[#f16529] dark:text-orange-400 uppercase tracking-wider flex items-center gap-1">
                     <Sparkles size={12} />
                     Step {currentStep + 1} of {STEPS.length}
                   </span>
@@ -194,13 +194,13 @@ export default function OnboardingTour() {
                 </button>
               </div>
               
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">{step.title}</h3>
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-2 font-display tracking-tight">{step.title}</h3>
               <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">{step.content}</p>
               
               {/* Progress Bar */}
               <div className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full mb-6 overflow-hidden">
                 <motion.div 
-                  className="h-full bg-indigo-500 rounded-full"
+                  className="h-full bg-[#f16529] rounded-full"
                   initial={{ width: 0 }}
                   animate={{ width: `${((currentStep + 1) / STEPS.length) * 100}%` }}
                   transition={{ duration: 0.3 }}
@@ -211,7 +211,7 @@ export default function OnboardingTour() {
                 <button 
                   onClick={prevStep}
                   disabled={currentStep === 0}
-                  className={`text-sm font-medium flex items-center gap-1 transition-colors px-2 py-1 rounded-md ${currentStep === 0 ? 'text-slate-300 dark:text-slate-700 cursor-not-allowed' : 'text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30'}`}
+                  className={`text-sm font-bold flex items-center gap-1 transition-colors px-3 py-1.5 rounded-full ${currentStep === 0 ? 'text-slate-300 dark:text-slate-700 cursor-not-allowed' : 'text-slate-600 dark:text-slate-400 hover:text-[#f16529] dark:hover:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/30'}`}
                 >
                   <ChevronLeft size={16} />
                   Back
@@ -219,7 +219,7 @@ export default function OnboardingTour() {
                 
                 <button 
                   onClick={isLastStep ? stopOnboarding : nextStep}
-                  className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white px-5 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-1 shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:scale-95 group"
+                  className="bg-[#f16529] hover:bg-[#e44d26] text-white px-5 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-1 shadow-lg shadow-[#f16529]/20 hover:shadow-[#f16529]/40 hover:-translate-y-0.5 active:scale-95 group"
                 >
                   {isLastStep ? 'Finish Tour' : 'Next Step'}
                   {!isLastStep && (
