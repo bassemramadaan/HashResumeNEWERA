@@ -200,81 +200,96 @@ export default function LandingPage() {
               </motion.div>
             </div>
 
-            {/* Right Column: Abstract Composition */}
-            <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end mt-12 lg:mt-0">
+            {/* Right Column: Dynamic Resume Graphic */}
+            <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end mt-12 lg:mt-0 perspective-1000">
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8 }}
-                className="relative z-10 w-full max-w-[480px] aspect-square"
+                initial={{ opacity: 0, rotateY: 15, rotateX: 5, scale: 0.9 }}
+                animate={{ opacity: 1, rotateY: -5, rotateX: 2, scale: 1 }}
+                transition={{ duration: 1, ease: "easeOut" }}
+                className="relative z-10 w-full max-w-[420px] aspect-[1/1.4] transform-style-3d"
               >
-                {/* Main Abstract Shape - White Rounded Square */}
-                <div className="relative w-full h-full bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl shadow-orange-500/10 border border-slate-100 dark:border-slate-800 overflow-hidden">
-                   {/* Subtle Inner Grid */}
-                   <div className="absolute inset-0 bg-[linear-gradient(to_right,#f3f4f6_1px,transparent_1px),linear-gradient(to_bottom,#f3f4f6_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-                   
-                   {/* Abstract Resume Representation */}
-                   <div className="absolute inset-0 p-12 flex flex-col gap-6 opacity-60">
-                     <div className="flex items-center gap-4">
-                       <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800"></div>
-                       <div className="space-y-3 flex-1">
-                         <div className="h-4 w-1/2 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
-                         <div className="h-3 w-1/3 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                       </div>
-                     </div>
-                     <div className="space-y-4 pt-8">
-                       <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                       <div className="h-3 w-full bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                       <div className="h-3 w-3/4 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                     </div>
-                   </div>
+                {/* Main Resume Document */}
+                <div className="absolute inset-0 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl shadow-orange-500/20 border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+                  {/* Header */}
+                  <div className="bg-slate-50 dark:bg-slate-800/50 p-6 border-b border-slate-100 dark:border-slate-800 flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#f16529] to-red-500 p-1">
+                      <div className="w-full h-full rounded-full bg-white dark:bg-slate-900 border-2 border-white dark:border-slate-900"></div>
+                    </div>
+                    <div className="space-y-2 flex-1">
+                      <div className="h-5 w-3/4 bg-slate-800 dark:bg-slate-200 rounded-md"></div>
+                      <div className="h-3 w-1/2 bg-slate-400 dark:bg-slate-500 rounded-md"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Body */}
+                  <div className="p-6 flex-1 flex flex-col gap-6">
+                    {/* Section 1 */}
+                    <div className="space-y-3">
+                      <div className="h-4 w-1/4 bg-orange-100 dark:bg-orange-900/50 rounded-md mb-2"></div>
+                      <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                      <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                      <div className="h-2 w-5/6 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                    </div>
+                    
+                    {/* Section 2 */}
+                    <div className="space-y-3">
+                      <div className="h-4 w-1/3 bg-orange-100 dark:bg-orange-900/50 rounded-md mb-2"></div>
+                      <div className="flex gap-4">
+                        <div className="w-1 h-full bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                        <div className="flex-1 space-y-2 py-1">
+                          <div className="h-3 w-1/2 bg-slate-800 dark:bg-slate-300 rounded-md"></div>
+                          <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                          <div className="h-2 w-4/5 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Skills Tags */}
+                    <div className="mt-auto flex flex-wrap gap-2">
+                      {[1,2,3,4,5].map(i => (
+                        <div key={i} className="h-6 w-16 bg-slate-100 dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700"></div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Scanning Line Animation */}
+                  <motion.div 
+                    animate={{ top: ['-10%', '110%', '-10%'] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                    className="absolute left-0 right-0 h-32 bg-gradient-to-b from-transparent via-[#f16529]/10 to-transparent border-b border-[#f16529]/50 z-20 pointer-events-none"
+                    style={{ top: '0%' }}
+                  />
                 </div>
 
-                {/* Floating Card 1: ATS Score (Top Left) */}
+                {/* Floating Badge 1: ATS Ready */}
                 <motion.div 
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-4 -left-4 sm:-left-8 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-4 z-20"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-6 -right-6 sm:-right-12 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-3 z-30"
                 >
-                  <div className="relative w-12 h-12 flex items-center justify-center bg-emerald-50 dark:bg-emerald-900/20 rounded-full">
-                     <Target className="text-emerald-500 w-6 h-6" />
+                  <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                    <CheckCircle2 className="text-emerald-500 w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold mb-0.5">ATS Score</p>
-                    <p className="text-xl font-black text-slate-900 dark:text-white leading-none">98/100</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">ATS Optimized</p>
+                    <p className="text-xs text-slate-500">Passed all checks</p>
                   </div>
                 </motion.div>
 
-                {/* Floating Card 2: Job Offer (Bottom Right) */}
+                {/* Floating Badge 2: AI Powered */}
                 <motion.div 
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute -bottom-6 -right-2 sm:-right-4 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-4 z-20"
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute bottom-20 -left-6 sm:-left-12 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-3 z-30"
                 >
-                  <div className="w-12 h-12 bg-orange-50 dark:bg-orange-900/20 rounded-xl flex items-center justify-center text-[#f16529]">
-                    <Briefcase size={24} />
+                  <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                    <Zap className="text-purple-500 w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold mb-0.5">New Offer</p>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white leading-none">Senior Designer</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">AI Suggestions</p>
+                    <p className="text-xs text-slate-500">Content improved</p>
                   </div>
                 </motion.div>
-
-                {/* Floating Card 3: Resume File (Middle Right) */}
-                <motion.div 
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="absolute top-1/2 -right-6 sm:-right-10 transform -translate-y-1/2 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 z-20 flex items-center gap-3"
-                >
-                   <div className="w-10 h-10 bg-rose-50 dark:bg-rose-900/20 rounded-xl flex items-center justify-center text-rose-500">
-                      <FileText size={20} />
-                   </div>
-                   <div className="space-y-2 pr-2">
-                      <div className="h-2 w-10 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
-                      <div className="h-2 w-6 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                   </div>
-                </motion.div>
-
               </motion.div>
             </div>
 
