@@ -13,24 +13,24 @@ export default function WizardShowcase() {
       title: language === 'ar' ? 'أدخل بياناتك الأساسية' : '1. Enter Your Details',
       desc: language === 'ar' ? 'املأ معلوماتك الشخصية في نماذج ذكية وسهلة الاستخدام.' : 'Fill in your personal info using our smart, intuitive forms.',
       icon: User,
-      color: 'bg-indigo-500',
-      shadow: 'shadow-indigo-500/30'
+      color: 'bg-orange-500',
+      shadow: 'shadow-orange-500/30'
     },
     {
       id: 1,
       title: language === 'ar' ? 'أضف خبراتك بذكاء' : '2. Add Experience',
       desc: language === 'ar' ? 'احصل على اقتراحات مدعومة بالذكاء الاصطناعي لكتابة مهامك.' : 'Get AI-powered suggestions to perfectly describe your past roles.',
       icon: Briefcase,
-      color: 'bg-cyan-500',
-      shadow: 'shadow-cyan-500/30'
+      color: 'bg-red-500',
+      shadow: 'shadow-red-500/30'
     },
     {
       id: 2,
       title: language === 'ar' ? 'حمل سيرتك الذاتية' : '3. Download & Apply',
       desc: language === 'ar' ? 'احصل على ملف PDF بتنسيق مثالي وجاهز للتقديم فوراً.' : 'Export a perfectly formatted PDF, ready to land your next job.',
       icon: FileText,
-      color: 'bg-emerald-500',
-      shadow: 'shadow-emerald-500/30'
+      color: 'bg-amber-500',
+      shadow: 'shadow-amber-500/30'
     }
   ];
 
@@ -44,7 +44,7 @@ export default function WizardShowcase() {
   return (
     <section className="py-32 bg-slate-50 dark:bg-slate-950 overflow-hidden relative">
       {/* Background glow effects and graphics */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/10 dark:bg-indigo-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-500/10 dark:bg-orange-500/5 blur-[120px] rounded-full pointer-events-none"></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       
       {/* Floating Abstract Shapes */}
@@ -82,7 +82,7 @@ export default function WizardShowcase() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium text-sm mb-6 border border-indigo-200 dark:border-indigo-800/50">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-[#f16529] dark:text-orange-400 font-medium text-sm mb-6 border border-orange-200 dark:border-orange-800/50">
             <Sparkles size={16} />
             {language === 'ar' ? 'عملية مبسطة' : 'Streamlined Process'}
           </div>
@@ -102,7 +102,7 @@ export default function WizardShowcase() {
             {/* Connecting line */}
             <div className="absolute left-8 top-10 bottom-10 w-1 bg-slate-200 dark:bg-slate-800 hidden md:block rounded-full overflow-hidden">
               <motion.div 
-                className="absolute top-0 left-0 w-full bg-indigo-500 dark:bg-indigo-400 rounded-full"
+                className="absolute top-0 left-0 w-full bg-[#f16529] rounded-full"
                 animate={{ height: `${(activeStep / (steps.length - 1)) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               />
@@ -140,7 +140,7 @@ export default function WizardShowcase() {
                 {activeStep === index && (
                   <motion.div 
                     layoutId="active-arrow" 
-                    className="absolute right-6 top-1/2 -translate-y-1/2 text-indigo-500 dark:text-indigo-400 hidden sm:block"
+                    className="absolute right-6 top-1/2 -translate-y-1/2 text-[#f16529] hidden sm:block"
                   >
                     <ArrowRight size={24} />
                   </motion.div>
@@ -204,13 +204,13 @@ export default function WizardShowcase() {
                     <div className="space-y-8">
                       <div className="flex items-center justify-between mb-6">
                         <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
-                        <div className="px-4 py-2 bg-cyan-100 dark:bg-cyan-900/30 rounded-full flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-sm font-medium border border-cyan-200 dark:border-cyan-800/50">
+                        <div className="px-4 py-2 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center gap-2 text-red-600 dark:text-red-400 text-sm font-medium border border-red-200 dark:border-red-800/50">
                           <Sparkles size={16} />
                           AI Assist
                         </div>
                       </div>
                       {[1, 2].map((i) => (
-                        <div key={i} className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50 dark:bg-slate-900/50 space-y-4 hover:border-cyan-300 dark:hover:border-cyan-700 transition-colors">
+                        <div key={i} className="p-6 border border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50 dark:bg-slate-900/50 space-y-4 hover:border-red-300 dark:hover:border-red-700 transition-colors">
                           <div className="flex justify-between items-start">
                             <div className="space-y-2 w-2/3">
                               <div className="h-5 bg-slate-300 dark:bg-slate-700 rounded w-3/4"></div>
@@ -218,7 +218,7 @@ export default function WizardShowcase() {
                             </div>
                             <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded-full w-24"></div>
                           </div>
-                          <div className="space-y-3 pl-5 border-l-2 border-cyan-200 dark:border-cyan-800/50 pt-2">
+                          <div className="space-y-3 pl-5 border-l-2 border-red-200 dark:border-red-800/50 pt-2">
                             <div className="h-2.5 bg-slate-300 dark:bg-slate-700 rounded w-full"></div>
                             <div className="h-2.5 bg-slate-300 dark:bg-slate-700 rounded w-5/6"></div>
                             <div className="h-2.5 bg-slate-300 dark:bg-slate-700 rounded w-4/5"></div>
@@ -237,7 +237,7 @@ export default function WizardShowcase() {
                         <div className="h-40 bg-slate-100 dark:bg-slate-800/50 rounded-xl w-full"></div>
                       </div>
                       <div className="w-full md:w-1/2 bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-700 rounded-xl p-6 transform md:rotate-3 md:scale-110 origin-center transition-transform relative">
-                        <div className="absolute -top-4 -right-4 bg-emerald-500 text-white p-3 rounded-full shadow-lg">
+                        <div className="absolute -top-4 -right-4 bg-amber-500 text-white p-3 rounded-full shadow-lg">
                           <Check size={24} />
                         </div>
                         <div className="space-y-5">
@@ -254,7 +254,7 @@ export default function WizardShowcase() {
                             <div className="h-2.5 bg-slate-200 dark:bg-slate-800 rounded w-5/6"></div>
                             <div className="h-2.5 bg-slate-200 dark:bg-slate-800 rounded w-4/5"></div>
                           </div>
-                          <div className="mt-6 p-4 bg-emerald-50 dark:bg-emerald-900/30 rounded-lg border border-emerald-200 dark:border-emerald-800/50 flex items-center justify-between text-emerald-700 dark:text-emerald-400">
+                          <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/30 rounded-lg border border-amber-200 dark:border-amber-800/50 flex items-center justify-between text-amber-700 dark:text-amber-400">
                             <div className="flex items-center gap-2 font-bold">
                               <Sparkles size={18} />
                               ATS Score: 98/100

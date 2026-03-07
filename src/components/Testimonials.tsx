@@ -111,7 +111,7 @@ export default function Testimonials() {
   const row2 = testimonials.slice(6, 12);
 
   const TestimonialCard = ({ item }: { item: typeof testimonials[0] }) => (
-    <div className="w-[350px] shrink-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm p-5 rounded-2xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-300 mx-3">
+    <div className="w-[350px] shrink-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm p-5 rounded-2xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 hover:shadow-md hover:border-orange-200 dark:hover:border-orange-800 transition-all duration-300 mx-3">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${item.gradient} flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-inner`}>
@@ -120,7 +120,7 @@ export default function Testimonials() {
           <div>
             <h4 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1">
               {item.name}
-              <BadgeCheck size={14} className="text-indigo-500 dark:text-indigo-400" />
+              <BadgeCheck size={14} className="text-[#f16529]" />
             </h4>
             <div className="flex items-center gap-1 text-amber-400 mt-0.5">
               {[...Array(5)].map((_, idx) => (
@@ -177,8 +177,8 @@ export default function Testimonials() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-12 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-medium text-xs mb-4 border border-indigo-200 dark:border-indigo-800/50">
-          <Star size={14} className="fill-indigo-700 dark:fill-indigo-300" />
+        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-[#f16529] dark:text-orange-400 font-medium text-xs mb-4 border border-orange-200 dark:border-orange-800/50">
+          <Star size={14} className="fill-[#f16529] dark:fill-orange-400" />
           {t.testimonialsTitle}
         </div>
         <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display tracking-tight">

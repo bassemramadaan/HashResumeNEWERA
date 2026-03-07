@@ -41,7 +41,7 @@ export default function LandingPage() {
         <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
           
           {/* Logo / Home */}
-          <Link to="/" className="flex items-center justify-center w-12 h-12 bg-white dark:bg-slate-800 rounded-full shadow-sm text-indigo-600 dark:text-indigo-400 hover:scale-105 transition-transform shrink-0">
+          <Link to="/" className="flex items-center justify-center w-12 h-12 bg-white dark:bg-slate-800 rounded-full shadow-sm text-[#f16529] hover:scale-105 transition-transform shrink-0">
             <Logo className="w-7 h-7" />
           </Link>
 
@@ -54,8 +54,8 @@ export default function LandingPage() {
               {t.coverLetter}
             </Link>
             <Link to="/blog" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.blog}</Link>
-            <Link to="/hash-hunt" className="px-4 py-2 text-sm font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 hover:opacity-80 transition-opacity flex items-center gap-2 whitespace-nowrap">
-              <Target size={18} className="text-indigo-600 dark:text-indigo-400" />
+            <Link to="/hash-hunt" className="px-4 py-2 text-sm font-black text-[#f16529] hover:opacity-80 transition-opacity flex items-center gap-2 whitespace-nowrap">
+              <Target size={18} className="text-[#f16529]" />
               {t.hashHuntJobs}
             </Link>
           </div>
@@ -71,7 +71,7 @@ export default function LandingPage() {
           {/* Primary Action (Build Resume) */}
           <Link 
             to="/editor" 
-            className="flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
+            className="flex items-center gap-3 bg-[#f16529] hover:bg-[#e44d26] text-white font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
           >
             <span className="text-sm tracking-tight hidden sm:inline">{t.buildResume}</span>
             <div className="bg-white/20 rounded-full p-2 group-hover:translate-x-0.5 transition-transform">
@@ -251,8 +251,8 @@ export default function LandingPage() {
       {/* Features Cards */}
       <section id="features" className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
@@ -285,7 +285,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center gap-16">
             <div className="flex-1 space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-medium border border-indigo-100 dark:border-indigo-800">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/30 text-[#f16529] dark:text-orange-400 text-sm font-medium border border-orange-100 dark:border-orange-800">
                 <PenTool size={16} />
                 {t.coverLetterNew}
               </div>
@@ -303,7 +303,7 @@ export default function LandingPage() {
                   t.coverLetterList4
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium">
-                    <CheckCircle2 className="text-indigo-500 dark:text-indigo-400 flex-shrink-0" size={20} />
+                    <CheckCircle2 className="text-[#f16529] flex-shrink-0" size={20} />
                     {item}
                   </li>
                 ))}
@@ -314,7 +314,7 @@ export default function LandingPage() {
               </Link>
             </div>
             <div className="flex-1 relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-indigo-100 to-cyan-100 dark:from-indigo-900/30 dark:to-cyan-900/30 rounded-3xl transform rotate-3 scale-95 -z-10"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-3xl transform rotate-3 scale-95 -z-10"></div>
               <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
                 <div className="space-y-4 opacity-50 pointer-events-none select-none">
                   <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded w-1/3"></div>
@@ -332,7 +332,7 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Link to="/cover-letter" className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-indigo-500/20 hover:scale-105 active:scale-95 transition-all">
+                  <Link to="/cover-letter" className="bg-[#f16529] hover:bg-[#e44d26] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-[#f16529]/20 hover:scale-105 active:scale-95 transition-all">
                     {t.startWriting}
                   </Link>
                 </div>
@@ -364,7 +364,7 @@ export default function LandingPage() {
                   : 'Career advice to help you land your next job.'}
               </p>
             </div>
-            <Link to="/blog" className="hidden sm:flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-medium hover:gap-3 transition-all">
+            <Link to="/blog" className="hidden sm:flex items-center gap-2 text-[#f16529] font-medium hover:gap-3 transition-all">
               {language === 'ar' ? 'عرض كل المقالات' : 'View all articles'}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
@@ -391,7 +391,7 @@ export default function LandingPage() {
                   </span>
                 </div>
                 <Link to={`/blog/${post.id}`} className="block mb-2">
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-2">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-[#f16529] transition-colors line-clamp-2">
                     {post.title[language]}
                   </h3>
                 </Link>
@@ -403,7 +403,7 @@ export default function LandingPage() {
           </div>
           
           <div className="mt-8 text-center sm:hidden">
-            <Link to="/blog" className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-medium">
+            <Link to="/blog" className="inline-flex items-center gap-2 text-[#f16529] font-medium">
               {language === 'ar' ? 'عرض كل المقالات' : 'View all articles'}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
@@ -458,7 +458,7 @@ export default function LandingPage() {
               <div key={idx} className="bg-white dark:bg-slate-950 p-8 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 hover:shadow-md transition-shadow">
                 <div className="flex items-center justify-between mb-6">
                   <div className="font-bold text-slate-900 dark:text-white text-xl">{study.company}</div>
-                  <div className="text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1 rounded-full">
+                  <div className="text-sm font-medium text-[#f16529] dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 px-3 py-1 rounded-full">
                     {study.role}
                   </div>
                 </div>
@@ -482,7 +482,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div>
               <div className="flex flex-col items-start mb-6">
-                <Logo className="w-10 h-10 text-indigo-500 mb-2" />
+                <Logo className="w-10 h-10 text-[#f16529] mb-2" />
                 <span className="text-2xl font-black text-white font-display">Hash Resume</span>
                 <span className="text-sm text-slate-500 mt-1">A part of Hash Social Media Marketing Agency</span>
               </div>
@@ -491,7 +491,7 @@ export default function LandingPage() {
             <div className="flex flex-col md:items-end">
               <h4 className="text-white font-semibold mb-4">{t.connect}</h4>
               <div className="flex gap-4 mb-8">
-                <a href="https://www.facebook.com/hashsocialmarketing" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-indigo-500 transition-colors" aria-label="Facebook">
+                <a href="https://www.facebook.com/hashsocialmarketing" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#f16529] transition-colors" aria-label="Facebook">
                   <Facebook size={20} />
                 </a>
                 <a href="https://www.instagram.com/hashsocialmarketing/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-pink-500 transition-colors" aria-label="Instagram">
