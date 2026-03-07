@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-type Language = 'en' | 'ar';
+type Language = 'en' | 'ar' | 'fr';
 
 interface LanguageState {
   language: Language;

@@ -86,6 +86,40 @@ export default function LandingPage() {
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         <div className="absolute right-0 top-1/2 -translate-y-1/2 -z-10 h-[600px] w-[600px] rounded-full bg-[#f16529] opacity-10 dark:opacity-20 blur-[120px]"></div>
+        <div className="absolute left-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-red-500 opacity-10 dark:opacity-15 blur-[100px]"></div>
+        
+        {/* Floating Abstract Shapes */}
+        <motion.div 
+          animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} 
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute top-20 left-[10%] -z-10 hidden lg:block opacity-30 dark:opacity-20"
+        >
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 0L120 60L60 120L0 60L60 0Z" stroke="url(#paint0_linear_hero)" strokeWidth="2" strokeDasharray="6 6"/>
+            <defs>
+              <linearGradient id="paint0_linear_hero" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#f16529" />
+                <stop offset="1" stopColor="#e44d26" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </motion.div>
+
+        <motion.div 
+          animate={{ y: [0, 30, 0], x: [0, -15, 0] }} 
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-40 right-[15%] -z-10 hidden lg:block opacity-40 dark:opacity-20"
+        >
+          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="40" r="38" stroke="url(#paint1_linear_hero)" strokeWidth="3" strokeDasharray="4 8"/>
+            <defs>
+              <linearGradient id="paint1_linear_hero" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                <stop stopColor="#f59e0b" />
+                <stop offset="1" stopColor="#ef4444" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </motion.div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
