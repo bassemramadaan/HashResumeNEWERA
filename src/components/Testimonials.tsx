@@ -188,24 +188,24 @@ export default function Testimonials() {
         </p>
       </div>
 
-      <div className="relative w-full overflow-hidden space-y-8 px-4 sm:px-0">
+      <div className="relative w-full overflow-hidden space-y-8">
         {/* Row 1: Left Scroll */}
-        <div className="flex w-max animate-scroll pause-on-hover py-4">
+        <div className="flex w-max animate-scroll pause-on-hover">
           {[...row1, ...row1, ...row1].map((item, i) => (
             <TestimonialCard key={`row1-${i}`} item={item} />
           ))}
         </div>
 
         {/* Row 2: Right Scroll */}
-        <div className="flex w-max animate-scroll-reverse pause-on-hover py-4">
+        <div className="flex w-max animate-scroll-reverse pause-on-hover">
           {[...row2, ...row2, ...row2].map((item, i) => (
             <TestimonialCard key={`row2-${i}`} item={item} />
           ))}
         </div>
         
         {/* Fade Edges */}
-        <div className="absolute inset-y-0 left-0 w-12 sm:w-32 bg-gradient-to-r from-slate-50 dark:from-slate-950 to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute inset-y-0 right-0 w-12 sm:w-32 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-slate-50 dark:from-slate-950 to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-slate-50 dark:from-slate-950 to-transparent z-10 pointer-events-none"></div>
       </div>
     </section>
   );

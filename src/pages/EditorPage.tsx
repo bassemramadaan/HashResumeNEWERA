@@ -7,13 +7,10 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText, Share2
+  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
-import { generateShareLink, parseShareLink } from '../lib/share';
-import { exportToDocx, exportToTxt } from '../lib/export';
-import ExportOptionsModal from '../components/editor/ExportOptionsModal';
 import PersonalInfoForm from '../components/editor/PersonalInfoForm';
 import ExperienceForm from '../components/editor/ExperienceForm';
 import EducationForm from '../components/editor/EducationForm';
@@ -53,61 +50,12 @@ export default function EditorPage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
-  const [showExportOptions, setShowExportOptions] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const { data, loadExampleData, resetData, importData } = useResumeStore();
+  const { data, loadExampleData, resetData } = useResumeStore();
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } = useOnboardingStore();
   
   // Zundo hooks for undo/redo
   const { undo, redo, pastStates, futureStates } = useStore(useResumeStore.temporal);
-
-  // Hydrate from URL on mount and hash change
-  useEffect(() => {
-    const checkHash = () => {
-      const sharedData = parseShareLink();
-      if (sharedData) {
-        // Small delay to ensure UI is ready
-        setTimeout(() => {
-          if (window.confirm('Load shared resume? This will overwrite your current data.')) {
-            importData(sharedData);
-            // Clear URL hash without reloading
-            window.history.replaceState(null, '', window.location.pathname);
-          }
-        }, 100);
-      }
-    };
-
-    checkHash();
-
-    window.addEventListener('hashchange', checkHash);
-    return () => window.removeEventListener('hashchange', checkHash);
-  }, [importData]);
-
-  const handleShare = async () => {
-    const link = generateShareLink(data);
-    try {
-      await navigator.clipboard.writeText(link);
-      alert('Share link copied to clipboard!');
-    } catch (err) {
-      console.error('Failed to copy link:', err);
-      alert('Failed to copy link. Please try again.');
-    }
-  };
-
-  const handleExportPdf = () => {
-    setShowExportOptions(false);
-    handlePrint();
-  };
-
-  const handleExportDocx = () => {
-    setShowExportOptions(false);
-    exportToDocx(data);
-  };
-
-  const handleExportTxt = () => {
-    setShowExportOptions(false);
-    exportToTxt(data);
-  };
 
   // Show welcome modal if not seen
   useEffect(() => {
@@ -171,7 +119,7 @@ export default function EditorPage() {
   const handleProceedToExport = () => {
     setShowResumeChecker(false);
     if (data.isPremium) {
-      setShowExportOptions(true);
+      handlePrint();
     } else {
       setShowPaymentModal(true);
     }
@@ -539,15 +487,6 @@ export default function EditorPage() {
         isOpen={showResumeChecker} 
         onClose={() => setShowResumeChecker(false)} 
         onProceed={handleProceedToExport} 
-      />
-
-      <ExportOptionsModal
-        isOpen={showExportOptions}
-        onClose={() => setShowExportOptions(false)}
-        onExportPdf={handleExportPdf}
-        onExportDocx={handleExportDocx}
-        onExportTxt={handleExportTxt}
-        onShareLink={handleShare}
       />
 
       <PaymentModal 

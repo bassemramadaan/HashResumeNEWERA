@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     question: "How do I save my resume?",
-    answer: "Your resume is automatically saved to your browser's local storage in real-time. You can close the tab and come back later to continue editing. You can also export it as a PDF at any time. We recommend exporting your resume regularly to keep a backup."
+    answer: "Your resume is automatically saved to your browser's local storage. You can close the tab and come back later to continue editing. You can also export it as a PDF at any time."
   }
 ];
 

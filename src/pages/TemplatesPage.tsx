@@ -15,18 +15,7 @@ const dummyData: ResumeData = {
     phone: '+1 (555) 123-4567',
     address: 'San Francisco, CA',
     linkedin: 'linkedin.com/in/alexmorgan',
-    github: '',
-    portfolio: '',
     summary: 'Award-winning Product Designer with 8+ years of experience creating user-centric digital products. Proven track record of leading design teams and increasing user engagement by 40%. Passionate about accessibility and design systems.',
-  },
-  coverLetter: {
-    fullName: '',
-    jobTitle: '',
-    companyName: '',
-    hiringManager: '',
-    jobDescription: '',
-    skills: '',
-    generatedContent: '',
   },
   experience: [
     {

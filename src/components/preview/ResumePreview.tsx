@@ -14,18 +14,8 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
 
   const themeColor = settings.themeColor || '#2563EB';
 
-  const FreshGradBadge = () => (
-    settings.isFreshGrad ? (
-      <div className="absolute top-4 right-4 z-50 bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200 shadow-sm print:hidden flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-opacity">
-        <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-        Fresh Graduate Mode
-      </div>
-    ) : null
-  );
-
   const renderModern = () => (
-    <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-12 relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
-      <FreshGradBadge />
+    <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-12">
       {/* Header */}
       <header className="mb-8 border-b-2 pb-6" style={{ borderColor: themeColor }}>
         <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-2" style={{ color: themeColor }}>
@@ -64,8 +54,8 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
               </h3>
               <div className="space-y-6">
                 {experience.map((exp) => (
-                  <div key={exp.id} className="relative ps-4 border-s-2 border-slate-200">
-                    <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -start-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
+                  <div key={exp.id} className="relative pl-4 border-l-2 border-slate-200">
+                    <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -left-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
                     <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                       <h4 className="font-bold text-slate-900 text-[15px]">{exp.position}</h4>
                       <span className="text-sm font-medium text-slate-500">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
@@ -88,8 +78,8 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
               </h3>
               <div className="space-y-5">
                 {education.map((edu) => (
-                  <div key={edu.id} className="relative ps-4 border-s-2 border-slate-200">
-                    <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -start-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
+                  <div key={edu.id} className="relative pl-4 border-l-2 border-slate-200">
+                    <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -left-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
                     <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                       <h4 className="font-bold text-slate-900 text-[15px]">{edu.degree}</h4>
                       <span className="text-sm font-medium text-slate-500">{edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}</span>
@@ -177,8 +167,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
   );
 
   const renderClassic = () => (
-    <div className="font-serif text-slate-900 leading-tight p-6 md:p-12 max-w-[850px] mx-auto relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
-      <FreshGradBadge />
+    <div className="font-serif text-slate-900 leading-tight p-6 md:p-12 max-w-[850px] mx-auto">
       {/* Header */}
       <header className="mb-8 text-center border-b-2 border-slate-800 pb-6">
         <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-3 text-slate-900">
@@ -220,7 +209,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
                       <span className="text-[15px] italic text-slate-600">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
                     </div>
                     <div className="text-[15px] italic mb-2 text-slate-700 font-medium">{exp.company}</div>
-                    <p className="text-[15px] whitespace-pre-wrap ps-4 border-s-2 border-slate-200 leading-relaxed text-slate-700">{exp.description}</p>
+                    <p className="text-[15px] whitespace-pre-wrap pl-4 border-l-2 border-slate-200 leading-relaxed text-slate-700">{exp.description}</p>
                   </div>
                 ))}
               </div>
@@ -240,7 +229,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
                       <span className="text-[15px] italic text-slate-600">{edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}</span>
                     </div>
                     <div className="text-[15px] italic mb-2 text-slate-700 font-medium">{edu.degree}</div>
-                    {edu.description && <p className="text-[15px] whitespace-pre-wrap leading-relaxed text-slate-700 ps-4 border-s-2 border-slate-200">{edu.description}</p>}
+                    {edu.description && <p className="text-[15px] whitespace-pre-wrap leading-relaxed text-slate-700 pl-4 border-l-2 border-slate-200">{edu.description}</p>}
                   </div>
                 ))}
               </div>
@@ -302,8 +291,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
   );
 
   const renderCreative = () => (
-    <div className="font-sans flex flex-col md:flex-row min-h-[297mm] relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
-      <FreshGradBadge />
+    <div className="font-sans flex flex-col md:flex-row min-h-[297mm]">
       {/* Left Sidebar */}
       <div className="w-full md:w-[35%] p-6 md:p-8 text-white flex flex-col" style={{ backgroundColor: themeColor }}>
         <div className="mb-10">
@@ -439,8 +427,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
   );
 
   const renderMinimal = () => (
-    <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-14 max-w-[850px] mx-auto relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
-      <FreshGradBadge />
+    <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-14 max-w-[850px] mx-auto">
       <header className="mb-12 text-center">
         <h1 className="text-3xl md:text-4xl font-light tracking-[0.15em] text-slate-900 mb-3 uppercase">{personalInfo.fullName || 'Your Name'}</h1>
         {personalInfo.jobTitle && <h2 className="text-lg md:text-xl font-medium text-slate-500 mb-5 tracking-widest uppercase">{personalInfo.jobTitle}</h2>}
@@ -537,8 +524,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
   );
 
   const renderTech = () => (
-    <div className="font-mono text-slate-800 leading-relaxed p-6 md:p-12 bg-slate-50 min-h-full relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
-      <FreshGradBadge />
+    <div className="font-mono text-slate-800 leading-relaxed p-6 md:p-12 bg-slate-50 min-h-full">
       <header className="mb-10 border-b-2 border-slate-300 pb-8">
         <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 tracking-tight" style={{ color: themeColor }}>
           &gt; {personalInfo.fullName || 'Your Name'}
@@ -555,14 +541,14 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
       {personalInfo.summary && (
         <section className="mb-10">
           <h3 className="text-lg font-bold mb-4" style={{ color: themeColor }}># summary</h3>
-          <p className="text-[15px] text-slate-700 whitespace-pre-wrap ps-4 border-s-2 border-slate-300 leading-relaxed">{personalInfo.summary}</p>
+          <p className="text-[15px] text-slate-700 whitespace-pre-wrap pl-4 border-l-2 border-slate-300 leading-relaxed">{personalInfo.summary}</p>
         </section>
       )}
 
       {skills.length > 0 && (
         <section className="mb-10">
           <h3 className="text-lg font-bold mb-4" style={{ color: themeColor }}># skills</h3>
-          <div className="flex flex-wrap gap-3 ps-4">
+          <div className="flex flex-wrap gap-3 pl-4">
             {skills.map((skill, index) => (
               <span key={index} className="text-[15px] text-slate-800 font-medium">
                 {skill}
@@ -578,7 +564,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
           return (
             <section key="experience" className="mb-10">
               <h3 className="text-lg font-bold mb-5" style={{ color: themeColor }}># experience</h3>
-              <div className="space-y-8 ps-4">
+              <div className="space-y-8 pl-4">
                 {experience.map((exp) => (
                   <div key={exp.id}>
                     <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
@@ -597,7 +583,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
           return (
             <section key="education" className="mb-10">
               <h3 className="text-lg font-bold mb-5" style={{ color: themeColor }}># education</h3>
-              <div className="space-y-6 ps-4">
+              <div className="space-y-6 pl-4">
                 {education.map((edu) => (
                   <div key={edu.id}>
                     <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
@@ -618,7 +604,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
       {projects.length > 0 && (
         <section className="mb-10">
           <h3 className="text-lg font-bold mb-5" style={{ color: themeColor }}># projects</h3>
-          <div className="space-y-8 ps-4">
+          <div className="space-y-8 pl-4">
             {projects.map((proj) => (
               <div key={proj.id}>
                 <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
@@ -635,8 +621,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
   );
 
   const renderExecutive = () => (
-    <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
-      <FreshGradBadge />
+    <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12">
       <header className="mb-10 flex flex-col items-center border-b-[3px] pb-8" style={{ borderColor: themeColor }}>
         <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-3 text-center">{personalInfo.fullName || 'Your Name'}</h1>
         {personalInfo.jobTitle && <h2 className="text-lg md:text-xl font-medium text-slate-600 mb-5 text-center uppercase tracking-wider">{personalInfo.jobTitle}</h2>}
@@ -747,8 +732,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
   );
 
   const renderMedical = () => (
-    <div className="font-sans text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-white relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
-      <FreshGradBadge />
+    <div className="font-sans text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-white">
       <header className="mb-8 border-b-4 border-emerald-600 pb-6">
         <h1 className="text-3xl md:text-4xl font-bold text-emerald-800 mb-2">{personalInfo.fullName || 'Your Name'}</h1>
         {personalInfo.jobTitle && <h2 className="text-xl font-medium text-slate-600 mb-4">{personalInfo.jobTitle}</h2>}
