@@ -3,6 +3,7 @@ export const translations = {
     landing: {
       features: "Features",
       howItWorks: "How it works",
+      templates: "Templates",
       coverLetter: "Cover Letter",
       blog: "Blog",
       hashHuntJobs: "Hash Hunt",
@@ -115,6 +116,7 @@ export const translations = {
     landing: {
       features: "المميزات",
       howItWorks: "كيف يعمل",
+      templates: "القوالب",
       coverLetter: "خطاب التقديم",
       blog: "المدونة",
       hashHuntJobs: "Hash Hunt",
@@ -227,6 +229,7 @@ export const translations = {
     landing: {
       features: "Fonctionnalités",
       howItWorks: "Comment ça marche",
+      templates: "Modèles",
       coverLetter: "Lettre de motivation",
       blog: "Blog",
       hashHuntJobs: "Hash Hunt",

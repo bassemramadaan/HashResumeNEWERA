@@ -49,6 +49,7 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center px-2 gap-1">
             <a href="#features" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.features}</a>
             <a href="#process" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.howItWorks}</a>
+            <Link to="/templates" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.templates}</Link>
             <Link to="/cover-letter" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap flex items-center gap-2">
               <PenTool size={14} />
               {t.coverLetter}
@@ -128,7 +129,8 @@ export default function LandingPage() {
             <div className="flex-1 text-center lg:text-left rtl:lg:text-right">
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="font-display mb-8"
               >
@@ -139,7 +141,8 @@ export default function LandingPage() {
               
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="mb-10 flex justify-center lg:justify-start"
               >
@@ -152,7 +155,8 @@ export default function LandingPage() {
               
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4 mb-12"
               >
@@ -168,7 +172,8 @@ export default function LandingPage() {
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.4 }}
                 className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4"
               >
@@ -204,7 +209,8 @@ export default function LandingPage() {
             <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end mt-12 lg:mt-0 perspective-1000">
               <motion.div
                 initial={{ opacity: 0, rotateY: 15, rotateX: 5, scale: 0.9 }}
-                animate={{ opacity: 1, rotateY: -5, rotateX: 2, scale: 1 }}
+                whileInView={{ opacity: 1, rotateY: -5, rotateX: 2, scale: 1 }}
+                viewport={{ once: true }}
                 transition={{ duration: 1, ease: "easeOut" }}
                 className="relative z-10 w-full max-w-[420px] aspect-[1/1.4] transform-style-3d"
               >

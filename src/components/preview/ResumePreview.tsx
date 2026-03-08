@@ -1,10 +1,15 @@
 import { forwardRef } from 'react';
-import { useResumeStore } from '../../store/useResumeStore';
+import { useResumeStore, ResumeData } from '../../store/useResumeStore';
 import { Mail, Phone, MapPin, Linkedin, Calendar } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-const ResumePreview = forwardRef<HTMLDivElement>((props, ref) => {
-  const { data } = useResumeStore();
+interface ResumePreviewProps {
+  data?: ResumeData;
+}
+
+const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref) => {
+  const storeData = useResumeStore((state) => state.data);
+  const data = props.data || storeData;
   const { personalInfo, experience, education, skills, projects, certifications, settings } = data;
 
   const themeColor = settings.themeColor || '#2563EB';

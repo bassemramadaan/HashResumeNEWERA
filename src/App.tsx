@@ -6,6 +6,7 @@ import HashHuntPage from './pages/HashHuntPage';
 import CoverLetterPage from './pages/CoverLetterPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
+import TemplatesPage from './pages/TemplatesPage';
 import { useThemeStore } from './store/useThemeStore';
 import { useLanguageStore } from './store/useLanguageStore';
 
@@ -31,6 +32,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/editor" element={<EditorPage />} />
+        <Route path="/templates" element={<TemplatesPage />} />
         <Route path="/hash-hunt" element={<HashHuntPage />} />
         <Route path="/cover-letter" element={<CoverLetterPage />} />
         <Route path="/blog" element={<BlogPage />} />
