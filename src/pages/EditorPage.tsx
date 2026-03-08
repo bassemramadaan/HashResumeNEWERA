@@ -32,6 +32,7 @@ import WelcomeModal from '../components/editor/WelcomeModal';
 import ResumeCheckerModal from '../components/editor/ResumeCheckerModal';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../lib/utils';
+import { calculateATSScore } from '../lib/ats';
 
 type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'cover-letter' | 'settings' | 'finish';
 
@@ -139,69 +140,11 @@ export default function EditorPage() {
     { id: 'finish', label: 'Finish', icon: CheckCircle },
   ];
 
-  const calculateATSScore = () => {
-    // Return 0 if completely empty
-    const isEmpty = !data.personalInfo.fullName && !data.personalInfo.email && data.experience.length === 0 && data.education.length === 0 && data.skills.length === 0;
-    if (isEmpty) return 0;
-
-    let score = 0;
-    const maxScore = 100;
-
-    // 1. Personal Info (20 points)
-    if (data.personalInfo.fullName) score += 5;
-    if (data.personalInfo.email) score += 5;
-    if (data.personalInfo.phone) score += 5;
-    if (data.personalInfo.linkedin || data.personalInfo.portfolio) score += 5;
-
-    // 2. Summary (15 points)
-    if (data.personalInfo.summary) {
-      score += 5;
-      if (data.personalInfo.summary.length > 100) score += 5;
-      if (['experienced', 'passionate', 'proven', 'skilled', 'expert'].some(word => data.personalInfo.summary.toLowerCase().includes(word))) score += 5;
-    }
-
-    // 3. Experience (30 points)
-    if (data.experience.length > 0) {
-      score += 10;
-      let hasBulletPoints = false;
-      let hasMetrics = false;
-      let hasActionVerbs = false;
-      
-      const actionVerbs = ['led', 'developed', 'managed', 'created', 'implemented', 'designed', 'increased', 'reduced', 'improved'];
-      
-      data.experience.forEach(exp => {
-        const desc = exp.description.toLowerCase();
-        if (desc.includes('•') || desc.includes('-')) hasBulletPoints = true;
-        if (desc.match(/\d+%|\$\d+|\d+ year|\d+ team/)) hasMetrics = true;
-        if (actionVerbs.some(verb => desc.includes(verb))) hasActionVerbs = true;
-      });
-
-      if (hasBulletPoints) score += 5;
-      if (hasMetrics) score += 10;
-      if (hasActionVerbs) score += 5;
-    }
-
-    // 4. Education (15 points)
-    if (data.education.length > 0) {
-      score += 10;
-      if (data.education[0].description) score += 5;
-    }
-
-    // 5. Skills (15 points)
-    if (data.skills.length > 0) {
-      score += 5;
-      if (data.skills.length >= 5) score += 5;
-      if (data.skills.length >= 8) score += 5;
-    }
-
-    // 6. Projects & Certifications (5 points)
-    if (data.projects.length > 0 || data.certifications.length > 0) score += 5;
-
-    return Math.min(maxScore, score);
-  };
-
-  const atsScore = calculateATSScore();
+  const atsScore = calculateATSScore(data).score;
   const activeTabIndex = tabs.findIndex(t => t.id === activeTab) + 1;
+  const progressPercentage = (activeTabIndex / tabs.length) * 100;
+
+  // ... (rest of component)
 
   const tabDescriptions: Record<Tab, string> = {
     personal: 'Your basic information and contact details.',
@@ -299,53 +242,20 @@ export default function EditorPage() {
       <div className="h-24 shrink-0" />
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl p-2 rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 max-w-[95vw] overflow-x-auto scrollbar-hide">
-        <div className="flex items-center gap-1.5 min-w-max px-1">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <div key={tab.id} className="relative flex flex-col items-center justify-center h-16 w-16 group">
-                <button
-                  onClick={() => setActiveTab(tab.id)}
-                  data-tour={tab.tourId}
-                  className={cn(
-                    "relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 shrink-0",
-                    isActive 
-                      ? "bg-black text-white shadow-lg scale-110" 
-                      : "text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
-                  )}
-                >
-                <span className="relative z-10">
-                  <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
-                </span>
-                <span className="sr-only">{tab.label}</span>
-                
-                {/* Tooltip */}
-                <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-xl border border-white/10 z-50">
-                  {tab.label}
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
-                </div>
-              </button>
-            </div>
-            );
-          })}
-
-          {/* Separator */}
-          <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-2"></div>
-
-          {/* Start / Export Button */}
-          <button 
-            onClick={handleExportClick}
-            className="flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
-          >
-            <span className="text-sm tracking-tight">Export</span>
-            <div className="bg-white/20 rounded-full p-2 group-hover:translate-x-0.5 transition-transform">
-              <ArrowRight size={18} className="text-white" />
-            </div>
-          </button>
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 max-w-[95vw]">
+        
+        {/* Progress Bar */}
+        <div className="w-full h-1 bg-slate-200 dark:bg-slate-800 rounded-t-[2.5rem] overflow-hidden">
+          <div 
+            className="h-full bg-gradient-to-r from-indigo-500 to-cyan-500 transition-all duration-500 ease-out"
+            style={{ width: `${progressPercentage}%` }}
+          />
         </div>
-      </div>
+
+        <div className="flex items-center gap-1.5 min-w-max px-2 py-2 overflow-x-auto scrollbar-hide">
+          {tabs.map((tab) => {
+            // ... (tab rendering)
+
 
       {/* Main Content Split */}
       <div className="flex-1 flex overflow-hidden relative editor-form">

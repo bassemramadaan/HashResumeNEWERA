@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { CheckCircle2, AlertCircle, Activity, Target, Briefcase, Search, X, Copy, ArrowRight } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Activity, Target, Briefcase, Search, X } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { calculateATSScore } from '../../lib/ats';
 
 // Basic stop words to ignore in keyword matching
 const STOP_WORDS = new Set(['the', 'and', 'a', 'to', 'of', 'in', 'i', 'is', 'that', 'it', 'on', 'you', 'this', 'for', 'but', 'with', 'are', 'have', 'be', 'at', 'or', 'as', 'was', 'so', 'if', 'out', 'not', 'we', 'my', 'by', 'from', 'an', 'will', 'can', 'about', 'which', 'your', 'all', 'has', 'one', 'more', 'do', 'their', 'there', 'what', 'who', 'when', 'where', 'why', 'how', 'any', 'some', 'such', 'into', 'up', 'down', 'over', 'under', 'between', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now']);
@@ -11,7 +12,8 @@ export default function ATSAudit() {
   const { personalInfo, experience, education, skills, jobDescription } = data;
   const [showMatcher, setShowMatcher] = useState(!!jobDescription);
 
-  const isEmpty = !personalInfo.fullName && !personalInfo.email && experience.length === 0 && education.length === 0 && skills.length === 0;
+  const { score, goodPoints, improvements } = calculateATSScore(data);
+  const isEmpty = score === 0 && !personalInfo.fullName; // Simple check, or reuse logic from lib if exported
 
   const matchResults = useMemo(() => {
     if (!jobDescription || !jobDescription.trim()) return null;
@@ -47,13 +49,6 @@ export default function ATSAudit() {
     return { matchPercentage, matched, missing };
   }, [jobDescription, personalInfo, experience, education, skills]);
 
-  const copyMissingKeywords = () => {
-    if (matchResults?.missing) {
-      navigator.clipboard.writeText(matchResults.missing.join(', '));
-      alert('Missing keywords copied to clipboard!');
-    }
-  };
-
   if (isEmpty) {
     return (
       <div className="space-y-6 font-sans">
@@ -76,94 +71,22 @@ export default function ATSAudit() {
     );
   }
 
-  let score = 0;
-  const goodPoints: string[] = [];
-  const improvements: string[] = [];
-
-  // 1. Personal Info (20 points)
-  if (personalInfo.fullName) {
-    score += 5;
-  } else {
-    improvements.push("Add your full name to the personal info section.");
-  }
-
-  if (personalInfo.email && personalInfo.phone) {
-    score += 10;
-    goodPoints.push("Contact information is complete.");
-  } else {
-    improvements.push("Add both email and phone number for recruiters to reach you.");
-  }
-
-  if (personalInfo.linkedin) {
-    score += 5;
-    goodPoints.push("LinkedIn profile is included.");
-  } else {
-    improvements.push("Add a LinkedIn profile URL to boost credibility.");
-  }
-
-  // 2. Summary (10 points)
-  if (personalInfo.summary && personalInfo.summary.length > 50) {
-    score += 10;
-    goodPoints.push("Professional summary is detailed and impactful.");
-  } else if (personalInfo.summary) {
-    score += 5;
-    improvements.push("Expand your professional summary to highlight your top achievements (aim for 3-4 sentences).");
-  } else {
-    improvements.push("Add a professional summary to introduce yourself and your career goals.");
-  }
-
-  // 3. Experience (40 points)
-  if (experience.length > 0) {
-    score += 20;
-    let hasBulletPoints = false;
-    let hasGoodLength = true;
-
-    experience.forEach(exp => {
-      if (exp.description.includes('•') || exp.description.includes('-')) hasBulletPoints = true;
-      if (exp.description.length < 50) hasGoodLength = false;
-    });
-
-    if (hasBulletPoints) {
-      score += 10;
-      goodPoints.push("Experience descriptions use bullet points (highly ATS friendly).");
-    } else {
-      improvements.push("Use bullet points (•) in your experience descriptions for better readability and ATS parsing.");
-    }
-
-    if (hasGoodLength) {
-      score += 10;
-      goodPoints.push("Experience descriptions have good detail and length.");
-    } else {
-      improvements.push("Add more details to your work experience descriptions. Include metrics and achievements.");
-    }
-  } else {
-    improvements.push("Add your work experience. If you're a fresh graduate, add internships, volunteer work, or relevant projects.");
-  }
-
-  // 4. Education (15 points)
-  if (education.length > 0) {
-    score += 15;
-    goodPoints.push("Educational background is included.");
-  } else {
-    improvements.push("Add your educational background (Degrees, University, etc.).");
-  }
-
-  // 5. Skills (15 points)
-  if (skills.length >= 5) {
-    score += 15;
-    goodPoints.push("Strong list of core skills (5+).");
-  } else if (skills.length > 0) {
-    score += 5;
-    improvements.push("Add more skills. Aim for at least 5-8 relevant hard and soft skills.");
-  } else {
-    improvements.push("Add a list of core skills relevant to your target job.");
-  }
-
+  // Score calculation is now handled by calculateATSScore hook imported above
+  
   const getScoreColor = (s: number) => {
     if (s >= 80) return "text-indigo-500 dark:text-indigo-400";
     if (s >= 50) return "text-yellow-500 dark:text-yellow-400";
     return "text-red-500 dark:text-red-400";
   };
+
+  const getScoreBg = (s: number) => {
+    if (s >= 80) return "bg-indigo-500 dark:bg-indigo-400";
+    if (s >= 50) return "bg-yellow-500 dark:bg-yellow-400";
+    return "bg-red-500 dark:bg-red-400";
+  };
+
+  // Job Description Matching Logic
+  // matchResults is calculated above to respect Rules of Hooks
 
   return (
     <div className="space-y-6 font-sans">
@@ -321,21 +244,10 @@ export default function ATSAudit() {
 
                   <div className="md:col-span-2 space-y-6">
                     <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                          <AlertCircle className="text-red-500 dark:text-red-400" size={16} />
-                          Missing Keywords ({matchResults.missing.length})
-                        </h4>
-                        {matchResults.missing.length > 0 && (
-                          <button 
-                            onClick={copyMissingKeywords}
-                            className="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1"
-                          >
-                            <Copy size={12} /> Copy All
-                          </button>
-                        )}
-                      </div>
-                      
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                        <AlertCircle className="text-red-500 dark:text-red-400" size={16} />
+                        Missing Keywords ({matchResults.missing.length})
+                      </h4>
                       <div className="flex flex-wrap gap-2">
                         {matchResults.missing.length > 0 ? matchResults.missing.map(kw => (
                           <span key={kw} className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-3 py-1 rounded-full text-xs font-medium transition-colors">
@@ -345,18 +257,6 @@ export default function ATSAudit() {
                           <span className="text-sm text-slate-500 dark:text-slate-400 italic">No missing keywords found!</span>
                         )}
                       </div>
-                      
-                      {matchResults.missing.length > 0 && (
-                        <div className="mt-4 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800/50">
-                          <h5 className="text-xs font-bold text-indigo-700 dark:text-indigo-300 uppercase tracking-wider mb-2 flex items-center gap-2">
-                            <Activity size={12} /> Actionable Insights
-                          </h5>
-                          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                            Your resume is missing <strong>{matchResults.missing.length}</strong> important keywords found in the job description. 
-                            Consider adding these terms to your <strong>Skills</strong> section or weaving them into your <strong>Experience</strong> bullet points to improve your ATS ranking.
-                          </p>
-                        </div>
-                      )}
                     </div>
 
                     <div>
