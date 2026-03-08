@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { FileText, Sparkles, Copy, Check, AlertCircle } from 'lucide-react';
+import { FileText, Sparkles, Copy, Check, AlertCircle, Import } from 'lucide-react';
 import { GoogleGenAI } from "@google/genai";
 
 export default function CoverLetterForm() {
   const { data, updateCoverLetter } = useResumeStore();
   const { personalInfo, skills } = data;
   
-  // Safely access coverLetter, defaulting to empty object if undefined
-  const coverLetter = data.coverLetter || {
+  // Safely access coverLetter, ensuring all fields are defined
+  const coverLetter = {
     fullName: '',
     jobTitle: '',
     companyName: '',
@@ -16,10 +16,12 @@ export default function CoverLetterForm() {
     jobDescription: '',
     skills: '',
     generatedContent: '',
+    ...(data.coverLetter || {})
   };
   
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [imported, setImported] = useState(false);
 
   // Auto-populate from resume data if empty
   useEffect(() => {
@@ -39,6 +41,16 @@ export default function CoverLetterForm() {
       });
     }
   }, [personalInfo.fullName, personalInfo.jobTitle, skills, coverLetter.fullName, coverLetter.jobTitle, coverLetter.skills, updateCoverLetter]);
+
+  const handleImportFromResume = () => {
+    updateCoverLetter({
+      fullName: personalInfo.fullName || '',
+      jobTitle: personalInfo.jobTitle || '',
+      skills: skills.join(', ') || '',
+    });
+    setImported(true);
+    setTimeout(() => setImported(false), 2000);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -105,6 +117,14 @@ export default function CoverLetterForm() {
           <FileText className="text-indigo-500 dark:text-indigo-400" size={24} />
           Cover Letter
         </h2>
+        <button
+          onClick={handleImportFromResume}
+          className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 px-3 py-1.5 rounded-lg transition-colors"
+          title="Import details from your resume"
+        >
+          {imported ? <Check size={16} /> : <Import size={16} />}
+          {imported ? 'Imported!' : 'Import from Resume'}
+        </button>
       </div>
 
       <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 space-y-6 transition-colors">

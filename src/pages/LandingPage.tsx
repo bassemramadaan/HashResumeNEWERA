@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target, Plus, Briefcase } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target, Plus, Briefcase, GraduationCap } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
@@ -92,75 +92,52 @@ export default function LandingPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-10 pb-20 lg:pt-20 lg:pb-32 overflow-hidden">
+      <section className="relative pt-20 pb-20 lg:pt-32 lg:pb-40 overflow-hidden">
         {/* Background Graphics */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 -z-10 h-[600px] w-[600px] rounded-full bg-[#f16529] opacity-10 dark:opacity-20 blur-[120px]"></div>
-        <div className="absolute left-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-red-500 opacity-10 dark:opacity-15 blur-[100px]"></div>
-        
-        {/* Floating Abstract Shapes */}
-        <motion.div 
-          animate={{ y: [0, -20, 0], rotate: [0, 10, 0] }} 
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-20 left-[10%] -z-10 hidden lg:block opacity-30 dark:opacity-20"
-        >
-          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M60 0L120 60L60 120L0 60L60 0Z" stroke="url(#paint0_linear_hero)" strokeWidth="2" strokeDasharray="6 6"/>
-            <defs>
-              <linearGradient id="paint0_linear_hero" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#f16529" />
-                <stop offset="1" stopColor="#e44d26" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </motion.div>
-
-        <motion.div 
-          animate={{ y: [0, 30, 0], x: [0, -15, 0] }} 
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute bottom-40 right-[15%] -z-10 hidden lg:block opacity-40 dark:opacity-20"
-        >
-          <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="40" cy="40" r="38" stroke="url(#paint1_linear_hero)" strokeWidth="3" strokeDasharray="4 8"/>
-            <defs>
-              <linearGradient id="paint1_linear_hero" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#f59e0b" />
-                <stop offset="1" stopColor="#ef4444" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </motion.div>
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-[#f16529] opacity-20 blur-[100px]"></div>
+        <div className="absolute right-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
             
             {/* Left Column: Text & CTA */}
             <div className="flex-1 text-center lg:text-left rtl:lg:text-right">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-[#f16529] text-xs font-bold uppercase tracking-wider mb-6 border border-orange-100 dark:border-orange-800/30"
+              >
+                <Zap size={14} className="fill-current" />
+                <span>AI-Powered Resume Builder</span>
+              </motion.div>
+
               <motion.h1 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-display mb-8"
+                className="font-display mb-6"
               >
-                <span className="text-[#f16529] block text-3xl md:text-4xl font-bold mb-4">{t.heroTitle1}</span>
-                <span className="text-slate-900 dark:text-white block text-5xl md:text-7xl font-black tracking-tight leading-[1.1] mb-1">{t.heroTitle2}</span>
-                <span className="text-[#f16529] block text-5xl md:text-7xl font-black tracking-tight leading-[1.1]">{t.heroTitle3}</span>
+                <span className="text-slate-900 dark:text-white block text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.1] mb-2">
+                  {t.heroTitle1} <span className="text-[#f16529]">{t.heroTitle2}</span>
+                </span>
+                <span className="text-slate-400 dark:text-slate-500 block text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+                  {t.heroTitle3}
+                </span>
               </motion.h1>
               
-              <motion.div 
+              <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="mb-10 flex justify-center lg:justify-start"
+                className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
               >
-                <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200 dark:border-slate-800 p-6 rounded-2xl shadow-sm max-w-xl text-left rtl:text-right">
-                  <p className="text-lg text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
-                    {t.heroSubtitle}
-                  </p>
-                </div>
-              </motion.div>
+                {t.heroSubtitle}
+              </motion.p>
               
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -169,11 +146,11 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4 mb-12"
               >
-                <Link to="/editor" className="w-full sm:w-auto bg-[#f16529] text-white px-8 py-4 rounded-full text-lg font-bold hover:bg-[#e44d26] transition-all shadow-lg shadow-[#f16529]/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                <Link to="/editor" className="w-full sm:w-auto bg-[#f16529] hover:bg-[#e44d26] text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
                   {t.buildResume}
                   <ArrowRight size={20} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
                 </Link>
-                <Link to="/cover-letter" className="w-full sm:w-auto bg-white dark:bg-slate-900 text-[#f16529] border-2 border-[#f16529]/20 px-8 py-4 rounded-full text-lg font-bold hover:bg-orange-50 dark:hover:bg-slate-800 transition-all flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                <Link to="/cover-letter" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-700 dark:text-white border border-slate-200 dark:border-slate-700 px-8 py-4 rounded-full text-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
                   <PenTool size={20} className="text-[#f16529]" />
                   {t.createCoverLetter}
                 </Link>
@@ -184,125 +161,132 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4"
+                className="flex items-center justify-center lg:justify-start gap-8 text-slate-500 dark:text-slate-400 text-sm font-medium"
               >
-                {/* Stats Badge */}
-                <div className="flex items-center gap-3 bg-white dark:bg-slate-900 border border-orange-100 dark:border-slate-800 px-5 py-3 rounded-2xl shadow-sm">
-                  <div className="flex -space-x-2 rtl:space-x-reverse">
-                    {[1,2,3].map(i => (
-                      <div key={i} className="w-8 h-8 rounded-full border-2 border-white dark:border-slate-900 bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center text-xs font-bold text-[#f16529]">
-                        {i === 3 ? '91%' : <Users size={14} />}
-                      </div>
-                    ))}
-                  </div>
-                  <div className="text-left rtl:text-right">
-                    <p className="text-xs font-bold text-slate-900 dark:text-white max-w-[140px] leading-tight">
-                      {t.statsText.replace('600+', `${displayCount}+`)}
-                    </p>
-                  </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 size={18} className="text-emerald-500" />
+                  <span>ATS-Friendly</span>
                 </div>
-
-                {/* Privacy Badge */}
-                <div className="flex items-center gap-3 bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-900/30 px-5 py-3 rounded-2xl text-left rtl:text-right">
-                  <div className="w-8 h-8 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-[#f16529] shadow-sm shrink-0">
-                    <ShieldCheck size={16} />
-                  </div>
-                  <p className="text-xs font-bold text-[#f16529] max-w-[140px] leading-tight">
-                    {t.privacyBadge}
-                  </p>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 size={18} className="text-emerald-500" />
+                  <span>AI-Powered</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 size={18} className="text-emerald-500" />
+                  <span>Free Templates</span>
                 </div>
               </motion.div>
             </div>
 
             {/* Right Column: Dynamic Resume Graphic */}
-            <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end mt-12 lg:mt-0 perspective-1000 pr-4 lg:pr-20">
+            <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end mt-12 lg:mt-0 perspective-1000">
               <motion.div
-                initial={{ opacity: 0, rotateY: 15, rotateX: 5, scale: 0.9 }}
-                whileInView={{ opacity: 1, rotateY: -5, rotateX: 2, scale: 1 }}
+                initial={{ opacity: 0, rotateY: 20, rotateX: 10, scale: 0.9 }}
+                whileInView={{ opacity: 1, rotateY: -10, rotateX: 5, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="relative z-10 w-full max-w-[420px] aspect-[1/1.4] transform-style-3d"
+                transition={{ duration: 1.2, ease: "easeOut" }}
+                className="relative z-10 w-full max-w-[480px] aspect-[3/4] transform-style-3d"
               >
+                {/* Glassmorphism Backdrop */}
+                <div className="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 to-purple-500/20 rounded-[2rem] blur-2xl -z-10"></div>
+                
                 {/* Main Resume Document */}
-                <div className="absolute inset-0 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl shadow-orange-500/20 border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col">
+                <div className="absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 dark:border-slate-700/50 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
                   {/* Header */}
-                  <div className="bg-slate-50 dark:bg-slate-800/50 p-6 border-b border-slate-100 dark:border-slate-800 flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#f16529] to-red-500 p-1">
-                      <div className="w-full h-full rounded-full bg-white dark:bg-slate-900 border-2 border-white dark:border-slate-900"></div>
+                  <div className="bg-slate-50/50 dark:bg-slate-800/50 p-8 border-b border-slate-100 dark:border-slate-800 flex items-center gap-6">
+                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#f16529] to-orange-600 shadow-lg shadow-orange-500/20 flex items-center justify-center text-white font-bold text-3xl">
+                      JD
                     </div>
-                    <div className="space-y-2 flex-1">
-                      <div className="h-5 w-3/4 bg-slate-800 dark:bg-slate-200 rounded-md"></div>
-                      <div className="h-3 w-1/2 bg-slate-400 dark:bg-slate-500 rounded-md"></div>
+                    <div className="space-y-3 flex-1">
+                      <div className="h-6 w-3/4 bg-slate-800 dark:bg-slate-200 rounded-lg"></div>
+                      <div className="h-4 w-1/2 bg-slate-400 dark:bg-slate-500 rounded-lg"></div>
                     </div>
                   </div>
                   
                   {/* Body */}
-                  <div className="p-6 flex-1 flex flex-col gap-6">
-                    {/* Section 1 */}
-                    <div className="space-y-3">
-                      <div className="h-4 w-1/4 bg-orange-100 dark:bg-orange-900/50 rounded-md mb-2"></div>
-                      <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full"></div>
-                      <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full"></div>
-                      <div className="h-2 w-5/6 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                  <div className="p-8 flex-1 flex flex-col gap-8">
+                    {/* Experience Section */}
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+                          <Briefcase size={16} />
+                        </div>
+                        <div className="h-4 w-1/3 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
+                      </div>
+                      <div className="pl-11 space-y-3">
+                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+                        <div className="h-2 w-5/6 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+                      </div>
                     </div>
                     
-                    {/* Section 2 */}
-                    <div className="space-y-3">
-                      <div className="h-4 w-1/3 bg-orange-100 dark:bg-orange-900/50 rounded-md mb-2"></div>
-                      <div className="flex gap-4">
-                        <div className="w-1 h-full bg-slate-200 dark:bg-slate-700 rounded-full"></div>
-                        <div className="flex-1 space-y-2 py-1">
-                          <div className="h-3 w-1/2 bg-slate-800 dark:bg-slate-300 rounded-md"></div>
-                          <div className="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full"></div>
-                          <div className="h-2 w-4/5 bg-slate-200 dark:bg-slate-700 rounded-full"></div>
+                    {/* Education Section */}
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">
+                          <GraduationCap size={16} />
                         </div>
+                        <div className="h-4 w-1/3 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
+                      </div>
+                      <div className="pl-11 space-y-3">
+                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+                        <div className="h-2 w-4/5 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
                       </div>
                     </div>
 
                     {/* Skills Tags */}
-                    <div className="mt-auto flex flex-wrap gap-2">
-                      {[1,2,3,4,5].map(i => (
-                        <div key={i} className="h-6 w-16 bg-slate-100 dark:bg-slate-800 rounded-full border border-slate-200 dark:border-slate-700"></div>
-                      ))}
+                    <div className="mt-auto">
+                      <div className="h-4 w-1/4 bg-slate-200 dark:bg-slate-700 rounded-md mb-4"></div>
+                      <div className="flex flex-wrap gap-2">
+                        {[1,2,3,4,5,6].map(i => (
+                          <div key={i} className="h-8 w-16 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700"></div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                   
                   {/* Scanning Line Animation */}
                   <motion.div 
                     animate={{ top: ['-10%', '110%', '-10%'] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                    className="absolute left-0 right-0 h-32 bg-gradient-to-b from-transparent via-[#f16529]/10 to-transparent border-b border-[#f16529]/50 z-20 pointer-events-none"
+                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                    className="absolute left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#f16529]/5 to-transparent border-b border-[#f16529]/30 z-20 pointer-events-none"
                     style={{ top: '0%' }}
                   />
                 </div>
 
-                {/* Floating Badge 1: ATS Ready */}
+                {/* Floating Badge 1: ATS Score */}
                 <motion.div 
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-6 -right-6 sm:-right-12 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-3 z-30"
+                  animate={{ y: [0, -15, 0], x: [0, 5, 0] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute -top-8 -right-8 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-4 z-30"
                 >
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                    <CheckCircle2 className="text-emerald-500 w-5 h-5" />
+                  <div className="relative w-12 h-12 flex items-center justify-center">
+                    <svg className="w-full h-full transform -rotate-90">
+                      <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="4" fill="transparent" className="text-slate-100 dark:text-slate-700" />
+                      <circle cx="24" cy="24" r="20" stroke="currentColor" strokeWidth="4" fill="transparent" strokeDasharray="125.6" strokeDashoffset="12.56" className="text-emerald-500" />
+                    </svg>
+                    <span className="absolute text-xs font-bold text-slate-900 dark:text-white">95</span>
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">ATS Optimized</p>
-                    <p className="text-xs text-slate-500">Passed all checks</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">ATS Score</p>
+                    <p className="text-xs text-emerald-500 font-medium">Excellent</p>
                   </div>
                 </motion.div>
 
-                {/* Floating Badge 2: AI Powered */}
+                {/* Floating Badge 2: Users */}
                 <motion.div 
-                  animate={{ y: [0, 10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute bottom-20 -left-6 sm:-left-12 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-3 z-30"
+                  animate={{ y: [0, 15, 0], x: [0, -5, 0] }}
+                  transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                  className="absolute bottom-12 -left-12 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-4 z-30"
                 >
-                  <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                    <Zap className="text-purple-500 w-5 h-5" />
+                  <div className="flex -space-x-3 rtl:space-x-reverse">
+                    {[1,2,3].map(i => (
+                      <div key={i} className="w-10 h-10 rounded-full border-2 border-white dark:border-slate-800 bg-slate-200 dark:bg-slate-700"></div>
+                    ))}
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">AI Suggestions</p>
-                    <p className="text-xs text-slate-500">Content improved</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">{displayCount}+ Users</p>
+                    <p className="text-xs text-slate-500">Joined this month</p>
                   </div>
                 </motion.div>
               </motion.div>
