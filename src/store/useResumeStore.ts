@@ -133,6 +133,7 @@ type ResumeStore = {
   unlockPremium: () => void;
   resetData: () => void;
   loadExampleData: () => void;
+  loadData: (data: ResumeData) => void;
 };
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
@@ -261,6 +262,7 @@ export const useResumeStore = create<ResumeStore>()(
           data: { ...state.data, isPremium: true },
         })),
       resetData: () => set({ data: initialData }),
+      loadData: (data) => set({ data }),
       loadExampleData: () =>
         set({
           data: {
@@ -274,6 +276,15 @@ export const useResumeStore = create<ResumeStore>()(
               github: 'github.com/ahmedhassan',
               portfolio: 'ahmedhassan.dev',
               summary: '', // Removed summary to lower ATS score
+            },
+            coverLetter: {
+              fullName: '',
+              jobTitle: '',
+              companyName: '',
+              hiringManager: '',
+              jobDescription: '',
+              skills: '',
+              generatedContent: '',
             },
             experience: [
               {

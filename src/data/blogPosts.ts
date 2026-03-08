@@ -119,7 +119,7 @@ Writing for an ATS doesn't mean writing like a robot. It means structuring your 
 الكتابة لنظام ATS لا تعني الكتابة مثل الروبوت. إنها تعني هيكلة إنجازاتك البشرية بطريقة يمكن للآلات فهمها. استخدم ميزة **تدقيق ATS** في Hash Resume للتحقق من درجاتك في الوقت الفعلي!
       `
     },
-    date: "2026-02-15",
+    date: "2026-03-05",
     author: {
       en: "Hash Resume Team",
       ar: "فريق Hash Resume"
@@ -141,10 +141,42 @@ Writing for an ATS doesn't mean writing like a robot. It means structuring your 
       ar: "من محو الأمية في الذكاء الاصطناعي إلى الذكاء العاطفي، اكتشف المهارات التي ستجعل سيرتك الذاتية تبرز هذا العام."
     },
     content: {
-      en: "Coming soon...",
-      ar: "قريباً..."
+      en: `
+## The Skill Shift in 2026
+
+The job market is evolving rapidly. Automation and AI are changing the way we work, and employers are looking for candidates who can adapt.
+
+## 1. AI Literacy
+Understanding how to work *with* AI, not just against it, is crucial. You don't need to be a developer, but knowing how to prompt, verify, and leverage AI tools is a must-have skill.
+
+## 2. Emotional Intelligence (EQ)
+As machines handle more logic tasks, human connection becomes more valuable. Empathy, conflict resolution, and leadership are skills that AI cannot replicate.
+
+## 3. Data Analysis
+Data is everywhere. The ability to interpret data and make decisions based on it is required in almost every role, from marketing to HR.
+
+## 4. Adaptability
+The only constant is change. Show examples of how you've learned new tools or pivoted strategies in your resume.
+      `,
+      ar: `
+## تحول المهارات في 2026
+
+سوق العمل يتطور بسرعة. الأتمتة والذكاء الاصطناعي يغيران طريقة عملنا، ويبحث أصحاب العمل عن مرشحين يمكنهم التكيف.
+
+## 1. محو الأمية في الذكاء الاصطناعي
+فهم كيفية العمل *مع* الذكاء الاصطناعي، وليس ضده فقط، أمر بالغ الأهمية. لا تحتاج إلى أن تكون مطورًا، ولكن معرفة كيفية التوجيه والتحقق والاستفادة من أدوات الذكاء الاصطناعي هي مهارة ضرورية.
+
+## 2. الذكاء العاطفي (EQ)
+مع تولي الآلات المزيد من المهام المنطقية، يصبح الاتصال البشري أكثر قيمة. التعاطف وحل النزاعات والقيادة هي مهارات لا يمكن للذكاء الاصطناعي تكرارها.
+
+## 3. تحليل البيانات
+البيانات موجودة في كل مكان. القدرة على تفسير البيانات واتخاذ القرارات بناءً عليها مطلوبة في كل دور تقريبًا، من التسويق إلى الموارد البشرية.
+
+## 4. القدرة على التكيف
+الثابت الوحيد هو التغيير. اعرض أمثلة على كيفية تعلمك لأدوات جديدة أو تغيير الاستراتيجيات في سيرتك الذاتية.
+      `
     },
-    date: "2026-02-10",
+    date: "2026-03-01",
     author: {
       en: "Sarah Johnson",
       ar: "سارة جونسون"
@@ -166,10 +198,32 @@ Writing for an ATS doesn't mean writing like a robot. It means structuring your 
       ar: "الإجابة القصيرة هي نعم. الإجابة الطويلة تتضمن معرفة متى بالتحديد يمكن أن ينجح طلبك أو يفشله."
     },
     content: {
-      en: "Coming soon...",
-      ar: "قريباً..."
+      en: `
+## The Debate
+Many recruiters say they don't read cover letters. However, hiring managers often do—especially for competitive roles.
+
+## When is it Mandatory?
+*   **When the job description asks for it.** Ignoring this instruction shows a lack of attention to detail.
+*   **When you're referring to a connection.** Use the cover letter to mention who referred you.
+*   **When you're changing careers.** Your resume shows *what* you did; your cover letter explains *why* you're switching and how your skills transfer.
+
+## How to Write a Modern Cover Letter
+Keep it short. Three paragraphs max. Focus on the company's problems and how you can solve them.
+      `,
+      ar: `
+## الجدل
+يقول العديد من مسؤولي التوظيف إنهم لا يقرؤون خطابات التقديم. ومع ذلك، غالبًا ما يفعل مديرو التوظيف ذلك — خاصةً للأدوار التنافسية.
+
+## متى يكون إلزاميًا؟
+*   **عندما يطلب الوصف الوظيفي ذلك.** تجاهل هذه التعليمات يظهر نقصًا في الاهتمام بالتفاصيل.
+*   **عندما تشير إلى اتصال.** استخدم خطاب التقديم لذكر من أحالك.
+*   **عندما تغير مهنتك.** تظهر سيرتك الذاتية *ما* فعلته؛ يشرح خطاب التقديم *لماذا* تقوم بالتبديل وكيف تنتقل مهاراتك.
+
+## كيفية كتابة خطاب تقديم حديث
+اجعله قصيرًا. ثلاث فقرات كحد أقصى. ركز على مشاكل الشركة وكيف يمكنك حلها.
+      `
     },
-    date: "2026-02-05",
+    date: "2026-02-28",
     author: {
       en: "Omar Khaled",
       ar: "عمر خالد"

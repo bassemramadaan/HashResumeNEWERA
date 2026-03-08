@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { CheckCircle2, AlertCircle, Activity, Target, Briefcase, Search, X } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Activity, Target, Briefcase, Search, X, Copy, ArrowRight } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 // Basic stop words to ignore in keyword matching
@@ -46,6 +46,13 @@ export default function ATSAudit() {
 
     return { matchPercentage, matched, missing };
   }, [jobDescription, personalInfo, experience, education, skills]);
+
+  const copyMissingKeywords = () => {
+    if (matchResults?.missing) {
+      navigator.clipboard.writeText(matchResults.missing.join(', '));
+      alert('Missing keywords copied to clipboard!');
+    }
+  };
 
   if (isEmpty) {
     return (
@@ -157,15 +164,6 @@ export default function ATSAudit() {
     if (s >= 50) return "text-yellow-500 dark:text-yellow-400";
     return "text-red-500 dark:text-red-400";
   };
-
-  const getScoreBg = (s: number) => {
-    if (s >= 80) return "bg-indigo-500 dark:bg-indigo-400";
-    if (s >= 50) return "bg-yellow-500 dark:bg-yellow-400";
-    return "bg-red-500 dark:bg-red-400";
-  };
-
-  // Job Description Matching Logic
-  // matchResults is calculated above to respect Rules of Hooks
 
   return (
     <div className="space-y-6 font-sans">
@@ -323,10 +321,21 @@ export default function ATSAudit() {
 
                   <div className="md:col-span-2 space-y-6">
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
-                        <AlertCircle className="text-red-500 dark:text-red-400" size={16} />
-                        Missing Keywords ({matchResults.missing.length})
-                      </h4>
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                          <AlertCircle className="text-red-500 dark:text-red-400" size={16} />
+                          Missing Keywords ({matchResults.missing.length})
+                        </h4>
+                        {matchResults.missing.length > 0 && (
+                          <button 
+                            onClick={copyMissingKeywords}
+                            className="text-xs font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center gap-1"
+                          >
+                            <Copy size={12} /> Copy All
+                          </button>
+                        )}
+                      </div>
+                      
                       <div className="flex flex-wrap gap-2">
                         {matchResults.missing.length > 0 ? matchResults.missing.map(kw => (
                           <span key={kw} className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-3 py-1 rounded-full text-xs font-medium transition-colors">
@@ -336,6 +345,18 @@ export default function ATSAudit() {
                           <span className="text-sm text-slate-500 dark:text-slate-400 italic">No missing keywords found!</span>
                         )}
                       </div>
+                      
+                      {matchResults.missing.length > 0 && (
+                        <div className="mt-4 p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800/50">
+                          <h5 className="text-xs font-bold text-indigo-700 dark:text-indigo-300 uppercase tracking-wider mb-2 flex items-center gap-2">
+                            <Activity size={12} /> Actionable Insights
+                          </h5>
+                          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                            Your resume is missing <strong>{matchResults.missing.length}</strong> important keywords found in the job description. 
+                            Consider adding these terms to your <strong>Skills</strong> section or weaving them into your <strong>Experience</strong> bullet points to improve your ATS ranking.
+                          </p>
+                        </div>
+                      )}
                     </div>
 
                     <div>

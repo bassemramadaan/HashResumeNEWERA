@@ -7,6 +7,7 @@ import CoverLetterPage from './pages/CoverLetterPage';
 import BlogPage from './pages/BlogPage';
 import BlogPostPage from './pages/BlogPostPage';
 import TemplatesPage from './pages/TemplatesPage';
+import SharePage from './pages/SharePage';
 import { useThemeStore } from './store/useThemeStore';
 import { useLanguageStore } from './store/useLanguageStore';
 
@@ -37,6 +38,7 @@ export default function App() {
         <Route path="/cover-letter" element={<CoverLetterPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:id" element={<BlogPostPage />} />
+        <Route path="/share/:id" element={<SharePage />} />
       </Routes>
     </BrowserRouter>
   );

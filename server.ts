@@ -3,6 +3,8 @@ import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
 import { fetchJobsFromSheet } from './lib/jobs';
 import { checkRateLimit } from './lib/rateLimit';
+import { saveCV, getCV } from './lib/db';
+import { nanoid } from 'nanoid';
 
 dotenv.config();
 
@@ -10,7 +12,7 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  app.use(express.json());
+  app.use(express.json({ limit: '10mb' })); // Increase limit for CV data
 
   // Simple rate limiting middleware
   app.use((req, res, next) => {
@@ -54,6 +56,35 @@ async function startServer() {
     } catch (error) {
       console.error("Error fetching jobs:", error);
       res.status(500).json({ error: "Failed to fetch jobs" });
+    }
+  });
+
+  app.post("/api/share", (req, res) => {
+    try {
+      const { data } = req.body;
+      if (!data) {
+        return res.status(400).json({ error: "Data is required" });
+      }
+      const id = nanoid(10);
+      saveCV(id, data);
+      res.json({ id });
+    } catch (error) {
+      console.error("Error saving CV:", error);
+      res.status(500).json({ error: "Failed to save CV" });
+    }
+  });
+
+  app.get("/api/share/:id", (req, res) => {
+    try {
+      const { id } = req.params;
+      const data = getCV(id);
+      if (!data) {
+        return res.status(404).json({ error: "CV not found" });
+      }
+      res.json({ data });
+    } catch (error) {
+      console.error("Error retrieving CV:", error);
+      res.status(500).json({ error: "Failed to retrieve CV" });
     }
   });
 

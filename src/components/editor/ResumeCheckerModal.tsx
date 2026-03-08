@@ -7,7 +7,7 @@ import { cn } from '../../lib/utils';
 interface ResumeCheckerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onProceed: () => void;
+  onProceed: (format: 'pdf' | 'docx' | 'txt') => void;
 }
 
 const ACTION_VERBS = new Set([
@@ -195,25 +195,40 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
             </div>
 
             {/* Footer */}
-            <div className="p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 flex justify-end gap-3">
+            <div className="p-6 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 flex flex-col sm:flex-row justify-between items-center gap-4">
               <button 
                 onClick={onClose}
                 className="px-4 py-2 text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors"
               >
                 Keep Editing
               </button>
-              <button 
-                onClick={onProceed}
-                className={cn(
-                  "px-5 py-2 rounded-full text-sm font-medium text-white flex items-center gap-2 transition-colors shadow-sm",
-                  criticalFailures.length > 0 
-                    ? "bg-rose-600 hover:bg-rose-700" 
-                    : "bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white shadow-lg shadow-indigo-500/20 hover:scale-[1.02] active:scale-95"
-                )}
-              >
-                {criticalFailures.length > 0 ? 'Ignore & Export' : 'Continue to Export'}
-                <ArrowRight size={16} />
-              </button>
+              
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-slate-500 dark:text-slate-400 mr-2">Export as:</span>
+                <button 
+                  onClick={() => onProceed('pdf')}
+                  className={cn(
+                    "px-4 py-2 rounded-lg text-sm font-bold text-white flex items-center gap-2 transition-all shadow-sm",
+                    criticalFailures.length > 0 
+                      ? "bg-rose-600 hover:bg-rose-700" 
+                      : "bg-indigo-600 hover:bg-indigo-700"
+                  )}
+                >
+                  PDF
+                </button>
+                <button 
+                  onClick={() => onProceed('docx')}
+                  className="px-4 py-2 rounded-lg text-sm font-bold bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all shadow-sm"
+                >
+                  DOCX
+                </button>
+                <button 
+                  onClick={() => onProceed('txt')}
+                  className="px-4 py-2 rounded-lg text-sm font-bold bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-600 transition-all shadow-sm"
+                >
+                  TXT
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>

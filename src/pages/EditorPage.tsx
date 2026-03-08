@@ -7,7 +7,7 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText
+  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText, CheckCircle
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
@@ -20,6 +20,7 @@ import CertificationsForm from '../components/editor/CertificationsForm';
 import SettingsForm from '../components/editor/SettingsForm';
 import ATSAudit from '../components/editor/ATSAudit';
 import CoverLetterForm from '../components/editor/CoverLetterForm';
+import FinishStep from '../components/editor/FinishStep';
 import ResumePreview from '../components/preview/ResumePreview';
 import CoverLetterPreview from '../components/preview/CoverLetterPreview';
 import Logo from '../components/Logo';
@@ -32,7 +33,7 @@ import ResumeCheckerModal from '../components/editor/ResumeCheckerModal';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../lib/utils';
 
-type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'cover-letter' | 'settings';
+type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'cover-letter' | 'settings' | 'finish';
 
 interface TabItem {
   id: Tab;
@@ -135,6 +136,7 @@ export default function EditorPage() {
     { id: 'ats-audit', label: 'ATS Audit', icon: Target },
     { id: 'cover-letter', label: 'Cover Letter', icon: FileText },
     { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'finish', label: 'Finish', icon: CheckCircle },
   ];
 
   const calculateATSScore = () => {
@@ -210,7 +212,8 @@ export default function EditorPage() {
     certifications: 'Professional certifications and awards.',
     'ats-audit': 'Optimize your resume for applicant tracking systems.',
     'cover-letter': 'Generate a tailored cover letter for your job application.',
-    settings: 'Customize your resume template and appearance.'
+    settings: 'Customize your resume template and appearance.',
+    finish: 'Download or share your completed resume.'
   };
 
   return (
@@ -397,6 +400,7 @@ export default function EditorPage() {
               {activeTab === 'ats-audit' && <ATSAudit />}
               {activeTab === 'cover-letter' && <CoverLetterForm />}
               {activeTab === 'settings' && <SettingsForm />}
+              {activeTab === 'finish' && <FinishStep onPrint={handleProceedToExport} />}
             </div>
           </main>
         </div>
