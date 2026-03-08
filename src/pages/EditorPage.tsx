@@ -25,6 +25,7 @@ import PaymentModal from '../components/payment/PaymentModal';
 import PostDownloadModal from '../components/payment/PostDownloadModal';
 import FeedbackModal from '../components/FeedbackModal';
 import OnboardingTour from '../components/OnboardingTour';
+import WelcomeModal from '../components/editor/WelcomeModal';
 import ResumeCheckerModal from '../components/editor/ResumeCheckerModal';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../lib/utils';
@@ -46,21 +47,31 @@ export default function EditorPage() {
   const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const { data, loadExampleData, resetData } = useResumeStore();
-  const { hasSeenOnboarding, startOnboarding } = useOnboardingStore();
+  const { hasSeenOnboarding, startOnboarding, skipOnboarding } = useOnboardingStore();
   
   // Zundo hooks for undo/redo
   const { undo, redo, pastStates, futureStates } = useStore(useResumeStore.temporal);
 
-  // Start onboarding if not seen
+  // Show welcome modal if not seen
   useEffect(() => {
     if (!hasSeenOnboarding) {
-      // Small delay to ensure UI is rendered
-      const timer = setTimeout(() => startOnboarding(), 1000);
+      const timer = setTimeout(() => setShowWelcomeModal(true), 1000);
       return () => clearTimeout(timer);
     }
-  }, [hasSeenOnboarding, startOnboarding]);
+  }, [hasSeenOnboarding]);
+
+  const handleStartTour = () => {
+    setShowWelcomeModal(false);
+    startOnboarding();
+  };
+
+  const handleSkipTour = () => {
+    setShowWelcomeModal(false);
+    skipOnboarding();
+  };
 
   // Auto-save indicator effect
   useEffect(() => {
@@ -257,27 +268,29 @@ export default function EditorPage() {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                data-tour={tab.tourId}
-                className={cn(
-                  "relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 group shrink-0",
-                  isActive 
-                    ? "bg-black text-white shadow-lg scale-110" 
-                    : "text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
-                )}
-              >
+              <div key={tab.id} className="relative flex flex-col items-center justify-center h-16 w-16 group">
+                <button
+                  onClick={() => setActiveTab(tab.id)}
+                  data-tour={tab.tourId}
+                  className={cn(
+                    "relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 shrink-0",
+                    isActive 
+                      ? "bg-black text-white shadow-lg scale-110" 
+                      : "text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
+                  )}
+                >
                 <span className="relative z-10">
                   <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
                 </span>
+                <span className="sr-only">{tab.label}</span>
                 
                 {/* Tooltip */}
-                <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-xl hidden md:block border border-white/10">
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-xl border border-white/10 z-50">
                   {tab.label}
                   <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
                 </div>
               </button>
+            </div>
             );
           })}
 
@@ -426,6 +439,12 @@ export default function EditorPage() {
       <FeedbackModal 
         isOpen={showFeedbackModal} 
         onClose={() => setShowFeedbackModal(false)} 
+      />
+      
+      <WelcomeModal
+        isOpen={showWelcomeModal}
+        onStartTour={handleStartTour}
+        onSkip={handleSkipTour}
       />
     </div>
   );

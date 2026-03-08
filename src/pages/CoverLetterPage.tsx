@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, FileText, Sparkles, Copy, Check } from 'lucide-react';
+import { ArrowLeft, FileText, Sparkles, Copy, Check, Import } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
+import { useResumeStore } from '../store/useResumeStore';
 
 export default function CoverLetterPage() {
+  const { data } = useResumeStore();
   const [formData, setFormData] = useState({
     fullName: '',
     jobTitle: '',
@@ -13,6 +15,17 @@ export default function CoverLetterPage() {
     jobDescription: '',
     skills: '',
   });
+
+  useEffect(() => {
+    if (data.personalInfo.fullName && !formData.fullName) {
+      setFormData(prev => ({
+        ...prev,
+        fullName: data.personalInfo.fullName || '',
+        jobTitle: data.personalInfo.jobTitle || '',
+        skills: data.skills.join(', ') || '',
+      }));
+    }
+  }, [data.personalInfo.fullName, data.personalInfo.jobTitle, data.skills]);
   const [generatedLetter, setGeneratedLetter] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -20,6 +33,15 @@ export default function CoverLetterPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const importFromResume = () => {
+    setFormData(prev => ({
+      ...prev,
+      fullName: data.personalInfo.fullName || '',
+      jobTitle: data.personalInfo.jobTitle || '',
+      skills: data.skills.join(', ') || '',
+    }));
   };
 
   const generateCoverLetter = () => {
@@ -101,7 +123,17 @@ ${formData.fullName}`;
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Input Form */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-8 space-y-6 transition-colors">
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Job Details</h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Job Details</h2>
+            <button
+              onClick={importFromResume}
+              className="flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 px-3 py-1.5 rounded-lg transition-colors"
+              title="Import Name, Job Title, and Skills from your resume"
+            >
+              <Import size={16} />
+              Import from Resume
+            </button>
+          </div>
           
           <div className="space-y-4">
             <div>

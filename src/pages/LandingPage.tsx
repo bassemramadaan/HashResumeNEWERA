@@ -18,6 +18,15 @@ export default function LandingPage() {
   const t = translations[language].landing;
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
+  // Calculate dynamic stats based on date to show growth
+  const baseCount = 600;
+  const startDate = new Date('2024-01-01').getTime();
+  const now = new Date().getTime();
+  const daysDiff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+  // Add roughly 2-5 resumes per day
+  const dynamicCount = baseCount + (daysDiff * 3);
+  const displayCount = Math.floor(dynamicCount / 10) * 10; // Round to nearest 10
+
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
       <Helmet>
@@ -188,7 +197,7 @@ export default function LandingPage() {
                   </div>
                   <div className="text-left rtl:text-right">
                     <p className="text-xs font-bold text-slate-900 dark:text-white max-w-[140px] leading-tight">
-                      {t.statsText}
+                      {t.statsText.replace('600+', `${displayCount}+`)}
                     </p>
                   </div>
                 </div>
@@ -206,7 +215,7 @@ export default function LandingPage() {
             </div>
 
             {/* Right Column: Dynamic Resume Graphic */}
-            <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end mt-12 lg:mt-0 perspective-1000">
+            <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end mt-12 lg:mt-0 perspective-1000 pr-4 lg:pr-20">
               <motion.div
                 initial={{ opacity: 0, rotateY: 15, rotateX: 5, scale: 0.9 }}
                 whileInView={{ opacity: 1, rotateY: -5, rotateX: 2, scale: 1 }}

@@ -41,6 +41,8 @@ export type PersonalInfo = {
   phone: string;
   address: string;
   linkedin: string;
+  github: string;
+  portfolio: string;
   summary: string;
 };
 
@@ -52,9 +54,9 @@ export type ResumeData = {
   projects: Project[];
   certifications: Certification[];
   settings: {
-    template: 'modern' | 'classic' | 'creative' | 'minimal' | 'tech' | 'executive';
+    template: 'modern' | 'classic' | 'creative' | 'minimal' | 'tech' | 'executive' | 'medical' | 'legal' | 'academic';
     themeColor: string;
-    language: 'en' | 'ar';
+    language: 'en' | 'ar' | 'fr';
     isFreshGrad: boolean;
   };
   jobDescription: string;
@@ -69,6 +71,8 @@ const initialData: ResumeData = {
     phone: '',
     address: '',
     linkedin: '',
+    github: '',
+    portfolio: '',
     summary: '',
   },
   experience: [],
@@ -241,9 +245,10 @@ export const useResumeStore = create<ResumeStore>()(
               email: 'ahmed.hassan@example.com',
               phone: '+20 100 123 4567',
               address: 'Cairo, Egypt',
-              linkedin: 'linkedin.com/in/ahmedhassan',
-              summary:
-                'Experienced Software Engineer with a passion for developing innovative programs that expedite the efficiency and effectiveness of organizational success. Well-versed in technology and writing code to create systems that are reliable and user-friendly.',
+              linkedin: '', // Removed LinkedIn to lower ATS score
+              github: 'github.com/ahmedhassan',
+              portfolio: 'ahmedhassan.dev',
+              summary: '', // Removed summary to lower ATS score
             },
             experience: [
               {
@@ -252,8 +257,7 @@ export const useResumeStore = create<ResumeStore>()(
                 position: 'Senior Frontend Developer',
                 startDate: '2020-01',
                 endDate: 'Present',
-                description:
-                  '• Led a team of 5 developers to rebuild the core web application using React and TypeScript.\n• Improved application performance by 40% through code splitting and lazy loading.\n• Mentored junior developers and conducted code reviews.',
+                description: 'Worked on the core web application using React and TypeScript.', // Shortened description
               },
               {
                 id: generateId(),

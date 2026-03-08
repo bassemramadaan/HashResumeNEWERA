@@ -120,7 +120,6 @@ export default function Testimonials() {
           <div>
             <h4 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1">
               {item.name}
-              <BadgeCheck size={14} className="text-[#f16529]" />
             </h4>
             <div className="flex items-center gap-1 text-amber-400 mt-0.5">
               {[...Array(5)].map((_, idx) => (

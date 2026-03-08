@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useResumeStore, Experience } from '../../store/useResumeStore';
-import { Briefcase, Plus, Trash2, ChevronDown, ChevronUp, Sparkles } from 'lucide-react';
+import { Briefcase, Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 const EXP_SUGGESTIONS = [
@@ -62,6 +62,17 @@ export default function ExperienceForm() {
                   <p className="text-sm text-slate-500 dark:text-slate-400">{exp.company || 'Company Name'} • {exp.startDate || 'Start'} - {exp.endDate || 'End'}</p>
                 </div>
                 <div className="flex items-center gap-3">
+                  <button 
+                    onClick={(e) => { 
+                      e.stopPropagation(); 
+                      const { id, ...rest } = exp;
+                      addExperience(rest);
+                    }}
+                    className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                    title="Duplicate"
+                  >
+                    <Copy size={18} />
+                  </button>
                   <button 
                     onClick={(e) => { e.stopPropagation(); removeExperience(exp.id); }}
                     className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"

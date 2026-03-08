@@ -22,6 +22,9 @@ const TEMPLATES = [
   { id: 'minimal', name: 'Minimal', description: 'Simple, elegant, and focused' },
   { id: 'tech', name: 'Tech', description: 'Optimized for developers and IT' },
   { id: 'executive', name: 'Executive', description: 'Sophisticated for leadership roles' },
+  { id: 'medical', name: 'Medical', description: 'Clean and clinical layout' },
+  { id: 'legal', name: 'Legal', description: 'Formal and authoritative' },
+  { id: 'academic', name: 'Academic', description: 'Detailed and comprehensive' },
 ] as const;
 
 export default function SettingsForm() {
@@ -118,6 +121,17 @@ export default function SettingsForm() {
               )}
             >
               العربية
+            </button>
+            <button
+              onClick={() => updateSettings({ language: 'fr' })}
+              className={cn(
+                "px-6 py-2.5 rounded-xl border-2 font-medium transition-all",
+                settings.language === 'fr'
+                  ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
+                  : "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
+              )}
+            >
+              Français
             </button>
           </div>
         </div>

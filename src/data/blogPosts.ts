@@ -119,7 +119,7 @@ Writing for an ATS doesn't mean writing like a robot. It means structuring your 
 الكتابة لنظام ATS لا تعني الكتابة مثل الروبوت. إنها تعني هيكلة إنجازاتك البشرية بطريقة يمكن للآلات فهمها. استخدم ميزة **تدقيق ATS** في Hash Resume للتحقق من درجاتك في الوقت الفعلي!
       `
     },
-    date: "2024-03-15",
+    date: "2026-02-15",
     author: {
       en: "Hash Resume Team",
       ar: "فريق Hash Resume"
@@ -131,10 +131,10 @@ Writing for an ATS doesn't mean writing like a robot. It means structuring your 
     }
   },
   {
-    id: 'top-skills-2024',
+    id: 'top-skills-2026',
     title: {
-      en: "Top Skills Employers Are Looking For in 2024",
-      ar: "أهم المهارات التي يبحث عنها أصحاب العمل في 2024"
+      en: "Top Skills Employers Are Looking For in 2026",
+      ar: "أهم المهارات التي يبحث عنها أصحاب العمل في 2026"
     },
     excerpt: {
       en: "From AI literacy to emotional intelligence, discover the skills that will make your resume stand out this year.",
@@ -144,7 +144,7 @@ Writing for an ATS doesn't mean writing like a robot. It means structuring your 
       en: "Coming soon...",
       ar: "قريباً..."
     },
-    date: "2024-03-10",
+    date: "2026-02-10",
     author: {
       en: "Sarah Johnson",
       ar: "سارة جونسون"
@@ -169,7 +169,7 @@ Writing for an ATS doesn't mean writing like a robot. It means structuring your 
       en: "Coming soon...",
       ar: "قريباً..."
     },
-    date: "2024-03-05",
+    date: "2026-02-05",
     author: {
       en: "Omar Khaled",
       ar: "عمر خالد"

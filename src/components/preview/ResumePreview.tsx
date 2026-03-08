@@ -731,6 +731,212 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
     </div>
   );
 
+  const renderMedical = () => (
+    <div className="font-sans text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-white">
+      <header className="mb-8 border-b-4 border-emerald-600 pb-6">
+        <h1 className="text-3xl md:text-4xl font-bold text-emerald-800 mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.jobTitle && <h2 className="text-xl font-medium text-slate-600 mb-4">{personalInfo.jobTitle}</h2>}
+        <div className="flex flex-wrap gap-4 text-sm text-slate-600">
+          {personalInfo.email && <div className="flex items-center gap-1"><Mail size={14} />{personalInfo.email}</div>}
+          {personalInfo.phone && <div className="flex items-center gap-1"><Phone size={14} />{personalInfo.phone}</div>}
+          {personalInfo.address && <div className="flex items-center gap-1"><MapPin size={14} />{personalInfo.address}</div>}
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 gap-8">
+        {personalInfo.summary && (
+          <section>
+            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-3 border-b border-emerald-100 pb-1">Professional Summary</h3>
+            <p className="text-sm text-slate-700 leading-relaxed">{personalInfo.summary}</p>
+          </section>
+        )}
+
+        {certifications.length > 0 && (
+          <section>
+            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-3 border-b border-emerald-100 pb-1">Licenses & Certifications</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {certifications.map((cert) => (
+                <div key={cert.id} className="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                  <div className="font-bold text-emerald-900">{cert.name}</div>
+                  <div className="text-sm text-emerald-700">{cert.issuer} • {cert.date}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {experience.length > 0 && (
+          <section>
+            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-3 border-b border-emerald-100 pb-1">Clinical Experience</h3>
+            <div className="space-y-6">
+              {experience.map((exp) => (
+                <div key={exp.id}>
+                  <div className="flex justify-between items-baseline mb-1">
+                    <h4 className="font-bold text-slate-900">{exp.position}</h4>
+                    <span className="text-sm text-slate-500">{exp.startDate} - {exp.endDate}</span>
+                  </div>
+                  <div className="text-emerald-600 font-medium mb-2">{exp.company}</div>
+                  <p className="text-sm text-slate-700 whitespace-pre-wrap">{exp.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {education.length > 0 && (
+          <section>
+            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-3 border-b border-emerald-100 pb-1">Education</h3>
+            <div className="space-y-4">
+              {education.map((edu) => (
+                <div key={edu.id}>
+                  <div className="flex justify-between items-baseline mb-1">
+                    <h4 className="font-bold text-slate-900">{edu.degree}</h4>
+                    <span className="text-sm text-slate-500">{edu.startDate} - {edu.endDate}</span>
+                  </div>
+                  <div className="text-slate-600">{edu.institution}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderLegal = () => (
+    <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-[#fdfbf7]">
+      <header className="text-center mb-10">
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2 uppercase tracking-widest">{personalInfo.fullName || 'Your Name'}</h1>
+        <div className="w-24 h-1 bg-slate-900 mx-auto mb-4"></div>
+        {personalInfo.jobTitle && <h2 className="text-xl italic text-slate-700 mb-4">{personalInfo.jobTitle}</h2>}
+        <div className="flex justify-center gap-6 text-sm text-slate-600 font-sans">
+          {personalInfo.email && <span>{personalInfo.email}</span>}
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
+          {personalInfo.address && <span>{personalInfo.address}</span>}
+        </div>
+      </header>
+
+      <div className="space-y-8">
+        {personalInfo.summary && (
+          <section>
+            <h3 className="text-center text-sm font-bold uppercase tracking-widest mb-4 text-slate-500">Professional Profile</h3>
+            <p className="text-justify text-slate-800 leading-loose">{personalInfo.summary}</p>
+          </section>
+        )}
+
+        {experience.length > 0 && (
+          <section>
+            <h3 className="text-center text-sm font-bold uppercase tracking-widest mb-6 text-slate-500">Legal Experience</h3>
+            <div className="space-y-8">
+              {experience.map((exp) => (
+                <div key={exp.id}>
+                  <div className="flex justify-between items-baseline mb-1 font-sans">
+                    <h4 className="font-bold text-lg text-slate-900">{exp.company}</h4>
+                    <span className="text-sm text-slate-500">{exp.startDate} - {exp.endDate}</span>
+                  </div>
+                  <div className="italic text-slate-700 mb-2">{exp.position}</div>
+                  <p className="text-slate-800 whitespace-pre-wrap">{exp.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {education.length > 0 && (
+          <section>
+            <h3 className="text-center text-sm font-bold uppercase tracking-widest mb-6 text-slate-500">Education</h3>
+            <div className="space-y-6">
+              {education.map((edu) => (
+                <div key={edu.id}>
+                  <div className="flex justify-between items-baseline mb-1 font-sans">
+                    <h4 className="font-bold text-lg text-slate-900">{edu.institution}</h4>
+                    <span className="text-sm text-slate-500">{edu.startDate} - {edu.endDate}</span>
+                  </div>
+                  <div className="italic text-slate-700">{edu.degree}</div>
+                  {edu.description && <p className="text-slate-800 mt-2">{edu.description}</p>}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+
+  const renderAcademic = () => (
+    <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-white">
+      <header className="mb-8 border-b border-slate-300 pb-6">
+        <h1 className="text-3xl font-bold text-slate-900 mb-1">{personalInfo.fullName || 'Your Name'}</h1>
+        <div className="text-slate-600 mb-4">{personalInfo.jobTitle}</div>
+        <div className="text-sm text-slate-600 space-y-1">
+          {personalInfo.address && <div>{personalInfo.address}</div>}
+          {personalInfo.email && <div>{personalInfo.email}</div>}
+          {personalInfo.phone && <div>{personalInfo.phone}</div>}
+          {personalInfo.linkedin && <div>{personalInfo.linkedin}</div>}
+        </div>
+      </header>
+
+      <div className="space-y-8">
+        {education.length > 0 && (
+          <section>
+            <h3 className="font-bold text-slate-900 uppercase mb-4">Education</h3>
+            <div className="space-y-4">
+              {education.map((edu) => (
+                <div key={edu.id} className="grid grid-cols-[120px_1fr] gap-4">
+                  <div className="text-sm text-slate-600">{edu.endDate}</div>
+                  <div>
+                    <div className="font-bold text-slate-900">{edu.degree}</div>
+                    <div className="italic text-slate-700">{edu.institution}</div>
+                    {edu.description && <p className="text-sm text-slate-800 mt-1">{edu.description}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {experience.length > 0 && (
+          <section>
+            <h3 className="font-bold text-slate-900 uppercase mb-4">Academic & Professional Experience</h3>
+            <div className="space-y-6">
+              {experience.map((exp) => (
+                <div key={exp.id} className="grid grid-cols-[120px_1fr] gap-4">
+                  <div className="text-sm text-slate-600">{exp.startDate} - {exp.endDate}</div>
+                  <div>
+                    <div className="font-bold text-slate-900">{exp.position}</div>
+                    <div className="italic text-slate-700 mb-2">{exp.company}</div>
+                    <p className="text-sm text-slate-800 whitespace-pre-wrap">{exp.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {projects.length > 0 && (
+          <section>
+            <h3 className="font-bold text-slate-900 uppercase mb-4">Research & Projects</h3>
+            <div className="space-y-4">
+              {projects.map((proj) => (
+                <div key={proj.id}>
+                  <div className="font-bold text-slate-900">{proj.name}</div>
+                  <p className="text-sm text-slate-800">{proj.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {skills.length > 0 && (
+          <section>
+            <h3 className="font-bold text-slate-900 uppercase mb-4">Skills</h3>
+            <p className="text-sm text-slate-800">{skills.join(', ')}</p>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <div 
       ref={ref} 
@@ -744,6 +950,9 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
       {settings.template === 'minimal' && renderMinimal()}
       {settings.template === 'tech' && renderTech()}
       {settings.template === 'executive' && renderExecutive()}
+      {settings.template === 'medical' && renderMedical()}
+      {settings.template === 'legal' && renderLegal()}
+      {settings.template === 'academic' && renderAcademic()}
       
       {/* Watermark */}
       <div className="mt-8 pb-4 text-center text-xs text-slate-300 font-medium opacity-50">

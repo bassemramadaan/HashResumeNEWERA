@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { User, Mail, Phone, MapPin, Linkedin, Calendar, FileText, Sparkles, AlertCircle } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Linkedin, Github, Globe, Calendar, FileText, Sparkles, AlertCircle } from 'lucide-react';
 
 const SUMMARY_SUGGESTIONS = [
   "Results-driven professional with a proven track record of delivering high-quality solutions and exceeding performance targets.",
@@ -184,6 +184,42 @@ export default function PersonalInfoForm() {
               onChange={handleChange}
               className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="linkedin.com/in/ahmedhassan"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="github" className="text-sm font-medium text-slate-700 dark:text-slate-300">GitHub URL</label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Github className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+            </div>
+            <input
+              type="url"
+              id="github"
+              name="github"
+              value={personalInfo.github || ''}
+              onChange={handleChange}
+              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              placeholder="github.com/ahmedhassan"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="portfolio" className="text-sm font-medium text-slate-700 dark:text-slate-300">Portfolio / Website</label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Globe className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+            </div>
+            <input
+              type="url"
+              id="portfolio"
+              name="portfolio"
+              value={personalInfo.portfolio || ''}
+              onChange={handleChange}
+              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              placeholder="ahmedhassan.dev"
             />
           </div>
         </div>
