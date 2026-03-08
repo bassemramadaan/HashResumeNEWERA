@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { FileText, FileType, X, Download, FileJson } from 'lucide-react';
+import { FileText, FileType, X, Download, FileJson, Share2 } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
 interface ExportOptionsModalProps {
@@ -9,6 +9,7 @@ interface ExportOptionsModalProps {
   onExportPdf: () => void;
   onExportDocx: () => void;
   onExportTxt: () => void;
+  onShareLink: () => void;
 }
 
 export default function ExportOptionsModal({ 
@@ -16,7 +17,8 @@ export default function ExportOptionsModal({
   onClose, 
   onExportPdf, 
   onExportDocx, 
-  onExportTxt 
+  onExportTxt,
+  onShareLink
 }: ExportOptionsModalProps) {
   return (
     <AnimatePresence>
@@ -29,7 +31,7 @@ export default function ExportOptionsModal({
             className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
           >
             <div className="p-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
-              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Export Resume</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Export & Share</h2>
               <button 
                 onClick={onClose}
                 className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
@@ -85,6 +87,24 @@ export default function ExportOptionsModal({
                   </div>
                 </div>
                 <Download size={20} className="text-slate-400 group-hover:text-slate-600 transition-colors" />
+              </button>
+
+              <div className="border-t border-slate-100 dark:border-slate-700 my-4"></div>
+
+              <button
+                onClick={onShareLink}
+                className="w-full flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-all group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
+                    <Share2 size={24} />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-bold text-slate-900 dark:text-white">Share Public Link</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">Copy a link to share your resume</p>
+                  </div>
+                </div>
+                <Share2 size={20} className="text-slate-400 group-hover:text-emerald-500 transition-colors" />
               </button>
             </div>
           </motion.div>

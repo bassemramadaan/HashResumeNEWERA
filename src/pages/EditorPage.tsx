@@ -383,15 +383,6 @@ export default function EditorPage() {
           {/* Separator */}
           <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-2"></div>
 
-          {/* Share Button */}
-          <button 
-            onClick={handleShare}
-            className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors shadow-sm border border-slate-200 dark:border-slate-700 mr-2"
-            title="Share Resume"
-          >
-            <Share2 size={20} />
-          </button>
-
           {/* Start / Export Button */}
           <button 
             onClick={handleExportClick}
@@ -556,6 +547,7 @@ export default function EditorPage() {
         onExportPdf={handleExportPdf}
         onExportDocx={handleExportDocx}
         onExportTxt={handleExportTxt}
+        onShareLink={handleShare}
       />
 
       <PaymentModal 
