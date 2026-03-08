@@ -95,7 +95,7 @@ export default function LandingPage() {
       <section className="relative pt-20 pb-20 lg:pt-32 lg:pb-40 overflow-hidden">
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-[#f16529] opacity-20 blur-[100px]"></div>
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-[#f16529] opacity-20 blur-[100px] animate-pulse"></div>
         <div className="absolute right-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -108,7 +108,7 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-[#f16529] text-xs font-bold uppercase tracking-wider mb-6 border border-orange-100 dark:border-orange-800/30"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-[#f16529] text-xs font-bold uppercase tracking-wider mb-6 border border-orange-100 dark:border-orange-800/30 shadow-sm"
               >
                 <Zap size={14} className="fill-current" />
                 <span>AI-Powered Resume Builder</span>
@@ -122,7 +122,7 @@ export default function LandingPage() {
                 className="font-display mb-6"
               >
                 <span className="text-slate-900 dark:text-white block text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.1] mb-2">
-                  {t.heroTitle1} <span className="text-[#f16529]">{t.heroTitle2}</span>
+                  {t.heroTitle1} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f16529] to-orange-600">{t.heroTitle2}</span>
                 </span>
                 <span className="text-slate-400 dark:text-slate-500 block text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
                   {t.heroTitle3}
@@ -146,7 +146,7 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4 mb-12"
               >
-                <Link to="/editor" className="w-full sm:w-auto bg-[#f16529] hover:bg-[#e44d26] text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                <Link to="/editor" className="w-full sm:w-auto bg-gradient-to-r from-[#f16529] to-orange-600 hover:from-[#e44d26] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
                   {t.buildResume}
                   <ArrowRight size={20} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
                 </Link>
@@ -164,15 +164,21 @@ export default function LandingPage() {
                 className="flex items-center justify-center lg:justify-start gap-8 text-slate-500 dark:text-slate-400 text-sm font-medium"
               >
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 size={18} className="text-emerald-500" />
+                  <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                    <CheckCircle2 size={12} className="text-emerald-500" />
+                  </div>
                   <span>ATS-Friendly</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 size={18} className="text-emerald-500" />
+                  <div className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                    <CheckCircle2 size={12} className="text-purple-500" />
+                  </div>
                   <span>AI-Powered</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle2 size={18} className="text-emerald-500" />
+                  <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                    <CheckCircle2 size={12} className="text-blue-500" />
+                  </div>
                   <span>Free Templates</span>
                 </div>
               </motion.div>
@@ -188,10 +194,10 @@ export default function LandingPage() {
                 className="relative z-10 w-full max-w-[480px] aspect-[3/4] transform-style-3d"
               >
                 {/* Glassmorphism Backdrop */}
-                <div className="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 to-purple-500/20 rounded-[2rem] blur-2xl -z-10"></div>
+                <div className="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 to-purple-500/20 rounded-[2rem] blur-2xl -z-10 animate-pulse"></div>
                 
                 {/* Main Resume Document */}
-                <div className="absolute inset-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 dark:border-slate-700/50 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
+                <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 dark:border-slate-700/50 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
                   {/* Header */}
                   <div className="bg-slate-50/50 dark:bg-slate-800/50 p-8 border-b border-slate-100 dark:border-slate-800 flex items-center gap-6">
                     <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#f16529] to-orange-600 shadow-lg shadow-orange-500/20 flex items-center justify-center text-white font-bold text-3xl">
@@ -249,7 +255,7 @@ export default function LandingPage() {
                   <motion.div 
                     animate={{ top: ['-10%', '110%', '-10%'] }}
                     transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    className="absolute left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#f16529]/5 to-transparent border-b border-[#f16529]/30 z-20 pointer-events-none"
+                    className="absolute left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#f16529]/10 to-transparent border-b border-[#f16529]/30 z-20 pointer-events-none"
                     style={{ top: '0%' }}
                   />
                 </div>
@@ -258,7 +264,7 @@ export default function LandingPage() {
                 <motion.div 
                   animate={{ y: [0, -15, 0], x: [0, 5, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-8 -right-8 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-4 z-30"
+                  className="absolute -top-8 -right-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 dark:border-slate-700/50 flex items-center gap-4 z-30"
                 >
                   <div className="relative w-12 h-12 flex items-center justify-center">
                     <svg className="w-full h-full transform -rotate-90">
@@ -277,7 +283,7 @@ export default function LandingPage() {
                 <motion.div 
                   animate={{ y: [0, 15, 0], x: [0, -5, 0] }}
                   transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute bottom-12 -left-12 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 flex items-center gap-4 z-30"
+                  className="absolute bottom-12 -left-12 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 dark:border-slate-700/50 flex items-center gap-4 z-30"
                 >
                   <div className="flex -space-x-3 rtl:space-x-reverse">
                     {[1,2,3].map(i => (
@@ -315,12 +321,12 @@ export default function LandingPage() {
               { icon: FileText, title: t.feature3Title, desc: t.feature3Desc, color: "from-indigo-400 to-blue-500", bg: "bg-indigo-50 dark:bg-indigo-500/10", text: "text-indigo-600 dark:text-indigo-400" },
               { icon: CheckCircle2, title: t.feature4Title, desc: t.feature4Desc, color: "from-cyan-400 to-blue-500", bg: "bg-cyan-50 dark:bg-cyan-500/10", text: "text-cyan-600 dark:text-cyan-400" }
             ].map((feature, i) => (
-              <div key={i} className="group relative bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm p-8 md:p-10 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-5 dark:opacity-10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110`}></div>
-                <div className={`w-14 h-14 ${feature.bg} ${feature.text} rounded-2xl flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300`}>
+              <div key={i} className="group relative bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm p-8 md:p-10 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden hover:border-orange-200 dark:hover:border-orange-900/30">
+                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-5 dark:opacity-10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110 duration-500`}></div>
+                <div className={`w-14 h-14 ${feature.bg} ${feature.text} rounded-2xl flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300 ring-1 ring-inset ring-black/5 dark:ring-white/5`}>
                   <feature.icon size={28} strokeWidth={2} />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">{feature.title}</h3>
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-[#f16529] transition-colors">{feature.title}</h3>
                 <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">{feature.desc}</p>
               </div>
             ))}
