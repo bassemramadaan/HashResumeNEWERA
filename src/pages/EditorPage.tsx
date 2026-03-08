@@ -7,7 +7,7 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight
+  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
@@ -19,7 +19,9 @@ import ProjectsForm from '../components/editor/ProjectsForm';
 import CertificationsForm from '../components/editor/CertificationsForm';
 import SettingsForm from '../components/editor/SettingsForm';
 import ATSAudit from '../components/editor/ATSAudit';
+import CoverLetterForm from '../components/editor/CoverLetterForm';
 import ResumePreview from '../components/preview/ResumePreview';
+import CoverLetterPreview from '../components/preview/CoverLetterPreview';
 import Logo from '../components/Logo';
 import PaymentModal from '../components/payment/PaymentModal';
 import PostDownloadModal from '../components/payment/PostDownloadModal';
@@ -30,7 +32,7 @@ import ResumeCheckerModal from '../components/editor/ResumeCheckerModal';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../lib/utils';
 
-type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'settings';
+type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'cover-letter' | 'settings';
 
 interface TabItem {
   id: Tab;
@@ -131,6 +133,7 @@ export default function EditorPage() {
     { id: 'projects', label: 'Projects', icon: FolderGit2 },
     { id: 'certifications', label: 'Certifications', icon: Award },
     { id: 'ats-audit', label: 'ATS Audit', icon: Target },
+    { id: 'cover-letter', label: 'Cover Letter', icon: FileText },
     { id: 'settings', label: 'Settings', icon: Settings },
   ];
 
@@ -176,6 +179,7 @@ export default function EditorPage() {
     projects: 'Showcase your best work and personal projects.',
     certifications: 'Professional certifications and awards.',
     'ats-audit': 'Optimize your resume for applicant tracking systems.',
+    'cover-letter': 'Generate a tailored cover letter for your job application.',
     settings: 'Customize your resume template and appearance.'
   };
 
@@ -347,6 +351,7 @@ export default function EditorPage() {
               {activeTab === 'projects' && <ProjectsForm />}
               {activeTab === 'certifications' && <CertificationsForm />}
               {activeTab === 'ats-audit' && <ATSAudit />}
+              {activeTab === 'cover-letter' && <CoverLetterForm />}
               {activeTab === 'settings' && <SettingsForm />}
             </div>
           </main>
@@ -367,14 +372,30 @@ export default function EditorPage() {
                   <ChevronLeft size={20} />
                 </button>
               )}
-              <LayoutTemplate size={18} className="text-slate-400 dark:text-slate-500" />
-              <h2 className="font-semibold text-slate-700 dark:text-slate-300 text-sm">Live Preview</h2>
+              {activeTab === 'cover-letter' ? (
+                <>
+                  <FileText size={18} className="text-slate-400 dark:text-slate-500" />
+                  <h2 className="font-semibold text-slate-700 dark:text-slate-300 text-sm">Cover Letter Preview</h2>
+                </>
+              ) : (
+                <>
+                  <LayoutTemplate size={18} className="text-slate-400 dark:text-slate-500" />
+                  <h2 className="font-semibold text-slate-700 dark:text-slate-300 text-sm">Live Preview</h2>
+                </>
+              )}
             </div>
           </div>
           
           <div className="flex-1 overflow-y-auto p-4 md:p-8 pt-20 flex justify-center items-start">
-            <div className="w-full max-w-[210mm] bg-white shadow-xl dark:shadow-indigo-900/20 rounded-sm overflow-hidden scale-[0.85] sm:scale-95 md:scale-100 origin-top transition-transform ring-1 ring-slate-900/5 dark:ring-slate-100/10">
-              <ResumePreview ref={componentRef} />
+            <div className={cn(
+              "w-full max-w-[210mm] bg-white shadow-xl dark:shadow-indigo-900/20 rounded-sm overflow-hidden origin-top transition-transform ring-1 ring-slate-900/5 dark:ring-slate-100/10",
+              activeTab !== 'cover-letter' && "scale-[0.85] sm:scale-95 md:scale-100"
+            )}>
+              {activeTab === 'cover-letter' ? (
+                <CoverLetterPreview />
+              ) : (
+                <ResumePreview ref={componentRef} />
+              )}
             </div>
           </div>
         </div>

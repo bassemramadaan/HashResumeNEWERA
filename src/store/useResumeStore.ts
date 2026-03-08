@@ -46,8 +46,19 @@ export type PersonalInfo = {
   summary: string;
 };
 
+export type CoverLetter = {
+  fullName: string;
+  jobTitle: string;
+  companyName: string;
+  hiringManager: string;
+  jobDescription: string;
+  skills: string;
+  generatedContent: string;
+};
+
 export type ResumeData = {
   personalInfo: PersonalInfo;
+  coverLetter: CoverLetter;
   experience: Experience[];
   education: Education[];
   skills: string[];
@@ -74,6 +85,15 @@ const initialData: ResumeData = {
     github: '',
     portfolio: '',
     summary: '',
+  },
+  coverLetter: {
+    fullName: '',
+    jobTitle: '',
+    companyName: '',
+    hiringManager: '',
+    jobDescription: '',
+    skills: '',
+    generatedContent: '',
   },
   experience: [],
   education: [],
@@ -109,6 +129,7 @@ type ResumeStore = {
   removeCertification: (id: string) => void;
   updateSettings: (settings: Partial<ResumeData['settings']>) => void;
   updateJobDescription: (jd: string) => void;
+  updateCoverLetter: (cl: Partial<CoverLetter>) => void;
   unlockPremium: () => void;
   resetData: () => void;
   loadExampleData: () => void;
@@ -124,6 +145,10 @@ export const useResumeStore = create<ResumeStore>()(
       updatePersonalInfo: (info) =>
         set((state) => ({
           data: { ...state.data, personalInfo: { ...state.data.personalInfo, ...info } },
+        })),
+      updateCoverLetter: (cl) =>
+        set((state) => ({
+          data: { ...state.data, coverLetter: { ...state.data.coverLetter, ...cl } },
         })),
       addExperience: (exp) =>
         set((state) => ({
