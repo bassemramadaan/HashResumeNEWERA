@@ -7,10 +7,13 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText
+  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText, Share2
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
+import { generateShareLink, parseShareLink } from '../lib/share';
+import { exportToDocx, exportToTxt } from '../lib/export';
+import ExportOptionsModal from '../components/editor/ExportOptionsModal';
 import PersonalInfoForm from '../components/editor/PersonalInfoForm';
 import ExperienceForm from '../components/editor/ExperienceForm';
 import EducationForm from '../components/editor/EducationForm';
@@ -50,12 +53,61 @@ export default function EditorPage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [showExportOptions, setShowExportOptions] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const { data, loadExampleData, resetData } = useResumeStore();
+  const { data, loadExampleData, resetData, importData } = useResumeStore();
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } = useOnboardingStore();
   
   // Zundo hooks for undo/redo
   const { undo, redo, pastStates, futureStates } = useStore(useResumeStore.temporal);
+
+  // Hydrate from URL on mount and hash change
+  useEffect(() => {
+    const checkHash = () => {
+      const sharedData = parseShareLink();
+      if (sharedData) {
+        // Small delay to ensure UI is ready
+        setTimeout(() => {
+          if (window.confirm('Load shared resume? This will overwrite your current data.')) {
+            importData(sharedData);
+            // Clear URL hash without reloading
+            window.history.replaceState(null, '', window.location.pathname);
+          }
+        }, 100);
+      }
+    };
+
+    checkHash();
+
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, [importData]);
+
+  const handleShare = async () => {
+    const link = generateShareLink(data);
+    try {
+      await navigator.clipboard.writeText(link);
+      alert('Share link copied to clipboard!');
+    } catch (err) {
+      console.error('Failed to copy link:', err);
+      alert('Failed to copy link. Please try again.');
+    }
+  };
+
+  const handleExportPdf = () => {
+    setShowExportOptions(false);
+    handlePrint();
+  };
+
+  const handleExportDocx = () => {
+    setShowExportOptions(false);
+    exportToDocx(data);
+  };
+
+  const handleExportTxt = () => {
+    setShowExportOptions(false);
+    exportToTxt(data);
+  };
 
   // Show welcome modal if not seen
   useEffect(() => {
@@ -119,7 +171,7 @@ export default function EditorPage() {
   const handleProceedToExport = () => {
     setShowResumeChecker(false);
     if (data.isPremium) {
-      handlePrint();
+      setShowExportOptions(true);
     } else {
       setShowPaymentModal(true);
     }
@@ -143,29 +195,59 @@ export default function EditorPage() {
     if (isEmpty) return 0;
 
     let score = 0;
-    if (data.personalInfo.fullName) score += 5;
-    if (data.personalInfo.email && data.personalInfo.phone) score += 10;
-    if (data.personalInfo.linkedin) score += 5;
-    if (data.personalInfo.summary && data.personalInfo.summary.length > 50) score += 10;
-    else if (data.personalInfo.summary) score += 5;
+    const maxScore = 100;
 
-    if (data.experience.length > 0) {
-      score += 20;
-      let hasBulletPoints = false;
-      let hasGoodLength = true;
-      data.experience.forEach(exp => {
-        if (exp.description.includes('•') || exp.description.includes('-')) hasBulletPoints = true;
-        if (exp.description.length < 50) hasGoodLength = false;
-      });
-      if (hasBulletPoints) score += 10;
-      if (hasGoodLength) score += 10;
+    // 1. Personal Info (20 points)
+    if (data.personalInfo.fullName) score += 5;
+    if (data.personalInfo.email) score += 5;
+    if (data.personalInfo.phone) score += 5;
+    if (data.personalInfo.linkedin || data.personalInfo.portfolio) score += 5;
+
+    // 2. Summary (15 points)
+    if (data.personalInfo.summary) {
+      score += 5;
+      if (data.personalInfo.summary.length > 100) score += 5;
+      if (['experienced', 'passionate', 'proven', 'skilled', 'expert'].some(word => data.personalInfo.summary.toLowerCase().includes(word))) score += 5;
     }
 
-    if (data.education.length > 0) score += 15;
-    if (data.skills.length >= 5) score += 15;
-    else if (data.skills.length > 0) score += 5;
+    // 3. Experience (30 points)
+    if (data.experience.length > 0) {
+      score += 10;
+      let hasBulletPoints = false;
+      let hasMetrics = false;
+      let hasActionVerbs = false;
+      
+      const actionVerbs = ['led', 'developed', 'managed', 'created', 'implemented', 'designed', 'increased', 'reduced', 'improved'];
+      
+      data.experience.forEach(exp => {
+        const desc = exp.description.toLowerCase();
+        if (desc.includes('•') || desc.includes('-')) hasBulletPoints = true;
+        if (desc.match(/\d+%|\$\d+|\d+ year|\d+ team/)) hasMetrics = true;
+        if (actionVerbs.some(verb => desc.includes(verb))) hasActionVerbs = true;
+      });
 
-    return Math.min(100, score);
+      if (hasBulletPoints) score += 5;
+      if (hasMetrics) score += 10;
+      if (hasActionVerbs) score += 5;
+    }
+
+    // 4. Education (15 points)
+    if (data.education.length > 0) {
+      score += 10;
+      if (data.education[0].description) score += 5;
+    }
+
+    // 5. Skills (15 points)
+    if (data.skills.length > 0) {
+      score += 5;
+      if (data.skills.length >= 5) score += 5;
+      if (data.skills.length >= 8) score += 5;
+    }
+
+    // 6. Projects & Certifications (5 points)
+    if (data.projects.length > 0 || data.certifications.length > 0) score += 5;
+
+    return Math.min(maxScore, score);
   };
 
   const atsScore = calculateATSScore();
@@ -301,6 +383,15 @@ export default function EditorPage() {
           {/* Separator */}
           <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-2"></div>
 
+          {/* Share Button */}
+          <button 
+            onClick={handleShare}
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors shadow-sm border border-slate-200 dark:border-slate-700 mr-2"
+            title="Share Resume"
+          >
+            <Share2 size={20} />
+          </button>
+
           {/* Start / Export Button */}
           <button 
             onClick={handleExportClick}
@@ -333,10 +424,24 @@ export default function EditorPage() {
             </p>
             
             <div className="flex items-center gap-3 mt-8">
-              <button onClick={loadExampleData} className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-4 py-2 rounded-full transition-all border border-indigo-100 dark:border-indigo-800/50 shadow-sm">
+              <button 
+                onClick={() => {
+                  if (window.confirm('This will overwrite your current data with example data. Are you sure?')) {
+                    loadExampleData();
+                  }
+                }} 
+                className="text-xs font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-4 py-2 rounded-full transition-all border border-indigo-100 dark:border-indigo-800/50 shadow-sm"
+              >
                 Load Example
               </button>
-              <button onClick={resetData} className="text-xs font-bold uppercase tracking-widest text-rose-500 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 px-4 py-2 rounded-full hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-all">
+              <button 
+                onClick={() => {
+                  if (window.confirm('This will clear all your data. This action cannot be undone. Are you sure?')) {
+                    resetData();
+                  }
+                }} 
+                className="text-xs font-bold uppercase tracking-widest text-rose-500 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 px-4 py-2 rounded-full hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-all"
+              >
                 Clear All
               </button>
             </div>
@@ -443,6 +548,14 @@ export default function EditorPage() {
         isOpen={showResumeChecker} 
         onClose={() => setShowResumeChecker(false)} 
         onProceed={handleProceedToExport} 
+      />
+
+      <ExportOptionsModal
+        isOpen={showExportOptions}
+        onClose={() => setShowExportOptions(false)}
+        onExportPdf={handleExportPdf}
+        onExportDocx={handleExportDocx}
+        onExportTxt={handleExportTxt}
       />
 
       <PaymentModal 

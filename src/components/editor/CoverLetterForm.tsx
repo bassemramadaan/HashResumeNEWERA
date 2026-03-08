@@ -9,14 +9,13 @@ export default function CoverLetterForm() {
   
   // Safely access coverLetter, ensuring all fields are defined
   const coverLetter = {
-    fullName: '',
-    jobTitle: '',
-    companyName: '',
-    hiringManager: '',
-    jobDescription: '',
-    skills: '',
-    generatedContent: '',
-    ...(data.coverLetter || {})
+    fullName: data.coverLetter?.fullName || '',
+    jobTitle: data.coverLetter?.jobTitle || '',
+    companyName: data.coverLetter?.companyName || '',
+    hiringManager: data.coverLetter?.hiringManager || '',
+    jobDescription: data.coverLetter?.jobDescription || '',
+    skills: data.coverLetter?.skills || '',
+    generatedContent: data.coverLetter?.generatedContent || '',
   };
   
   const [isGenerating, setIsGenerating] = useState(false);
@@ -77,8 +76,7 @@ export default function CoverLetterForm() {
       }
 
       const ai = new GoogleGenAI({ apiKey });
-      const model = ai.getGenerativeModel({ model: "gemini-2.5-flash" });
-
+      
       const prompt = `
         Write a professional cover letter for a ${coverLetter.jobTitle} position at ${coverLetter.companyName}.
         
@@ -97,11 +95,18 @@ export default function CoverLetterForm() {
         Format it with proper paragraphs.
       `;
 
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+      });
       
-      updateCoverLetter({ generatedContent: text });
+      const text = response.text;
+      
+      if (text) {
+        updateCoverLetter({ generatedContent: text });
+      } else {
+        throw new Error('No content generated');
+      }
     } catch (err) {
       console.error('Error generating cover letter:', err);
       setError('Failed to generate cover letter. Please try again.');
