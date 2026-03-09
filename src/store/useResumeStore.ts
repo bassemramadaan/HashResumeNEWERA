@@ -134,6 +134,7 @@ type ResumeStore = {
   resetData: () => void;
   loadExampleData: () => void;
   loadData: (data: ResumeData) => void;
+  updateData: (data: ResumeData) => void;
 };
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
@@ -263,18 +264,19 @@ export const useResumeStore = create<ResumeStore>()(
         })),
       resetData: () => set({ data: initialData }),
       loadData: (data) => set({ data }),
+      updateData: (data) => set({ data }),
       loadExampleData: () =>
         set({
           data: {
             personalInfo: {
-              fullName: 'Ahmed Hassan',
+              fullName: 'John Doe',
               jobTitle: 'Senior Software Engineer',
-              email: 'ahmed.hassan@example.com',
-              phone: '+20 100 123 4567',
-              address: 'Cairo, Egypt',
+              email: 'john.doe@example.com',
+              phone: '+1 234 567 8900',
+              address: 'New York, NY',
               linkedin: '', // Removed LinkedIn to lower ATS score
-              github: 'github.com/ahmedhassan',
-              portfolio: 'ahmedhassan.dev',
+              github: 'github.com/johndoe',
+              portfolio: 'johndoe.dev',
               summary: '', // Removed summary to lower ATS score
             },
             coverLetter: {

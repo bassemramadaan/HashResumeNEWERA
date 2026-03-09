@@ -143,7 +143,7 @@ export default function CoverLetterForm() {
               value={coverLetter.fullName}
               onChange={handleChange}
               className="block w-full px-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-              placeholder="John Doe"
+              placeholder="e.g. John Doe"
             />
           </div>
 
@@ -156,7 +156,7 @@ export default function CoverLetterForm() {
               value={coverLetter.jobTitle}
               onChange={handleChange}
               className="block w-full px-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-              placeholder="Software Engineer"
+              placeholder="e.g. Software Engineer"
             />
           </div>
 
@@ -169,7 +169,7 @@ export default function CoverLetterForm() {
               value={coverLetter.companyName}
               onChange={handleChange}
               className="block w-full px-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-              placeholder="Google"
+              placeholder="e.g. Tech Corp"
             />
           </div>
 
@@ -182,7 +182,7 @@ export default function CoverLetterForm() {
               value={coverLetter.hiringManager}
               onChange={handleChange}
               className="block w-full px-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-              placeholder="Jane Smith"
+              placeholder="e.g. Jane Smith"
             />
           </div>
         </div>
@@ -196,7 +196,7 @@ export default function CoverLetterForm() {
             value={coverLetter.skills}
             onChange={handleChange}
             className="block w-full px-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
-            placeholder="React, TypeScript, Node.js, Team Leadership..."
+            placeholder="e.g. React, TypeScript, Node.js, Team Leadership..."
           />
         </div>
 

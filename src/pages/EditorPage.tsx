@@ -34,7 +34,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../lib/utils';
 import { calculateATSScore } from '../lib/ats';
 
-type Tab = 'personal' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'ats-audit' | 'cover-letter' | 'settings' | 'finish';
+type Tab = 'basics' | 'experience' | 'education' | 'skills' | 'finish';
 
 interface TabItem {
   id: Tab;
@@ -44,7 +44,7 @@ interface TabItem {
 }
 
 export default function EditorPage() {
-  const [activeTab, setActiveTab] = useState<Tab>('personal');
+  const [activeTab, setActiveTab] = useState<Tab>('basics');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [showFullPreview, setShowFullPreview] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -53,6 +53,7 @@ export default function EditorPage() {
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [previewMode, setPreviewMode] = useState<'resume' | 'cover-letter'>('resume');
   const { data, loadExampleData, resetData } = useResumeStore();
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } = useOnboardingStore();
   
@@ -128,35 +129,23 @@ export default function EditorPage() {
   };
 
   const tabs: TabItem[] = [
-    { id: 'personal', label: 'Personal', icon: User, tourId: 'personal-info' },
+    { id: 'basics', label: 'Basics', icon: User, tourId: 'personal-info' },
     { id: 'experience', label: 'Experience', icon: Briefcase, tourId: 'experience-section' },
     { id: 'education', label: 'Education', icon: GraduationCap },
     { id: 'skills', label: 'Skills', icon: Wrench, tourId: 'skills-section' },
-    { id: 'projects', label: 'Projects', icon: FolderGit2 },
-    { id: 'certifications', label: 'Certifications', icon: Award },
-    { id: 'ats-audit', label: 'ATS Audit', icon: Target },
-    { id: 'cover-letter', label: 'Cover Letter', icon: FileText },
-    { id: 'settings', label: 'Settings', icon: Settings },
-    { id: 'finish', label: 'Finish', icon: CheckCircle },
+    { id: 'finish', label: 'Review', icon: Target },
   ];
 
   const atsScore = calculateATSScore(data).score;
   const activeTabIndex = tabs.findIndex(t => t.id === activeTab) + 1;
   const progressPercentage = (activeTabIndex / tabs.length) * 100;
 
-  // ... (rest of component)
-
   const tabDescriptions: Record<Tab, string> = {
-    personal: 'Your basic information and contact details.',
-    experience: 'Your professional work history and achievements.',
-    education: 'Your academic background and qualifications.',
-    skills: 'Your technical and soft skills expertise.',
-    projects: 'Showcase your best work and personal projects.',
-    certifications: 'Professional certifications and awards.',
-    'ats-audit': 'Optimize your resume for applicant tracking systems.',
-    'cover-letter': 'Generate a tailored cover letter for your job application.',
-    settings: 'Customize your resume template and appearance.',
-    finish: 'Download or share your completed resume.'
+    basics: 'Your basic information and resume settings.',
+    experience: 'Your professional work history and projects.',
+    education: 'Your academic background and certifications.',
+    skills: 'Your technical skills and cover letter.',
+    finish: 'Optimize for ATS and download your resume.'
   };
 
   return (
@@ -219,7 +208,7 @@ export default function EditorPage() {
           </div>
 
           {/* ATS Score */}
-          <button onClick={() => setActiveTab('ats-audit')} className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 transition-colors border border-slate-200/50 dark:border-slate-700/50">
+          <button onClick={() => setActiveTab('finish')} className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 transition-colors border border-slate-200/50 dark:border-slate-700/50">
             <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">ATS</span>
             <span className={cn("text-sm font-black", atsScore >= 80 ? "bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent" : atsScore >= 50 ? "text-amber-500" : "text-rose-500")}>
               {atsScore}%
@@ -254,10 +243,50 @@ export default function EditorPage() {
 
         <div className="flex items-center gap-1.5 min-w-max px-2 py-2 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => {
-            // ... (tab rendering)
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <div key={tab.id} className="relative flex flex-col items-center justify-center h-16 w-16 group">
+                <button
+                  onClick={() => setActiveTab(tab.id)}
+                  data-tour={tab.tourId}
+                  className={cn(
+                    "relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 shrink-0",
+                    isActive 
+                      ? "bg-black text-white shadow-lg scale-110" 
+                      : "text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
+                  )}
+                >
+                <span className="relative z-10">
+                  <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+                </span>
+                <span className="sr-only">{tab.label}</span>
+                
+                {/* Tooltip */}
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-xl border border-white/10 z-50">
+                  {tab.label}
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
+                </div>
+              </button>
+            </div>
+            );
+          })}
 
+          {/* Separator */}
+          <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-2"></div>
 
-      {/* Main Content Split */}
+          {/* Start / Export Button */}
+          <button 
+            onClick={handleExportClick}
+            className="flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
+          >
+            <span className="text-sm tracking-tight">Export</span>
+            <div className="bg-white/20 rounded-full p-2 group-hover:translate-x-0.5 transition-transform">
+              <ArrowRight size={18} className="text-white" />
+            </div>
+          </button>
+        </div>
+      </div>
       <div className="flex-1 flex overflow-hidden relative editor-form">
         {/* Editor Area */}
         <div className={cn(
@@ -301,16 +330,50 @@ export default function EditorPage() {
 
           <main className="flex-1 overflow-y-auto p-6 pt-2">
             <div className="max-w-3xl mx-auto pb-20">
-              {activeTab === 'personal' && <PersonalInfoForm />}
-              {activeTab === 'experience' && <ExperienceForm />}
-              {activeTab === 'education' && <EducationForm />}
-              {activeTab === 'skills' && <SkillsForm />}
-              {activeTab === 'projects' && <ProjectsForm />}
-              {activeTab === 'certifications' && <CertificationsForm />}
-              {activeTab === 'ats-audit' && <ATSAudit />}
-              {activeTab === 'cover-letter' && <CoverLetterForm />}
-              {activeTab === 'settings' && <SettingsForm />}
-              {activeTab === 'finish' && <FinishStep onPrint={handleProceedToExport} />}
+              {activeTab === 'basics' && (
+                <div className="space-y-12">
+                  <PersonalInfoForm />
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Resume Settings</h2>
+                    <SettingsForm />
+                  </div>
+                </div>
+              )}
+              {activeTab === 'experience' && (
+                <div className="space-y-12">
+                  <ExperienceForm />
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Projects</h2>
+                    <ProjectsForm />
+                  </div>
+                </div>
+              )}
+              {activeTab === 'education' && (
+                <div className="space-y-12">
+                  <EducationForm />
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Certifications</h2>
+                    <CertificationsForm />
+                  </div>
+                </div>
+              )}
+              {activeTab === 'skills' && (
+                <div className="space-y-12">
+                  <SkillsForm />
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Cover Letter</h2>
+                    <CoverLetterForm />
+                  </div>
+                </div>
+              )}
+              {activeTab === 'finish' && (
+                <div className="space-y-12">
+                  <ATSAudit />
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <FinishStep onPrint={handleProceedToExport} />
+                  </div>
+                </div>
+              )}
             </div>
           </main>
         </div>
@@ -330,26 +393,41 @@ export default function EditorPage() {
                   <ChevronLeft size={20} />
                 </button>
               )}
-              {activeTab === 'cover-letter' ? (
-                <>
-                  <FileText size={18} className="text-slate-400 dark:text-slate-500" />
-                  <h2 className="font-semibold text-slate-700 dark:text-slate-300 text-sm">Cover Letter Preview</h2>
-                </>
-              ) : (
-                <>
-                  <LayoutTemplate size={18} className="text-slate-400 dark:text-slate-500" />
-                  <h2 className="font-semibold text-slate-700 dark:text-slate-300 text-sm">Live Preview</h2>
-                </>
-              )}
+              <div className="flex items-center bg-slate-100 dark:bg-slate-900 rounded-lg p-1">
+                <button
+                  onClick={() => setPreviewMode('resume')}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
+                    previewMode === 'resume' 
+                      ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm" 
+                      : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
+                  )}
+                >
+                  <LayoutTemplate size={16} />
+                  Resume
+                </button>
+                <button
+                  onClick={() => setPreviewMode('cover-letter')}
+                  className={cn(
+                    "flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors",
+                    previewMode === 'cover-letter' 
+                      ? "bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm" 
+                      : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-300"
+                  )}
+                >
+                  <FileText size={16} />
+                  Cover Letter
+                </button>
+              </div>
             </div>
           </div>
           
           <div className="flex-1 overflow-y-auto p-4 md:p-8 pt-20 flex justify-center items-start">
             <div className={cn(
               "w-full max-w-[210mm] bg-white shadow-xl dark:shadow-indigo-900/20 rounded-sm overflow-hidden origin-top transition-transform ring-1 ring-slate-900/5 dark:ring-slate-100/10",
-              activeTab !== 'cover-letter' && "scale-[0.85] sm:scale-95 md:scale-100"
+              previewMode !== 'cover-letter' && "scale-[0.85] sm:scale-95 md:scale-100"
             )}>
-              {activeTab === 'cover-letter' ? (
+              {previewMode === 'cover-letter' ? (
                 <CoverLetterPreview />
               ) : (
                 <ResumePreview ref={componentRef} />

@@ -4,9 +4,11 @@ import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, FileText, Sparkles, Copy, Check, Import } from 'lucide-react';
 import ThemeToggle from '../components/ThemeToggle';
 import { useResumeStore } from '../store/useResumeStore';
+import { useScrollDirection } from '../hooks/useScrollDirection';
 
 export default function CoverLetterPage() {
   const { data } = useResumeStore();
+  const { scrollDirection, isScrolled } = useScrollDirection();
   const [formData, setFormData] = useState({
     fullName: '',
     jobTitle: '',
@@ -94,7 +96,11 @@ ${formData.fullName}`;
         <link rel="canonical" href="https://hashresume.com/cover-letter" />
       </Helmet>
       {/* Floating Dock Navbar */}
-      <div className="sticky top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8">
+      <div 
+        className={`sticky left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8 transition-all duration-500 ease-in-out ${
+          scrollDirection === 'down' && isScrolled ? '-top-24 opacity-0' : 'top-6 opacity-100'
+        }`}
+      >
         <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
           
           {/* Back Button */}
@@ -144,7 +150,7 @@ ${formData.fullName}`;
                 value={formData.fullName}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                placeholder="Ahmed Hassan"
+                placeholder="e.g. John Doe"
               />
             </div>
 
@@ -157,7 +163,7 @@ ${formData.fullName}`;
                   value={formData.jobTitle}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                  placeholder="Software Engineer"
+                  placeholder="e.g. Software Engineer"
                 />
               </div>
               <div>
@@ -168,7 +174,7 @@ ${formData.fullName}`;
                   value={formData.companyName}
                   onChange={handleChange}
                   className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                  placeholder="Acme Corp"
+                  placeholder="e.g. Tech Corp"
                 />
               </div>
             </div>
@@ -181,7 +187,7 @@ ${formData.fullName}`;
                 value={formData.hiringManager}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                placeholder="Jane Smith"
+                placeholder="e.g. Jane Smith"
               />
             </div>
 
@@ -193,7 +199,7 @@ ${formData.fullName}`;
                 value={formData.skills}
                 onChange={handleChange}
                 className="w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                placeholder="React, Node.js, Team Leadership"
+                placeholder="e.g. React, Node.js, Team Leadership"
               />
             </div>
 

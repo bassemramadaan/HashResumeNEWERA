@@ -1,15 +1,17 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useEffect } from 'react';
-import LandingPage from './pages/LandingPage';
-import EditorPage from './pages/EditorPage';
-import HashHuntPage from './pages/HashHuntPage';
-import CoverLetterPage from './pages/CoverLetterPage';
-import BlogPage from './pages/BlogPage';
-import BlogPostPage from './pages/BlogPostPage';
-import TemplatesPage from './pages/TemplatesPage';
-import SharePage from './pages/SharePage';
+import React, { useEffect, Suspense } from 'react';
 import { useThemeStore } from './store/useThemeStore';
 import { useLanguageStore } from './store/useLanguageStore';
+import PageLoader from './components/PageLoader';
+
+const LandingPage = React.lazy(() => import('./pages/LandingPage'));
+const EditorPage = React.lazy(() => import('./pages/EditorPage'));
+const HashHuntPage = React.lazy(() => import('./pages/HashHuntPage'));
+const CoverLetterPage = React.lazy(() => import('./pages/CoverLetterPage'));
+const BlogPage = React.lazy(() => import('./pages/BlogPage'));
+const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage'));
+const TemplatesPage = React.lazy(() => import('./pages/TemplatesPage'));
+const SharePage = React.lazy(() => import('./pages/SharePage'));
 
 export default function App() {
   const { theme } = useThemeStore();
@@ -30,16 +32,18 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/editor" element={<EditorPage />} />
-        <Route path="/templates" element={<TemplatesPage />} />
-        <Route path="/hash-hunt" element={<HashHuntPage />} />
-        <Route path="/cover-letter" element={<CoverLetterPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:id" element={<BlogPostPage />} />
-        <Route path="/share/:id" element={<SharePage />} />
-      </Routes>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/editor" element={<EditorPage />} />
+          <Route path="/templates" element={<TemplatesPage />} />
+          <Route path="/hash-hunt" element={<HashHuntPage />} />
+          <Route path="/cover-letter" element={<CoverLetterPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:id" element={<BlogPostPage />} />
+          <Route path="/share/:id" element={<SharePage />} />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

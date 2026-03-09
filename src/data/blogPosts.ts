@@ -233,5 +233,186 @@ Keep it short. Three paragraphs max. Focus on the company's problems and how you
       en: "3 min read",
       ar: "3 دقائق قراءة"
     }
+  },
+  {
+    id: 'interview-preparation-guide',
+    title: {
+      en: "The Ultimate Interview Preparation Guide",
+      ar: "الدليل الشامل للتحضير للمقابلات الشخصية"
+    },
+    excerpt: {
+      en: "Master the art of interviewing with our comprehensive guide. Learn how to answer tough questions and leave a lasting impression.",
+      ar: "أتقن فن المقابلات الشخصية مع دليلنا الشامل. تعلم كيف تجيب على الأسئلة الصعبة وتترك انطباعاً لا ينسى."
+    },
+    content: {
+      en: `
+## Research the Company
+
+Before stepping into the interview room (or joining the Zoom call), you must know the company inside out.
+*   **Mission and Values:** What drives them?
+*   **Recent News:** Have they launched a new product or expanded recently?
+*   **Competitors:** Who are they up against?
+
+## The STAR Method
+
+When answering behavioral questions (e.g., "Tell me about a time when..."), use the STAR method:
+*   **Situation:** Set the scene and give the necessary details of your example.
+*   **Task:** Describe what your responsibility was in that situation.
+*   **Action:** Explain exactly what steps you took to address it.
+*   **Result:** Share what outcomes your actions achieved.
+
+## Prepare Your Own Questions
+
+An interview is a two-way street. Asking thoughtful questions shows you're genuinely interested.
+*   "What does a typical day look like in this role?"
+*   "How does the company measure success for this position?"
+*   "What are the biggest challenges the team is facing right now?"
+      `,
+      ar: `
+## ابحث عن الشركة
+
+قبل الدخول إلى غرفة المقابلة (أو الانضمام إلى مكالمة Zoom)، يجب أن تعرف الشركة جيداً.
+*   **المهمة والقيم:** ما الذي يحركهم؟
+*   **الأخبار الأخيرة:** هل أطلقوا منتجاً جديداً أو توسعوا مؤخراً؟
+*   **المنافسون:** من هم منافسوهم؟
+
+## طريقة STAR
+
+عند الإجابة على الأسئلة السلوكية (مثل "حدثني عن وقت عندما... ")، استخدم طريقة STAR:
+*   **الموقف (Situation):** حدد المشهد وأعط التفاصيل اللازمة لمثالك.
+*   **المهمة (Task):** صف ما كانت مسؤوليتك في ذلك الموقف.
+*   **الإجراء (Action):** اشرح بالضبط الخطوات التي اتخذتها لمعالجته.
+*   **النتيجة (Result):** شارك النتائج التي حققتها أفعالك.
+
+## جهز أسئلتك الخاصة
+
+المقابلة هي طريق ذو اتجاهين. طرح أسئلة مدروسة يظهر أنك مهتم حقاً.
+*   "كيف يبدو اليوم النموذجي في هذا الدور؟"
+*   "كيف تقيس الشركة النجاح في هذا المنصب؟"
+*   "ما هي أكبر التحديات التي يواجهها الفريق حالياً؟"
+      `
+    },
+    date: "2026-02-15",
+    author: {
+      en: "Hash Resume Team",
+      ar: "فريق Hash Resume"
+    },
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800",
+    readTime: {
+      en: "6 min read",
+      ar: "6 دقائق قراءة"
+    }
+  },
+  {
+    id: 'networking-on-linkedin',
+    title: {
+      en: "How to Network Effectively on LinkedIn",
+      ar: "كيف تبني شبكة علاقات فعالة على لينكد إن"
+    },
+    excerpt: {
+      en: "LinkedIn is more than just an online resume. Discover strategies to build meaningful professional relationships that lead to job opportunities.",
+      ar: "لينكد إن هو أكثر من مجرد سيرة ذاتية على الإنترنت. اكتشف استراتيجيات لبناء علاقات مهنية هادفة تؤدي إلى فرص عمل."
+    },
+    content: {
+      en: `
+## Optimize Your Profile First
+
+Before you start reaching out, make sure your house is in order.
+*   **Professional Headshot:** A clear, friendly photo.
+*   **Compelling Headline:** Don't just list your job title. Tell people what value you bring.
+*   **Detailed About Section:** Tell your professional story, not just a list of skills.
+
+## The Art of the Connection Request
+
+Never send a blank connection request. Always add a personalized note.
+*   *Example:* "Hi [Name], I really enjoyed your recent post about [Topic]. I'm also working in [Industry] and would love to connect and follow your updates."
+
+## Engage Meaningfully
+
+Don't just "like" posts. Leave thoughtful comments. Share articles with your own insights. The more you engage, the more visible you become to recruiters and hiring managers.
+      `,
+      ar: `
+## قم بتحسين ملفك الشخصي أولاً
+
+قبل أن تبدأ في التواصل، تأكد من أن ملفك الشخصي جاهز.
+*   **صورة احترافية:** صورة واضحة وودودة.
+*   **عنوان جذاب:** لا تكتفِ بسرد المسمى الوظيفي الخاص بك. أخبر الناس بالقيمة التي تقدمها.
+*   **قسم "حول" مفصل:** احكِ قصتك المهنية، وليس مجرد قائمة بالمهارات.
+
+## فن طلب التواصل
+
+لا ترسل أبداً طلب تواصل فارغ. أضف دائماً ملاحظة شخصية.
+*   *مثال:* "مرحباً [الاسم]، لقد استمتعت حقاً بمنشورك الأخير حول [الموضوع]. أنا أعمل أيضاً في [الصناعة] وأود التواصل ومتابعة تحديثاتك."
+
+## تفاعل بشكل هادف
+
+لا تكتفِ بـ "الإعجاب" بالمنشورات. اترك تعليقات مدروسة. شارك المقالات مع رؤيتك الخاصة. كلما تفاعلت أكثر، أصبحت أكثر وضوحاً لمسؤولي التوظيف ومديري التوظيف.
+      `
+    },
+    date: "2026-02-05",
+    author: {
+      en: "Ahmed Youssef",
+      ar: "أحمد يوسف"
+    },
+    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800",
+    readTime: {
+      en: "4 min read",
+      ar: "4 دقائق قراءة"
+    }
+  },
+  {
+    id: 'career-change-resume',
+    title: {
+      en: "Writing a Resume for a Career Change",
+      ar: "كتابة سيرة ذاتية لتغيير المسار المهني"
+    },
+    excerpt: {
+      en: "Switching industries? Learn how to highlight transferable skills and frame your past experience for a completely new role.",
+      ar: "هل تغير مجال عملك؟ تعلم كيف تبرز المهارات القابلة للنقل وتصيغ خبرتك السابقة لدور جديد تماماً."
+    },
+    content: {
+      en: `
+## Focus on Transferable Skills
+
+When you don't have direct experience, your transferable skills are your best asset.
+*   **Communication:** Written, verbal, presentation skills.
+*   **Leadership:** Managing teams, projects, or initiatives.
+*   **Problem Solving:** Analyzing data, resolving conflicts, improving processes.
+
+## Use a Functional or Hybrid Format
+
+A chronological resume highlights your lack of direct experience. Instead, use a functional or hybrid format that groups your experience by skill rather than by job title.
+
+## The Power of the Summary Statement
+
+Your summary statement is crucial when changing careers. It's your elevator pitch. Explain *why* you're making the change and *how* your unique background makes you a valuable asset in your new chosen field.
+      `,
+      ar: `
+## ركز على المهارات القابلة للنقل
+
+عندما لا يكون لديك خبرة مباشرة، فإن مهاراتك القابلة للنقل هي أفضل أصولك.
+*   **التواصل:** مهارات الكتابة والتحدث والعرض.
+*   **القيادة:** إدارة الفرق أو المشاريع أو المبادرات.
+*   **حل المشكلات:** تحليل البيانات، حل النزاعات، تحسين العمليات.
+
+## استخدم تنسيقاً وظيفياً أو هجيناً
+
+تبرز السيرة الذاتية الزمنية افتقارك إلى الخبرة المباشرة. بدلاً من ذلك، استخدم تنسيقاً وظيفياً أو هجيناً يجمع خبرتك حسب المهارة بدلاً من المسمى الوظيفي.
+
+## قوة البيان الموجز
+
+بيانك الموجز (الملخص) حاسم عند تغيير المسار المهني. إنه عرضك التقديمي السريع. اشرح *لماذا* تقوم بالتغيير و*كيف* تجعل خلفيتك الفريدة منك أصلاً قيماً في مجالك الجديد المختار.
+      `
+    },
+    date: "2026-01-20",
+    author: {
+      en: "Sarah Johnson",
+      ar: "سارة جونسون"
+    },
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800",
+    readTime: {
+      en: "5 min read",
+      ar: "5 دقائق قراءة"
+    }
   }
 ];

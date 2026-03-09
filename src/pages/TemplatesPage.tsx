@@ -17,6 +17,8 @@ const dummyData: ResumeData = {
     phone: '+1 (555) 123-4567',
     address: 'San Francisco, CA',
     linkedin: 'linkedin.com/in/alexmorgan',
+    github: 'github.com/alexmorgan',
+    portfolio: 'alexmorgan.design',
     summary: 'Award-winning Product Designer with 8+ years of experience creating user-centric digital products. Proven track record of leading design teams and increasing user engagement by 40%. Passionate about accessibility and design systems.',
   },
   experience: [
@@ -58,9 +60,27 @@ const dummyData: ResumeData = {
   },
   jobDescription: '',
   isPremium: false,
+  coverLetter: {
+    fullName: '',
+    jobTitle: '',
+    companyName: '',
+    hiringManager: '',
+    jobDescription: '',
+    skills: '',
+    generatedContent: '',
+  },
 };
 
-const templates = [
+type Template = {
+  id: ResumeData['settings']['template'];
+  name: string;
+  description: string;
+  image: string;
+  color: string;
+  categories: string[];
+};
+
+const templates: Template[] = [
   {
     id: 'modern',
     name: 'Modern',
@@ -109,26 +129,29 @@ const templates = [
     color: '#8B5CF6',
     categories: ['Business']
   }
-] as const;
+];
 
-const categories = ['All', 'Technology', 'Business', 'Creative', 'Healthcare', 'Academic'];
+const categories = ['All', 'Technology', 'Business', 'Creative', 'Healthcare', 'Academic'] as const;
+type Category = typeof categories[number];
+
+import { useScrollDirection } from '../hooks/useScrollDirection';
 
 export default function TemplatesPage() {
   const { language } = useLanguageStore();
   const { data, updateSettings } = useResumeStore();
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState('All');
+  const [activeCategory, setActiveCategory] = useState<Category>('All');
   const [previewTemplate, setPreviewTemplate] = useState<typeof templates[number] | null>(null);
+  const { scrollDirection, isScrolled } = useScrollDirection();
 
-  const handleSelectTemplate = (templateId: string) => {
-    // @ts-ignore
+  const handleSelectTemplate = (templateId: ResumeData['settings']['template']) => {
     updateSettings({ template: templateId });
     navigate('/editor');
   };
 
   const filteredTemplates = activeCategory === 'All' 
     ? templates 
-    : templates.filter(t => t.categories.includes(activeCategory));
+    : templates.filter(t => (t.categories as string[]).includes(activeCategory));
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans transition-colors duration-300">
@@ -138,7 +161,11 @@ export default function TemplatesPage() {
       </Helmet>
 
       {/* Header */}
-      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40">
+      <header 
+        className={`bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky z-40 transition-all duration-500 ease-in-out ${
+          scrollDirection === 'down' && isScrolled ? '-top-20' : 'top-0'
+        }`}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link to="/" className="p-2 -ml-2 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
@@ -246,6 +273,9 @@ export default function TemplatesPage() {
                         }} 
                       />
                     </div>
+
+                    {/* Bottom Fade */}
+                    <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white dark:from-slate-900 to-transparent z-10 opacity-60"></div>
 
                     {/* Hover Actions */}
                     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/20 backdrop-blur-[2px]">

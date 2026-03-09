@@ -108,10 +108,13 @@ const JobCard: React.FC<{ job: Job; isSaved: boolean; onToggleSave: () => void }
   );
 }
 
+import { useScrollDirection } from '../hooks/useScrollDirection';
+
 export default function HashHuntPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { scrollDirection, isScrolled } = useScrollDirection();
   const [savedJobIds, setSavedJobIds] = useState<string[]>(() => {
     const saved = localStorage.getItem('savedJobs');
     return saved ? JSON.parse(saved) : [];
@@ -162,7 +165,11 @@ export default function HashHuntPage() {
         <link rel="canonical" href="https://hashresume.com/hash-hunt" />
       </Helmet>
       {/* Floating Dock Navbar */}
-      <div className="sticky top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8">
+      <div 
+        className={`sticky left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8 transition-all duration-500 ease-in-out ${
+          scrollDirection === 'down' && isScrolled ? '-top-24 opacity-0' : 'top-6 opacity-100'
+        }`}
+      >
         <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
           
           {/* Back Button */}

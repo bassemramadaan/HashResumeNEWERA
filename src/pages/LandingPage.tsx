@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target, Plus, Briefcase, GraduationCap } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
@@ -13,19 +13,16 @@ import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { blogPosts } from '../data/blogPosts';
 
+import { useScrollDirection } from '../hooks/useScrollDirection';
+
 export default function LandingPage() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const { scrollDirection, isScrolled } = useScrollDirection();
 
-  // Calculate dynamic stats based on date to show growth
-  const baseCount = 600;
-  const startDate = new Date('2024-01-01').getTime();
-  const now = new Date().getTime();
-  const daysDiff = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
-  // Add roughly 2-5 resumes per day
-  const dynamicCount = baseCount + (daysDiff * 3);
-  const displayCount = Math.floor(dynamicCount / 10) * 10; // Round to nearest 10
+  // Fixed count as requested
+  const displayCount = 300;
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
@@ -46,7 +43,11 @@ export default function LandingPage() {
         <link rel="canonical" href="https://hashresume.com/" />
       </Helmet>
       {/* Floating Dock Navbar */}
-      <div className="sticky top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8">
+      <div 
+        className={`sticky left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8 transition-all duration-500 ease-in-out ${
+          scrollDirection === 'down' && isScrolled ? '-top-24 opacity-0' : 'top-6 opacity-100'
+        }`}
+      >
         <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
           
           {/* Logo / Home */}
@@ -81,7 +82,7 @@ export default function LandingPage() {
 
           {/* Primary Action (Build Resume) */}
           <Link 
-            to="/editor" 
+            to="/templates" 
             className="flex items-center gap-3 bg-[#f16529] hover:bg-[#e44d26] text-white font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
           >
             <span className="text-sm tracking-tight hidden sm:inline">{t.buildResume}</span>
@@ -147,7 +148,7 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4 mb-12"
               >
-                <Link to="/editor" className="w-full sm:w-auto bg-gradient-to-r from-[#f16529] to-orange-600 hover:from-[#e44d26] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                <Link to="/templates" className="w-full sm:w-auto bg-gradient-to-r from-[#f16529] to-orange-600 hover:from-[#e44d26] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
                   {t.buildResume}
                   <ArrowRight size={20} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
                 </Link>
@@ -198,65 +199,32 @@ export default function LandingPage() {
                 <div className="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 to-purple-500/20 rounded-[2rem] blur-2xl -z-10 animate-pulse"></div>
                 
                 {/* Main Resume Document */}
-                <div className="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/50 dark:border-slate-700/50 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
-                  {/* Header */}
-                  <div className="bg-slate-50/50 dark:bg-slate-800/50 p-8 border-b border-slate-100 dark:border-slate-800 flex items-center gap-6">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#f16529] to-orange-600 shadow-lg shadow-orange-500/20 flex items-center justify-center text-white font-bold text-3xl">
-                      JD
-                    </div>
-                    <div className="space-y-3 flex-1">
-                      <div className="h-6 w-3/4 bg-slate-800 dark:bg-slate-200 rounded-lg"></div>
-                      <div className="h-4 w-1/2 bg-slate-400 dark:bg-slate-500 rounded-lg"></div>
-                    </div>
-                  </div>
+                <div className="absolute inset-0 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
+                  <img 
+                    src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=800&auto=format&fit=crop" 
+                    alt="Resume Builder Interface" 
+                    className="w-full h-full object-cover opacity-90 dark:opacity-70"
+                    referrerPolicy="no-referrer"
+                  />
                   
-                  {/* Body */}
-                  <div className="p-8 flex-1 flex flex-col gap-8">
-                    {/* Experience Section */}
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
-                          <Briefcase size={16} />
-                        </div>
-                        <div className="h-4 w-1/3 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
-                      </div>
-                      <div className="pl-11 space-y-3">
-                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                        <div className="h-2 w-5/6 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                      </div>
+                  {/* Overlay to make it look like an editor */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent dark:from-slate-900/80"></div>
+                  
+                  {/* Editor UI Elements Overlay */}
+                  <div className="absolute top-4 left-4 right-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+                    <div className="flex gap-2">
+                      <div className="w-3 h-3 rounded-full bg-rose-400"></div>
+                      <div className="w-3 h-3 rounded-full bg-amber-400"></div>
+                      <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
                     </div>
-                    
-                    {/* Education Section */}
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3 mb-2">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600">
-                          <GraduationCap size={16} />
-                        </div>
-                        <div className="h-4 w-1/3 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
-                      </div>
-                      <div className="pl-11 space-y-3">
-                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                        <div className="h-2 w-4/5 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
-                      </div>
-                    </div>
-
-                    {/* Skills Tags */}
-                    <div className="mt-auto">
-                      <div className="h-4 w-1/4 bg-slate-200 dark:bg-slate-700 rounded-md mb-4"></div>
-                      <div className="flex flex-wrap gap-2">
-                        {[1,2,3,4,5,6].map(i => (
-                          <div key={i} className="h-8 w-16 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700"></div>
-                        ))}
-                      </div>
-                    </div>
+                    <div className="h-4 w-24 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
                   </div>
                   
                   {/* Scanning Line Animation */}
                   <motion.div 
                     animate={{ top: ['-10%', '110%', '-10%'] }}
                     transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    className="absolute left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#f16529]/10 to-transparent border-b border-[#f16529]/30 z-20 pointer-events-none"
+                    className="absolute left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#f16529]/20 to-transparent border-b border-[#f16529]/50 z-20 pointer-events-none"
                     style={{ top: '0%' }}
                   />
                 </div>
@@ -315,20 +283,22 @@ export default function LandingPage() {
             <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">{t.featuresSubtitle}</p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: Zap, title: t.feature1Title, desc: t.feature1Desc, color: "from-amber-400 to-orange-500", bg: "bg-amber-50 dark:bg-amber-500/10", text: "text-amber-600 dark:text-amber-400" },
-              { icon: ShieldCheck, title: t.feature2Title, desc: t.feature2Desc, color: "from-emerald-400 to-teal-500", bg: "bg-emerald-50 dark:bg-emerald-500/10", text: "text-emerald-600 dark:text-emerald-400" },
-              { icon: FileText, title: t.feature3Title, desc: t.feature3Desc, color: "from-indigo-400 to-blue-500", bg: "bg-indigo-50 dark:bg-indigo-500/10", text: "text-indigo-600 dark:text-indigo-400" },
-              { icon: CheckCircle2, title: t.feature4Title, desc: t.feature4Desc, color: "from-cyan-400 to-blue-500", bg: "bg-cyan-50 dark:bg-cyan-500/10", text: "text-cyan-600 dark:text-cyan-400" }
+              { icon: Zap, title: t.feature1Title, desc: t.feature1Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
+              { icon: ShieldCheck, title: t.feature2Title, desc: t.feature2Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" },
+              { icon: FileText, title: t.feature3Title, desc: t.feature3Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
+              { icon: CheckCircle2, title: t.feature4Title, desc: t.feature4Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" },
+              { icon: Sparkles, title: "AI Content Generation", desc: "Overcome writer's block with our AI assistant that generates professional summaries and bullet points tailored to your industry.", color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
+              { icon: Layout, title: "Multiple Premium Templates", desc: "Choose from a variety of professionally designed templates that stand out while remaining ATS-compliant and easy to read.", color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" }
             ].map((feature, i) => (
-              <div key={i} className="group relative bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm p-8 md:p-10 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden hover:border-orange-200 dark:hover:border-orange-900/30">
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-5 dark:opacity-10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110 duration-500`}></div>
-                <div className={`w-14 h-14 ${feature.bg} ${feature.text} rounded-2xl flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300 ring-1 ring-inset ring-black/5 dark:ring-white/5`}>
+              <div key={i} className="group relative bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm p-8 md:p-10 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden hover:border-orange-200 dark:hover:border-orange-900/30 cursor-pointer">
+                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-5 dark:opacity-10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-700 ease-out`}></div>
+                <div className={`w-14 h-14 ${feature.bg} ${feature.text} rounded-2xl flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 ring-1 ring-inset ring-black/5 dark:ring-white/5`}>
                   <feature.icon size={28} strokeWidth={2} />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-[#f16529] transition-colors">{feature.title}</h3>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg">{feature.desc}</p>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-[#f16529] transition-colors duration-300">{feature.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -336,11 +306,11 @@ export default function LandingPage() {
       </section>
 
       {/* Cover Letter Section */}
-      <section className="py-24 bg-white dark:bg-slate-950 overflow-hidden">
+      <section className="py-24 bg-slate-50 dark:bg-slate-900/50 overflow-hidden border-y border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center gap-16">
             <div className="flex-1 space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/30 text-[#f16529] dark:text-orange-400 text-sm font-medium border border-orange-100 dark:border-orange-800">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white dark:bg-slate-800 text-[#f16529] dark:text-orange-400 text-sm font-medium border border-slate-200 dark:border-slate-700 shadow-sm">
                 <PenTool size={16} />
                 {t.coverLetterNew}
               </div>
@@ -397,6 +367,71 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Hash Hunt Section */}
+      <section className="py-24 bg-white dark:bg-slate-950 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row-reverse items-center gap-16">
+            <div className="flex-1 space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-sm font-medium border border-indigo-100 dark:border-indigo-800">
+                <Briefcase size={16} />
+                {language === 'ar' ? 'جديد' : 'New Feature'}
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white font-display leading-tight">
+                {language === 'ar' ? 'دع الوظائف تبحث عنك مع Hash Hunt' : 'Let the jobs find you with Hash Hunt'}
+              </h2>
+              <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                {language === 'ar' 
+                  ? 'لا تكتفِ بإنشاء سيرة ذاتية رائعة. انضم إلى مجموعة المواهب الحصرية الخاصة بنا ودع الشركات الشريكة لنا تتواصل معك مباشرة.' 
+                  : 'Don\'t just build a great resume. Join our exclusive talent pool and let our partner companies reach out to you directly.'}
+              </p>
+              <ul className="space-y-4">
+                {[
+                  language === 'ar' ? 'وصول مباشر لمديري التوظيف' : 'Direct access to hiring managers',
+                  language === 'ar' ? 'وظائف حصرية غير معلنة' : 'Exclusive unlisted roles',
+                  language === 'ar' ? 'مجاني 100% للباحثين عن عمل' : '100% free for job seekers'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium">
+                    <CheckCircle2 className="text-indigo-600 dark:text-indigo-400 shrink-0" size={20} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link 
+                to="/hash-hunt" 
+                className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-full font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20"
+              >
+                {language === 'ar' ? 'استكشف Hash Hunt' : 'Explore Hash Hunt'}
+                <ArrowRight size={20} className="rtl:rotate-180" />
+              </Link>
+            </div>
+            <div className="flex-1 relative">
+              <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-cyan-500/20 rounded-3xl blur-3xl"></div>
+              <div className="relative bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 rounded-xl flex items-center justify-center">
+                    <Search className="text-indigo-600 dark:text-indigo-400" size={24} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-slate-900 dark:text-white">Senior Product Designer</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">TechNova Solutions • Remote</p>
+                  </div>
+                </div>
+                <div className="space-y-3 mb-6">
+                  <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded w-full"></div>
+                  <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded w-5/6"></div>
+                  <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded w-4/5"></div>
+                </div>
+                <div className="flex gap-2">
+                  <span className="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-full font-medium">Figma</span>
+                  <span className="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-full font-medium">UI/UX</span>
+                  <span className="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-full font-medium">Design Systems</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Wizard Showcase (Replaces Process) */}
       <section id="process">
         <WizardShowcase />
@@ -425,11 +460,14 @@ export default function LandingPage() {
                   {language === 'ar' ? 'تحميل واحد' : 'Single Download'}
                 </h3>
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-slate-400 line-through text-lg">50 EGP</span>
+                  <span className="text-slate-400 line-through text-lg">99 EGP</span>
                   <span className="text-5xl font-black text-[#f16529]">25 EGP</span>
                 </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400">
+                <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">
                   {language === 'ar' ? 'كود للاستخدام مرة واحدة' : 'One-time use code'}
+                </p>
+                <p className="text-xs font-medium text-amber-600 dark:text-amber-500 bg-amber-50 dark:bg-amber-500/10 inline-block px-2 py-1 rounded-md">
+                  {language === 'ar' ? 'العرض ينتهي في 9 سبتمبر 2026' : 'Offer ends September 9, 2026'}
                 </p>
               </div>
 
@@ -450,7 +488,7 @@ export default function LandingPage() {
               </ul>
 
               <Link 
-                to="/editor" 
+                to="/templates" 
                 className="block w-full bg-[#f16529] hover:bg-[#e44d26] text-white text-center font-bold py-4 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-95"
               >
                 {language === 'ar' ? 'ابدأ الآن' : 'Get Started Now'}
@@ -539,7 +577,6 @@ export default function LandingPage() {
               <div className="flex flex-col items-start mb-6">
                 <Logo className="w-10 h-10 text-[#f16529] mb-2" />
                 <span className="text-2xl font-black text-white font-display">Hash Resume</span>
-                <span className="text-sm text-slate-500 mt-1">A part of Hash Social Media Marketing Agency</span>
               </div>
               <p className="text-sm max-w-sm">{t.footerDesc}</p>
             </div>
@@ -562,7 +599,7 @@ export default function LandingPage() {
 
               <h4 className="text-white font-semibold mb-4">{t.product}</h4>
               <ul className="space-y-2 text-sm md:text-right">
-                <li><Link to="/editor" className="hover:text-white transition-colors">{t.resumeBuilder}</Link></li>
+                <li><Link to="/templates" className="hover:text-white transition-colors">{t.resumeBuilder}</Link></li>
                 <li><Link to="/cover-letter" className="hover:text-white transition-colors">{t.coverLetter}</Link></li>
                 <li><Link to="/blog" className="hover:text-white transition-colors">{t.blog}</Link></li>
                 <li><Link to="/hash-hunt" className="hover:text-white transition-colors">{t.hashHuntJobs}</Link></li>
