@@ -61,16 +61,23 @@ export default function OnboardingTour() {
       const step = STEPS[currentStep];
       const element = document.querySelector(step.target);
 
-      if (element) {
+      if (element instanceof HTMLElement) {
+        // Ensure element is visible (not hidden by display: none)
+        if (element.offsetParent === null) {
+          // If the element is hidden (e.g. mobile preview not open), try to find it again
+          // but don't loop infinitely if it's truly gone
+          return;
+        }
+
         const rect = element.getBoundingClientRect();
         setTargetRect(rect);
         
         // Calculate tooltip position
         let top = 0;
         let left = 0;
-        const tooltipWidth = 340; // Approximate width
-        const tooltipHeight = 220; // Approximate height
-        const gap = 16;
+        const tooltipWidth = 360; 
+        const tooltipHeight = 280; 
+        const gap = 20;
 
         switch (step.placement) {
           case 'top':
@@ -94,16 +101,19 @@ export default function OnboardingTour() {
             left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
         }
 
-        // Keep within viewport
-        if (left < 10) left = 10;
-        if (left + tooltipWidth > window.innerWidth - 10) left = window.innerWidth - tooltipWidth - 10;
-        if (top < 10) top = 10;
-        if (top + tooltipHeight > window.innerHeight - 10) top = window.innerHeight - tooltipHeight - 10;
+        // Keep within viewport with safe margins
+        const margin = 20;
+        if (left < margin) left = margin;
+        if (left + tooltipWidth > window.innerWidth - margin) left = window.innerWidth - tooltipWidth - margin;
+        if (top < margin) top = margin;
+        if (top + tooltipHeight > window.innerHeight - margin) top = window.innerHeight - tooltipHeight - margin;
 
         setPosition({ top, left });
         
-        // Scroll into view
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Scroll into view with better options
+        element.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      } else {
+        setTargetRect(null);
       }
     };
 
@@ -177,7 +187,7 @@ export default function OnboardingTour() {
 
           {/* Tooltip */}
           <motion.div
-            className="fixed z-50 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 w-80 max-w-[90vw] transition-colors overflow-hidden"
+            className="fixed z-50 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-slate-100 dark:border-slate-800 w-[360px] max-w-[calc(100vw-40px)] transition-colors overflow-hidden"
             initial={{ opacity: 0, scale: 0.9, y: 10 }}
             animate={{ 
               opacity: 1, 
@@ -226,6 +236,16 @@ export default function OnboardingTour() {
             </motion.div>
 
             <div className="relative z-10">
+              {/* Arrow Pointer */}
+              <div 
+                className={cn(
+                  "absolute w-4 h-4 bg-white dark:bg-slate-900 rotate-45 border border-slate-100 dark:border-slate-800 -z-10",
+                  step.placement === 'top' && "bottom-[-8px] left-1/2 -translate-x-1/2 border-t-0 border-l-0",
+                  step.placement === 'bottom' && "top-[-8px] left-1/2 -translate-x-1/2 border-b-0 border-r-0",
+                  step.placement === 'left' && "right-[-8px] top-1/2 -translate-y-1/2 border-b-0 border-l-0",
+                  step.placement === 'right' && "left-[-8px] top-1/2 -translate-y-1/2 border-t-0 border-r-0"
+                )}
+              />
               <div className="flex justify-between items-start mb-4">
                 <div className="flex items-center gap-3">
                   <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-orange-100 to-red-100 dark:from-orange-900/40 dark:to-red-900/40 flex items-center justify-center text-[#f16529] dark:text-orange-400 shadow-inner border border-orange-200/50 dark:border-orange-700/50">
