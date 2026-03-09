@@ -213,11 +213,6 @@ export default function EditorPage() {
             </AnimatePresence>
           </div>
 
-          {/* Stepper */}
-          <div className="hidden md:flex items-center gap-2">
-            <Stepper tabs={tabs} activeTab={activeTab} onTabChange={(id) => setActiveTab(id as Tab)} />
-          </div>
-
           {/* ATS Score */}
           <button onClick={() => setActiveTab('finish')} className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 transition-colors border border-slate-200/50 dark:border-slate-700/50">
             <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">ATS</span>
@@ -260,51 +255,40 @@ export default function EditorPage() {
       <div className="h-24 shrink-0" />
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 max-w-[95vw]">
+      <div className="fixed bottom-4 left-4 right-4 z-40 flex justify-center bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl rounded-full border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300">
         
-        <div className="flex items-center gap-1.5 min-w-max px-2 py-2 overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-1 px-2 py-1 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
-              <div key={tab.id} className="relative flex flex-col items-center justify-center h-16 w-16 group">
-                <button
-                  onClick={() => setActiveTab(tab.id)}
-                  data-tour={tab.tourId}
-                  className={cn(
-                    "relative flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 shrink-0",
-                    isActive 
-                      ? "bg-black text-white shadow-lg scale-110" 
-                      : "text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
-                  )}
-                >
-                <span className="relative z-10">
-                  <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
-                </span>
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                data-tour={tab.tourId}
+                className={cn(
+                  "relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 shrink-0",
+                  isActive 
+                    ? "bg-black text-white shadow-lg" 
+                    : "text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
+                )}
+              >
+                <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
                 <span className="sr-only">{tab.label}</span>
-                
-                {/* Tooltip */}
-                <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-slate-900 text-white text-[10px] font-bold uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-xl border border-white/10 z-50">
-                  {tab.label}
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-slate-900 rotate-45" />
-                </div>
               </button>
-            </div>
             );
           })}
 
           {/* Separator */}
-          <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-2"></div>
+          <div className="w-px h-6 bg-slate-200 dark:bg-slate-800 mx-1"></div>
 
           {/* Start / Export Button */}
           <button 
             onClick={handleExportClick}
-            className="flex items-center gap-3 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
+            className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-1.5 px-4 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
           >
-            <span className="text-sm tracking-tight">Export</span>
-            <div className="bg-white/20 rounded-full p-2 group-hover:translate-x-0.5 transition-transform">
-              <ArrowRight size={18} className="text-white" />
-            </div>
+            <span className="text-xs tracking-tight">Export</span>
+            <ArrowRight size={16} className="text-white" />
           </button>
         </div>
       </div>
