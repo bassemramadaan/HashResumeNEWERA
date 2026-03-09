@@ -33,11 +33,6 @@ export default function SettingsForm() {
 
   return (
     <div className="space-y-6 font-sans">
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-        <Settings className="text-indigo-500 dark:text-indigo-400" size={24} />
-        Resume Settings
-      </h2>
-
       <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 space-y-8 transition-colors">
         
         {/* Template Selection */}

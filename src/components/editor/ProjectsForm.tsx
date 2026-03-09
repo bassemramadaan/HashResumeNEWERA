@@ -17,11 +17,7 @@ export default function ProjectsForm() {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <FolderGit2 className="text-indigo-500 dark:text-indigo-400" size={24} />
-          Projects
-        </h2>
+      <div className="flex items-center justify-end">
         <button
           onClick={handleAdd}
           className="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-indigo-100 dark:border-indigo-800"

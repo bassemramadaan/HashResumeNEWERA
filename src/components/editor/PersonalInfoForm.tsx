@@ -47,11 +47,6 @@ export default function PersonalInfoForm() {
 
   return (
     <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 font-sans transition-colors">
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
-        <User className="text-indigo-500 dark:text-indigo-400" size={24} />
-        Personal Information
-      </h2>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <label htmlFor="fullName" className="text-sm font-medium text-slate-700 dark:text-slate-300">Full Name <span className="text-rose-500">*</span></label>

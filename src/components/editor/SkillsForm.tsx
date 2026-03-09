@@ -33,11 +33,6 @@ export default function SkillsForm() {
 
   return (
     <div className="space-y-6 font-sans">
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-        <Wrench className="text-indigo-500 dark:text-indigo-400" size={24} />
-        Skills
-      </h2>
-
       <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
         <form onSubmit={handleAdd} className="mb-6">
           <label htmlFor="skillInput" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">

@@ -117,11 +117,7 @@ export default function CoverLetterForm() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-          <FileText className="text-indigo-500 dark:text-indigo-400" size={24} />
-          Cover Letter
-        </h2>
+      <div className="flex justify-end items-center">
         <button
           onClick={handleImportFromResume}
           className="flex items-center gap-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 px-3 py-1.5 rounded-lg transition-colors"

@@ -35,7 +35,7 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../lib/utils';
 import { calculateATSScore } from '../lib/ats';
 
-type Tab = 'basics' | 'experience' | 'education' | 'skills' | 'finish';
+type Tab = 'basics' | 'experience' | 'education' | 'skills' | 'cover-letter' | 'finish';
 
 interface TabItem {
   id: Tab;
@@ -132,7 +132,9 @@ export default function EditorPage() {
   const tabs: TabItem[] = [
     { id: 'basics', label: 'Profile', icon: User, tourId: 'personal-info' },
     { id: 'experience', label: 'Experience', icon: Briefcase, tourId: 'experience-section' },
-    { id: 'education', label: 'Education & Skills', icon: GraduationCap, tourId: 'education-skills-section' },
+    { id: 'education', label: 'Education', icon: GraduationCap, tourId: 'education-section' },
+    { id: 'skills', label: 'Skills', icon: Wrench, tourId: 'skills-section' },
+    { id: 'cover-letter', label: 'Cover Letter', icon: FileText, tourId: 'cover-letter-section' },
     { id: 'finish', label: 'Review', icon: Target, tourId: 'review-section' },
   ];
 
@@ -143,9 +145,10 @@ export default function EditorPage() {
   const tabDescriptions: Record<Tab, string> = {
     basics: 'Your basic information and resume settings.',
     experience: 'Your professional work history and projects.',
-    education: 'Your academic background, certifications, and skills.',
+    education: 'Your academic background and certifications.',
+    skills: 'Your technical and soft skills.',
+    'cover-letter': 'Generate a professional cover letter.',
     finish: 'Optimize for ATS and download your resume.',
-    skills: '' // Keep for type safety but it won't be used
   };
 
   return (
@@ -350,7 +353,10 @@ export default function EditorPage() {
             <div className="max-w-3xl mx-auto pb-20">
               {activeTab === 'basics' && (
                 <div className="space-y-12">
-                  <PersonalInfoForm />
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Personal Information</h2>
+                    <PersonalInfoForm />
+                  </div>
                   <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Resume Settings</h2>
                     <SettingsForm />
@@ -359,7 +365,10 @@ export default function EditorPage() {
               )}
               {activeTab === 'experience' && (
                 <div className="space-y-12">
-                  <ExperienceForm />
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Work Experience</h2>
+                    <ExperienceForm />
+                  </div>
                   <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Projects</h2>
                     <ProjectsForm />
@@ -368,15 +377,26 @@ export default function EditorPage() {
               )}
               {activeTab === 'education' && (
                 <div className="space-y-12">
-                  <EducationForm />
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Education</h2>
+                    <EducationForm />
+                  </div>
                   <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Certifications</h2>
                     <CertificationsForm />
                   </div>
+                </div>
+              )}
+              {activeTab === 'skills' && (
+                <div className="space-y-12">
                   <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Skills</h2>
                     <SkillsForm />
                   </div>
+                </div>
+              )}
+              {activeTab === 'cover-letter' && (
+                <div className="space-y-12">
                   <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Cover Letter</h2>
                     <CoverLetterForm />
