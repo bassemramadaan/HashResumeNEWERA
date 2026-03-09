@@ -138,13 +138,14 @@ import { useScrollDirection } from '../hooks/useScrollDirection';
 
 export default function TemplatesPage() {
   const { language } = useLanguageStore();
-  const { data, updateSettings } = useResumeStore();
+  const { data, updateSettings, resetData } = useResumeStore();
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<Category>('All');
   const [previewTemplate, setPreviewTemplate] = useState<typeof templates[number] | null>(null);
   const { scrollDirection, isScrolled } = useScrollDirection();
 
   const handleSelectTemplate = (templateId: ResumeData['settings']['template']) => {
+    resetData();
     updateSettings({ template: templateId });
     navigate('/editor');
   };

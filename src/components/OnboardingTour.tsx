@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useOnboardingStore } from '../store/useOnboardingStore';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, ChevronRight, ChevronLeft, User, Briefcase, Star, Eye, Download, Sparkles } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, User, Briefcase, Star, Eye, Download, Sparkles, Target } from 'lucide-react';
+import { cn } from '../lib/utils';
 
 interface Step {
   target: string; // CSS selector
@@ -14,8 +15,8 @@ interface Step {
 const STEPS: Step[] = [
   {
     target: '[data-tour="personal-info"]',
-    title: 'Start with Basics',
-    content: 'Enter your personal details here. Make sure your contact info is accurate so recruiters can reach you.',
+    title: 'Start with Profile',
+    content: 'Enter your personal details and contact info. This is the first thing recruiters see.',
     placement: 'right',
     icon: User,
   },
@@ -27,11 +28,18 @@ const STEPS: Step[] = [
     icon: Briefcase,
   },
   {
-    target: '[data-tour="skills-section"]',
-    title: 'Showcase Skills',
-    content: 'Add relevant skills. Tailor these to the job description for better ATS ranking.',
+    target: '[data-tour="education-skills-section"]',
+    title: 'Education & Skills',
+    content: 'Add your academic background and technical skills. Tailor these to the job description.',
     placement: 'right',
     icon: Star,
+  },
+  {
+    target: '[data-tour="review-section"]',
+    title: 'Review & Export',
+    content: 'Check your ATS score, optimize your content, and download your professional resume.',
+    placement: 'right',
+    icon: Target,
   },
   {
     target: '[data-tour="preview-pane"]',
@@ -39,13 +47,6 @@ const STEPS: Step[] = [
     content: 'See your resume update in real-time as you type. You can also change templates here.',
     placement: 'left',
     icon: Eye,
-  },
-  {
-    target: '[data-tour="export-button"]',
-    title: 'Download PDF',
-    content: 'Once you are happy, download your resume as a PDF. It is free and ATS-friendly.',
-    placement: 'bottom',
-    icon: Download,
   },
 ];
 

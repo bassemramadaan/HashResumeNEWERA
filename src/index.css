@@ -6,31 +6,34 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  /* Deep Orange/Red (Replaces Indigo) */
+  /* Primary Orange (Replaces Indigo) */
   --color-indigo-50: #fff5f2;
   --color-indigo-100: #ffe7e0;
   --color-indigo-200: #ffd3c7;
   --color-indigo-300: #ffb5a1;
   --color-indigo-400: #ff8e70; 
-  --color-indigo-500: #f7663e;
-  --color-indigo-600: #e44d26; /* Primary Gradient Start */
-  --color-indigo-700: #bf3817;
-  --color-indigo-800: #9e2f15;
-  --color-indigo-900: #822b16;
-  --color-indigo-950: #471208;
+  --color-indigo-500: #FF5733; /* Primary Orange */
+  --color-indigo-600: #e64e2e;
+  --color-indigo-700: #cc4528;
+  --color-indigo-800: #b33d23;
+  --color-indigo-900: #99341e;
+  --color-indigo-950: #802c19;
 
-  /* Bright Orange (Replaces Cyan) */
-  --color-cyan-50: #fff7f0;
-  --color-cyan-100: #ffeedb;
-  --color-cyan-200: #ffdeb8;
-  --color-cyan-300: #ffc68a;
-  --color-cyan-400: #ffa552;
-  --color-cyan-500: #f98424;
-  --color-cyan-600: #f16529; /* Primary Gradient End */
-  --color-cyan-700: #c84d1a;
-  --color-cyan-800: #9f3d1b;
-  --color-cyan-900: #80341a;
-  --color-cyan-950: #45180a;
+  /* Neutral Dark (Replaces Cyan) */
+  --color-cyan-50: #f0f0f2;
+  --color-cyan-100: #dcdce0;
+  --color-cyan-200: #b9b9c0;
+  --color-cyan-300: #9696a0;
+  --color-cyan-400: #737380;
+  --color-cyan-500: #505060;
+  --color-cyan-600: #2d2d40;
+  --color-cyan-700: #1A1A2E; /* Neutral Dark */
+  --color-cyan-800: #151525;
+  --color-cyan-900: #10101c;
+  --color-cyan-950: #0b0b13;
+
+  /* ATS Green */
+  --color-emerald-500: #22C55E;
 
   /* Premium Midnight Blue-Gray (Replaces Slate) - Deep, Sophisticated Dark Mode */
   --color-slate-50: #f8fafc;
@@ -139,6 +142,12 @@ body {
     scrollbar-width: none;
 }
 
+/* Typography */
+h1 { @apply text-[56px] font-bold leading-tight; }
+h2 { @apply text-[36px] font-semibold leading-tight; }
+body { @apply text-[16px] leading-relaxed; }
+.caption { @apply text-[14px]; }
+
 /* Global Dark Mode Enhancements */
 body {
   @apply transition-colors duration-300 ease-in-out;
@@ -148,3 +157,4 @@ body {
 *:focus-visible {
   @apply outline-none ring-2 ring-indigo-500 ring-offset-2 ring-offset-white dark:ring-offset-slate-900;
 }
+

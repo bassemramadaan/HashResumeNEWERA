@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useLanguageStore } from '../store/useLanguageStore';
+import { translations } from '../i18n/translations';
 
 const faqs = [
   {
@@ -26,14 +28,25 @@ const faqs = [
 ];
 
 export default function FAQ() {
+  const { language } = useLanguageStore();
+  const t = translations[language].landing;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const faqs = [
+    { question: t.faq1Q, answer: t.faq1A },
+    { question: t.faq2Q, answer: t.faq2A },
+    { question: t.faq3Q, answer: t.faq3A },
+    { question: t.faq4Q, answer: t.faq4A },
+    { question: t.faq5Q, answer: t.faq5A },
+    { question: t.faq6Q, answer: t.faq6A },
+  ];
 
   return (
     <section id="faq" className="py-24 bg-slate-50 dark:bg-slate-900/50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display">Frequently Asked Questions</h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400">Got questions? We've got answers.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display">{t.faqsTitle}</h2>
+          <p className="text-lg text-slate-600 dark:text-slate-400">{t.faqsSubtitle}</p>
         </div>
 
         <div className="space-y-4">

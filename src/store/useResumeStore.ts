@@ -291,7 +291,7 @@ export const useResumeStore = create<ResumeStore>()(
             experience: [
               {
                 id: generateId(),
-                company: 'Nile Tech Solutions',
+                company: 'Global Tech Solutions',
                 position: 'Senior Frontend Developer',
                 startDate: '2020-01',
                 endDate: 'Present',
@@ -299,7 +299,7 @@ export const useResumeStore = create<ResumeStore>()(
               },
               {
                 id: generateId(),
-                company: 'Cairo Innovations LLC',
+                company: 'Innovate Systems LLC',
                 position: 'Frontend Developer',
                 startDate: '2017-06',
                 endDate: '2019-12',
@@ -310,7 +310,7 @@ export const useResumeStore = create<ResumeStore>()(
             education: [
               {
                 id: generateId(),
-                institution: 'Cairo University',
+                institution: 'State University of Technology',
                 degree: 'Bachelor of Science in Computer Science',
                 startDate: '2013-09',
                 endDate: '2017-05',
@@ -323,7 +323,7 @@ export const useResumeStore = create<ResumeStore>()(
                 id: generateId(),
                 name: 'E-commerce Platform',
                 description: 'A full-stack e-commerce platform built with MERN stack.',
-                link: 'github.com/ahmedhassan/ecommerce',
+                link: 'github.com/johndoe/ecommerce',
               },
             ],
             certifications: [

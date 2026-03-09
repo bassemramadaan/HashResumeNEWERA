@@ -20,13 +20,13 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   const improvements: string[] = [];
 
   // 1. Personal Info (20 points)
-  if (personalInfo.fullName) {
+  if (personalInfo.fullName && personalInfo.fullName.trim().length > 2) {
     score += 5;
   } else {
     improvements.push("Add your full name to the personal info section.");
   }
 
-  if (personalInfo.email && personalInfo.phone) {
+  if (personalInfo.email && personalInfo.phone && personalInfo.email.includes('@')) {
     score += 10;
     goodPoints.push("Contact information is complete.");
   } else {

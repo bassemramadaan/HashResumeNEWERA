@@ -351,7 +351,7 @@ Don't just "like" posts. Leave thoughtful comments. Share articles with your own
     },
     date: "2026-02-05",
     author: {
-      en: "Ahmed Youssef",
+      en: "John Thompson",
       ar: "أحمد يوسف"
     },
     image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800",

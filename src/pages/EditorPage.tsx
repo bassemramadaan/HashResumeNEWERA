@@ -7,10 +7,11 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText, CheckCircle
+  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText, CheckCircle, Sparkles
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
+import Stepper from '../components/editor/Stepper';
 import PersonalInfoForm from '../components/editor/PersonalInfoForm';
 import ExperienceForm from '../components/editor/ExperienceForm';
 import EducationForm from '../components/editor/EducationForm';
@@ -61,12 +62,12 @@ export default function EditorPage() {
   const { undo, redo, pastStates, futureStates } = useStore(useResumeStore.temporal);
 
   // Show welcome modal if not seen
-  useEffect(() => {
+  /* useEffect(() => {
     if (!hasSeenOnboarding) {
       const timer = setTimeout(() => setShowWelcomeModal(true), 1000);
       return () => clearTimeout(timer);
     }
-  }, [hasSeenOnboarding]);
+  }, [hasSeenOnboarding]); */
 
   const handleStartTour = () => {
     setShowWelcomeModal(false);
@@ -129,11 +130,10 @@ export default function EditorPage() {
   };
 
   const tabs: TabItem[] = [
-    { id: 'basics', label: 'Basics', icon: User, tourId: 'personal-info' },
+    { id: 'basics', label: 'Profile', icon: User, tourId: 'personal-info' },
     { id: 'experience', label: 'Experience', icon: Briefcase, tourId: 'experience-section' },
-    { id: 'education', label: 'Education', icon: GraduationCap },
-    { id: 'skills', label: 'Skills', icon: Wrench, tourId: 'skills-section' },
-    { id: 'finish', label: 'Review', icon: Target },
+    { id: 'education', label: 'Education & Skills', icon: GraduationCap, tourId: 'education-skills-section' },
+    { id: 'finish', label: 'Review', icon: Target, tourId: 'review-section' },
   ];
 
   const atsScore = calculateATSScore(data).score;
@@ -143,9 +143,9 @@ export default function EditorPage() {
   const tabDescriptions: Record<Tab, string> = {
     basics: 'Your basic information and resume settings.',
     experience: 'Your professional work history and projects.',
-    education: 'Your academic background and certifications.',
-    skills: 'Your technical skills and cover letter.',
-    finish: 'Optimize for ATS and download your resume.'
+    education: 'Your academic background, certifications, and skills.',
+    finish: 'Optimize for ATS and download your resume.',
+    skills: '' // Keep for type safety but it won't be used
   };
 
   return (
@@ -184,6 +184,9 @@ export default function EditorPage() {
 
           {/* Theme/Lang/Feedback */}
           <div className="flex items-center gap-1">
+            <button onClick={() => setShowWelcomeModal(true)} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Show me around">
+              <Sparkles size={18} />
+            </button>
             <LanguageSwitcher className="[&>span]:hidden sm:[&>span]:inline" />
             <button onClick={() => setShowFeedbackModal(true)} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Feedback">
               <MessageCircle size={18} />
@@ -207,6 +210,11 @@ export default function EditorPage() {
             </AnimatePresence>
           </div>
 
+          {/* Stepper */}
+          <div className="hidden md:flex items-center gap-2">
+            <Stepper tabs={tabs} activeTab={activeTab} onTabChange={(id) => setActiveTab(id as Tab)} />
+          </div>
+
           {/* ATS Score */}
           <button onClick={() => setActiveTab('finish')} className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 transition-colors border border-slate-200/50 dark:border-slate-700/50">
             <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">ATS</span>
@@ -214,6 +222,24 @@ export default function EditorPage() {
               {atsScore}%
             </span>
           </button>
+
+          {/* Export Buttons (Topbar) */}
+          <div className="hidden sm:flex items-center gap-2">
+            <button 
+              onClick={handleExportClick}
+              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-bold text-sm"
+            >
+              <Download size={16} />
+              Export PDF
+            </button>
+            <button 
+              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shadow-sm hover:shadow-md active:scale-95 font-bold text-sm"
+              title="Export Word (Premium)"
+            >
+              <FileText size={16} />
+              <span className="hidden lg:inline">Export Word</span>
+            </button>
+          </div>
 
           {/* Preview (Desktop) */}
           <button onClick={() => setShowFullPreview(true)} className="hidden lg:flex items-center justify-center w-10 h-10 text-slate-600 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-colors" title="Full Preview">
@@ -233,14 +259,6 @@ export default function EditorPage() {
       {/* Floating Compact Navbar (Bottom) */}
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 flex flex-col items-center bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl rounded-[2.5rem] border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 max-w-[95vw]">
         
-        {/* Progress Bar */}
-        <div className="w-full h-1 bg-slate-200 dark:bg-slate-800 rounded-t-[2.5rem] overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-indigo-500 to-cyan-500 transition-all duration-500 ease-out"
-            style={{ width: `${progressPercentage}%` }}
-          />
-        </div>
-
         <div className="flex items-center gap-1.5 min-w-max px-2 py-2 overflow-x-auto scrollbar-hide">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -355,11 +373,10 @@ export default function EditorPage() {
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Certifications</h2>
                     <CertificationsForm />
                   </div>
-                </div>
-              )}
-              {activeTab === 'skills' && (
-                <div className="space-y-12">
-                  <SkillsForm />
+                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Skills</h2>
+                    <SkillsForm />
+                  </div>
                   <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
                     <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Cover Letter</h2>
                     <CoverLetterForm />

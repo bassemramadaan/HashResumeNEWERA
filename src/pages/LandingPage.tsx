@@ -2,11 +2,12 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout, Download, User } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
 import WizardShowcase from '../components/WizardShowcase';
+import ParticleAnimation from '../components/ParticleAnimation';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import FeedbackModal from '../components/FeedbackModal';
 import { useLanguageStore } from '../store/useLanguageStore';
@@ -22,7 +23,7 @@ export default function LandingPage() {
   const { scrollDirection, isScrolled } = useScrollDirection();
 
   // Fixed count as requested
-  const displayCount = 300;
+  const displayCount = "50,000";
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
@@ -94,7 +95,8 @@ export default function LandingPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-20 lg:pt-32 lg:pb-40 overflow-hidden">
+      <section className="relative pt-20 pb-20 lg:pt-32 lg:pb-40 overflow-hidden bg-gradient-to-b from-orange-50 to-white dark:from-slate-950 dark:to-slate-900">
+        <ParticleAnimation />
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-[#f16529] opacity-20 blur-[100px] animate-pulse"></div>
@@ -200,31 +202,70 @@ export default function LandingPage() {
                 
                 {/* Main Resume Document */}
                 <div className="absolute inset-0 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
-                  <img 
-                    src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=800&auto=format&fit=crop" 
-                    alt="Resume Builder Interface" 
-                    className="w-full h-full object-cover opacity-90 dark:opacity-70"
-                    referrerPolicy="no-referrer"
-                  />
-                  
-                  {/* Overlay to make it look like an editor */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent dark:from-slate-900/80"></div>
+                  <div className="flex-1 p-6 flex flex-col gap-4">
+                    {/* Header Mockup */}
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 animate-pulse"></div>
+                      <div className="space-y-2 flex-1">
+                        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
+                        <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-1/2"></div>
+                      </div>
+                    </div>
+                    
+                    {/* Experience Section Mockup */}
+                    <div className="space-y-4">
+                      <div className="h-4 bg-indigo-50 dark:bg-indigo-900/30 rounded w-1/4 mb-2"></div>
+                      {[1, 2, 3].map(i => (
+                        <div key={i} className="space-y-2">
+                          <div className="flex justify-between">
+                            <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/3"></div>
+                            <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded w-1/4"></div>
+                          </div>
+                          <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
+                          <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded w-5/6"></div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Skills Section Mockup */}
+                    <div className="mt-6">
+                      <div className="h-4 bg-indigo-50 dark:bg-indigo-900/30 rounded w-1/4 mb-4"></div>
+                      <div className="flex flex-wrap gap-2">
+                        {[1, 2, 3, 4, 5, 6].map(i => (
+                          <div key={i} className="h-6 bg-slate-100 dark:bg-slate-800 rounded-full w-16"></div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                   
                   {/* Editor UI Elements Overlay */}
-                  <div className="absolute top-4 left-4 right-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl shadow-sm border border-slate-200/50 dark:border-slate-700/50">
+                  <div className="absolute top-4 left-4 right-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 z-30">
                     <div className="flex gap-2">
                       <div className="w-3 h-3 rounded-full bg-rose-400"></div>
                       <div className="w-3 h-3 rounded-full bg-amber-400"></div>
                       <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
                     </div>
-                    <div className="h-4 w-24 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-2 w-16 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
+                      <div className="w-6 h-6 rounded bg-indigo-500 flex items-center justify-center">
+                        <Download size={12} className="text-white" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Sidebar Mockup */}
+                  <div className="absolute left-0 top-0 bottom-0 w-12 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col items-center py-20 gap-6 z-20">
+                    <User size={18} className="text-indigo-500" />
+                    <Briefcase size={18} className="text-slate-400" />
+                    <GraduationCap size={18} className="text-slate-400" />
+                    <Target size={18} className="text-slate-400" />
                   </div>
                   
                   {/* Scanning Line Animation */}
                   <motion.div 
                     animate={{ top: ['-10%', '110%', '-10%'] }}
                     transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    className="absolute left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#f16529]/20 to-transparent border-b border-[#f16529]/50 z-20 pointer-events-none"
+                    className="absolute left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#f16529]/20 to-transparent border-b border-[#f16529]/50 z-40 pointer-events-none"
                     style={{ top: '0%' }}
                   />
                 </div>
@@ -292,7 +333,7 @@ export default function LandingPage() {
               { icon: Sparkles, title: "AI Content Generation", desc: "Overcome writer's block with our AI assistant that generates professional summaries and bullet points tailored to your industry.", color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
               { icon: Layout, title: "Multiple Premium Templates", desc: "Choose from a variety of professionally designed templates that stand out while remaining ATS-compliant and easy to read.", color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" }
             ].map((feature, i) => (
-              <div key={i} className="group relative bg-white/80 dark:bg-slate-900/50 backdrop-blur-sm p-8 md:p-10 rounded-3xl shadow-sm border border-slate-200/60 dark:border-slate-800/60 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden hover:border-orange-200 dark:hover:border-orange-900/30 cursor-pointer">
+              <div key={i} className="group relative bg-white dark:bg-slate-900/50 backdrop-blur-sm p-8 md:p-10 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 overflow-hidden cursor-pointer">
                 <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-5 dark:opacity-10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-700 ease-out`}></div>
                 <div className={`w-14 h-14 ${feature.bg} ${feature.text} rounded-2xl flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 ring-1 ring-inset ring-black/5 dark:ring-white/5`}>
                   <feature.icon size={28} strokeWidth={2} />
