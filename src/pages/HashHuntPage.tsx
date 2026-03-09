@@ -204,16 +204,16 @@ export default function HashHuntPage() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-20 overflow-hidden">
+      <section className="relative pt-24 pb-20 overflow-hidden bg-white dark:bg-slate-950">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-indigo-400 opacity-20 dark:opacity-30 blur-[100px]"></div>
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[500px] w-[500px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-100/80 dark:bg-indigo-900/50 backdrop-blur-sm text-indigo-800 dark:text-indigo-300 text-sm font-medium mb-8 border border-indigo-200 dark:border-indigo-800"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-sm font-bold mb-8 border border-indigo-100 dark:border-indigo-800 shadow-sm"
           >
             <Briefcase size={16} />
             Exclusive Job Opportunities
@@ -223,7 +223,7 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 dark:text-white mb-6 font-display"
+            className="text-6xl md:text-8xl font-black tracking-tighter text-slate-900 dark:text-white mb-8 font-display"
           >
             Let the jobs <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400">find you.</span>
@@ -233,7 +233,7 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-8"
+            className="text-xl md:text-2xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed"
           >
             Browse exclusive roles from our partner companies or upload your resume to get matched automatically.
           </motion.p>
@@ -242,32 +242,17 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex flex-col items-center gap-6"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <div className="flex items-center gap-4">
-              <a 
-                href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="bg-gradient-to-r from-indigo-600 to-cyan-600 text-white px-8 py-3.5 rounded-full text-lg font-bold hover:from-indigo-700 hover:to-cyan-700 transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 hover:scale-105 active:scale-95 group"
-              >
-                Submit Resume 
-                <div className="bg-white/20 rounded-full p-1.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
-                  <ExternalLink size={16} className="text-white" />
-                </div>
-              </a>
-            </div>
-
-            {!loading && (
-              <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm px-4 py-2 rounded-full border border-slate-200 dark:border-slate-800 shadow-sm">
-                <div className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
-                </div>
-                <span className="font-medium text-slate-700 dark:text-slate-300">{jobs.length}</span>
-                <span>active opportunities available now</span>
-              </div>
-            )}
+            <a 
+              href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8 py-4 rounded-full text-lg font-bold hover:bg-slate-800 dark:hover:bg-slate-100 transition-all shadow-xl shadow-slate-900/20 flex items-center justify-center gap-2 hover:scale-105 active:scale-95"
+            >
+              Submit Resume 
+              <ExternalLink size={20} />
+            </a>
           </motion.div>
         </div>
       </section>

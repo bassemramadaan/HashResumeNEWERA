@@ -7,6 +7,8 @@ import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
 import WizardShowcase from '../components/WizardShowcase';
+import BeforeAfter from '../components/BeforeAfter';
+import ProductShowcase from '../components/ProductShowcase';
 import ParticleAnimation from '../components/ParticleAnimation';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import FeedbackModal from '../components/FeedbackModal';
@@ -346,6 +348,9 @@ export default function LandingPage() {
         </div>
       </section>
 
+      <BeforeAfter />
+      <ProductShowcase />
+
       {/* Cover Letter Section */}
       <section className="py-24 bg-slate-50 dark:bg-slate-900/50 overflow-hidden border-y border-slate-200 dark:border-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -479,7 +484,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+      <section id="pricing" className="py-24 bg-white dark:bg-slate-950 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 font-display tracking-tight">
@@ -490,10 +495,11 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="max-w-md mx-auto">
-            <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#f16529] overflow-hidden group hover:scale-105 transition-transform duration-300">
+          <div className="flex justify-center max-w-4xl mx-auto">
+            {/* Single Download Plan */}
+            <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#f16529] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
               <div className="absolute top-0 right-0 bg-[#f16529] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">
-                {language === 'ar' ? 'لفترة محدودة' : 'Limited Time Offer'}
+                {language === 'ar' ? 'الأكثر طلباً' : 'Most Popular'}
               </div>
               
               <div className="text-center mb-8">
@@ -501,15 +507,8 @@ export default function LandingPage() {
                   {language === 'ar' ? 'تحميل واحد' : 'Single Download'}
                 </h3>
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-slate-400 line-through text-lg">99 EGP</span>
                   <span className="text-5xl font-black text-[#f16529]">25 EGP</span>
                 </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">
-                  {language === 'ar' ? 'كود للاستخدام مرة واحدة' : 'One-time use code'}
-                </p>
-                <p className="text-xs font-medium text-amber-600 dark:text-amber-500 bg-amber-50 dark:bg-amber-500/10 inline-block px-2 py-1 rounded-md">
-                  {language === 'ar' ? 'العرض ينتهي في 9 سبتمبر 2026' : 'Offer ends September 9, 2026'}
-                </p>
               </div>
 
               <ul className="space-y-4 mb-8">
@@ -517,8 +516,6 @@ export default function LandingPage() {
                   language === 'ar' ? 'تحميل بصيغة PDF عالية الجودة' : 'High-quality PDF Download',
                   language === 'ar' ? 'تحميل بصيغة Word قابلة للتعديل' : 'Editable Word Download',
                   language === 'ar' ? 'قوالب احترافية مميزة' : 'Premium Professional Templates',
-                  language === 'ar' ? 'تحسين السيرة الذاتية بالذكاء الاصطناعي' : 'AI Resume Optimization',
-                  language === 'ar' ? 'فحص التوافق مع أنظمة ATS' : 'ATS Compatibility Check',
                   language === 'ar' ? 'بدون علامة مائية' : 'No Watermark'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700 dark:text-slate-300">
@@ -534,10 +531,6 @@ export default function LandingPage() {
               >
                 {language === 'ar' ? 'ابدأ الآن' : 'Get Started Now'}
               </Link>
-              
-              <p className="text-xs text-center text-slate-400 mt-4">
-                {language === 'ar' ? 'ضمان استرجاع الأموال لمدة 14 يوم' : '14-day money-back guarantee'}
-              </p>
             </div>
           </div>
         </div>

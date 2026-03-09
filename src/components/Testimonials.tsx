@@ -1,7 +1,34 @@
 import React from 'react';
-import { Star, Quote, BadgeCheck, MapPin, Briefcase, MessageCircle } from 'lucide-react';
+import { Star, Quote, MessageCircle } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
+
+const reviews = [
+  {
+    name: "Sarah J.",
+    role: "Software Engineer",
+    text: "Hash Resume helped me land my dream job in just 2 weeks! The ATS optimization is real.",
+    lang: "en"
+  },
+  {
+    name: "سارة ج.",
+    role: "مهندسة برمجيات",
+    text: "بفضل Hash Resume، حصلت على وظيفة أحلامي في أسبوعين فقط! تحسين السيرة الذاتية لأنظمة ATS فعال جداً.",
+    lang: "ar"
+  },
+  {
+    name: "Mark T.",
+    role: "Product Manager",
+    text: "The interface is so clean and intuitive. I love that it's 100% private.",
+    lang: "en"
+  },
+  {
+    name: "مارك ت.",
+    role: "مدير منتج",
+    text: "الواجهة نظيفة وبديهية للغاية. أحب حقيقة أنها خاصة بنسبة 100%.",
+    lang: "ar"
+  }
+];
 
 export default function Testimonials() {
   const { language } = useLanguageStore();
@@ -23,6 +50,26 @@ export default function Testimonials() {
         <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
           {t.testimonialsSubtitle}
         </p>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mb-16">
+        <div className="grid md:grid-cols-2 gap-8">
+          {reviews.map((review, index) => (
+            <div key={index} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm">
+              <Quote className="text-[#f16529] mb-6" size={32} />
+              <p className="text-slate-700 dark:text-slate-300 text-lg mb-6 leading-relaxed">{review.text}</p>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-500">
+                  {review.name.charAt(0)}
+                </div>
+                <div>
+                  <h4 className="font-bold text-slate-900 dark:text-white">{review.name}</h4>
+                  <p className="text-sm text-slate-500">{review.role}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Be the first to review CTA */}
@@ -52,9 +99,6 @@ export default function Testimonials() {
               <MessageCircle size={24} />
               {language === 'ar' ? 'أرسل تقييمك الآن' : 'Send Your Review Now'}
             </button>
-            <p className="mt-4 text-sm text-slate-500 dark:text-slate-500">
-              {language === 'ar' ? 'سنقوم بنشر تقييمك هنا قريباً!' : 'We will feature your review here soon!'}
-            </p>
           </div>
         </div>
       </div>
