@@ -505,6 +505,21 @@ export default function LandingPage() {
             </p>
           </div>
 
+          {/* Currency Switcher */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex p-1.5 bg-slate-100 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner backdrop-blur-sm">
+              {Object.keys(currencies).map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setCurrency(c as keyof typeof currencies)}
+                  className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${currency === c ? 'bg-white dark:bg-slate-800 text-[#f16529] shadow-md ring-1 ring-black/5 dark:ring-white/5' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8 max-w-5xl mx-auto">
             {/* Competitor Comparison */}
             <div className="w-full max-w-md bg-slate-50 dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 flex flex-col justify-center">
@@ -514,17 +529,29 @@ export default function LandingPage() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <span className="text-slate-600 dark:text-slate-400 font-medium">Zety / Resume.io</span>
-                  <span className="text-slate-900 dark:text-white font-bold">$15 - $25 / month</span>
+                  <span className="text-slate-900 dark:text-white font-bold flex items-center gap-1">
+                    {currency === 'EGP' ? (
+                      <>{15 * selectedCurrency.price} - {25 * selectedCurrency.price} {selectedCurrency.symbol}</>
+                    ) : (
+                      <>{selectedCurrency.symbol}{15 * selectedCurrency.price} - {25 * selectedCurrency.price}</>
+                    )} / month
+                  </span>
                 </div>
                 <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
                 <div className="flex items-center justify-between">
                   <span className="text-slate-600 dark:text-slate-400 font-medium">Canva Pro</span>
-                  <span className="text-slate-900 dark:text-white font-bold">$12.99 / month</span>
+                  <span className="text-slate-900 dark:text-white font-bold flex items-center gap-1">
+                    {currency === 'EGP' ? (
+                      <>{(12.99 * selectedCurrency.price).toFixed(2)} {selectedCurrency.symbol}</>
+                    ) : (
+                      <>{selectedCurrency.symbol}{(12.99 * selectedCurrency.price).toFixed(2)}</>
+                    )} / month
+                  </span>
                 </div>
                 <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#f16529] font-bold text-lg">Hash Resume</span>
-                  <span className="text-[#f16529] font-black text-xl">
+                  <span className="text-[#f16529] font-black text-xl flex items-center gap-1">
                     {currency === 'EGP' ? (
                       <>{selectedCurrency.price} {selectedCurrency.symbol}</>
                     ) : (
@@ -545,24 +572,12 @@ export default function LandingPage() {
               </div>
               
               <div className="text-center mb-8">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
                   {language === 'ar' ? 'تحميل واحد' : 'Single Download'}
                 </h3>
-                
-                <div className="flex flex-wrap justify-center gap-2 mb-6">
-                  {Object.keys(currencies).map((c) => (
-                    <button
-                      key={c}
-                      onClick={() => setCurrency(c as keyof typeof currencies)}
-                      className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${currency === c ? 'bg-[#f16529] text-white shadow-lg shadow-orange-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
-                    >
-                      {c}
-                    </button>
-                  ))}
-                </div>
 
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-5xl font-black text-[#f16529]">
+                  <span className="text-5xl font-black text-[#f16529] flex items-center gap-2">
                     {currency === 'EGP' ? (
                       <>{selectedCurrency.price} {selectedCurrency.symbol}</>
                     ) : (
