@@ -1,4 +1,3 @@
-import 'server-only';
 import Papa from 'papaparse';
 
 export interface Job {
@@ -30,11 +29,7 @@ export async function fetchJobsFromSheet(): Promise<Job[]> {
   }
 
   try {
-    const response = await fetch(JOBS_URL, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (compatible; HashHunt/1.0; +http://hashhunt.com)"
-      }
-    });
+    const response = await fetch(JOBS_URL);
     
     if (!response.ok) {
       throw new Error(`Failed to fetch jobs: ${response.statusText}`);

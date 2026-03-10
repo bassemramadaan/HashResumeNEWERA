@@ -89,7 +89,14 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                 <div className="flex flex-col items-center">
                   <span className="text-sm font-bold text-rose-500 bg-rose-50 dark:bg-rose-900/20 px-3 py-1 rounded-full mb-2">Limited Time Offer</span>
                   <div className="flex items-baseline gap-3">
+                    <span className="text-sm text-slate-400 line-through">100 EGP</span>
                     <span className="text-5xl font-black text-slate-900 dark:text-white tracking-tight">25 EGP</span>
+                  </div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex flex-wrap justify-center gap-2">
+                    <span>≈ 1.88 SAR</span>
+                    <span>≈ 1.83 AED</span>
+                    <span>≈ 0.48 €</span>
+                    <span>≈ 0.50 $</span>
                   </div>
                 </div>
                 
