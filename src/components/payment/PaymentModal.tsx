@@ -14,8 +14,8 @@ const currencies = {
   EGP: { symbol: 'EGP', price: 25 },
   SAR: { symbol: <SarIcon className="w-4 h-4 inline" />, price: 2 },
   AED: { symbol: <AedIcon className="w-4 h-4 inline" />, price: 2 },
-  EURO: { symbol: '€', price: 1 },
-  DOLLAR: { symbol: '$', price: 1 },
+  EUR: { symbol: '€', price: 1 },
+  USD: { symbol: '$', price: 1 },
 };
 
 export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModalProps) {

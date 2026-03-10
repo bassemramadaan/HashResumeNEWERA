@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function AedIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg id="Logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 344.84 299.91" {...props}>
