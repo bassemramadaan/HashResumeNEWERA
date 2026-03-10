@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, CreditCard, Check, Ticket } from 'lucide-react';
+import { X, CreditCard, Check, Ticket, Wallet } from 'lucide-react';
+import SarIcon from './SarIcon';
+import AedIcon from './AedIcon';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -8,10 +10,19 @@ interface PaymentModalProps {
   onSuccess: () => void;
 }
 
+const currencies = {
+  EGP: { symbol: 'EGP', price: 25 },
+  SAR: { symbol: <SarIcon className="w-4 h-4 inline" />, price: 2 },
+  AED: { symbol: <AedIcon className="w-4 h-4 inline" />, price: 2 },
+  EURO: { symbol: '€', price: 1 },
+  DOLLAR: { symbol: '$', price: 1 },
+};
+
 export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModalProps) {
   const [code, setCode] = useState('');
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState('');
+  const [currency, setCurrency] = useState<keyof typeof currencies>('EGP');
 
   if (!isOpen) return null;
 
@@ -45,6 +56,8 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
     }
   };
 
+  const selected = currencies[currency];
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -70,23 +83,53 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
           </button>
 
           <div className="p-8 text-center">
-            <div className="w-20 h-20 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full flex items-center justify-center mb-6 mx-auto">
-              <CreditCard size={40} />
+            <div className="w-16 h-16 bg-orange-50 dark:bg-orange-900/30 text-orange-500 rounded-2xl flex items-center justify-center mb-6 mx-auto">
+              <Wallet size={32} />
             </div>
             
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Unlock Premium</h2>
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <span className="text-4xl font-bold text-slate-900 dark:text-white">25 EGP</span>
-              <span className="text-xl text-slate-400 line-through">100 EGP</span>
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Unlock Premium Export</h2>
+            <p className="text-slate-500 dark:text-slate-400 mb-6">One-time fee for a single professional PDF export.</p>
+            
+            <div className="inline-block bg-red-50 text-red-500 text-xs font-bold px-3 py-1 rounded-full mb-2">Limited Time Offer</div>
+            <div className="text-4xl font-bold text-slate-900 dark:text-white mb-6 flex items-center justify-center gap-1">
+              {currency === 'EGP' ? (
+                <>{selected.price} {selected.symbol}</>
+              ) : (
+                <>{selected.symbol}{selected.price}</>
+              )}
+            </div>
+
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
+              {Object.keys(currencies).map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setCurrency(c as keyof typeof currencies)}
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${currency === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}`}
+                >
+                  {c}
+                </button>
+              ))}
             </div>
             
-            <div className="mb-6">
+            <div className="space-y-3 mb-8 text-left">
+              <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                <Check className="text-emerald-500" size={20} />
+                <span>Single professional PDF export</span>
+              </div>
+              <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                <Check className="text-emerald-500" size={20} />
+                <span>All premium templates</span>
+              </div>
+            </div>
+
+            <div className="mb-6 text-left">
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Enter your activation code</label>
               <input 
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder="Enter your code from WhatsApp"
-                className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                placeholder="E.G. HASH-1234-ABCD"
+                className="w-full p-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
               />
               {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </div>
@@ -94,14 +137,19 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             <button 
               onClick={handleVerify}
               disabled={verifying || !code}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 mb-4 disabled:opacity-50"
+              className="w-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-4 rounded-xl font-bold transition-all mb-6 disabled:opacity-50"
             >
-              {verifying ? 'Verifying...' : 'Verify & Download'}
+              {verifying ? 'Verifying...' : 'Unlock Now'}
             </button>
 
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Don't have a code? <button onClick={() => window.open('https://script.google.com/macros/s/AKfycbwM0LeQLtMxG7NohWc46lj6ITfRaaE-rl1JSYMjndnNX6xcGMHYmZS0MRBWf7gv10eymw/exec', '_blank')} className="text-indigo-500 hover:underline">Pay here</button>
-            </p>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Don't have a code?</p>
+            <button 
+              onClick={() => window.open('https://script.google.com/macros/s/AKfycbwM0LeQLtMxG7NohWc46lj6ITfRaaE-rl1JSYMjndnNX6xcGMHYmZS0MRBWf7gv10eymw/exec', '_blank')} 
+              className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+            >
+              <Ticket size={20} />
+              Get Code via WhatsApp
+            </button>
           </div>
         </motion.div>
       </div>
