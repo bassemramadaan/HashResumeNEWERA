@@ -25,8 +25,6 @@ import FinishStep from '../components/editor/FinishStep';
 import ResumePreview from '../components/preview/ResumePreview';
 import CoverLetterPreview from '../components/preview/CoverLetterPreview';
 import Logo from '../components/Logo';
-import PaymentModal from '../components/payment/PaymentModal';
-import PostDownloadModal from '../components/payment/PostDownloadModal';
 import FeedbackModal from '../components/FeedbackModal';
 import OnboardingTour from '../components/OnboardingTour';
 import WelcomeModal from '../components/editor/WelcomeModal';
@@ -48,8 +46,6 @@ export default function EditorPage() {
   const [activeTab, setActiveTab] = useState<Tab>('basics');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [showFullPreview, setShowFullPreview] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
@@ -111,7 +107,6 @@ export default function EditorPage() {
     contentRef: componentRef,
     documentTitle: `${data.personalInfo.fullName || 'Resume'}_CV`,
     onAfterPrint: () => {
-      setShowPostDownloadModal(true);
       setTimeout(() => setShowFeedbackModal(true), 2000);
     },
   });
@@ -122,11 +117,7 @@ export default function EditorPage() {
 
   const handleProceedToExport = () => {
     setShowResumeChecker(false);
-    if (data.isPremium) {
-      handlePrint();
-    } else {
-      setShowPaymentModal(true);
-    }
+    handlePrint();
   };
 
   const tabs: TabItem[] = [
@@ -494,19 +485,6 @@ export default function EditorPage() {
         isOpen={showResumeChecker} 
         onClose={() => setShowResumeChecker(false)} 
         onProceed={handleProceedToExport} 
-      />
-
-      <PaymentModal 
-        isOpen={showPaymentModal} 
-        onClose={() => setShowPaymentModal(false)} 
-        onSuccess={() => {
-          setShowPaymentModal(false);
-          handlePrint();
-        }}
-      />
-      <PostDownloadModal 
-        isOpen={showPostDownloadModal} 
-        onClose={() => setShowPostDownloadModal(false)} 
       />
       <FeedbackModal 
         isOpen={showFeedbackModal} 
