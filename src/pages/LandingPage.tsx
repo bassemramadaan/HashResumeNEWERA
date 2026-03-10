@@ -12,6 +12,8 @@ import ProductShowcase from '../components/ProductShowcase';
 import ParticleAnimation from '../components/ParticleAnimation';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import FeedbackModal from '../components/FeedbackModal';
+import SarIcon from '../components/payment/SarIcon';
+import AedIcon from '../components/payment/AedIcon';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { blogPosts } from '../data/blogPosts';
@@ -26,6 +28,17 @@ export default function LandingPage() {
 
   // Fixed count as requested
   const displayCount = "50,000";
+
+  const currencies = {
+    EGP: { symbol: 'EGP', price: 25 },
+    SAR: { symbol: <SarIcon className="w-5 h-5 inline" />, price: 2 },
+    AED: { symbol: <AedIcon className="w-5 h-5 inline" />, price: 2 },
+    EUR: { symbol: '€', price: 1 },
+    USD: { symbol: '$', price: 1 },
+  };
+
+  const [currency, setCurrency] = useState<keyof typeof currencies>('EGP');
+  const selectedCurrency = currencies[currency];
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
@@ -511,7 +524,13 @@ export default function LandingPage() {
                 <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
                 <div className="flex items-center justify-between">
                   <span className="text-[#f16529] font-bold text-lg">Hash Resume</span>
-                  <span className="text-[#f16529] font-black text-xl">25 EGP / download</span>
+                  <span className="text-[#f16529] font-black text-xl">
+                    {currency === 'EGP' ? (
+                      <>{selectedCurrency.price} {selectedCurrency.symbol}</>
+                    ) : (
+                      <>{selectedCurrency.symbol}{selectedCurrency.price}</>
+                    )} / download
+                  </span>
                 </div>
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-8 text-center">
@@ -529,8 +548,27 @@ export default function LandingPage() {
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                   {language === 'ar' ? 'تحميل واحد' : 'Single Download'}
                 </h3>
+                
+                <div className="flex flex-wrap justify-center gap-2 mb-6">
+                  {Object.keys(currencies).map((c) => (
+                    <button
+                      key={c}
+                      onClick={() => setCurrency(c as keyof typeof currencies)}
+                      className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${currency === c ? 'bg-[#f16529] text-white shadow-lg shadow-orange-500/20' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'}`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-5xl font-black text-[#f16529]">25 EGP</span>
+                  <span className="text-5xl font-black text-[#f16529]">
+                    {currency === 'EGP' ? (
+                      <>{selectedCurrency.price} {selectedCurrency.symbol}</>
+                    ) : (
+                      <>{selectedCurrency.symbol}{selectedCurrency.price}</>
+                    )}
+                  </span>
                 </div>
               </div>
 
