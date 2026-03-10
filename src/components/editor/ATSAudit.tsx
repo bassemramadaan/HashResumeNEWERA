@@ -101,8 +101,8 @@ export default function ATSAudit() {
         
         {/* Score Header */}
         <div className="flex flex-col md:flex-row items-center gap-8 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800">
-          <div className="relative flex items-center justify-center shrink-0">
-            <svg className="w-40 h-40 transform -rotate-90">
+          <div className="relative flex items-center justify-center shrink-0 w-40 h-40">
+            <svg className="w-40 h-40 transform -rotate-90 absolute inset-0">
               <defs>
                 <linearGradient id="score-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" className="text-indigo-600 dark:text-indigo-400" stopColor="currentColor" />
@@ -130,14 +130,14 @@ export default function ATSAudit() {
                 className={cn("transition-all duration-1000 ease-out", score < 80 ? getScoreColor(score) : "")}
               />
             </svg>
-            <div className="absolute flex flex-col items-center justify-center">
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className={cn(
-                "text-4xl font-black tracking-tighter", 
+                "text-5xl font-black tracking-tighter", 
                 score >= 80 ? "bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent" : getScoreColor(score)
               )}>
                 {score}
               </span>
-              <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">/ 100</span>
+              <span className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">/ 100</span>
             </div>
           </div>
           

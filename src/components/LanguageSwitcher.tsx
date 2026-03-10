@@ -4,7 +4,7 @@ import { useLanguageStore } from '../store/useLanguageStore';
 import { cn } from '../lib/utils';
 import { motion } from 'motion/react';
 
-export default function LanguageSwitcher({ className, size = 20 }: { className?: string; size?: number }) {
+export default function LanguageSwitcher({ className, size = 16 }: { className?: string; size?: number }) {
   const { language, setLanguage } = useLanguageStore();
 
   const handleLanguageSwitch = () => {
@@ -23,10 +23,11 @@ export default function LanguageSwitcher({ className, size = 20 }: { className?:
     <button
       onClick={handleLanguageSwitch}
       className={cn(
-        "relative flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300",
-        "text-slate-500 hover:text-[#f16529] dark:text-slate-400 dark:hover:text-orange-400",
-        "hover:bg-orange-50 dark:hover:bg-orange-900/20",
-        "border border-transparent hover:border-orange-200 dark:hover:border-orange-800/50",
+        "flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full transition-all duration-300",
+        "bg-white/50 dark:bg-slate-800/50 hover:bg-orange-50 dark:hover:bg-orange-900/20",
+        "text-slate-600 dark:text-slate-300 hover:text-[#f16529] dark:hover:text-orange-400",
+        "border border-slate-200/50 dark:border-slate-700/50 hover:border-orange-200 dark:hover:border-orange-800/50",
+        "text-xs",
         className
       )}
       title={getTitle()}
@@ -38,7 +39,7 @@ export default function LanguageSwitcher({ className, size = 20 }: { className?:
       >
         <Globe size={size} strokeWidth={2} />
       </motion.div>
-      <span className="absolute -bottom-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[9px] font-bold text-slate-600 dark:text-slate-300 shadow-sm">
+      <span className="font-bold tracking-wider">
         {language.toUpperCase()}
       </span>
     </button>

@@ -7,7 +7,7 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, MessageCircle, ArrowRight, FileText, CheckCircle, Sparkles
+  Undo2, Redo2, CheckCircle2, Maximize2, X, ArrowRight, FileText, CheckCircle, Sparkles
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
@@ -185,15 +185,16 @@ export default function EditorPage() {
           {/* Separator */}
           <div className="w-px h-6 bg-slate-200 dark:bg-slate-800 mx-0.5 hidden sm:block"></div>
 
-          {/* Theme/Lang/Feedback */}
-          <div className="flex items-center gap-0.5">
-            <button onClick={() => setShowWelcomeModal(true)} className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-[#f16529] dark:hover:text-orange-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Show me around">
-              <Sparkles size={16} />
+          {/* Theme/Lang/Tour */}
+          <div className="flex items-center gap-1.5">
+            <button 
+              onClick={() => setShowWelcomeModal(true)} 
+              className="relative p-1.5 rounded-full text-[#f16529] bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors border border-orange-200 dark:border-orange-800/50" 
+              title="Show me around"
+            >
+              <Sparkles size={16} className="animate-pulse" />
             </button>
             <LanguageSwitcher className="[&>span]:hidden sm:[&>span]:inline" />
-            <button onClick={() => setShowFeedbackModal(true)} className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-[#f16529] dark:hover:text-orange-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Feedback">
-              <MessageCircle size={16} />
-            </button>
           </div>
 
           {/* Saving Indicator */}
