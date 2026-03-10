@@ -4,14 +4,14 @@ import { useThemeStore } from './store/useThemeStore';
 import { useLanguageStore } from './store/useLanguageStore';
 import PageLoader from './components/PageLoader';
 
-const LandingPage = React.lazy(() => import('./pages/LandingPage'));
-const EditorPage = React.lazy(() => import('./pages/EditorPage'));
-const HashHuntPage = React.lazy(() => import('./pages/HashHuntPage'));
-const CoverLetterPage = React.lazy(() => import('./pages/CoverLetterPage'));
-const BlogPage = React.lazy(() => import('./pages/BlogPage'));
-const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage'));
-const TemplatesPage = React.lazy(() => import('./pages/TemplatesPage'));
-const SharePage = React.lazy(() => import('./pages/SharePage'));
+const LandingPage = React.lazy(() => import('./views/LandingPage'));
+const EditorPage = React.lazy(() => import('./views/EditorPage'));
+const HashHuntPage = React.lazy(() => import('./views/HashHuntPage'));
+const CoverLetterPage = React.lazy(() => import('./views/CoverLetterPage'));
+const BlogPage = React.lazy(() => import('./views/BlogPage'));
+const BlogPostPage = React.lazy(() => import('./views/BlogPostPage'));
+const TemplatesPage = React.lazy(() => import('./views/TemplatesPage'));
+const SharePage = React.lazy(() => import('./views/SharePage'));
 
 export default function App() {
   const { theme } = useThemeStore();

@@ -1,3 +1,4 @@
+import 'server-only';
 import Papa from 'papaparse';
 
 export interface Job {
