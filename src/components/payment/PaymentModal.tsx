@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, CreditCard, Check } from 'lucide-react';
+import { X, CreditCard, Check, Ticket } from 'lucide-react';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -8,7 +9,40 @@ interface PaymentModalProps {
 }
 
 export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModalProps) {
+  const [code, setCode] = useState('');
+  const [verifying, setVerifying] = useState(false);
+  const [error, setError] = useState('');
+
   if (!isOpen) return null;
+
+  const handleVerify = async () => {
+    setVerifying(true);
+    setError('');
+    try {
+      const url = `https://script.google.com/macros/s/AKfycbwu93DNeKqcO_JYt-qGPi-E6UW7hNoRT7LRdg6_UuAyxNEkQYuYFmXVo55yy68q-GfF9A/exec?code=${encodeURIComponent(code)}&t=${Date.now()}`;
+      const response = await fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const result = await response.json();
+      
+      if (result.status === 'success') {
+        onSuccess();
+      } else {
+        setError(result.message || 'Invalid or used code.');
+      }
+    } catch (e) {
+      console.error('Verification error:', e);
+      setError('Verification failed. Please try again.');
+    } finally {
+      setVerifying(false);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -39,18 +73,34 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               <CreditCard size={40} />
             </div>
             
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Upgrade to Premium</h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 mb-8">
-              Unlock unlimited downloads, advanced templates, and ATS optimization.
-            </p>
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Unlock Premium</h2>
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="text-4xl font-bold text-slate-900 dark:text-white">25 EGP</span>
+              <span className="text-xl text-slate-400 line-through">100 EGP</span>
+            </div>
+            
+            <div className="mb-6">
+              <input 
+                type="text"
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="Enter your code from WhatsApp"
+                className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+              />
+              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
+            </div>
 
             <button 
-              onClick={onSuccess}
-              className="w-full bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20 hover:scale-[1.02] active:scale-95"
+              onClick={handleVerify}
+              disabled={verifying || !code}
+              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 mb-4 disabled:opacity-50"
             >
-              <Check size={18} />
-              Upgrade Now
+              {verifying ? 'Verifying...' : 'Verify & Download'}
             </button>
+
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Don't have a code? <button onClick={() => window.open('https://script.google.com/macros/s/AKfycbwu93DNeKqcO_JYt-qGPi-E6UW7hNoRT7LRdg6_UuAyxNEkQYuYFmXVo55yy68q-GfF9A/exec', '_blank')} className="text-indigo-500 hover:underline">Pay here</button>
+            </p>
           </div>
         </motion.div>
       </div>
