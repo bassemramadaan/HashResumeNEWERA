@@ -16,10 +16,11 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
   if (!isOpen) return null;
 
   const handleVerify = async () => {
+    if (!code.trim()) { setError('Please enter a code.'); return; }
     setVerifying(true);
     setError('');
     try {
-      const url = `https://script.google.com/macros/s/AKfycbwu93DNeKqcO_JYt-qGPi-E6UW7hNoRT7LRdg6_UuAyxNEkQYuYFmXVo55yy68q-GfF9A/exec?code=${encodeURIComponent(code)}&t=${Date.now()}`;
+      const url = `https://script.google.com/macros/s/AKfycbwM0LeQLtMxG7NohWc46lj6ITfRaaE-rl1JSYMjndnNX6xcGMHYmZS0MRBWf7gv10eymw/exec?code=${encodeURIComponent(code)}&t=${Date.now()}`;
       const response = await fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -31,7 +32,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       
       const result = await response.json();
       
-      if (result.status === 'success') {
+      if (result.success === true) {
         onSuccess();
       } else {
         setError(result.message || 'Invalid or used code.');
@@ -99,7 +100,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             </button>
 
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Don't have a code? <button onClick={() => window.open('https://script.google.com/macros/s/AKfycbwu93DNeKqcO_JYt-qGPi-E6UW7hNoRT7LRdg6_UuAyxNEkQYuYFmXVo55yy68q-GfF9A/exec', '_blank')} className="text-indigo-500 hover:underline">Pay here</button>
+              Don't have a code? <button onClick={() => window.open('https://script.google.com/macros/s/AKfycbwM0LeQLtMxG7NohWc46lj6ITfRaaE-rl1JSYMjndnNX6xcGMHYmZS0MRBWf7gv10eymw/exec', '_blank')} className="text-indigo-500 hover:underline">Pay here</button>
             </p>
           </div>
         </motion.div>
