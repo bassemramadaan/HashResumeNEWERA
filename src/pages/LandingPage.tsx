@@ -75,7 +75,7 @@ export default function LandingPage() {
           <div className="hidden md:flex items-center px-2 gap-1">
             <a href="#features" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.features}</a>
             <a href="#process" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.howItWorks}</a>
-            <a href="#pricing" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{language === 'ar' ? 'الأسعار' : 'Pricing'}</a>
+            <a href="#pricing" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.pricing}</a>
             <Link to="/templates" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.templates}</Link>
             <Link to="/cover-letter" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap flex items-center gap-2">
               <PenTool size={14} />
@@ -430,21 +430,19 @@ export default function LandingPage() {
             <div className="flex-1 space-y-8">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-sm font-medium border border-indigo-100 dark:border-indigo-800">
                 <Briefcase size={16} />
-                {language === 'ar' ? 'جديد' : 'New Feature'}
+                {t.hashHuntNew}
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white font-display leading-tight">
-                {language === 'ar' ? 'دع الوظائف تبحث عنك مع Hash Hunt' : 'Let the jobs find you with Hash Hunt'}
+                {t.hashHuntTitle}
               </h2>
               <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-                {language === 'ar' 
-                  ? 'لا تكتفِ بإنشاء سيرة ذاتية رائعة. انضم إلى مجموعة المواهب الحصرية الخاصة بنا ودع الشركات الشريكة لنا تتواصل معك مباشرة.' 
-                  : 'Don\'t just build a great resume. Join our exclusive talent pool and let our partner companies reach out to you directly.'}
+                {t.hashHuntSubtitle}
               </p>
               <ul className="space-y-4">
                 {[
-                  language === 'ar' ? 'وصول مباشر لمديري التوظيف' : 'Direct access to hiring managers',
-                  language === 'ar' ? 'وظائف حصرية غير معلنة' : 'Exclusive unlisted roles',
-                  language === 'ar' ? 'مجاني 100% للباحثين عن عمل' : '100% free for job seekers'
+                  t.hashHuntList1,
+                  t.hashHuntList2,
+                  t.hashHuntList3
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium">
                     <CheckCircle2 className="text-indigo-600 dark:text-indigo-400 shrink-0" size={20} />
@@ -456,7 +454,7 @@ export default function LandingPage() {
                 to="/hash-hunt" 
                 className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-full font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20"
               >
-                {language === 'ar' ? 'استكشف Hash Hunt' : 'Explore Hash Hunt'}
+                {t.exploreHashHunt}
                 <ArrowRight size={20} className="rtl:rotate-180" />
               </Link>
             </div>
@@ -498,10 +496,10 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 font-display tracking-tight">
-              {language === 'ar' ? 'باقات الأسعار' : 'Simple, Transparent Pricing'}
+              {t.pricingTitle}
             </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              {language === 'ar' ? 'ادفع فقط عندما تكون جاهزاً للتحميل. لا توجد رسوم خفية.' : 'Pay only when you\'re ready to download. No hidden fees.'}
+              {t.pricingSubtitle}
             </p>
           </div>
 
@@ -524,7 +522,7 @@ export default function LandingPage() {
             {/* Competitor Comparison */}
             <div className="w-full max-w-md bg-slate-50 dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 flex flex-col justify-center">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 text-center">
-                {language === 'ar' ? 'لماذا نحن أفضل؟' : 'Why choose us?'}
+                {t.whyChooseUs}
               </h3>
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
@@ -561,19 +559,19 @@ export default function LandingPage() {
                 </div>
               </div>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-8 text-center">
-                {language === 'ar' ? 'لا اشتراكات شهرية. لا تجديد تلقائي.' : 'No monthly subscriptions. No auto-renewal.'}
+                {t.noSubscriptions}
               </p>
             </div>
 
             {/* Single Download Plan */}
             <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#f16529] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
               <div className="absolute top-0 right-0 bg-[#f16529] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">
-                {language === 'ar' ? 'الأكثر طلباً' : 'Most Popular'}
+                {t.mostPopular}
               </div>
               
               <div className="text-center mb-8">
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
-                  {language === 'ar' ? 'تحميل واحد' : 'Single Download'}
+                  {t.singleDownload}
                 </h3>
 
                 <div className="flex items-center justify-center gap-2 mb-2">
@@ -605,7 +603,7 @@ export default function LandingPage() {
                 to="/templates" 
                 className="block w-full bg-[#f16529] hover:bg-[#e44d26] text-white text-center font-bold py-4 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-95"
               >
-                {language === 'ar' ? 'ابدأ الآن' : 'Get Started Now'}
+                {t.getStartedNow}
               </Link>
             </div>
           </div>
@@ -621,16 +619,14 @@ export default function LandingPage() {
           <div className="flex justify-between items-end mb-12">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display">
-                {language === 'ar' ? 'أحدث المقالات' : 'Latest from the Blog'}
+                {t.latestBlog}
               </h2>
               <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl">
-                {language === 'ar' 
-                  ? 'نصائح مهنية لمساعدتك في الحصول على وظيفتك التالية.' 
-                  : 'Career advice to help you land your next job.'}
+                {t.blogSubtitle}
               </p>
             </div>
             <Link to="/blog" className="hidden sm:flex items-center gap-2 text-[#f16529] font-medium hover:gap-3 transition-all">
-              {language === 'ar' ? 'عرض كل المقالات' : 'View all articles'}
+              {t.viewAllArticles}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
           </div>
@@ -669,7 +665,7 @@ export default function LandingPage() {
           
           <div className="mt-8 text-center sm:hidden">
             <Link to="/blog" className="inline-flex items-center gap-2 text-[#f16529] font-medium">
-              {language === 'ar' ? 'عرض كل المقالات' : 'View all articles'}
+              {t.viewAllArticles}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
           </div>
