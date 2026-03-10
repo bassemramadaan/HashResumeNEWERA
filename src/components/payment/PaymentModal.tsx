@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Banknote, Key, MessageCircle, CheckCircle, X, Loader2, DollarSign, Euro } from 'lucide-react';
+import { Banknote, Key, MessageCircle, CheckCircle, X, Loader2 } from 'lucide-react';
 import { SaudiRiyalIcon } from '../icons/SaudiRiyalIcon';
 import { EmiratesDirhamIcon } from '../icons/EmiratesDirhamIcon';
+import { DollarIcon } from '../icons/DollarIcon';
+import { EuroIcon } from '../icons/EuroIcon';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -15,6 +17,14 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const priceEGP = 25;
+  const conversions = [
+    { name: 'USD', value: (priceEGP / 48).toFixed(2), icon: DollarIcon },
+    { name: 'EUR', value: (priceEGP / 52).toFixed(2), icon: EuroIcon },
+    { name: 'SAR', value: (priceEGP / 12.8).toFixed(2), icon: SaudiRiyalIcon },
+    { name: 'AED', value: (priceEGP / 13.1).toFixed(2), icon: EmiratesDirhamIcon },
+  ];
+
   const handleVerify = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!code.trim()) {
@@ -26,7 +36,6 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
     setError('');
 
     try {
-      // Call the backend endpoint
       const response = await fetch('/api/verify-code', {
         method: 'POST',
         headers: {
@@ -89,18 +98,19 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                 <div className="flex flex-col items-center">
                   <span className="text-sm font-bold text-rose-500 bg-rose-50 dark:bg-rose-900/20 px-3 py-1 rounded-full mb-2">Limited Time Offer</span>
                   <div className="flex items-baseline gap-3">
-                    <span className="text-sm text-slate-400 line-through">100 EGP</span>
-                    <span className="text-5xl font-black text-slate-900 dark:text-white tracking-tight">25 EGP</span>
-                  </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex flex-wrap justify-center gap-2">
-                    <span>≈ 1.88 SAR</span>
-                    <span>≈ 1.83 AED</span>
-                    <span>≈ 0.48 €</span>
-                    <span>≈ 0.50 $</span>
+                    <span className="text-5xl font-black text-slate-900 dark:text-white tracking-tight">{priceEGP} EGP</span>
+                    <span className="text-lg text-slate-400 line-through">50 EGP</span>
                   </div>
                 </div>
                 
-                {/* Removed "Also Available In" section as it might be confusing if not updated */}
+                <div className="grid grid-cols-2 gap-2 w-full mt-4">
+                  {conversions.map((conv) => (
+                    <div key={conv.name} className="flex items-center justify-center gap-2 bg-slate-50 dark:bg-slate-800 p-2 rounded-lg text-sm text-slate-600 dark:text-slate-400">
+                      <conv.icon className="w-4 h-4" />
+                      <span>{conv.value} {conv.name}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
