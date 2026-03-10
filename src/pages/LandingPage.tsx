@@ -135,15 +135,34 @@ export default function LandingPage() {
                 </span>
               </motion.h1>
               
-              <motion.p 
+              <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-10 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+                className="text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-6 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
               >
                 {t.heroSubtitle}
-              </motion.p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.25 }}
+                className="flex items-center justify-center lg:justify-start gap-4 mb-10"
+              >
+                <div className="flex gap-1">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <svg key={star} className="w-5 h-5 text-amber-400 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <div className="text-sm text-slate-600 dark:text-slate-400">
+                  <span className="font-bold text-slate-900 dark:text-white">4.9/5</span> from over 2,000+ reviews
+                </div>
+              </motion.div>
               
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -167,25 +186,37 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex items-center justify-center lg:justify-start gap-8 text-slate-500 dark:text-slate-400 text-sm font-medium"
+                className="flex flex-col gap-6"
               >
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                    <CheckCircle2 size={12} className="text-emerald-500" />
+                <div className="flex items-center justify-center lg:justify-start gap-8 text-slate-500 dark:text-slate-400 text-sm font-medium">
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                      <CheckCircle2 size={12} className="text-emerald-500" />
+                    </div>
+                    <span>ATS-Friendly</span>
                   </div>
-                  <span>ATS-Friendly</span>
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                      <CheckCircle2 size={12} className="text-purple-500" />
+                    </div>
+                    <span>AI-Powered</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                      <CheckCircle2 size={12} className="text-blue-500" />
+                    </div>
+                    <span>Free Templates</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                    <CheckCircle2 size={12} className="text-purple-500" />
+
+                <div className="pt-6 border-t border-slate-200 dark:border-slate-800">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 text-center lg:text-left">Trusted by professionals hired at</p>
+                  <div className="flex items-center justify-center lg:justify-start gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" className="h-6" />
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" className="h-6" />
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" alt="Meta" className="h-4" />
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png" alt="Tesla" className="h-4" />
                   </div>
-                  <span>AI-Powered</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                    <CheckCircle2 size={12} className="text-blue-500" />
-                  </div>
-                  <span>Free Templates</span>
                 </div>
               </motion.div>
             </div>
@@ -204,41 +235,7 @@ export default function LandingPage() {
                 
                 {/* Main Resume Document */}
                 <div className="absolute inset-0 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
-                  <div className="flex-1 p-6 flex flex-col gap-4">
-                    {/* Header Mockup */}
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 animate-pulse"></div>
-                      <div className="space-y-2 flex-1">
-                        <div className="h-4 bg-slate-200 dark:bg-slate-700 rounded w-3/4"></div>
-                        <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-1/2"></div>
-                      </div>
-                    </div>
-                    
-                    {/* Experience Section Mockup */}
-                    <div className="space-y-4">
-                      <div className="h-4 bg-indigo-50 dark:bg-indigo-900/30 rounded w-1/4 mb-2"></div>
-                      {[1, 2, 3].map(i => (
-                        <div key={i} className="space-y-2">
-                          <div className="flex justify-between">
-                            <div className="h-3 bg-slate-200 dark:bg-slate-700 rounded w-1/3"></div>
-                            <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded w-1/4"></div>
-                          </div>
-                          <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
-                          <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded w-5/6"></div>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Skills Section Mockup */}
-                    <div className="mt-6">
-                      <div className="h-4 bg-indigo-50 dark:bg-indigo-900/30 rounded w-1/4 mb-4"></div>
-                      <div className="flex flex-wrap gap-2">
-                        {[1, 2, 3, 4, 5, 6].map(i => (
-                          <div key={i} className="h-6 bg-slate-100 dark:bg-slate-800 rounded-full w-16"></div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop" alt="Resume Builder App Demo" className="w-full h-full object-cover opacity-90" />
                   
                   {/* Editor UI Elements Overlay */}
                   <div className="absolute top-4 left-4 right-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 z-30">
@@ -495,7 +492,33 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="flex justify-center max-w-4xl mx-auto">
+          <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8 max-w-5xl mx-auto">
+            {/* Competitor Comparison */}
+            <div className="w-full max-w-md bg-slate-50 dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 flex flex-col justify-center">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 text-center">
+                {language === 'ar' ? 'لماذا نحن أفضل؟' : 'Why choose us?'}
+              </h3>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-600 dark:text-slate-400 font-medium">Zety / Resume.io</span>
+                  <span className="text-slate-900 dark:text-white font-bold">$15 - $25 / month</span>
+                </div>
+                <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-600 dark:text-slate-400 font-medium">Canva Pro</span>
+                  <span className="text-slate-900 dark:text-white font-bold">$12.99 / month</span>
+                </div>
+                <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[#f16529] font-bold text-lg">Hash Resume</span>
+                  <span className="text-[#f16529] font-black text-xl">25 EGP / download</span>
+                </div>
+              </div>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-8 text-center">
+                {language === 'ar' ? 'لا اشتراكات شهرية. لا تجديد تلقائي.' : 'No monthly subscriptions. No auto-renewal.'}
+              </p>
+            </div>
+
             {/* Single Download Plan */}
             <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#f16529] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
               <div className="absolute top-0 right-0 bg-[#f16529] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">

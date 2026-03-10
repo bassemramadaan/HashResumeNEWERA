@@ -72,6 +72,13 @@ export default function FinishStep({ onPrint }: FinishStepProps) {
           </div>
           <div className="flex items-center gap-3 w-full md:w-auto">
             <button
+              onClick={() => generateWord(data)}
+              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-sm font-medium shadow-sm"
+            >
+              <FileText size={16} />
+              Export Word
+            </button>
+            <button
               onClick={handleExportJson}
               className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-sm font-medium shadow-sm"
             >

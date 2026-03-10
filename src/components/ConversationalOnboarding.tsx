@@ -40,7 +40,18 @@ export default function ConversationalOnboarding({ onClose }: { onClose: () => v
           <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400">
             <Bot size={24} />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Resume Assistant</h2>
+          <div className="flex-1">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Resume Assistant</h2>
+            <div className="flex items-center gap-2 mt-2">
+              <span className="text-sm text-slate-500 dark:text-slate-400 font-medium">Step {step + 1} of {steps.length}</span>
+              <div className="flex-1 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-emerald-500 transition-all duration-300 ease-out"
+                  style={{ width: `${((step + 1) / steps.length) * 100}%` }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         <AnimatePresence mode="wait">
