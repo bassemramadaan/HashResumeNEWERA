@@ -161,92 +161,85 @@ export default function EditorPage() {
       <OnboardingTour />
       
       {/* Floating Dock Navbar (Top) */}
-      <div className="fixed top-6 left-0 right-0 flex justify-center z-50 px-4 pointer-events-none">
-        <nav className="pointer-events-auto flex items-center gap-2 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
+      <div className="fixed top-6 left-1/2 -translate-x-1/2 flex justify-center z-50 px-4 pointer-events-none">
+        <nav className="pointer-events-auto inline-flex items-center gap-2 p-1.5 rounded-full bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01]">
           
           {/* Home / Logo */}
-          <Link to="/" className="flex items-center justify-center w-10 h-10 bg-white dark:bg-slate-800 rounded-full shadow-sm text-indigo-600 dark:text-indigo-400 hover:scale-105 transition-transform shrink-0" title="Back to Home">
-            <Logo className="w-6 h-6" />
+          <Link to="/" className="flex items-center justify-center w-9 h-9 bg-white dark:bg-slate-800 rounded-full shadow-sm text-[#f16529] hover:scale-105 transition-transform shrink-0" title="Back to Home">
+            <Logo className="w-5 h-5" />
           </Link>
 
           {/* Separator */}
-          <div className="w-px h-6 bg-slate-200 dark:bg-slate-800 mx-1 hidden sm:block"></div>
+          <div className="w-px h-6 bg-slate-200 dark:bg-slate-800 mx-0.5 hidden sm:block"></div>
 
           {/* Undo/Redo */}
-          <div className="flex items-center gap-1">
-            <button onClick={() => undo()} disabled={pastStates.length === 0} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 disabled:opacity-30 transition-colors" title="Undo (Ctrl+Z)">
-              <Undo2 size={18} />
+          <div className="flex items-center gap-0.5">
+            <button onClick={() => undo()} disabled={pastStates.length === 0} className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 disabled:opacity-30 transition-colors" title="Undo (Ctrl+Z)">
+              <Undo2 size={16} />
             </button>
-            <button onClick={() => redo()} disabled={futureStates.length === 0} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 disabled:opacity-30 transition-colors" title="Redo (Ctrl+Y)">
-              <Redo2 size={18} />
+            <button onClick={() => redo()} disabled={futureStates.length === 0} className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 disabled:opacity-30 transition-colors" title="Redo (Ctrl+Y)">
+              <Redo2 size={16} />
             </button>
           </div>
 
           {/* Separator */}
-          <div className="w-px h-6 bg-slate-200 dark:bg-slate-800 mx-1 hidden sm:block"></div>
+          <div className="w-px h-6 bg-slate-200 dark:bg-slate-800 mx-0.5 hidden sm:block"></div>
 
           {/* Theme/Lang/Feedback */}
-          <div className="flex items-center gap-1">
-            <button onClick={() => setShowWelcomeModal(true)} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Show me around">
-              <Sparkles size={18} />
+          <div className="flex items-center gap-0.5">
+            <button onClick={() => setShowWelcomeModal(true)} className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-[#f16529] dark:hover:text-orange-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Show me around">
+              <Sparkles size={16} />
             </button>
             <LanguageSwitcher className="[&>span]:hidden sm:[&>span]:inline" />
-            <button onClick={() => setShowFeedbackModal(true)} className="p-2 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Feedback">
-              <MessageCircle size={18} />
+            <button onClick={() => setShowFeedbackModal(true)} className="p-1.5 rounded-full text-slate-500 dark:text-slate-400 hover:text-[#f16529] dark:hover:text-orange-400 hover:bg-white/50 dark:hover:bg-slate-800/50 transition-colors" title="Feedback">
+              <MessageCircle size={16} />
             </button>
           </div>
 
           {/* Saving Indicator */}
-          <div className="hidden lg:flex items-center px-2 min-w-[80px] justify-center">
+          <div className="hidden lg:flex items-center px-2 min-w-[70px] justify-center">
             <AnimatePresence mode="wait">
               {isSaving ? (
-                <motion.div key="saving" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
-                  <div className="w-2 h-2 border-2 border-slate-300 border-t-slate-500 rounded-full animate-spin" />
+                <motion.div key="saving" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  <div className="w-1.5 h-1.5 border border-slate-300 border-t-slate-500 rounded-full animate-spin" />
                   Saving
                 </motion.div>
               ) : (
-                <motion.div key="saved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-xs font-medium">
-                  <CheckCircle2 size={12} className="text-indigo-500 dark:text-indigo-400" />
-                  <span className="bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent font-bold">Saved</span>
+                <motion.div key="saved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
+                  <CheckCircle2 size={10} className="text-emerald-500" />
+                  <span className="text-emerald-600 dark:text-emerald-400">Saved</span>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
           {/* ATS Score */}
-          <button onClick={() => setActiveTab('finish')} className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 transition-colors border border-slate-200/50 dark:border-slate-700/50">
-            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">ATS</span>
-            <span className={cn("text-sm font-black", atsScore >= 80 ? "bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent" : atsScore >= 50 ? "text-amber-500" : "text-rose-500")}>
+          <button onClick={() => setActiveTab('finish')} className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/50 dark:bg-slate-800/50 hover:bg-white dark:hover:bg-slate-800 transition-colors border border-slate-200/50 dark:border-slate-700/50">
+            <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">ATS</span>
+            <span className={cn("text-xs font-black", atsScore >= 80 ? "text-emerald-600 dark:text-emerald-400" : atsScore >= 50 ? "text-amber-500" : "text-rose-500")}>
               {atsScore}%
             </span>
           </button>
 
           {/* Export Buttons (Topbar) */}
-          <div className="hidden sm:flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-1.5">
             <button 
               onClick={handleExportClick}
-              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-bold text-sm"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#f16529] hover:bg-[#e44d26] text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-bold text-xs"
             >
-              <Download size={16} />
+              <Download size={14} />
               Export PDF
-            </button>
-            <button 
-              className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shadow-sm hover:shadow-md active:scale-95 font-bold text-sm"
-              title="Export Word (Premium)"
-            >
-              <FileText size={16} />
-              <span className="hidden lg:inline">Export Word</span>
             </button>
           </div>
 
           {/* Preview (Desktop) */}
-          <button onClick={() => setShowFullPreview(true)} className="hidden lg:flex items-center justify-center w-10 h-10 text-slate-600 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-colors" title="Full Preview">
-            <Maximize2 size={20} />
+          <button onClick={() => setShowFullPreview(true)} className="hidden lg:flex items-center justify-center w-9 h-9 text-slate-600 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-colors" title="Full Preview">
+            <Maximize2 size={18} />
           </button>
 
           {/* Mobile Preview Toggle */}
-           <button onClick={() => setShowMobilePreview(true)} className="md:hidden flex items-center justify-center w-10 h-10 text-slate-600 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-colors">
-            <Eye size={20} />
+           <button onClick={() => setShowMobilePreview(true)} className="md:hidden flex items-center justify-center w-9 h-9 text-slate-600 dark:text-slate-300 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-colors">
+            <Eye size={18} />
           </button>
         </nav>
       </div>
@@ -255,9 +248,9 @@ export default function EditorPage() {
       <div className="h-24 shrink-0" />
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-4 left-4 right-4 z-40 flex justify-center bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl rounded-full border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-full border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300">
         
-        <div className="flex items-center gap-1 px-2 py-1 overflow-x-auto scrollbar-hide">
+        <div className="flex items-center gap-0.5 px-1.5 py-1.5">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -285,7 +278,7 @@ export default function EditorPage() {
           {/* Start / Export Button */}
           <button 
             onClick={handleExportClick}
-            className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white font-bold py-1.5 px-4 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
+            className="flex items-center gap-2 bg-[#f16529] hover:bg-[#e44d26] text-white font-bold py-1.5 px-4 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
           >
             <span className="text-xs tracking-tight">Export</span>
             <ArrowRight size={16} className="text-white" />
