@@ -142,11 +142,47 @@ body {
     scrollbar-width: none;
 }
 
-/* Typography */
-h1 { @apply text-[64px] font-extrabold leading-[1.1]; }
-h2 { @apply text-[42px] font-bold leading-[1.2]; }
-body { @apply text-[16px] leading-7; }
-.caption { @apply text-[14px]; }
+/* Typography - Responsive */
+h1 { @apply text-4xl md:text-[64px] font-extrabold leading-[1.1] tracking-tight; }
+h2 { @apply text-3xl md:text-[42px] font-bold leading-[1.2] tracking-tight; }
+body { @apply text-base md:text-[16px] leading-relaxed md:leading-7; }
+.caption { @apply text-sm md:text-[14px]; }
+
+/* Mobile Enhancements */
+@layer base {
+  /* Prevent zoom on input focus for iOS */
+  input, select, textarea {
+    @apply text-base;
+  }
+
+  /* Remove tap highlight color on mobile */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Smooth scrolling for all elements */
+  * {
+    @apply scroll-smooth;
+  }
+}
+
+/* Safe Area Utilities */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+.px-safe {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+.mb-safe {
+  margin-bottom: env(safe-area-inset-bottom);
+}
+.mt-safe {
+  margin-top: env(safe-area-inset-top);
+}
 
 /* Global Dark Mode Enhancements */
 body {

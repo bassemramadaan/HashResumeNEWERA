@@ -170,33 +170,33 @@ export default function HashHuntPage() {
           scrollDirection === 'down' && isScrolled ? '-top-24 opacity-0' : 'top-6 opacity-100'
         }`}
       >
-        <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
+        <nav className="pointer-events-auto flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
           
           {/* Back Button */}
-          <Link to="/" className="flex items-center justify-center w-12 h-12 bg-white dark:bg-slate-800 rounded-full shadow-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-transform shrink-0">
-            <ArrowLeft size={24} />
+          <Link to="/" className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-white dark:bg-slate-800 rounded-full shadow-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-transform shrink-0">
+            <ArrowLeft size={20} className="sm:size-6" />
           </Link>
 
           {/* Logo */}
-          <div className="flex items-center justify-center px-4">
-            <Logo className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
+          <div className="flex items-center justify-center px-2 sm:px-4">
+            <Logo className="w-8 h-8 sm:w-10 sm:h-10 text-[#f16529]" />
           </div>
 
           {/* Separator */}
-          <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-1"></div>
+          <div className="w-px h-6 sm:h-8 bg-slate-200 dark:bg-slate-800 mx-0.5 sm:mx-1"></div>
 
           {/* Actions */}
-          <div className="flex items-center gap-3 px-2">
+          <div className="flex items-center gap-2 sm:gap-3 px-1 sm:px-2">
             <ThemeToggle />
             <a 
               href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="bg-gradient-to-r from-indigo-600 to-cyan-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:from-indigo-700 hover:to-cyan-700 transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2 whitespace-nowrap group hover:scale-105 active:scale-95"
+              className="bg-[#f16529] hover:bg-[#e44d26] text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-lg shadow-orange-500/20 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap group hover:scale-105 active:scale-95"
             >
-              Submit Resume 
+              Submit <span className="hidden sm:inline">Resume</span>
               <div className="bg-white/20 rounded-full p-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
-                <ExternalLink size={14} className="text-white" />
+                <ExternalLink size={12} className="sm:size-3.5 text-white" />
               </div>
             </a>
           </div>
@@ -393,7 +393,7 @@ export default function HashHuntPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+      <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 pb-safe">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex flex-col items-center justify-center mb-6">
             <Logo className="w-10 h-10 text-indigo-500 mb-2" />
