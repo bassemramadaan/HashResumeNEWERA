@@ -802,10 +802,10 @@ export default function LandingPage() {
 
               <h4 className="text-white font-semibold mb-4">{t.product}</h4>
               <ul className="space-y-2 text-sm md:text-right">
-                <li><Link to="/templates" className="hover:text-white transition-colors">{t.resumeBuilder}</Link></li>
-                <li><Link to="/cover-letter" className="hover:text-white transition-colors">{t.coverLetter}</Link></li>
-                <li><Link to="/blog" className="hover:text-white transition-colors">{t.blog}</Link></li>
-                <li><Link to="/hash-hunt" className="hover:text-white transition-colors">{t.hashHuntJobs}</Link></li>
+                <li><Link to="/templates" className="hover:text-white transition-colors">{t.resumeBuilder || 'Resume Builder'}</Link></li>
+                <li><Link to="/cover-letter" className="hover:text-white transition-colors">{t.coverLetter || 'Cover Letter'}</Link></li>
+                <li><Link to="/blog" className="hover:text-white transition-colors">{t.blog || 'Blog'}</Link></li>
+                <li><Link to="/hash-hunt" className="hover:text-white transition-colors">{t.hashHuntJobs || 'Hash Hunt'}</Link></li>
                 <li>
                   <button 
                     onClick={() => setShowFeedbackModal(true)} 
