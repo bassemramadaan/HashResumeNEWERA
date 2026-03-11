@@ -1,7 +1,9 @@
 import React from 'react';
 import { Star, Quote, MessageCircle } from 'lucide-react';
+import { cn } from '../utils/utils';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
+import { motion } from 'motion/react';
 
 const reviews = [
   {
@@ -70,23 +72,45 @@ export default function Testimonials() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
           {reviews.map((review, index) => (
-            <div key={index} className="bg-slate-50 dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 hover:border-[#f16529]/30 transition-all duration-300 flex flex-col justify-between">
-              <div>
-                <Quote className="text-[#f16529] mb-6" size={32} />
-                <p className="text-slate-800 dark:text-slate-200 text-lg mb-8 leading-relaxed italic">"{review.text}"</p>
+            <motion.div 
+              key={index} 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={cn(
+                "break-inside-avoid bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 hover:border-[#f16529]/30 transition-all duration-500 group relative overflow-hidden",
+                index % 4 === 0 ? "md:row-span-2" : ""
+              )}
+            >
+              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                <Quote size={80} />
               </div>
-              <div className="flex items-center gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#f16529] to-orange-400 flex items-center justify-center font-bold text-white text-xl shadow-lg">
-                  {review.name.charAt(0)}
+              
+              <div className="relative z-10">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={14} className="fill-[#f16529] text-[#f16529]" />
+                  ))}
                 </div>
-                <div>
-                  <h4 className="font-black text-slate-900 dark:text-white text-lg">{review.name}</h4>
-                  <p className="text-sm text-[#f16529] font-bold">{review.role}</p>
+                
+                <p className="text-slate-700 dark:text-slate-300 text-lg mb-8 leading-relaxed font-medium">
+                  "{review.text}"
+                </p>
+                
+                <div className="flex items-center gap-4 pt-6 border-t border-slate-100 dark:border-slate-800/50">
+                  <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-black text-[#f16529] text-lg transform group-hover:rotate-6 transition-transform">
+                    {review.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 dark:text-white text-base leading-tight">{review.name}</h4>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider mt-0.5">{review.role}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
