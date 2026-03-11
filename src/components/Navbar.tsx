@@ -24,10 +24,10 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: t.templates || 'Templates', path: '/templates' },
-    { name: t.coverLetter || 'Cover Letter', path: '/cover-letter', icon: <PenTool size={14} /> },
-    { name: t.blog || 'Blog', path: '/blog' },
-    { name: t.hashHuntJobs || 'Hash Hunt', path: '/hash-hunt', icon: <Target size={18} className="text-[#f16529]" />, highlight: true },
+    { name: t.landing.templates || 'Templates', path: '/templates' },
+    { name: t.landing.coverLetter || 'Cover Letter', path: '/cover-letter', icon: <PenTool size={14} /> },
+    { name: t.landing.blog || 'Blog', path: '/blog' },
+    { name: t.landing.hashHuntJobs || 'Hash Hunt', path: '/hash-hunt', icon: <Target size={18} className="text-[#f16529]" />, highlight: true },
   ];
 
   return (
@@ -77,7 +77,7 @@ export default function Navbar() {
               to="/editor" 
               className="flex items-center gap-2 bg-[#f16529] hover:bg-[#e44d26] text-white font-bold py-2 px-5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
             >
-              <span className="text-sm tracking-tight">{t.buildResume || 'Build Resume'}</span>
+              <span className="text-sm tracking-tight">{t.landing.buildResume || 'Build Resume'}</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
             </Link>
           </div>
@@ -127,7 +127,7 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="flex items-center justify-center gap-2 bg-[#f16529] text-white font-bold py-3 px-5 rounded-xl text-center"
             >
-              {t.buildResume || 'Build Resume'}
+              {t.landing.buildResume || 'Build Resume'}
               <ArrowRight size={18} className="rtl:rotate-180" />
             </Link>
           </div>
