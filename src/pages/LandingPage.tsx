@@ -163,12 +163,12 @@ export default function LandingPage() {
                 className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4 mb-12"
               >
                 <Link to="/templates" className="w-full sm:w-auto bg-gradient-to-r from-[#f16529] to-orange-600 hover:from-[#e44d26] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
-                  {t.buildResume}
+                  {t.buildResume || 'Start Now'}
                   <ArrowRight size={20} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
                 </Link>
                 <Link to="/cover-letter" className="w-full sm:w-auto bg-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-8 py-4 rounded-full text-lg font-medium transition-all flex items-center justify-center gap-2 group hover:bg-slate-100 dark:hover:bg-slate-800/50">
                   <PenTool size={20} className="text-slate-400 group-hover:text-[#f16529] transition-colors" />
-                  {t.createCoverLetter}
+                  {t.createCoverLetter || 'Create Cover Letter'}
                 </Link>
               </motion.div>
 
@@ -456,7 +456,7 @@ export default function LandingPage() {
                 ))}
               </ul>
               <Link to="/cover-letter" className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3 rounded-full font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
-                {t.tryCoverLetter}
+                {t.tryCoverLetter || 'Try Cover Letter Builder'}
                 <ArrowRight size={18} className="rtl:rotate-180" />
               </Link>
             </div>
@@ -480,7 +480,7 @@ export default function LandingPage() {
                 </div>
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Link to="/cover-letter" className="bg-[#f16529] hover:bg-[#e44d26] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-[#f16529]/20 hover:scale-105 active:scale-95 transition-all">
-                    {t.startWriting}
+                    {t.startWriting || 'Start Writing Now'}
                   </Link>
                 </div>
               </div>
@@ -520,7 +520,7 @@ export default function LandingPage() {
                 to="/hash-hunt" 
                 className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-full font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20"
               >
-                {t.exploreHashHunt}
+                {t.exploreHashHunt || 'Explore Hash Hunt'}
                 <ArrowRight size={20} className="rtl:rotate-180" />
               </Link>
             </div>
@@ -723,7 +723,7 @@ export default function LandingPage() {
               </p>
             </div>
             <Link to="/blog" className="hidden sm:flex items-center gap-2 text-[#f16529] font-medium hover:gap-3 transition-all">
-              {t.viewAllArticles}
+              {t.viewAllArticles || 'View all articles'}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
           </div>
@@ -762,7 +762,7 @@ export default function LandingPage() {
           
           <div className="mt-8 text-center sm:hidden">
             <Link to="/blog" className="inline-flex items-center gap-2 text-[#f16529] font-medium">
-              {t.viewAllArticles}
+              {t.viewAllArticles || 'View all articles'}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
           </div>
