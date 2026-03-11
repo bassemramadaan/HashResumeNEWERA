@@ -302,7 +302,7 @@ export default function EditorPage() {
           showMobilePreview ? "hidden md:flex" : "flex"
         )}>
           {/* Stepper Integration */}
-          <div className="bg-white/50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800 pt-10 pb-2">
+          <div className="bg-white/50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800 pt-6 pb-2">
             <Stepper 
               tabs={tabs.map(t => ({ id: t.id, label: t.label }))} 
               activeTab={activeTab} 
@@ -310,18 +310,18 @@ export default function EditorPage() {
             />
           </div>
 
-          <div className="flex flex-col items-center text-center px-6 pt-8 pb-8 shrink-0">
-            <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center text-slate-400 font-medium mb-6 border border-slate-100 dark:border-slate-700">
+          <div className="flex flex-col items-center text-center px-6 pt-4 pb-4 shrink-0">
+            <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center text-slate-400 text-base font-medium mb-2 border border-slate-100 dark:border-slate-700">
               {activeTabIndex}
             </div>
-            <h1 className="text-4xl font-black text-slate-900 dark:text-white mb-3 tracking-tight capitalize">
+            <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-1 tracking-tight capitalize">
               {activeTab.replace('-', ' ')}
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 text-base font-medium max-w-xs leading-relaxed">
+            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-xs leading-relaxed">
               {tabDescriptions[activeTab]}
             </p>
             
-            <div className="flex items-center gap-3 mt-8">
+            <div className="flex items-center gap-3 mt-4">
               <button 
                 onClick={() => {
                   if (window.confirm('This will overwrite your current data with example data. Are you sure?')) {
@@ -345,65 +345,65 @@ export default function EditorPage() {
             </div>
           </div>
 
-          <main className="flex-1 overflow-y-auto p-6 pt-2">
-            <div className="max-w-3xl mx-auto pb-20">
+          <main className="flex-1 overflow-y-auto p-6 pt-0">
+            <div className="max-w-4xl mx-auto pb-10">
               <Suspense fallback={<FormLoader />}>
                 {activeTab === 'basics' && (
-                  <div className="space-y-12">
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Personal Information</h2>
+                  <div className="space-y-8">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Personal Information</h2>
                       <PersonalInfoForm />
                     </div>
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Resume Settings</h2>
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Resume Settings</h2>
                       <SettingsForm />
                     </div>
                   </div>
                 )}
                 {activeTab === 'experience' && (
-                  <div className="space-y-12">
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Work Experience</h2>
+                  <div className="space-y-8">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Work Experience</h2>
                       <ExperienceForm />
                     </div>
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Projects</h2>
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Projects</h2>
                       <ProjectsForm />
                     </div>
                   </div>
                 )}
                 {activeTab === 'education' && (
-                  <div className="space-y-12">
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Education</h2>
+                  <div className="space-y-8">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Education</h2>
                       <EducationForm />
                     </div>
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Certifications</h2>
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Certifications</h2>
                       <CertificationsForm />
                     </div>
                   </div>
                 )}
                 {activeTab === 'skills' && (
-                  <div className="space-y-12">
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Skills</h2>
+                  <div className="space-y-8">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Skills</h2>
                       <SkillsForm />
                     </div>
                   </div>
                 )}
                 {activeTab === 'cover-letter' && (
-                  <div className="space-y-12">
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Cover Letter</h2>
+                  <div className="space-y-8">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
+                      <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-4">Cover Letter</h2>
                       <CoverLetterForm />
                     </div>
                   </div>
                 )}
                 {activeTab === 'finish' && (
-                  <div className="space-y-12">
+                  <div className="space-y-8">
                     <ATSAudit />
-                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
                       <FinishStep onPrint={handleProceedToExport} />
                     </div>
                   </div>
