@@ -247,15 +247,6 @@ export default function LandingPage() {
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-slate-200 dark:border-slate-800">
-                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 text-center lg:text-left">Trusted by professionals hired at</p>
-                  <div className="flex items-center justify-center lg:justify-start gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-300">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google" className="h-6" />
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon" className="h-6" />
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg" alt="Meta" className="h-4" />
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png" alt="Tesla" className="h-4" />
-                  </div>
-                </div>
               </motion.div>
             </div>
 

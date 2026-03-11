@@ -36,9 +36,9 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
         )}
         <div className="flex flex-wrap gap-y-3 gap-x-6 text-[15px] text-slate-600 font-semibold">
           {personalInfo.email && <div className="flex items-center gap-2"><Mail size={16} className="text-slate-400" />{personalInfo.email}</div>}
-          {personalInfo.phone && <div className="flex items-center gap-1.5"><Phone size={16} className="text-slate-400" />{personalInfo.phone}</div>}
-          {personalInfo.address && <div className="flex items-center gap-1.5"><MapPin size={16} className="text-slate-400" />{personalInfo.address}</div>}
-          {personalInfo.linkedin && <div className="flex items-center gap-1.5"><Linkedin size={16} className="text-slate-400" />{personalInfo.linkedin}</div>}
+          {personalInfo.phone && <div className="flex items-center gap-2"><Phone size={16} className="text-slate-400" />{personalInfo.phone}</div>}
+          {personalInfo.address && <div className="flex items-center gap-2"><MapPin size={16} className="text-slate-400" />{personalInfo.address}</div>}
+          {personalInfo.linkedin && <div className="flex items-center gap-2"><Linkedin size={16} className="text-slate-400" />{personalInfo.linkedin}</div>}
         </div>
       </header>
 

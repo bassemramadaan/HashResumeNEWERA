@@ -73,7 +73,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800"
+          className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800"
         >
           <button 
             onClick={onClose}
@@ -82,16 +82,16 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             <X size={20} />
           </button>
 
-          <div className="p-8 text-center">
-            <div className="w-16 h-16 bg-orange-50 dark:bg-orange-900/30 text-orange-500 rounded-2xl flex items-center justify-center mb-6 mx-auto">
-              <Wallet size={32} />
+          <div className="p-6 text-center">
+            <div className="w-12 h-12 bg-orange-50 dark:bg-orange-900/30 text-orange-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
+              <Wallet size={24} />
             </div>
             
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">Unlock Premium Export</h2>
-            <p className="text-slate-500 dark:text-slate-400 mb-6">One-time fee for a single professional PDF export.</p>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Unlock Premium Export</h2>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">One-time fee for a single professional PDF export.</p>
             
             <div className="inline-block bg-red-50 text-red-500 text-xs font-bold px-3 py-1 rounded-full mb-2">Limited Time Offer</div>
-            <div className="text-4xl font-bold text-slate-900 dark:text-white mb-6 flex items-center justify-center gap-1">
+            <div className="text-3xl font-bold text-slate-900 dark:text-white mb-4 flex items-center justify-center gap-1">
               {currency === 'EGP' ? (
                 <>{selected.price} {selected.symbol}</>
               ) : (
@@ -99,31 +99,31 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               )}
             </div>
 
-            <div className="flex flex-wrap justify-center gap-2 mb-6">
+            <div className="flex flex-wrap justify-center gap-2 mb-5">
               {Object.keys(currencies).map((c) => (
                 <button
                   key={c}
                   onClick={() => setCurrency(c as keyof typeof currencies)}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${currency === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}`}
+                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${currency === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}`}
                 >
                   {c}
                 </button>
               ))}
             </div>
             
-            <div className="space-y-3 mb-8 text-left">
+            <div className="space-y-2 mb-6 text-left text-sm">
               <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                <Check className="text-emerald-500" size={20} />
+                <Check className="text-emerald-500" size={18} />
                 <span>Single professional PDF export</span>
               </div>
               <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
-                <Check className="text-emerald-500" size={20} />
+                <Check className="text-emerald-500" size={18} />
                 <span>All premium templates</span>
               </div>
             </div>
 
             {/* How it works section */}
-            <div className="mb-8 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 text-left">
+            <div className="mb-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 text-left">
               <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
                 <CheckCircle2 size={16} className="text-indigo-500" />
                 How payment works
@@ -139,19 +139,19 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                 </div>
                 <div className="flex gap-3">
                   <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400">Enter the code below to unlock your download. Your session is saved!</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">Enter the code below to unlock your download.</p>
                 </div>
               </div>
             </div>
 
-            <div className="mb-6 text-left">
+            <div className="mb-5 text-left">
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Enter your activation code</label>
               <input 
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="E.G. HASH-1234-ABCD"
-                className="w-full p-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
               />
               {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </div>
@@ -159,19 +159,21 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             <button 
               onClick={handleVerify}
               disabled={verifying || !code}
-              className="w-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-4 rounded-xl font-bold transition-all mb-6 disabled:opacity-50"
+              className="w-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-3 rounded-xl font-bold transition-all mb-5 disabled:opacity-50 text-sm"
             >
               {verifying ? 'Verifying...' : 'Unlock Now'}
             </button>
 
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Don't have a code?</p>
-            <button 
-              onClick={() => window.open('https://script.google.com/macros/s/AKfycbwM0LeQLtMxG7NohWc46lj6ITfRaaE-rl1JSYMjndnNX6xcGMHYmZS0MRBWf7gv10eymw/exec', '_blank')} 
-              className="w-full bg-emerald-500 hover:bg-emerald-600 text-white py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
-            >
-              <Ticket size={20} />
-              Get Code via WhatsApp
-            </button>
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">Don't have a code?</p>
+              <button 
+                onClick={() => window.open('https://script.google.com/macros/s/AKfycbwM0LeQLtMxG7NohWc46lj6ITfRaaE-rl1JSYMjndnNX6xcGMHYmZS0MRBWf7gv10eymw/exec', '_blank')} 
+                className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm"
+              >
+                <Ticket size={18} />
+                Get Code
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>
