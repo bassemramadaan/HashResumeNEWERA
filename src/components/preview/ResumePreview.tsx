@@ -27,18 +27,18 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
     <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-12 relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
       <FreshGradBadge />
       {/* Header */}
-      <header className="mb-8 border-b-2 pb-6" style={{ borderColor: themeColor }}>
-        <h1 className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-2" style={{ color: themeColor }}>
+      <header className="mb-10 border-b-2 pb-8" style={{ borderColor: themeColor }}>
+        <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-1" style={{ color: themeColor }}>
           {personalInfo.fullName || 'Your Name'}
         </h1>
         {personalInfo.jobTitle && (
-          <h2 className="text-lg md:text-xl font-medium text-slate-600 mb-4">{personalInfo.jobTitle}</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-slate-500 mb-6 tracking-tight">{personalInfo.jobTitle}</h2>
         )}
-        <div className="flex flex-wrap gap-y-2 gap-x-4 text-sm text-slate-600 font-medium">
-          {personalInfo.email && <div className="flex items-center gap-1.5"><Mail size={14} className="text-slate-400" />{personalInfo.email}</div>}
-          {personalInfo.phone && <div className="flex items-center gap-1.5"><Phone size={14} className="text-slate-400" />{personalInfo.phone}</div>}
-          {personalInfo.address && <div className="flex items-center gap-1.5"><MapPin size={14} className="text-slate-400" />{personalInfo.address}</div>}
-          {personalInfo.linkedin && <div className="flex items-center gap-1.5"><Linkedin size={14} className="text-slate-400" />{personalInfo.linkedin}</div>}
+        <div className="flex flex-wrap gap-y-3 gap-x-6 text-[15px] text-slate-600 font-semibold">
+          {personalInfo.email && <div className="flex items-center gap-2"><Mail size={16} className="text-slate-400" />{personalInfo.email}</div>}
+          {personalInfo.phone && <div className="flex items-center gap-1.5"><Phone size={16} className="text-slate-400" />{personalInfo.phone}</div>}
+          {personalInfo.address && <div className="flex items-center gap-1.5"><MapPin size={16} className="text-slate-400" />{personalInfo.address}</div>}
+          {personalInfo.linkedin && <div className="flex items-center gap-1.5"><Linkedin size={16} className="text-slate-400" />{personalInfo.linkedin}</div>}
         </div>
       </header>
 
