@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { User, Briefcase, FileText, Check, Sparkles, ArrowRight } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, AlertTriangle, AlertCircle, ArrowRight } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { cn } from '../../lib/utils';

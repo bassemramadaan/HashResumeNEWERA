@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, CreditCard, Check, Ticket, Wallet } from 'lucide-react';
 import SarIcon from './SarIcon';
 import AedIcon from './AedIcon';
