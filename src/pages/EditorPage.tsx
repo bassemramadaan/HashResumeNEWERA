@@ -302,7 +302,7 @@ export default function EditorPage() {
           showMobilePreview ? "hidden md:flex" : "flex"
         )}>
           {/* Stepper Integration */}
-          <div className="bg-white/50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800 pt-6 pb-2">
+          <div className="bg-white/50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800 pt-4 pb-2">
             <Stepper 
               tabs={tabs.map(t => ({ id: t.id, label: t.label }))} 
               activeTab={activeTab} 
@@ -310,18 +310,18 @@ export default function EditorPage() {
             />
           </div>
 
-          <div className="flex flex-col items-center text-center px-6 pt-4 pb-4 shrink-0">
-            <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center text-slate-400 text-base font-medium mb-2 border border-slate-100 dark:border-slate-700">
+          <div className="flex flex-col items-center text-center px-6 pt-2 pb-4 shrink-0">
+            <div className="w-9 h-9 rounded-full bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center text-slate-400 text-sm font-medium mb-2 border border-slate-100 dark:border-slate-700">
               {activeTabIndex}
             </div>
-            <h1 className="text-3xl font-black text-slate-900 dark:text-white mb-1 tracking-tight capitalize">
+            <h1 className="text-2xl font-black text-slate-900 dark:text-white mb-1 tracking-tight capitalize">
               {activeTab.replace('-', ' ')}
             </h1>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-xs leading-relaxed">
+            <p className="text-slate-500 dark:text-slate-400 text-[13px] font-medium max-w-xs leading-relaxed">
               {tabDescriptions[activeTab]}
             </p>
             
-            <div className="flex items-center gap-3 mt-4">
+            <div className="flex items-center gap-3 mt-3">
               <button 
                 onClick={() => {
                   if (window.confirm('This will overwrite your current data with example data. Are you sure?')) {
