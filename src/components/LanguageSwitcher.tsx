@@ -13,6 +13,12 @@ export default function LanguageSwitcher({ className, size = 16 }: { className?:
     else setLanguage('en');
   };
 
+  const getLabel = () => {
+    if (language === 'en') return 'العربية';
+    if (language === 'ar') return 'Français';
+    return 'English';
+  };
+
   const getTitle = () => {
     if (language === 'en') return 'Switch to Arabic';
     if (language === 'ar') return 'Switch to French';
@@ -23,11 +29,11 @@ export default function LanguageSwitcher({ className, size = 16 }: { className?:
     <button
       onClick={handleLanguageSwitch}
       className={cn(
-        "flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-full transition-all duration-300",
-        "bg-white/50 dark:bg-slate-800/50 hover:bg-orange-50 dark:hover:bg-orange-900/20",
-        "text-slate-600 dark:text-slate-300 hover:text-[#f16529] dark:hover:text-orange-400",
-        "border border-slate-200/50 dark:border-slate-700/50 hover:border-orange-200 dark:hover:border-orange-800/50",
-        "text-xs",
+        "flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full transition-all duration-300",
+        "bg-white dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-orange-900/20",
+        "text-slate-700 dark:text-slate-200 hover:text-[#f16529] dark:hover:text-orange-400",
+        "border border-slate-200 dark:border-slate-700 hover:border-orange-200 dark:hover:border-orange-800/50 shadow-sm",
+        "text-sm font-medium",
         className
       )}
       title={getTitle()}
@@ -39,8 +45,8 @@ export default function LanguageSwitcher({ className, size = 16 }: { className?:
       >
         <Globe size={size} strokeWidth={2} />
       </motion.div>
-      <span className="font-bold tracking-wider">
-        {language.toUpperCase()}
+      <span className="font-bold tracking-wide">
+        {getLabel()}
       </span>
     </button>
   );

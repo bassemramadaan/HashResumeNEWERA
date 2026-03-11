@@ -20,6 +20,8 @@ import { blogPosts } from '../data/blogPosts';
 
 import { useScrollDirection } from '../hooks/useScrollDirection';
 
+import SimpleSteps from '../components/SimpleSteps';
+
 export default function LandingPage() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
@@ -188,8 +190,8 @@ export default function LandingPage() {
                   {t.buildResume}
                   <ArrowRight size={20} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
                 </Link>
-                <Link to="/cover-letter" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-700 dark:text-white border border-slate-200 dark:border-slate-700 px-8 py-4 rounded-full text-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
-                  <PenTool size={20} className="text-[#f16529]" />
+                <Link to="/cover-letter" className="w-full sm:w-auto bg-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-8 py-4 rounded-full text-lg font-medium transition-all flex items-center justify-center gap-2 group hover:bg-slate-100 dark:hover:bg-slate-800/50">
+                  <PenTool size={20} className="text-slate-400 group-hover:text-[#f16529] transition-colors" />
                   {t.createCoverLetter}
                 </Link>
               </motion.div>
@@ -323,6 +325,8 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      <SimpleSteps />
 
       {/* Features Cards */}
       <section id="features" className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
@@ -483,6 +487,31 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
+
+          {/* Hash Hunt Process Flow */}
+          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 pt-12 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
+                <span className="font-bold">1</span>
+              </div>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{language === 'ar' ? 'ارفع سيرتك الذاتية من Hash Resume' : 'Upload CV from Hash Resume'}</h4>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{language === 'ar' ? 'بضغطة زر، أضف سيرتك الذاتية المكتملة إلى قاعدة بياناتنا.' : 'With one click, add your completed resume to our database.'}</p>
+            </div>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
+                <span className="font-bold">2</span>
+              </div>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{language === 'ar' ? 'ملفك يذهب لشركائنا' : 'Profile goes to partner database'}</h4>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{language === 'ar' ? 'نقوم بمطابقة مهاراتك مع الشركات التي تبحث عن كفاءات.' : 'We match your skills with companies looking for talent.'}</p>
+            </div>
+            <div className="flex flex-col items-center text-center">
+              <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
+                <span className="font-bold">3</span>
+              </div>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{language === 'ar' ? 'الشركات تتواصل معك مباشرة' : 'Companies contact you directly'}</h4>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{language === 'ar' ? 'احصل على عروض عمل ومقابلات دون عناء البحث.' : 'Get job offers and interview requests without the hassle of searching.'}</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -574,7 +603,7 @@ export default function LandingPage() {
                   {t.singleDownload}
                 </h3>
 
-                <div className="flex items-center justify-center gap-2 mb-2">
+                <div className="flex flex-col items-center justify-center gap-2 mb-2">
                   <span className="text-5xl font-black text-[#f16529] flex items-center gap-2">
                     {currency === 'EGP' ? (
                       <>{selectedCurrency.price} {selectedCurrency.symbol}</>
@@ -582,6 +611,10 @@ export default function LandingPage() {
                       <>{selectedCurrency.symbol}{selectedCurrency.price}</>
                     )}
                   </span>
+                  <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-800">
+                    <CheckCircle2 size={14} />
+                    {language === 'ar' ? 'بدون تسجيل، بدون اشتراك، ادفع مرة واحدة' : 'No Login, No Subscription, Pay once'}
+                  </div>
                 </div>
               </div>
 
@@ -590,11 +623,13 @@ export default function LandingPage() {
                   language === 'ar' ? 'تحميل بصيغة PDF عالية الجودة' : 'High-quality PDF Download',
                   language === 'ar' ? 'تحميل بصيغة Word قابلة للتعديل' : 'Editable Word Download',
                   language === 'ar' ? 'قوالب احترافية مميزة' : 'Premium Professional Templates',
-                  language === 'ar' ? 'بدون علامة مائية' : 'No Watermark'
+                  language === 'ar' ? 'بدون علامة مائية' : 'No Watermark',
+                  language === 'ar' ? 'تعديلات مجانية لا نهائية قبل الدفع' : 'Unlimited free edits before paying',
+                  language === 'ar' ? 'إعادة تحميل مجانية لنفس السيرة من نفس الجهاز' : 'Free re-downloads for the same CV on this device'
                 ].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3 text-slate-700 dark:text-slate-300">
-                    <CheckCircle2 className="text-[#f16529] shrink-0" size={20} />
-                    <span>{feature}</span>
+                  <li key={i} className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <CheckCircle2 className="text-[#f16529] shrink-0 mt-0.5" size={20} />
+                    <span className="text-sm leading-tight">{feature}</span>
                   </li>
                 ))}
               </ul>

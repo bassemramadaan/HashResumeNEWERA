@@ -30,7 +30,7 @@ const faqs = [
 export default function FAQ() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     { question: t.faq1Q, answer: t.faq1A },
