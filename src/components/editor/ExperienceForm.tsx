@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useResumeStore, Experience } from '../../store/useResumeStore';
 import { Briefcase, Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import SectionTooltip from './SectionTooltip';
 
 const EXP_SUGGESTIONS = [
   "• Spearheaded a cross-functional team to deliver a critical project 2 weeks ahead of schedule, resulting in a 15% increase in operational efficiency.",
@@ -124,7 +125,14 @@ export default function ExperienceForm() {
                     </div>
                     <div className="col-span-1 md:col-span-2 space-y-1.5">
                       <div className="flex justify-between items-center">
-                        <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Description</label>
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Description</label>
+                          <SectionTooltip 
+                            title="Experience Tips" 
+                            content="Use action verbs and quantify your achievements whenever possible. Bullet points are essential for ATS readability." 
+                            example="• Increased sales by 25% through the implementation of a new CRM system and targeted marketing campaigns."
+                          />
+                        </div>
                         <button 
                           type="button"
                           onClick={() => setShowSuggestionsFor(showSuggestionsFor === exp.id ? null : exp.id)}

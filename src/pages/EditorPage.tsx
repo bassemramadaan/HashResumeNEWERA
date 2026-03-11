@@ -292,7 +292,16 @@ export default function EditorPage() {
           "flex-1 flex flex-col h-full overflow-hidden transition-all duration-300 bg-slate-50/50 dark:bg-slate-900/50",
           showMobilePreview ? "hidden md:flex" : "flex"
         )}>
-          <div className="flex flex-col items-center text-center px-6 pt-12 pb-8 shrink-0">
+          {/* Stepper Integration */}
+          <div className="bg-white/50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800 pt-10 pb-2">
+            <Stepper 
+              tabs={tabs.map(t => ({ id: t.id, label: t.label }))} 
+              activeTab={activeTab} 
+              onTabChange={(id) => setActiveTab(id as Tab)} 
+            />
+          </div>
+
+          <div className="flex flex-col items-center text-center px-6 pt-8 pb-8 shrink-0">
             <div className="w-10 h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center text-slate-400 font-medium mb-6 border border-slate-100 dark:border-slate-700">
               {activeTabIndex}
             </div>

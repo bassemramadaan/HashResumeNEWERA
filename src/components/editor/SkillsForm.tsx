@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { Wrench, Plus, X, Sparkles } from 'lucide-react';
+import SectionTooltip from './SectionTooltip';
 
 const SUGGESTED_SKILLS = [
   'JavaScript', 'TypeScript', 'React', 'Node.js', 'Python', 'Java', 'C++', 
@@ -35,9 +36,16 @@ export default function SkillsForm() {
     <div className="space-y-6 font-sans">
       <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
         <form onSubmit={handleAdd} className="mb-6">
-          <label htmlFor="skillInput" className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-            Add a skill
-          </label>
+          <div className="flex items-center gap-2 mb-2">
+            <label htmlFor="skillInput" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+              Add a skill
+            </label>
+            <SectionTooltip 
+              title="Skills Tips" 
+              content="List both hard skills (technical) and soft skills (interpersonal). Be specific and use keywords found in job descriptions." 
+              example="Hard: React, Node.js, SQL. Soft: Project Management, Team Leadership."
+            />
+          </div>
           <div className="flex gap-2">
             <input
               type="text"

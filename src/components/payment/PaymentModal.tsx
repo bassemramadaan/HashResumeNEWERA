@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CreditCard, Check, Ticket, Wallet } from 'lucide-react';
+import { X, CreditCard, Check, Ticket, Wallet, CheckCircle2 } from 'lucide-react';
 import SarIcon from './SarIcon';
 import AedIcon from './AedIcon';
 
@@ -119,6 +119,28 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                 <Check className="text-emerald-500" size={20} />
                 <span>All premium templates</span>
+              </div>
+            </div>
+
+            {/* How it works section */}
+            <div className="mb-8 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 text-left">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-indigo-500" />
+                How payment works
+              </h3>
+              <div className="space-y-3">
+                <div className="flex gap-3">
+                  <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">Click "Get Code" to pay via <strong>InstaPay</strong> or <strong>Vodafone Cash</strong>.</p>
+                </div>
+                <div className="flex gap-3">
+                  <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">Send the screenshot to our WhatsApp and get your activation code instantly.</p>
+                </div>
+                <div className="flex gap-3">
+                  <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</div>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">Enter the code below to unlock your download. Your session is saved!</p>
+                </div>
               </div>
             </div>
 

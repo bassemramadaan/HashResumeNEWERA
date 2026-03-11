@@ -98,5 +98,20 @@ export function calculateATSScore(data: ResumeData): ATSResult {
     improvements.push("Add a list of core skills relevant to your target job.");
   }
 
-  return { score, goodPoints, improvements };
+  // 6. Formatting & Structure (New Checks)
+  if (data.settings.template === 'creative' || data.settings.template === 'medical') {
+    improvements.push("Your current template has many graphics. Consider using 'Modern' or 'Classic' for maximum ATS compatibility.");
+  } else {
+    goodPoints.push("Template structure is clean and ATS-friendly.");
+  }
+
+  if (experience.length > 0 && !experience.some(e => e.position.toLowerCase().includes('engineer') || e.position.toLowerCase().includes('manager') || e.position.toLowerCase().includes('designer') || e.position.toLowerCase().includes('developer'))) {
+    improvements.push("Ensure your job titles are clear and standard (e.g., 'Software Engineer' instead of 'Code Ninja').");
+  }
+
+  if (score < 100 && !data.jobDescription) {
+    improvements.push("Paste a Job Description in the Audit tab to check for missing keywords.");
+  }
+
+  return { score: Math.min(100, score), goodPoints, improvements };
 }

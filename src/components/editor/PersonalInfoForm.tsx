@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { User, Mail, Phone, MapPin, Linkedin, Github, Globe, Calendar, FileText, Sparkles, AlertCircle } from 'lucide-react';
 
+import SectionTooltip from './SectionTooltip';
+
 const SUMMARY_SUGGESTIONS = [
   "Results-driven professional with a proven track record of delivering high-quality solutions and exceeding performance targets.",
   "Innovative thinker with strong problem-solving skills and a passion for continuous learning and professional development.",
@@ -221,7 +223,14 @@ export default function PersonalInfoForm() {
 
         <div className="col-span-1 md:col-span-2 space-y-2">
           <div className="flex justify-between items-center">
-            <label htmlFor="summary" className="text-sm font-medium text-slate-700 dark:text-slate-300">Professional Summary</label>
+            <div className="flex items-center gap-2">
+              <label htmlFor="summary" className="text-sm font-medium text-slate-700 dark:text-slate-300">Professional Summary</label>
+              <SectionTooltip 
+                title="Summary Tips" 
+                content="Your summary is the first thing recruiters read. Keep it concise, professional, and focused on your value proposition." 
+                example="Results-driven Software Engineer with 5+ years of experience in building scalable web applications. Expert in React and Node.js, with a focus on performance optimization."
+              />
+            </div>
             <button 
               type="button"
               onClick={() => setShowSuggestions(!showSuggestions)}
