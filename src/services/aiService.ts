@@ -8,6 +8,10 @@ export interface AIResponse {
   error?: string;
 }
 
+export interface IResumeService {
+  generateContent: (prompt: string, systemInstruction?: string) => Promise<AIResponse>;
+}
+
 /**
  * Validates input text for AI generation
  */
@@ -18,7 +22,6 @@ const validateInput = (text: string): string | null => {
   if (text.length > 5000) {
     return "Input is too long. Please shorten your text.";
   }
-  // Basic check for suspicious characters if needed
   return null;
 };
 
@@ -30,7 +33,7 @@ const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 /**
  * Centralized AI Service for Gemini API calls
  */
-export const aiService = {
+export const aiService: IResumeService = {
   /**
    * Generates content using Gemini with retries and validation
    */
@@ -51,7 +54,7 @@ export const aiService = {
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
         const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
+          model: "gemini-3-flash-preview",
           contents: prompt,
           config: systemInstruction ? { systemInstruction } : undefined,
         });
