@@ -4,9 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { ArrowRight, Calendar, Clock, User } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { blogPosts } from '../data/blogPosts';
-import LanguageSwitcher from '../components/LanguageSwitcher';
-import ThemeToggle from '../components/ThemeToggle';
-import Logo from '../components/Logo';
+import Navbar from '../components/Navbar';
 
 export default function BlogPage() {
   const { language } = useLanguageStore();
@@ -18,30 +16,11 @@ export default function BlogPage() {
         <meta name="description" content="Read our latest articles on career advice, resume building, and job search strategies." />
         <link rel="canonical" href="https://hashresume.com/blog" />
       </Helmet>
-      {/* Navbar */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
-        <div className="flex items-center gap-6 flex-1">
-          <Link to="/" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-2">
-            <ArrowRight className="rotate-180 w-4 h-4" />
-            {language === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}
-          </Link>
-        </div>
-        
-        <div className="flex items-center justify-center absolute left-1/2 -translate-x-1/2">
-          <Link to="/" className="flex items-center gap-2">
-            <Logo className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
-            <span className="font-bold text-xl font-display hidden sm:inline text-slate-900 dark:text-white">Hash Resume</span>
-          </Link>
-        </div>
-
-        <div className="flex items-center justify-end gap-4 flex-1">
-          <ThemeToggle />
-          <LanguageSwitcher />
-        </div>
-      </nav>
+      
+      <Navbar />
 
       {/* Header */}
-      <header className="py-20 text-center px-4">
+      <header className="py-20 text-center px-4 mt-20">
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

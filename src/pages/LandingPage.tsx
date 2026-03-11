@@ -21,6 +21,7 @@ import { blogPosts } from '../data/blogPosts';
 import { useScrollDirection } from '../hooks/useScrollDirection';
 
 import SimpleSteps from '../components/SimpleSteps';
+import Navbar from '../components/Navbar';
 
 export default function LandingPage() {
   const { language } = useLanguageStore();
@@ -83,59 +84,11 @@ export default function LandingPage() {
           `}
         </script>
       </Helmet>
-      {/* Floating Dock Navbar */}
-      <div 
-        className={`sticky left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8 transition-all duration-500 ease-in-out ${
-          scrollDirection === 'down' && isScrolled ? '-top-24 opacity-0' : 'top-6 opacity-100'
-        }`}
-      >
-        <nav className="pointer-events-auto flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
-          
-          {/* Logo / Home */}
-          <Link to="/" className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-white dark:bg-slate-800 rounded-full shadow-sm text-[#f16529] hover:scale-105 transition-transform shrink-0">
-            <Logo className="w-6 h-6 sm:w-7 sm:h-7" />
-          </Link>
-
-          {/* Navigation Links */}
-          <div className="hidden md:flex items-center px-2 gap-1">
-            <a href="#features" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.features}</a>
-            <a href="#process" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.howItWorks}</a>
-            <a href="#pricing" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.pricing}</a>
-            <Link to="/templates" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.templates}</Link>
-            <Link to="/cover-letter" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap flex items-center gap-2">
-              <PenTool size={14} />
-              {t.coverLetter}
-            </Link>
-            <Link to="/blog" className="px-4 py-2 text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-full transition-all whitespace-nowrap">{t.blog}</Link>
-            <Link to="/hash-hunt" className="px-4 py-2 text-sm font-black text-[#f16529] hover:opacity-80 transition-opacity flex items-center gap-2 whitespace-nowrap">
-              <Target size={18} className="text-[#f16529]" />
-              {t.hashHuntJobs}
-            </Link>
-          </div>
-
-          {/* Separator */}
-          <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-1 hidden md:block"></div>
-
-          {/* Secondary Actions */}
-          <div className="flex items-center gap-2 px-1">
-            <LanguageSwitcher size={18} className="text-sm px-4 py-2" />
-          </div>
-
-          {/* Primary Action (Build Resume) */}
-          <Link 
-            to="/templates" 
-            className="flex items-center gap-3 bg-[#f16529] hover:bg-[#e44d26] text-white font-bold py-1.5 pl-5 pr-1.5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group shrink-0"
-          >
-            <span className="text-sm tracking-tight hidden sm:inline">{t.buildResume}</span>
-            <div className="bg-white/20 rounded-full p-2 group-hover:translate-x-0.5 transition-transform">
-              <ArrowRight size={18} className="text-white" />
-            </div>
-          </Link>
-        </nav>
-      </div>
+      
+      <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-20 lg:pt-32 lg:pb-40 overflow-hidden bg-gradient-to-b from-orange-50 to-white dark:from-slate-950 dark:to-slate-900">
+      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-40 overflow-hidden bg-gradient-to-b from-orange-50 to-white dark:from-slate-950 dark:to-slate-900">
         <ParticleAnimation />
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
@@ -866,7 +819,8 @@ export default function LandingPage() {
           </div>
           <div className="pt-8 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
             <p>© {new Date().getFullYear()} {t.rightsReserved}</p>
-            <div className="flex gap-4">
+            <div className="flex items-center gap-6">
+              <LanguageSwitcher size={16} variant="ghost" className="px-0 py-0" />
               <p>{t.privateFooter}</p>
             </div>
           </div>

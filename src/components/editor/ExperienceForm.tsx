@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useResumeStore, Experience } from '../../store/useResumeStore';
-import { Briefcase, Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy } from 'lucide-react';
+import { Briefcase, Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, AlertCircle } from 'lucide-react';
 import { cn } from '../../utils';
 import SectionTooltip from './SectionTooltip';
+import { getJobMatchResults } from '../../utils/ats';
 
 const EXP_SUGGESTIONS = [
   "• Spearheaded a cross-functional team to deliver a critical project 2 weeks ahead of schedule, resulting in a 15% increase in operational efficiency.",
@@ -14,9 +15,11 @@ const EXP_SUGGESTIONS = [
 
 export default function ExperienceForm() {
   const { data, addExperience, updateExperience, removeExperience } = useResumeStore();
-  const { experience } = data;
+  const { experience, jobDescription } = data;
   const [expandedId, setExpandedId] = useState<string | null>(experience[0]?.id || null);
   const [showSuggestionsFor, setShowSuggestionsFor] = useState<string | null>(null);
+
+  const matchResults = useMemo(() => getJobMatchResults(data), [data]);
 
   const handleAdd = () => {
     addExperience({
@@ -170,6 +173,21 @@ export default function ExperienceForm() {
                         className="block w-full p-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="• Describe your responsibilities and achievements..."
                       />
+                      
+                      {/* ATS Hint */}
+                      {jobDescription && matchResults && (
+                        <div className="mt-2 text-xs flex items-start gap-1.5 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
+                          <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
+                          <div className="text-slate-600 dark:text-slate-400">
+                            <span className="font-semibold text-slate-700 dark:text-slate-300">ATS Hint: </span>
+                            {matchResults.missing.length > 0 ? (
+                              <>Try incorporating some of these missing keywords if applicable: <span className="text-red-500 font-medium">{matchResults.missing.slice(0, 3).join(', ')}</span></>
+                            ) : (
+                              <span className="text-emerald-500 font-medium">Great! You've matched the top keywords.</span>
+                            )}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

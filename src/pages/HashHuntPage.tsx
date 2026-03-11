@@ -8,6 +8,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { useScrollDirection } from '../hooks/useScrollDirection';
+import Navbar from '../components/Navbar';
 
 interface Job {
   jobId: string;
@@ -332,37 +333,8 @@ export default function HashHuntPage() {
         <meta name="description" content="Discover exclusive job opportunities tailored for you. Submit your resume and let top companies find you." />
         <link rel="canonical" href="https://hashresume.com/hash-hunt" />
       </Helmet>
-
-      {/* Floating Dock Navbar */}
-      <div 
-        className={`fixed left-0 right-0 flex justify-center z-50 px-4 pointer-events-none transition-all duration-500 ease-in-out ${
-          scrollDirection === 'down' && isScrolled ? '-top-24 opacity-0' : 'top-6 opacity-100'
-        }`}
-      >
-        <nav className="pointer-events-auto flex items-center gap-2 sm:gap-3 p-1.5 sm:p-2 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full">
-          <Link to="/" className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-white dark:bg-slate-800 rounded-full shadow-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-transform shrink-0">
-            <ArrowLeft size={20} className="sm:size-6" />
-          </Link>
-          <div className="flex items-center justify-center px-2 sm:px-4">
-            <Logo className="w-8 h-8 sm:w-10 sm:h-10 text-[#f16529]" />
-          </div>
-          <div className="w-px h-6 sm:h-8 bg-slate-200 dark:bg-slate-800 mx-0.5 sm:mx-1"></div>
-          <div className="flex items-center gap-2 sm:gap-3 px-1 sm:px-2">
-            <ThemeToggle />
-            <a 
-              href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="bg-[#f16529] hover:bg-[#e44d26] text-white px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all shadow-lg shadow-orange-500/20 flex items-center gap-1.5 sm:gap-2 whitespace-nowrap group hover:scale-105 active:scale-95"
-            >
-              {t.submitResume}
-              <div className="bg-white/20 rounded-full p-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform">
-                <ExternalLink size={12} className="sm:size-3.5 text-white" />
-              </div>
-            </a>
-          </div>
-        </nav>
-      </div>
+      
+      <Navbar />
 
       {/* Hero Section */}
       <section className="relative pt-40 pb-32 overflow-hidden bg-white dark:bg-slate-950">
@@ -633,7 +605,8 @@ export default function HashHuntPage() {
           <p className="text-lg mb-12 max-w-md mx-auto font-medium">Professional resumes, simplified. Built with privacy in mind.</p>
           <div className="pt-10 border-t border-white/5 text-sm flex flex-col md:flex-row justify-between items-center gap-6">
             <p className="font-bold">© {new Date().getFullYear()} Hash Resume. All rights reserved.</p>
-            <div className="flex gap-8 font-bold">
+            <div className="flex items-center gap-8 font-bold">
+              <LanguageSwitcher size={16} variant="ghost" className="px-0 py-0" />
               <Link to="/" className="hover:text-white transition-colors">Resume Builder</Link>
               <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-white transition-colors">Terms of Service</a>

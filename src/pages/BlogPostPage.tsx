@@ -5,9 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, Calendar, Clock, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { blogPosts } from '../data/blogPosts';
-import LanguageSwitcher from '../components/LanguageSwitcher';
-import ThemeToggle from '../components/ThemeToggle';
-import Logo from '../components/Logo';
+import Navbar from '../components/Navbar';
 
 export default function BlogPostPage() {
   const { id } = useParams();
@@ -34,29 +32,10 @@ export default function BlogPostPage() {
         <meta property="twitter:image" content={post.image} />
         <link rel="canonical" href={`https://hashresume.com/blog/${post.id}`} />
       </Helmet>
-      {/* Navbar */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex justify-between items-center relative">
-        <div className="flex items-center gap-6 flex-1">
-          <Link to="/blog" className="text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-2 group">
-            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:translate-x-1" />
-            {language === 'ar' ? 'العودة للمدونة' : 'Back to Blog'}
-          </Link>
-        </div>
-        
-        <div className="flex items-center justify-center absolute left-1/2 -translate-x-1/2">
-          <Link to="/" className="flex items-center gap-2">
-            <Logo className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
-            <span className="font-bold text-xl font-display hidden sm:inline text-slate-900 dark:text-white">Hash Resume</span>
-          </Link>
-        </div>
+      
+      <Navbar />
 
-        <div className="flex items-center justify-end gap-4 flex-1">
-          <ThemeToggle />
-          <LanguageSwitcher />
-        </div>
-      </nav>
-
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 mt-32">
         {/* Header */}
         <header className="py-12 text-center">
           <motion.div 

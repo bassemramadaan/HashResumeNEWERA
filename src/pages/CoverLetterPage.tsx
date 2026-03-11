@@ -5,6 +5,7 @@ import { ArrowLeft, FileText, Sparkles, Copy, Check, Import } from 'lucide-react
 import ThemeToggle from '../components/ThemeToggle';
 import { useResumeStore } from '../store/useResumeStore';
 import { useScrollDirection } from '../hooks/useScrollDirection';
+import Navbar from '../components/Navbar';
 
 export default function CoverLetterPage() {
   const { data } = useResumeStore();
@@ -95,38 +96,10 @@ ${formData.fullName}`;
         <meta name="description" content="Generate personalized, professional cover letters in seconds using AI. Tailored to the job description and your skills." />
         <link rel="canonical" href="https://hashresume.com/cover-letter" />
       </Helmet>
-      {/* Floating Dock Navbar */}
-      <div 
-        className={`sticky left-0 right-0 flex justify-center z-50 px-4 pointer-events-none mb-8 transition-all duration-500 ease-in-out ${
-          scrollDirection === 'down' && isScrolled ? '-top-24 opacity-0' : 'top-6 opacity-100'
-        }`}
-      >
-        <nav className="pointer-events-auto flex items-center gap-3 p-2 rounded-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-2xl border border-white/40 dark:border-slate-800/50 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-300 hover:scale-[1.01] max-w-full overflow-x-auto scrollbar-hide">
-          
-          {/* Back Button */}
-          <Link to="/" className="flex items-center justify-center w-12 h-12 bg-white dark:bg-slate-800 rounded-full shadow-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:scale-105 transition-transform shrink-0">
-            <ArrowLeft size={24} />
-          </Link>
+      
+      <Navbar />
 
-          {/* Title */}
-          <div className="flex items-center gap-3 px-4">
-            <div className="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center shadow-lg shadow-indigo-600/20">
-              <FileText className="text-white w-5 h-5" />
-            </div>
-            <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white hidden sm:inline">Cover Letter Builder</span>
-          </div>
-
-          {/* Separator */}
-          <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-1"></div>
-
-          {/* Actions */}
-          <div className="flex items-center gap-2 px-2">
-            <ThemeToggle />
-          </div>
-        </nav>
-      </div>
-
-      <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mt-24">
         {/* Input Form */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800 p-8 space-y-6 transition-colors">
           <div className="flex items-center justify-between mb-6">

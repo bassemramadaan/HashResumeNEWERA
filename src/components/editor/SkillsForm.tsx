@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { Wrench, Plus, X, Sparkles } from 'lucide-react';
+import { Wrench, Plus, X, Sparkles, AlertCircle } from 'lucide-react';
 import SectionTooltip from './SectionTooltip';
+import { getJobMatchResults } from '../../utils/ats';
 
 const SUGGESTED_SKILLS = [
   'JavaScript', 'TypeScript', 'React', 'Node.js', 'Python', 'Java', 'C++', 
@@ -11,8 +12,10 @@ const SUGGESTED_SKILLS = [
 
 export default function SkillsForm() {
   const { data, addSkill, removeSkill } = useResumeStore();
-  const { skills } = data;
+  const { skills, jobDescription } = data;
   const [inputValue, setInputValue] = useState('');
+
+  const matchResults = useMemo(() => getJobMatchResults(data), [data]);
 
   const handleAdd = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -91,6 +94,21 @@ export default function SkillsForm() {
             </div>
           )}
         </div>
+
+        {/* ATS Hint */}
+        {jobDescription && matchResults && (
+          <div className="mb-8 text-xs flex items-start gap-1.5 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
+            <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
+            <div className="text-slate-600 dark:text-slate-400">
+              <span className="font-semibold text-slate-700 dark:text-slate-300">ATS Hint: </span>
+              {matchResults.missing.length > 0 ? (
+                <>Consider adding these missing skills from the job description: <span className="text-red-500 font-medium">{matchResults.missing.slice(0, 5).join(', ')}</span></>
+              ) : (
+                <span className="text-emerald-500 font-medium">Great! You've matched the top keywords.</span>
+              )}
+            </div>
+          </div>
+        )}
 
         {unaddedSuggestions.length > 0 && (
           <div>
