@@ -2,10 +2,7 @@ import { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { CheckCircle2, AlertCircle, Activity, Target, Briefcase, Search, X } from 'lucide-react';
 import { cn } from '../../utils';
-import { calculateATSScore } from '../../utils/ats';
-
-// Basic stop words to ignore in keyword matching
-const STOP_WORDS = new Set(['the', 'and', 'a', 'to', 'of', 'in', 'i', 'is', 'that', 'it', 'on', 'you', 'this', 'for', 'but', 'with', 'are', 'have', 'be', 'at', 'or', 'as', 'was', 'so', 'if', 'out', 'not', 'we', 'my', 'by', 'from', 'an', 'will', 'can', 'about', 'which', 'your', 'all', 'has', 'one', 'more', 'do', 'their', 'there', 'what', 'who', 'when', 'where', 'why', 'how', 'any', 'some', 'such', 'into', 'up', 'down', 'over', 'under', 'between', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now']);
+import { calculateATSScore, getJobMatchResults } from '../../utils/ats';
 
 export default function ATSAudit() {
   const { data, updateJobDescription } = useResumeStore();
@@ -16,38 +13,8 @@ export default function ATSAudit() {
   const isEmpty = score === 0 && !personalInfo.fullName; // Simple check, or reuse logic from lib if exported
 
   const matchResults = useMemo(() => {
-    if (!jobDescription || !jobDescription.trim()) return null;
-
-    // Extract words from JD
-    const jdWords = jobDescription.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(w => w.length > 2 && !STOP_WORDS.has(w));
-    
-    // Extract words from Resume
-    const resumeText = [
-      personalInfo.summary,
-      ...experience.map(e => `${e.position} ${e.company} ${e.description}`),
-      ...education.map(e => `${e.degree} ${e.institution} ${e.description}`),
-      ...skills
-    ].join(' ').toLowerCase().replace(/[^\w\s]/g, '');
-    
-    const resumeWords = new Set(resumeText.split(/\s+/));
-
-    // Calculate frequencies in JD to find important keywords
-    const wordFreq: Record<string, number> = {};
-    jdWords.forEach(w => { wordFreq[w] = (wordFreq[w] || 0) + 1; });
-
-    // Sort by frequency to get top keywords
-    const topKeywords = Object.entries(wordFreq)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 20)
-      .map(entry => entry[0]);
-
-    const matched = topKeywords.filter(kw => resumeWords.has(kw));
-    const missing = topKeywords.filter(kw => !resumeWords.has(kw));
-    
-    const matchPercentage = topKeywords.length > 0 ? Math.round((matched.length / topKeywords.length) * 100) : 0;
-
-    return { matchPercentage, matched, missing };
-  }, [jobDescription, personalInfo, experience, education, skills]);
+    return getJobMatchResults(data);
+  }, [data]);
 
   if (isEmpty) {
     return (
