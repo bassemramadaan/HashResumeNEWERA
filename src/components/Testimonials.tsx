@@ -1,6 +1,6 @@
 import React from 'react';
 import { Star, Quote, MessageCircle } from 'lucide-react';
-import { cn } from '../utils/utils';
+import { cn } from '../utils';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { motion } from 'motion/react';

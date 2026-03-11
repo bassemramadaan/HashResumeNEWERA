@@ -7,7 +7,7 @@ import Logo from '../components/Logo';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { useResumeStore, ResumeData } from '../store/useResumeStore';
 import ResumePreview from '../components/preview/ResumePreview';
-import { cn } from '../utils/utils';
+import { cn } from '../utils';
 
 const dummyData: ResumeData = {
   personalInfo: {

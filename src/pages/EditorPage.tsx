@@ -14,7 +14,7 @@ import { useOnboardingStore } from '../store/useOnboardingStore';
 import Stepper from '../components/editor/Stepper';
 import Logo from '../components/Logo';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { cn } from '../utils/utils';
+import { cn } from '../utils';
 import { calculateATSScore } from '../utils/ats';
 
 // Lazy load heavy components

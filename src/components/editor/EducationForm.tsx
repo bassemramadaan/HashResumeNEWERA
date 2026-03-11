@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useResumeStore, Education } from '../../store/useResumeStore';
 import { GraduationCap, Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy } from 'lucide-react';
-import { cn } from '../../utils/utils';
+import { cn } from '../../utils';
 
 const EDU_SUGGESTIONS = [
   "• Graduated with Honors (Cum Laude).",

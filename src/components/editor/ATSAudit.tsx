@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { CheckCircle2, AlertCircle, Activity, Target, Briefcase, Search, X } from 'lucide-react';
-import { cn } from '../../utils/utils';
+import { cn } from '../../utils';
 import { calculateATSScore } from '../../utils/ats';
 
 // Basic stop words to ignore in keyword matching

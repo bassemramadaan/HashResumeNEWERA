@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { HelpCircle, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '../../utils/utils';
+import { cn } from '../../utils';
 
 interface SectionTooltipProps {
   title: string;

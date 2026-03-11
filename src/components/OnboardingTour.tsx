@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useOnboardingStore } from '../store/useOnboardingStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, ChevronLeft, User, Briefcase, Star, Eye, Download, Sparkles, Target } from 'lucide-react';
-import { cn } from '../utils/utils';
+import { cn } from '../utils';
 
 interface Step {
   target: string; // CSS selector
