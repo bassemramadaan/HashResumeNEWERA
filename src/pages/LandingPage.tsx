@@ -31,8 +31,8 @@ export default function LandingPage() {
 
   const currencies = {
     EGP: { symbol: 'EGP', price: 25 },
-    SAR: { symbol: <SarIcon className="w-5 h-5 inline" />, price: 2 },
-    AED: { symbol: <AedIcon className="w-5 h-5 inline" />, price: 2 },
+    SAR: { symbol: <SarIcon className="w-[1em] h-[1em] inline-block shrink-0" />, price: 2 },
+    AED: { symbol: <AedIcon className="w-[1em] h-[1em] inline-block shrink-0" />, price: 2 },
     EUR: { symbol: '€', price: 1 },
     USD: { symbol: '$', price: 1 },
   };
