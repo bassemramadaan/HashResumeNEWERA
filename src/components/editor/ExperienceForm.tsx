@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useResumeStore, Experience } from '../../store/useResumeStore';
 import { Briefcase, Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy } from 'lucide-react';
-import { cn } from '../../lib/utils';
+import { cn } from '../../utils/utils';
 import SectionTooltip from './SectionTooltip';
 
 const EXP_SUGGESTIONS = [

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -7,33 +7,42 @@ import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
   Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, ArrowRight, FileText, CheckCircle, Sparkles
+  Undo2, Redo2, CheckCircle2, Maximize2, X, ArrowRight, FileText, CheckCircle, Sparkles, Loader2
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
 import Stepper from '../components/editor/Stepper';
-import PersonalInfoForm from '../components/editor/PersonalInfoForm';
-import ExperienceForm from '../components/editor/ExperienceForm';
-import EducationForm from '../components/editor/EducationForm';
-import SkillsForm from '../components/editor/SkillsForm';
-import ProjectsForm from '../components/editor/ProjectsForm';
-import CertificationsForm from '../components/editor/CertificationsForm';
-import SettingsForm from '../components/editor/SettingsForm';
-import ATSAudit from '../components/editor/ATSAudit';
-import CoverLetterForm from '../components/editor/CoverLetterForm';
-import FinishStep from '../components/editor/FinishStep';
-import ResumePreview from '../components/preview/ResumePreview';
-import CoverLetterPreview from '../components/preview/CoverLetterPreview';
 import Logo from '../components/Logo';
-import PaymentModal from '../components/payment/PaymentModal';
-import PostDownloadModal from '../components/payment/PostDownloadModal';
-import FeedbackModal from '../components/FeedbackModal';
-import OnboardingTour from '../components/OnboardingTour';
-import WelcomeModal from '../components/editor/WelcomeModal';
-import ResumeCheckerModal from '../components/editor/ResumeCheckerModal';
 import LanguageSwitcher from '../components/LanguageSwitcher';
-import { cn } from '../lib/utils';
-import { calculateATSScore } from '../lib/ats';
+import { cn } from '../utils/utils';
+import { calculateATSScore } from '../utils/ats';
+
+// Lazy load heavy components
+const PersonalInfoForm = lazy(() => import('../components/editor/PersonalInfoForm'));
+const ExperienceForm = lazy(() => import('../components/editor/ExperienceForm'));
+const EducationForm = lazy(() => import('../components/editor/EducationForm'));
+const SkillsForm = lazy(() => import('../components/editor/SkillsForm'));
+const ProjectsForm = lazy(() => import('../components/editor/ProjectsForm'));
+const CertificationsForm = lazy(() => import('../components/editor/CertificationsForm'));
+const SettingsForm = lazy(() => import('../components/editor/SettingsForm'));
+const ATSAudit = lazy(() => import('../components/editor/ATSAudit'));
+const CoverLetterForm = lazy(() => import('../components/editor/CoverLetterForm'));
+const FinishStep = lazy(() => import('../components/editor/FinishStep'));
+const ResumePreview = lazy(() => import('../components/preview/ResumePreview'));
+const CoverLetterPreview = lazy(() => import('../components/preview/CoverLetterPreview'));
+const PaymentModal = lazy(() => import('../components/payment/PaymentModal'));
+const PostDownloadModal = lazy(() => import('../components/payment/PostDownloadModal'));
+const FeedbackModal = lazy(() => import('../components/FeedbackModal'));
+const OnboardingTour = lazy(() => import('../components/OnboardingTour'));
+const WelcomeModal = lazy(() => import('../components/editor/WelcomeModal'));
+const ResumeCheckerModal = lazy(() => import('../components/editor/ResumeCheckerModal'));
+
+const FormLoader = () => (
+  <div className="flex flex-col items-center justify-center py-20 space-y-4">
+    <Loader2 className="w-10 h-10 text-indigo-500 animate-spin" />
+    <p className="text-slate-500 font-medium">Loading section...</p>
+  </div>
+);
 
 type Tab = 'basics' | 'experience' | 'education' | 'skills' | 'cover-letter' | 'finish';
 
@@ -338,66 +347,68 @@ export default function EditorPage() {
 
           <main className="flex-1 overflow-y-auto p-6 pt-2">
             <div className="max-w-3xl mx-auto pb-20">
-              {activeTab === 'basics' && (
-                <div className="space-y-12">
-                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Personal Information</h2>
-                    <PersonalInfoForm />
+              <Suspense fallback={<FormLoader />}>
+                {activeTab === 'basics' && (
+                  <div className="space-y-12">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Personal Information</h2>
+                      <PersonalInfoForm />
+                    </div>
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Resume Settings</h2>
+                      <SettingsForm />
+                    </div>
                   </div>
-                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Resume Settings</h2>
-                    <SettingsForm />
+                )}
+                {activeTab === 'experience' && (
+                  <div className="space-y-12">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Work Experience</h2>
+                      <ExperienceForm />
+                    </div>
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Projects</h2>
+                      <ProjectsForm />
+                    </div>
                   </div>
-                </div>
-              )}
-              {activeTab === 'experience' && (
-                <div className="space-y-12">
-                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Work Experience</h2>
-                    <ExperienceForm />
+                )}
+                {activeTab === 'education' && (
+                  <div className="space-y-12">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Education</h2>
+                      <EducationForm />
+                    </div>
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Certifications</h2>
+                      <CertificationsForm />
+                    </div>
                   </div>
-                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Projects</h2>
-                    <ProjectsForm />
+                )}
+                {activeTab === 'skills' && (
+                  <div className="space-y-12">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Skills</h2>
+                      <SkillsForm />
+                    </div>
                   </div>
-                </div>
-              )}
-              {activeTab === 'education' && (
-                <div className="space-y-12">
-                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Education</h2>
-                    <EducationForm />
+                )}
+                {activeTab === 'cover-letter' && (
+                  <div className="space-y-12">
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                      <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Cover Letter</h2>
+                      <CoverLetterForm />
+                    </div>
                   </div>
-                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Certifications</h2>
-                    <CertificationsForm />
+                )}
+                {activeTab === 'finish' && (
+                  <div className="space-y-12">
+                    <ATSAudit />
+                    <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
+                      <FinishStep onPrint={handleProceedToExport} />
+                    </div>
                   </div>
-                </div>
-              )}
-              {activeTab === 'skills' && (
-                <div className="space-y-12">
-                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Skills</h2>
-                    <SkillsForm />
-                  </div>
-                </div>
-              )}
-              {activeTab === 'cover-letter' && (
-                <div className="space-y-12">
-                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">Cover Letter</h2>
-                    <CoverLetterForm />
-                  </div>
-                </div>
-              )}
-              {activeTab === 'finish' && (
-                <div className="space-y-12">
-                  <ATSAudit />
-                  <div className="border-t border-slate-200 dark:border-slate-800 pt-12">
-                    <FinishStep onPrint={handleProceedToExport} />
-                  </div>
-                </div>
-              )}
+                )}
+              </Suspense>
             </div>
           </main>
         </div>
@@ -451,82 +462,86 @@ export default function EditorPage() {
               "w-full max-w-[210mm] bg-white shadow-xl dark:shadow-indigo-900/20 rounded-sm overflow-hidden origin-top transition-transform ring-1 ring-slate-900/5 dark:ring-slate-100/10",
               previewMode !== 'cover-letter' && "scale-[0.85] sm:scale-95 md:scale-100"
             )}>
-              {previewMode === 'cover-letter' ? (
-                <CoverLetterPreview />
-              ) : (
-                <ResumePreview ref={componentRef} />
-              )}
+              <Suspense fallback={<FormLoader />}>
+                {previewMode === 'cover-letter' ? (
+                  <CoverLetterPreview />
+                ) : (
+                  <ResumePreview ref={componentRef} />
+                )}
+              </Suspense>
             </div>
           </div>
         </div>
       </div>
 
       {/* Modals */}
-      {/* Full Page Preview Modal */}
-      <AnimatePresence>
-        {showFullPreview && (
-          <div className="fixed inset-0 z-50 flex flex-col bg-slate-900/95 backdrop-blur-sm">
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col items-center"
-            >
-              <div className="w-full max-w-5xl flex justify-between items-center mb-6 shrink-0">
-                <h2 className="text-white text-xl font-bold">Resume Preview</h2>
-                <div className="flex items-center gap-3">
-                  <button 
-                    onClick={handleExportClick}
-                    className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white px-5 py-2 rounded-full flex items-center gap-2 font-bold transition-all text-sm shadow-lg shadow-indigo-500/20 hover:scale-105 active:scale-95"
-                  >
-                    <Download size={16} />
-                    Export PDF
-                  </button>
-                  <button 
-                    onClick={() => setShowFullPreview(false)}
-                    className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-colors"
-                  >
-                    <X size={20} />
-                  </button>
+      <Suspense fallback={null}>
+        {/* Full Page Preview Modal */}
+        <AnimatePresence>
+          {showFullPreview && (
+            <div className="fixed inset-0 z-50 flex flex-col bg-slate-900/95 backdrop-blur-sm">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col items-center"
+              >
+                <div className="w-full max-w-5xl flex justify-between items-center mb-6 shrink-0">
+                  <h2 className="text-white text-xl font-bold">Resume Preview</h2>
+                  <div className="flex items-center gap-3">
+                    <button 
+                      onClick={handleExportClick}
+                      className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 text-white px-5 py-2 rounded-full flex items-center gap-2 font-bold transition-all text-sm shadow-lg shadow-indigo-500/20 hover:scale-105 active:scale-95"
+                    >
+                      <Download size={16} />
+                      Export PDF
+                    </button>
+                    <button 
+                      onClick={() => setShowFullPreview(false)}
+                      className="bg-white/10 hover:bg-white/20 text-white p-2 rounded-full transition-colors"
+                    >
+                      <X size={20} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-              
-              <div className="w-full max-w-[210mm] bg-white shadow-2xl rounded-sm overflow-hidden shrink-0 mb-12">
-                <ResumePreview />
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+                
+                <div className="w-full max-w-[210mm] bg-white shadow-2xl rounded-sm overflow-hidden shrink-0 mb-12">
+                  <ResumePreview />
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
-      <ResumeCheckerModal 
-        isOpen={showResumeChecker} 
-        onClose={() => setShowResumeChecker(false)} 
-        onProceed={handleProceedToExport} 
-      />
+        <ResumeCheckerModal 
+          isOpen={showResumeChecker} 
+          onClose={() => setShowResumeChecker(false)} 
+          onProceed={handleProceedToExport} 
+        />
 
-      <PaymentModal 
-        isOpen={showPaymentModal} 
-        onClose={() => setShowPaymentModal(false)} 
-        onSuccess={() => {
-          setShowPaymentModal(false);
-          handlePrint();
-        }}
-      />
-      <PostDownloadModal 
-        isOpen={showPostDownloadModal} 
-        onClose={() => setShowPostDownloadModal(false)} 
-      />
-      <FeedbackModal 
-        isOpen={showFeedbackModal} 
-        onClose={() => setShowFeedbackModal(false)} 
-      />
-      
-      <WelcomeModal
-        isOpen={showWelcomeModal}
-        onStartTour={handleStartTour}
-        onSkip={handleSkipTour}
-      />
+        <PaymentModal 
+          isOpen={showPaymentModal} 
+          onClose={() => setShowPaymentModal(false)} 
+          onSuccess={() => {
+            setShowPaymentModal(false);
+            handlePrint();
+          }}
+        />
+        <PostDownloadModal 
+          isOpen={showPostDownloadModal} 
+          onClose={() => setShowPostDownloadModal(false)} 
+        />
+        <FeedbackModal 
+          isOpen={showFeedbackModal} 
+          onClose={() => setShowFeedbackModal(false)} 
+        />
+        
+        <WelcomeModal
+          isOpen={showWelcomeModal}
+          onStartTour={handleStartTour}
+          onSkip={handleSkipTour}
+        />
+      </Suspense>
     </div>
   );
 }

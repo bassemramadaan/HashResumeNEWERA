@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { FileText, Sparkles, Copy, Check, AlertCircle, Import } from 'lucide-react';
-import { GoogleGenAI } from "@google/genai";
+import { aiService } from '../../services/aiService';
 
 export default function CoverLetterForm() {
   const { data, updateCoverLetter } = useResumeStore();
@@ -65,51 +65,35 @@ export default function CoverLetterForm() {
     setIsGenerating(true);
     setError(null);
 
+    const prompt = `
+      Write a professional cover letter for a ${coverLetter.jobTitle} position at ${coverLetter.companyName}.
+      
+      Candidate Name: ${coverLetter.fullName}
+      Hiring Manager: ${coverLetter.hiringManager || 'Hiring Manager'}
+      
+      Job Description:
+      ${coverLetter.jobDescription || 'Not provided'}
+      
+      Key Skills:
+      ${coverLetter.skills}
+      
+      The cover letter should be professional, engaging, and highlight why the candidate is a good fit.
+      Keep it concise (under 400 words).
+      Do not include placeholders like [Your Name] or [Date], use the provided information.
+      Format it with proper paragraphs.
+    `;
+
     try {
-      const apiKey = process.env.GEMINI_API_KEY;
-      if (!apiKey) {
-        // Fallback or error handling if API key is not available
-        // For now, let's simulate a delay and set dummy content if no key
-        // But in this environment, we should have the key.
-        // If not, we can't really generate.
-        throw new Error('Gemini API key is missing');
-      }
-
-      const ai = new GoogleGenAI({ apiKey });
+      const result = await aiService.generateContent(prompt);
       
-      const prompt = `
-        Write a professional cover letter for a ${coverLetter.jobTitle} position at ${coverLetter.companyName}.
-        
-        Candidate Name: ${coverLetter.fullName}
-        Hiring Manager: ${coverLetter.hiringManager || 'Hiring Manager'}
-        
-        Job Description:
-        ${coverLetter.jobDescription || 'Not provided'}
-        
-        Key Skills:
-        ${coverLetter.skills}
-        
-        The cover letter should be professional, engaging, and highlight why the candidate is a good fit.
-        Keep it concise (under 400 words).
-        Do not include placeholders like [Your Name] or [Date], use the provided information.
-        Format it with proper paragraphs.
-      `;
-
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-      });
-      
-      const text = response.text;
-      
-      if (text) {
-        updateCoverLetter({ generatedContent: text });
-      } else {
-        throw new Error('No content generated');
+      if (result.error) {
+        setError(result.error);
+      } else if (result.text) {
+        updateCoverLetter({ generatedContent: result.text });
       }
     } catch (err) {
       console.error('Error generating cover letter:', err);
-      setError('Failed to generate cover letter. Please try again.');
+      setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsGenerating(false);
     }

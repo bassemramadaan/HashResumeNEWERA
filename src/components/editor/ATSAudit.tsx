@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { CheckCircle2, AlertCircle, Activity, Target, Briefcase, Search, X } from 'lucide-react';
-import { cn } from '../../lib/utils';
-import { calculateATSScore } from '../../lib/ats';
+import { cn } from '../../utils/utils';
+import { calculateATSScore } from '../../utils/ats';
 
 // Basic stop words to ignore in keyword matching
 const STOP_WORDS = new Set(['the', 'and', 'a', 'to', 'of', 'in', 'i', 'is', 'that', 'it', 'on', 'you', 'this', 'for', 'but', 'with', 'are', 'have', 'be', 'at', 'or', 'as', 'was', 'so', 'if', 'out', 'not', 'we', 'my', 'by', 'from', 'an', 'will', 'can', 'about', 'which', 'your', 'all', 'has', 'one', 'more', 'do', 'their', 'there', 'what', 'who', 'when', 'where', 'why', 'how', 'any', 'some', 'such', 'into', 'up', 'down', 'over', 'under', 'between', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now']);

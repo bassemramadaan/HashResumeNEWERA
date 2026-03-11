@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { fetchJobsFromSheet } from "../lib/jobs";
+import { fetchJobsFromSheet } from "../utils/jobs";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {

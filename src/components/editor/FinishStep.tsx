@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { Download, Share2, FileText, Check, Copy, Loader2, Save, Upload } from 'lucide-react';
-import { generateWord } from '../../lib/generateWord';
+import { generateWord } from '../../utils/generateWord';
 
 interface FinishStepProps {
   onPrint: () => void;

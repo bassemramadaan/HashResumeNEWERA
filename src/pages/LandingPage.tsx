@@ -59,6 +59,29 @@ export default function LandingPage() {
         <meta property="twitter:description" content="Create professional resumes and cover letters in minutes with our AI-powered builder. Optimize for ATS and land your dream job." />
         <meta property="twitter:image" content="https://hashresume.com/og-image.png" />
         <link rel="canonical" href="https://hashresume.com/" />
+        
+        {/* Schema.org Markup */}
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "Hash Resume",
+              "operatingSystem": "Web",
+              "applicationCategory": "BusinessApplication",
+              "offers": {
+                "@type": "Offer",
+                "price": "25.00",
+                "priceCurrency": "EGP"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "ratingCount": "2000"
+              }
+            }
+          `}
+        </script>
       </Helmet>
       {/* Floating Dock Navbar */}
       <div 

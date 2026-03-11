@@ -1,7 +1,7 @@
 import React from 'react';
 import { Globe } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
-import { cn } from '../lib/utils';
+import { cn } from '../utils/utils';
 import { motion } from 'framer-motion';
 
 export default function LanguageSwitcher({ className, size = 16 }: { className?: string; size?: number }) {

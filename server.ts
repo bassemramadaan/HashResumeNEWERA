@@ -1,8 +1,8 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
-import { fetchJobsFromSheet } from './lib/jobs';
-import { checkRateLimit } from './lib/rateLimit';
+import { fetchJobsFromSheet } from './utils/jobs';
+import { checkRateLimit } from './utils/rateLimit';
 
 dotenv.config();
 
