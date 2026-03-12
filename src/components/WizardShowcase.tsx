@@ -39,7 +39,7 @@ export default function WizardShowcase() {
       setActiveStep((prev) => (prev + 1) % steps.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [steps.length]);
 
   return (
     <section className="py-32 bg-slate-50 dark:bg-slate-950 overflow-hidden relative">

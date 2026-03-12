@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useOnboardingStore } from '../store/useOnboardingStore';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronRight, ChevronLeft, User, Briefcase, Star, Eye, Download, Sparkles, Target } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, User, Sparkles, Target } from 'lucide-react';
 import { cn } from '../utils';
 
 interface Step {

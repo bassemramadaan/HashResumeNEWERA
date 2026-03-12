@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useResumeStore, Education } from '../../store/useResumeStore';
-import { GraduationCap, Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy } from 'lucide-react';
-import { cn } from '../../utils';
+import { useResumeStore } from '../../store/useResumeStore';
+import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy } from 'lucide-react';
 
 const EDU_SUGGESTIONS = [
   "• Graduated with Honors (Cum Laude).",
@@ -106,7 +105,7 @@ export default function EducationForm() {
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation(); 
-                      const { id, ...rest } = edu;
+                      const { id: _id, ...rest } = edu;
                       addEducation(rest);
                     }}
                     className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"

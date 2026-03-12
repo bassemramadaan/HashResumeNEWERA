@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { Wrench, Plus, X, Sparkles, AlertCircle } from 'lucide-react';
+import { Plus, X, Sparkles, AlertCircle } from 'lucide-react';
 import SectionTooltip from './SectionTooltip';
 import { getJobMatchResults } from '../../utils/ats';
 

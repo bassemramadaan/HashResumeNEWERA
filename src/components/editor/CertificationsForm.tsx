@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { Award, Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function CertificationsForm() {
   const { data, addCertification, updateCertification, removeCertification } = useResumeStore();

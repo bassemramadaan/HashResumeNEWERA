@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { PartyPopper, Briefcase, ExternalLink, X } from 'lucide-react';
+import { PartyPopper, X } from 'lucide-react';
 
 interface PostDownloadModalProps {
   isOpen: boolean;

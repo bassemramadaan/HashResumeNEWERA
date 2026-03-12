@@ -3,19 +3,18 @@ import { AIService } from '../services/ai.service';
 
 // Mocking the @google/genai module
 vi.mock('@google/genai', () => {
-  return {
-    GoogleGenAI: vi.fn().mockImplementation(() => {
-      return {
-        models: {
-          generateContent: vi.fn().mockResolvedValue({
-            text: JSON.stringify({
-              score: 85,
-              feedback: ["Add more action verbs.", "Quantify your achievements."]
-            })
-          })
-        }
-      };
+  const mockGenerateContent = vi.fn().mockResolvedValue({
+    text: JSON.stringify({
+      score: 85,
+      feedback: ["Add more action verbs.", "Quantify your achievements."]
     })
+  });
+  return {
+    GoogleGenAI: class {
+      models = {
+        generateContent: mockGenerateContent
+      };
+    }
   };
 });
 

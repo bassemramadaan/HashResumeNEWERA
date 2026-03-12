@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { CheckCircle2, AlertCircle, Activity, Target, Briefcase, Search, X } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Activity, Target, Briefcase } from 'lucide-react';
 import { cn } from '../../utils';
 import { calculateATSScore, getJobMatchResults } from '../../utils/ats';
 
 export default function ATSAudit() {
   const { data, updateJobDescription } = useResumeStore();
-  const { personalInfo, experience, education, skills, jobDescription } = data;
+  const { personalInfo, jobDescription } = data;
   const [showMatcher, setShowMatcher] = useState(!!jobDescription);
 
   const { score, goodPoints, improvements } = calculateATSScore(data);
@@ -44,12 +44,6 @@ export default function ATSAudit() {
     if (s >= 80) return "text-indigo-500 dark:text-indigo-400";
     if (s >= 50) return "text-yellow-500 dark:text-yellow-400";
     return "text-red-500 dark:text-red-400";
-  };
-
-  const getScoreBg = (s: number) => {
-    if (s >= 80) return "bg-indigo-500 dark:bg-indigo-400";
-    if (s >= 50) return "bg-yellow-500 dark:bg-yellow-400";
-    return "bg-red-500 dark:bg-red-400";
   };
 
   // Job Description Matching Logic

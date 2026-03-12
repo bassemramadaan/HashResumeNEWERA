@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { FileText, Sparkles, Copy, Check, AlertCircle, Import } from 'lucide-react';
+import { Sparkles, Check, AlertCircle, Import } from 'lucide-react';
 import { aiService } from '../../services/aiService';
 
 export default function CoverLetterForm() {

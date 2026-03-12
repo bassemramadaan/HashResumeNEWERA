@@ -1,13 +1,13 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { Download, Share2, FileText, Check, Copy, Loader2, Save, Upload } from 'lucide-react';
+import { Download, FileText, Save, Upload } from 'lucide-react';
 import { generateWord } from '../../utils/generateWord';
 
 interface FinishStepProps {
   onPrint: () => void;
 }
 
-export default function FinishStep({ onPrint }: FinishStepProps) {
+export default function FinishStep({ onPrint: _onPrint }: FinishStepProps) {
   const { data, updateData } = useResumeStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 

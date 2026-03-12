@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Helmet } from 'react-helmet-async';
-import { ArrowRight, Calendar, Clock, User } from 'lucide-react';
+import { ArrowRight, Calendar, Clock } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { blogPosts } from '../data/blogPosts';
 import Navbar from '../components/Navbar';

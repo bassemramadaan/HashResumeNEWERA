@@ -1,8 +1,8 @@
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, Calendar, Clock, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { Calendar, Clock, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { blogPosts } from '../data/blogPosts';
 import Navbar from '../components/Navbar';

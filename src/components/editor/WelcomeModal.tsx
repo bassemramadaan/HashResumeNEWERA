@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, X, Play, SkipForward } from 'lucide-react';
+import { Sparkles, Play, SkipForward } from 'lucide-react';
 
 interface WelcomeModalProps {
   isOpen: boolean;

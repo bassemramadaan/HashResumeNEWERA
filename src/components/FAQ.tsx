@@ -4,29 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 
-const faqs = [
-  {
-    question: "Is my data safe?",
-    answer: "Yes, absolutely. Hash Resume runs entirely in your browser. Your personal data is stored locally on your device and is never sent to our servers. We prioritize your privacy above all else."
-  },
-  {
-    question: "Is it really free?",
-    answer: "Yes! You can build, edit, and download your resume for free. We believe everyone deserves a professional resume without barriers."
-  },
-  {
-    question: "What is an ATS-friendly resume?",
-    answer: "ATS (Applicant Tracking System) software is used by recruiters to filter resumes. Our templates are designed with clean formatting and standard sections to ensure these systems can easily read and rank your application."
-  },
-  {
-    question: "Can I create a cover letter too?",
-    answer: "Yes! We have a dedicated Cover Letter Builder that helps you craft professional cover letters tailored to your job applications."
-  },
-  {
-    question: "How do I save my resume?",
-    answer: "Your resume is automatically saved to your browser's local storage in real-time. You can close the tab and come back later to continue editing. You can also export it as a PDF at any time. We recommend exporting your resume regularly to keep a backup."
-  }
-];
-
 export default function FAQ() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;

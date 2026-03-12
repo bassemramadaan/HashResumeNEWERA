@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { Briefcase, Building2, Search, ArrowRight, CheckCircle2, ExternalLink, MapPin, Clock, DollarSign, Bookmark, ArrowLeft, Filter, X, Sparkles } from 'lucide-react';
+import { Briefcase, Building2, Search, ArrowRight, CheckCircle2, ExternalLink, MapPin, Clock, Bookmark, X, Sparkles } from 'lucide-react';
 import Logo from '../components/Logo';
-import ThemeToggle from '../components/ThemeToggle';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
@@ -25,7 +24,7 @@ interface Job {
   code?: string;
 }
 
-const JobCard: React.FC<{ job: Job; isSaved: boolean; onToggleSave: () => void; onOpenDetails: () => void; t: any }> = ({ job, isSaved, onToggleSave, onOpenDetails, t }) => {
+const JobCard: React.FC<{ job: Job; isSaved: boolean; onToggleSave: () => void; onOpenDetails: () => void; t: Record<string, string> }> = ({ job, isSaved, onToggleSave, onOpenDetails, t }) => {
   const applyUrl = "https://forms.gle/h1UNQfD55dc2o8wM6";
   
   return (
@@ -127,7 +126,7 @@ const JobCard: React.FC<{ job: Job; isSaved: boolean; onToggleSave: () => void; 
   );
 }
 
-const JobDetailsModal: React.FC<{ job: Job; isOpen: boolean; onClose: () => void; isSaved: boolean; onToggleSave: () => void; t: any }> = ({ job, isOpen, onClose, isSaved, onToggleSave, t }) => {
+const JobDetailsModal: React.FC<{ job: Job; isOpen: boolean; onClose: () => void; isSaved: boolean; onToggleSave: () => void; t: Record<string, string> }> = ({ job, isOpen, onClose, isSaved, onToggleSave, t }) => {
   const applyUrl = "https://forms.gle/h1UNQfD55dc2o8wM6";
 
   return (
@@ -272,7 +271,6 @@ export default function HashHuntPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { scrollDirection, isScrolled } = useScrollDirection();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [showSavedOnly, setShowSavedOnly] = useState(false);

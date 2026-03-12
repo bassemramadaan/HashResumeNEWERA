@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
-import { useResumeStore, Experience } from '../../store/useResumeStore';
-import { Briefcase, Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, AlertCircle } from 'lucide-react';
-import { cn } from '../../utils';
+import { useResumeStore } from '../../store/useResumeStore';
+import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, AlertCircle } from 'lucide-react';
 import SectionTooltip from './SectionTooltip';
 import { getJobMatchResults } from '../../utils/ats';
 
@@ -65,7 +64,7 @@ export default function ExperienceForm() {
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation(); 
-                      const { id, ...rest } = exp;
+                      const { id: _id, ...rest } = exp;
                       addExperience(rest);
                     }}
                     className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"

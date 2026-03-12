@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, Briefcase, GraduationCap, ChevronRight } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 export default function ConversationalOnboarding({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(0);

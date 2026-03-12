@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CreditCard, Check, Ticket, Wallet, CheckCircle2 } from 'lucide-react';
+import { X, Check, Ticket, Wallet, CheckCircle2 } from 'lucide-react';
 import SarIcon from './SarIcon';
 import AedIcon from './AedIcon';
 

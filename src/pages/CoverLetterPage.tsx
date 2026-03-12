@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, FileText, Sparkles, Copy, Check, Import } from 'lucide-react';
-import ThemeToggle from '../components/ThemeToggle';
+import { FileText, Sparkles, Copy, Check, Import } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useScrollDirection } from '../hooks/useScrollDirection';
 import Navbar from '../components/Navbar';
 
 export default function CoverLetterPage() {
   const { data } = useResumeStore();
-  const { scrollDirection, isScrolled } = useScrollDirection();
   const [formData, setFormData] = useState({
     fullName: '',
     jobTitle: '',

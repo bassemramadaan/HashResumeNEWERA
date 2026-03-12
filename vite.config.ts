@@ -24,5 +24,8 @@ export default defineConfig(({mode}) => {
     optimizeDeps: {
       include: ['motion/react', 'framer-motion'],
     },
+    test: {
+      environment: 'jsdom',
+    },
   };
 });

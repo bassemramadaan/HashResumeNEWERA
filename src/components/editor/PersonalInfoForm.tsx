@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { User, Mail, Phone, MapPin, Linkedin, Github, Globe, Calendar, FileText, Sparkles, AlertCircle } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Linkedin, Github, Globe, FileText, Sparkles, AlertCircle } from 'lucide-react';
 
 import SectionTooltip from './SectionTooltip';
 

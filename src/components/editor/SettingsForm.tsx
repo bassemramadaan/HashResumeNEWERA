@@ -1,5 +1,5 @@
 import { useResumeStore } from '../../store/useResumeStore';
-import { Settings, Palette, LayoutTemplate, Globe, GraduationCap, Download, Upload, Save } from 'lucide-react';
+import { Palette, LayoutTemplate, Globe, GraduationCap, Download, Upload, Save } from 'lucide-react';
 import { cn } from '../../utils';
 import { useRef } from 'react';
 

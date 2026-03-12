@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Users, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout, Download, User } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout, Download, User } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
@@ -27,7 +27,6 @@ export default function LandingPage() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const { scrollDirection, isScrolled } = useScrollDirection();
 
   // Fixed count as requested
   const displayCount = "50,000";

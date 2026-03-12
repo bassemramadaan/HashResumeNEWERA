@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, Quote, MessageCircle } from 'lucide-react';
+import { Star, Quote } from 'lucide-react';
 import { cn } from '../utils';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';

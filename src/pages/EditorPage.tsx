@@ -5,9 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { useStore } from 'zustand';
 import { 
-  User, Briefcase, GraduationCap, Wrench, FolderGit2, Award, 
-  Settings, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, ArrowRight, FileText, CheckCircle, Sparkles, Loader2
+  User, Briefcase, GraduationCap, Wrench, Download, ChevronLeft, Eye, LayoutTemplate, Target,
+  Undo2, Redo2, CheckCircle2, Maximize2, X, ArrowRight, FileText, Sparkles, Loader2
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
@@ -157,7 +156,6 @@ export default function EditorPage() {
 
   const atsScore = calculateATSScore(data).score;
   const activeTabIndex = tabs.findIndex(t => t.id === activeTab) + 1;
-  const progressPercentage = (activeTabIndex / tabs.length) * 100;
 
   const tabDescriptions: Record<Tab, string> = {
     basics: 'Your basic information and resume settings.',

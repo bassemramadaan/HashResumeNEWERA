@@ -36,7 +36,7 @@ export const ExportService = {
    * Generates a Word document from resume data.
    * Note: This is a placeholder for the actual docx generation logic.
    */
-  async exportToWord(resumeData: any, filename: string = "resume.docx"): Promise<void> {
+  async exportToWord(resumeData: unknown, filename: string = "resume.docx"): Promise<void> {
     console.log("Exporting to Word with data:", resumeData);
     // In a real implementation, you would use the 'docx' library to build the document.
     // For now, we simulate the process.

@@ -1,15 +1,13 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, vi } from 'vitest';
 import { ExportService } from '../services/export.service';
 
 // Mocking the jsPDF and html2canvas modules
 vi.mock('jspdf', () => {
   return {
-    jsPDF: vi.fn().mockImplementation(() => {
-      return {
-        addImage: vi.fn(),
-        save: vi.fn()
-      };
-    })
+    jsPDF: class {
+      addImage = vi.fn();
+      save = vi.fn();
+    }
   };
 });
 
