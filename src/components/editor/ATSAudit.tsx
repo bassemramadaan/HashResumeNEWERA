@@ -9,8 +9,8 @@ export default function ATSAudit() {
   const { personalInfo, jobDescription } = data;
   const [showMatcher, setShowMatcher] = useState(!!jobDescription);
 
-  const { score, goodPoints, improvements } = calculateATSScore(data);
-  const isEmpty = score === 0 && !personalInfo.fullName; // Simple check, or reuse logic from lib if exported
+  const { score, sections } = calculateATSScore(data);
+  const isEmpty = score === 0 && !personalInfo.fullName;
 
   const matchResults = useMemo(() => {
     return getJobMatchResults(data);
@@ -38,16 +38,11 @@ export default function ATSAudit() {
     );
   }
 
-  // Score calculation is now handled by calculateATSScore hook imported above
-  
   const getScoreColor = (s: number) => {
     if (s >= 80) return "text-indigo-500 dark:text-indigo-400";
     if (s >= 50) return "text-yellow-500 dark:text-yellow-400";
     return "text-red-500 dark:text-red-400";
   };
-
-  // Job Description Matching Logic
-  // matchResults is calculated above to respect Rules of Hooks
 
   return (
     <div className="space-y-6 font-sans">
@@ -113,49 +108,80 @@ export default function ATSAudit() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Improvements */}
-          <div className="space-y-4">
-            <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <AlertCircle className="text-red-500 dark:text-red-400" size={20} />
-              To Improve ({improvements.length})
-            </h4>
-            {improvements.length === 0 ? (
-              <div className="p-4 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-xl text-sm font-medium border border-indigo-100 dark:border-indigo-800/50 transition-colors">
-                Perfect! No major improvements needed.
+        {/* Section Breakdown */}
+        <div className="mb-12">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Section Breakdown</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {sections.map((section, idx) => (
+              <div key={idx} className="p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-bold text-slate-700 dark:text-slate-300">{section.title}</span>
+                  <span className={cn("text-xs font-bold px-2 py-0.5 rounded-full", 
+                    section.score === section.maxScore ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400" :
+                    section.score > 0 ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400" :
+                    "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
+                  )}>
+                    {section.score}/{section.maxScore}
+                  </span>
+                </div>
+                <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                  <div 
+                    className={cn("h-full transition-all duration-500", 
+                      section.score === section.maxScore ? "bg-emerald-500" :
+                      section.score > 0 ? "bg-yellow-500" : "bg-red-500"
+                    )}
+                    style={{ width: `${(section.score / section.maxScore) * 100}%` }}
+                  />
+                </div>
               </div>
-            ) : (
-              <ul className="space-y-3">
-                {improvements.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 p-4 bg-red-50/50 dark:bg-red-900/20 rounded-xl border border-red-100 dark:border-red-800/50 transition-colors">
-                    <div className="mt-0.5 shrink-0 w-1.5 h-1.5 rounded-full bg-red-500 dark:bg-red-400" />
-                    <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Detailed Feedback */}
+          <div className="space-y-8">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Detailed Suggestions</h3>
+            {sections.map((section, idx) => (
+              section.improvements.length > 0 && (
+                <div key={idx} className="space-y-3">
+                  <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <AlertCircle size={14} className="text-red-500" />
+                    {section.title}
+                  </h4>
+                  <ul className="space-y-2">
+                    {section.improvements.map((imp, i) => (
+                      <li key={i} className="flex items-start gap-3 p-4 bg-red-50/30 dark:bg-red-900/10 rounded-xl border border-red-100/50 dark:border-red-800/30">
+                        <div className="mt-1.5 shrink-0 w-1.5 h-1.5 rounded-full bg-red-500" />
+                        <span className="text-sm text-slate-700 dark:text-slate-300">{imp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            ))}
           </div>
 
-          {/* Good Points */}
-          <div className="space-y-4">
-            <h4 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <CheckCircle2 className="text-indigo-500 dark:text-indigo-400" size={20} />
-              Looking Good ({goodPoints.length})
-            </h4>
-            {goodPoints.length === 0 ? (
-              <div className="p-4 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-xl text-sm font-medium border border-slate-100 dark:border-slate-700 transition-colors">
-                Fill out your resume to see what you're doing well.
-              </div>
-            ) : (
-              <ul className="space-y-3">
-                {goodPoints.map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 p-4 bg-indigo-50/50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800/50 transition-colors">
-                    <CheckCircle2 className="shrink-0 text-indigo-500 dark:text-indigo-400 mt-0.5" size={16} />
-                    <span className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
+          <div className="space-y-8">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">What's Working Well</h3>
+            {sections.map((section, idx) => (
+              section.goodPoints.length > 0 && (
+                <div key={idx} className="space-y-3">
+                  <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                    <CheckCircle2 size={14} className="text-emerald-500" />
+                    {section.title}
+                  </h4>
+                  <ul className="space-y-2">
+                    {section.goodPoints.map((gp, i) => (
+                      <li key={i} className="flex items-start gap-3 p-4 bg-emerald-50/30 dark:bg-emerald-900/10 rounded-xl border border-emerald-100/50 dark:border-emerald-800/30">
+                        <CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-0.5" />
+                        <span className="text-sm text-slate-700 dark:text-slate-300">{gp}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            ))}
           </div>
         </div>
 
