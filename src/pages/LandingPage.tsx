@@ -686,8 +686,7 @@ export default function LandingPage() {
                   language === 'ar' ? 'تحميل بصيغة Word قابلة للتعديل' : 'Editable Word Download',
                   language === 'ar' ? 'قوالب احترافية مميزة' : 'Premium Professional Templates',
                   language === 'ar' ? 'بدون علامة مائية' : 'No Watermark',
-                  language === 'ar' ? 'تعديلات مجانية لا نهائية قبل الدفع' : 'Unlimited free edits before paying',
-                  language === 'ar' ? 'إعادة تحميل مجانية لنفس السيرة من نفس الجهاز' : 'Free re-downloads for the same CV on this device'
+                  language === 'ar' ? 'تعديلات مجانية لا نهائية قبل الدفع' : 'Unlimited free edits before paying'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle2 className="text-[#f16529] shrink-0 mt-0.5" size={20} />

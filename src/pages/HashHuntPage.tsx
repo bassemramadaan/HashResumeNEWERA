@@ -408,6 +408,59 @@ export default function HashHuntPage() {
         </div>
       </section>
 
+      {/* Benefits */}
+      <section className="py-32 bg-slate-50 dark:bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-indigo-950 dark:bg-slate-900 rounded-[4rem] p-10 md:p-24 text-center md:text-left flex flex-col lg:flex-row items-center gap-16 shadow-3xl overflow-hidden relative border border-white/5">
+            <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-indigo-500 rounded-full blur-[120px] opacity-20"></div>
+            <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-purple-500 rounded-full blur-[120px] opacity-20"></div>
+            
+            <div className="flex-1 relative z-10">
+              <h2 className="text-4xl md:text-6xl font-black text-white mb-10 font-display tracking-tight leading-tight">{t.whyJoinTitle}</h2>
+              <ul className="space-y-6">
+                {[t.benefit1, t.benefit2, t.benefit3, t.benefit4].map((benefit, i) => (
+                  <motion.li 
+                    key={i} 
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex items-start gap-4 text-indigo-100"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-1">
+                      <CheckCircle2 size={20} className="text-emerald-400" />
+                    </div>
+                    <span className="text-xl font-medium leading-relaxed">{benefit}</span>
+                  </motion.li>
+                ))}
+              </ul>
+              <div className="mt-16">
+                <a 
+                  href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 bg-white text-indigo-950 hover:bg-indigo-50 px-10 py-5 rounded-2xl text-xl font-black transition-all shadow-2xl hover:scale-105 active:scale-95 group"
+                >
+                  {t.joinTalentPool}
+                  <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+            </div>
+            
+            <div className="flex-1 relative z-10 hidden lg:block">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-[3rem] blur-2xl opacity-30 animate-pulse"></div>
+                <img 
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" 
+                  alt="Team collaboration" 
+                  className="rounded-[2.5rem] shadow-2xl border-4 border-white/10 relative z-10"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Jobs List Section */}
       <section className="py-24 bg-slate-50 dark:bg-slate-950 min-h-[600px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -539,59 +592,6 @@ export default function HashHuntPage() {
                 <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed">{item.desc}</p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="py-32 bg-slate-50 dark:bg-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-indigo-950 dark:bg-slate-900 rounded-[4rem] p-10 md:p-24 text-center md:text-left flex flex-col lg:flex-row items-center gap-16 shadow-3xl overflow-hidden relative border border-white/5">
-            <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-indigo-500 rounded-full blur-[120px] opacity-20"></div>
-            <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-purple-500 rounded-full blur-[120px] opacity-20"></div>
-            
-            <div className="flex-1 relative z-10">
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-10 font-display tracking-tight leading-tight">{t.whyJoinTitle}</h2>
-              <ul className="space-y-6">
-                {[t.benefit1, t.benefit2, t.benefit3, t.benefit4].map((benefit, i) => (
-                  <motion.li 
-                    key={i} 
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    className="flex items-start gap-4 text-indigo-100"
-                  >
-                    <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center shrink-0 mt-1">
-                      <CheckCircle2 size={20} className="text-emerald-400" />
-                    </div>
-                    <span className="text-xl font-medium leading-relaxed">{benefit}</span>
-                  </motion.li>
-                ))}
-              </ul>
-              <div className="mt-16">
-                <a 
-                  href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 bg-white text-indigo-950 hover:bg-indigo-50 px-10 py-5 rounded-2xl text-xl font-black transition-all shadow-2xl hover:scale-105 active:scale-95 group"
-                >
-                  {t.joinTalentPool}
-                  <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-            </div>
-            
-            <div className="flex-1 relative z-10 hidden lg:block">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-[3rem] blur-2xl opacity-30 animate-pulse"></div>
-                <img 
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" 
-                  alt="Team collaboration" 
-                  className="rounded-[2.5rem] shadow-2xl border-4 border-white/10 relative z-10"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-            </div>
           </div>
         </div>
       </section>
