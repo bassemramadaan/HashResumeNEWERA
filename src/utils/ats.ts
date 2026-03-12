@@ -104,14 +104,46 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   }
   sections.push(summary);
 
-  // 3. Experience (30 points)
-  const expSection = { title: "Experience", score: 0, maxScore: 30, goodPoints: [], improvements: [] as string[] };
+  // 3. Experience Structure (10 points)
+  const expStructure = { title: "Experience Structure", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
   if (experience.length > 0) {
-    expSection.score += 5; // Base score for having experience
+    expStructure.score += 5;
+    expStructure.goodPoints.push("Work experience section is present.");
     
+    let bulletCount = 0;
+    let totalBullets = 0;
+    
+    experience.forEach(exp => {
+      const bullets = exp.description.split('\n').filter(b => b.trim().length > 0);
+      totalBullets += bullets.length;
+      bullets.forEach(bullet => {
+        const trimmed = bullet.trim();
+        if (trimmed.startsWith('•') || trimmed.startsWith('-') || trimmed.startsWith('*')) {
+          bulletCount++;
+        }
+      });
+    });
+
+    if (totalBullets > 0) {
+      if (bulletCount / totalBullets > 0.8) {
+        expStructure.score += 5;
+        expStructure.goodPoints.push("Consistent use of standard bullet points.");
+      } else {
+        expStructure.improvements.push("Use standard bullet points (•, -, *) for all experience descriptions to ensure ATS readability.");
+      }
+    } else {
+      expStructure.improvements.push("Add bullet points to describe your responsibilities and achievements.");
+    }
+  } else {
+    expStructure.improvements.push("Add work experience or relevant internships.");
+  }
+  sections.push(expStructure);
+
+  // 4. Bullet Point Quality (20 points)
+  const bulletQuality = { title: "Bullet Point Quality", score: 0, maxScore: 20, goodPoints: [], improvements: [] as string[] };
+  if (experience.length > 0) {
     let actionVerbCount = 0;
     let quantifiedCount = 0;
-    let bulletCount = 0;
     let totalBullets = 0;
     
     experience.forEach(exp => {
@@ -119,13 +151,7 @@ export function calculateATSScore(data: ResumeData): ATSResult {
       totalBullets += bullets.length;
       
       bullets.forEach(bullet => {
-        const trimmed = bullet.trim();
-        const cleanBullet = trimmed.replace(/^[•*\s-]+/, '').trim().toLowerCase();
-        
-        if (cleanBullet.length < trimmed.toLowerCase().length) {
-          bulletCount++;
-        }
-        
+        const cleanBullet = bullet.trim().replace(/^[•*\s-]+/, '').trim().toLowerCase();
         const firstWord = cleanBullet.split(/\s+/)[0];
         if (ACTION_VERBS.has(firstWord)) actionVerbCount++;
         if (/[0-9]+%|\$[0-9]+|[0-9]+\+/.test(cleanBullet)) quantifiedCount++;
@@ -133,33 +159,31 @@ export function calculateATSScore(data: ResumeData): ATSResult {
     });
 
     if (totalBullets > 0) {
-      if (actionVerbCount / totalBullets > 0.6) {
-        expSection.score += 10;
-        expSection.goodPoints.push("Strong use of action verbs to start bullet points.");
+      const actionVerbRatio = actionVerbCount / totalBullets;
+      if (actionVerbRatio > 0.7) {
+        bulletQuality.score += 10;
+        bulletQuality.goodPoints.push("Excellent use of action verbs.");
+      } else if (actionVerbRatio > 0.4) {
+        bulletQuality.score += 5;
+        bulletQuality.improvements.push("Start more bullet points with strong action verbs.");
       } else {
-        expSection.improvements.push("Start more bullet points with strong action verbs (e.g., 'Developed', 'Managed', 'Increased').");
+        bulletQuality.improvements.push("Most bullet points should start with an action verb (e.g., 'Led', 'Developed').");
       }
 
-      if (quantifiedCount > 0) {
-        expSection.score += 10;
-        expSection.goodPoints.push("Good use of numbers and metrics to quantify achievements.");
+      if (quantifiedCount >= 3) {
+        bulletQuality.score += 10;
+        bulletQuality.goodPoints.push("Strong use of metrics and data to quantify impact.");
+      } else if (quantifiedCount > 0) {
+        bulletQuality.score += 5;
+        bulletQuality.improvements.push("Try to quantify more achievements with numbers, percentages, or dollar amounts.");
       } else {
-        expSection.improvements.push("Add quantifiable results to your experience (e.g., 'Increased sales by 20%', 'Managed a team of 5').");
-      }
-
-      if (bulletCount / totalBullets > 0.7) {
-        expSection.score += 5;
-        expSection.goodPoints.push("Consistent use of bullet points for readability.");
-      } else {
-        expSection.improvements.push("Use standard bullet points (•, -, *) for all experience descriptions.");
+        bulletQuality.improvements.push("Add numbers to your achievements (e.g., 'Increased efficiency by 15%', 'Managed $10k budget').");
       }
     }
-  } else {
-    expSection.improvements.push("Add work experience, internships, or relevant projects.");
   }
-  sections.push(expSection);
+  sections.push(bulletQuality);
 
-  // 4. Education (10 points)
+  // 5. Education (10 points)
   const edu = { title: "Education", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
   if (education.length > 0) {
     edu.score += 10;
@@ -169,52 +193,57 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   }
   sections.push(edu);
 
-  // 5. Skills (15 points)
-  const skillsSection = { title: "Skills", score: 0, maxScore: 15, goodPoints: [], improvements: [] as string[] };
-  if (skills.length >= 5) {
-    skillsSection.score += 5;
+  // 6. Skills Section (15 points)
+  const skillsSection = { title: "Skills Section", score: 0, maxScore: 15, goodPoints: [], improvements: [] as string[] };
+  if (skills.length > 0) {
+    if (skills.length >= 8) {
+      skillsSection.score += 5;
+      skillsSection.goodPoints.push("Good number of skills listed.");
+    } else {
+      skillsSection.improvements.push("Add more relevant skills (aim for 8-12).");
+    }
     
     let softSkillCount = 0;
     skills.forEach(skill => {
       if (SOFT_SKILLS.has(skill.toLowerCase())) softSkillCount++;
     });
 
-    if (softSkillCount > 0 && softSkillCount < skills.length) {
+    const hardSkillCount = skills.length - softSkillCount;
+
+    if (softSkillCount > 0 && hardSkillCount > 0) {
       skillsSection.score += 10;
-      skillsSection.goodPoints.push("Balanced mix of hard and soft skills.");
-    } else if (softSkillCount === 0) {
-      skillsSection.score += 5;
-      skillsSection.improvements.push("Add some interpersonal (soft) skills like 'Leadership' or 'Communication'.");
+      skillsSection.goodPoints.push("Balanced mix of technical and soft skills.");
+    } else if (hardSkillCount === 0) {
+      skillsSection.improvements.push("Add technical (hard) skills specific to your role.");
     } else {
-      skillsSection.score += 5;
-      skillsSection.improvements.push("Add more technical (hard) skills specific to your industry.");
+      skillsSection.improvements.push("Add some soft skills (e.g., 'Leadership', 'Communication').");
     }
   } else {
-    skillsSection.improvements.push("Add at least 8-12 relevant skills.");
+    skillsSection.improvements.push("Add a skills section to highlight your expertise.");
   }
   sections.push(skillsSection);
 
-  // 6. Projects (10 points)
+  // 7. Projects (10 points)
   const projSection = { title: "Projects", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
   if (projects.length > 0) {
     projSection.score += 10;
-    projSection.goodPoints.push("Projects section included to showcase practical application.");
+    projSection.goodPoints.push("Projects section included.");
   } else {
-    projSection.improvements.push("Add projects to demonstrate your skills in action.");
+    projSection.improvements.push("Add projects to demonstrate practical application of your skills.");
   }
   sections.push(projSection);
 
-  // 7. Certifications (5 points)
+  // 8. Certifications (5 points)
   const certSection = { title: "Certifications", score: 0, maxScore: 5, goodPoints: [], improvements: [] as string[] };
   if (certifications.length > 0) {
     certSection.score += 5;
-    certSection.goodPoints.push("Certifications included to validate your expertise.");
+    certSection.goodPoints.push("Certifications included.");
   } else {
-    certSection.improvements.push("Add relevant certifications to boost your credibility.");
+    certSection.improvements.push("Add relevant certifications to boost credibility.");
   }
   sections.push(certSection);
 
-  // 8. Formatting (10 points)
+  // 9. Formatting (10 points)
   const formatting = { title: "Formatting", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
   if (settings.template === 'creative') {
     formatting.score += 5;
@@ -225,7 +254,7 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   }
   sections.push(formatting);
 
-  // 9. Job Match (Bonus/Context)
+  // 10. Job Match (Bonus/Context)
   if (data.jobDescription) {
     const jobMatch = { title: "Job Match", score: 0, maxScore: 0, goodPoints: [], improvements: [] as string[] };
     const matchResults = getJobMatchResults(data);
