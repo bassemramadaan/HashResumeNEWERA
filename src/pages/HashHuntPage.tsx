@@ -338,7 +338,7 @@ export default function HashHuntPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-32 overflow-hidden bg-white dark:bg-slate-950">
+      <section className="relative pt-32 pb-20 overflow-hidden bg-white dark:bg-slate-950">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:40px_40px]"></div>
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[600px] w-[600px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
         
@@ -356,7 +356,7 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-6xl md:text-[100px] font-black tracking-tighter text-slate-900 dark:text-white mb-10 leading-[0.9] font-display"
+            className="text-5xl md:text-[80px] font-black tracking-tighter text-slate-900 dark:text-white mb-8 leading-[0.9] font-display"
           >
             {t.heroTitlePart1} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 dark:from-indigo-400 dark:via-purple-400 dark:to-cyan-400">
@@ -377,7 +377,7 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="max-w-4xl mx-auto bg-white dark:bg-slate-900 p-2 sm:p-3 rounded-[2rem] shadow-2xl border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row items-center gap-3"
+            className="max-w-3xl mx-auto bg-white dark:bg-slate-900 p-2 sm:p-3 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row items-center gap-3"
           >
             <div className="relative flex-1 w-full">
               <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
@@ -394,7 +394,7 @@ export default function HashHuntPage() {
                 <button
                   key={type}
                   onClick={() => setSelectedType(type)}
-                  className={`px-6 py-4 rounded-2xl text-sm font-bold whitespace-nowrap transition-all ${
+                  className={`px-5 py-3 rounded-xl text-sm font-bold whitespace-nowrap transition-all ${
                     selectedType === type 
                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/20' 
                       : 'bg-slate-50 dark:bg-slate-800/50 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
@@ -409,15 +409,15 @@ export default function HashHuntPage() {
       </section>
 
       {/* Benefits */}
-      <section className="py-32 bg-slate-50 dark:bg-slate-950">
+      <section className="py-16 bg-slate-50 dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-indigo-950 dark:bg-slate-900 rounded-[4rem] p-10 md:p-24 text-center md:text-left flex flex-col lg:flex-row items-center gap-16 shadow-3xl overflow-hidden relative border border-white/5">
+          <div className="bg-indigo-950 dark:bg-slate-900 rounded-[2.5rem] p-8 md:p-16 text-center md:text-left flex flex-col lg:flex-row items-center gap-12 shadow-2xl overflow-hidden relative border border-white/5">
             <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-indigo-500 rounded-full blur-[120px] opacity-20"></div>
             <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-purple-500 rounded-full blur-[120px] opacity-20"></div>
             
             <div className="flex-1 relative z-10">
-              <h2 className="text-4xl md:text-6xl font-black text-white mb-10 font-display tracking-tight leading-tight">{t.whyJoinTitle}</h2>
-              <ul className="space-y-6">
+              <h2 className="text-3xl md:text-5xl font-black text-white mb-8 font-display tracking-tight leading-tight">{t.whyJoinTitle}</h2>
+              <ul className="space-y-4">
                 {[t.benefit1, t.benefit2, t.benefit3, t.benefit4].map((benefit, i) => (
                   <motion.li 
                     key={i} 
@@ -433,12 +433,12 @@ export default function HashHuntPage() {
                   </motion.li>
                 ))}
               </ul>
-              <div className="mt-16">
+              <div className="mt-10">
                 <a 
                   href="https://forms.gle/5kEp1zSjMz3f4HyJ9" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 bg-white text-indigo-950 hover:bg-indigo-50 px-10 py-5 rounded-2xl text-xl font-black transition-all shadow-2xl hover:scale-105 active:scale-95 group"
+                  className="inline-flex items-center gap-3 bg-white text-indigo-950 hover:bg-indigo-50 px-8 py-4 rounded-xl text-lg font-black transition-all shadow-xl hover:scale-105 active:scale-95 group"
                 >
                   {t.joinTalentPool}
                   <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
@@ -462,9 +462,9 @@ export default function HashHuntPage() {
       </section>
 
       {/* Jobs List Section */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-950 min-h-[600px]">
+      <section className="py-16 bg-slate-50 dark:bg-slate-950 min-h-[600px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6">
+          <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
             <div className="text-center md:text-left">
               <h2 className="text-3xl font-black text-slate-900 dark:text-white font-display mb-2">{t.latestOpportunities}</h2>
               <p className="text-slate-500 dark:text-slate-400 font-medium">
@@ -569,15 +569,15 @@ export default function HashHuntPage() {
       </section>
 
       {/* How it works */}
-      <section className="py-32 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900">
+      <section className="py-24 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 font-display tracking-tight">{t.howItWorksTitle}</h2>
-            <p className="text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-medium">{t.howItWorksSubtitle}</p>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-4 font-display tracking-tight">{t.howItWorksTitle}</h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-medium">{t.howItWorksSubtitle}</p>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-16 relative">
-            <div className="hidden md:block absolute top-16 left-[15%] right-[15%] h-0.5 bg-slate-100 dark:bg-slate-800 -z-10"></div>
+          <div className="grid md:grid-cols-3 gap-12 relative">
+            <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-slate-100 dark:bg-slate-800 -z-10"></div>
             
             {[
               { icon: Briefcase, title: t.step1Title, desc: t.step1Desc },
@@ -585,11 +585,11 @@ export default function HashHuntPage() {
               { icon: Building2, title: t.step3Title, desc: t.step3Desc }
             ].map((item, i) => (
               <div key={i} className="text-center relative group">
-                <div className="w-32 h-32 mx-auto bg-white dark:bg-slate-900 border-8 border-slate-50 dark:border-slate-950 group-hover:border-indigo-50 dark:group-hover:border-indigo-900/30 rounded-[2.5rem] flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-8 shadow-xl transition-all duration-500 group-hover:rotate-6 group-hover:scale-110">
-                  <item.icon size={48} />
+                <div className="w-24 h-24 mx-auto bg-white dark:bg-slate-900 border-8 border-slate-50 dark:border-slate-950 group-hover:border-indigo-50 dark:group-hover:border-indigo-900/30 rounded-3xl flex items-center justify-center text-indigo-600 dark:text-indigo-400 mb-6 shadow-xl transition-all duration-500 group-hover:rotate-6 group-hover:scale-110">
+                  <item.icon size={36} />
                 </div>
-                <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4">{item.title}</h3>
-                <p className="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed">{item.desc}</p>
+                <h3 className="text-xl font-black text-slate-900 dark:text-white mb-3">{item.title}</h3>
+                <p className="text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
