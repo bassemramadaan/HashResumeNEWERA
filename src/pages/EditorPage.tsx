@@ -63,6 +63,7 @@ export default function EditorPage() {
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [lastSavedTime, setLastSavedTime] = useState<string>('');
   const [previewMode, setPreviewMode] = useState<'resume' | 'cover-letter'>('resume');
   const { data, loadExampleData, resetData } = useResumeStore();
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } = useOnboardingStore();
@@ -71,12 +72,12 @@ export default function EditorPage() {
   const { undo, redo, pastStates, futureStates } = useStore(useResumeStore.temporal);
 
   // Show welcome modal if not seen
-  /* useEffect(() => {
+  useEffect(() => {
     if (!hasSeenOnboarding) {
       const timer = setTimeout(() => setShowWelcomeModal(true), 1000);
       return () => clearTimeout(timer);
     }
-  }, [hasSeenOnboarding]); */
+  }, [hasSeenOnboarding]);
 
   const handleStartTour = () => {
     setShowWelcomeModal(false);
@@ -90,9 +91,16 @@ export default function EditorPage() {
 
   // Auto-save indicator effect
   useEffect(() => {
-    setIsSaving(true);
-    const timer = setTimeout(() => setIsSaving(false), 800);
-    return () => clearTimeout(timer);
+    const startTimer = setTimeout(() => setIsSaving(true), 0);
+    const endTimer = setTimeout(() => {
+      setIsSaving(false);
+      const now = new Date();
+      setLastSavedTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 800);
+    return () => {
+      clearTimeout(startTimer);
+      clearTimeout(endTimer);
+    };
   }, [data]);
 
   // Keyboard shortcuts for undo/redo
@@ -207,17 +215,17 @@ export default function EditorPage() {
           </div>
 
           {/* Saving Indicator */}
-          <div className="hidden lg:flex items-center px-2 min-w-[70px] justify-center">
+          <div className="hidden lg:flex items-center px-2 min-w-[120px] justify-center">
             <AnimatePresence mode="wait">
               {isSaving ? (
-                <motion.div key="saving" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                  <div className="w-1.5 h-1.5 border border-slate-300 border-t-slate-500 rounded-full animate-spin" />
-                  Saving
+                <motion.div key="saving" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  <div className="w-3 h-3 border-2 border-slate-300 border-t-slate-500 rounded-full animate-spin" />
+                  Saving...
                 </motion.div>
               ) : (
-                <motion.div key="saved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider">
-                  <CheckCircle2 size={10} className="text-emerald-500" />
-                  <span className="text-emerald-600 dark:text-emerald-400">Saved</span>
+                <motion.div key="saved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider text-slate-500 dark:text-slate-400">
+                  <CheckCircle2 size={12} className="text-emerald-500" />
+                  <span>Saved locally {lastSavedTime && `at ${lastSavedTime}`}</span>
                 </motion.div>
               )}
             </AnimatePresence>

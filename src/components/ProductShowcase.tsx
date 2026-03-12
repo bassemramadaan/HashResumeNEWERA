@@ -14,9 +14,18 @@ export default function ProductShowcase() {
         
         <div className="grid md:grid-cols-3 gap-8">
           {[
-            { title: 'Live Editor', desc: 'See changes in real-time as you type.' },
-            { title: 'ATS Optimized', desc: 'Templates designed to pass automated scans.' },
-            { title: '100% Private', desc: 'Your data stays on your device, always.' }
+            { 
+              title: language === 'ar' ? 'محرر مباشر' : 'Live Editor', 
+              desc: language === 'ar' ? 'شاهد التغييرات في الوقت الفعلي أثناء الكتابة.' : 'See changes in real-time as you type.' 
+            },
+            { 
+              title: language === 'ar' ? 'متوافق مع ATS' : 'ATS Optimized', 
+              desc: language === 'ar' ? 'قوالب مصممة لتجاوز الفحوصات الآلية.' : 'Templates designed to pass automated scans.' 
+            },
+            { 
+              title: language === 'ar' ? 'خصوصية 100%' : '100% Private', 
+              desc: language === 'ar' ? 'بياناتك تبقى على جهازك دائماً.' : 'Your data stays on your device, always.' 
+            }
           ].map((feature, i) => (
             <div key={i} className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-800 hover:border-[#f16529] transition-colors">
               <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900/20 rounded-full flex items-center justify-center text-[#f16529] mb-6 mx-auto text-2xl font-bold">

@@ -28,7 +28,7 @@ export const ExportService = {
       pdf.save(filename);
     } catch (error) {
       console.error("Error exporting to PDF:", error);
-      throw new Error("Failed to generate PDF.");
+      throw new Error("Failed to generate PDF.", { cause: error });
     }
   },
 

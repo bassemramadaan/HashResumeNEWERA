@@ -28,7 +28,7 @@ export const AIService = {
       return response.text || "";
     } catch (error) {
       console.error("Error generating summary:", error);
-      throw new Error("Failed to generate summary.");
+      throw new Error("Failed to generate summary.", { cause: error });
     }
   },
 
@@ -69,7 +69,7 @@ export const AIService = {
       };
     } catch (error) {
       console.error("Error scoring ATS:", error);
-      throw new Error("Failed to score ATS.");
+      throw new Error("Failed to score ATS.", { cause: error });
     }
   }
 };

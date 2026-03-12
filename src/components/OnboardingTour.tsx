@@ -15,39 +15,25 @@ interface Step {
 const STEPS: Step[] = [
   {
     target: '[data-tour="personal-info"]',
-    title: 'Start with Profile',
-    content: 'Enter your personal details and contact info. This is the first thing recruiters see.',
+    title: '1. Enter Your Data',
+    content: 'Start by filling in your personal details, experience, and education.',
     placement: 'right',
     icon: User,
   },
   {
-    target: '[data-tour="experience-section"]',
-    title: 'Add Experience',
-    content: 'List your work history. Use strong action verbs and quantify your achievements.',
+    target: '[data-tour="skills-section"]',
+    title: '2. AI Enhancement',
+    content: 'Use our AI tools to generate professional summaries and optimize your bullet points automatically.',
     placement: 'right',
-    icon: Briefcase,
-  },
-  {
-    target: '[data-tour="education-skills-section"]',
-    title: 'Education & Skills',
-    content: 'Add your academic background and technical skills. Tailor these to the job description.',
-    placement: 'right',
-    icon: Star,
+    icon: Sparkles,
   },
   {
     target: '[data-tour="review-section"]',
-    title: 'Review & Export',
-    content: 'Check your ATS score, optimize your content, and download your professional resume.',
+    title: '3. ATS Review & Export',
+    content: 'Check your ATS score, get actionable feedback, and download your resume in PDF or Word format.',
     placement: 'right',
     icon: Target,
-  },
-  {
-    target: '[data-tour="preview-pane"]',
-    title: 'Live Preview',
-    content: 'See your resume update in real-time as you type. You can also change templates here.',
-    placement: 'left',
-    icon: Eye,
-  },
+  }
 ];
 
 export default function OnboardingTour() {
@@ -74,8 +60,8 @@ export default function OnboardingTour() {
         setTargetRect(rect);
         
         // Calculate tooltip position
-        let top = 0;
-        let left = 0;
+        let top: number;
+        let left: number;
         const tooltipWidth = 360; 
         const tooltipHeight = 280; 
         const gap = 20;

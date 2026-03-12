@@ -21,13 +21,16 @@ export default function CoverLetterPage() {
 
   useEffect(() => {
     if (data.personalInfo.fullName && !formData.fullName) {
-      setFormData(prev => ({
-        ...prev,
-        fullName: data.personalInfo.fullName || '',
-        jobTitle: data.personalInfo.jobTitle || '',
-        skills: data.skills.join(', ') || '',
-      }));
+      setTimeout(() => {
+        setFormData(prev => ({
+          ...prev,
+          fullName: data.personalInfo.fullName || '',
+          jobTitle: data.personalInfo.jobTitle || '',
+          skills: data.skills.join(', ') || '',
+        }));
+      }, 0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.personalInfo.fullName, data.personalInfo.jobTitle, data.skills]);
   const [generatedLetter, setGeneratedLetter] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);

@@ -14,22 +14,55 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
 
   const themeColor = settings.themeColor || '#2563EB';
 
+  const t = {
+    en: {
+      summary: 'Professional Summary',
+      experience: 'Experience',
+      education: 'Education',
+      skills: 'Skills',
+      projects: 'Projects',
+      certifications: 'Certifications',
+      present: 'Present',
+    },
+    ar: {
+      summary: 'الملخص المهني',
+      experience: 'الخبرات العملية',
+      education: 'التعليم',
+      skills: 'المهارات',
+      projects: 'المشاريع',
+      certifications: 'الشهادات',
+      present: 'الحاضر',
+    },
+    fr: {
+      summary: 'Résumé Professionnel',
+      experience: 'Expérience',
+      education: 'Éducation',
+      skills: 'Compétences',
+      projects: 'Projets',
+      certifications: 'Certifications',
+      present: 'Présent',
+    }
+  };
+
+  const lang = settings.language || 'en';
+  const labels = t[lang as keyof typeof t] || t.en;
+
   const FreshGradBadge = () => (
     settings.isFreshGrad ? (
       <div className="absolute top-4 right-4 z-50 bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200 shadow-sm print:hidden flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-opacity">
         <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
-        Fresh Graduate Mode
+        {lang === 'ar' ? 'وضع حديثي التخرج' : 'Fresh Graduate Mode'}
       </div>
     ) : null
   );
 
   const renderModern = () => (
-    <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-12 relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
+    <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-12 relative text-start" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       <FreshGradBadge />
       {/* Header */}
       <header className="mb-10 border-b-2 pb-8" style={{ borderColor: themeColor }}>
         <h1 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-1" style={{ color: themeColor }}>
-          {personalInfo.fullName || 'Your Name'}
+          {personalInfo.fullName || (lang === 'ar' ? 'الاسم الكامل' : 'Your Name')}
         </h1>
         {personalInfo.jobTitle && (
           <h2 className="text-xl md:text-2xl font-bold text-slate-500 mb-6 tracking-tight">{personalInfo.jobTitle}</h2>
@@ -47,7 +80,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
         <section className="mb-8">
           <h3 className="text-lg font-bold uppercase tracking-wider mb-3 flex items-center gap-2" style={{ color: themeColor }}>
             <span className="w-6 h-0.5 bg-current rounded-full"></span>
-            Professional Summary
+            {labels.summary}
           </h3>
           <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">{personalInfo.summary}</p>
         </section>
@@ -60,7 +93,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
             <section key="experience" className="mb-8">
               <h3 className="text-lg font-bold uppercase tracking-wider mb-4 flex items-center gap-2" style={{ color: themeColor }}>
                 <span className="w-6 h-0.5 bg-current rounded-full"></span>
-                Experience
+                {labels.experience}
               </h3>
               <div className="space-y-6">
                 {experience.map((exp) => (
@@ -84,7 +117,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
             <section key="education" className="mb-8">
               <h3 className="text-lg font-bold uppercase tracking-wider mb-4 flex items-center gap-2" style={{ color: themeColor }}>
                 <span className="w-6 h-0.5 bg-current rounded-full"></span>
-                Education
+                {labels.education}
               </h3>
               <div className="space-y-5">
                 {education.map((edu) => (
@@ -114,7 +147,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
             <section className="mb-8">
               <h3 className="text-lg font-bold uppercase tracking-wider mb-4 flex items-center gap-2" style={{ color: themeColor }}>
                 <span className="w-6 h-0.5 bg-current rounded-full"></span>
-                Skills
+                {labels.skills}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {skills.map((skill, index) => (
@@ -134,7 +167,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
             <section className="mb-8">
               <h3 className="text-lg font-bold uppercase tracking-wider mb-4 flex items-center gap-2" style={{ color: themeColor }}>
                 <span className="w-6 h-0.5 bg-current rounded-full"></span>
-                Projects
+                {labels.projects}
               </h3>
               <div className="space-y-5">
                 {projects.map((proj) => (
@@ -155,7 +188,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
             <section className="mb-8">
               <h3 className="text-lg font-bold uppercase tracking-wider mb-4 flex items-center gap-2" style={{ color: themeColor }}>
                 <span className="w-6 h-0.5 bg-current rounded-full"></span>
-                Certifications
+                {labels.certifications}
               </h3>
               <div className="space-y-4">
                 {certifications.map((cert) => (
@@ -211,7 +244,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
         if (section === 'experience' && experience.length > 0) {
           return (
             <section key="experience" className="mb-8">
-              <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">Experience</h3>
+              <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">{labels.experience}</h3>
               <div className="space-y-6">
                 {experience.map((exp) => (
                   <div key={exp.id}>
@@ -231,7 +264,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
         if (section === 'education' && education.length > 0) {
           return (
             <section key="education" className="mb-8">
-              <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">Education</h3>
+              <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">{labels.education}</h3>
               <div className="space-y-5">
                 {education.map((edu) => (
                   <div key={edu.id}>
@@ -371,7 +404,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
               <section key="experience" className="mb-10">
                 <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
                   <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
-                  Experience
+                  {labels.experience}
                 </h3>
                 <div className="space-y-8">
                   {experience.map((exp) => (
@@ -394,7 +427,7 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
               <section key="education" className="mb-10">
                 <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
                   <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
-                  Education
+                  {labels.education}
                 </h3>
                 <div className="space-y-6">
                   {education.map((edu) => (

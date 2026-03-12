@@ -12,6 +12,9 @@ const BlogPage = React.lazy(() => import('./pages/BlogPage'));
 const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage'));
 const TemplatesPage = React.lazy(() => import('./pages/TemplatesPage'));
 const SharePage = React.lazy(() => import('./pages/SharePage'));
+const PrivacyPage = React.lazy(() => import('./pages/PrivacyPage'));
+const HowAtsWorksPage = React.lazy(() => import('./pages/HowAtsWorksPage'));
+const WhyNoSignupPage = React.lazy(() => import('./pages/WhyNoSignupPage'));
 
 export default function App() {
   const { theme } = useThemeStore();
@@ -42,6 +45,9 @@ export default function App() {
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />
           <Route path="/share/:id" element={<SharePage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
+          <Route path="/why-no-signup" element={<WhyNoSignupPage />} />
         </Routes>
       </Suspense>
     </BrowserRouter>

@@ -173,7 +173,7 @@ export default function WizardShowcase() {
                 </div>
 
                 {/* Content based on step */}
-                <div className="flex-1 p-8 md:p-10 overflow-hidden relative bg-white dark:bg-slate-950">
+                <div className="flex-1 p-8 md:p-10 overflow-hidden relative bg-white dark:bg-slate-950" dir={language === 'ar' ? 'rtl' : 'ltr'}>
                   {activeStep === 0 && (
                     <div className="space-y-8 animate-pulse">
                       <div className="flex gap-6 items-center">
@@ -206,7 +206,7 @@ export default function WizardShowcase() {
                         <div className="h-8 bg-slate-200 dark:bg-slate-800 rounded w-1/3"></div>
                         <div className="px-4 py-2 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center gap-2 text-red-600 dark:text-red-400 text-sm font-medium border border-red-200 dark:border-red-800/50">
                           <Sparkles size={16} />
-                          AI Assist
+                          {language === 'ar' ? 'مساعد الذكاء الاصطناعي' : 'AI Assist'}
                         </div>
                       </div>
                       {[1, 2].map((i) => (
@@ -257,9 +257,9 @@ export default function WizardShowcase() {
                           <div className="mt-6 p-4 bg-amber-50 dark:bg-amber-900/30 rounded-lg border border-amber-200 dark:border-amber-800/50 flex items-center justify-between text-amber-700 dark:text-amber-400">
                             <div className="flex items-center gap-2 font-bold">
                               <Sparkles size={18} />
-                              ATS Score: 98/100
+                              {language === 'ar' ? 'تقييم ATS: 98/100' : 'ATS Score: 98/100'}
                             </div>
-                            <div className="text-xs uppercase tracking-wider font-semibold">Excellent</div>
+                            <div className="text-xs uppercase tracking-wider font-semibold">{language === 'ar' ? 'ممتاز' : 'Excellent'}</div>
                           </div>
                         </div>
                       </div>

@@ -160,15 +160,15 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex flex-col sm:flex-row items-center lg:justify-start justify-center gap-4 mb-12"
+                className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-4 mb-12"
               >
-                <Link to="/templates" className="w-full sm:w-auto bg-gradient-to-r from-[#f16529] to-orange-600 hover:from-[#e44d26] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
-                  {t.buildResume || 'Start Now'}
-                  <ArrowRight size={20} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform" />
+                <Link to="/editor" className="w-full sm:w-auto bg-gradient-to-r from-[#f16529] to-orange-600 hover:from-[#e44d26] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                  <Plus size={20} />
+                  Start from Scratch
                 </Link>
-                <Link to="/cover-letter" className="w-full sm:w-auto bg-transparent text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white px-8 py-4 rounded-full text-lg font-medium transition-all flex items-center justify-center gap-2 group hover:bg-slate-100 dark:hover:bg-slate-800/50">
-                  <PenTool size={20} className="text-slate-400 group-hover:text-[#f16529] transition-colors" />
-                  {t.createCoverLetter || 'Create Cover Letter'}
+                <Link to="/templates" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-[#f16529] dark:hover:border-orange-500 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-sm flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                  <Layout size={20} className="text-slate-400 group-hover:text-[#f16529] transition-colors" />
+                  Choose a Template
                 </Link>
               </motion.div>
 
@@ -682,15 +682,16 @@ export default function LandingPage() {
 
               <ul className="space-y-4 mb-8">
                 {[
-                  language === 'ar' ? 'تحميل بصيغة PDF عالية الجودة' : 'High-quality PDF Download',
-                  language === 'ar' ? 'تحميل بصيغة Word قابلة للتعديل' : 'Editable Word Download',
-                  language === 'ar' ? 'قوالب احترافية مميزة' : 'Premium Professional Templates',
+                  language === 'ar' ? 'ادفع مرة واحدة لكل سيرة ذاتية' : 'Pay once per resume download',
+                  language === 'ar' ? 'يشمل تحميل PDF و Word معاً' : 'Includes both PDF & Word formats',
+                  language === 'ar' ? 'تعديلات مجانية لا نهائية قبل الدفع' : 'Unlimited free edits before paying',
+                  language === 'ar' ? 'جميع القوالب الاحترافية متاحة' : 'All premium templates included',
                   language === 'ar' ? 'بدون علامة مائية' : 'No Watermark',
-                  language === 'ar' ? 'تعديلات مجانية لا نهائية قبل الدفع' : 'Unlimited free edits before paying'
+                  language === 'ar' ? 'بدون اشتراكات أو رسوم خفية' : 'No subscriptions, no hidden fees'
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
                     <CheckCircle2 className="text-[#f16529] shrink-0 mt-0.5" size={20} />
-                    <span className="text-sm leading-tight">{feature}</span>
+                    <span className="text-sm leading-tight font-medium">{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -799,7 +800,7 @@ export default function LandingPage() {
                 </a>
               </div>
 
-              <h4 className="text-white font-semibold mb-4">{t.product}</h4>
+              <h4 className="text-white font-semibold mb-4 mt-8">{t.product}</h4>
               <ul className="space-y-2 text-sm md:text-right">
                 <li><Link to="/templates" className="hover:text-white transition-colors">{t.resumeBuilder || 'Resume Builder'}</Link></li>
                 <li><Link to="/cover-letter" className="hover:text-white transition-colors">{t.coverLetter || 'Cover Letter'}</Link></li>
@@ -813,6 +814,13 @@ export default function LandingPage() {
                     {t.feedback}
                   </button>
                 </li>
+              </ul>
+
+              <h4 className="text-white font-semibold mb-4 mt-8">{language === 'ar' ? 'الثقة والأمان' : 'Trust & Safety'}</h4>
+              <ul className="space-y-2 text-sm md:text-right">
+                <li><Link to="/privacy" className="hover:text-white transition-colors">{language === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy'}</Link></li>
+                <li><Link to="/how-ats-works" className="hover:text-white transition-colors">{language === 'ar' ? 'كيف يعمل ATS' : 'How ATS Works'}</Link></li>
+                <li><Link to="/why-no-signup" className="hover:text-white transition-colors">{language === 'ar' ? 'لماذا لا نطلب التسجيل؟' : 'Why No Sign-up?'}</Link></li>
               </ul>
             </div>
           </div>

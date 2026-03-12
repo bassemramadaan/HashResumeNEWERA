@@ -23,7 +23,7 @@ export const PaymentService = {
       });
     } catch (error) {
       console.error("Error creating checkout session:", error);
-      throw new Error("Failed to initiate payment.");
+      throw new Error("Failed to initiate payment.", { cause: error });
     }
   },
 
