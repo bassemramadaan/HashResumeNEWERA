@@ -48,13 +48,13 @@ export default function PersonalInfoForm() {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 font-sans transition-colors">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="bg-white dark:bg-slate-900 p-5 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 font-sans transition-colors">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
         <div className="space-y-2">
-          <label htmlFor="fullName" className="text-sm font-medium text-slate-700 dark:text-slate-300">Full Name <span className="text-rose-500">*</span></label>
+          <label htmlFor="fullName" className="text-sm font-semibold text-slate-700 dark:text-slate-300">Full Name <span className="text-rose-500">*</span></label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <User className={`h-4 w-4 ${errors.fullName ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <User className={`h-4.5 w-4.5 ${errors.fullName ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
             </div>
             <input
               type="text"
@@ -63,25 +63,25 @@ export default function PersonalInfoForm() {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.fullName ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. John Doe"
             />
             {errors.fullName && (
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <AlertCircle className="h-4 w-4 text-rose-500" />
+              <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+                <AlertCircle className="h-4.5 w-4.5 text-rose-500" />
               </div>
             )}
           </div>
-          {errors.fullName && <p className="text-xs text-rose-500 mt-1">{errors.fullName}</p>}
+          {errors.fullName && <p className="text-xs font-medium text-rose-500 mt-1">{errors.fullName}</p>}
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="jobTitle" className="text-sm font-medium text-slate-700 dark:text-slate-300">Job Title <span className="text-rose-500">*</span></label>
+          <label htmlFor="jobTitle" className="text-sm font-semibold text-slate-700 dark:text-slate-300">Job Title <span className="text-rose-500">*</span></label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FileText className={`h-4 w-4 ${errors.jobTitle ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <FileText className={`h-4.5 w-4.5 ${errors.jobTitle ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
             </div>
             <input
               type="text"
@@ -90,25 +90,25 @@ export default function PersonalInfoForm() {
               value={personalInfo.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.jobTitle ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. Senior Software Engineer"
             />
             {errors.jobTitle && (
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <AlertCircle className="h-4 w-4 text-rose-500" />
+              <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+                <AlertCircle className="h-4.5 w-4.5 text-rose-500" />
               </div>
             )}
           </div>
-          {errors.jobTitle && <p className="text-xs text-rose-500 mt-1">{errors.jobTitle}</p>}
+          {errors.jobTitle && <p className="text-xs font-medium text-rose-500 mt-1">{errors.jobTitle}</p>}
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-300">Email Address <span className="text-rose-500">*</span></label>
+          <label htmlFor="email" className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email Address <span className="text-rose-500">*</span></label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Mail className={`h-4 w-4 ${errors.email ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <Mail className={`h-4.5 w-4.5 ${errors.email ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
             </div>
             <input
               type="email"
@@ -117,25 +117,25 @@ export default function PersonalInfoForm() {
               value={personalInfo.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.email ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. john.doe@example.com"
             />
             {errors.email && (
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <AlertCircle className="h-4 w-4 text-rose-500" />
+              <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+                <AlertCircle className="h-4.5 w-4.5 text-rose-500" />
               </div>
             )}
           </div>
-          {errors.email && <p className="text-xs text-rose-500 mt-1">{errors.email}</p>}
+          {errors.email && <p className="text-xs font-medium text-rose-500 mt-1">{errors.email}</p>}
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="phone" className="text-sm font-medium text-slate-700 dark:text-slate-300">Phone Number</label>
+          <label htmlFor="phone" className="text-sm font-semibold text-slate-700 dark:text-slate-300">Phone Number</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Phone className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <Phone className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500" />
             </div>
             <input
               type="tel"
@@ -143,17 +143,17 @@ export default function PersonalInfoForm() {
               name="phone"
               value={personalInfo.phone}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. +1 234 567 8900"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="address" className="text-sm font-medium text-slate-700 dark:text-slate-300">Address / Location</label>
+          <label htmlFor="address" className="text-sm font-semibold text-slate-700 dark:text-slate-300">Address / Location</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <MapPin className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <MapPin className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500" />
             </div>
             <input
               type="text"
@@ -161,17 +161,17 @@ export default function PersonalInfoForm() {
               name="address"
               value={personalInfo.address}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. New York, NY"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="linkedin" className="text-sm font-medium text-slate-700 dark:text-slate-300">LinkedIn URL</label>
+          <label htmlFor="linkedin" className="text-sm font-semibold text-slate-700 dark:text-slate-300">LinkedIn URL</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Linkedin className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <Linkedin className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500" />
             </div>
             <input
               type="url"
@@ -179,17 +179,17 @@ export default function PersonalInfoForm() {
               name="linkedin"
               value={personalInfo.linkedin}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. linkedin.com/in/johndoe"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="github" className="text-sm font-medium text-slate-700 dark:text-slate-300">GitHub URL</label>
+          <label htmlFor="github" className="text-sm font-semibold text-slate-700 dark:text-slate-300">GitHub URL</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Github className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <Github className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500" />
             </div>
             <input
               type="url"
@@ -197,17 +197,17 @@ export default function PersonalInfoForm() {
               name="github"
               value={personalInfo.github || ''}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. github.com/johndoe"
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="portfolio" className="text-sm font-medium text-slate-700 dark:text-slate-300">Portfolio / Website</label>
+          <label htmlFor="portfolio" className="text-sm font-semibold text-slate-700 dark:text-slate-300">Portfolio / Website</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Globe className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+              <Globe className="h-4.5 w-4.5 text-slate-400 dark:text-slate-500" />
             </div>
             <input
               type="url"
@@ -215,16 +215,16 @@ export default function PersonalInfoForm() {
               name="portfolio"
               value={personalInfo.portfolio || ''}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. johndoe.dev"
             />
           </div>
         </div>
 
-        <div className="col-span-1 md:col-span-2 space-y-2">
-          <div className="flex justify-between items-center">
+        <div className="col-span-1 md:col-span-2 space-y-3">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
             <div className="flex items-center gap-2">
-              <label htmlFor="summary" className="text-sm font-medium text-slate-700 dark:text-slate-300">Professional Summary</label>
+              <label htmlFor="summary" className="text-sm font-semibold text-slate-700 dark:text-slate-300">Professional Summary</label>
               <SectionTooltip 
                 title="Summary Tips" 
                 content="Your summary is the first thing recruiters read. Keep it concise, professional, and focused on your value proposition." 
@@ -234,7 +234,7 @@ export default function PersonalInfoForm() {
             <button 
               type="button"
               onClick={() => setShowSuggestions(!showSuggestions)}
-              className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
+              className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center justify-center gap-1.5 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-3 py-1.5 rounded-full transition-colors w-fit"
             >
               <Sparkles size={12} />
               AI Suggestions (Free)

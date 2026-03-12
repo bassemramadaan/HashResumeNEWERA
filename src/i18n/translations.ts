@@ -89,7 +89,23 @@ export const translations = {
       blogSubtitle: "Career advice to help you land your next job.",
       viewAllArticles: "View all articles",
       rightsReserved: "Hash Resume. All rights reserved.",
-      privateFooter: "100% Private. Your data stays on your device."
+      privateFooter: "100% Private. Your data stays on your device.",
+      finish: {
+        readyTitle: "Your CV is Ready!",
+        readySubtitle: "Congratulations on completing your professional resume.",
+        backupTitle: "Data Backup & Privacy",
+        backupDesc: "Your data is 100% private and stored only in your browser's local storage. If you clear your browser cache, your data will be lost. Download a backup file to keep your resume safe.",
+        exportWord: "Export Word",
+        backupData: "Backup Data",
+        restoreData: "Restore Data",
+        nextStepsTitle: "Next Steps",
+        checkAts: "Check ATS Score",
+        checkAtsDesc: "Ensure your resume passes the automated filters.",
+        findJobs: "Find Jobs on Hash Hunt",
+        findJobsDesc: "Explore exclusive opportunities from our partners.",
+        createCover: "Create Cover Letter",
+        createCoverDesc: "Complete your application with a matching letter."
+      }
     },
     hashHunt: {
       heroBadge: "Exclusive Job Opportunities",
@@ -238,7 +254,23 @@ export const translations = {
       blogSubtitle: "نصائح مهنية لمساعدتك في الحصول على وظيفتك التالية.",
       viewAllArticles: "عرض كل المقالات",
       rightsReserved: "Hash Resume. جميع الحقوق محفوظة.",
-      privateFooter: "100% خاص. بياناتك تبقى على جهازك."
+      privateFooter: "100% خاص. بياناتك تبقى على جهازك.",
+      finish: {
+        readyTitle: "سيرتك الذاتية جاهزة!",
+        readySubtitle: "تهانينا على إكمال سيرتك الذاتية الاحترافية.",
+        backupTitle: "النسخ الاحتياطي والخصوصية",
+        backupDesc: "بياناتك خاصة بنسبة 100% ومخزنة فقط في التخزين المحلي لمتصفحك. إذا قمت بمسح ذاكرة التخزين المؤقت للمتصفح، فستفقد بياناتك. قم بتنزيل ملف نسخة احتياطية للحفاظ على أمان سيرتك الذاتية.",
+        exportWord: "تصدير Word",
+        backupData: "نسخ احتياطي",
+        restoreData: "استعادة البيانات",
+        nextStepsTitle: "الخطوات التالية",
+        checkAts: "تحقق من درجة ATS",
+        checkAtsDesc: "تأكد من مرور سيرتك الذاتية عبر الفلاتر الآلية.",
+        findJobs: "ابحث عن وظائف في Hash Hunt",
+        findJobsDesc: "استكشف الفرص الحصرية من شركائنا.",
+        createCover: "إنشاء خطاب تقديم",
+        createCoverDesc: "أكمل طلبك بخطاب متوافق."
+      }
     },
     hashHunt: {
       heroBadge: "فرص عمل حصرية",
@@ -387,7 +419,23 @@ export const translations = {
       blogSubtitle: "Conseils de carrière pour vous aider à décrocher votre prochain emploi.",
       viewAllArticles: "Voir tous les articles",
       rightsReserved: "Hash Resume. Tous droits réservés.",
-      privateFooter: "100% Privé. Vos données restent sur votre appareil."
+      privateFooter: "100% Privé. Vos données restent sur votre appareil.",
+      finish: {
+        readyTitle: "Votre CV est prêt !",
+        readySubtitle: "Félicitations pour avoir terminé votre CV professionnel.",
+        backupTitle: "Sauvegarde et confidentialité",
+        backupDesc: "Vos données sont 100% privées et stockées uniquement dans le stockage local de votre navigateur. Si vous effacez le cache de votre navigateur, vos données seront perdues. Téléchargez un fichier de sauvegarde pour garder votre CV en sécurité.",
+        exportWord: "Exporter Word",
+        backupData: "Sauvegarder les données",
+        restoreData: "Restaurer les données",
+        nextStepsTitle: "Prochaines étapes",
+        checkAts: "Vérifier le score ATS",
+        checkAtsDesc: "Assurez-vous que votre CV passe les filtres automatisés.",
+        findJobs: "Trouver des emplois sur Hash Hunt",
+        findJobsDesc: "Explorez des opportunités exclusives de nos partenaires.",
+        createCover: "Créer une lettre de motivation",
+        createCoverDesc: "Complétez votre candidature avec une lettre assortie."
+      }
     },
     hashHunt: {
       heroBadge: "Opportunités d'emploi exclusives",

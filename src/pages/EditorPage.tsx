@@ -410,7 +410,10 @@ export default function EditorPage() {
                   <div className="space-y-8">
                     <ATSAudit />
                     <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
-                      <FinishStep onPrint={handleProceedToExport} />
+                      <FinishStep 
+                        onPrint={handleProceedToExport} 
+                        onJumpToStep={(step) => setActiveTab(step as Tab)}
+                      />
                     </div>
                   </div>
                 )}

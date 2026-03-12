@@ -3,6 +3,7 @@ import { X, Star, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
+import { cn } from '../utils';
 
 // Using the URL provided by the user
 const SHEET_URL = "https://script.google.com/macros/library/d/1ux4DtfoYKsXzQwAX08evzn5JlCwuDuQFmEWKaBRGs5HgVWqF0gDOx0hX/1";
@@ -21,6 +22,21 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
   const [comment, setComment] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [tags, setTags] = useState<string[]>([]);
+
+  const moodEmojis = ["", "😟", "😟", "😐", "🙂", "😍"];
+  const quickTags = [
+    { id: 'easy', label: 'Easy to use' },
+    { id: 'templates', label: 'Great templates' },
+    { id: 'ats', label: 'ATS Audit' },
+    { id: 'speed', label: 'Fast' },
+    { id: 'bug', label: 'Found a bug' },
+    { id: 'feature', label: 'Feature request' },
+  ];
+
+  const toggleTag = (tag: string) => {
+    setTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
+  };
 
   const handleSubmit = async () => {
     if (!rating) return;
@@ -28,20 +44,19 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
 
     try {
       // Note: Google Apps Script Web App usually requires 'no-cors' for simple POST requests from client-side
-      // However, the provided URL looks like a library URL (.../library/d/...), not a Web App Executable URL (.../macros/s/.../exec).
-      // Libraries cannot be called directly via HTTP. 
-      // Assuming the user might have copied the wrong URL or meant a Web App URL.
-      // I will use the URL provided but it might fail if it's strictly a library.
-      // Usually these URLs look like https://script.google.com/macros/s/AKfycbx.../exec
-      
       await fetch(SHEET_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, rating, comment, timestamp: new Date().toISOString() }),
+        body: JSON.stringify({ 
+          name, 
+          rating, 
+          comment, 
+          tags: tags.join(', '),
+          timestamp: new Date().toISOString() 
+        }),
       });
 
-      // Since no-cors returns an opaque response, we assume success if no network error occurred.
       setSubmitted(true);
     } catch (error) {
       console.error("Error submitting feedback:", error);
@@ -95,6 +110,9 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
             ) : (
               <>
                 <div className="text-center mb-6">
+                  <div className="text-4xl mb-2 h-10 flex items-center justify-center">
+                    {moodEmojis[hover || rating]}
+                  </div>
                   <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{t.title}</h3>
                   <p className="text-slate-500 dark:text-slate-400 text-sm">{t.subtitle}</p>
                 </div>
@@ -122,6 +140,24 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                 </div>
 
                 <div className="space-y-4">
+                  {/* Quick Tags */}
+                  <div className="flex flex-wrap gap-2 justify-center mb-2">
+                    {quickTags.map(tag => (
+                      <button
+                        key={tag.id}
+                        onClick={() => toggleTag(tag.label)}
+                        className={cn(
+                          "px-3 py-1 rounded-full text-xs font-medium transition-all border",
+                          tags.includes(tag.label)
+                            ? "bg-indigo-600 border-indigo-600 text-white shadow-md scale-105"
+                            : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-indigo-400"
+                        )}
+                      >
+                        {tag.label}
+                      </button>
+                    ))}
+                  </div>
+
                   <input
                     type="text"
                     placeholder={t.namePlaceholder}

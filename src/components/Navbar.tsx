@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { PenTool, Target, ArrowRight, Menu, X } from 'lucide-react';
+import { PenTool, Target, ArrowRight, Menu, X, MessageSquarePlus } from 'lucide-react';
 import Logo from './Logo';
 import LanguageSwitcher from './LanguageSwitcher';
+import FeedbackModal from './FeedbackModal';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { cn } from '../utils';
@@ -14,6 +15,7 @@ export default function Navbar() {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,6 +70,13 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
+            <button
+              onClick={() => setShowFeedbackModal(true)}
+              className="px-4 py-2 text-sm font-bold rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all flex items-center gap-2"
+            >
+              <MessageSquarePlus size={16} />
+              {t.landing.feedback || 'Feedback'}
+            </button>
           </nav>
 
           {/* Actions */}
@@ -121,6 +130,16 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
+            <button
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                setShowFeedbackModal(true);
+              }}
+              className="px-4 py-3 text-base font-bold rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all flex items-center gap-3"
+            >
+              <MessageSquarePlus size={20} />
+              {t.landing.feedback || 'Feedback'}
+            </button>
             <div className="h-px bg-slate-200 dark:bg-slate-800 my-2"></div>
             <Link 
               to="/editor" 
@@ -133,6 +152,7 @@ export default function Navbar() {
           </div>
         </motion.div>
       )}
+      <FeedbackModal isOpen={showFeedbackModal} onClose={() => setShowFeedbackModal(false)} />
     </header>
   );
 }

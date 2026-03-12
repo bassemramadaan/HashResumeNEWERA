@@ -56,9 +56,9 @@ export default function ATSAudit() {
       <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
         
         {/* Score Header */}
-        <div className="flex flex-col md:flex-row items-center gap-8 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800">
-          <div className="relative flex items-center justify-center shrink-0 w-40 h-40">
-            <svg className="w-40 h-40 transform -rotate-90 absolute inset-0">
+        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800">
+          <div className="relative flex items-center justify-center shrink-0 w-32 h-32 md:w-40 md:h-40">
+            <svg className="w-32 h-32 md:w-40 md:h-40 transform -rotate-90 absolute inset-0">
               <defs>
                 <linearGradient id="score-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" className="text-indigo-600 dark:text-indigo-400" stopColor="currentColor" />
@@ -66,14 +66,36 @@ export default function ATSAudit() {
                 </linearGradient>
               </defs>
               <circle
+                cx="64"
+                cy="64"
+                r="56"
+                stroke="currentColor"
+                strokeWidth="10"
+                fill="transparent"
+                className="text-slate-100 dark:text-slate-800 transition-colors md:hidden"
+              />
+              <circle
                 cx="80"
                 cy="80"
                 r="70"
                 stroke="currentColor"
                 strokeWidth="12"
                 fill="transparent"
-                className="text-slate-100 dark:text-slate-800 transition-colors"
+                className="text-slate-100 dark:text-slate-800 transition-colors hidden md:block"
               />
+              {/* Mobile Progress */}
+              <circle
+                cx="64"
+                cy="64"
+                r="56"
+                stroke={score >= 80 ? "url(#score-gradient)" : "currentColor"}
+                strokeWidth="10"
+                fill="transparent"
+                strokeDasharray={352}
+                strokeDashoffset={352 - (352 * score) / 100}
+                className={cn("transition-all duration-1000 ease-out md:hidden", score < 80 ? getScoreColor(score) : "")}
+              />
+              {/* Desktop Progress */}
               <circle
                 cx="80"
                 cy="80"
@@ -83,25 +105,25 @@ export default function ATSAudit() {
                 fill="transparent"
                 strokeDasharray={440}
                 strokeDashoffset={440 - (440 * score) / 100}
-                className={cn("transition-all duration-1000 ease-out", score < 80 ? getScoreColor(score) : "")}
+                className={cn("transition-all duration-1000 ease-out hidden md:block", score < 80 ? getScoreColor(score) : "")}
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <span className={cn(
-                "text-5xl font-black tracking-tighter", 
+                "text-4xl md:text-5xl font-black tracking-tighter", 
                 score >= 80 ? "bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent" : getScoreColor(score)
               )}>
                 {score}
               </span>
-              <span className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-1">/ 100</span>
+              <span className="text-[10px] md:text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mt-0.5 md:mt-1">/ 100</span>
             </div>
           </div>
           
           <div className="text-center md:text-left">
-            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+            <h3 className="text-xl md:text-2xl font-bold text-slate-900 dark:text-white mb-2">
               {score >= 80 ? "Great Job! You're ATS Ready." : score >= 50 ? "Good start, but needs work." : "Needs significant improvements."}
             </h3>
-            <p className="text-slate-600 dark:text-slate-400 leading-relaxed max-w-lg">
+            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 leading-relaxed max-w-lg">
               Applicant Tracking Systems (ATS) scan resumes for keywords, formatting, and completeness. 
               Follow the suggestions below to improve your score and increase your chances of landing an interview.
             </p>
@@ -110,13 +132,13 @@ export default function ATSAudit() {
 
         {/* Section Breakdown */}
         <div className="mb-12">
-          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">Section Breakdown</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white mb-6">Section Breakdown</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {sections.map((section, idx) => (
               <div key={idx} className="p-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-bold text-slate-700 dark:text-slate-300">{section.title}</span>
-                  <span className={cn("text-xs font-bold px-2 py-0.5 rounded-full", 
+                  <span className="text-xs md:text-sm font-bold text-slate-700 dark:text-slate-300">{section.title}</span>
+                  <span className={cn("text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-full", 
                     section.score === section.maxScore ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400" :
                     section.score > 0 ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400" :
                     "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400"
@@ -140,12 +162,12 @@ export default function ATSAudit() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Detailed Feedback */}
-          <div className="space-y-8">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Detailed Suggestions</h3>
+          <div className="space-y-6 md:space-y-8">
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">Detailed Suggestions</h3>
             {sections.map((section, idx) => (
               section.improvements.length > 0 && (
                 <div key={idx} className="space-y-3">
-                  <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                  <h4 className="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
                     <AlertCircle size={14} className="text-red-500" />
                     {section.title}
                   </h4>
@@ -162,12 +184,12 @@ export default function ATSAudit() {
             ))}
           </div>
 
-          <div className="space-y-8">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white">What's Working Well</h3>
+          <div className="space-y-6 md:space-y-8">
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">What's Working Well</h3>
             {sections.map((section, idx) => (
               section.goodPoints.length > 0 && (
                 <div key={idx} className="space-y-3">
-                  <h4 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                  <h4 className="text-[10px] md:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2">
                     <CheckCircle2 size={14} className="text-emerald-500" />
                     {section.title}
                   </h4>

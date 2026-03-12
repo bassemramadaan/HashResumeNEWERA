@@ -128,6 +128,46 @@ const templates: Template[] = [
     image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600&auto=format&fit=crop',
     color: '#8B5CF6',
     categories: ['Business']
+  },
+  {
+    id: 'medical',
+    name: 'Medical',
+    description: 'Specialized format for healthcare professionals and doctors.',
+    image: 'https://images.unsplash.com/photo-1505751172107-5739a00723a5?q=80&w=600&auto=format&fit=crop',
+    color: '#0EA5E9',
+    categories: ['Healthcare']
+  },
+  {
+    id: 'academic',
+    name: 'Academic',
+    description: 'Multi-page optimized CV for researchers and educators.',
+    image: 'https://images.unsplash.com/photo-1523050335392-93851179ae22?q=80&w=600&auto=format&fit=crop',
+    color: '#64748B',
+    categories: ['Academic']
+  },
+  {
+    id: 'legal',
+    name: 'Legal',
+    description: 'Formal and authoritative design for legal professionals.',
+    image: 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop',
+    color: '#0F172A',
+    categories: ['Business']
+  },
+  {
+    id: 'professional',
+    name: 'Professional',
+    description: 'Versatile and polished layout for any industry.',
+    image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=600&auto=format&fit=crop',
+    color: '#334155',
+    categories: ['Business', 'Technology']
+  },
+  {
+    id: 'elegant',
+    name: 'Elegant',
+    description: 'Sophisticated design with refined typography.',
+    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600&auto=format&fit=crop',
+    color: '#BE185D',
+    categories: ['Creative', 'Business']
   }
 ];
 

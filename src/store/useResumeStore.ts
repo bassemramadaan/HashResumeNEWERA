@@ -65,7 +65,7 @@ export type ResumeData = {
   projects: Project[];
   certifications: Certification[];
   settings: {
-    template: 'modern' | 'classic' | 'creative' | 'minimal' | 'tech' | 'executive' | 'medical' | 'legal' | 'academic';
+    template: 'modern' | 'classic' | 'creative' | 'minimal' | 'tech' | 'executive' | 'medical' | 'legal' | 'academic' | 'professional' | 'elegant';
     themeColor: string;
     language: 'en' | 'ar' | 'fr';
     isFreshGrad: boolean;

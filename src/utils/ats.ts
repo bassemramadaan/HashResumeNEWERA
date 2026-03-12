@@ -1,7 +1,9 @@
 import { ResumeData } from '../store/useResumeStore';
 
 // Basic stop words to ignore in keyword matching
-const STOP_WORDS = new Set(['the', 'and', 'a', 'to', 'of', 'in', 'i', 'is', 'that', 'it', 'on', 'you', 'this', 'for', 'but', 'with', 'are', 'have', 'be', 'at', 'or', 'as', 'was', 'so', 'if', 'out', 'not', 'we', 'my', 'by', 'from', 'an', 'will', 'can', 'about', 'which', 'your', 'all', 'has', 'one', 'more', 'do', 'their', 'there', 'what', 'who', 'when', 'where', 'why', 'how', 'any', 'some', 'such', 'into', 'up', 'down', 'over', 'under', 'between', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'from', 'up', 'down', 'in', 'out', 'on', 'off', 'over', 'under', 'again', 'further', 'then', 'once', 'here', 'there', 'when', 'where', 'why', 'how', 'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'nor', 'not', 'only', 'own', 'same', 'so', 'than', 'too', 'very', 's', 't', 'can', 'will', 'just', 'don', 'should', 'now']);
+const STOP_WORDS = new Set([
+  'the', 'and', 'a', 'to', 'of', 'in', 'i', 'is', 'that', 'it', 'on', 'you', 'this', 'for', 'but', 'with', 'are', 'have', 'be', 'at', 'or', 'as', 'was', 'so', 'if', 'out', 'not', 'we', 'my', 'by', 'from', 'an', 'will', 'can', 'about', 'which', 'your', 'all', 'has', 'one', 'more', 'do', 'their', 'there', 'what', 'who', 'when', 'where', 'why', 'how', 'any', 'some', 'such', 'into', 'up', 'down', 'over', 'under', 'between', 'through', 'during', 'before', 'after', 'above', 'below', 'off', 'again', 'further', 'then', 'once', 'here', 'both', 'each', 'few', 'most', 'other', 'no', 'nor', 'only', 'own', 'same', 'than', 'too', 'very', 's', 't', 'just', 'don', 'should', 'now'
+]);
 
 export interface ATSResult {
   score: number;
@@ -64,24 +66,29 @@ export function getJobMatchResults(data: ResumeData) {
 }
 
 export function calculateATSScore(data: ResumeData): ATSResult {
-  const { personalInfo, experience, education, skills, settings } = data;
+  const { personalInfo, experience, education, skills, projects, certifications, settings } = data;
   
   const sections: ATSResult['sections'] = [];
   
-  // 1. Contact Info (15 points)
-  const contact = { title: "Contact Info", score: 0, maxScore: 15, goodPoints: [], improvements: [] as string[] };
-  if (personalInfo.fullName && personalInfo.fullName.trim().length > 2) contact.score += 5;
+  // 1. Contact Info (10 points)
+  const contact = { title: "Contact Info", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
+  if (personalInfo.fullName && personalInfo.fullName.trim().length > 2) contact.score += 3;
   else contact.improvements.push("Add your full name.");
   
-  if (personalInfo.email && personalInfo.email.includes('@') && personalInfo.phone) {
-    contact.score += 5;
-    contact.goodPoints.push("Email and phone number are present.");
-  } else contact.improvements.push("Add both email and phone number.");
+  if (personalInfo.email && personalInfo.email.includes('@')) {
+    contact.score += 3;
+    contact.goodPoints.push("Email address is present.");
+  } else contact.improvements.push("Add a professional email address.");
+
+  if (personalInfo.phone) {
+    contact.score += 2;
+    contact.goodPoints.push("Phone number is present.");
+  } else contact.improvements.push("Add your phone number.");
   
   if (personalInfo.linkedin) {
-    contact.score += 5;
+    contact.score += 2;
     contact.goodPoints.push("LinkedIn profile included.");
-  } else contact.improvements.push("Add a LinkedIn URL for credibility.");
+  } else contact.improvements.push("Add a LinkedIn URL for professional credibility.");
   sections.push(contact);
 
   // 2. Summary (10 points)
@@ -91,16 +98,16 @@ export function calculateATSScore(data: ResumeData): ATSResult {
     summary.goodPoints.push("Detailed professional summary.");
   } else if (personalInfo.summary && personalInfo.summary.length > 50) {
     summary.score += 5;
-    summary.improvements.push("Make your summary more impactful by adding specific achievements.");
+    summary.improvements.push("Make your summary more impactful by adding specific achievements and years of experience.");
   } else {
-    summary.improvements.push("Add a professional summary (3-4 sentences) to highlight your value.");
+    summary.improvements.push("Add a professional summary (3-4 sentences) to highlight your core value proposition.");
   }
   sections.push(summary);
 
-  // 3. Experience (40 points) - Granular Analysis
-  const expSection = { title: "Experience", score: 0, maxScore: 40, goodPoints: [], improvements: [] as string[] };
+  // 3. Experience (30 points)
+  const expSection = { title: "Experience", score: 0, maxScore: 30, goodPoints: [], improvements: [] as string[] };
   if (experience.length > 0) {
-    expSection.score += 10; // Base score for having experience
+    expSection.score += 5; // Base score for having experience
     
     let actionVerbCount = 0;
     let quantifiedCount = 0;
@@ -112,25 +119,27 @@ export function calculateATSScore(data: ResumeData): ATSResult {
       totalBullets += bullets.length;
       
       bullets.forEach(bullet => {
-        const cleanBullet = bullet.replace(/^[•*\s-]+/, '').trim().toLowerCase();
-        const firstWord = cleanBullet.split(/\s+/)[0];
+        const trimmed = bullet.trim();
+        const cleanBullet = trimmed.replace(/^[•*\s-]+/, '').trim().toLowerCase();
         
+        if (cleanBullet.length < trimmed.toLowerCase().length) {
+          bulletCount++;
+        }
+        
+        const firstWord = cleanBullet.split(/\s+/)[0];
         if (ACTION_VERBS.has(firstWord)) actionVerbCount++;
         if (/[0-9]+%|\$[0-9]+|[0-9]+\+/.test(cleanBullet)) quantifiedCount++;
-        if (bullet.includes('•') || bullet.includes('-')) bulletCount++;
       });
     });
 
     if (totalBullets > 0) {
-      // Action Verbs Check
-      if (actionVerbCount / totalBullets > 0.7) {
+      if (actionVerbCount / totalBullets > 0.6) {
         expSection.score += 10;
         expSection.goodPoints.push("Strong use of action verbs to start bullet points.");
       } else {
         expSection.improvements.push("Start more bullet points with strong action verbs (e.g., 'Developed', 'Managed', 'Increased').");
       }
 
-      // Quantification Check
       if (quantifiedCount > 0) {
         expSection.score += 10;
         expSection.goodPoints.push("Good use of numbers and metrics to quantify achievements.");
@@ -138,16 +147,15 @@ export function calculateATSScore(data: ResumeData): ATSResult {
         expSection.improvements.push("Add quantifiable results to your experience (e.g., 'Increased sales by 20%', 'Managed a team of 5').");
       }
 
-      // Formatting Check
-      if (bulletCount / totalBullets > 0.8) {
-        expSection.score += 10;
+      if (bulletCount / totalBullets > 0.7) {
+        expSection.score += 5;
         expSection.goodPoints.push("Consistent use of bullet points for readability.");
       } else {
-        expSection.improvements.push("Use standard bullet points (•) for all experience descriptions.");
+        expSection.improvements.push("Use standard bullet points (•, -, *) for all experience descriptions.");
       }
     }
   } else {
-    expSection.improvements.push("Add work experience, internships, or projects.");
+    expSection.improvements.push("Add work experience, internships, or relevant projects.");
   }
   sections.push(expSection);
 
@@ -161,7 +169,7 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   }
   sections.push(edu);
 
-  // 5. Skills (15 points) - Granular Analysis
+  // 5. Skills (15 points)
   const skillsSection = { title: "Skills", score: 0, maxScore: 15, goodPoints: [], improvements: [] as string[] };
   if (skills.length >= 5) {
     skillsSection.score += 5;
@@ -182,13 +190,34 @@ export function calculateATSScore(data: ResumeData): ATSResult {
       skillsSection.improvements.push("Add more technical (hard) skills specific to your industry.");
     }
   } else {
-    skillsSection.improvements.push("Add at least 8-10 relevant skills.");
+    skillsSection.improvements.push("Add at least 8-12 relevant skills.");
   }
   sections.push(skillsSection);
 
-  // 6. Formatting (10 points)
+  // 6. Projects (10 points)
+  const projSection = { title: "Projects", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
+  if (projects.length > 0) {
+    projSection.score += 10;
+    projSection.goodPoints.push("Projects section included to showcase practical application.");
+  } else {
+    projSection.improvements.push("Add projects to demonstrate your skills in action.");
+  }
+  sections.push(projSection);
+
+  // 7. Certifications (5 points)
+  const certSection = { title: "Certifications", score: 0, maxScore: 5, goodPoints: [], improvements: [] as string[] };
+  if (certifications.length > 0) {
+    certSection.score += 5;
+    certSection.goodPoints.push("Certifications included to validate your expertise.");
+  } else {
+    certSection.improvements.push("Add relevant certifications to boost your credibility.");
+  }
+  sections.push(certSection);
+
+  // 8. Formatting (10 points)
   const formatting = { title: "Formatting", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
   if (settings.template === 'creative') {
+    formatting.score += 5;
     formatting.improvements.push("Consider a more standard template like 'Modern' for better ATS parsing.");
   } else {
     formatting.score += 10;
@@ -196,7 +225,7 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   }
   sections.push(formatting);
 
-  // 7. Job Match (Bonus/Context)
+  // 9. Job Match (Bonus/Context)
   if (data.jobDescription) {
     const jobMatch = { title: "Job Match", score: 0, maxScore: 0, goodPoints: [], improvements: [] as string[] };
     const matchResults = getJobMatchResults(data);

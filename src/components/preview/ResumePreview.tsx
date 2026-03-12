@@ -985,6 +985,160 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
     </div>
   );
 
+  const renderProfessional = () => (
+    <div className="font-sans text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-white">
+      <header className="mb-10 flex flex-col md:flex-row md:justify-between md:items-end border-b-4 pb-6" style={{ borderColor: themeColor }}>
+        <div>
+          <h1 className="text-4xl font-black text-slate-900 mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+          <h2 className="text-xl font-bold text-slate-500 uppercase tracking-wider">{personalInfo.jobTitle}</h2>
+        </div>
+        <div className="mt-4 md:mt-0 text-right text-sm text-slate-600 space-y-1">
+          {personalInfo.email && <div>{personalInfo.email}</div>}
+          {personalInfo.phone && <div>{personalInfo.phone}</div>}
+          {personalInfo.address && <div>{personalInfo.address}</div>}
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="md:col-span-2 space-y-8">
+          {personalInfo.summary && (
+            <section>
+              <h3 className="text-lg font-bold uppercase tracking-widest mb-4 pb-1 border-b-2" style={{ color: themeColor, borderColor: `${themeColor}20` }}>Profile</h3>
+              <p className="text-sm text-slate-700 leading-relaxed">{personalInfo.summary}</p>
+            </section>
+          )}
+
+          {experience.length > 0 && (
+            <section>
+              <h3 className="text-lg font-bold uppercase tracking-widest mb-4 pb-1 border-b-2" style={{ color: themeColor, borderColor: `${themeColor}20` }}>Experience</h3>
+              <div className="space-y-6">
+                {experience.map((exp) => (
+                  <div key={exp.id}>
+                    <div className="flex justify-between items-baseline mb-1">
+                      <h4 className="font-bold text-slate-900">{exp.position}</h4>
+                      <span className="text-xs font-bold text-slate-500 uppercase">{exp.startDate} - {exp.endDate}</span>
+                    </div>
+                    <div className="text-sm font-bold text-slate-500 mb-2">{exp.company}</div>
+                    <p className="text-sm text-slate-700 whitespace-pre-wrap">{exp.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <div className="space-y-8">
+          {skills.length > 0 && (
+            <section>
+              <h3 className="text-lg font-bold uppercase tracking-widest mb-4 pb-1 border-b-2" style={{ color: themeColor, borderColor: `${themeColor}20` }}>Expertise</h3>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill, i) => (
+                  <span key={i} className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded">{skill}</span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {education.length > 0 && (
+            <section>
+              <h3 className="text-lg font-bold uppercase tracking-widest mb-4 pb-1 border-b-2" style={{ color: themeColor, borderColor: `${themeColor}20` }}>Education</h3>
+              <div className="space-y-4">
+                {education.map((edu) => (
+                  <div key={edu.id}>
+                    <div className="font-bold text-slate-900 text-sm">{edu.degree}</div>
+                    <div className="text-xs text-slate-600">{edu.institution}</div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase mt-1">{edu.endDate}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {certifications.length > 0 && (
+            <section>
+              <h3 className="text-lg font-bold uppercase tracking-widest mb-4 pb-1 border-b-2" style={{ color: themeColor, borderColor: `${themeColor}20` }}>Awards</h3>
+              <div className="space-y-3">
+                {certifications.map((cert) => (
+                  <div key={cert.id}>
+                    <div className="font-bold text-slate-900 text-xs">{cert.name}</div>
+                    <div className="text-[10px] text-slate-500">{cert.issuer}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderElegant = () => (
+    <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-16 max-w-[850px] mx-auto bg-white">
+      <header className="text-center mb-12">
+        <h1 className="text-5xl font-light tracking-tighter text-slate-900 mb-4">{personalInfo.fullName || 'Your Name'}</h1>
+        <div className="flex justify-center items-center gap-4 text-xs uppercase tracking-[0.2em] text-slate-400 font-sans">
+          {personalInfo.email && <span>{personalInfo.email}</span>}
+          {personalInfo.email && personalInfo.phone && <span className="w-1 h-1 bg-slate-200 rounded-full"></span>}
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
+        </div>
+        <div className="mt-6 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+      </header>
+
+      <div className="space-y-12">
+        {personalInfo.summary && (
+          <section className="text-center max-w-2xl mx-auto">
+            <p className="text-lg italic text-slate-600 leading-relaxed font-light">"{personalInfo.summary}"</p>
+          </section>
+        )}
+
+        {experience.length > 0 && (
+          <section>
+            <h3 className="text-center text-xs font-bold uppercase tracking-[0.3em] text-slate-300 mb-8">Experience</h3>
+            <div className="space-y-10">
+              {experience.map((exp) => (
+                <div key={exp.id}>
+                  <div className="text-center mb-4">
+                    <h4 className="text-xl font-bold text-slate-900">{exp.position}</h4>
+                    <div className="text-sm italic text-slate-500">{exp.company} — {exp.startDate} to {exp.endDate}</div>
+                  </div>
+                  <p className="text-sm text-slate-700 leading-loose text-justify whitespace-pre-wrap">{exp.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {education.length > 0 && (
+            <section>
+              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-slate-300 mb-6">Education</h3>
+              <div className="space-y-6">
+                {education.map((edu) => (
+                  <div key={edu.id}>
+                    <div className="font-bold text-slate-900">{edu.degree}</div>
+                    <div className="text-sm italic text-slate-500">{edu.institution}</div>
+                    <div className="text-xs text-slate-400 mt-1">{edu.endDate}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {skills.length > 0 && (
+            <section>
+              <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-slate-300 mb-6">Expertise</h3>
+              <div className="flex flex-wrap gap-x-4 gap-y-2">
+                {skills.map((skill, i) => (
+                  <span key={i} className="text-sm text-slate-600 italic">{skill}</span>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div 
       ref={ref} 
@@ -1001,6 +1155,8 @@ const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref
       {settings.template === 'medical' && renderMedical()}
       {settings.template === 'legal' && renderLegal()}
       {settings.template === 'academic' && renderAcademic()}
+      {settings.template === 'professional' && renderProfessional()}
+      {settings.template === 'elegant' && renderElegant()}
       
       {/* Watermark */}
       <div className="mt-8 pb-4 text-center text-xs text-slate-300 font-medium opacity-50">

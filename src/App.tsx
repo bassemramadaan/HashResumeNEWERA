@@ -3,6 +3,7 @@ import React, { useEffect, Suspense } from 'react';
 import { useThemeStore } from './store/useThemeStore';
 import { useLanguageStore } from './store/useLanguageStore';
 import PageLoader from './components/PageLoader';
+import FloatingFeedback from './components/FloatingFeedback';
 
 const LandingPage = React.lazy(() => import('./pages/LandingPage'));
 const EditorPage = React.lazy(() => import('./pages/EditorPage'));
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/why-no-signup" element={<WhyNoSignupPage />} />
         </Routes>
       </Suspense>
+      <FloatingFeedback />
     </BrowserRouter>
   );
 }

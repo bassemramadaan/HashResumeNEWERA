@@ -1,14 +1,21 @@
 import { useRef } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { Download, FileText, Save, Upload } from 'lucide-react';
+import { useLanguageStore } from '../../store/useLanguageStore';
+import { translations } from '../../i18n/translations';
+import { Download, FileText, Save, Upload, CheckCircle2, ArrowRight, Target, PenTool, Search } from 'lucide-react';
 import { generateWord } from '../../utils/generateWord';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 interface FinishStepProps {
   onPrint: () => void;
+  onJumpToStep: (step: string) => void;
 }
 
-export default function FinishStep({ onPrint: _onPrint }: FinishStepProps) {
+export default function FinishStep({ onPrint: _onPrint, onJumpToStep }: FinishStepProps) {
   const { data, updateData } = useResumeStore();
+  const { language } = useLanguageStore();
+  const t = translations[language].landing.finish;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleExportJson = () => {
@@ -49,45 +56,81 @@ export default function FinishStep({ onPrint: _onPrint }: FinishStepProps) {
     }
   };
 
+  const nextSteps = [
+    {
+      title: t.checkAts,
+      desc: t.checkAtsDesc,
+      icon: <Target className="w-6 h-6 text-indigo-500" />,
+      action: () => onJumpToStep('review'),
+      type: 'button'
+    },
+    {
+      title: t.findJobs,
+      desc: t.findJobsDesc,
+      icon: <Search className="w-6 h-6 text-emerald-500" />,
+      path: '/hash-hunt',
+      type: 'link'
+    },
+    {
+      title: t.createCover,
+      desc: t.createCoverDesc,
+      icon: <PenTool className="w-6 h-6 text-orange-500" />,
+      path: '/cover-letter',
+      type: 'link'
+    }
+  ];
+
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 p-4">
-      <div className="text-center space-y-2">
-        <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Your CV is Ready!</h2>
-        <p className="text-slate-500 dark:text-slate-400">Your progress is saved locally. You can backup your data below.</p>
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 p-4 max-w-4xl mx-auto">
+      {/* Celebratory Header */}
+      <div className="text-center space-y-4">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 260, damping: 20 }}
+          className="inline-flex items-center justify-center w-20 h-20 bg-emerald-100 dark:bg-emerald-900/30 rounded-full mb-2"
+        >
+          <CheckCircle2 className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
+        </motion.div>
+        <h2 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">{t.readyTitle}</h2>
+        <p className="text-slate-500 dark:text-slate-400 text-lg">{t.readySubtitle}</p>
       </div>
 
       {/* Backup Section */}
-      <div className="bg-orange-50 dark:bg-orange-900/10 border border-orange-100 dark:border-orange-800/30 rounded-2xl p-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1 flex items-center gap-2">
-              <Save className="w-5 h-5 text-orange-500" />
-              Data Backup & Privacy
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm relative overflow-hidden group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110 duration-500" />
+        
+        <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+          <div className="flex-1 space-y-3">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+              <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
+                <Save className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+              </div>
+              {t.backupTitle}
             </h3>
-            <p className="text-sm text-slate-600 dark:text-slate-400 max-w-xl">
-              Your data is 100% private and stored only in your browser's local storage. 
-              <strong className="font-semibold text-slate-800 dark:text-slate-200"> If you clear your browser cache, your data will be lost.</strong> 
-              Download a backup file to keep your resume safe.
+            <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
+              {t.backupDesc}
             </p>
           </div>
-          <div className="flex items-center gap-3 w-full md:w-auto">
+          
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:flex items-center gap-3 w-full lg:w-auto">
             <button
               onClick={() => generateWord(data)}
-              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-sm font-medium shadow-sm"
+              className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
             >
-              <FileText size={16} />
-              Export Word
+              <FileText size={18} className="text-blue-500" />
+              {t.exportWord}
             </button>
             <button
               onClick={handleExportJson}
-              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-sm font-medium shadow-sm"
+              className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
             >
-              <Download size={16} />
-              Backup Data
+              <Download size={18} className="text-emerald-500" />
+              {t.backupData}
             </button>
-            <label className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors text-sm font-medium shadow-sm cursor-pointer">
-              <Upload size={16} />
-              Restore Data
+            <label className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95 cursor-pointer">
+              <Upload size={18} className="text-orange-500" />
+              {t.restoreData}
               <input 
                 type="file" 
                 accept=".json" 
@@ -97,6 +140,50 @@ export default function FinishStep({ onPrint: _onPrint }: FinishStepProps) {
               />
             </label>
           </div>
+        </div>
+      </div>
+
+      {/* Next Steps Section */}
+      <div className="space-y-6">
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white px-2">{t.nextStepsTitle}</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {nextSteps.map((step, idx) => (
+            step.type === 'link' ? (
+              <Link
+                key={idx}
+                to={step.path!}
+                className="group p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-3xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300"
+              >
+                <div className="mb-4 p-3 bg-white dark:bg-slate-900 rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
+                  {step.icon}
+                </div>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+                  {step.title}
+                  <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                </h4>
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  {step.desc}
+                </p>
+              </Link>
+            ) : (
+              <button
+                key={idx}
+                onClick={step.action}
+                className="group p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-3xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 text-left"
+              >
+                <div className="mb-4 p-3 bg-white dark:bg-slate-900 rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
+                  {step.icon}
+                </div>
+                <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+                  {step.title}
+                  <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                </h4>
+                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                  {step.desc}
+                </p>
+              </button>
+            )
+          ))}
         </div>
       </div>
     </div>
