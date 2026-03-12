@@ -12,8 +12,6 @@ export interface ATSResult {
     goodPoints: string[];
     improvements: string[];
   }[];
-  overallGoodPoints: string[];
-  overallImprovements: string[];
 }
 
 const ACTION_VERBS = new Set([
@@ -114,7 +112,7 @@ export function calculateATSScore(data: ResumeData): ATSResult {
       totalBullets += bullets.length;
       
       bullets.forEach(bullet => {
-        const cleanBullet = bullet.replace(/^[•\-*\s]+/, '').trim().toLowerCase();
+        const cleanBullet = bullet.replace(/^[•*\s-]+/, '').trim().toLowerCase();
         const firstWord = cleanBullet.split(/\s+/)[0];
         
         if (ACTION_VERBS.has(firstWord)) actionVerbCount++;
@@ -190,7 +188,7 @@ export function calculateATSScore(data: ResumeData): ATSResult {
 
   // 6. Formatting (10 points)
   const formatting = { title: "Formatting", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
-  if (settings.template === 'creative' || settings.template === 'medical') {
+  if (settings.template === 'creative') {
     formatting.improvements.push("Consider a more standard template like 'Modern' for better ATS parsing.");
   } else {
     formatting.score += 10;
@@ -198,23 +196,25 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   }
   sections.push(formatting);
 
-  // Calculate overall score
-  const totalScore = sections.reduce((acc, s) => acc + s.score, 0);
-  const overallGoodPoints = sections.flatMap(s => s.goodPoints);
-  const overallImprovements = sections.flatMap(s => s.improvements);
-
-  // Add JD keywords if applicable
+  // 7. Job Match (Bonus/Context)
   if (data.jobDescription) {
+    const jobMatch = { title: "Job Match", score: 0, maxScore: 0, goodPoints: [], improvements: [] as string[] };
     const matchResults = getJobMatchResults(data);
-    if (matchResults && matchResults.missing.length > 0) {
-      overallImprovements.push(`Missing keywords: ${matchResults.missing.slice(0, 5).join(', ')}`);
+    if (matchResults) {
+      if (matchResults.missing.length > 0) {
+        jobMatch.improvements.push(`Missing keywords: ${matchResults.missing.slice(0, 5).join(', ')}`);
+      } else {
+        jobMatch.goodPoints.push("All top keywords from JD are present.");
+      }
+      sections.push(jobMatch);
     }
   }
 
+  // Calculate overall score
+  const totalScore = sections.reduce((acc, s) => acc + s.score, 0);
+
   return { 
     score: Math.min(100, totalScore), 
-    sections,
-    overallGoodPoints,
-    overallImprovements
+    sections
   };
 }

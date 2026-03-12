@@ -130,7 +130,7 @@ export default function ATSAudit() {
                       section.score === section.maxScore ? "bg-emerald-500" :
                       section.score > 0 ? "bg-yellow-500" : "bg-red-500"
                     )}
-                    style={{ width: `${(section.score / section.maxScore) * 100}%` }}
+                    style={{ width: `${section.maxScore > 0 ? (section.score / section.maxScore) * 100 : 0}%` }}
                   />
                 </div>
               </div>
