@@ -6,7 +6,6 @@ import Logo from '../components/Logo';
 import React, { useState, useEffect, useMemo } from 'react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
-import { useScrollDirection } from '../hooks/useScrollDirection';
 import Navbar from '../components/Navbar';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 

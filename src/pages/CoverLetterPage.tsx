@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { FileText, Sparkles, Copy, Check, Import } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
-import { useScrollDirection } from '../hooks/useScrollDirection';
 import Navbar from '../components/Navbar';
 
 export default function CoverLetterPage() {

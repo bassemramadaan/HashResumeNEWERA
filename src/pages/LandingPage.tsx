@@ -18,7 +18,6 @@ import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { blogPosts } from '../data/blogPosts';
 
-import { useScrollDirection } from '../hooks/useScrollDirection';
 
 import SimpleSteps from '../components/SimpleSteps';
 import Navbar from '../components/Navbar';
@@ -728,7 +727,7 @@ export default function LandingPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {blogPosts.slice(0, 3).map((post, index) => (
+            {blogPosts.slice(0, 3).map((post) => (
               <div key={post.id} className="group cursor-pointer">
                 <Link to={`/blog/${post.id}`} className="block overflow-hidden rounded-2xl mb-4 h-48 relative">
                   <img 
