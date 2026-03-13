@@ -9,10 +9,11 @@ import { Link } from 'react-router-dom';
 
 interface FinishStepProps {
   onPrint: () => void;
+  onExportWord: () => void;
   onJumpToStep: (step: string) => void;
 }
 
-export default function FinishStep({ onPrint: _onPrint, onJumpToStep }: FinishStepProps) {
+export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: FinishStepProps) {
   const { data, updateData } = useResumeStore();
   const { language } = useLanguageStore();
   const t = translations[language].landing.finish;
@@ -80,6 +81,14 @@ export default function FinishStep({ onPrint: _onPrint, onJumpToStep }: FinishSt
     }
   ];
 
+  const handleProceedToExportWord = () => {
+    if (data.isPremium) {
+      generateWord(data);
+    } else {
+      onExportWord(); // This will trigger the payment modal in EditorPage
+    }
+  };
+
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 p-4 max-w-4xl mx-auto">
       {/* Celebratory Header */}
@@ -113,9 +122,16 @@ export default function FinishStep({ onPrint: _onPrint, onJumpToStep }: FinishSt
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:flex items-center gap-3 w-full lg:w-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-4 lg:flex items-center gap-3 w-full lg:w-auto">
             <button
-              onClick={() => generateWord(data)}
+              onClick={onPrint}
+              className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
+            >
+              <FileText size={18} className="text-red-500" />
+              Export PDF
+            </button>
+            <button
+              onClick={handleProceedToExportWord}
               className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
             >
               <FileText size={18} className="text-blue-500" />

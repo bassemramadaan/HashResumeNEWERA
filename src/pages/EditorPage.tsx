@@ -15,6 +15,7 @@ import Logo from '../components/Logo';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../utils';
 import { calculateATSScore } from '../utils/ats';
+import { generateWord } from '../utils/generateWord';
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(() => import('../components/editor/PersonalInfoForm'));
@@ -29,7 +30,7 @@ const CoverLetterForm = lazy(() => import('../components/editor/CoverLetterForm'
 const FinishStep = lazy(() => import('../components/editor/FinishStep'));
 const ResumePreview = lazy(() => import('../components/preview/ResumePreview'));
 const CoverLetterPreview = lazy(() => import('../components/preview/CoverLetterPreview'));
-// const PaymentModal = lazy(() => import('../components/payment/PaymentModal'));
+const PaymentModal = lazy(() => import('../components/payment/PaymentModal'));
 const PostDownloadModal = lazy(() => import('../components/payment/PostDownloadModal'));
 const FeedbackModal = lazy(() => import('../components/FeedbackModal'));
 const OnboardingTour = lazy(() => import('../components/OnboardingTour'));
@@ -56,6 +57,8 @@ export default function EditorPage() {
   const [activeTab, setActiveTab] = useState<Tab>('basics');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [showFullPreview, setShowFullPreview] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [pendingExport, setPendingExport] = useState<'pdf' | 'word' | null>(null);
   const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
@@ -63,7 +66,7 @@ export default function EditorPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [lastSavedTime, setLastSavedTime] = useState<string>('');
   const [previewMode, setPreviewMode] = useState<'resume' | 'cover-letter'>('resume');
-  const { data, loadExampleData, resetData } = useResumeStore();
+  const { data, loadExampleData, resetData, unlockPremium } = useResumeStore();
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } = useOnboardingStore();
   
   // Zundo hooks for undo/redo
@@ -132,12 +135,28 @@ export default function EditorPage() {
   });
 
   const handleExportClick = () => {
+    setPendingExport('pdf');
+    setShowResumeChecker(true);
+  };
+
+  const handleExportWordClick = () => {
+    setPendingExport('word');
     setShowResumeChecker(true);
   };
 
   const handleProceedToExport = () => {
     setShowResumeChecker(false);
-    handlePrint();
+    if (data.isPremium) {
+      if (pendingExport === 'word') {
+        generateWord(data);
+        setShowPostDownloadModal(true);
+        setTimeout(() => setShowFeedbackModal(true), 2000);
+      } else {
+        handlePrint();
+      }
+    } else {
+      setShowPaymentModal(true);
+    }
   };
 
   const tabs: TabItem[] = [
@@ -406,7 +425,8 @@ export default function EditorPage() {
                     <ATSAudit />
                     <div className="border-t border-slate-200 dark:border-slate-800 pt-8">
                       <FinishStep 
-                        onPrint={handleProceedToExport} 
+                        onPrint={handleExportClick} 
+                        onExportWord={handleExportWordClick}
                         onJumpToStep={(step) => setActiveTab(step as Tab)}
                       />
                     </div>
@@ -521,6 +541,22 @@ export default function EditorPage() {
           isOpen={showResumeChecker} 
           onClose={() => setShowResumeChecker(false)} 
           onProceed={handleProceedToExport} 
+        />
+
+        <PaymentModal 
+          isOpen={showPaymentModal} 
+          onClose={() => setShowPaymentModal(false)} 
+          onSuccess={() => {
+            setShowPaymentModal(false);
+            unlockPremium();
+            if (pendingExport === 'word') {
+              generateWord(data);
+              setShowPostDownloadModal(true);
+              setTimeout(() => setShowFeedbackModal(true), 2000);
+            } else {
+              handlePrint();
+            }
+          }}
         />
 
         <PostDownloadModal 

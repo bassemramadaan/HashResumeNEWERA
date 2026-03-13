@@ -31,7 +31,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
     setVerifying(true);
     setError('');
     try {
-      const url = `https://script.google.com/macros/s/AKfycbwM0LeQLtMxG7NohWc46lj6ITfRaaE-rl1JSYMjndnNX6xcGMHYmZS0MRBWf7gv10eymw/exec?code=${encodeURIComponent(code)}&t=${Date.now()}`;
+      const url = `https://script.google.com/macros/s/AKfycbxzY_w_K7mzU-AYqds3vvLARGwAQjvbWi88v0c8U0FXKE8KfFQ4XxlhZc3ExkRM8XLMVg/exec?code=${encodeURIComponent(code)}&t=${Date.now()}`;
       const response = await fetch(url, {
         method: 'GET',
         mode: 'cors',
@@ -122,20 +122,19 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               </div>
             </div>
 
-            {/* How it works section */}
             <div className="mb-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 text-left">
               <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
                 <CheckCircle2 size={16} className="text-indigo-500" />
-                How payment works
+                How to get your code
               </h3>
               <div className="space-y-3">
                 <div className="flex gap-3">
                   <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400">Click "Get Code" to pay via <strong>InstaPay</strong> or <strong>Vodafone Cash</strong>.</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">Click "Get Code via WhatsApp" below to message us.</p>
                 </div>
                 <div className="flex gap-3">
                   <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400">Send the screenshot to our WhatsApp and get your activation code instantly.</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-400">Complete the payment and receive your unique activation code instantly.</p>
                 </div>
                 <div className="flex gap-3">
                   <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</div>
@@ -167,11 +166,11 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">Don't have a code?</p>
               <button 
-                onClick={() => window.open('https://script.google.com/macros/s/AKfycbwM0LeQLtMxG7NohWc46lj6ITfRaaE-rl1JSYMjndnNX6xcGMHYmZS0MRBWf7gv10eymw/exec', '_blank')} 
+                onClick={() => window.open('https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code', '_blank')} 
                 className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm"
               >
                 <Ticket size={18} />
-                Get Code
+                Get Code via WhatsApp
               </button>
             </div>
           </div>
