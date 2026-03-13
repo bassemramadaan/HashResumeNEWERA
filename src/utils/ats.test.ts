@@ -60,7 +60,7 @@ describe('calculateATSScore', () => {
   it('should calculate a score above 0 for valid data', () => {
     const result = calculateATSScore(mockData);
     expect(result.score).toBeGreaterThan(0);
-    expect(result.goodPoints.length).toBeGreaterThan(0);
+    expect(result.sections.some(s => s.goodPoints.length > 0)).toBe(true);
   });
 
   it('should penalize for missing summary', () => {
@@ -69,6 +69,9 @@ describe('calculateATSScore', () => {
       personalInfo: { ...mockData.personalInfo, summary: '' }
     };
     const result = calculateATSScore(dataWithoutSummary);
-    expect(result.improvements).toContain("Add a professional summary to introduce yourself and your career goals.");
+    const hasImprovement = result.sections.some(s => 
+      s.improvements.some(imp => imp.includes("Add a professional summary"))
+    );
+    expect(hasImprovement).toBe(true);
   });
 });

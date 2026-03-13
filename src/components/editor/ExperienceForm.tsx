@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, AlertCircle, Briefcase } from 'lucide-react';
 import SectionTooltip from './SectionTooltip';
 import { getJobMatchResults } from '../../utils/ats';
 
