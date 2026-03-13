@@ -107,7 +107,7 @@ const initialData: ResumeData = {
     isFreshGrad: false,
   },
   jobDescription: '',
-  isPremium: false,
+  isPremium: true,
 };
 
 type ResumeStore = {

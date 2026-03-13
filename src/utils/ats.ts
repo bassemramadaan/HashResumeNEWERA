@@ -104,8 +104,8 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   }
   sections.push(summary);
 
-  // 3. Experience Structure (10 points)
-  const expStructure = { title: "Experience Structure", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
+  // 3. Experience Formatting (10 points)
+  const expStructure = { title: "Experience Formatting", score: 0, maxScore: 10, goodPoints: [], improvements: [] as string[] };
   if (experience.length > 0) {
     expStructure.score += 5;
     expStructure.goodPoints.push("Work experience section is present.");
@@ -139,8 +139,8 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   }
   sections.push(expStructure);
 
-  // 4. Bullet Point Quality (20 points)
-  const bulletQuality = { title: "Bullet Point Quality", score: 0, maxScore: 20, goodPoints: [], improvements: [] as string[] };
+  // 4. Experience Bullet Points (20 points)
+  const bulletQuality = { title: "Experience Bullet Points", score: 0, maxScore: 20, goodPoints: [], improvements: [] as string[] };
   if (experience.length > 0) {
     let actionVerbCount = 0;
     let quantifiedCount = 0;

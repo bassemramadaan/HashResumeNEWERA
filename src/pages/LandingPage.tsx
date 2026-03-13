@@ -12,8 +12,6 @@ import ProductShowcase from '../components/ProductShowcase';
 import ParticleAnimation from '../components/ParticleAnimation';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import FeedbackModal from '../components/FeedbackModal';
-import SarIcon from '../components/payment/SarIcon';
-import AedIcon from '../components/payment/AedIcon';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { blogPosts } from '../data/blogPosts';
@@ -29,17 +27,6 @@ export default function LandingPage() {
 
   // Fixed count as requested
   const displayCount = "50,000";
-
-  const currencies = {
-    EGP: { symbol: 'EGP', price: 25 },
-    SAR: { symbol: <SarIcon className="w-[1em] h-[1em] inline-block shrink-0" />, price: 2 },
-    AED: { symbol: <AedIcon className="w-[1em] h-[1em] inline-block shrink-0" />, price: 2 },
-    EUR: { symbol: '€', price: 1 },
-    USD: { symbol: '$', price: 1 },
-  };
-
-  const [currency, setCurrency] = useState<keyof typeof currencies>('EGP');
-  const selectedCurrency = currencies[currency];
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
@@ -578,131 +565,6 @@ export default function LandingPage() {
       {/* Wizard Showcase (Replaces Process) */}
       <section id="process">
         <WizardShowcase />
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-24 bg-white dark:bg-slate-950 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 font-display tracking-tight">
-              {t.pricingTitle}
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              {t.pricingSubtitle}
-            </p>
-          </div>
-
-          {/* Currency Switcher */}
-          <div className="flex justify-center mb-12">
-            <div className="inline-flex p-1.5 bg-slate-100 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner backdrop-blur-sm">
-              {Object.keys(currencies).map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setCurrency(c as keyof typeof currencies)}
-                  className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${currency === c ? 'bg-white dark:bg-slate-800 text-[#f16529] shadow-md ring-1 ring-black/5 dark:ring-white/5' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8 max-w-5xl mx-auto">
-            {/* Competitor Comparison */}
-            <div className="w-full max-w-md bg-slate-50 dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 flex flex-col justify-center">
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 text-center">
-                {t.whyChooseUs}
-              </h3>
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-600 dark:text-slate-400 font-medium">Zety / Resume.io</span>
-                  <span className="text-slate-900 dark:text-white font-bold flex items-center gap-1">
-                    {currency === 'EGP' ? (
-                      <>{15 * selectedCurrency.price} - {25 * selectedCurrency.price} {selectedCurrency.symbol}</>
-                    ) : (
-                      <>{selectedCurrency.symbol}{15 * selectedCurrency.price} - {25 * selectedCurrency.price}</>
-                    )} / month
-                  </span>
-                </div>
-                <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-600 dark:text-slate-400 font-medium">Canva Pro</span>
-                  <span className="text-slate-900 dark:text-white font-bold flex items-center gap-1">
-                    {currency === 'EGP' ? (
-                      <>{(12.99 * selectedCurrency.price).toFixed(2)} {selectedCurrency.symbol}</>
-                    ) : (
-                      <>{selectedCurrency.symbol}{(12.99 * selectedCurrency.price).toFixed(2)}</>
-                    )} / month
-                  </span>
-                </div>
-                <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#f16529] font-bold text-lg">Hash Resume</span>
-                  <span className="text-[#f16529] font-black text-xl flex items-center gap-1">
-                    {currency === 'EGP' ? (
-                      <>{selectedCurrency.price} {selectedCurrency.symbol}</>
-                    ) : (
-                      <>{selectedCurrency.symbol}{selectedCurrency.price}</>
-                    )} / download
-                  </span>
-                </div>
-              </div>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-8 text-center">
-                {t.noSubscriptions}
-              </p>
-            </div>
-
-            {/* Single Download Plan */}
-            <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#f16529] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
-              <div className="absolute top-0 right-0 bg-[#f16529] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">
-                {t.mostPopular}
-              </div>
-              
-              <div className="text-center mb-8">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
-                  {t.singleDownload}
-                </h3>
-
-                <div className="flex flex-col items-center justify-center gap-2 mb-2">
-                  <span className="text-5xl font-black text-[#f16529] flex items-center gap-2">
-                    {currency === 'EGP' ? (
-                      <>{selectedCurrency.price} {selectedCurrency.symbol}</>
-                    ) : (
-                      <>{selectedCurrency.symbol}{selectedCurrency.price}</>
-                    )}
-                  </span>
-                  <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-800">
-                    <CheckCircle2 size={14} />
-                    {language === 'ar' ? 'بدون تسجيل، بدون اشتراك، ادفع مرة واحدة' : 'No Login, No Subscription, Pay once'}
-                  </div>
-                </div>
-              </div>
-
-              <ul className="space-y-4 mb-8">
-                {[
-                  language === 'ar' ? 'ادفع مرة واحدة لكل سيرة ذاتية' : 'Pay once per resume download',
-                  language === 'ar' ? 'يشمل تحميل PDF و Word معاً' : 'Includes both PDF & Word formats',
-                  language === 'ar' ? 'تعديلات مجانية لا نهائية قبل الدفع' : 'Unlimited free edits before paying',
-                  language === 'ar' ? 'جميع القوالب الاحترافية متاحة' : 'All premium templates included',
-                  language === 'ar' ? 'بدون علامة مائية' : 'No Watermark',
-                  language === 'ar' ? 'بدون اشتراكات أو رسوم خفية' : 'No subscriptions, no hidden fees'
-                ].map((feature, i) => (
-                  <li key={i} className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
-                    <CheckCircle2 className="text-[#f16529] shrink-0 mt-0.5" size={20} />
-                    <span className="text-sm leading-tight font-medium">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link 
-                to="/templates" 
-                className="block w-full bg-[#f16529] hover:bg-[#e44d26] text-white text-center font-bold py-4 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-95"
-              >
-                {t.getStartedNow}
-              </Link>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Testimonials Section */}

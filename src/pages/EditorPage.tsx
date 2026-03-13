@@ -29,7 +29,7 @@ const CoverLetterForm = lazy(() => import('../components/editor/CoverLetterForm'
 const FinishStep = lazy(() => import('../components/editor/FinishStep'));
 const ResumePreview = lazy(() => import('../components/preview/ResumePreview'));
 const CoverLetterPreview = lazy(() => import('../components/preview/CoverLetterPreview'));
-const PaymentModal = lazy(() => import('../components/payment/PaymentModal'));
+// const PaymentModal = lazy(() => import('../components/payment/PaymentModal'));
 const PostDownloadModal = lazy(() => import('../components/payment/PostDownloadModal'));
 const FeedbackModal = lazy(() => import('../components/FeedbackModal'));
 const OnboardingTour = lazy(() => import('../components/OnboardingTour'));
@@ -56,7 +56,6 @@ export default function EditorPage() {
   const [activeTab, setActiveTab] = useState<Tab>('basics');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [showFullPreview, setShowFullPreview] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
@@ -138,11 +137,7 @@ export default function EditorPage() {
 
   const handleProceedToExport = () => {
     setShowResumeChecker(false);
-    if (data.isPremium) {
-      handlePrint();
-    } else {
-      setShowPaymentModal(true);
-    }
+    handlePrint();
   };
 
   const tabs: TabItem[] = [
@@ -528,14 +523,6 @@ export default function EditorPage() {
           onProceed={handleProceedToExport} 
         />
 
-        <PaymentModal 
-          isOpen={showPaymentModal} 
-          onClose={() => setShowPaymentModal(false)} 
-          onSuccess={() => {
-            setShowPaymentModal(false);
-            handlePrint();
-          }}
-        />
         <PostDownloadModal 
           isOpen={showPostDownloadModal} 
           onClose={() => setShowPostDownloadModal(false)} 
