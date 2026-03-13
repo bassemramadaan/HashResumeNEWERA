@@ -307,12 +307,12 @@ export default function LandingPage() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: Zap, title: t.feature1Title, desc: t.feature1Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
-              { icon: ShieldCheck, title: t.feature2Title, desc: t.feature2Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" },
+              { icon: Sparkles, title: t.feature5Title, desc: t.feature5Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
               { icon: FileText, title: t.feature3Title, desc: t.feature3Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
+              { icon: ShieldCheck, title: t.feature2Title, desc: t.feature2Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" },
+              { icon: Zap, title: t.feature1Title, desc: t.feature1Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
               { icon: CheckCircle2, title: t.feature4Title, desc: t.feature4Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" },
-              { icon: Sparkles, title: "AI Content Generation", desc: "Overcome writer's block with our AI assistant that generates professional summaries and bullet points tailored to your industry.", color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
-              { icon: Layout, title: "Multiple Premium Templates", desc: "Choose from a variety of professionally designed templates that stand out while remaining ATS-compliant and easy to read.", color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" }
+              { icon: Layout, title: t.feature6Title, desc: t.feature6Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" }
             ].map((feature, i) => (
               <div key={i} className="group relative bg-white dark:bg-slate-900/50 backdrop-blur-sm p-8 md:p-10 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 overflow-hidden cursor-pointer">
                 <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-5 dark:opacity-10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-700 ease-out`}></div>
