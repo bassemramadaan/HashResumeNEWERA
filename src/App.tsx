@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { useEffect, Suspense } from 'react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { useThemeStore } from './store/useThemeStore';
 import { useLanguageStore } from './store/useLanguageStore';
 import PageLoader from './components/PageLoader';
@@ -52,6 +54,8 @@ export default function App() {
         </Routes>
       </Suspense>
       <FloatingFeedback />
+      <Analytics />
+      <SpeedInsights />
     </BrowserRouter>
   );
 }
