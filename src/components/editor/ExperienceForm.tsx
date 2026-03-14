@@ -45,10 +45,59 @@ export default function ExperienceForm() {
       </div>
 
       {experience.length === 0 ? (
-        <div className="bg-white dark:bg-slate-900 p-10 rounded-2xl border border-slate-200 dark:border-slate-800 border-dashed text-center text-slate-500 dark:text-slate-400 transition-colors">
-          <Briefcase className="w-12 h-12 mx-auto mb-4 opacity-20" />
-          <p className="font-medium">No experience added yet.</p>
-          <p className="text-sm mt-1">Click the button above to add your work history.</p>
+        <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 border-dashed text-center transition-colors">
+          <Briefcase className="w-12 h-12 mx-auto mb-4 text-slate-400 dark:text-slate-500 opacity-50" />
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">No experience added yet</h3>
+          <p className="text-slate-500 dark:text-slate-400 mb-6 max-w-md mx-auto">
+            Get started by adding your work history. Not sure what to add? Try one of these templates:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 max-w-2xl mx-auto">
+            <button
+              onClick={() => {
+                addExperience({
+                  company: 'University / College',
+                  position: 'Student Project Lead',
+                  startDate: '2022-09',
+                  endDate: 'Present',
+                  description: '• Led a team of 4 students to develop a full-stack web application for a final year project.\n• Coordinated weekly meetings and managed project timeline using Agile methodologies.\n• Presented the final project to a panel of professors, receiving the highest grade in the cohort.',
+                });
+              }}
+              className="p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all text-left group"
+            >
+              <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 mb-1">For Students</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Add academic projects or internships</p>
+            </button>
+            <button
+              onClick={() => {
+                addExperience({
+                  company: 'Tech Startup Inc.',
+                  position: 'Junior Developer',
+                  startDate: '2023-01',
+                  endDate: 'Present',
+                  description: '• Assisted in the development of responsive web interfaces using React and Tailwind CSS.\n• Participated in daily stand-ups and code reviews to ensure code quality.\n• Resolved 20+ bugs in the first month, improving application stability.',
+                });
+              }}
+              className="p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all text-left group"
+            >
+              <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 mb-1">For Juniors</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Add entry-level roles or bootcamps</p>
+            </button>
+            <button
+              onClick={() => {
+                addExperience({
+                  company: 'Previous Industry Corp',
+                  position: 'Customer Success Manager',
+                  startDate: '2019-05',
+                  endDate: '2022-12',
+                  description: '• Managed a portfolio of 50+ enterprise clients, maintaining a 98% retention rate.\n• Developed strong communication and problem-solving skills, highly transferable to a new role.\n• Led cross-functional initiatives to improve customer onboarding processes.',
+                });
+              }}
+              className="p-4 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-500 dark:hover:border-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all text-left group"
+            >
+              <h4 className="font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 mb-1">Career Switcher</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400">Highlight transferable skills</p>
+            </button>
+          </div>
         </div>
       ) : (
         <div className="space-y-4">
@@ -141,6 +190,7 @@ export default function ExperienceForm() {
                         </div>
                         <button 
                           type="button"
+                          data-tour="ai-button"
                           onClick={() => setShowSuggestionsFor(showSuggestionsFor === exp.id ? null : exp.id)}
                           className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center justify-center gap-1.5 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-3 py-1.5 rounded-full transition-colors w-fit"
                         >

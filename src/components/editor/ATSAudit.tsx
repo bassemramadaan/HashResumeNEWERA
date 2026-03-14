@@ -39,8 +39,8 @@ export default function ATSAudit() {
   }
 
   const getScoreColor = (s: number) => {
-    if (s >= 80) return "text-indigo-500 dark:text-indigo-400";
-    if (s >= 50) return "text-yellow-500 dark:text-yellow-400";
+    if (s >= 80) return "text-emerald-500 dark:text-emerald-400";
+    if (s >= 50) return "text-amber-500 dark:text-amber-400";
     return "text-red-500 dark:text-red-400";
   };
 
@@ -56,13 +56,13 @@ export default function ATSAudit() {
       <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
         
         {/* Score Header */}
-        <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800">
+        <div data-tour="ats-score" className="flex flex-col md:flex-row items-center gap-6 md:gap-10 mb-10 pb-10 border-b border-slate-100 dark:border-slate-800">
           <div className="relative flex items-center justify-center shrink-0 w-32 h-32 md:w-40 md:h-40">
             <svg className="w-32 h-32 md:w-40 md:h-40 transform -rotate-90 absolute inset-0">
               <defs>
                 <linearGradient id="score-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" className="text-indigo-600 dark:text-indigo-400" stopColor="currentColor" />
-                  <stop offset="100%" className="text-cyan-600 dark:text-cyan-400" stopColor="currentColor" />
+                  <stop offset="0%" className="text-emerald-500 dark:text-emerald-400" stopColor="currentColor" />
+                  <stop offset="100%" className="text-emerald-400 dark:text-emerald-300" stopColor="currentColor" />
                 </linearGradient>
               </defs>
               <circle

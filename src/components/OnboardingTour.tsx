@@ -14,24 +14,31 @@ interface Step {
 
 const STEPS: Step[] = [
   {
-    target: '[data-tour="personal-info"]',
-    title: '1. Enter Your Data',
-    content: 'Start by filling in your personal details, experience, and education.',
-    placement: 'right',
+    target: '[data-tour="experience-section"]',
+    title: '1. أضف خبراتك',
+    content: 'ابدأ بإضافة خبراتك العملية. يمكنك استخدام الاقتراحات الجاهزة إذا لم تكن تمتلك خبرة سابقة.',
+    placement: 'top',
     icon: User,
   },
   {
-    target: '[data-tour="skills-section"]',
-    title: '2. AI Enhancement',
-    content: 'Use our AI tools to generate professional summaries and optimize your bullet points automatically.',
-    placement: 'right',
+    target: '[data-tour="ai-button"]',
+    title: '2. استخدم الذكاء الاصطناعي',
+    content: 'دع الذكاء الاصطناعي يكتب لك نقاطاً احترافية (Bullet points) تبرز إنجازاتك بشكل مثالي.',
+    placement: 'bottom',
     icon: Sparkles,
   },
   {
     target: '[data-tour="review-section"]',
-    title: '3. ATS Review & Export',
-    content: 'Check your ATS score, get actionable feedback, and download your resume in PDF or Word format.',
-    placement: 'right',
+    title: '3. فحص التوافق (ATS)',
+    content: 'انتقل هنا لترى تقييم سيرتك الذاتية ومدى توافقها مع أنظمة التوظيف الآلية.',
+    placement: 'top',
+    icon: Target,
+  },
+  {
+    target: '[data-tour="download-button"]',
+    title: '4. حمّل سيرتك الذاتية',
+    content: 'أخيراً، قم بتحميل سيرتك الذاتية بصيغة PDF أو Word لتكون جاهزة للتقديم!',
+    placement: 'top',
     icon: Target,
   }
 ];

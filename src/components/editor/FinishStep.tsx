@@ -125,6 +125,7 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
           <div className="grid grid-cols-1 sm:grid-cols-4 lg:flex items-center gap-3 w-full lg:w-auto">
             <button
               onClick={onPrint}
+              data-tour="download-button"
               className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
             >
               <FileText size={18} className="text-red-500" />

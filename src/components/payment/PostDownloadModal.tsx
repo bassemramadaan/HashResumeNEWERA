@@ -1,5 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { PartyPopper, X } from 'lucide-react';
+import { PartyPopper, X, Target, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useLanguageStore } from '../../store/useLanguageStore';
 
 interface PostDownloadModalProps {
   isOpen: boolean;
@@ -7,6 +9,9 @@ interface PostDownloadModalProps {
 }
 
 export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModalProps) {
+  const { language } = useLanguageStore();
+  const isRtl = language === 'ar';
+
   if (!isOpen) return null;
 
   return (
@@ -38,16 +43,39 @@ export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModal
               <PartyPopper size={40} />
             </div>
             
-            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">Resume Downloaded!</h2>
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
+              {isRtl ? 'تم تحميل سيرتك الذاتية!' : 'Resume Downloaded!'}
+            </h2>
             <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 max-w-sm mx-auto">
-              Your professional resume is ready.
+              {isRtl ? 'سيرتك الذاتية الاحترافية جاهزة الآن.' : 'Your professional resume is ready.'}
             </p>
+
+            <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl p-6 mb-8 border border-indigo-100 dark:border-indigo-800/50">
+              <div className="flex items-center justify-center gap-3 mb-3">
+                <Target className="text-indigo-500" size={24} />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">
+                  {isRtl ? 'هل تريد أن تبحث الشركات عنك؟' : 'Want companies to reach out to you?'}
+                </h3>
+              </div>
+              <p className="text-slate-600 dark:text-slate-400 mb-6">
+                {isRtl 
+                  ? 'انضم إلى Hash Hunt بضغطة زر ودع الشركات الشريكة لنا تتواصل معك مباشرة.' 
+                  : 'Join Hash Hunt in one click and let our partner companies reach out to you directly.'}
+              </p>
+              <Link 
+                to="/hash-hunt"
+                className="inline-flex items-center justify-center gap-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
+              >
+                {isRtl ? 'انضم إلى Hash Hunt' : 'Join Hash Hunt'}
+                <ArrowRight size={18} className={isRtl ? 'rotate-180' : ''} />
+              </Link>
+            </div>
 
             <button 
               onClick={onClose}
               className="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 transition-colors"
             >
-              Close
+              {isRtl ? 'إغلاق' : 'Close'}
             </button>
           </div>
         </motion.div>

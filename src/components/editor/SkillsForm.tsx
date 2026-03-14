@@ -73,8 +73,20 @@ export default function SkillsForm() {
         <div className="mb-10">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">Your Skills</h3>
           {skills.length === 0 ? (
-            <div className="p-6 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl text-center text-slate-400 italic text-sm">
-              No skills added yet.
+            <div className="p-8 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl text-center transition-colors">
+              <Sparkles className="w-8 h-8 mx-auto mb-3 text-slate-400 dark:text-slate-500 opacity-50" />
+              <p className="text-slate-600 dark:text-slate-400 font-medium mb-4">No skills added yet. Try adding some of these:</p>
+              <div className="flex flex-wrap justify-center gap-2 max-w-lg mx-auto">
+                {['Communication', 'Problem Solving', 'Teamwork', 'Time Management', 'Adaptability'].map(skill => (
+                  <button
+                    key={skill}
+                    onClick={() => addSkill(skill)}
+                    className="px-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all"
+                  >
+                    + {skill}
+                  </button>
+                ))}
+              </div>
             </div>
           ) : (
             <div className="flex flex-wrap gap-2.5">
