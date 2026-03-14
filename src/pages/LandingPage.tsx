@@ -17,6 +17,7 @@ import { blogPosts } from '../data/blogPosts';
 
 
 import CompactTestimonials from '../components/CompactTestimonials';
+import Navbar from '../components/Navbar';
 
 export default function LandingPage() {
   const { language } = useLanguageStore();
