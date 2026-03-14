@@ -187,7 +187,9 @@ export default function EditorPage() {
         <meta name="description" content="Build your professional resume with our easy-to-use editor. Real-time preview and ATS optimization." />
         <link rel="canonical" href="https://hashresume.com/editor" />
       </Helmet>
-      <OnboardingTour />
+      <Suspense fallback={null}>
+        <OnboardingTour />
+      </Suspense>
       
       {/* Floating Dock Navbar (Top) */}
       <div className="fixed top-6 left-1/2 -translate-x-1/2 flex justify-center z-50 px-4 pointer-events-none">

@@ -12,15 +12,20 @@ export const PaymentService = {
    */
   async createCheckoutSession(planId: string): Promise<string> {
     try {
-      // Simulate an API call to the backend to create a Stripe checkout session
-      console.log(`Creating checkout session for plan: ${planId}`);
-      
-      // Mocking a successful response
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(`https://checkout.stripe.com/pay/cs_test_${Math.random().toString(36).substring(7)}`);
-        }, 1500);
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ planId }),
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      const data = await response.json();
+      return data.url;
     } catch (error) {
       console.error("Error creating checkout session:", error);
       throw new Error("Failed to initiate payment.", { cause: error });

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import type { ElementType } from 'react';
 import { useOnboardingStore } from '../store/useOnboardingStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronRight, ChevronLeft, User, Sparkles, Target } from 'lucide-react';
@@ -9,7 +10,7 @@ interface Step {
   title: string;
   content: string;
   placement?: 'top' | 'bottom' | 'left' | 'right';
-  icon: React.ElementType;
+  icon: ElementType;
 }
 
 const STEPS: Step[] = [

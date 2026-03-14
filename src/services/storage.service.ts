@@ -1,4 +1,4 @@
-import { ResumeData } from '../schemas/resume.schema';
+import { resumeSchema, ResumeData } from '../schemas/resume.schema';
 
 const STORAGE_KEY = 'hash_resume_data';
 
@@ -25,8 +25,13 @@ export const StorageService = {
       const serializedData = localStorage.getItem(STORAGE_KEY);
       if (serializedData) {
         const parsedData = JSON.parse(serializedData);
-        // Note: In a robust application, you would validate parsedData against the Zod schema here.
-        return parsedData as ResumeData;
+        const result = resumeSchema.safeParse(parsedData);
+        if (result.success) {
+          return result.data;
+        } else {
+          console.error("Invalid resume data in local storage:", result.error);
+          return null;
+        }
       }
       return null;
     } catch (error) {

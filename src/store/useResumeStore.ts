@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { temporal } from 'zundo';
+import { nanoid } from 'nanoid';
 
 export type Experience = {
   id: string;
@@ -137,8 +138,6 @@ type ResumeStore = {
   updateData: (data: ResumeData) => void;
 };
 
-const generateId = () => Math.random().toString(36).substr(2, 9);
-
 export const useResumeStore = create<ResumeStore>()(
   temporal(
     persist(
@@ -156,7 +155,7 @@ export const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           data: {
             ...state.data,
-            experience: [...state.data.experience, { ...exp, id: generateId() }],
+            experience: [...state.data.experience, { ...exp, id: nanoid() }],
           },
         })),
       updateExperience: (id, exp) =>
@@ -177,7 +176,7 @@ export const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           data: {
             ...state.data,
-            education: [...state.data.education, { ...edu, id: generateId() }],
+            education: [...state.data.education, { ...edu, id: nanoid() }],
           },
         })),
       updateEducation: (id, edu) =>
@@ -212,7 +211,7 @@ export const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           data: {
             ...state.data,
-            projects: [...state.data.projects, { ...proj, id: generateId() }],
+            projects: [...state.data.projects, { ...proj, id: nanoid() }],
           },
         })),
       updateProject: (id, proj) =>
@@ -233,7 +232,7 @@ export const useResumeStore = create<ResumeStore>()(
         set((state) => ({
           data: {
             ...state.data,
-            certifications: [...state.data.certifications, { ...cert, id: generateId() }],
+            certifications: [...state.data.certifications, { ...cert, id: nanoid() }],
           },
         })),
       updateCertification: (id, cert) =>
@@ -290,7 +289,7 @@ export const useResumeStore = create<ResumeStore>()(
             },
             experience: [
               {
-                id: generateId(),
+                id: nanoid(),
                 company: 'Global Tech Solutions',
                 position: 'Senior Frontend Developer',
                 startDate: '2020-01',
@@ -298,7 +297,7 @@ export const useResumeStore = create<ResumeStore>()(
                 description: 'Worked on the core web application using React and TypeScript.', // Shortened description
               },
               {
-                id: generateId(),
+                id: nanoid(),
                 company: 'Innovate Systems LLC',
                 position: 'Frontend Developer',
                 startDate: '2017-06',
@@ -309,7 +308,7 @@ export const useResumeStore = create<ResumeStore>()(
             ],
             education: [
               {
-                id: generateId(),
+                id: nanoid(),
                 institution: 'State University of Technology',
                 degree: 'Bachelor of Science in Computer Science',
                 startDate: '2013-09',
@@ -320,7 +319,7 @@ export const useResumeStore = create<ResumeStore>()(
             skills: ['React', 'TypeScript', 'Node.js', 'Tailwind CSS', 'Git', 'Agile Methodologies'],
             projects: [
               {
-                id: generateId(),
+                id: nanoid(),
                 name: 'E-commerce Platform',
                 description: 'A full-stack e-commerce platform built with MERN stack.',
                 link: 'github.com/johndoe/ecommerce',
@@ -328,7 +327,7 @@ export const useResumeStore = create<ResumeStore>()(
             ],
             certifications: [
               {
-                id: generateId(),
+                id: nanoid(),
                 name: 'AWS Certified Developer',
                 issuer: 'Amazon Web Services',
                 date: '2021-08',
