@@ -19,6 +19,7 @@ import { blogPosts } from '../data/blogPosts';
 
 import SimpleSteps from '../components/SimpleSteps';
 import Navbar from '../components/Navbar';
+import CompactTestimonials from '../components/CompactTestimonials';
 
 export default function LandingPage() {
   const { language } = useLanguageStore();
@@ -277,6 +278,8 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      <CompactTestimonials />
 
       <SimpleSteps />
 
