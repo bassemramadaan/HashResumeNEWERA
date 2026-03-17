@@ -1,6 +1,9 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
+
+process.env.NODE_ENV = "development";
+
 import { fetchJobsFromSheet } from './utils/jobs';
 import { checkRateLimit } from './utils/rateLimit';
 import { GoogleGenAI } from "@google/genai";
@@ -116,14 +119,14 @@ async function startServer() {
   });
 
   // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
+  const isDev = process.env.NODE_ENV !== "production";
+  if (isDev) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
   } else {
-    // In production, serve static files from dist
     app.use(express.static("dist"));
     app.get("*", (req, res) => {
       res.sendFile("dist/index.html", { root: "." });
