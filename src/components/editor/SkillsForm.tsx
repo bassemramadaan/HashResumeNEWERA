@@ -10,7 +10,7 @@ const SUGGESTED_SKILLS = [
   'Problem Solving', 'Team Leadership', 'Project Management'
 ];
 
-export default React.memo(function SkillsForm() {
+const SkillsForm = () => {
   const { data, addSkill, removeSkill } = useResumeStore();
   const { skills, jobDescription } = data;
   const [inputValue, setInputValue] = useState('');
@@ -37,10 +37,10 @@ export default React.memo(function SkillsForm() {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="bg-white dark:bg-slate-900 p-5 sm:p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
-        <form onSubmit={handleAdd} className="mb-8">
-          <div className="flex items-center gap-2 mb-3">
-            <label htmlFor="skillInput" className="block text-sm font-bold text-slate-700 dark:text-slate-300">
+      <div className="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
+        <form onSubmit={handleAdd} className="mb-6">
+          <div className="flex items-center gap-2 mb-2">
+            <label htmlFor="skillInput" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
               Add a skill
             </label>
             <SectionTooltip 
@@ -49,59 +49,45 @@ export default React.memo(function SkillsForm() {
               example="Hard: React, Node.js, SQL. Soft: Project Management, Team Leadership."
             />
           </div>
-          <div className="flex flex-col sm:flex-row gap-3">
+          <div className="flex gap-2">
             <input
               type="text"
               id="skillInput"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="flex-1 px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. React, Project Management..."
             />
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="bg-[#f16529] hover:bg-[#e44d26] disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-md active:scale-95"
+              className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 dark:disabled:from-slate-700 dark:disabled:to-slate-700 disabled:text-slate-500 text-white px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm shadow-indigo-500/20"
             >
               <Plus size={18} />
-              Add Skill
+              <span className="hidden sm:inline">Add</span>
             </button>
           </div>
         </form>
 
-        <div className="mb-10">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-4">Your Skills</h3>
+        <div className="mb-8">
+          <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">Your Skills</h3>
           {skills.length === 0 ? (
-            <div className="p-8 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl text-center transition-colors">
-              <Sparkles className="w-8 h-8 mx-auto mb-3 text-slate-400 dark:text-slate-500 opacity-50" />
-              <p className="text-slate-600 dark:text-slate-400 font-medium mb-4">No skills added yet. Try adding some of these:</p>
-              <div className="flex flex-wrap justify-center gap-2 max-w-lg mx-auto">
-                {['Communication', 'Problem Solving', 'Teamwork', 'Time Management', 'Adaptability'].map(skill => (
-                  <button
-                    key={skill}
-                    onClick={() => addSkill(skill)}
-                    className="px-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
-                  >
-                    + {skill}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <p className="text-sm text-slate-400 italic">No skills added yet.</p>
           ) : (
-            <div className="flex flex-wrap gap-2.5">
+            <div className="flex flex-wrap gap-2">
               {skills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-sm font-semibold group transition-colors border border-slate-200 dark:border-slate-700"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-sm font-medium group transition-colors"
                 >
                   {skill}
                   <button
                     onClick={() => removeSkill(skill)}
-                    className="p-1 text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 focus:outline-none transition-colors"
+                    className="text-slate-400 hover:text-red-500 dark:text-slate-500 dark:hover:text-red-400 focus:outline-none transition-colors"
                     aria-label={`Remove ${skill}`}
                   >
-                    <X size={16} />
+                    <X size={14} />
                   </button>
                 </span>
               ))}
@@ -127,7 +113,7 @@ export default React.memo(function SkillsForm() {
         {unaddedSuggestions.length > 0 && (
           <div>
             <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-1.5">
-              <Sparkles size={14} className="text-[#f16529]" />
+              <Sparkles size={14} className="text-indigo-500 dark:text-indigo-400" />
               AI Suggested Skills (Free)
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -135,7 +121,7 @@ export default React.memo(function SkillsForm() {
                 <button
                   key={skill}
                   onClick={() => addSkill(skill)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 hover:border-slate-300 dark:hover:border-slate-600 text-sm font-medium transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-700 dark:hover:text-indigo-300 hover:border-indigo-200 dark:hover:border-indigo-800 text-sm font-medium transition-colors"
                 >
                   <Plus size={14} />
                   {skill}
@@ -147,4 +133,6 @@ export default React.memo(function SkillsForm() {
       </div>
     </div>
   );
-});
+};
+
+export default SkillsForm;

@@ -1,11 +1,9 @@
 import React from 'react';
 import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 import { useOnboardingStore } from '../store/useOnboardingStore';
-import { useLanguageStore } from '../store/useLanguageStore';
 
-export default function OnboardingTour() {
+const OnboardingTour = () => {
   const { isActive, skipOnboarding } = useOnboardingStore();
-  const { language } = useLanguageStore();
 
   const steps: Step[] = [
     {
@@ -108,4 +106,6 @@ export default function OnboardingTour() {
       }}
     />
   );
-}
+};
+
+export default OnboardingTour;

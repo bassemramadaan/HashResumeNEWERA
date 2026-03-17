@@ -19,11 +19,11 @@ import { cn } from '../utils';
 import { calculateATSScore } from '../utils/ats';
 
 // Lazy load heavy components
-const PersonalInfoForm = lazy(() => import('../components/editor/PersonalInfoForm'));
-const ExperienceForm = lazy(() => import('../components/editor/ExperienceForm'));
-const EducationForm = lazy(() => import('../components/editor/EducationForm'));
-const SkillsForm = lazy(() => import('../components/editor/SkillsForm'));
-const ProjectsForm = lazy(() => import('../components/editor/ProjectsForm'));
+import PersonalInfoForm from '../components/editor/PersonalInfoForm';
+import ExperienceForm from '../components/editor/ExperienceForm';
+import EducationForm from '../components/editor/EducationForm';
+import SkillsForm from '../components/editor/SkillsForm';
+import ProjectsForm from '../components/editor/ProjectsForm';
 const CertificationsForm = lazy(() => import('../components/editor/CertificationsForm'));
 const SettingsForm = lazy(() => import('../components/editor/SettingsForm'));
 const ATSAudit = lazy(() => import('../components/editor/ATSAudit'));

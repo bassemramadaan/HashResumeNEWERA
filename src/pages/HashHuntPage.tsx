@@ -32,7 +32,7 @@ const JobCard: React.FC<{
   isSaved: boolean; 
   onToggleSave: () => void; 
   onOpenDetails: () => void; 
-  t: any 
+  t: { [key: string]: string }
 }> = ({ job, isSaved, onToggleSave, onOpenDetails, t }) => {
   const applyUrl = "https://forms.gle/h1UNQfD55dc2o8wM6";
   
@@ -140,7 +140,7 @@ const JobDetailsModal: React.FC<{
   onClose: () => void; 
   isSaved: boolean; 
   onToggleSave: () => void; 
-  t: any 
+  t: { [key: string]: string }
 }> = ({ job, isOpen, onClose, isSaved, onToggleSave, t }) => {
   const applyUrl = "https://forms.gle/h1UNQfD55dc2o8wM6";
 

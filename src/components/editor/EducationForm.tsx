@@ -57,7 +57,7 @@ const EGYPTIAN_UNIVERSITIES = [
   "Other"
 ];
 
-export default React.memo(function EducationForm() {
+const EducationForm = () => {
   const { data, addEducation, updateEducation, removeEducation } = useResumeStore();
   const { education } = data;
   const [expandedId, setExpandedId] = useState<string | null>(education[0]?.id || null);
@@ -75,80 +75,77 @@ export default React.memo(function EducationForm() {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="flex items-center justify-end px-1">
+      <div className="flex items-center justify-end">
         <button
           onClick={handleAdd}
-          className="flex items-center justify-center gap-2 bg-[#f16529] hover:bg-[#e44d26] text-white px-5 py-3 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 w-full sm:w-auto"
+          className="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-indigo-100 dark:border-indigo-800"
         >
-          <Plus size={18} />
+          <Plus size={16} />
           Add Education
         </button>
       </div>
 
       {education.length === 0 ? (
-        <div className="bg-white dark:bg-slate-900 p-10 rounded-2xl border border-slate-200 dark:border-slate-800 border-dashed text-center text-slate-500 dark:text-slate-400 transition-colors">
-          <p className="font-medium">No education added yet.</p>
-          <p className="text-sm mt-1">Click the button above to add your academic history.</p>
+        <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 border-dashed text-center text-slate-500 dark:text-slate-400">
+          No education added yet. Click the button above to add your academic history.
         </div>
       ) : (
         <div className="space-y-4">
           {education.map((edu) => (
             <div key={edu.id} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-all">
               <div 
-                className="p-5 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                 onClick={() => setExpandedId(expandedId === edu.id ? null : edu.id)}
               >
-                <div className="flex-1 min-w-0 pr-4">
-                  <h3 className="font-bold text-slate-900 dark:text-white truncate">{edu.degree || '(Not specified)'}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 truncate">{edu.institution || 'Institution Name'} • {edu.startDate || 'Start'} - {edu.endDate || 'End'}</p>
+                <div>
+                  <h3 className="font-bold text-slate-900 dark:text-white">{edu.degree || '(Not specified)'}</h3>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">{edu.institution || 'Institution Name'} • {edu.startDate || 'Start'} - {edu.endDate || 'End'}</p>
                 </div>
-                <div className="flex items-center gap-1 sm:gap-3 shrink-0">
+                <div className="flex items-center gap-3">
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation(); 
                       const { id: _id, ...rest } = edu;
                       addEducation(rest);
                     }}
-                    className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-colors"
+                    className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
                     title="Duplicate"
                   >
                     <Copy size={18} />
                   </button>
                   <button 
                     onClick={(e) => { e.stopPropagation(); removeEducation(edu.id); }}
-                    className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
+                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                     title="Remove"
                   >
                     <Trash2 size={18} />
                   </button>
-                  <div className="p-2.5 text-slate-400">
-                    {expandedId === edu.id ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                  </div>
+                  {expandedId === edu.id ? <ChevronUp size={20} className="text-slate-400" /> : <ChevronDown size={20} className="text-slate-400" />}
                 </div>
               </div>
 
               {expandedId === edu.id && (
-                <div className="p-5 md:p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 space-y-5">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Degree / Major</label>
+                <div className="p-4 md:p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Degree / Major</label>
                       <input
                         type="text"
                         value={edu.degree}
                         onChange={(e) => updateEducation(edu.id, { degree: e.target.value })}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. Bachelor of Science in Computer Science"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Institution</label>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Institution</label>
                       <select
                         value={EGYPTIAN_UNIVERSITIES.includes(edu.institution) || edu.institution === '' ? edu.institution : 'Other'}
                         onChange={(e) => {
                           const val = e.target.value;
                           updateEducation(edu.id, { institution: val === 'Other' ? '' : val });
                         }}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors"
+                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
                       >
                         <option value="" disabled>Select University</option>
                         {EGYPTIAN_UNIVERSITIES.map(uni => (
@@ -160,37 +157,37 @@ export default React.memo(function EducationForm() {
                           type="text"
                           value={edu.institution}
                           onChange={(e) => updateEducation(edu.id, { institution: e.target.value })}
-                          className="block w-full px-4 py-3 mt-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                          className="block w-full px-3 py-2 mt-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                           placeholder="Enter institution name"
                         />
                       ) : null}
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Start Date</label>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Start Date</label>
                       <input
                         type="month"
                         value={edu.startDate}
                         onChange={(e) => updateEducation(edu.id, { startDate: e.target.value })}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors"
+                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
                       />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">End Date</label>
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-medium text-slate-700 dark:text-slate-300">End Date</label>
                       <input
                         type="text"
                         value={edu.endDate}
                         onChange={(e) => updateEducation(edu.id, { endDate: e.target.value })}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. 2024 or Present"
                       />
                     </div>
-                    <div className="col-span-1 md:col-span-2 space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                        <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Description (Optional)</label>
+                    <div className="col-span-1 md:col-span-2 space-y-1.5">
+                      <div className="flex justify-between items-center">
+                        <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Description (Optional)</label>
                         <button 
                           type="button"
                           onClick={() => setShowSuggestionsFor(showSuggestionsFor === edu.id ? null : edu.id)}
-                          className="text-xs font-bold text-[#f16529] flex items-center justify-center gap-1.5 bg-orange-50 dark:bg-orange-900/30 hover:bg-orange-100 dark:hover:bg-orange-900/50 px-3 py-1.5 rounded-full transition-colors w-fit"
+                          className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
                         >
                           <Sparkles size={12} />
                           AI Suggestions (Free)
@@ -198,8 +195,8 @@ export default React.memo(function EducationForm() {
                       </div>
 
                       {showSuggestionsFor === edu.id && (
-                        <div className="bg-orange-50/50 dark:bg-orange-900/20 border border-orange-100 dark:border-orange-800/50 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
-                          <p className="text-xs font-semibold text-orange-800 dark:text-orange-300 mb-2">Click a suggestion to append it to your description:</p>
+                        <div className="bg-indigo-50/50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
+                          <p className="text-xs font-semibold text-indigo-800 dark:text-indigo-300 mb-2">Click a suggestion to append it to your description:</p>
                           {EDU_SUGGESTIONS.map((suggestion, idx) => (
                             <button
                               key={idx}
@@ -209,7 +206,7 @@ export default React.memo(function EducationForm() {
                                 updateEducation(edu.id, { description: currentDesc + suggestion });
                                 setShowSuggestionsFor(null);
                               }}
-                              className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-orange-700 dark:hover:text-orange-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-orange-200 dark:hover:border-orange-800"
+                              className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800"
                             >
                               {suggestion}
                             </button>
@@ -221,7 +218,7 @@ export default React.memo(function EducationForm() {
                         rows={3}
                         value={edu.description}
                         onChange={(e) => updateEducation(edu.id, { description: e.target.value })}
-                        className="block w-full p-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full p-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="• Relevant coursework, honors, GPA..."
                       />
                     </div>
@@ -234,4 +231,6 @@ export default React.memo(function EducationForm() {
       )}
     </div>
   );
-});
+};
+
+export default EducationForm;
