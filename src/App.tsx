@@ -1,14 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import React, { useEffect, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/react';
 import { useThemeStore } from './store/useThemeStore';
 import { useLanguageStore } from './store/useLanguageStore';
 import PageLoader from './components/PageLoader';
-import FloatingFeedback from './components/FloatingFeedback';
 
-import LandingPage from './pages/LandingPage';
-import Navbar from './components/Navbar';
+const LandingPage = React.lazy(() => import('./pages/LandingPage'));
 const EditorPage = React.lazy(() => import('./pages/EditorPage'));
 const HashHuntPage = React.lazy(() => import('./pages/HashHuntPage'));
 const CoverLetterPage = React.lazy(() => import('./pages/CoverLetterPage'));
@@ -19,7 +16,6 @@ const SharePage = React.lazy(() => import('./pages/SharePage'));
 const PrivacyPage = React.lazy(() => import('./pages/PrivacyPage'));
 const HowAtsWorksPage = React.lazy(() => import('./pages/HowAtsWorksPage'));
 const WhyNoSignupPage = React.lazy(() => import('./pages/WhyNoSignupPage'));
-const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 
 export default function App() {
   const { theme } = useThemeStore();
@@ -40,26 +36,22 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Navbar />
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/editor" element={<EditorPage />} />
-          <Route path="/hashhunt" element={<HashHuntPage />} />
+          <Route path="/templates" element={<TemplatesPage />} />
+          <Route path="/hash-hunt" element={<HashHuntPage />} />
           <Route path="/cover-letter" element={<CoverLetterPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />
-          <Route path="/templates" element={<TemplatesPage />} />
           <Route path="/share/:id" element={<SharePage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
           <Route path="/why-no-signup" element={<WhyNoSignupPage />} />
-          <Route path="*" element={<NotFoundPage />} />
         </Routes>
+        <Analytics />
       </Suspense>
-      <FloatingFeedback />
-      <Analytics />
-      <SpeedInsights />
     </BrowserRouter>
   );
 }
