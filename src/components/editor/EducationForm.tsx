@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy } from 'lucide-react';
 
@@ -57,7 +57,7 @@ const EGYPTIAN_UNIVERSITIES = [
   "Other"
 ];
 
-export default function EducationForm() {
+export default React.memo(function EducationForm() {
   const { data, addEducation, updateEducation, removeEducation } = useResumeStore();
   const { education } = data;
   const [expandedId, setExpandedId] = useState<string | null>(education[0]?.id || null);
@@ -78,7 +78,7 @@ export default function EducationForm() {
       <div className="flex items-center justify-end px-1">
         <button
           onClick={handleAdd}
-          className="flex items-center justify-center gap-2 bg-indigo-600 dark:bg-indigo-500 text-white hover:bg-indigo-700 dark:hover:bg-indigo-600 px-5 py-3 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 w-full sm:w-auto"
+          className="flex items-center justify-center gap-2 bg-[#f16529] hover:bg-[#e44d26] text-white px-5 py-3 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 w-full sm:w-auto"
         >
           <Plus size={18} />
           Add Education
@@ -109,7 +109,7 @@ export default function EducationForm() {
                       const { id: _id, ...rest } = edu;
                       addEducation(rest);
                     }}
-                    className="p-2.5 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-xl transition-colors"
+                    className="p-2.5 text-slate-400 hover:text-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-xl transition-colors"
                     title="Duplicate"
                   >
                     <Copy size={18} />
@@ -136,7 +136,7 @@ export default function EducationForm() {
                         type="text"
                         value={edu.degree}
                         onChange={(e) => updateEducation(edu.id, { degree: e.target.value })}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. Bachelor of Science in Computer Science"
                       />
                     </div>
@@ -148,7 +148,7 @@ export default function EducationForm() {
                           const val = e.target.value;
                           updateEducation(edu.id, { institution: val === 'Other' ? '' : val });
                         }}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors"
+                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors"
                       >
                         <option value="" disabled>Select University</option>
                         {EGYPTIAN_UNIVERSITIES.map(uni => (
@@ -160,7 +160,7 @@ export default function EducationForm() {
                           type="text"
                           value={edu.institution}
                           onChange={(e) => updateEducation(edu.id, { institution: e.target.value })}
-                          className="block w-full px-4 py-3 mt-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                          className="block w-full px-4 py-3 mt-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                           placeholder="Enter institution name"
                         />
                       ) : null}
@@ -171,7 +171,7 @@ export default function EducationForm() {
                         type="month"
                         value={edu.startDate}
                         onChange={(e) => updateEducation(edu.id, { startDate: e.target.value })}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors"
+                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors"
                       />
                     </div>
                     <div className="space-y-2">
@@ -180,7 +180,7 @@ export default function EducationForm() {
                         type="text"
                         value={edu.endDate}
                         onChange={(e) => updateEducation(edu.id, { endDate: e.target.value })}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. 2024 or Present"
                       />
                     </div>
@@ -190,7 +190,7 @@ export default function EducationForm() {
                         <button 
                           type="button"
                           onClick={() => setShowSuggestionsFor(showSuggestionsFor === edu.id ? null : edu.id)}
-                          className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center justify-center gap-1.5 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-3 py-1.5 rounded-full transition-colors w-fit"
+                          className="text-xs font-bold text-[#f16529] flex items-center justify-center gap-1.5 bg-orange-50 dark:bg-orange-900/30 hover:bg-orange-100 dark:hover:bg-orange-900/50 px-3 py-1.5 rounded-full transition-colors w-fit"
                         >
                           <Sparkles size={12} />
                           AI Suggestions (Free)
@@ -198,8 +198,8 @@ export default function EducationForm() {
                       </div>
 
                       {showSuggestionsFor === edu.id && (
-                        <div className="bg-indigo-50/50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
-                          <p className="text-xs font-semibold text-indigo-800 dark:text-indigo-300 mb-2">Click a suggestion to append it to your description:</p>
+                        <div className="bg-orange-50/50 dark:bg-orange-900/20 border border-orange-100 dark:border-orange-800/50 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
+                          <p className="text-xs font-semibold text-orange-800 dark:text-orange-300 mb-2">Click a suggestion to append it to your description:</p>
                           {EDU_SUGGESTIONS.map((suggestion, idx) => (
                             <button
                               key={idx}
@@ -209,7 +209,7 @@ export default function EducationForm() {
                                 updateEducation(edu.id, { description: currentDesc + suggestion });
                                 setShowSuggestionsFor(null);
                               }}
-                              className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800"
+                              className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-orange-700 dark:hover:text-orange-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-orange-200 dark:hover:border-orange-800"
                             >
                               {suggestion}
                             </button>
@@ -221,7 +221,7 @@ export default function EducationForm() {
                         rows={3}
                         value={edu.description}
                         onChange={(e) => updateEducation(edu.id, { description: e.target.value })}
-                        className="block w-full p-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full p-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="• Relevant coursework, honors, GPA..."
                       />
                     </div>
@@ -234,4 +234,4 @@ export default function EducationForm() {
       )}
     </div>
   );
-}
+});

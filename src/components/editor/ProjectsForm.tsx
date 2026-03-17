@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 
-export default function ProjectsForm() {
+export default React.memo(function ProjectsForm() {
   const { data, addProject, updateProject, removeProject } = useResumeStore();
   const { projects } = data;
   const [expandedId, setExpandedId] = useState<string | null>(projects[0]?.id || null);
@@ -20,7 +20,7 @@ export default function ProjectsForm() {
       <div className="flex items-center justify-end px-1">
         <button
           onClick={handleAdd}
-          className="flex items-center justify-center gap-2 bg-indigo-600 dark:bg-indigo-500 text-white hover:bg-indigo-700 dark:hover:bg-indigo-600 px-5 py-3 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 w-full sm:w-auto"
+          className="flex items-center justify-center gap-2 bg-[#f16529] hover:bg-[#e44d26] text-white px-5 py-3 rounded-xl text-sm font-bold transition-all shadow-md active:scale-95 w-full sm:w-auto"
         >
           <Plus size={18} />
           Add Project
@@ -67,7 +67,7 @@ export default function ProjectsForm() {
                         type="text"
                         value={proj.name}
                         onChange={(e) => updateProject(proj.id, { name: e.target.value })}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. E-commerce Platform"
                       />
                     </div>
@@ -77,7 +77,7 @@ export default function ProjectsForm() {
                         type="url"
                         value={proj.link}
                         onChange={(e) => updateProject(proj.id, { link: e.target.value })}
-                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. github.com/username/project"
                       />
                     </div>
@@ -87,7 +87,7 @@ export default function ProjectsForm() {
                         rows={4}
                         value={proj.description}
                         onChange={(e) => updateProject(proj.id, { description: e.target.value })}
-                        className="block w-full p-4 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full p-4 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="• Describe the project, technologies used, and your role..."
                       />
                     </div>
@@ -100,4 +100,4 @@ export default function ProjectsForm() {
       )}
     </div>
   );
-}
+});

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Star, Quote } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { cn } from '../utils';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
-import { motion } from 'motion/react';
 
 const reviews = [
   {
@@ -79,7 +79,7 @@ export default function Testimonials() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ delay: index * 0.1 }}
               className={cn(
                 "break-inside-avoid bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 hover:border-[#f16529]/30 transition-all duration-500 group relative overflow-hidden",
                 index % 4 === 0 ? "md:row-span-2" : ""

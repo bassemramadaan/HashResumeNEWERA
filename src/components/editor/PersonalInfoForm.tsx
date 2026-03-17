@@ -12,7 +12,7 @@ const SUMMARY_SUGGESTIONS = [
   "Dedicated and adaptable professional seeking to leverage my skills and experience to contribute to a dynamic organization."
 ];
 
-export default function PersonalInfoForm() {
+export default React.memo(function PersonalInfoForm() {
   const { data, updatePersonalInfo } = useResumeStore();
   const { personalInfo } = data;
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -63,7 +63,7 @@ export default function PersonalInfoForm() {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.fullName ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. John Doe"
@@ -90,7 +90,7 @@ export default function PersonalInfoForm() {
               value={personalInfo.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.jobTitle ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. Senior Software Engineer"
@@ -117,7 +117,7 @@ export default function PersonalInfoForm() {
               value={personalInfo.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full pl-11 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.email ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. john.doe@example.com"
@@ -143,7 +143,7 @@ export default function PersonalInfoForm() {
               name="phone"
               value={personalInfo.phone}
               onChange={handleChange}
-              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. +1 234 567 8900"
             />
           </div>
@@ -161,7 +161,7 @@ export default function PersonalInfoForm() {
               name="address"
               value={personalInfo.address}
               onChange={handleChange}
-              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. New York, NY"
             />
           </div>
@@ -179,7 +179,7 @@ export default function PersonalInfoForm() {
               name="linkedin"
               value={personalInfo.linkedin}
               onChange={handleChange}
-              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. linkedin.com/in/johndoe"
             />
           </div>
@@ -197,7 +197,7 @@ export default function PersonalInfoForm() {
               name="github"
               value={personalInfo.github || ''}
               onChange={handleChange}
-              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. github.com/johndoe"
             />
           </div>
@@ -215,7 +215,7 @@ export default function PersonalInfoForm() {
               name="portfolio"
               value={personalInfo.portfolio || ''}
               onChange={handleChange}
-              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. johndoe.dev"
             />
           </div>
@@ -234,7 +234,7 @@ export default function PersonalInfoForm() {
             <button 
               type="button"
               onClick={() => setShowSuggestions(!showSuggestions)}
-              className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center justify-center gap-1.5 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-3 py-1.5 rounded-full transition-colors w-fit"
+              className="text-xs font-bold text-[#f16529] flex items-center justify-center gap-1.5 bg-orange-50 dark:bg-orange-900/30 hover:bg-orange-100 dark:hover:bg-orange-900/50 px-3 py-1.5 rounded-full transition-colors w-fit"
             >
               <Sparkles size={12} />
               AI Suggestions (Free)
@@ -242,8 +242,8 @@ export default function PersonalInfoForm() {
           </div>
           
           {showSuggestions && (
-            <div className="bg-indigo-50/50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
-              <p className="text-xs font-semibold text-indigo-800 dark:text-indigo-300 mb-2">Click a suggestion to append it to your summary:</p>
+            <div className="bg-orange-50/50 dark:bg-orange-900/20 border border-orange-100 dark:border-orange-800/50 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
+              <p className="text-xs font-semibold text-orange-800 dark:text-orange-300 mb-2">Click a suggestion to append it to your summary:</p>
               {SUMMARY_SUGGESTIONS.map((suggestion, idx) => (
                 <button
                   key={idx}
@@ -253,7 +253,7 @@ export default function PersonalInfoForm() {
                     updatePersonalInfo({ summary: currentSummary + suggestion });
                     setShowSuggestions(false);
                   }}
-                  className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800"
+                  className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-orange-700 dark:hover:text-orange-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-orange-200 dark:hover:border-orange-800"
                 >
                   {suggestion}
                 </button>
@@ -267,7 +267,7 @@ export default function PersonalInfoForm() {
             rows={4}
             value={personalInfo.summary}
             onChange={handleChange}
-            className="block w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+            className="block w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 sm:text-sm transition-colors resize-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
             placeholder="e.g. Creative Graphic Designer with 5+ years of experience in branding and digital marketing. Proven track record of increasing client engagement by 40%. Skilled in Adobe Creative Suite and UI/UX design principles."
           />
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Aim for 3-4 sentences highlighting your key achievements and skills.</p>
@@ -275,4 +275,4 @@ export default function PersonalInfoForm() {
       </div>
     </div>
   );
-}
+});

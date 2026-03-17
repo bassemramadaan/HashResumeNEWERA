@@ -31,7 +31,7 @@ export default function CoverLetterPreview() {
       <div className="flex justify-end mb-6 print:hidden">
         <button
           onClick={handleCopy}
-          className="flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition-colors"
+          className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-lg transition-colors"
         >
           {copied ? <Check size={16} /> : <Copy size={16} />}
           {copied ? 'Copied!' : 'Copy Text'}

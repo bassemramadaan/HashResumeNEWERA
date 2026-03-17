@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { Sparkles, Target, CheckCircle2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ProductShowcase() {
   const { language } = useLanguageStore();
@@ -25,7 +25,7 @@ export default function ProductShowcase() {
         
         <div className="relative max-w-5xl mx-auto">
           {/* Decorative background glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/10 dark:bg-indigo-500/5 blur-[100px] rounded-full pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 dark:bg-orange-500/5 blur-[100px] rounded-full pointer-events-none"></div>
           
           <div className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col md:flex-row h-[500px]">
             
@@ -43,11 +43,11 @@ export default function ProductShowcase() {
                   <div className="font-bold text-slate-700 dark:text-slate-300">Software Engineer</div>
                   <motion.button 
                     animate={{ 
-                      scale: step === 1 ? [1, 1.1, 1] : 1,
-                      backgroundColor: step >= 1 ? '#4f46e5' : '#e0e7ff',
-                      color: step >= 1 ? '#ffffff' : '#4338ca'
+                      scale: step >= 1 ? [1, 1.1, 1] : 1,
+                      backgroundColor: step >= 1 ? '#f16529' : '#fff7ed',
+                      color: step >= 1 ? '#ffffff' : '#f16529'
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-colors border border-orange-100 dark:border-orange-900/30"
                   >
                     <Sparkles size={14} />
                     AI Enhance
@@ -56,9 +56,9 @@ export default function ProductShowcase() {
 
                 <div className="relative h-32">
                   <AnimatePresence mode="wait">
-                    {step === 0 && (
+                    {step === 0 ? (
                       <motion.div 
-                        key="draft"
+                        key="raw"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
@@ -68,8 +68,7 @@ export default function ProductShowcase() {
                         <span className="typing-animation-2">Fixed bugs and wrote code.</span><br/>
                         <span className="typing-animation-3">Used React and Node.</span>
                       </motion.div>
-                    )}
-                    {step >= 1 && (
+                    ) : (
                       <motion.div 
                         key="enhanced"
                         initial={{ opacity: 0, y: 10 }}
@@ -77,11 +76,20 @@ export default function ProductShowcase() {
                         className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed space-y-2"
                       >
                         <div className="flex items-start gap-2">
-                          <span className="text-indigo-500 mt-1">•</span>
+                          <motion.span 
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="text-orange-500 mt-1"
+                          >•</motion.span>
                           <span>Spearheaded the development of scalable web applications using React and Node.js, improving load times by 40%.</span>
                         </div>
                         <div className="flex items-start gap-2">
-                          <span className="text-indigo-500 mt-1">•</span>
+                          <motion.span 
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            transition={{ delay: 0.2 }}
+                            className="text-orange-500 mt-1"
+                          >•</motion.span>
                           <span>Resolved 50+ critical bugs, increasing overall system stability and user satisfaction.</span>
                         </div>
                       </motion.div>
@@ -94,7 +102,7 @@ export default function ProductShowcase() {
             {/* Right Panel: ATS Score */}
             <div className="w-full md:w-80 bg-white dark:bg-slate-900 p-8 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800" dir="ltr">
               <div className="text-center mb-8">
-                <Target className="w-8 h-8 text-indigo-500 mx-auto mb-3" />
+                <Target className="w-8 h-8 text-orange-500 mx-auto mb-3" />
                 <h3 className="font-bold text-slate-900 dark:text-white">Live ATS Score</h3>
                 <p className="text-xs text-slate-500 mt-1">Updates as you type</p>
               </div>
@@ -102,43 +110,37 @@ export default function ProductShowcase() {
               <div className="relative w-40 h-40 flex items-center justify-center mb-8">
                 <svg className="w-full h-full transform -rotate-90">
                   <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-slate-100 dark:text-slate-800" />
-                  <motion.circle 
+                  <circle 
                     cx="80" cy="80" r="70" 
-                    stroke="currentColor" 
                     strokeWidth="12" 
                     fill="transparent" 
                     strokeDasharray={440}
-                    animate={{ 
-                      strokeDashoffset: step === 0 ? 440 - (440 * 45) / 100 : 440 - (440 * 85) / 100,
-                      stroke: step === 0 ? '#ef4444' : '#10b981' // red-500 to emerald-500
+                    style={{ 
+                      strokeDashoffset: step === 0 ? 440 - (440 * 75) / 100 : 440 - (440 * 95) / 100,
+                      stroke: step === 0 ? '#eab308' : '#10b981',
+                      transition: 'all 1.5s ease-out'
                     }}
-                    transition={{ duration: 1.5, ease: "easeOut" }}
-                    className="transition-colors duration-1000"
                   />
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <motion.span 
+                  <span 
                     className="text-4xl font-black"
-                    animate={{ color: step === 0 ? '#ef4444' : '#10b981' }}
+                    style={{ color: step === 0 ? '#eab308' : '#10b981', transition: 'color 1.5s ease-out' }}
                   >
-                    {step === 0 ? '45' : '85'}
-                  </motion.span>
+                    {step === 0 ? '75' : '95'}
+                  </span>
                   <span className="text-xs text-slate-500 font-medium">/ 100</span>
                 </div>
               </div>
 
-              <AnimatePresence mode="wait">
-                {step >= 1 && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2 rounded-full"
-                  >
-                    <CheckCircle2 size={16} />
-                    ATS Optimized!
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {step >= 1 && (
+                <div 
+                  className="flex items-center gap-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-4 py-2 rounded-full"
+                >
+                  <CheckCircle2 size={16} />
+                  ATS Optimized!
+                </div>
+              )}
             </div>
             
           </div>

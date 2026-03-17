@@ -57,6 +57,14 @@ export type CoverLetter = {
   generatedContent: string;
 };
 
+export type CustomSection = {
+  id: string;
+  title: string;
+  content: string;
+};
+
+export type SectionId = 'summary' | 'experience' | 'education' | 'skills' | 'projects' | 'certifications' | 'custom';
+
 export type ResumeData = {
   personalInfo: PersonalInfo;
   coverLetter: CoverLetter;
@@ -65,15 +73,20 @@ export type ResumeData = {
   skills: string[];
   projects: Project[];
   certifications: Certification[];
+  customSections: CustomSection[];
   settings: {
     template: 'modern' | 'classic' | 'creative' | 'minimal' | 'tech' | 'executive' | 'medical' | 'legal' | 'academic' | 'professional' | 'elegant';
     themeColor: string;
     language: 'en' | 'ar' | 'fr';
     isFreshGrad: boolean;
+    sectionOrder: SectionId[];
+    hiddenSections: SectionId[];
   };
   jobDescription: string;
   isPremium: boolean;
 };
+
+const defaultSectionOrder: SectionId[] = ['summary', 'experience', 'education', 'skills', 'projects', 'certifications', 'custom'];
 
 const initialData: ResumeData = {
   personalInfo: {
@@ -101,11 +114,14 @@ const initialData: ResumeData = {
   skills: [],
   projects: [],
   certifications: [],
+  customSections: [],
   settings: {
     template: 'modern',
-    themeColor: '#2563EB', // Green
+    themeColor: '#475569', // Neutral Slate
     language: 'en',
     isFreshGrad: false,
+    sectionOrder: defaultSectionOrder,
+    hiddenSections: [],
   },
   jobDescription: '',
   isPremium: false,
@@ -128,6 +144,9 @@ type ResumeStore = {
   addCertification: (cert: Omit<Certification, 'id'>) => void;
   updateCertification: (id: string, cert: Partial<Certification>) => void;
   removeCertification: (id: string) => void;
+  addCustomSection: (section: Omit<CustomSection, 'id'>) => void;
+  updateCustomSection: (id: string, section: Partial<CustomSection>) => void;
+  removeCustomSection: (id: string) => void;
   updateSettings: (settings: Partial<ResumeData['settings']>) => void;
   updateJobDescription: (jd: string) => void;
   updateCoverLetter: (cl: Partial<CoverLetter>) => void;
@@ -249,6 +268,27 @@ export const useResumeStore = create<ResumeStore>()(
             certifications: state.data.certifications.filter((c) => c.id !== id),
           },
         })),
+      addCustomSection: (section) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            customSections: [...state.data.customSections, { ...section, id: nanoid() }],
+          },
+        })),
+      updateCustomSection: (id, section) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            customSections: state.data.customSections.map((s) => (s.id === id ? { ...s, ...section } : s)),
+          },
+        })),
+      removeCustomSection: (id) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            customSections: state.data.customSections.filter((s) => s.id !== id),
+          },
+        })),
       updateSettings: (settings) =>
         set((state) => ({
           data: { ...state.data, settings: { ...state.data.settings, ...settings } },
@@ -338,6 +378,8 @@ export const useResumeStore = create<ResumeStore>()(
               themeColor: '#2563EB',
               language: 'en',
               isFreshGrad: false,
+              sectionOrder: defaultSectionOrder,
+              hiddenSections: [],
             },
             jobDescription: '',
             isPremium: false,

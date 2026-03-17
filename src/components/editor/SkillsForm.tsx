@@ -10,7 +10,7 @@ const SUGGESTED_SKILLS = [
   'Problem Solving', 'Team Leadership', 'Project Management'
 ];
 
-export default function SkillsForm() {
+export default React.memo(function SkillsForm() {
   const { data, addSkill, removeSkill } = useResumeStore();
   const { skills, jobDescription } = data;
   const [inputValue, setInputValue] = useState('');
@@ -56,13 +56,13 @@ export default function SkillsForm() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="flex-1 px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="flex-1 px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 text-base sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. React, Project Management..."
             />
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-md active:scale-95"
+              className="bg-[#f16529] hover:bg-[#e44d26] disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 shadow-md active:scale-95"
             >
               <Plus size={18} />
               Add Skill
@@ -81,7 +81,7 @@ export default function SkillsForm() {
                   <button
                     key={skill}
                     onClick={() => addSkill(skill)}
-                    className="px-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition-all"
+                    className="px-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
                   >
                     + {skill}
                   </button>
@@ -127,7 +127,7 @@ export default function SkillsForm() {
         {unaddedSuggestions.length > 0 && (
           <div>
             <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-1.5">
-              <Sparkles size={14} className="text-indigo-500 dark:text-indigo-400" />
+              <Sparkles size={14} className="text-[#f16529]" />
               AI Suggested Skills (Free)
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -135,7 +135,7 @@ export default function SkillsForm() {
                 <button
                   key={skill}
                   onClick={() => addSkill(skill)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-700 dark:hover:text-indigo-300 hover:border-indigo-200 dark:hover:border-indigo-800 text-sm font-medium transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100 hover:border-slate-300 dark:hover:border-slate-600 text-sm font-medium transition-colors"
                 >
                   <Plus size={14} />
                   {skill}
@@ -147,4 +147,4 @@ export default function SkillsForm() {
       </div>
     </div>
   );
-}
+});

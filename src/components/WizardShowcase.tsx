@@ -112,7 +112,7 @@ export default function WizardShowcase() {
               <button
                 key={step.id}
                 onClick={() => setActiveStep(index)}
-                className={`w-full text-left p-6 rounded-2xl transition-all duration-500 flex items-start gap-6 group relative z-10 ${
+                className={`w-full text-start p-6 rounded-2xl transition-all duration-500 flex items-start gap-6 group relative z-10 ${
                   activeStep === index 
                     ? 'bg-white dark:bg-slate-900 shadow-xl shadow-slate-200/50 dark:shadow-black/40 border border-slate-200 dark:border-slate-800 scale-[1.02]' 
                     : 'bg-transparent hover:bg-white/50 dark:hover:bg-slate-900/50 border border-transparent opacity-70 hover:opacity-100'

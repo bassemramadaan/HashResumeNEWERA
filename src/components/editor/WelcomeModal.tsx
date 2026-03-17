@@ -28,10 +28,10 @@ export default function WelcomeModal({ isOpen, onStartTour, onSkip }: WelcomeMod
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800"
         >
-          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-10 dark:opacity-20"></div>
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-br from-orange-500 to-amber-600 opacity-10 dark:opacity-20"></div>
           
           <div className="relative p-8 text-center">
-            <div className="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30 mx-auto mb-6 rotate-3">
+            <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30 mx-auto mb-6 rotate-3">
               <Sparkles className="text-white w-10 h-10" />
             </div>
             
@@ -45,7 +45,7 @@ export default function WelcomeModal({ isOpen, onStartTour, onSkip }: WelcomeMod
             <div className="flex flex-col gap-3">
               <button
                 onClick={onStartTour}
-                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
+                className="w-full bg-[#f16529] hover:bg-[#e44d26] text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
               >
                 <Play size={18} fill="currentColor" />
                 Start Quick Tour

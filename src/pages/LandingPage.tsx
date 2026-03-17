@@ -1,28 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
-import { Zap, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, TrendingUp, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Layout, Download, User } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout, Download, User, ArrowUp } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
+import WizardShowcase from '../components/WizardShowcase';
 import BeforeAfter from '../components/BeforeAfter';
 import ProductShowcase from '../components/ProductShowcase';
 import ParticleAnimation from '../components/ParticleAnimation';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import FeedbackModal from '../components/FeedbackModal';
+import SarIcon from '../components/payment/SarIcon';
+import AedIcon from '../components/payment/AedIcon';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { blogPosts } from '../data/blogPosts';
 
 
-import CompactTestimonials from '../components/CompactTestimonials';
+import SimpleSteps from '../components/SimpleSteps';
 import Navbar from '../components/Navbar';
 
 export default function LandingPage() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+
+  // Fixed count as requested
+  const displayCount = "50,000";
+
+  const currencies = {
+    EGP: { symbol: 'EGP', price: 25 },
+    SAR: { symbol: <SarIcon className="w-[1em] h-[1em] inline-block shrink-0" />, price: 2 },
+    AED: { symbol: <AedIcon className="w-[1em] h-[1em] inline-block shrink-0" />, price: 2 },
+    EUR: { symbol: '€', price: 1 },
+    USD: { symbol: '$', price: 1 },
+  };
+
+  const [currency, setCurrency] = useState<keyof typeof currencies>('EGP');
+  const selectedCurrency = currencies[currency];
+
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 500);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
@@ -89,7 +120,7 @@ export default function LandingPage() {
                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-[#f16529] text-xs font-bold uppercase tracking-wider mb-6 border border-orange-100 dark:border-orange-800/30 shadow-sm"
               >
                 <Zap size={14} className="fill-current" />
-                <span>AI-Powered Resume Builder</span>
+                <span>{t.aiPowered}</span>
               </motion.div>
 
               <motion.h1 
@@ -141,31 +172,46 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-4 mb-6"
+                className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-4 mb-12"
               >
                 <Link to="/editor" className="w-full sm:w-auto bg-gradient-to-r from-[#f16529] to-orange-600 hover:from-[#e44d26] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
-                  <Plus size={20} />
-                  Start from Scratch
+                   <Plus size={20} />
+                   {t.startFromScratch}
                 </Link>
-                <Link to="/templates" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-900 dark:text-white border-2 border-slate-200 dark:border-slate-700 hover:border-[#f16529] dark:hover:border-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-sm flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
-                  <Layout size={20} className="text-[#f16529] group-hover:scale-110 transition-transform" />
-                  Choose a Template
+                <Link to="/templates" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-[#f16529] dark:hover:border-orange-500 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-sm flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                  <Layout size={20} className="text-slate-400 group-hover:text-[#f16529] transition-colors" />
+                  {t.chooseTemplate}
                 </Link>
               </motion.div>
 
-              {/* Micro-UX Bar */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.35 }}
-                className="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400 font-medium mb-12"
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="flex flex-col gap-6"
               >
-                <span className="flex items-center gap-1.5"><CheckCircle2 size={16} className="text-emerald-500" /> {language === 'ar' ? 'بدون تسجيل دخول' : 'No sign-up'}</span>
-                <span className="hidden sm:inline text-slate-300 dark:text-slate-700">•</span>
-                <span className="flex items-center gap-1.5"><CheckCircle2 size={16} className="text-emerald-500" /> {language === 'ar' ? 'يدعم العربية والإنجليزية' : 'Works in Arabic & English'}</span>
-                <span className="hidden sm:inline text-slate-300 dark:text-slate-700">•</span>
-                <span className="flex items-center gap-1.5"><CheckCircle2 size={16} className="text-emerald-500" /> {language === 'ar' ? 'تصدير PDF و Word' : 'Export to PDF & Word'}</span>
+                  <div className="flex items-center justify-center lg:justify-start gap-8 text-slate-500 dark:text-slate-400 text-sm font-medium">
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                      <CheckCircle2 size={12} className="text-emerald-500" />
+                    </div>
+                    <span>{t.atsFriendly}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                      <CheckCircle2 size={12} className="text-purple-500" />
+                    </div>
+                    <span>{t.aiPoweredBadge}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                      <CheckCircle2 size={12} className="text-blue-500" />
+                    </div>
+                    <span>{t.freeTemplates}</span>
+                  </div>
+                </div>
+
               </motion.div>
             </div>
 
@@ -231,8 +277,8 @@ export default function LandingPage() {
                     <span className="absolute text-xs font-bold text-slate-900 dark:text-white">95</span>
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">ATS Score</p>
-                    <p className="text-xs text-emerald-500 font-medium">Excellent</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">{t.atsScore}</p>
+                    <p className="text-xs text-emerald-500 font-medium">{t.excellent}</p>
                   </div>
                 </motion.div>
 
@@ -248,8 +294,8 @@ export default function LandingPage() {
                     ))}
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">{language === 'ar' ? 'آلاف الباحثين عن عمل' : 'Thousands of Users'}</p>
-                    <p className="text-xs text-slate-500">{language === 'ar' ? 'يثقون بنا' : 'Trust Hash Resume'}</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">{displayCount}+ Users</p>
+                    <p className="text-xs text-slate-500">{t.joinedThisMonth}</p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -259,7 +305,41 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <CompactTestimonials />
+      <SimpleSteps />
+
+      {/* Features Cards */}
+      <section id="features" className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 font-display tracking-tight">{t.featuresTitle}</h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">{t.featuresSubtitle}</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { icon: Zap, title: t.feature1Title, desc: t.feature1Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
+              { icon: ShieldCheck, title: t.feature2Title, desc: t.feature2Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" },
+              { icon: FileText, title: t.feature3Title, desc: t.feature3Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
+              { icon: CheckCircle2, title: t.feature4Title, desc: t.feature4Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" },
+              { icon: Sparkles, title: t.aiContentGeneration, desc: t.aiContentDesc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
+              { icon: Layout, title: t.premiumTemplates, desc: t.premiumTemplatesDesc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" }
+            ].map((feature, i) => (
+              <div key={i} className="group relative bg-white dark:bg-slate-900/50 backdrop-blur-sm p-8 md:p-10 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 overflow-hidden cursor-pointer">
+                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-5 dark:opacity-10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-700 ease-out`}></div>
+                <div className={`w-14 h-14 ${feature.bg} ${feature.text} rounded-2xl flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 ring-1 ring-inset ring-black/5 dark:ring-white/5`}>
+                  <feature.icon size={28} strokeWidth={2} />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-[#f16529] transition-colors duration-300">{feature.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">{feature.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <BeforeAfter />
       <ProductShowcase />
@@ -275,7 +355,7 @@ export default function LandingPage() {
                 <div className="flex items-center justify-between mb-8">
                   <div className="flex items-center gap-2">
                     <Target className="text-indigo-500" size={20} />
-                    <span className="font-bold text-slate-900 dark:text-white">ATS Audit Report</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{t.atsAuditReport}</span>
                   </div>
                   <div className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold rounded-full">95/100</div>
                 </div>
@@ -284,7 +364,7 @@ export default function LandingPage() {
                   <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
                     <div className="flex items-center gap-3 mb-3">
                       <CheckCircle2 className="text-emerald-500" size={18} />
-                      <span className="text-sm font-bold text-slate-900 dark:text-white">Keywords Matched</span>
+                      <span className="text-sm font-bold text-slate-900 dark:text-white">{t.keywordsMatched}</span>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {['React', 'Node.js', 'TypeScript', 'AWS', 'Agile'].map(kw => (
@@ -296,7 +376,7 @@ export default function LandingPage() {
                   <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
                     <div className="flex items-center gap-3 mb-3">
                       <TrendingUp className="text-indigo-500" size={18} />
-                      <span className="text-sm font-bold text-slate-900 dark:text-white">Improvement Suggestions</span>
+                      <span className="text-sm font-bold text-slate-900 dark:text-white">{t.improvementSuggestions}</span>
                     </div>
                     <div className="space-y-2">
                       <div className="flex items-start gap-2">
@@ -317,7 +397,7 @@ export default function LandingPage() {
                   whileInView={{ scale: 1, opacity: 1 }}
                   className="absolute bottom-6 right-6 bg-[#f16529] text-white p-4 rounded-2xl shadow-xl flex flex-col items-center"
                 >
-                  <span className="text-xs font-bold uppercase tracking-widest mb-1">Score Boost</span>
+                  <span className="text-xs font-bold uppercase tracking-widest mb-1">{t.scoreBoost}</span>
                   <span className="text-3xl font-black">+40%</span>
                 </motion.div>
               </div>
@@ -326,13 +406,13 @@ export default function LandingPage() {
             <div className="flex-1 space-y-8 order-1 lg:order-2">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/30 text-[#f16529] text-sm font-bold border border-orange-100 dark:border-orange-800">
                 <Target size={16} />
-                {language === 'ar' ? 'تجاوز أنظمة الـ ATS' : 'Beat the ATS Systems'}
+                {t.beatAts}
               </div>
               <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white font-display leading-tight">
-                {language === 'ar' ? 'سيرة ذاتية يقرأها البشر وتفهمها الآلات' : 'Resumes Humans Love, Machines Understand'}
+                {t.resumesHumansLove}
               </h2>
               <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-                {language === 'ar' ? 'تستخدم معظم الشركات الكبرى أنظمة تتبع المتقدمين (ATS). محررنا يضمن أن سيرتك الذاتية مهيأة تقنياً لتجاوز هذه الفلاتر والوصول ليد مدير التوظيف.' : 'Most major companies use Applicant Tracking Systems (ATS). Our editor ensures your resume is technically optimized to pass these filters and reach the hiring manager\'s desk.'}
+                {t.atsDescription}
               </p>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
@@ -340,8 +420,8 @@ export default function LandingPage() {
                     <Search size={20} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 dark:text-white mb-1">{language === 'ar' ? 'فحص الكلمات المفتاحية' : 'Keyword Analysis'}</h4>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">{language === 'ar' ? 'نقوم بمقارنة سيرتك الذاتية مع وصف الوظيفة للعثور على الكلمات المفقودة.' : 'We compare your resume against the job description to find missing keywords.'}</p>
+                    <h4 className="font-bold text-slate-900 dark:text-white mb-1">{t.keywordAnalysis}</h4>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{t.keywordAnalysisDesc}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -349,9 +429,71 @@ export default function LandingPage() {
                     <Layout size={20} />
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 dark:text-white mb-1">{language === 'ar' ? 'هيكلة متوافقة' : 'Compliant Structure'}</h4>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">{language === 'ar' ? 'قوالبنا مصممة لتكون سهلة القراءة لأنظمة المسح الضوئي والـ ATS.' : 'Our templates are designed to be easily readable by scanning systems and ATS.'}</p>
+                    <h4 className="font-bold text-slate-900 dark:text-white mb-1">{t.compliantStructure}</h4>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{t.compliantStructureDesc}</p>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cover Letter Section */}
+      <section className="py-24 bg-slate-50 dark:bg-slate-900/50 overflow-hidden border-y border-slate-200 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row items-center gap-16">
+            <div className="flex-1 space-y-8">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white dark:bg-slate-800 text-[#f16529] dark:text-orange-400 text-sm font-medium border border-slate-200 dark:border-slate-700 shadow-sm">
+                <PenTool size={16} />
+                {t.coverLetterNew}
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white font-display leading-tight">
+                {t.coverLetterTitle}
+              </h2>
+              <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                {t.coverLetterDesc}
+              </p>
+              <ul className="space-y-4">
+                {[
+                  t.coverLetterList1,
+                  t.coverLetterList2,
+                  t.coverLetterList3,
+                  t.coverLetterList4
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium">
+                    <CheckCircle2 className="text-[#f16529] flex-shrink-0" size={20} />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <Link to="/cover-letter" className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3 rounded-full font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
+                {t.tryCoverLetterBuilder}
+                <ArrowRight size={18} className="rtl:rotate-180" />
+              </Link>
+            </div>
+            <div className="flex-1 relative">
+              <div className="absolute inset-0 bg-gradient-to-tr from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-3xl transform rotate-3 scale-95 -z-10"></div>
+              <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                <div className="space-y-4 opacity-50 pointer-events-none select-none">
+                  <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded w-1/3"></div>
+                  <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded w-1/4"></div>
+                  <div className="h-8 bg-slate-100 dark:bg-slate-800 rounded w-full mt-8"></div>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-5/6"></div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-11/12"></div>
+                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-4/5"></div>
+                  </div>
+                </div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Link to="/cover-letter" className="bg-[#f16529] hover:bg-[#e44d26] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-[#f16529]/20 hover:scale-105 active:scale-95 transition-all">
+                    {t.startWritingNow}
+                  </Link>
                 </div>
               </div>
             </div>
@@ -364,7 +506,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row-reverse items-center gap-16">
             <div className="flex-1 space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-sm font-bold border border-purple-200 dark:border-purple-800 shadow-sm animate-pulse">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-sm font-medium border border-indigo-100 dark:border-indigo-800">
                 <Briefcase size={16} />
                 {t.hashHuntNew}
               </div>
@@ -426,22 +568,152 @@ export default function LandingPage() {
               <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
                 <span className="font-bold">1</span>
               </div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{language === 'ar' ? 'ارفع سيرتك الذاتية من Hash Resume' : 'Upload CV from Hash Resume'}</h4>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{language === 'ar' ? 'بضغطة زر، أضف سيرتك الذاتية المكتملة إلى قاعدة بياناتنا.' : 'With one click, add your completed resume to our database.'}</p>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{t.uploadCv}</h4>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{t.uploadCvDesc}</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
                 <span className="font-bold">2</span>
               </div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{language === 'ar' ? 'ملفك يذهب لشركائنا' : 'Profile goes to partner database'}</h4>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{language === 'ar' ? 'نقوم بمطابقة مهاراتك مع الشركات التي تبحث عن كفاءات.' : 'We match your skills with companies looking for talent.'}</p>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{t.profileToPartner}</h4>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{t.profileToPartnerDesc}</p>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
                 <span className="font-bold">3</span>
               </div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{language === 'ar' ? 'الشركات تتواصل معك مباشرة' : 'Companies contact you directly'}</h4>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{language === 'ar' ? 'احصل على عروض عمل ومقابلات دون عناء البحث.' : 'Get job offers and interview requests without the hassle of searching.'}</p>
+              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{t.companiesContact}</h4>
+              <p className="text-sm text-slate-500 dark:text-slate-400">{t.companiesContactDesc}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Wizard Showcase (Replaces Process) */}
+      <section id="process">
+        <WizardShowcase />
+      </section>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-24 bg-white dark:bg-slate-950 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 font-display tracking-tight">
+              {t.pricingTitle}
+            </h2>
+            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              {t.pricingSubtitle}
+            </p>
+          </div>
+
+          {/* Currency Switcher */}
+          <div className="flex justify-center mb-12">
+            <div className="inline-flex p-1.5 bg-slate-100 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner backdrop-blur-sm">
+              {Object.keys(currencies).map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setCurrency(c as keyof typeof currencies)}
+                  className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${currency === c ? 'bg-white dark:bg-slate-800 text-[#f16529] shadow-md ring-1 ring-black/5 dark:ring-white/5' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8 max-w-5xl mx-auto">
+            {/* Competitor Comparison */}
+            <div className="w-full max-w-md bg-slate-50 dark:bg-slate-900/50 rounded-3xl p-8 border border-slate-200 dark:border-slate-800 flex flex-col justify-center">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 text-center">
+                {t.whyChooseUs}
+              </h3>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-600 dark:text-slate-400 font-medium">Zety / Resume.io</span>
+                  <span className="text-slate-900 dark:text-white font-bold flex items-center gap-1">
+                    {currency === 'EGP' ? (
+                      <>{15 * selectedCurrency.price} - {25 * selectedCurrency.price} {selectedCurrency.symbol}</>
+                    ) : (
+                      <>{selectedCurrency.symbol}{15 * selectedCurrency.price} - {25 * selectedCurrency.price}</>
+                    )} / month
+                  </span>
+                </div>
+                <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-600 dark:text-slate-400 font-medium">Canva Pro</span>
+                  <span className="text-slate-900 dark:text-white font-bold flex items-center gap-1">
+                    {currency === 'EGP' ? (
+                      <>{(12.99 * selectedCurrency.price).toFixed(2)} {selectedCurrency.symbol}</>
+                    ) : (
+                      <>{selectedCurrency.symbol}{(12.99 * selectedCurrency.price).toFixed(2)}</>
+                    )} / month
+                  </span>
+                </div>
+                <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[#f16529] font-bold text-lg">Hash Resume</span>
+                  <span className="text-[#f16529] font-black text-xl flex items-center gap-1">
+                    {currency === 'EGP' ? (
+                      <>{selectedCurrency.price} {selectedCurrency.symbol}</>
+                    ) : (
+                      <>{selectedCurrency.symbol}{selectedCurrency.price}</>
+                    )} / download
+                  </span>
+                </div>
+              </div>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-8 text-center">
+                {t.noSubscriptions}
+              </p>
+            </div>
+
+            {/* Single Download Plan */}
+            <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#f16529] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
+              <div className="absolute top-0 right-0 bg-[#f16529] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">
+                {t.mostPopular}
+              </div>
+              
+              <div className="text-center mb-8">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6">
+                  {t.singleDownload}
+                </h3>
+
+                <div className="flex flex-col items-center justify-center gap-2 mb-2">
+                  <span className="text-5xl font-black text-[#f16529] flex items-center gap-2">
+                    {currency === 'EGP' ? (
+                      <>{selectedCurrency.price} {selectedCurrency.symbol}</>
+                    ) : (
+                      <>{selectedCurrency.symbol}{selectedCurrency.price}</>
+                    )}
+                  </span>
+                  <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-800">
+                    <CheckCircle2 size={14} />
+                    {t.noSubscriptionPayOnce}
+                  </div>
+                </div>
+              </div>
+
+              <ul className="space-y-4 mb-8">
+                {[
+                  t.payOncePerResume,
+                  t.includesPdfWord,
+                  t.unlimitedFreeEdits,
+                  t.allPremiumTemplates,
+                  t.noWatermark,
+                  t.noHiddenFees
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                    <CheckCircle2 className="text-[#f16529] shrink-0 mt-0.5" size={20} />
+                    <span className="text-sm leading-tight font-medium">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Link 
+                to="/templates" 
+                className="block w-full bg-[#f16529] hover:bg-[#e44d26] text-white text-center font-bold py-4 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-95"
+              >
+                {t.getStartedNow}
+              </Link>
             </div>
           </div>
         </div>
@@ -463,7 +735,7 @@ export default function LandingPage() {
               </p>
             </div>
             <Link to="/blog" className="hidden sm:flex items-center gap-2 text-[#f16529] font-medium hover:gap-3 transition-all">
-              {t.viewAllArticles || 'View all articles'}
+              {t.viewAllArticles}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
           </div>
@@ -502,7 +774,7 @@ export default function LandingPage() {
           
           <div className="mt-8 text-center sm:hidden">
             <Link to="/blog" className="inline-flex items-center gap-2 text-[#f16529] font-medium">
-              {t.viewAllArticles || 'View all articles'}
+              {t.viewAllArticles}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
           </div>
@@ -511,6 +783,27 @@ export default function LandingPage() {
 
       {/* FAQ Section */}
       <FAQ />
+
+      {/* Scroll to Top & Floating CTA */}
+      <div className="fixed bottom-8 right-8 z-40 flex flex-col gap-4">
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            onClick={scrollToTop}
+            className="w-12 h-12 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-full shadow-2xl border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-700 transition-all active:scale-90"
+          >
+            <ArrowUp size={24} />
+          </motion.button>
+        )}
+        
+        <Link 
+          to="/editor" 
+          className="md:hidden bg-[#f16529] text-white p-4 rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center active:scale-90 transition-all"
+        >
+          <Plus size={24} />
+        </Link>
+      </div>
 
       {/* Footer */}
       <footer className="bg-slate-900 dark:bg-slate-950 text-slate-400 py-12 border-t border-slate-800 pb-safe">

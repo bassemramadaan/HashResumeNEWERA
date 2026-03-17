@@ -1,8 +1,8 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Globe } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { cn } from '../utils';
-import { motion } from 'framer-motion';
 
 interface LanguageSwitcherProps {
   className?: string;
@@ -51,9 +51,9 @@ export default function LanguageSwitcher({ className, size = 16, variant = 'defa
       title={getTitle()}
     >
       <motion.div
-        whileHover={{ rotate: 15, scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        transition={{ type: "spring", stiffness: 400, damping: 17 }}
+        animate={{ rotate: language === 'ar' ? 180 : 0 }}
+        transition={{ duration: 0.5, type: 'spring' }}
+        className="flex items-center"
       >
         <Globe size={size} strokeWidth={2} />
       </motion.div>

@@ -1,7 +1,9 @@
 import { useResumeStore } from '../../store/useResumeStore';
 import { Palette, LayoutTemplate, Globe, GraduationCap, Download, Upload, Save } from 'lucide-react';
 import { cn } from '../../utils';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
+
+import SectionManager from './SectionManager';
 
 const COLORS = [
   { name: 'Navy', value: '#1e3a8a' },
@@ -28,7 +30,7 @@ const TEMPLATES = [
   { id: 'academic', name: 'Academic', description: 'Detailed and comprehensive' },
 ] as const;
 
-export default function SettingsForm() {
+export default React.memo(function SettingsForm() {
   const { data, updateSettings, updateData } = useResumeStore();
   const { settings } = data;
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -104,6 +106,11 @@ export default function SettingsForm() {
           </div>
         </div>
 
+        {/* Section Order & Visibility */}
+        <div className="space-y-4">
+          <SectionManager />
+        </div>
+
         {/* Template Selection */}
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
@@ -118,7 +125,7 @@ export default function SettingsForm() {
                 className={cn(
                   "p-4 rounded-xl border-2 text-left transition-all",
                   settings.template === template.id
-                    ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 dark:border-indigo-500"
+                    ? "border-orange-500 bg-orange-50 dark:bg-orange-900/30 dark:border-orange-500"
                     : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
                 )}
               >
@@ -169,7 +176,7 @@ export default function SettingsForm() {
               className={cn(
                 "px-6 py-2.5 rounded-xl border-2 font-medium transition-all",
                 settings.language === 'en'
-                  ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
+                  ? "border-orange-500 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300"
                   : "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
               )}
             >
@@ -180,7 +187,7 @@ export default function SettingsForm() {
               className={cn(
                 "px-6 py-2.5 rounded-xl border-2 font-medium transition-all",
                 settings.language === 'ar'
-                  ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
+                  ? "border-orange-500 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300"
                   : "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
               )}
             >
@@ -191,7 +198,7 @@ export default function SettingsForm() {
               className={cn(
                 "px-6 py-2.5 rounded-xl border-2 font-medium transition-all",
                 settings.language === 'fr'
-                  ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300"
+                  ? "border-orange-500 bg-orange-50 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300"
                   : "border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800"
               )}
             >
@@ -211,14 +218,32 @@ export default function SettingsForm() {
               <input
                 type="checkbox"
                 checked={settings.isFreshGrad}
-                onChange={(e) => updateSettings({ isFreshGrad: e.target.checked })}
+                onChange={(e) => {
+                  const isFreshGrad = e.target.checked;
+                  const currentOrder = settings.sectionOrder || ['summary', 'experience', 'education', 'skills', 'projects', 'certifications', 'custom'];
+                  const newOrder = [...currentOrder];
+                  const eduIdx = newOrder.indexOf('education');
+                  const expIdx = newOrder.indexOf('experience');
+                  
+                  if (isFreshGrad && eduIdx > expIdx) {
+                    // Swap to put education before experience
+                    newOrder[eduIdx] = 'experience';
+                    newOrder[expIdx] = 'education';
+                  } else if (!isFreshGrad && expIdx > eduIdx) {
+                    // Swap to put experience before education
+                    newOrder[eduIdx] = 'experience';
+                    newOrder[expIdx] = 'education';
+                  }
+                  
+                  updateSettings({ isFreshGrad, sectionOrder: newOrder });
+                }}
                 className="sr-only"
               />
               <div className={cn(
                 "w-5 h-5 rounded border transition-colors flex items-center justify-center",
                 settings.isFreshGrad 
-                  ? "bg-indigo-500 border-indigo-500" 
-                  : "border-slate-300 dark:border-slate-600 group-hover:border-indigo-400 dark:group-hover:border-indigo-500 bg-white dark:bg-slate-800"
+                  ? "bg-orange-500 border-orange-500" 
+                  : "border-slate-300 dark:border-slate-600 group-hover:border-orange-400 dark:group-hover:border-orange-500 bg-white dark:bg-slate-800"
               )}>
                 {settings.isFreshGrad && (
                   <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -239,4 +264,4 @@ export default function SettingsForm() {
       </div>
     </div>
   );
-}
+});

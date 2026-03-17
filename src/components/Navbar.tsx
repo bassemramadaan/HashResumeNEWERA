@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { PenTool, Target, ArrowRight, Menu, X, MessageSquarePlus } from 'lucide-react';
+import { PenTool, Target, ArrowRight, Menu, X, Sparkles } from 'lucide-react';
 import Logo from './Logo';
 import LanguageSwitcher from './LanguageSwitcher';
-import FeedbackModal from './FeedbackModal';
+import ThemeToggle from './ThemeToggle';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { translations } from '../i18n/translations';
 import { cn } from '../utils';
+import { AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
   const { language } = useLanguageStore();
@@ -15,7 +16,6 @@ export default function Navbar() {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,68 +35,79 @@ export default function Navbar() {
   return (
     <header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-sm py-3" : "bg-transparent py-5"
+        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        isScrolled 
+          ? "py-3" 
+          : "py-6"
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
+        <div className={cn(
+          "flex items-center justify-between px-4 py-2 rounded-2xl transition-all duration-500",
+          isScrolled 
+            ? "bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-lg shadow-slate-200/20 dark:shadow-black/20 border border-white/20 dark:border-slate-800/50" 
+            : "bg-transparent"
+        )}>
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-white dark:bg-slate-800 rounded-xl shadow-sm flex items-center justify-center text-[#f16529] group-hover:scale-105 transition-transform">
+            <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-[#f16529] rounded-xl shadow-lg shadow-orange-500/20 flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
               <Logo className="w-6 h-6" />
             </div>
-            <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
+            <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white hidden sm:block">
               Hash<span className="text-[#f16529]">Resume</span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1 bg-slate-100/50 dark:bg-slate-800/50 p-1 rounded-full border border-slate-200/50 dark:border-slate-700/50">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 className={cn(
-                  "px-4 py-2 text-sm font-bold rounded-full transition-all flex items-center gap-2",
+                  "px-4 py-2 text-sm font-bold rounded-full transition-all flex items-center gap-2 relative group",
                   location.pathname === link.path
-                    ? "text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800"
+                    ? "text-white bg-[#f16529] shadow-md"
                     : link.highlight
-                      ? "text-[#f16529] hover:opacity-80"
-                      : "text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                      ? "text-[#f16529] hover:bg-orange-50 dark:hover:bg-orange-900/20"
+                      : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 shadow-sm shadow-transparent hover:shadow-slate-200/50 dark:hover:shadow-black/50"
                 )}
               >
                 {link.icon}
                 {link.name}
+                {link.highlight && !location.pathname.includes(link.path) && (
+                  <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                  </span>
+                )}
               </Link>
             ))}
-            <button
-              onClick={() => setShowFeedbackModal(true)}
-              className="px-4 py-2 text-sm font-bold rounded-full text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all flex items-center gap-2"
-            >
-              <MessageSquarePlus size={16} />
-              {t.landing.feedback || 'Feedback'}
-            </button>
           </nav>
 
           {/* Actions */}
-          <div className="hidden md:flex items-center gap-4">
-            <LanguageSwitcher size={18} className="text-sm px-4 py-2" />
+          <div className="hidden md:flex items-center gap-3">
+            <div className="flex items-center gap-1 bg-slate-100/50 dark:bg-slate-800/50 p-1 rounded-full border border-slate-200/50 dark:border-slate-700/50">
+              <ThemeToggle className="p-2 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-colors" />
+              <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
+              <LanguageSwitcher size={18} className="text-xs px-3 py-1.5 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-colors" />
+            </div>
+            
             <Link 
               to="/editor" 
-              className="flex items-center gap-2 bg-[#f16529] hover:bg-[#e44d26] text-white font-bold py-2 px-5 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
+              className="flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-[#f16529] dark:hover:bg-[#f16529] dark:hover:text-white font-bold py-2.5 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
             >
+              <Sparkles size={16} className="text-orange-400 group-hover:text-white transition-colors" />
               <span className="text-sm tracking-tight">{t.landing.buildResume || 'Build Resume'}</span>
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 rtl:group-hover:-translate-x-1" />
             </Link>
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="md:hidden flex items-center gap-4">
-            <LanguageSwitcher size={18} className="text-sm p-2" />
+          <div className="md:hidden flex items-center gap-2">
+            <ThemeToggle className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors" />
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 rounded-xl transition-all active:scale-90"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -105,54 +116,63 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Navigation */}
-      {isMobileMenuOpen && (
-        <motion.div 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-xl"
-        >
-          <div className="px-4 py-6 flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0, y: -20 }}
+            animate={{ opacity: 1, height: 'auto', y: 0 }}
+            exit={{ opacity: 0, height: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden absolute top-full left-4 right-4 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden z-50"
+          >
+            <div className="p-6 flex flex-col gap-3">
+              {navLinks.map((link, i) => (
+                <motion.div
+                  key={link.path}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                >
+                  <Link
+                    to={link.path}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={cn(
+                      "px-5 py-4 text-base font-bold rounded-2xl transition-all flex items-center justify-between group",
+                      location.pathname === link.path
+                        ? "text-white bg-[#f16529]"
+                        : link.highlight
+                          ? "text-[#f16529] bg-orange-50 dark:bg-orange-900/20"
+                          : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50"
+                    )}
+                  >
+                    <div className="flex items-center gap-4">
+                      {link.icon}
+                      {link.name}
+                    </div>
+                    <ArrowRight size={18} className={cn("opacity-0 group-hover:opacity-100 transition-all rtl:rotate-180", location.pathname === link.path && "opacity-100")} />
+                  </Link>
+                </motion.div>
+              ))}
+              
+              <div className="h-px bg-slate-200 dark:bg-slate-800 my-2"></div>
+              
+              <div className="flex items-center justify-between px-2 mb-2">
+                <span className="text-sm font-bold text-slate-500 dark:text-slate-400">Language</span>
+                <LanguageSwitcher size={18} className="text-sm" />
+              </div>
+
+              <Link 
+                to="/editor" 
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={cn(
-                  "px-4 py-3 text-base font-bold rounded-xl transition-all flex items-center gap-3",
-                  location.pathname === link.path
-                    ? "text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800"
-                    : link.highlight
-                      ? "text-[#f16529] bg-orange-50 dark:bg-orange-900/20"
-                      : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50"
-                )}
+                className="flex items-center justify-center gap-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 px-5 rounded-2xl text-center shadow-xl shadow-slate-900/10 dark:shadow-white/5 active:scale-95 transition-all"
               >
-                {link.icon}
-                {link.name}
+                <Sparkles size={18} className="text-orange-400" />
+                {t.landing.buildResume || 'Build Resume'}
               </Link>
-            ))}
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                setShowFeedbackModal(true);
-              }}
-              className="px-4 py-3 text-base font-bold rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-all flex items-center gap-3"
-            >
-              <MessageSquarePlus size={20} />
-              {t.landing.feedback || 'Feedback'}
-            </button>
-            <div className="h-px bg-slate-200 dark:bg-slate-800 my-2"></div>
-            <Link 
-              to="/editor" 
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 bg-[#f16529] text-white font-bold py-3 px-5 rounded-xl text-center"
-            >
-              {t.landing.buildResume || 'Build Resume'}
-              <ArrowRight size={18} className="rtl:rotate-180" />
-            </Link>
-          </div>
-        </motion.div>
-      )}
-      <FeedbackModal isOpen={showFeedbackModal} onClose={() => setShowFeedbackModal(false)} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

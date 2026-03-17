@@ -61,7 +61,7 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
     {
       title: t.checkAts,
       desc: t.checkAtsDesc,
-      icon: <Target className="w-6 h-6 text-indigo-500" />,
+      icon: <Target className="w-6 h-6 text-slate-500" />,
       action: () => onJumpToStep('review'),
       type: 'button'
     },
@@ -162,21 +162,21 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
 
       {/* Next Steps Section */}
       <div className="space-y-6">
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white px-2">{t.nextStepsTitle}</h3>
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white px-2 text-start">{t.nextStepsTitle}</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {nextSteps.map((step, idx) => (
             step.type === 'link' ? (
               <Link
                 key={idx}
                 to={step.path!}
-                className="group p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-3xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300"
+                className="group p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-3xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:shadow-slate-500/5 transition-all duration-300 text-start"
               >
                 <div className="mb-4 p-3 bg-white dark:bg-slate-900 rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
                   {step.icon}
                 </div>
                 <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
                   {step.title}
-                  <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all rtl:rotate-180" />
                 </h4>
                 <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                   {step.desc}
@@ -186,14 +186,14 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
               <button
                 key={idx}
                 onClick={step.action}
-                className="group p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-3xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:shadow-indigo-500/5 transition-all duration-300 text-left"
+                className="group p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-3xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:shadow-slate-500/5 transition-all duration-300 text-start"
               >
                 <div className="mb-4 p-3 bg-white dark:bg-slate-900 rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
                   {step.icon}
                 </div>
                 <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
                   {step.title}
-                  <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                  <ArrowRight size={16} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all rtl:rotate-180" />
                 </h4>
                 <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
                   {step.desc}

@@ -7,7 +7,13 @@ import { translations } from '../i18n/translations';
 export default function FAQ() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndices, setOpenIndices] = useState<number[]>([0, 1, 2]);
+
+  const toggleIndex = (index: number) => {
+    setOpenIndices(prev => 
+      prev.includes(index) ? prev.filter(i => i !== index) : [...prev, index]
+    );
+  };
 
   const faqs = [
     { question: t.faq1Q, answer: t.faq1A },
@@ -19,7 +25,7 @@ export default function FAQ() {
   ];
 
   return (
-    <section id="faq" className="py-24 bg-slate-50 dark:bg-slate-900/50">
+    <section id="faq" className="py-24 bg-white dark:bg-slate-950">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display">{t.faqsTitle}</h2>
@@ -27,26 +33,28 @@ export default function FAQ() {
         </div>
 
         <div className="space-y-4">
-          {faqs.map((faq, index) => (
+          {faqs.map((faq, index) => {
+            const isOpen = openIndices.includes(index);
+            return (
             <div key={index} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-colors">
               <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                onClick={() => toggleIndex(index)}
+                className="w-full px-6 py-4 text-start flex justify-between items-center hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
               >
                 <span className="font-semibold text-slate-900 dark:text-white">{faq.question}</span>
-                {openIndex === index ? (
+                {isOpen ? (
                   <ChevronUp className="text-[#f16529]" size={20} />
                 ) : (
                   <ChevronDown className="text-slate-400 dark:text-slate-500" size={20} />
                 )}
               </button>
               <AnimatePresence>
-                {openIndex === index && (
+                {isOpen && (
                   <motion.div
                     initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
+                    animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
+                    transition={{ duration: 0.3, ease: 'easeInOut' }}
                   >
                     <div className="px-6 pb-4 text-slate-600 dark:text-slate-400 leading-relaxed border-t border-slate-50 dark:border-slate-800">
                       {faq.answer}
@@ -55,7 +63,7 @@ export default function FAQ() {
                 )}
               </AnimatePresence>
             </div>
-          ))}
+          )})}
         </div>
       </div>
     </section>

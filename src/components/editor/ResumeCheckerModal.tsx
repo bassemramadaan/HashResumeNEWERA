@@ -104,14 +104,14 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                   {/* Glow Effect */}
                   <div className={cn(
                     "absolute inset-0 rounded-full blur-3xl opacity-20 transform scale-75 transition-colors duration-500",
-                    score >= 80 ? "bg-gradient-to-r from-indigo-500 to-cyan-500" : score >= 50 ? "bg-amber-500" : "bg-rose-500"
+                    score >= 80 ? "bg-gradient-to-r from-slate-500 to-cyan-500" : score >= 50 ? "bg-amber-500" : "bg-rose-500"
                   )} />
 
                   <div className="relative">
                     <svg className="w-48 h-48 transform -rotate-90 drop-shadow-sm">
                       <defs>
                         <linearGradient id="modal-score-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" className="text-indigo-600 dark:text-indigo-400" stopColor="currentColor" />
+                          <stop offset="0%" className="text-slate-600 dark:text-slate-400" stopColor="currentColor" />
                           <stop offset="100%" className="text-cyan-600 dark:text-cyan-400" stopColor="currentColor" />
                         </linearGradient>
                       </defs>
@@ -147,7 +147,7 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
                       <span className={cn(
                         "text-5xl font-black tracking-tighter transition-colors duration-500",
-                        score >= 80 ? "bg-gradient-to-r from-indigo-600 to-cyan-600 dark:from-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent" : score >= 50 ? "text-amber-600 dark:text-amber-400" : "text-rose-600 dark:text-rose-400"
+                        score >= 80 ? "bg-gradient-to-r from-slate-600 to-cyan-600 dark:from-slate-400 dark:to-cyan-400 bg-clip-text text-transparent" : score >= 50 ? "text-amber-600 dark:text-amber-400" : "text-rose-600 dark:text-rose-400"
                       )}>
                         {score}%
                       </span>
@@ -211,7 +211,7 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                     "px-4 py-2 rounded-lg text-sm font-bold text-white flex items-center gap-2 transition-all shadow-sm",
                     criticalFailures.length > 0 
                       ? "bg-rose-600 hover:bg-rose-700" 
-                      : "bg-indigo-600 hover:bg-indigo-700"
+                      : "bg-slate-600 hover:bg-slate-700"
                   )}
                 >
                   PDF

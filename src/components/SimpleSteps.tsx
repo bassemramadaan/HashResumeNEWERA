@@ -1,31 +1,33 @@
 import { motion } from 'framer-motion';
 import { FileText, Sparkles, Download } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
+import { translations } from '../i18n/translations';
 
 export default function SimpleSteps() {
   const { language } = useLanguageStore();
+  const t = translations[language].landing;
   
   const steps = [
     {
       icon: FileText,
-      title: language === 'ar' ? 'أدخل بياناتك' : 'Enter details',
-      desc: language === 'ar' ? 'املأ معلوماتك الأساسية وخبراتك.' : 'Fill in your basic info and experience.',
+      title: t.simpleStep1Title,
+      desc: t.simpleStep1Desc,
       color: 'text-blue-500',
       bg: 'bg-blue-50 dark:bg-blue-500/10',
       border: 'border-blue-200 dark:border-blue-500/20'
     },
     {
       icon: Sparkles,
-      title: language === 'ar' ? 'تحسين بالذكاء الاصطناعي' : 'Improve with AI',
-      desc: language === 'ar' ? 'دع الذكاء الاصطناعي يصيغ خبراتك باحترافية.' : 'Let AI craft your experience professionally.',
+      title: t.simpleStep2Title,
+      desc: t.simpleStep2Desc,
       color: 'text-purple-500',
       bg: 'bg-purple-50 dark:bg-purple-500/10',
       border: 'border-purple-200 dark:border-purple-500/20'
     },
     {
       icon: Download,
-      title: language === 'ar' ? 'حمل سيرتك' : 'Download',
-      desc: language === 'ar' ? 'احصل على ملف PDF جاهز للتقديم.' : 'Get a ready-to-apply PDF file.',
+      title: t.simpleStep3Title,
+      desc: t.simpleStep3Desc,
       color: 'text-emerald-500',
       bg: 'bg-emerald-50 dark:bg-emerald-500/10',
       border: 'border-emerald-200 dark:border-emerald-500/20'
@@ -37,7 +39,7 @@ export default function SimpleSteps() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white font-display">
-            {language === 'ar' ? 'كيف تعمل المنصة؟' : 'How it works?'}
+            {t.howItWorksTitle}
           </h2>
         </div>
         
