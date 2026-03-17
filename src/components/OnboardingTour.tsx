@@ -1,90 +1,110 @@
-import { CallBackProps, STATUS, Step } from 'react-joyride';
-import Joyride from 'react-joyride';
+import React from 'react';
+import Joyride, { CallBackProps, STATUS, Step } from 'react-joyride';
 import { useOnboardingStore } from '../store/useOnboardingStore';
 import { useLanguageStore } from '../store/useLanguageStore';
 
 export default function OnboardingTour() {
-  const { isActive, stopOnboarding } = useOnboardingStore();
+  const { isActive, skipOnboarding } = useOnboardingStore();
   const { language } = useLanguageStore();
+
+  const steps: Step[] = [
+    {
+      target: 'body',
+      placement: 'center',
+      title: 'Welcome to Hash Resume!',
+      content: 'Let us show you around the editor to help you build your professional resume in minutes.',
+      disableBeacon: true,
+    },
+    {
+      target: '[data-tour="personal-info"]',
+      title: '1. Personal Information',
+      content: 'Start by filling in your contact details and a professional summary.',
+      placement: 'top',
+    },
+    {
+      target: '[data-tour="experience-section"]',
+      title: '2. Work Experience',
+      content: 'Add your professional history. Use our AI tools to polish your bullet points.',
+      placement: 'top',
+    },
+    {
+      target: '[data-tour="skills-section"]',
+      title: '3. Skills & Expertise',
+      content: 'List your technical and soft skills. AI can suggest relevant skills for your role.',
+      placement: 'top',
+    },
+    {
+      target: '[data-tour="review-section"]',
+      title: '4. ATS Review',
+      content: 'Check your ATS score and get actionable feedback to improve your resume.',
+      placement: 'top',
+    },
+    {
+      target: '[data-tour="preview-pane"]',
+      title: '5. Real-time Preview',
+      content: 'See your changes instantly as you type. What you see is what you get!',
+      placement: 'left',
+    },
+    {
+      target: '[data-tour="export-button"]',
+      title: '6. Export & Apply',
+      content: 'Once you are happy with your resume, download it as a professional PDF.',
+      placement: 'bottom',
+    }
+  ];
 
   const handleJoyrideCallback = (data: CallBackProps) => {
     const { status } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
 
     if (finishedStatuses.includes(status)) {
-      stopOnboarding();
+      skipOnboarding();
     }
   };
 
-  const steps: Step[] = [
-    {
-      target: '[data-tour="personal-info"]',
-      content: language === 'ar' ? 'ابدأ بإدخال معلوماتك الشخصية الأساسية.' : 'Start by entering your basic personal information.',
-      disableBeacon: true,
-    },
-    {
-      target: '[data-tour="experience-section"]',
-      content: language === 'ar' ? 'أضف خبراتك العملية هنا. يمكنك استخدام الذكاء الاصطناعي للمساعدة في الكتابة.' : 'Add your work experience here. You can use AI to help you write.',
-    },
-    {
-      target: '[data-tour="skills-section"]',
-      content: language === 'ar' ? 'أضف مهاراتك التقنية والشخصية.' : 'Add your technical and soft skills.',
-    },
-    {
-      target: '[data-tour="review-section"]',
-      content: language === 'ar' ? 'افحص توافق سيرتك الذاتية مع أنظمة التوظيف (ATS) وحملها.' : 'Check your resume ATS score and download it.',
-    },
-    {
-      target: '[data-tour="preview-pane"]',
-      content: language === 'ar' ? 'هنا يمكنك معاينة سيرتك الذاتية في الوقت الفعلي.' : 'Here you can preview your resume in real-time.',
-      placement: 'left',
-    }
-  ];
+  if (!isActive) return null;
 
   return (
     <Joyride
-      callback={handleJoyrideCallback}
-      continuous
-      hideCloseButton
-      run={isActive}
-      scrollToFirstStep
-      showProgress
-      showSkipButton
       steps={steps}
+      run={isActive}
+      continuous={true}
+      showProgress={true}
+      showSkipButton={true}
+      callback={handleJoyrideCallback}
       styles={{
         options: {
-          zIndex: 10000,
           primaryColor: '#f16529',
-          textColor: '#334155',
+          zIndex: 10000,
           backgroundColor: '#ffffff',
+          textColor: '#0f172a',
           arrowColor: '#ffffff',
-          overlayColor: 'rgba(15, 23, 42, 0.6)',
         },
         tooltipContainer: {
-          textAlign: language === 'ar' ? 'right' : 'left',
-          direction: language === 'ar' ? 'rtl' : 'ltr',
+          textAlign: 'left',
+          borderRadius: '16px',
+          padding: '10px',
         },
         buttonNext: {
-          backgroundColor: '#f16529',
           borderRadius: '9999px',
-          padding: '8px 16px',
           fontWeight: 'bold',
+          padding: '10px 20px',
         },
         buttonBack: {
+          marginRight: '10px',
+          fontWeight: 'bold',
           color: '#64748b',
-          marginRight: language === 'ar' ? '0' : '10px',
-          marginLeft: language === 'ar' ? '10px' : '0',
         },
         buttonSkip: {
           color: '#94a3b8',
         }
       }}
       locale={{
-        back: language === 'ar' ? 'السابق' : 'Back',
-        close: language === 'ar' ? 'إغلاق' : 'Close',
-        last: language === 'ar' ? 'إنهاء' : 'Finish',
-        next: language === 'ar' ? 'التالي' : 'Next',
-        skip: language === 'ar' ? 'تخطي' : 'Skip',
+        back: 'Back',
+        close: 'Close',
+        last: 'Finish',
+        next: 'Next',
+        skip: 'Skip',
       }}
     />
   );

@@ -259,6 +259,7 @@ export default function EditorPage() {
 
             <button 
               onClick={handleExportClick}
+              data-tour="export-button"
               className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#f16529] hover:bg-[#e44d26] text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-bold text-xs"
             >
               <Download size={14} />
