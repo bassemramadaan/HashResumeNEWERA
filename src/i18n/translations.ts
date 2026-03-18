@@ -135,7 +135,23 @@ export const translations = {
       profileToPartner: "Profile goes to partner database",
       profileToPartnerDesc: "We match your skills with companies looking for talent.",
       companiesContact: "Companies contact you directly",
-      companiesContactDesc: "Get job offers and interview requests without the hassle of searching."
+      companiesContactDesc: "Get job offers and interview requests without the hassle of searching.",
+      finish: {
+        readyTitle: "Your Resume is Ready!",
+        readySubtitle: "You've built a professional, ATS-optimized resume. What's next?",
+        backupTitle: "Download & Backup",
+        backupDesc: "Download your resume in multiple formats or save a backup file to your computer to edit later.",
+        exportWord: "Export Word",
+        backupData: "Backup Data",
+        restoreData: "Restore Data",
+        nextStepsTitle: "Maximize Your Success",
+        checkAts: "Check ATS Score",
+        checkAtsDesc: "Get a detailed audit of your resume and see how to improve your score.",
+        findJobs: "Find Jobs",
+        findJobsDesc: "Explore exclusive job opportunities from our partner companies.",
+        createCover: "Create Cover Letter",
+        createCoverDesc: "Generate a matching cover letter tailored to your resume and the job."
+      }
     },
     hashHunt: {
       heroBadge: "Exclusive Job Opportunities",
@@ -386,7 +402,23 @@ export const translations = {
       profileToPartner: "ملفك يذهب لشركائنا",
       profileToPartnerDesc: "نقوم بمطابقة مهاراتك مع الشركات التي تبحث عن كفاءات.",
       companiesContact: "الشركات تتواصل معك مباشرة",
-      companiesContactDesc: "احصل على عروض عمل ومقابلات دون عناء البحث."
+      companiesContactDesc: "احصل على عروض عمل ومقابلات دون عناء البحث.",
+      finish: {
+        readyTitle: "سيرتك الذاتية جاهزة!",
+        readySubtitle: "لقد أنشأت سيرة ذاتية احترافية ومتوافقة مع ATS. ما هي الخطوة التالية؟",
+        backupTitle: "التحميل والنسخ الاحتياطي",
+        backupDesc: "قم بتحميل سيرتك الذاتية بصيغ متعددة أو احفظ ملف نسخة احتياطية على جهازك لتعديله لاحقاً.",
+        exportWord: "تصدير Word",
+        backupData: "نسخ احتياطي",
+        restoreData: "استعادة البيانات",
+        nextStepsTitle: "عزز فرص نجاحك",
+        checkAts: "فحص درجة ATS",
+        checkAtsDesc: "احصل على تدقيق مفصل لسيرتك الذاتية وشاهد كيفية تحسين درجتك.",
+        findJobs: "البحث عن وظائف",
+        findJobsDesc: "استكشف فرص عمل حصرية من الشركات الشريكة لنا.",
+        createCover: "إنشاء خطاب تقديم",
+        createCoverDesc: "قم بتوليد خطاب تقديم مطابق ومخصص لسيرتك الذاتية والوظيفة."
+      }
     },
     hashHunt: {
       heroBadge: "فرص عمل حصرية",
@@ -624,7 +656,23 @@ export const translations = {
       blogSubtitle: "Conseils de carrière pour vous aider à décrocher votre prochain emploi.",
       viewAllArticles: "Voir tous les articles",
       rightsReserved: "Hash Resume. Tous droits réservés.",
-      privateFooter: "100% Privé. Vos données restent sur votre appareil."
+      privateFooter: "100% Privé. Vos données restent sur votre appareil.",
+      finish: {
+        readyTitle: "Votre CV est prêt !",
+        readySubtitle: "Vous avez créé un CV professionnel optimisé pour les ATS. Quelle est la suite ?",
+        backupTitle: "Téléchargement et sauvegarde",
+        backupDesc: "Téléchargez votre CV dans plusieurs formats ou enregistrez un fichier de sauvegarde sur votre ordinateur pour le modifier plus tard.",
+        exportWord: "Exporter Word",
+        backupData: "Sauvegarder les données",
+        restoreData: "Restaurer les données",
+        nextStepsTitle: "Maximisez votre succès",
+        checkAts: "Vérifier le score ATS",
+        checkAtsDesc: "Obtenez un audit détaillé de votre CV et voyez comment améliorer votre score.",
+        findJobs: "Trouver des emplois",
+        findJobsDesc: "Explorez des opportunités d'emploi exclusives de nos entreprises partenaires.",
+        createCover: "Créer une lettre de motivation",
+        createCoverDesc: "Générez une lettre de motivation assortie, adaptée à votre CV et au poste."
+      }
     },
     hashHunt: {
       heroBadge: "Opportunités d'emploi exclusives",
