@@ -276,6 +276,7 @@ export default function HashHuntPage() {
   const t = translations[language].hashHunt;
   const [jobs] = useState<Job[]>(mockJobs);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [showSavedOnly, setShowSavedOnly] = useState(false);
