@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout, Download, User, ArrowUp } from 'lucide-react';
+import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, TrendingUp, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout, Download, User, ArrowUp } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
-import WizardShowcase from '../components/WizardShowcase';
 import BeforeAfter from '../components/BeforeAfter';
 import ProductShowcase from '../components/ProductShowcase';
 import ParticleAnimation from '../components/ParticleAnimation';
@@ -18,7 +17,6 @@ import { translations } from '../i18n/translations';
 import { blogPosts } from '../data/blogPosts';
 
 
-import SimpleSteps from '../components/SimpleSteps';
 import Navbar from '../components/Navbar';
 
 export default function LandingPage() {
@@ -264,8 +262,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <SimpleSteps />
-
       {/* Features Cards */}
       <section id="features" className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
@@ -398,68 +394,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Cover Letter Section */}
-      <section className="py-24 bg-slate-50 dark:bg-slate-900/50 overflow-hidden border-y border-slate-200 dark:border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center gap-16">
-            <div className="flex-1 space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white dark:bg-slate-800 text-[#f16529] dark:text-orange-400 text-sm font-medium border border-slate-200 dark:border-slate-700 shadow-sm">
-                <PenTool size={16} />
-                {t.coverLetterNew}
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white font-display leading-tight">
-                {t.coverLetterTitle}
-              </h2>
-              <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-                {t.coverLetterDesc}
-              </p>
-              <ul className="space-y-4">
-                {[
-                  t.coverLetterList1,
-                  t.coverLetterList2,
-                  t.coverLetterList3,
-                  t.coverLetterList4
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium">
-                    <CheckCircle2 className="text-[#f16529] flex-shrink-0" size={20} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <Link to="/cover-letter" className="inline-flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3 rounded-full font-semibold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors">
-                {t.tryCoverLetterBuilder}
-                <ArrowRight size={18} className="rtl:rotate-180" />
-              </Link>
-            </div>
-            <div className="flex-1 relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-3xl transform rotate-3 scale-95 -z-10"></div>
-              <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
-                <div className="space-y-4 opacity-50 pointer-events-none select-none">
-                  <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded w-1/3"></div>
-                  <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded w-1/4"></div>
-                  <div className="h-8 bg-slate-100 dark:bg-slate-800 rounded w-full mt-8"></div>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
-                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
-                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-5/6"></div>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
-                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-11/12"></div>
-                    <div className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-4/5"></div>
-                  </div>
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Link to="/cover-letter" className="bg-[#f16529] hover:bg-[#e44d26] text-white px-8 py-3 rounded-full font-bold shadow-lg shadow-[#f16529]/20 hover:scale-105 active:scale-95 transition-all">
-                    {t.startWritingNow}
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Hash Hunt Section */}
       <section className="py-24 bg-white dark:bg-slate-950 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -546,11 +480,6 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* Wizard Showcase (Replaces Process) */}
-      <section id="process">
-        <WizardShowcase />
       </section>
 
       {/* Pricing Section */}
