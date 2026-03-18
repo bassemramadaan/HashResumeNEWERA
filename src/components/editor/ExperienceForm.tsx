@@ -1,23 +1,19 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, Suspense, lazy } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, AlertCircle, GripVertical } from 'lucide-react';
 import { Reorder } from 'framer-motion';
 import SectionTooltip from './SectionTooltip';
 import { getJobMatchResults } from '../../utils/ats';
 
-const EXP_SUGGESTIONS = [
-  "• Spearheaded a cross-functional team to deliver a critical project 2 weeks ahead of schedule, resulting in a 15% increase in operational efficiency.",
-  "• Developed and implemented new processes that reduced costs by 20% while maintaining high quality standards.",
-  "• Mentored and trained 5 junior team members, improving overall team productivity and morale.",
-  "• Analyzed complex data sets to identify trends and opportunities, presenting actionable insights to senior management.",
-  "• Collaborated with stakeholders across multiple departments to ensure alignment on strategic objectives and project deliverables."
-];
+const AISuggestion = lazy(() => import('./AISuggestion'));
 
 const ExperienceForm = () => {
   const { data, addExperience, updateExperience, removeExperience, updateData } = useResumeStore();
-  const { experience, jobDescription } = data;
+  const { experience, jobDescription, settings } = data;
   const [expandedId, setExpandedId] = useState<string | null>(experience[0]?.id || null);
-  const [showSuggestionsFor, setShowSuggestionsFor] = useState<string | null>(null);
+  const [showAISuggestionFor, setShowAISuggestionFor] = useState<string | null>(null);
+
+  const lang = settings.language || 'en';
 
   const matchResults = useMemo(() => getJobMatchResults(data), [data]);
 
@@ -148,32 +144,25 @@ const ExperienceForm = () => {
                         </div>
                         <button 
                           type="button"
-                          onClick={() => setShowSuggestionsFor(showSuggestionsFor === exp.id ? null : exp.id)}
+                          onClick={() => setShowAISuggestionFor(showAISuggestionFor === exp.id ? null : exp.id)}
                           className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
                         >
                           <Sparkles size={12} />
-                          AI Suggestions (Free)
+                          {lang === 'ar' ? 'اقتراحات الذكاء الاصطناعي' : 'AI Suggestions'}
                         </button>
                       </div>
 
-                      {showSuggestionsFor === exp.id && (
-                        <div className="bg-indigo-50/50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
-                          <p className="text-xs font-semibold text-indigo-800 dark:text-indigo-300 mb-2">Click a suggestion to append it to your description:</p>
-                          {EXP_SUGGESTIONS.map((suggestion, idx) => (
-                            <button
-                              key={idx}
-                              type="button"
-                              onClick={() => {
-                                const currentDesc = exp.description ? exp.description + '\n' : '';
-                                updateExperience(exp.id, { description: currentDesc + suggestion });
-                                setShowSuggestionsFor(null);
-                              }}
-                              className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800"
-                            >
-                              {suggestion}
-                            </button>
-                          ))}
-                        </div>
+                      {showAISuggestionFor === exp.id && (
+                        <Suspense fallback={<div className="h-20 animate-pulse bg-slate-100 dark:bg-slate-800 rounded-xl mb-4" />}>
+                          <AISuggestion
+                            currentText={exp.description}
+                            onApply={(newText) => {
+                              updateExperience(exp.id, { description: newText });
+                              setShowAISuggestionFor(null);
+                            }}
+                            context={`Job Title: ${exp.position}, Company: ${exp.company}`}
+                          />
+                        </Suspense>
                       )}
 
                       <textarea

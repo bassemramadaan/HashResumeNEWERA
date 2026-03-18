@@ -1,7 +1,17 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { temporal } from 'zundo';
 import { nanoid } from 'nanoid';
+import debounce from 'lodash.debounce';
+
+// Debounced storage to prevent excessive writes
+const debouncedStorage = {
+  getItem: (name: string) => localStorage.getItem(name),
+  setItem: debounce((name: string, value: string) => {
+    localStorage.setItem(name, value);
+  }, 1000),
+  removeItem: (name: string) => localStorage.removeItem(name),
+};
 
 export type Experience = {
   id: string;
@@ -155,6 +165,10 @@ type ResumeStore = {
   loadExampleData: () => void;
   loadData: (data: ResumeData) => void;
   updateData: (data: ResumeData) => void;
+  reorderSections: (newOrder: SectionId[]) => void;
+  importFromLinkedIn: (data: Partial<ResumeData>) => void;
+  addSection: (sectionId: SectionId) => void;
+  reorderExperience: (startIndex: number, endIndex: number) => void;
 };
 
 export const useResumeStore = create<ResumeStore>()(
@@ -162,6 +176,31 @@ export const useResumeStore = create<ResumeStore>()(
     persist(
       (set) => ({
       data: initialData,
+      reorderSections: (newOrder) =>
+        set((state) => ({
+          data: { ...state.data, settings: { ...state.data.settings, sectionOrder: newOrder } },
+        })),
+      importFromLinkedIn: (linkedinData) =>
+        set((state) => ({
+          data: { ...state.data, ...linkedinData },
+        })),
+      addSection: (sectionId) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            settings: {
+              ...state.data.settings,
+              hiddenSections: state.data.settings.hiddenSections.filter((id) => id !== sectionId),
+            },
+          },
+        })),
+      reorderExperience: (startIndex, endIndex) =>
+        set((state) => {
+          const result = Array.from(state.data.experience);
+          const [removed] = result.splice(startIndex, 1);
+          result.splice(endIndex, 0, removed);
+          return { data: { ...state.data, experience: result } };
+        }),
       updatePersonalInfo: (info) =>
         set((state) => ({
           data: { ...state.data, personalInfo: { ...state.data.personalInfo, ...info } },
@@ -388,6 +427,7 @@ export const useResumeStore = create<ResumeStore>()(
     }),
     {
       name: 'hash-resume-storage',
+      storage: createJSONStorage(() => debouncedStorage as any),
     }
   )
   )

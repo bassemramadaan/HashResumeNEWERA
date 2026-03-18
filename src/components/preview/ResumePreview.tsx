@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import React, { forwardRef, memo } from 'react';
 import { useResumeStore, ResumeData } from '../../store/useResumeStore';
 import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
 
@@ -6,7 +6,7 @@ interface ResumePreviewProps {
   data?: ResumeData;
 }
 
-const ResumePreview = forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref) => {
+const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref) => {
   const storeData = useResumeStore((state) => state.data);
   const data = props.data || storeData;
   const { personalInfo, experience, education, skills, projects, certifications, settings } = data;

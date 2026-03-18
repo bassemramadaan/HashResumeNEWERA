@@ -1,33 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { User, Mail, Phone, MapPin, Linkedin, Github, Globe, FileText, Sparkles, AlertCircle } from 'lucide-react';
-
 import SectionTooltip from './SectionTooltip';
+import { personalInfoSchema } from '../../lib/validation';
 
-const SUMMARY_SUGGESTIONS = [
-  "Results-driven professional with a proven track record of delivering high-quality solutions and exceeding performance targets.",
-  "Innovative thinker with strong problem-solving skills and a passion for continuous learning and professional development.",
-  "Detail-oriented team player with excellent communication skills and the ability to collaborate effectively across departments.",
-  "Strategic leader with experience in managing complex projects, optimizing processes, and driving business growth.",
-  "Dedicated and adaptable professional seeking to leverage my skills and experience to contribute to a dynamic organization."
-];
+const AISuggestion = lazy(() => import('./AISuggestion'));
 
 const PersonalInfoForm = () => {
   const { data, updatePersonalInfo } = useResumeStore();
-  const { personalInfo } = data;
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  const { personalInfo, settings } = data;
+  const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
+  const lang = settings.language || 'en';
+
   const validate = (name: string, value: string) => {
-    let error = '';
-    if (name === 'fullName' && !value.trim()) error = 'Full Name is required';
-    if (name === 'jobTitle' && !value.trim()) error = 'Job Title is required';
-    if (name === 'email') {
-      if (!value.trim()) error = 'Email is required';
-      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) error = 'Invalid email address';
+    const schema = personalInfoSchema(lang);
+    const result = schema.safeParse({ ...personalInfo, [name]: value });
+    
+    if (!result.success) {
+      const fieldError = result.error.errors.find(err => err.path[0] === name);
+      return fieldError ? fieldError.message : '';
     }
-    return error;
+    return '';
   };
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -233,32 +229,25 @@ const PersonalInfoForm = () => {
             </div>
             <button 
               type="button"
-              onClick={() => setShowSuggestions(!showSuggestions)}
+              onClick={() => setShowAISuggestions(!showAISuggestions)}
               className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
             >
               <Sparkles size={12} />
-              AI Suggestions (Free)
+              {lang === 'ar' ? 'اقتراحات الذكاء الاصطناعي' : 'AI Suggestions'}
             </button>
           </div>
           
-          {showSuggestions && (
-            <div className="bg-indigo-50/50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
-              <p className="text-xs font-semibold text-indigo-800 dark:text-indigo-300 mb-2">Click a suggestion to append it to your summary:</p>
-              {SUMMARY_SUGGESTIONS.map((suggestion, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => {
-                    const currentSummary = personalInfo.summary ? personalInfo.summary + ' ' : '';
-                    updatePersonalInfo({ summary: currentSummary + suggestion });
-                    setShowSuggestions(false);
-                  }}
-                  className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800"
-                >
-                  {suggestion}
-                </button>
-              ))}
-            </div>
+          {showAISuggestions && (
+            <Suspense fallback={<div className="h-20 animate-pulse bg-slate-100 dark:bg-slate-800 rounded-xl mb-4" />}>
+              <AISuggestion
+                currentText={personalInfo.summary}
+                onApply={(newText) => {
+                  updatePersonalInfo({ summary: newText });
+                  setShowAISuggestions(false);
+                }}
+                context={`Job Title: ${personalInfo.jobTitle}`}
+              />
+            </Suspense>
           )}
 
           <textarea
