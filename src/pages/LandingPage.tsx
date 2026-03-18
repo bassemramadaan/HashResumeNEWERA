@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, TrendingUp, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout, Download, User, ArrowUp } from 'lucide-react';
+import { ShieldCheck, Zap, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, TrendingUp, Calendar, Clock, Target, Plus, Search, Sparkles, Layout, ArrowUp } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import Testimonials from '../components/Testimonials';
-import BeforeAfter from '../components/BeforeAfter';
 import ProductShowcase from '../components/ProductShowcase';
 import ParticleAnimation from '../components/ParticleAnimation';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import FeedbackModal from '../components/FeedbackModal';
+import TrustLogos from '../components/TrustLogos';
 import SarIcon from '../components/payment/SarIcon';
 import AedIcon from '../components/payment/AedIcon';
 import { useLanguageStore } from '../store/useLanguageStore';
@@ -136,40 +136,31 @@ export default function LandingPage() {
                    {t.startFromScratch}
                 </Link>
                 <Link to="/templates" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-[#f16529] dark:hover:border-orange-500 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-sm flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
-                  <Layout size={20} className="text-slate-400 group-hover:text-[#f16529] transition-colors" />
-                  {t.chooseTemplate}
+                   <Layout size={20} className="text-slate-400 group-hover:text-[#f16529] transition-colors" />
+                   {t.chooseTemplate}
                 </Link>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="flex flex-col gap-6"
-              >
-                  <div className="flex items-center justify-center lg:justify-start gap-8 text-slate-500 dark:text-slate-400 text-sm font-medium">
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
-                      <CheckCircle2 size={12} className="text-emerald-500" />
-                    </div>
-                    <span>{t.atsFriendly}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                      <CheckCircle2 size={12} className="text-purple-500" />
-                    </div>
-                    <span>{t.aiPoweredBadge}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                      <CheckCircle2 size={12} className="text-blue-500" />
-                    </div>
-                    <span>{t.freeTemplates}</span>
-                  </div>
-                </div>
-
-              </motion.div>
+              {/* Stats Section */}
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto lg:mx-0">
+                {[
+                  { icon: <CheckCircle2 className="w-5 h-5 text-emerald-500" />, text: t.interviewIncrease },
+                  { icon: <Clock className="w-5 h-5 text-blue-500" />, text: t.timeSaved },
+                  { icon: <ShieldCheck className="w-5 h-5 text-purple-500" />, text: t.atsPassRate },
+                ].map((stat, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.4 + i * 0.1 }}
+                    className="flex items-center gap-2 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm p-3 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm"
+                  >
+                    {stat.icon}
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight">{stat.text}</span>
+                  </motion.div>
+                ))}
+              </div>
             </div>
 
             {/* Right Column: Dynamic Resume Graphic */}
@@ -198,26 +189,10 @@ export default function LandingPage() {
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-16 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
                       <div className="w-6 h-6 rounded bg-indigo-500 flex items-center justify-center">
-                        <Download size={12} className="text-white" />
+                        <Sparkles size={12} className="text-white" />
                       </div>
                     </div>
                   </div>
-
-                  {/* Sidebar Mockup */}
-                  <div className="absolute left-0 top-0 bottom-0 w-12 bg-slate-50 dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700 flex flex-col items-center py-20 gap-6 z-20">
-                    <User size={18} className="text-indigo-500" />
-                    <Briefcase size={18} className="text-slate-400" />
-                    <GraduationCap size={18} className="text-slate-400" />
-                    <Target size={18} className="text-slate-400" />
-                  </div>
-                  
-                  {/* Scanning Line Animation */}
-                  <motion.div 
-                    animate={{ top: ['-10%', '110%', '-10%'] }}
-                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                    className="absolute left-0 right-0 h-40 bg-gradient-to-b from-transparent via-[#f16529]/20 to-transparent border-b border-[#f16529]/50 z-40 pointer-events-none"
-                    style={{ top: '0%' }}
-                  />
                 </div>
 
                 {/* Floating Badge 1: ATS Score */}
@@ -257,46 +232,12 @@ export default function LandingPage() {
                 </motion.div>
               </motion.div>
             </div>
-
           </div>
         </div>
       </section>
 
-      {/* Features Cards */}
-      <section id="features" className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-7xl pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-red-500/10 rounded-full blur-3xl"></div>
-        </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 font-display tracking-tight">{t.featuresTitle}</h2>
-            <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">{t.featuresSubtitle}</p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              { icon: Zap, title: t.feature1Title, desc: t.feature1Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
-              { icon: ShieldCheck, title: t.feature2Title, desc: t.feature2Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" },
-              { icon: FileText, title: t.feature3Title, desc: t.feature3Desc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
-              { icon: CheckCircle2, title: t.feature4Title, desc: t.feature4Desc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" },
-              { icon: Sparkles, title: t.aiContentGeneration, desc: t.aiContentDesc, color: "from-orange-400 to-[#f16529]", bg: "bg-orange-50 dark:bg-orange-500/10", text: "text-[#f16529]" },
-              { icon: Layout, title: t.premiumTemplates, desc: t.premiumTemplatesDesc, color: "from-slate-400 to-slate-600", bg: "bg-slate-100 dark:bg-slate-800", text: "text-slate-700 dark:text-slate-300" }
-            ].map((feature, i) => (
-              <div key={i} className="group relative bg-white dark:bg-slate-900/50 backdrop-blur-sm p-8 md:p-10 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 overflow-hidden cursor-pointer">
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${feature.color} opacity-5 dark:opacity-10 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-150 duration-700 ease-out`}></div>
-                <div className={`w-14 h-14 ${feature.bg} ${feature.text} rounded-2xl flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 ring-1 ring-inset ring-black/5 dark:ring-white/5`}>
-                  <feature.icon size={28} strokeWidth={2} />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 group-hover:text-[#f16529] transition-colors duration-300">{feature.title}</h3>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-base group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors duration-300">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TrustLogos />
 
-      <BeforeAfter />
       <ProductShowcase />
 
       {/* ATS Audit Showcase */}
@@ -394,90 +335,93 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Hash Hunt Section */}
-      <section className="py-24 bg-white dark:bg-slate-950 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row-reverse items-center gap-16">
-            <div className="flex-1 space-y-8">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-sm font-medium border border-indigo-100 dark:border-indigo-800">
-                <Briefcase size={16} />
-                {t.hashHuntNew}
+      {/* Hash Hunt Integration Section */}
+      <section className="py-24 bg-gradient-to-br from-blue-600 to-indigo-700 text-white overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10">
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: language === 'ar' ? 50 : -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold text-sm mb-6">
+                <Sparkles className="w-4 h-4 mr-2" />
+                {language === 'ar' ? 'جديد: Hash Hunt' : 'New: Hash Hunt'}
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white font-display leading-tight">
-                {t.hashHuntTitle}
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+                {language === 'ar' ? 'لا تبحث عن الوظائف، دعها تجدك.' : 'Don\'t hunt for jobs, let them find you.'}
               </h2>
-              <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-                {t.hashHuntSubtitle}
+              <p className="text-xl text-blue-100 mb-10 leading-relaxed">
+                {language === 'ar' 
+                  ? 'بمجرد انتهائك من إنشاء سيرتك الذاتية، يمكنك إضافتها بضغطة زر واحدة إلى Hash Hunt. سيقوم أصحاب العمل برؤية ملفك الشخصي والتواصل معك مباشرة.' 
+                  : 'Once you finish your resume, add it with one click to Hash Hunt. Employers will see your profile and contact you directly.'}
               </p>
-              <ul className="space-y-4">
+              
+              <div className="space-y-6 mb-10">
                 {[
-                  t.hashHuntList1,
-                  t.hashHuntList2,
-                  t.hashHuntList3
+                  { title: language === 'ar' ? 'تقديم بضغطة زر' : 'One-Click Apply', desc: language === 'ar' ? 'اربط سيرتك الذاتية مباشرة بطلبات التوظيف.' : 'Connect your resume directly to job applications.' },
+                  { title: language === 'ar' ? 'ملف شخصي موحد' : 'Unified Profile', desc: language === 'ar' ? 'لا حاجة للتسجيل مرة أخرى، بياناتك جاهزة.' : 'No need to register again, your data is ready.' },
+                  { title: language === 'ar' ? 'تنبيهات ذكية' : 'Smart Alerts', desc: language === 'ar' ? 'احصل على إشعارات عندما يهتم صاحب عمل بملفك.' : 'Get notified when an employer is interested in your profile.' }
                 ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-slate-700 dark:text-slate-300 font-medium">
-                    <CheckCircle2 className="text-indigo-600 dark:text-indigo-400 shrink-0" size={20} />
-                    <span>{item}</span>
-                  </li>
+                  <div key={i} className="flex gap-4">
+                    <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
+                      <CheckCircle2 className="w-6 h-6 text-blue-300" />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold mb-1">{item.title}</h3>
+                      <p className="text-blue-100">{item.desc}</p>
+                    </div>
+                  </div>
                 ))}
-              </ul>
-              <Link 
-                to="/hash-hunt" 
-                className="inline-flex items-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-full font-bold hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-600/20"
-              >
-                {t.exploreHashHunt || 'Explore Hash Hunt'}
-                <ArrowRight size={20} className="rtl:rotate-180" />
-              </Link>
-            </div>
-            <div className="flex-1 relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-cyan-500/20 rounded-3xl blur-3xl"></div>
-              <div className="relative bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-700">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 rounded-xl flex items-center justify-center">
-                    <Search className="text-indigo-600 dark:text-indigo-400" size={24} />
+              </div>
+              
+              <div className="flex flex-wrap gap-4">
+                <Link to="/hash-hunt" className="px-8 py-4 bg-white text-blue-600 rounded-xl font-bold text-lg shadow-xl transition-all hover:scale-105 active:scale-95">
+                  {language === 'ar' ? 'اكتشف Hash Hunt' : 'Explore Hash Hunt'}
+                </Link>
+                <Link to="/editor" className="px-8 py-4 bg-blue-500/30 backdrop-blur-md border border-white/30 text-white rounded-xl font-bold text-lg transition-all hover:bg-blue-500/40">
+                  {language === 'ar' ? 'أنشئ سيرتك الذاتية أولاً' : 'Create Your Resume First'}
+                </Link>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="absolute -inset-4 bg-white/10 rounded-3xl blur-2xl" />
+              <div className="relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl overflow-hidden group">
+                <img 
+                  src="https://picsum.photos/seed/dashboard/800/600" 
+                  alt="Hash Hunt Dashboard" 
+                  className="rounded-xl shadow-lg transform group-hover:scale-105 transition-transform duration-700"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent" />
+                <div className="absolute bottom-12 left-12 right-12">
+                  <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xl">
+                        HR
+                      </div>
+                      <div>
+                        <div className="font-bold text-slate-900">Hash Recruiters</div>
+                        <div className="text-sm text-slate-500">Active now</div>
+                      </div>
+                    </div>
+                    <div className="text-slate-700 font-medium italic">
+                      "We found our last 3 senior developers through Hash Hunt. The quality of resumes is outstanding."
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white">Senior Product Designer</h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">TechNova Solutions • Remote</p>
-                  </div>
-                </div>
-                <div className="space-y-3 mb-6">
-                  <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded w-full"></div>
-                  <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded w-5/6"></div>
-                  <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded w-4/5"></div>
-                </div>
-                <div className="flex gap-2">
-                  <span className="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-full font-medium">Figma</span>
-                  <span className="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-full font-medium">UI/UX</span>
-                  <span className="px-3 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-full font-medium">Design Systems</span>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Hash Hunt Process Flow */}
-          <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 pt-12 border-t border-slate-100 dark:border-slate-800">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
-                <span className="font-bold">1</span>
-              </div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{t.uploadCv}</h4>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{t.uploadCvDesc}</p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
-                <span className="font-bold">2</span>
-              </div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{t.profileToPartner}</h4>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{t.profileToPartnerDesc}</p>
-            </div>
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-4">
-                <span className="font-bold">3</span>
-              </div>
-              <h4 className="font-bold text-slate-900 dark:text-white mb-2">{t.companiesContact}</h4>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{t.companiesContactDesc}</p>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
