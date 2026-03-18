@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy } from 'lucide-react';
+import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, GripVertical } from 'lucide-react';
+import { Reorder } from 'framer-motion';
 
 const EDU_SUGGESTIONS = [
   "• Graduated with Honors (Cum Laude).",
@@ -58,7 +59,7 @@ const EGYPTIAN_UNIVERSITIES = [
 ];
 
 const EducationForm = () => {
-  const { data, addEducation, updateEducation, removeEducation } = useResumeStore();
+  const { data, addEducation, updateEducation, removeEducation, updateData } = useResumeStore();
   const { education } = data;
   const [expandedId, setExpandedId] = useState<string | null>(education[0]?.id || null);
   const [showSuggestionsFor, setShowSuggestionsFor] = useState<string | null>(null);
@@ -71,6 +72,10 @@ const EducationForm = () => {
       endDate: '',
       description: '',
     });
+  };
+
+  const handleReorder = (newOrder: typeof education) => {
+    updateData({ ...data, education: newOrder });
   };
 
   return (
@@ -90,16 +95,24 @@ const EducationForm = () => {
           No education added yet. Click the button above to add your academic history.
         </div>
       ) : (
-        <div className="space-y-4">
+        <Reorder.Group axis="y" values={education} onReorder={handleReorder} className="space-y-4">
           {education.map((edu) => (
-            <div key={edu.id} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-all">
+            <Reorder.Item key={edu.id} value={edu} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-all">
               <div 
                 className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                 onClick={() => setExpandedId(expandedId === edu.id ? null : edu.id)}
               >
-                <div>
-                  <h3 className="font-bold text-slate-900 dark:text-white">{edu.degree || '(Not specified)'}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{edu.institution || 'Institution Name'} • {edu.startDate || 'Start'} - {edu.endDate || 'End'}</p>
+                <div className="flex items-center gap-3">
+                  <div 
+                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <GripVertical size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-slate-900 dark:text-white">{edu.degree || '(Not specified)'}</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{edu.institution || 'Institution Name'} • {edu.startDate || 'Start'} - {edu.endDate || 'End'}</p>
+                  </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <button 
@@ -139,28 +152,19 @@ const EducationForm = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Institution</label>
-                      <select
-                        value={EGYPTIAN_UNIVERSITIES.includes(edu.institution) || edu.institution === '' ? edu.institution : 'Other'}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          updateEducation(edu.id, { institution: val === 'Other' ? '' : val });
-                        }}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
-                      >
-                        <option value="" disabled>Select University</option>
-                        {EGYPTIAN_UNIVERSITIES.map(uni => (
-                          <option key={uni} value={uni}>{uni}</option>
+                      <input
+                        list={`universities-${edu.id}`}
+                        type="text"
+                        value={edu.institution}
+                        onChange={(e) => updateEducation(edu.id, { institution: e.target.value })}
+                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        placeholder="e.g. Cairo University"
+                      />
+                      <datalist id={`universities-${edu.id}`}>
+                        {EGYPTIAN_UNIVERSITIES.filter(u => u !== 'Other').map(uni => (
+                          <option key={uni} value={uni} />
                         ))}
-                      </select>
-                      {(!EGYPTIAN_UNIVERSITIES.includes(edu.institution) && edu.institution !== '') || (edu.institution === '' && EGYPTIAN_UNIVERSITIES.includes('Other')) ? (
-                        <input
-                          type="text"
-                          value={edu.institution}
-                          onChange={(e) => updateEducation(edu.id, { institution: e.target.value })}
-                          className="block w-full px-3 py-2 mt-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
-                          placeholder="Enter institution name"
-                        />
-                      ) : null}
+                      </datalist>
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Start Date</label>
@@ -225,9 +229,9 @@ const EducationForm = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </Reorder.Item>
           ))}
-        </div>
+        </Reorder.Group>
       )}
     </div>
   );

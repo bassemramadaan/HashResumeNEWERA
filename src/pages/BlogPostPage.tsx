@@ -1,7 +1,6 @@
 import { useParams, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
-import { Helmet } from 'react-helmet-async';
 import { Calendar, Clock, Share2, Facebook, Twitter, Linkedin } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { blogPosts } from '../data/blogPosts';
@@ -21,18 +20,6 @@ export default function BlogPostPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-50 transition-colors duration-300">
-      <Helmet>
-        <title>{post.title[language]} - Hash Resume Blog</title>
-        <meta name="description" content={post.excerpt[language]} />
-        <meta property="og:title" content={post.title[language]} />
-        <meta property="og:description" content={post.excerpt[language]} />
-        <meta property="og:image" content={post.image} />
-        <meta property="twitter:title" content={post.title[language]} />
-        <meta property="twitter:description" content={post.excerpt[language]} />
-        <meta property="twitter:image" content={post.image} />
-        <link rel="canonical" href={`https://hashresume.com/blog/${post.id}`} />
-      </Helmet>
-      
       <Navbar />
 
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 mt-32">

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Helmet } from 'react-helmet-async';
 import { ArrowRight, Calendar, Clock } from 'lucide-react';
 import { useLanguageStore } from '../store/useLanguageStore';
 import { blogPosts } from '../data/blogPosts';
@@ -11,12 +10,6 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-50 transition-colors duration-300">
-      <Helmet>
-        <title>Blog - Hash Resume</title>
-        <meta name="description" content="Read our latest articles on career advice, resume building, and job search strategies." />
-        <link rel="canonical" href="https://hashresume.com/blog" />
-      </Helmet>
-      
       <Navbar />
 
       {/* Header */}

@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { useReactToPrint } from 'react-to-print';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
 import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, Download, ChevronLeft, Eye, LayoutTemplate, Target,
@@ -66,6 +65,7 @@ export default function EditorPage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<{ type: 'load' | 'clear', message: string } | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [lastSavedTime, setLastSavedTime] = useState<string>('');
   const [previewMode, setPreviewMode] = useState<'resume' | 'cover-letter'>('resume');
@@ -173,11 +173,6 @@ export default function EditorPage() {
 
   return (
     <div className="flex flex-col h-screen bg-slate-50 dark:bg-slate-950 overflow-hidden font-sans transition-colors duration-200" dir={dir}>
-      <Helmet>
-        <title>{t.resumePreview} - Hash Resume</title>
-        <meta name="description" content="Build your professional resume with our easy-to-use editor. Real-time preview and ATS optimization." />
-        <link rel="canonical" href="https://hashresume.com/editor" />
-      </Helmet>
       <OnboardingTour />
       
       {/* Floating Dock Navbar (Top) */}
@@ -317,21 +312,13 @@ export default function EditorPage() {
             
             <div className="flex items-center gap-3 mt-6">
               <button 
-                onClick={() => {
-                  if (window.confirm(t.overwriteConfirm)) {
-                    loadExampleData();
-                  }
-                }} 
+                onClick={() => setConfirmAction({ type: 'load', message: t.overwriteConfirm })} 
                 className="text-[10px] font-black uppercase tracking-widest text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-5 py-2.5 rounded-full transition-all border border-indigo-100 dark:border-indigo-800/50 shadow-sm"
               >
                 {t.loadExample}
               </button>
               <button 
-                onClick={() => {
-                  if (window.confirm(t.clearConfirm)) {
-                    resetData();
-                  }
-                }} 
+                onClick={() => setConfirmAction({ type: 'clear', message: t.clearConfirm })} 
                 className="text-[10px] font-black uppercase tracking-widest text-rose-500 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 px-5 py-2.5 rounded-full hover:bg-rose-50 dark:hover:bg-rose-900/30 transition-all"
               >
                 {t.clearAll}
@@ -648,6 +635,53 @@ export default function EditorPage() {
           onStartTour={handleStartTour}
           onSkip={handleSkipTour}
         />
+
+        {/* Action Confirmation Modal */}
+        <AnimatePresence>
+          {confirmAction && (
+            <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
+              >
+                <div className="p-6 space-y-4">
+                  <h3 className="text-xl font-bold text-center text-slate-900 dark:text-white">
+                    {confirmAction.type === 'load' ? 'Load Example Data?' : 'Clear All Data?'}
+                  </h3>
+                  <p className="text-center text-slate-600 dark:text-slate-400">
+                    {confirmAction.message}
+                  </p>
+                  <div className="flex gap-3 pt-4">
+                    <button
+                      onClick={() => setConfirmAction(null)}
+                      className="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (confirmAction.type === 'load') {
+                          loadExampleData();
+                        } else {
+                          resetData();
+                        }
+                        setConfirmAction(null);
+                      }}
+                      className={cn(
+                        "flex-1 py-2.5 text-white rounded-xl font-bold transition-colors",
+                        confirmAction.type === 'load' ? "bg-indigo-600 hover:bg-indigo-700" : "bg-red-600 hover:bg-red-700"
+                      )}
+                    >
+                      {confirmAction.type === 'load' ? 'Yes, Load' : 'Yes, Clear'}
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
       </Suspense>
     </div>
   );

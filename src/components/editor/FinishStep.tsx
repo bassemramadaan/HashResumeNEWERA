@@ -1,10 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { useLanguageStore } from '../../store/useLanguageStore';
 import { translations } from '../../i18n/translations';
 import { Download, FileText, Save, Upload, CheckCircle2, ArrowRight, Target, PenTool, Search } from 'lucide-react';
 import { generateWord } from '../../utils/generateWord';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 interface FinishStepProps {
@@ -18,6 +18,7 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
   const { language } = useLanguageStore();
   const t = translations[language].landing.finish;
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   const handleExportJson = () => {
     const dataStr = JSON.stringify(data, null, 2);
@@ -41,13 +42,13 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
         // Basic validation
         if (importedData && importedData.personalInfo && importedData.experience) {
           updateData(importedData);
-          alert('Resume data imported successfully!');
+          setAlertMessage('Resume data imported successfully!');
         } else {
-          alert('Invalid resume data format.');
+          setAlertMessage('Invalid resume data format.');
         }
       } catch (error) {
         console.error('Error parsing JSON:', error);
-        alert('Failed to parse the file. Please ensure it is a valid JSON backup.');
+        setAlertMessage('Failed to parse the file. Please ensure it is a valid JSON backup.');
       }
     };
     reader.readAsText(file);
@@ -90,7 +91,30 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
   };
 
   return (
-    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 p-4 max-w-4xl mx-auto">
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 p-4 max-w-4xl mx-auto relative">
+      <AnimatePresence>
+        {alertMessage && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl w-full max-w-sm overflow-hidden"
+            >
+              <div className="p-6 text-center space-y-4">
+                <p className="text-slate-700 dark:text-slate-300 font-medium">{alertMessage}</p>
+                <button
+                  onClick={() => setAlertMessage(null)}
+                  className="w-full py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+                >
+                  OK
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Celebratory Header */}
       <div className="text-center space-y-4">
         <motion.div
@@ -122,7 +146,7 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-4 lg:flex items-center gap-3 w-full lg:w-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-wrap items-center gap-3 w-full lg:w-auto">
             <button
               onClick={onPrint}
               data-tour="download-button"

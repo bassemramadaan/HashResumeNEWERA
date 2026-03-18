@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
 import { 
   Briefcase, Building2, Search, ArrowRight, CheckCircle2, ExternalLink, 
   MapPin, Bookmark, X, Sparkles, SlidersHorizontal, Info
@@ -12,20 +11,7 @@ import { translations } from '../i18n/translations';
 import Navbar from '../components/Navbar';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../utils';
-
-interface Job {
-  jobId: string;
-  title: string;
-  company: string;
-  location: string;
-  type: string;
-  salary?: string;
-  postedAt?: string;
-  description?: string;
-  url?: string;
-  logo?: string;
-  code?: string;
-}
+import { mockJobs, Job } from '../data/jobs';
 
 const JobCard: React.FC<{ 
   job: Job; 
@@ -288,9 +274,8 @@ const JobDetailsModal: React.FC<{
 export default function HashHuntPage() {
   const { language, dir } = useLanguageStore();
   const t = translations[language].hashHunt;
-  const [jobs, setJobs] = useState<Job[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [jobs] = useState<Job[]>(mockJobs);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [showSavedOnly, setShowSavedOnly] = useState(false);
@@ -310,24 +295,11 @@ export default function HashHuntPage() {
     });
   };
 
+  // No longer need to fetch from API in pure frontend version
   useEffect(() => {
-    async function fetchJobs() {
-      try {
-        const apiUrl = "/api/jobs";
-        const res = await fetch(apiUrl);
-        if (!res.ok) throw new Error('Failed to fetch jobs');
-        const data = await res.json();
-        const jobsArray = Array.isArray(data) ? data : (data.jobs || []);
-        setJobs(jobsArray);
-      } catch (err) {
-        console.error('Error fetching jobs:', err);
-        setError(t.tryRefreshing);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchJobs();
-  }, [t.tryRefreshing]);
+    // We could still simulate a fetch if we wanted, but for now we just use mockJobs
+    setLoading(false);
+  }, []);
 
   const filteredJobs = useMemo(() => {
     return jobs.filter(job => {
@@ -347,12 +319,6 @@ export default function HashHuntPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300" dir={dir}>
-      <Helmet>
-        <title>Hash Hunt - Find Your Dream Job</title>
-        <meta name="description" content="Discover exclusive job opportunities tailored for you. Submit your resume and let top companies find you." />
-        <link rel="canonical" href="https://hashresume.com/hash-hunt" />
-      </Helmet>
-      
       <Navbar />
 
       {/* Hero Section */}

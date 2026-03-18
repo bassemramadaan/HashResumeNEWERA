@@ -163,13 +163,15 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
 
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">Don't have a code?</p>
-              <button 
-                onClick={() => window.open('https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code', '_blank')} 
+              <a 
+                href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code" 
+                target="_blank" 
+                rel="noopener noreferrer"
                 className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm"
               >
                 <Ticket size={18} />
                 Get Code via WhatsApp
-              </button>
+              </a>
             </div>
           </div>
         </motion.div>

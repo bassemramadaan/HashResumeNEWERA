@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { FileText, Sparkles, Copy, Check, Import } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import Navbar from '../components/Navbar';
+import { aiService } from '../services/aiService';
 
 export default function CoverLetterPage() {
   const { data } = useResumeStore();
@@ -46,40 +46,45 @@ export default function CoverLetterPage() {
     }));
   };
 
-  const generateCoverLetter = () => {
+  const generateCoverLetter = async () => {
+    if (!formData.fullName || !formData.companyName || !formData.jobTitle) {
+      return;
+    }
+
     setIsGenerating(true);
-    // Simulate AI generation delay
-    setTimeout(() => {
-      const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-      const letter = `${formData.fullName}
-[Your Address]
-[Your Email] | [Your Phone]
 
-${date}
+    const prompt = `
+      Write a professional cover letter for a ${formData.jobTitle} position at ${formData.companyName}.
+      
+      Candidate Name: ${formData.fullName}
+      Hiring Manager: ${formData.hiringManager || 'Hiring Manager'}
+      
+      Job Description:
+      ${formData.jobDescription || 'Not provided'}
+      
+      Key Skills:
+      ${formData.skills}
+      
+      The cover letter should be professional, engaging, and highlight why the candidate is a good fit.
+      Keep it concise (under 400 words).
+      Do not include placeholders like [Your Name] or [Date], use the provided information.
+      Format it with proper paragraphs.
+    `;
 
-${formData.hiringManager ? formData.hiringManager : 'Hiring Manager'}
-${formData.companyName}
-[Company Address]
-
-Dear ${formData.hiringManager ? formData.hiringManager : 'Hiring Manager'},
-
-I am writing to express my strong interest in the ${formData.jobTitle} position at ${formData.companyName}. With a proven track record of delivering results and a deep passion for the industry, I am confident in my ability to make a significant contribution to your team.
-
-${formData.jobDescription ? `Having reviewed the job description, I am particularly drawn to the opportunity to contribute to ${formData.companyName}'s goals. My experience aligns well with the requirements you've outlined.` : ''}
-
-${formData.skills ? `My core competencies include ${formData.skills}, which I have successfully leveraged in my previous roles to drive success.` : ''} I am a quick learner, a collaborative team player, and a dedicated professional who thrives in dynamic environments. 
-
-I am particularly impressed by ${formData.companyName}'s commitment to innovation and excellence, and I am eager to bring my skills and enthusiasm to your organization. I welcome the opportunity to discuss how my background, skills, and certifications will be of value to your team.
-
-Thank you for your time and consideration. I look forward to the possibility of discussing this exciting opportunity with you.
-
-Sincerely,
-
-${formData.fullName}`;
-
-      setGeneratedLetter(letter);
+    try {
+      const result = await aiService.generateContent(prompt);
+      
+      if (result.text) {
+        setGeneratedLetter(result.text);
+      } else {
+        setGeneratedLetter('Failed to generate cover letter. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error generating cover letter:', err);
+      setGeneratedLetter('An unexpected error occurred. Please try again.');
+    } finally {
       setIsGenerating(false);
-    }, 1500);
+    }
   };
 
   const copyToClipboard = () => {
@@ -90,12 +95,6 @@ ${formData.fullName}`;
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col font-sans transition-colors duration-300">
-      <Helmet>
-        <title>AI Cover Letter Builder - Hash Resume</title>
-        <meta name="description" content="Generate personalized, professional cover letters in seconds using AI. Tailored to the job description and your skills." />
-        <link rel="canonical" href="https://hashresume.com/cover-letter" />
-      </Helmet>
-      
       <Navbar />
 
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mt-24">

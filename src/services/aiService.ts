@@ -1,31 +1,43 @@
+import { GoogleGenAI } from "@google/genai";
 import { AIResponse, IResumeService } from '../types/ai.types';
+
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
 /**
  * Centralized AI Service for Gemini API calls
  */
 export const aiService: IResumeService = {
   /**
-   * Generates content using backend API
+   * Generates content using Google Gemini API directly
    */
   generateContent: async (prompt: string, systemInstruction?: string): Promise<AIResponse> => {
     try {
-      const response = await fetch('/api/ai/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, systemInstruction }),
+      if (!apiKey) {
+        throw new Error('Gemini API key is not configured');
+      }
+
+      const genAI = new GoogleGenAI({ apiKey });
+      const model = genAI.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: prompt,
+        config: {
+          systemInstruction: systemInstruction,
+        },
       });
       
-      if (!response.ok) {
-        throw new Error('Failed to generate content');
+      const response = await model;
+      const text = response.text;
+      
+      if (!text) {
+        throw new Error('Empty response from Gemini');
       }
       
-      const data = await response.json();
-      return { text: data.text };
+      return { text };
     } catch (err: unknown) {
       console.error('AI Generation failed:', err);
       return { 
         text: '', 
-        error: 'Failed to generate content. Please try again later.' 
+        error: err instanceof Error ? err.message : 'Failed to generate content. Please try again later.' 
       };
     }
   }

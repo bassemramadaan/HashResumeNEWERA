@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, LayoutTemplate, CheckCircle2, Eye, X } from 'lucide-react';
 import Logo from '../components/Logo';
 import { useLanguageStore } from '../store/useLanguageStore';
@@ -193,11 +192,6 @@ export default function TemplatesPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans transition-colors duration-300">
-      <Helmet>
-        <title>Resume Templates - Hash Resume</title>
-        <meta name="description" content="Browse our collection of professional, ATS-friendly resume templates." />
-      </Helmet>
-
       {/* Header */}
       <header 
         className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 transition-all duration-500 ease-in-out"

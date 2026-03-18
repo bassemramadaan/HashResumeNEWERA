@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet-async';
 import { ShieldCheck, Zap, FileText, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, PenTool, TrendingUp, Calendar, Clock, Target, Plus, Briefcase, GraduationCap, Search, Sparkles, Layout, Download, User, ArrowUp } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
@@ -57,46 +56,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 dark:selection:bg-indigo-900 dark:selection:text-indigo-100 transition-colors duration-300">
-      <Helmet>
-        <title>Hash Resume - AI-Powered Resume Builder</title>
-        <meta name="description" content="Create professional resumes and cover letters in minutes with our AI-powered builder. Optimize for ATS and land your dream job." />
-        <meta name="keywords" content="resume builder, cv maker, cover letter, ai resume, ats friendly resume, job search" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://hashresume.com/" />
-        <meta property="og:title" content="Hash Resume - AI-Powered Resume Builder" />
-        <meta property="og:description" content="Create professional resumes and cover letters in minutes with our AI-powered builder. Optimize for ATS and land your dream job." />
-        <meta property="og:image" content="https://hashresume.com/og-image.png" />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://hashresume.com/" />
-        <meta property="twitter:title" content="Hash Resume - AI-Powered Resume Builder" />
-        <meta property="twitter:description" content="Create professional resumes and cover letters in minutes with our AI-powered builder. Optimize for ATS and land your dream job." />
-        <meta property="twitter:image" content="https://hashresume.com/og-image.png" />
-        <link rel="canonical" href="https://hashresume.com/" />
-        
-        {/* Schema.org Markup */}
-        <script type="application/ld+json">
-          {`
-            {
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": "Hash Resume",
-              "operatingSystem": "Web",
-              "applicationCategory": "BusinessApplication",
-              "offers": {
-                "@type": "Offer",
-                "price": "25.00",
-                "priceCurrency": "EGP"
-              },
-              "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "ratingCount": "2000"
-              }
-            }
-          `}
-        </script>
-      </Helmet>
-      
       <Navbar />
 
       {/* Hero Section */}

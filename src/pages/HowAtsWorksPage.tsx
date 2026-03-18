@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { Target, Search, CheckCircle2, AlertTriangle, FileSearch } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useLanguageStore } from '../store/useLanguageStore';
@@ -10,10 +9,6 @@ export default function HowAtsWorksPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans" dir={isAr ? 'rtl' : 'ltr'}>
-      <Helmet>
-        <title>{isAr ? 'كيف يعمل تقييم ATS - Hash Resume' : 'How ATS Score Works - Hash Resume'}</title>
-      </Helmet>
-      
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-32">

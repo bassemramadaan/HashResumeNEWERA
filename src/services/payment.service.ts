@@ -1,31 +1,24 @@
 /**
  * Payment Service
  * Handles interactions with payment gateways (e.g., Stripe).
- * Note: In a real application, sensitive operations like creating payment intents
- * must happen on the backend. This service acts as a client-side wrapper.
+ * Note: In this pure frontend version, we simulate the payment process
+ * and store the premium status in localStorage.
  */
 export const PaymentService = {
   /**
    * Initiates a checkout session for a premium resume download.
    * @param planId The ID of the plan the user is purchasing.
-   * @returns A promise that resolves with the checkout session URL.
+   * @returns A promise that resolves with a mock checkout session URL.
    */
   async createCheckoutSession(planId: string): Promise<string> {
     try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ planId }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create checkout session');
-      }
-
-      const data = await response.json();
-      return data.url;
+      console.log(`Creating mock checkout session for plan: ${planId}`);
+      
+      // Simulate an API call delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Return a mock URL that the app can handle
+      return `#/payment-success?session_id=mock_session_${Date.now()}`;
     } catch (error) {
       console.error("Error creating checkout session:", error);
       throw new Error("Failed to initiate payment.", { cause: error });
@@ -39,17 +32,26 @@ export const PaymentService = {
    */
   async verifyPayment(sessionId: string): Promise<boolean> {
     try {
-      // Simulate an API call to verify the payment status
-      console.log(`Verifying payment session: ${sessionId}`);
+      console.log(`Verifying mock payment session: ${sessionId}`);
       
+      // In this mock, we always succeed
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(true); // Mock successful verification
+          // Mark as premium in localStorage for persistence across reloads
+          localStorage.setItem('is_premium', 'true');
+          resolve(true);
         }, 1000);
       });
     } catch (error) {
       console.error("Error verifying payment:", error);
       return false;
     }
+  },
+
+  /**
+   * Checks if the user is currently premium.
+   */
+  isPremium(): boolean {
+    return localStorage.getItem('is_premium') === 'true';
   }
 };

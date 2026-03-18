@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Trash2, ChevronDown, ChevronUp, Copy, Sparkles, GripVertical } from 'lucide-react';
+import { Reorder } from 'framer-motion';
+import SectionTooltip from './SectionTooltip';
+
+const PROJ_SUGGESTIONS = [
+  "• Designed and developed a full-stack web application using React and Node.js, serving over 10,000 monthly active users.",
+  "• Implemented a responsive and accessible user interface, improving user engagement by 25%.",
+  "• Integrated third-party APIs for payment processing and user authentication, ensuring secure transactions.",
+  "• Optimized database queries and backend logic, reducing page load times by 40%.",
+  "• Collaborated with a team of 4 developers using Agile methodologies and Git for version control."
+];
 
 const ProjectsForm = () => {
-  const { data, addProject, updateProject, removeProject } = useResumeStore();
+  const { data, addProject, updateProject, removeProject, updateData } = useResumeStore();
   const { projects } = data;
   const [expandedId, setExpandedId] = useState<string | null>(projects[0]?.id || null);
+  const [showSuggestionsFor, setShowSuggestionsFor] = useState<string | null>(null);
 
   const handleAdd = () => {
     addProject({
@@ -15,12 +26,16 @@ const ProjectsForm = () => {
     });
   };
 
+  const handleReorder = (newOrder: typeof projects) => {
+    updateData({ ...data, projects: newOrder });
+  };
+
   return (
     <div className="space-y-6 font-sans">
       <div className="flex items-center justify-end">
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-indigo-100 dark:border-indigo-800"
+          className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200 dark:border-slate-700"
         >
           <Plus size={16} />
           Add Project
@@ -32,18 +47,37 @@ const ProjectsForm = () => {
           No projects added yet. Click the button above to add your projects.
         </div>
       ) : (
-        <div className="space-y-4">
+        <Reorder.Group axis="y" values={projects} onReorder={handleReorder} className="space-y-4">
           {projects.map((proj) => (
-            <div key={proj.id} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-all">
+            <Reorder.Item key={proj.id} value={proj} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-all">
               <div 
                 className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                 onClick={() => setExpandedId(expandedId === proj.id ? null : proj.id)}
               >
-                <div>
-                  <h3 className="font-bold text-slate-900 dark:text-white">{proj.name || '(Not specified)'}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{proj.link || 'No link provided'}</p>
+                <div className="flex items-center gap-3">
+                  <div 
+                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <GripVertical size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-slate-900 dark:text-white">{proj.name || '(Not specified)'}</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{proj.link || 'No link provided'}</p>
+                  </div>
                 </div>
                 <div className="flex items-center gap-3">
+                  <button 
+                    onClick={(e) => { 
+                      e.stopPropagation(); 
+                      const { id: _id, ...rest } = proj;
+                      addProject(rest);
+                    }}
+                    className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                    title="Duplicate"
+                  >
+                    <Copy size={18} />
+                  </button>
                   <button 
                     onClick={(e) => { e.stopPropagation(); removeProject(proj.id); }}
                     className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
@@ -79,7 +113,45 @@ const ProjectsForm = () => {
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Description</label>
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                          <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Description</label>
+                          <SectionTooltip 
+                            title="Project Tips" 
+                            content="Focus on your specific contributions, technologies used, and the impact or results of the project." 
+                            example="• Built a real-time chat application using Socket.io and React, supporting 500+ concurrent users."
+                          />
+                        </div>
+                        <button 
+                          type="button"
+                          onClick={() => setShowSuggestionsFor(showSuggestionsFor === proj.id ? null : proj.id)}
+                          className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
+                        >
+                          <Sparkles size={12} />
+                          AI Suggestions (Free)
+                        </button>
+                      </div>
+
+                      {showSuggestionsFor === proj.id && (
+                        <div className="bg-indigo-50/50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
+                          <p className="text-xs font-semibold text-indigo-800 dark:text-indigo-300 mb-2">Click a suggestion to append it to your description:</p>
+                          {PROJ_SUGGESTIONS.map((suggestion, idx) => (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => {
+                                const currentDesc = proj.description ? proj.description + '\n' : '';
+                                updateProject(proj.id, { description: currentDesc + suggestion });
+                                setShowSuggestionsFor(null);
+                              }}
+                              className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800"
+                            >
+                              {suggestion}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+
                       <textarea
                         rows={4}
                         value={proj.description}
@@ -91,9 +163,9 @@ const ProjectsForm = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </Reorder.Item>
           ))}
-        </div>
+        </Reorder.Group>
       )}
     </div>
   );

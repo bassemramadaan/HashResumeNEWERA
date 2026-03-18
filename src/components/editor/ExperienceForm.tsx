@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useResumeStore } from '../../store/useResumeStore';
-import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, AlertCircle } from 'lucide-react';
+import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, AlertCircle, GripVertical } from 'lucide-react';
+import { Reorder } from 'framer-motion';
 import SectionTooltip from './SectionTooltip';
 import { getJobMatchResults } from '../../utils/ats';
 
@@ -13,7 +14,7 @@ const EXP_SUGGESTIONS = [
 ];
 
 const ExperienceForm = () => {
-  const { data, addExperience, updateExperience, removeExperience } = useResumeStore();
+  const { data, addExperience, updateExperience, removeExperience, updateData } = useResumeStore();
   const { experience, jobDescription } = data;
   const [expandedId, setExpandedId] = useState<string | null>(experience[0]?.id || null);
   const [showSuggestionsFor, setShowSuggestionsFor] = useState<string | null>(null);
@@ -28,6 +29,10 @@ const ExperienceForm = () => {
       endDate: '',
       description: '',
     });
+  };
+
+  const handleReorder = (newOrder: typeof experience) => {
+    updateData({ ...data, experience: newOrder });
   };
 
   return (
@@ -47,16 +52,24 @@ const ExperienceForm = () => {
           No experience added yet. Click the button above to add your work history.
         </div>
       ) : (
-        <div className="space-y-4">
+        <Reorder.Group axis="y" values={experience} onReorder={handleReorder} className="space-y-4">
           {experience.map((exp) => (
-            <div key={exp.id} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-all">
+            <Reorder.Item key={exp.id} value={exp} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-all">
               <div 
                 className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                 onClick={() => setExpandedId(expandedId === exp.id ? null : exp.id)}
               >
-                <div>
-                  <h3 className="font-bold text-slate-900 dark:text-white">{exp.position || '(Not specified)'}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{exp.company || 'Company Name'} • {exp.startDate || 'Start'} - {exp.endDate || 'End'}</p>
+                <div className="flex items-center gap-3">
+                  <div 
+                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <GripVertical size={20} />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-slate-900 dark:text-white">{exp.position || '(Not specified)'}</h3>
+                    <p className="text-sm text-slate-500 dark:text-slate-400">{exp.company || 'Company Name'} • {exp.startDate || 'Start'} - {exp.endDate || 'End'}</p>
+                  </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <button 
@@ -189,9 +202,9 @@ const ExperienceForm = () => {
                   </div>
                 </div>
               )}
-            </div>
+            </Reorder.Item>
           ))}
-        </div>
+        </Reorder.Group>
       )}
     </div>
   );
