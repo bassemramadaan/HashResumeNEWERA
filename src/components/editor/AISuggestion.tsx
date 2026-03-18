@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Loader2, Check, RefreshCw } from 'lucide-react';
 import { GoogleGenAI } from "@google/genai";
-import { useLanguageStore } from '../store/useLanguageStore';
-import { translations } from '../i18n/translations';
+import { useLanguageStore } from '../../store/useLanguageStore';
 
 interface AISuggestionProps {
   currentValue: string;
@@ -12,7 +11,6 @@ interface AISuggestionProps {
 
 export default function AISuggestion({ currentValue, onApply, context }: AISuggestionProps) {
   const { language } = useLanguageStore();
-  const t = translations[language].editor;
   const [isGenerating, setIsGenerating] = useState(false);
   const [suggestion, setSuggestion] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);

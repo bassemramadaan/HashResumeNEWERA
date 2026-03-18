@@ -13,17 +13,18 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import { cn } from '../utils';
 import { mockJobs, Job } from '../data/jobs';
 
-const JobCard: React.FC<{ 
+const JobCard = React.forwardRef<HTMLDivElement, { 
   job: Job; 
   isSaved: boolean; 
   onToggleSave: () => void; 
   onOpenDetails: () => void; 
   t: { [key: string]: string }
-}> = ({ job, isSaved, onToggleSave, onOpenDetails, t }) => {
+}>(({ job, isSaved, onToggleSave, onOpenDetails, t }, ref) => {
   const applyUrl = "https://forms.gle/h1UNQfD55dc2o8wM6";
   
   return (
     <motion.div 
+      ref={ref}
       layout
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -118,7 +119,7 @@ const JobCard: React.FC<{
       </div>
     </motion.div>
   );
-}
+});
 
 const JobDetailsModal: React.FC<{ 
   job: Job; 
@@ -276,7 +277,6 @@ export default function HashHuntPage() {
   const t = translations[language].hashHunt;
   const [jobs] = useState<Job[]>(mockJobs);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [showSavedOnly, setShowSavedOnly] = useState(false);

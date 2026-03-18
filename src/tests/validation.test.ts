@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { personalInfoSchema } from '../lib/validation';
+import { ZodIssue } from 'zod';
 
 describe('Validation Schemas', () => {
   it('should validate valid personal info', () => {
@@ -29,7 +30,7 @@ describe('Validation Schemas', () => {
     const result = schema.safeParse(invalidData);
     expect(result.success).toBe(false);
     if (!result.success) {
-      // @ts-ignore
+      // @ts-expect-error: Zod v4 error structure parsing
       const errors = result.error?.issues || result.issues || JSON.parse(result.error?.message || '[]');
       expect(errors.length).toBeGreaterThan(0);
     }
@@ -48,9 +49,9 @@ describe('Validation Schemas', () => {
     const result = schema.safeParse(invalidData);
     expect(result.success).toBe(false);
     if (!result.success) {
-      // @ts-ignore
+      // @ts-expect-error: Zod v4 error structure parsing
       const errors = result.error?.issues || result.issues || JSON.parse(result.error?.message || '[]');
-      const emailError = errors.find((e: any) => e.path[0] === 'email');
+      const emailError = errors.find((e: ZodIssue) => e.path[0] === 'email');
       expect(emailError?.message).toBe('بريد إلكتروني غير صالح');
     }
   });

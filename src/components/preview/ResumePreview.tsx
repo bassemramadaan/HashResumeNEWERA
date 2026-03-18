@@ -1321,7 +1321,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
       </div>
     </div>
   );
-});
+}));
 
 ResumePreview.displayName = 'ResumePreview';
 

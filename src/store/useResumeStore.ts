@@ -5,12 +5,15 @@ import { nanoid } from 'nanoid';
 import debounce from 'lodash.debounce';
 
 // Debounced storage to prevent excessive writes
-const debouncedStorage = {
+const debouncedStorage: Storage = {
   getItem: (name: string) => localStorage.getItem(name),
   setItem: debounce((name: string, value: string) => {
     localStorage.setItem(name, value);
-  }, 1000),
+  }, 1000) as (name: string, value: string) => void,
   removeItem: (name: string) => localStorage.removeItem(name),
+  clear: () => localStorage.clear(),
+  key: (index: number) => localStorage.key(index),
+  length: localStorage.length,
 };
 
 export type Experience = {
@@ -427,7 +430,7 @@ export const useResumeStore = create<ResumeStore>()(
     }),
     {
       name: 'hash-resume-storage',
-      storage: createJSONStorage(() => debouncedStorage as any),
+      storage: createJSONStorage(() => debouncedStorage),
     }
   )
   )
