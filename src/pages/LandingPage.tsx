@@ -177,7 +177,7 @@ export default function LandingPage() {
                 
                 {/* Main Resume Document */}
                 <div className="absolute inset-0 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
-                  <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop" alt="Resume Builder App Demo" className="w-full h-full object-cover opacity-90" />
+                  <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop" alt="Resume Builder App Demo" className="w-full h-full object-cover opacity-90" loading="lazy" decoding="async" />
                   
                   {/* Editor UI Elements Overlay */}
                   <div className="absolute top-4 left-4 right-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 z-30">

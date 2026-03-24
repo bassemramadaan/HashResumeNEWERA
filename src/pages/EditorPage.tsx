@@ -92,6 +92,34 @@ const AutoSaveIndicator = () => {
   );
 };
 
+const ATSScoreIndicator = ({ setActiveTab }: { setActiveTab: (tab: Tab) => void }) => {
+  const { language } = useLanguageStore();
+  const t = translations[language].editor;
+  const data = useResumeStore((state) => state.data);
+  const atsScore = React.useMemo(() => calculateATSScore(data).score, [data]);
+
+  return (
+    <button 
+      onClick={() => setActiveTab('finish')} 
+      className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 group"
+    >
+      <div className="flex flex-col items-start">
+        <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none mb-0.5">{t.atsScore}</span>
+        <span className={cn("text-sm font-black leading-none", atsScore >= 80 ? "text-emerald-600 dark:text-emerald-400" : atsScore >= 50 ? "text-amber-500" : "text-rose-500")}>
+          {atsScore}%
+        </span>
+      </div>
+      <div className="w-8 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+        <motion.div 
+          initial={{ width: 0 }}
+          animate={{ width: `${atsScore}%` }}
+          className={cn("h-full", atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500")}
+        />
+      </div>
+    </button>
+  );
+};
+
 export default function EditorPage() {
   const { language, dir } = useLanguageStore();
   const t = translations[language].editor;
@@ -106,7 +134,10 @@ export default function EditorPage() {
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{ type: 'load' | 'clear', message: string } | null>(null);
   const [previewMode, setPreviewMode] = useState<'resume' | 'cover-letter'>('resume');
-  const { data, loadExampleData, resetData } = useResumeStore();
+  const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
+  const isPremium = useResumeStore((state) => state.data.isPremium);
+  const loadExampleData = useResumeStore((state) => state.loadExampleData);
+  const resetData = useResumeStore((state) => state.resetData);
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } = useOnboardingStore();
   
   // Zundo hooks for undo/redo
@@ -153,7 +184,7 @@ export default function EditorPage() {
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
-    documentTitle: `${data.personalInfo.fullName || 'Resume'}_CV`,
+    documentTitle: `${fullName || 'Resume'}_CV`,
     onAfterPrint: () => {
       setShowPostDownloadModal(true);
       setTimeout(() => setShowFeedbackModal(true), 2000);
@@ -166,7 +197,7 @@ export default function EditorPage() {
 
   const handleProceedToExport = () => {
     setShowResumeChecker(false);
-    if (data.isPremium) {
+    if (isPremium) {
       handlePrint();
     } else {
       setShowPaymentModal(true);
@@ -182,7 +213,6 @@ export default function EditorPage() {
     { id: 'finish', label: t.review, icon: Target, tourId: 'review-section' },
   ];
 
-  const atsScore = React.useMemo(() => calculateATSScore(data).score, [data]);
   const activeTabIndex = tabs.findIndex(t => t.id === activeTab) + 1;
 
   const tabDescriptions: Record<Tab, string> = {
@@ -228,24 +258,7 @@ export default function EditorPage() {
             <AutoSaveIndicator />
 
             {/* ATS Score */}
-            <button 
-              onClick={() => setActiveTab('finish')} 
-              className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all border border-slate-200 dark:border-slate-700 group"
-            >
-              <div className="flex flex-col items-start">
-                <span className="text-[9px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest leading-none mb-0.5">{t.atsScore}</span>
-                <span className={cn("text-sm font-black leading-none", atsScore >= 80 ? "text-emerald-600 dark:text-emerald-400" : atsScore >= 50 ? "text-amber-500" : "text-rose-500")}>
-                  {atsScore}%
-                </span>
-              </div>
-              <div className="w-8 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${atsScore}%` }}
-                  className={cn("h-full", atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500")}
-                />
-              </div>
-            </button>
+            <ATSScoreIndicator setActiveTab={setActiveTab} />
           </div>
 
           {/* Right Section: Actions */}
