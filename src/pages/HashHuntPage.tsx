@@ -41,7 +41,7 @@ const JobCard = React.forwardRef<HTMLDivElement, {
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 bg-slate-50 dark:bg-slate-800 rounded-2xl flex items-center justify-center text-slate-400 dark:text-slate-500 font-black text-xl overflow-hidden shrink-0 border border-slate-100 dark:border-slate-700 group-hover:border-indigo-500/30 transition-colors shadow-sm">
             {job.logo ? (
-              <img src={job.logo} alt={job.company} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              <img src={job.logo} alt={job.company} className="w-full h-full object-cover" referrerPolicy="no-referrer" loading="lazy" decoding="async" />
             ) : (
               job.company.charAt(0)
             )}
@@ -172,7 +172,7 @@ const JobDetailsModal: React.FC<{
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 mb-12 text-center sm:text-left">
                 <div className="w-28 h-28 bg-slate-50 dark:bg-slate-800 rounded-[2rem] flex items-center justify-center text-slate-400 dark:text-slate-500 font-black text-5xl border border-slate-100 dark:border-slate-700 shadow-2xl shrink-0 overflow-hidden">
                   {job.logo ? (
-                    <img src={job.logo} alt={job.company} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                    <img src={job.logo} alt={job.company} className="w-full h-full object-cover" referrerPolicy="no-referrer" loading="lazy" decoding="async" />
                   ) : (
                     job.company.charAt(0)
                   )}
@@ -444,6 +444,8 @@ export default function HashHuntPage() {
                   alt="Team collaboration" 
                   className="rounded-[3.5rem] shadow-3xl border-8 border-white/5 relative z-10 grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
             </div>

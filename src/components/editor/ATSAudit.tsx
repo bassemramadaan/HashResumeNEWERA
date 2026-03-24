@@ -13,7 +13,7 @@ export default function ATSAudit() {
   const { personalInfo, jobDescription } = data;
   const [showMatcher, setShowMatcher] = useState(!!jobDescription);
 
-  const { score, sections } = calculateATSScore(data);
+  const { score, sections } = useMemo(() => calculateATSScore(data), [data]);
   const isEmpty = score === 0 && !personalInfo.fullName;
 
   const matchResults = useMemo(() => {

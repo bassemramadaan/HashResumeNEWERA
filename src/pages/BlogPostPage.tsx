@@ -75,6 +75,8 @@ export default function BlogPostPage() {
               src={post.image} 
               alt={post.title[language]} 
               className="w-full h-[400px] object-cover"
+              loading="lazy"
+              decoding="async"
             />
           </motion.div>
         </header>

@@ -402,6 +402,8 @@ export default function LandingPage() {
                   alt="Hash Hunt Dashboard" 
                   className="rounded-xl shadow-lg transform group-hover:scale-105 transition-transform duration-700"
                   referrerPolicy="no-referrer"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent" />
                 <div className="absolute bottom-12 left-12 right-12">
@@ -580,6 +582,8 @@ export default function LandingPage() {
                     src={post.image} 
                     alt={post.title[language]} 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
                   />
                 </Link>
                 <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-3">

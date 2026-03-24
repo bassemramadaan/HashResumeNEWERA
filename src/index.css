@@ -91,6 +91,11 @@
     @apply text-base;
   }
 
+  /* Improve mobile tap responsiveness */
+  a, button, input, select, textarea {
+    touch-action: manipulation;
+  }
+
   /* Remove tap highlight color on mobile */
   * {
     -webkit-tap-highlight-color: transparent;

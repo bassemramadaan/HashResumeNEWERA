@@ -53,6 +53,45 @@ interface TabItem {
   tourId?: string;
 }
 
+const AutoSaveIndicator = () => {
+  const { language } = useLanguageStore();
+  const t = translations[language].editor;
+  const data = useResumeStore((state) => state.data);
+  const [isSaving, setIsSaving] = useState(false);
+  const [lastSavedTime, setLastSavedTime] = useState<string>('');
+
+  useEffect(() => {
+    const startTimer = setTimeout(() => setIsSaving(true), 0);
+    const endTimer = setTimeout(() => {
+      setIsSaving(false);
+      const now = new Date();
+      setLastSavedTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    }, 800);
+    return () => {
+      clearTimeout(startTimer);
+      clearTimeout(endTimer);
+    };
+  }, [data]);
+
+  return (
+    <div className="flex items-center px-2 min-w-[120px] justify-center">
+      <AnimatePresence mode="wait">
+        {isSaving ? (
+          <motion.div key="saving" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+            <div className="w-3 h-3 border-2 border-slate-300 border-t-[#f16529] rounded-full animate-spin" />
+            {t.saving}
+          </motion.div>
+        ) : (
+          <motion.div key="saved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider text-slate-500 dark:text-slate-400">
+            <CheckCircle2 size={12} className="text-emerald-500" />
+            <span>{t.savedLocally} {lastSavedTime && `${t.at} ${lastSavedTime}`}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 export default function EditorPage() {
   const { language, dir } = useLanguageStore();
   const t = translations[language].editor;
@@ -66,8 +105,6 @@ export default function EditorPage() {
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{ type: 'load' | 'clear', message: string } | null>(null);
-  const [isSaving, setIsSaving] = useState(false);
-  const [lastSavedTime, setLastSavedTime] = useState<string>('');
   const [previewMode, setPreviewMode] = useState<'resume' | 'cover-letter'>('resume');
   const { data, loadExampleData, resetData } = useResumeStore();
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } = useOnboardingStore();
@@ -92,20 +129,6 @@ export default function EditorPage() {
     setShowWelcomeModal(false);
     skipOnboarding();
   };
-
-  // Auto-save indicator effect
-  useEffect(() => {
-    const startTimer = setTimeout(() => setIsSaving(true), 0);
-    const endTimer = setTimeout(() => {
-      setIsSaving(false);
-      const now = new Date();
-      setLastSavedTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
-    }, 800);
-    return () => {
-      clearTimeout(startTimer);
-      clearTimeout(endTimer);
-    };
-  }, [data]);
 
   // Keyboard shortcuts for undo/redo
   useEffect(() => {
@@ -159,7 +182,7 @@ export default function EditorPage() {
     { id: 'finish', label: t.review, icon: Target, tourId: 'review-section' },
   ];
 
-  const atsScore = calculateATSScore(data).score;
+  const atsScore = React.useMemo(() => calculateATSScore(data).score, [data]);
   const activeTabIndex = tabs.findIndex(t => t.id === activeTab) + 1;
 
   const tabDescriptions: Record<Tab, string> = {
@@ -202,21 +225,7 @@ export default function EditorPage() {
           {/* Center Section: Saving & ATS (Desktop) */}
           <div className="hidden md:flex items-center gap-4 flex-1 justify-center">
             {/* Saving Indicator */}
-            <div className="flex items-center px-2 min-w-[120px] justify-center">
-              <AnimatePresence mode="wait">
-                {isSaving ? (
-                  <motion.div key="saving" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                    <div className="w-3 h-3 border-2 border-slate-300 border-t-[#f16529] rounded-full animate-spin" />
-                    {t.saving}
-                  </motion.div>
-                ) : (
-                  <motion.div key="saved" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider text-slate-500 dark:text-slate-400">
-                    <CheckCircle2 size={12} className="text-emerald-500" />
-                    <span>{t.savedLocally} {lastSavedTime && `${t.at} ${lastSavedTime}`}</span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            <AutoSaveIndicator />
 
             {/* ATS Score */}
             <button 

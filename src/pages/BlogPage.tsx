@@ -49,6 +49,8 @@ export default function BlogPage() {
                   src={post.image} 
                   alt={post.title[language]} 
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                 />
               </Link>
               <div className="p-6 flex-1 flex flex-col">
