@@ -169,14 +169,43 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, rotateY: -10, rotateX: 5, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1.2, ease: "easeOut" }}
-                className="relative z-10 w-full max-w-[480px] aspect-[3/4] transform-style-3d"
+                className="relative z-10 w-full max-w-[380px] aspect-[3/4] transform-style-3d"
               >
                 {/* Glassmorphism Backdrop */}
                 <div className="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 to-purple-500/20 rounded-[2rem] blur-2xl -z-10 animate-pulse"></div>
                 
-                {/* Main Resume Document */}
+                {/* Main Resume Document Mockup */}
                 <div className="absolute inset-0 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
-                  <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=2070&auto=format&fit=crop" alt="Resume Builder App Demo" className="w-full h-full object-cover opacity-90" loading="lazy" decoding="async" />
+                  <div className="p-8 flex-1 flex flex-col gap-6">
+                    {/* Header Mockup */}
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800" />
+                      <div className="flex-1 space-y-2">
+                        <div className="h-4 w-3/4 bg-slate-100 dark:bg-slate-800 rounded" />
+                        <div className="h-3 w-1/2 bg-slate-50 dark:bg-slate-800/50 rounded" />
+                      </div>
+                    </div>
+                    {/* Content Mockup */}
+                    <div className="space-y-4">
+                      <div className="h-2 w-full bg-slate-50 dark:bg-slate-800/50 rounded" />
+                      <div className="h-2 w-full bg-slate-50 dark:bg-slate-800/50 rounded" />
+                      <div className="h-2 w-2/3 bg-slate-50 dark:bg-slate-800/50 rounded" />
+                    </div>
+                    <div className="mt-4 space-y-4">
+                      <div className="h-3 w-1/3 bg-slate-100 dark:bg-slate-800 rounded" />
+                      <div className="space-y-2">
+                        <div className="h-2 w-full bg-slate-50 dark:bg-slate-800/50 rounded" />
+                        <div className="h-2 w-5/6 bg-slate-50 dark:bg-slate-800/50 rounded" />
+                      </div>
+                    </div>
+                    <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+                      <div className="flex gap-2">
+                        <div className="w-8 h-8 rounded bg-slate-50 dark:bg-slate-800" />
+                        <div className="w-8 h-8 rounded bg-slate-50 dark:bg-slate-800" />
+                      </div>
+                      <div className="h-8 w-24 bg-orange-500/10 rounded-full" />
+                    </div>
+                  </div>
                   
                   {/* Editor UI Elements Overlay */}
                   <div className="absolute top-4 left-4 right-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 z-30">
