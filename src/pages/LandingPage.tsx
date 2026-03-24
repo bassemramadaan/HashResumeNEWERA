@@ -4,12 +4,11 @@ import { motion } from 'framer-motion';
 import { ShieldCheck, Zap, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, TrendingUp, Calendar, Clock, Target, Plus, Search, Sparkles, Layout, ArrowUp } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
-import Testimonials from '../components/Testimonials';
 import ProductShowcase from '../components/ProductShowcase';
 import ParticleAnimation from '../components/ParticleAnimation';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import FeedbackModal from '../components/FeedbackModal';
-import TrustLogos from '../components/TrustLogos';
+import SmallWallOfLove from '../components/SmallWallOfLove';
 import SarIcon from '../components/payment/SarIcon';
 import AedIcon from '../components/payment/AedIcon';
 import { useLanguageStore } from '../store/useLanguageStore';
@@ -25,7 +24,7 @@ export default function LandingPage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   // Fixed count as requested
-  const displayCount = "50,000";
+  const displayCount = "1k";
 
   const currencies = {
     EGP: { symbol: 'EGP', price: 25 },
@@ -226,7 +225,7 @@ export default function LandingPage() {
                     ))}
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">{displayCount}+ Users</p>
+                    <p className="text-sm font-bold text-slate-900 dark:text-white">{displayCount} user</p>
                     <p className="text-xs text-slate-500">{t.joinedThisMonth}</p>
                   </div>
                 </motion.div>
@@ -236,7 +235,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <TrustLogos />
+      <SmallWallOfLove />
 
       <ProductShowcase />
 
@@ -552,9 +551,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* Testimonials Section */}
-      <Testimonials />
 
       {/* Latest Blog Posts */}
       <section className="py-24 bg-white dark:bg-slate-950">
