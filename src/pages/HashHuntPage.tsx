@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import Logo from '../components/Logo';
 import { useLanguageStore } from '../store/useLanguageStore';
+import { useApplicationStore } from '../store/useApplicationStore';
 import { translations } from '../i18n/translations';
 import Navbar from '../components/Navbar';
 import LanguageSwitcher from '../components/LanguageSwitcher';
@@ -18,9 +19,9 @@ const JobCard = React.forwardRef<HTMLDivElement, {
   isSaved: boolean; 
   onToggleSave: () => void; 
   onOpenDetails: () => void; 
+  onApply: () => void;
   t: { [key: string]: string }
-}>(({ job, isSaved, onToggleSave, onOpenDetails, t }, ref) => {
-  const applyUrl = "https://forms.gle/h1UNQfD55dc2o8wM6";
+}>(({ job, isSaved, onToggleSave, onOpenDetails, onApply, t }, ref) => {
   
   return (
     <motion.div 
@@ -98,6 +99,15 @@ const JobCard = React.forwardRef<HTMLDivElement, {
           <button 
             onClick={(e) => {
               e.stopPropagation();
+              onApply();
+            }}
+            className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition"
+          >
+            Apply
+          </button>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
               onOpenDetails();
             }}
             className="inline-flex items-center justify-center w-10 h-10 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl transition-all"
@@ -105,16 +115,6 @@ const JobCard = React.forwardRef<HTMLDivElement, {
           >
             <Info size={18} />
           </button>
-          <a 
-            href={applyUrl}
-            target="_blank" 
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-indigo-600/20 transition-all hover:scale-105 active:scale-95 group/btn"
-          >
-            {t.applyNow}
-            <ExternalLink size={14} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-          </a>
         </div>
       </div>
     </motion.div>
@@ -274,6 +274,7 @@ const JobDetailsModal: React.FC<{
 
 export default function HashHuntPage() {
   const { language, dir } = useLanguageStore();
+  const { addApplication } = useApplicationStore();
   const t = translations[language].hashHunt;
   const [jobs] = useState<Job[]>(mockJobs);
   const [loading, setLoading] = useState(false);
@@ -540,6 +541,15 @@ export default function HashHuntPage() {
                     isSaved={savedJobIds.includes(job.jobId)}
                     onToggleSave={() => toggleSaveJob(job.jobId)}
                     onOpenDetails={() => setSelectedJob(job)}
+                    onApply={() => {
+                      addApplication({
+                        jobId: job.jobId,
+                        jobTitle: job.title,
+                        company: job.company,
+                        status: 'Applied'
+                      });
+                      alert('Applied successfully!');
+                    }}
                     t={t}
                   />
                 ))}

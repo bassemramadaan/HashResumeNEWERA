@@ -40,5 +40,47 @@ export const aiService: IResumeService = {
         error: err instanceof Error ? err.message : 'Failed to generate content. Please try again later.' 
       };
     }
+  },
+  matchResumeToJob: async (resume: string, jobDescription: string): Promise<AIResponse> => {
+    try {
+      if (!apiKey) {
+        throw new Error('Gemini API key is not configured');
+      }
+
+      const genAI = new GoogleGenAI({ apiKey });
+      const systemInstruction = `You are an expert ATS (Applicant Tracking System) analyzer. 
+      Analyze the provided resume against the job description.
+      Return a JSON object with:
+      - score: number (0-100)
+      - missingKeywords: string[]
+      - suggestions: string[]
+      - seniorityFit: string
+      `;
+
+      const prompt = `Resume: ${resume}\n\nJob Description: ${jobDescription}`;
+
+      const response = await genAI.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: prompt,
+        config: {
+          systemInstruction,
+          responseMimeType: "application/json",
+        },
+      });
+      
+      const text = response.text;
+      
+      if (!text) {
+        throw new Error('Empty response from Gemini');
+      }
+      
+      return { text };
+    } catch (err: unknown) {
+      console.error('ATS Matching failed:', err);
+      return { 
+        text: '', 
+        error: err instanceof Error ? err.message : 'Failed to analyze resume. Please try again later.' 
+      };
+    }
   }
 };
