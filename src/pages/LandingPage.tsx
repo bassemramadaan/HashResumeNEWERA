@@ -60,7 +60,7 @@ export default function LandingPage() {
         <ParticleAnimation />
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-[#f16529] opacity-20 blur-[100px] animate-pulse"></div>
+        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-[#ff4d2d] opacity-20 blur-[100px] animate-pulse"></div>
         <div className="absolute right-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -73,7 +73,7 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-[#f16529] text-xs font-bold uppercase tracking-wider mb-6 border border-orange-100 dark:border-orange-800/30 shadow-sm"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-[#ff4d2d] text-xs font-bold uppercase tracking-wider mb-6 border border-orange-100 dark:border-orange-800/30 shadow-sm"
               >
                 <Zap size={14} className="fill-current" />
                 <span>{t.aiPowered}</span>
@@ -87,7 +87,7 @@ export default function LandingPage() {
                 className="font-display mb-6"
               >
                 <span className="text-slate-900 dark:text-white block text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.1] mb-2">
-                  {t.heroTitle1} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f16529] to-orange-600">{t.heroTitle2}</span>
+                  {t.heroTitle1} <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600">{t.heroTitle2}</span>
                 </span>
                 <span className="text-slate-400 dark:text-slate-500 block text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
                   {t.heroTitle3}
@@ -130,12 +130,12 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.3 }}
                 className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-4 mb-12"
               >
-                <Link to="/editor" className="w-full sm:w-auto bg-gradient-to-r from-[#f16529] to-orange-600 hover:from-[#e44d26] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                <Link to="/editor" className="w-full sm:w-auto bg-gradient-to-r from-[#ff4d2d] to-orange-600 hover:from-[#e63e1d] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
                    <Plus size={20} />
                    {t.startFromScratch}
                 </Link>
-                <Link to="/templates" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-[#f16529] dark:hover:border-orange-500 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-sm flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
-                   <Layout size={20} className="text-slate-400 group-hover:text-[#f16529] transition-colors" />
+                <Link to="/templates" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-[#ff4d2d] dark:hover:border-orange-500 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-sm flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                   <Layout size={20} className="text-slate-400 group-hover:text-[#ff4d2d] transition-colors" />
                    {t.chooseTemplate}
                 </Link>
               </motion.div>
@@ -319,7 +319,7 @@ export default function LandingPage() {
                 <motion.div 
                   initial={{ scale: 0.8, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
-                  className="absolute bottom-6 right-6 bg-[#f16529] text-white p-4 rounded-2xl shadow-xl flex flex-col items-center"
+                  className="absolute bottom-6 right-6 bg-[#ff4d2d] text-white p-4 rounded-2xl shadow-xl flex flex-col items-center"
                 >
                   <span className="text-xs font-bold uppercase tracking-widest mb-1">{t.scoreBoost}</span>
                   <span className="text-3xl font-black">+40%</span>
@@ -328,7 +328,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex-1 space-y-8 order-1 lg:order-2">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/30 text-[#f16529] text-sm font-bold border border-orange-100 dark:border-orange-800">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/30 text-[#ff4d2d] text-sm font-bold border border-orange-100 dark:border-orange-800">
                 <Target size={16} />
                 {t.beatAts}
               </div>
@@ -475,7 +475,7 @@ export default function LandingPage() {
                 <button
                   key={c}
                   onClick={() => setCurrency(c as keyof typeof currencies)}
-                  className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${currency === c ? 'bg-white dark:bg-slate-800 text-[#f16529] shadow-md ring-1 ring-black/5 dark:ring-white/5' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+                  className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${currency === c ? 'bg-white dark:bg-slate-800 text-[#ff4d2d] shadow-md ring-1 ring-black/5 dark:ring-white/5' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
                 >
                   {c}
                 </button>
@@ -513,8 +513,8 @@ export default function LandingPage() {
                 </div>
                 <div className="h-px bg-slate-200 dark:bg-slate-800 w-full"></div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#f16529] font-bold text-lg">Hash Resume</span>
-                  <span className="text-[#f16529] font-black text-xl flex items-center gap-1">
+                  <span className="text-[#ff4d2d] font-bold text-lg">Hash Resume</span>
+                  <span className="text-[#ff4d2d] font-black text-xl flex items-center gap-1">
                     {currency === 'EGP' ? (
                       <>{selectedCurrency.price} {selectedCurrency.symbol}</>
                     ) : (
@@ -529,8 +529,8 @@ export default function LandingPage() {
             </div>
 
             {/* Single Download Plan */}
-            <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#f16529] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
-              <div className="absolute top-0 right-0 bg-[#f16529] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">
+            <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#ff4d2d] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
+              <div className="absolute top-0 right-0 bg-[#ff4d2d] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">
                 {t.mostPopular}
               </div>
               
@@ -540,7 +540,7 @@ export default function LandingPage() {
                 </h3>
 
                 <div className="flex flex-col items-center justify-center gap-2 mb-2">
-                  <span className="text-5xl font-black text-[#f16529] flex items-center gap-2">
+                  <span className="text-5xl font-black text-[#ff4d2d] flex items-center gap-2">
                     {currency === 'EGP' ? (
                       <>{selectedCurrency.price} {selectedCurrency.symbol}</>
                     ) : (
@@ -564,7 +564,7 @@ export default function LandingPage() {
                   t.noHiddenFees
                 ].map((feature, i) => (
                   <li key={i} className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
-                    <CheckCircle2 className="text-[#f16529] shrink-0 mt-0.5" size={20} />
+                    <CheckCircle2 className="text-[#ff4d2d] shrink-0 mt-0.5" size={20} />
                     <span className="text-sm leading-tight font-medium">{feature}</span>
                   </li>
                 ))}
@@ -572,7 +572,7 @@ export default function LandingPage() {
 
               <Link 
                 to="/templates" 
-                className="block w-full bg-[#f16529] hover:bg-[#e44d26] text-white text-center font-bold py-4 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-95"
+                className="block w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white text-center font-bold py-4 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-95"
               >
                 {t.getStartedNow}
               </Link>
@@ -593,7 +593,7 @@ export default function LandingPage() {
                 {t.blogSubtitle}
               </p>
             </div>
-            <Link to="/blog" className="hidden sm:flex items-center gap-2 text-[#f16529] font-medium hover:gap-3 transition-all">
+            <Link to="/blog" className="hidden sm:flex items-center gap-2 text-[#ff4d2d] font-medium hover:gap-3 transition-all">
               {t.viewAllArticles}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
@@ -622,7 +622,7 @@ export default function LandingPage() {
                   </span>
                 </div>
                 <Link to={`/blog/${post.id}`} className="block mb-2">
-                  <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-[#f16529] transition-colors line-clamp-2">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-[#ff4d2d] transition-colors line-clamp-2">
                     {post.title[language]}
                   </h3>
                 </Link>
@@ -634,7 +634,7 @@ export default function LandingPage() {
           </div>
           
           <div className="mt-8 text-center sm:hidden">
-            <Link to="/blog" className="inline-flex items-center gap-2 text-[#f16529] font-medium">
+            <Link to="/blog" className="inline-flex items-center gap-2 text-[#ff4d2d] font-medium">
               {t.viewAllArticles}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
@@ -660,7 +660,7 @@ export default function LandingPage() {
         
         <Link 
           to="/editor" 
-          className="md:hidden bg-[#f16529] text-white p-4 rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center active:scale-90 transition-all"
+          className="md:hidden bg-[#ff4d2d] text-white p-4 rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center active:scale-90 transition-all"
         >
           <Plus size={24} />
         </Link>
@@ -672,7 +672,7 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div>
               <div className="flex flex-col items-start mb-6">
-                <Logo className="w-10 h-10 text-[#f16529] mb-2" />
+                <Logo className="w-10 h-10 text-[#ff4d2d] mb-2" />
                 <span className="text-2xl font-black text-white font-display">Hash Resume</span>
               </div>
               <p className="text-sm max-w-sm">{t.footerDesc}</p>
@@ -680,7 +680,7 @@ export default function LandingPage() {
             <div className="flex flex-col md:items-end">
               <h4 className="text-white font-semibold mb-4">{t.connect}</h4>
               <div className="flex gap-4 mb-8">
-                <a href="https://www.facebook.com/hashsocialmarketing" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#f16529] transition-colors" aria-label="Facebook">
+                <a href="https://www.facebook.com/hashsocialmarketing" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#ff4d2d] transition-colors" aria-label="Facebook">
                   <Facebook size={20} />
                 </a>
                 <a href="https://www.instagram.com/hashsocialmarketing/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-pink-500 transition-colors" aria-label="Instagram">

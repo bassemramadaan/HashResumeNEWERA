@@ -72,7 +72,7 @@ const OnboardingTour = () => {
       callback={handleJoyrideCallback}
       styles={{
         options: {
-          primaryColor: '#f16529',
+          primaryColor: '#ff4d2d',
           zIndex: 10000,
           backgroundColor: '#ffffff',
           textColor: '#0f172a',

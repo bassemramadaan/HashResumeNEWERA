@@ -38,7 +38,7 @@ export default function LanguageSwitcher({ className, size = 16, variant = 'defa
         "flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full transition-all duration-300 text-sm font-medium",
         variant === 'default' && [
           "bg-white dark:bg-slate-800 hover:bg-orange-50 dark:hover:bg-orange-900/20",
-          "text-slate-700 dark:text-slate-200 hover:text-[#f16529] dark:hover:text-orange-400",
+          "text-slate-700 dark:text-slate-200 hover:text-[#ff4d2d] dark:hover:text-orange-400",
           "border border-slate-200 dark:border-slate-700 hover:border-orange-200 dark:hover:border-orange-800/50 shadow-sm"
         ],
         variant === 'ghost' && [

@@ -77,7 +77,7 @@ export default function PrivacyPage() {
 
           <section className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <div className="flex items-start gap-4 mb-4">
-              <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-xl text-[#f16529]">
+              <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-xl text-[#ff4d2d]">
                 <FileText size={24} />
               </div>
               <div>

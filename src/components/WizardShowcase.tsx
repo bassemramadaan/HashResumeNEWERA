@@ -57,8 +57,8 @@ export default function WizardShowcase() {
           <path d="M40 0L80 40L40 80L0 40L40 0Z" stroke="url(#paint0_linear_wizard)" strokeWidth="2" strokeDasharray="4 4"/>
           <defs>
             <linearGradient id="paint0_linear_wizard" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#f16529" />
-              <stop offset="1" stopColor="#e44d26" />
+              <stop stopColor="#ff4d2d" />
+              <stop offset="1" stopColor="#e63e1d" />
             </linearGradient>
           </defs>
         </svg>
@@ -82,7 +82,7 @@ export default function WizardShowcase() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-[#f16529] dark:text-orange-400 font-medium text-sm mb-6 border border-orange-200 dark:border-orange-800/50">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-[#ff4d2d] dark:text-orange-400 font-medium text-sm mb-6 border border-orange-200 dark:border-orange-800/50">
             <Sparkles size={16} />
             {language === 'ar' ? 'عملية مبسطة' : 'Streamlined Process'}
           </div>
@@ -102,7 +102,7 @@ export default function WizardShowcase() {
             {/* Connecting line */}
             <div className="absolute left-8 top-10 bottom-10 w-1 bg-slate-200 dark:bg-slate-800 hidden md:block rounded-full overflow-hidden">
               <motion.div 
-                className="absolute top-0 left-0 w-full bg-[#f16529] rounded-full"
+                className="absolute top-0 left-0 w-full bg-[#ff4d2d] rounded-full"
                 animate={{ height: `${(activeStep / (steps.length - 1)) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               />
@@ -140,7 +140,7 @@ export default function WizardShowcase() {
                 {activeStep === index && (
                   <motion.div 
                     layoutId="active-arrow" 
-                    className="absolute right-6 top-1/2 -translate-y-1/2 text-[#f16529] hidden sm:block"
+                    className="absolute right-6 top-1/2 -translate-y-1/2 text-[#ff4d2d] hidden sm:block"
                   >
                     <ArrowRight size={24} />
                   </motion.div>

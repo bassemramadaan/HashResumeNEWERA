@@ -278,7 +278,7 @@ export default function HashHuntPage() {
   const t = translations[language].hashHunt;
   const [jobs] = useState<Job[]>(mockJobs);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedType, setSelectedType] = useState('All');
   const [showSavedOnly, setShowSavedOnly] = useState(false);
@@ -612,7 +612,7 @@ export default function HashHuntPage() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-20">
             <div className="flex flex-col items-center md:items-start text-center md:text-left">
               <div className="flex items-center gap-3 mb-6">
-                <Logo className="w-12 h-12 text-indigo-500" />
+                <Logo className="w-12 h-12 text-[#ff4d2d]" />
                 <span className="text-4xl font-black text-white font-display tracking-tighter">Hash Resume</span>
               </div>
               <p className="text-xl max-w-sm font-bold opacity-80 leading-relaxed">Professional resumes, simplified. Built with privacy in mind.</p>

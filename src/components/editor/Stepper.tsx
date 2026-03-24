@@ -19,7 +19,7 @@ export default function Stepper({ tabs, activeTab, onTabChange }: StepperProps) 
         
         {/* Active Progress Line */}
         <div 
-          className="absolute left-0 top-1/2 -translate-y-1/2 h-[1px] bg-[#f16529] dark:bg-orange-400 transition-all duration-500 z-0" 
+          className="absolute left-0 top-1/2 -translate-y-1/2 h-[1px] bg-[#ff4d2d] dark:bg-orange-400 transition-all duration-500 z-0" 
           style={{ width: `${(activeIndex / (tabs.length - 1)) * 100}%` }}
         />
 
@@ -34,9 +34,9 @@ export default function Stepper({ tabs, activeTab, onTabChange }: StepperProps) 
                 className={cn(
                   "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-[1.5px]",
                   isActive 
-                    ? "bg-[#f16529] border-[#f16529] text-white shadow-lg shadow-orange-500/20 scale-110" 
+                    ? "bg-[#ff4d2d] border-[#ff4d2d] text-white shadow-lg shadow-orange-500/20 scale-110" 
                     : isCompleted 
-                      ? "bg-white dark:bg-slate-900 border-[#f16529] dark:border-orange-400 text-[#f16529] dark:text-orange-400"
+                      ? "bg-white dark:bg-slate-900 border-[#ff4d2d] dark:border-orange-400 text-[#ff4d2d] dark:text-orange-400"
                       : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-400"
                 )}
               >
@@ -48,7 +48,7 @@ export default function Stepper({ tabs, activeTab, onTabChange }: StepperProps) 
               </button>
               <span className={cn(
                 "absolute -bottom-7 text-[9px] font-bold uppercase tracking-[0.1em] whitespace-nowrap transition-colors duration-300",
-                isActive ? "text-[#f16529] dark:text-orange-400" : "text-slate-400 dark:text-slate-500"
+                isActive ? "text-[#ff4d2d] dark:text-orange-400" : "text-slate-400 dark:text-slate-500"
               )}>
                 {tab.label}
               </span>

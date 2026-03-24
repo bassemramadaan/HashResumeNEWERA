@@ -39,7 +39,7 @@ const ResumeCheckerModal = lazy(() => import('../components/editor/ResumeChecker
 
 const FormLoader = () => (
   <div className="flex flex-col items-center justify-center py-20 space-y-4">
-    <Loader2 className="w-10 h-10 text-[#f16529] animate-spin" />
+    <Loader2 className="w-10 h-10 text-[#ff4d2d] animate-spin" />
     <p className="text-slate-500 font-medium">Loading section...</p>
   </div>
 );
@@ -78,7 +78,7 @@ const AutoSaveIndicator = () => {
       <AnimatePresence mode="wait">
         {isSaving ? (
           <motion.div key="saving" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-            <div className="w-3 h-3 border-2 border-slate-300 border-t-[#f16529] rounded-full animate-spin" />
+            <div className="w-3 h-3 border-2 border-slate-300 border-t-[#ff4d2d] rounded-full animate-spin" />
             {t.saving}
           </motion.div>
         ) : (
@@ -234,7 +234,7 @@ export default function EditorPage() {
           
           <div className="flex items-center gap-2">
             {/* Home / Logo */}
-            <Link to="/" className="flex items-center justify-center w-9 h-9 bg-white dark:bg-slate-800 rounded-full shadow-sm text-[#f16529] hover:scale-105 transition-transform shrink-0" title={t.backToHome}>
+            <Link to="/" className="flex items-center justify-center w-9 h-9 bg-white dark:bg-slate-800 rounded-full shadow-sm text-[#ff4d2d] hover:scale-105 transition-transform shrink-0" title={t.backToHome}>
               <Logo className="w-5 h-5" />
             </Link>
 
@@ -266,7 +266,7 @@ export default function EditorPage() {
             <div className="hidden sm:flex items-center gap-1.5">
               <button 
                 onClick={() => setShowWelcomeModal(true)} 
-                className="p-1.5 rounded-full text-[#f16529] bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors border border-orange-200 dark:border-orange-800/50" 
+                className="p-1.5 rounded-full text-[#ff4d2d] bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors border border-orange-200 dark:border-orange-800/50" 
                 title={t.showMeAround}
               >
                 <Sparkles size={16} className="animate-pulse" />
@@ -277,7 +277,7 @@ export default function EditorPage() {
             <button 
               onClick={handleExportClick}
               data-tour="export-button"
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#f16529] hover:bg-[#e44d26] text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-bold text-xs"
+              className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-bold text-xs"
             >
               <Download size={14} />
               <span className="hidden sm:inline">{t.exportPdf}</span>
@@ -574,7 +574,7 @@ export default function EditorPage() {
           {/* Start / Export Button */}
           <button 
             onClick={handleExportClick}
-            className="flex items-center gap-2 bg-[#f16529] hover:bg-[#e44d26] text-white font-black py-2.5 px-6 rounded-full shadow-xl hover:scale-105 active:scale-95 transition-all group shrink-0"
+            className="flex items-center gap-2 bg-[#ff4d2d] hover:bg-[#e63e1d] text-white font-black py-2.5 px-6 rounded-full shadow-xl hover:scale-105 active:scale-95 transition-all group shrink-0"
           >
             <span className="text-[10px] uppercase tracking-widest">{t.exportPdf}</span>
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -607,7 +607,7 @@ export default function EditorPage() {
                   <div className="flex items-center gap-3">
                     <button 
                       onClick={handleExportClick}
-                      className="bg-[#f16529] hover:bg-[#e44d26] text-white px-6 py-3 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-2xl hover:scale-105 active:scale-95 uppercase tracking-widest"
+                      className="bg-[#ff4d2d] hover:bg-[#e63e1d] text-white px-6 py-3 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-2xl hover:scale-105 active:scale-95 uppercase tracking-widest"
                     >
                       <Download size={18} />
                       {t.exportPdf}

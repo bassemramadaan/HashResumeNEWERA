@@ -66,7 +66,7 @@ export default function Testimonials() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-[#f16529] text-xs font-bold uppercase tracking-widest mb-4"
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-[#ff4d2d] text-xs font-bold uppercase tracking-widest mb-4"
             >
               <Star size={12} className="fill-current" />
               <span>{language === 'ar' ? 'آراء المستخدمين' : 'Testimonials'}</span>
@@ -88,16 +88,16 @@ export default function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
-              className="break-inside-avoid bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 hover:border-[#f16529]/40 transition-all duration-500 group relative shadow-sm hover:shadow-xl hover:shadow-orange-500/5 hover:-translate-y-1"
+              className="break-inside-avoid bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 hover:border-[#ff4d2d]/40 transition-all duration-500 group relative shadow-sm hover:shadow-xl hover:shadow-orange-500/5 hover:-translate-y-1"
             >
               <div className="absolute top-6 right-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Quote size={40} className="text-[#f16529]" />
+                <Quote size={40} className="text-[#ff4d2d]" />
               </div>
               
               <div className="relative z-10">
                 <div className="flex gap-0.5 mb-6">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={14} className="fill-[#f16529] text-[#f16529]" />
+                    <Star key={i} size={14} className="fill-[#ff4d2d] text-[#ff4d2d]" />
                   ))}
                 </div>
                 
@@ -106,12 +106,12 @@ export default function Testimonials() {
                 </p>
                 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center font-black text-[#f16529] text-lg border border-orange-200/50 dark:border-slate-700 shadow-inner group-hover:scale-110 transition-transform duration-500">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 dark:from-slate-800 dark:to-slate-700 flex items-center justify-center font-black text-[#ff4d2d] text-lg border border-orange-200/50 dark:border-slate-700 shadow-inner group-hover:scale-110 transition-transform duration-500">
                     {review.name.charAt(0)}
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900 dark:text-white text-base leading-tight">{review.name}</h4>
-                    <div className="h-1 w-8 bg-[#f16529]/20 rounded-full mt-1 group-hover:w-12 transition-all duration-500" />
+                    <div className="h-1 w-8 bg-[#ff4d2d]/20 rounded-full mt-1 group-hover:w-12 transition-all duration-500" />
                   </div>
                 </div>
               </div>

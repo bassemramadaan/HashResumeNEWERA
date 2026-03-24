@@ -44,8 +44,8 @@ export default function ProductShowcase() {
                   <motion.button 
                     animate={{ 
                       scale: step >= 1 ? [1, 1.1, 1] : 1,
-                      backgroundColor: step >= 1 ? '#f16529' : '#fff7ed',
-                      color: step >= 1 ? '#ffffff' : '#f16529'
+                      backgroundColor: step >= 1 ? '#ff4d2d' : '#fff7ed',
+                      color: step >= 1 ? '#ffffff' : '#ff4d2d'
                     }}
                     className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-colors border border-orange-100 dark:border-orange-900/30"
                   >

@@ -45,7 +45,7 @@ export default function WelcomeModal({ isOpen, onStartTour, onSkip }: WelcomeMod
             <div className="flex flex-col gap-3">
               <button
                 onClick={onStartTour}
-                className="w-full bg-[#f16529] hover:bg-[#e44d26] text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
+                className="w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
               >
                 <Play size={18} fill="currentColor" />
                 Start Quick Tour

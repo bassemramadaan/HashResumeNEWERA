@@ -202,7 +202,7 @@ export default function TemplatesPage() {
               <ArrowLeft size={20} className="rtl:rotate-180" />
             </Link>
             <Link to="/" className="flex items-center gap-2">
-              <Logo className="w-8 h-8 text-[#f16529]" />
+              <Logo className="w-8 h-8 text-[#ff4d2d]" />
               <span className="font-display font-bold text-xl hidden sm:block">Hash Resume</span>
             </Link>
           </div>
@@ -214,7 +214,7 @@ export default function TemplatesPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 dark:bg-orange-900/30 text-[#f16529] font-medium text-sm mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 dark:bg-orange-900/30 text-[#ff4d2d] font-medium text-sm mb-6"
           >
             <LayoutTemplate size={16} />
             {language === 'ar' ? 'مكتبة القوالب' : language === 'fr' ? 'Bibliothèque de modèles' : 'Template Library'}
@@ -274,12 +274,12 @@ export default function TemplatesPage() {
                   transition={{ duration: 0.3 }}
                   className={`group relative bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border-2 transition-all duration-300 hover:shadow-xl flex flex-col ${
                     isSelected 
-                      ? 'border-[#f16529] shadow-lg shadow-orange-500/10' 
+                      ? 'border-[#ff4d2d] shadow-lg shadow-orange-500/10' 
                       : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                   }`}
                 >
                   {isSelected && (
-                    <div className="absolute top-4 right-4 z-20 bg-[#f16529] text-white p-1.5 rounded-full shadow-md">
+                    <div className="absolute top-4 right-4 z-20 bg-[#ff4d2d] text-white p-1.5 rounded-full shadow-md">
                       <CheckCircle2 size={20} />
                     </div>
                   )}
@@ -314,7 +314,7 @@ export default function TemplatesPage() {
                           e.stopPropagation();
                           handleSelectTemplate(template.id);
                         }}
-                        className="bg-[#f16529] text-white px-6 py-3 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#e44d26] hover:scale-105 min-w-[160px]"
+                        className="bg-[#ff4d2d] text-white px-6 py-3 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#e63e1d] hover:scale-105 min-w-[160px]"
                       >
                         {isSelected 
                           ? (language === 'ar' ? 'محدد حالياً' : language === 'fr' ? 'Sélectionné' : 'Currently Selected')
@@ -412,7 +412,7 @@ export default function TemplatesPage() {
                 <div className="mt-auto space-y-3">
                   <button 
                     onClick={() => handleSelectTemplate(previewTemplate.id)}
-                    className="w-full bg-[#f16529] hover:bg-[#e44d26] text-white py-4 rounded-xl font-bold shadow-lg shadow-orange-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    className="w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white py-4 rounded-xl font-bold shadow-lg shadow-orange-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                     {language === 'ar' ? 'استخدم هذا القالب' : 'Use This Template'}
                   </button>

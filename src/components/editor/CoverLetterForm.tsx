@@ -203,7 +203,7 @@ export default function CoverLetterForm() {
         <button
           onClick={generateCoverLetter}
           disabled={isGenerating}
-          className="w-full flex items-center justify-center gap-2 bg-[#f16529] hover:bg-[#e44d26] text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-orange-500/20 disabled:opacity-70 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
+          className="w-full flex items-center justify-center gap-2 bg-[#ff4d2d] hover:bg-[#e63e1d] text-white font-bold py-3 px-6 rounded-xl transition-all shadow-lg shadow-orange-500/20 disabled:opacity-70 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
         >
           {isGenerating ? (
             <>

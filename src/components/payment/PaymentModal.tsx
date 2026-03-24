@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Check, Ticket, Wallet, CheckCircle2 } from 'lucide-react';
+import SarIcon from './SarIcon';
+import AedIcon from './AedIcon';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -10,8 +12,8 @@ interface PaymentModalProps {
 
 const currencies = {
   EGP: { symbol: 'EGP', price: 25 },
-  SAR: { symbol: 'SAR', price: 2 },
-  AED: { symbol: 'AED', price: 2 },
+  SAR: { symbol: <SarIcon className="w-[1em] h-[1em] inline-block shrink-0" />, price: 2 },
+  AED: { symbol: <AedIcon className="w-[1em] h-[1em] inline-block shrink-0" />, price: 2 },
   EUR: { symbol: '€', price: 1 },
   USD: { symbol: '$', price: 1 },
 };

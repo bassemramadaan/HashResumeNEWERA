@@ -29,7 +29,7 @@ export default function Navbar() {
     { name: t.landing.templates || 'Templates', path: '/templates' },
     { name: t.landing.coverLetter || 'Cover Letter', path: '/cover-letter', icon: <PenTool size={14} /> },
     { name: t.landing.blog || 'Blog', path: '/blog' },
-    { name: t.landing.hashHuntJobs || 'Hash Hunt', path: '/hash-hunt', icon: <Target size={18} className="text-[#f16529]" />, highlight: true },
+    { name: t.landing.hashHuntJobs || 'Hash Hunt', path: '/hash-hunt', icon: <Target size={18} className="text-[#ff4d2d]" />, highlight: true },
   ];
 
   return (
@@ -50,11 +50,11 @@ export default function Navbar() {
         )}>
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-[#f16529] rounded-xl shadow-lg shadow-orange-500/20 flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
+            <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-[#ff4d2d] rounded-xl shadow-lg shadow-orange-500/20 flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
               <Logo className="w-6 h-6" />
             </div>
             <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white hidden sm:block">
-              Hash<span className="text-[#f16529]">Resume</span>
+              Hash<span className="text-[#ff4d2d]">Resume</span>
             </span>
           </Link>
 
@@ -67,9 +67,9 @@ export default function Navbar() {
                 className={cn(
                   "px-4 py-2 text-sm font-bold rounded-full transition-all flex items-center gap-2 relative group",
                   location.pathname === link.path
-                    ? "text-white bg-[#f16529] shadow-md"
+                    ? "text-white bg-[#ff4d2d] shadow-md"
                     : link.highlight
-                      ? "text-[#f16529] hover:bg-orange-50 dark:hover:bg-orange-900/20"
+                      ? "text-[#ff4d2d] hover:bg-orange-50 dark:hover:bg-orange-900/20"
                       : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 shadow-sm shadow-transparent hover:shadow-slate-200/50 dark:hover:shadow-black/50"
                 )}
               >
@@ -95,7 +95,7 @@ export default function Navbar() {
             
             <Link 
               to="/editor" 
-              className="flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-[#f16529] dark:hover:bg-[#f16529] dark:hover:text-white font-bold py-2.5 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
+              className="flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-[#ff4d2d] dark:hover:bg-[#ff4d2d] dark:hover:text-white font-bold py-2.5 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
             >
               <Sparkles size={16} className="text-orange-400 group-hover:text-white transition-colors" />
               <span className="text-sm tracking-tight">{t.landing.buildResume || 'Build Resume'}</span>
@@ -139,9 +139,9 @@ export default function Navbar() {
                     className={cn(
                       "px-5 py-4 text-base font-bold rounded-2xl transition-all flex items-center justify-between group",
                       location.pathname === link.path
-                        ? "text-white bg-[#f16529]"
+                        ? "text-white bg-[#ff4d2d]"
                         : link.highlight
-                          ? "text-[#f16529] bg-orange-50 dark:bg-orange-900/20"
+                          ? "text-[#ff4d2d] bg-orange-50 dark:bg-orange-900/20"
                           : "text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/50"
                     )}
                   >
