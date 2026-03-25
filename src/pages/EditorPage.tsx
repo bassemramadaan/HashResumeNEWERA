@@ -126,6 +126,16 @@ export default function EditorPage() {
   
   const [activeTab, setActiveTab] = useState<Tab>('basics');
   const [showMobilePreview, setShowMobilePreview] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const formRef = useRef<HTMLDivElement>(null);
+
+  const handleFormScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    setShowScrollTop(e.currentTarget.scrollTop > 300);
+  };
+
+  const scrollToFormTop = () => {
+    formRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const [showFullPreview, setShowFullPreview] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
@@ -348,7 +358,11 @@ export default function EditorPage() {
             </div>
           </div>
 
-          <main className="flex-1 overflow-y-auto p-6 pt-4">
+          <main 
+            ref={formRef}
+            onScroll={handleFormScroll}
+            className="flex-1 overflow-y-auto p-6 pt-4 scroll-smooth relative"
+          >
             <div className="max-w-4xl mx-auto pb-32">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -359,6 +373,7 @@ export default function EditorPage() {
                   transition={{ duration: 0.2 }}
                 >
                   <Suspense fallback={<FormLoader />}>
+                    {/* ... existing conditions ... */}
                     {activeTab === 'basics' && (
                       <div className="space-y-12">
                         <section>
@@ -457,6 +472,21 @@ export default function EditorPage() {
                     )}
                   </Suspense>
                 </motion.div>
+              </AnimatePresence>
+
+              {/* Mobile Scroll to Top */}
+              <AnimatePresence>
+                {showScrollTop && (
+                  <motion.button
+                    initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.5, y: 20 }}
+                    onClick={scrollToFormTop}
+                    className="md:hidden fixed bottom-24 right-6 w-10 h-10 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-full shadow-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center z-40 active:scale-90 transition-transform"
+                  >
+                    <ArrowUp size={20} />
+                  </motion.button>
+                )}
               </AnimatePresence>
             </div>
           </main>

@@ -364,35 +364,37 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="max-w-4xl mx-auto bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-3 rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white/20 dark:border-slate-800/50 flex flex-col lg:flex-row items-center gap-4"
+            className="max-w-4xl mx-auto bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-4 sm:p-3 rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white/20 dark:border-slate-800/50 flex flex-col lg:flex-row items-center gap-4"
           >
             <div className="relative flex-1 w-full">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={22} />
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
               <input 
                 type="text" 
                 placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-16 pr-8 py-5 bg-slate-50 dark:bg-slate-800/50 border-none rounded-[1.8rem] focus:ring-2 focus:ring-indigo-500 transition-all text-slate-900 dark:text-white font-bold text-lg placeholder:text-slate-400"
+                className="w-full pl-14 pr-6 py-4 sm:py-5 bg-slate-50 dark:bg-slate-800/50 border-none rounded-[1.5rem] sm:rounded-[1.8rem] focus:ring-2 focus:ring-indigo-500 transition-all text-slate-900 dark:text-white font-bold text-base sm:text-lg placeholder:text-slate-400"
               />
             </div>
-            <div className="flex items-center gap-2 w-full lg:w-auto overflow-x-auto scrollbar-hide px-2 lg:px-0 py-1">
-              <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded-[1.8rem] border border-slate-100 dark:border-slate-800/50">
-                <SlidersHorizontal size={18} className="mx-3 text-slate-400" />
-                {jobTypes.slice(0, 4).map((type) => (
-                  <button
-                    key={type}
-                    onClick={() => setSelectedType(type)}
-                    className={cn(
-                      "px-6 py-3 rounded-[1.2rem] text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all",
-                      selectedType === type 
-                        ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm ring-1 ring-slate-200 dark:ring-slate-600' 
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                    )}
-                  >
-                    {type === 'All' ? t.allTypes : type}
-                  </button>
-                ))}
+            <div className="flex items-center gap-2 w-full lg:w-auto overflow-x-auto scrollbar-hide px-1 lg:px-0 py-1">
+              <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded-[1.5rem] sm:rounded-[1.8rem] border border-slate-100 dark:border-slate-800/50">
+                <SlidersHorizontal size={16} className="mx-2 sm:mx-3 text-slate-400 shrink-0" />
+                <div className="flex gap-2">
+                  {jobTypes.map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => setSelectedType(type)}
+                      className={cn(
+                        "px-4 sm:px-6 py-2.5 sm:py-3 rounded-[1rem] sm:rounded-[1.2rem] text-[10px] sm:text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all active:scale-95",
+                        selectedType === type 
+                          ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm ring-1 ring-slate-200 dark:ring-slate-600' 
+                          : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                      )}
+                    >
+                      {type === 'All' ? t.allTypes : type}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </motion.div>

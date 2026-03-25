@@ -11,7 +11,7 @@ export default function PrivacyPage() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 font-sans" dir={isAr ? 'rtl' : 'ltr'}>
       <Navbar />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+      <main className="max-w-4xl mx-auto px-6 sm:px-6 lg:px-8 py-24 md:py-32">
         <div className="text-center mb-16">
           <div className="w-20 h-20 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
             <Shield className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />

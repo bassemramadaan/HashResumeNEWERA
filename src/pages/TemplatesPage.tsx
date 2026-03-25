@@ -308,13 +308,13 @@ export default function TemplatesPage() {
                     <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white dark:from-slate-900 to-transparent z-10 opacity-60"></div>
 
                     {/* Hover Actions */}
-                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/20 backdrop-blur-[2px]">
+                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/20 md:bg-slate-900/20 backdrop-blur-[2px] md:backdrop-blur-[2px]">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           handleSelectTemplate(template.id);
                         }}
-                        className="bg-[#ff4d2d] text-white px-6 py-3 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#e63e1d] hover:scale-105 min-w-[160px]"
+                        className="bg-[#ff4d2d] text-white px-6 py-3 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#e63e1d] hover:scale-105 min-w-[160px] active:scale-95"
                       >
                         {isSelected 
                           ? (language === 'ar' ? 'محدد حالياً' : language === 'fr' ? 'Sélectionné' : 'Currently Selected')
@@ -326,7 +326,7 @@ export default function TemplatesPage() {
                           e.stopPropagation();
                           setPreviewTemplate(template);
                         }}
-                        className="bg-white text-slate-900 px-6 py-3 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-slate-100 hover:scale-105 min-w-[160px] flex items-center justify-center gap-2"
+                        className="bg-white text-slate-900 px-6 py-3 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-slate-100 hover:scale-105 min-w-[160px] flex items-center justify-center gap-2 active:scale-95"
                       >
                         <Eye size={18} />
                         {language === 'ar' ? 'معاينة' : 'Preview'}

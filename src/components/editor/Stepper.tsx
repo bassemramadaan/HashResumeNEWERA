@@ -12,8 +12,8 @@ export default function Stepper({ tabs, activeTab, onTabChange }: StepperProps) 
   const activeIndex = tabs.findIndex(t => t.id === activeTab);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pt-4 pb-10">
-      <div className="relative flex items-center justify-between">
+    <div className="w-full max-w-4xl mx-auto px-4 pt-4 pb-12 overflow-x-auto scrollbar-hide">
+      <div className="relative flex items-center justify-between min-w-[500px] sm:min-w-0 px-2">
         {/* Progress Line Background */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-slate-200 dark:bg-slate-800 z-0" />
         
@@ -32,7 +32,7 @@ export default function Stepper({ tabs, activeTab, onTabChange }: StepperProps) 
               <button
                 onClick={() => onTabChange(tab.id)}
                 className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-[1.5px]",
+                  "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border-[1.5px] active:scale-90",
                   isActive 
                     ? "bg-[#ff4d2d] border-[#ff4d2d] text-white shadow-lg shadow-orange-500/20 scale-110" 
                     : isCompleted 
