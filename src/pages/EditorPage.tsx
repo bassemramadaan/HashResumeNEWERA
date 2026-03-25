@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useStore } from 'zustand';
 import { 
   User, Briefcase, GraduationCap, Wrench, Download, ChevronLeft, Eye, LayoutTemplate, Target,
-  Undo2, Redo2, CheckCircle2, Maximize2, X, ArrowRight, FileText, Sparkles, Loader2
+  Undo2, Redo2, CheckCircle2, Maximize2, X, ArrowRight, FileText, Sparkles, Loader2, ArrowUp
 } from 'lucide-react';
 import { useResumeStore } from '../store/useResumeStore';
 import { useOnboardingStore } from '../store/useOnboardingStore';
