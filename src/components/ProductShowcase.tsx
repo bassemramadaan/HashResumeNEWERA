@@ -24,9 +24,6 @@ export default function ProductShowcase() {
         <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto mb-16">{t.showcaseSubtitle}</p>
         
         <div className="relative max-w-5xl mx-auto">
-          {/* Decorative background glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 dark:bg-orange-500/5 blur-[100px] rounded-full pointer-events-none"></div>
-          
           <div className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col md:flex-row h-[500px]">
             
             {/* Left Panel: Editor */}

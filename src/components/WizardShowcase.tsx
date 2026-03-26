@@ -43,8 +43,7 @@ export default function WizardShowcase() {
 
   return (
     <section className="py-32 bg-slate-50 dark:bg-slate-950 overflow-hidden relative">
-      {/* Background glow effects and graphics */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-500/10 dark:bg-orange-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+      {/* Background graphics */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       
       {/* Floating Abstract Shapes */}
