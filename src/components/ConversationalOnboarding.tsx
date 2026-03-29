@@ -67,7 +67,7 @@ export default function ConversationalOnboarding({ onClose }: { onClose: () => v
                 <button
                   key={option}
                   onClick={() => handleOptionSelect(option)}
-                  className="text-left p-4 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all font-medium"
+                  className="text-start p-4 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 transition-all font-medium"
                 >
                   {option}
                 </button>

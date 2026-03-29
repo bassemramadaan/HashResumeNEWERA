@@ -27,12 +27,12 @@ export default function ProductShowcase() {
           <div className="relative bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col md:flex-row h-[500px]">
             
             {/* Left Panel: Editor */}
-            <div className="flex-1 border-r border-slate-200 dark:border-slate-800 p-8 flex flex-col bg-slate-50/50 dark:bg-slate-900/50" dir="ltr">
+            <div className="flex-1 border-e border-slate-200 dark:border-slate-800 p-8 flex flex-col bg-slate-50/50 dark:bg-slate-900/50" dir="ltr">
               <div className="flex items-center gap-2 mb-6">
                 <div className="w-4 h-4 rounded-full bg-rose-400"></div>
                 <div className="w-4 h-4 rounded-full bg-amber-400"></div>
                 <div className="w-4 h-4 rounded-full bg-emerald-400"></div>
-                <div className="ml-4 text-sm font-medium text-slate-400">Experience Editor</div>
+                <div className="ms-4 text-sm font-medium text-slate-400">Experience Editor</div>
               </div>
 
               <div className="bg-white dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800 p-6 flex-1 shadow-sm relative">
@@ -97,7 +97,7 @@ export default function ProductShowcase() {
             </div>
 
             {/* Right Panel: ATS Score */}
-            <div className="w-full md:w-80 bg-white dark:bg-slate-900 p-8 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800" dir="ltr">
+            <div className="w-full md:w-80 bg-white dark:bg-slate-900 p-8 flex flex-col items-center justify-center border-t md:border-t-0 md:border-s border-slate-200 dark:border-slate-800" dir="ltr">
               <div className="text-center mb-8">
                 <Target className="w-8 h-8 text-orange-500 mx-auto mb-4" />
                 <h3 className="font-bold text-slate-900 dark:text-white">Live ATS Score</h3>

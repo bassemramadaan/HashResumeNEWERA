@@ -204,7 +204,7 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
               </button>
               
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-slate-500 dark:text-slate-400 mr-2">Export as:</span>
+                <span className="text-sm font-medium text-slate-500 dark:text-slate-400 me-2">Export as:</span>
                 <button 
                   onClick={() => onProceed('pdf')}
                   className={cn(

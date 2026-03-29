@@ -35,7 +35,7 @@ const JobCard = React.forwardRef<HTMLDivElement, {
       onClick={onOpenDetails}
     >
       {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-500/5 to-transparent rounded-bl-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
+      <div className="absolute top-0 end-0 w-32 h-32 bg-gradient-to-br from-indigo-500/5 to-transparent rounded-es-full -me-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
       
       <div className="flex items-start justify-between mb-6 relative z-10">
         <div className="flex items-center gap-4">
@@ -148,7 +148,7 @@ const JobDetailsModal: React.FC<{
             exit={{ opacity: 0, scale: 0.9, y: 40 }}
             className="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-white/10"
           >
-            <div className="absolute top-8 right-8 z-20 flex gap-4">
+            <div className="absolute top-8 end-8 z-20 flex gap-4">
               <button 
                 onClick={onToggleSave}
                 className={cn(
@@ -169,7 +169,7 @@ const JobDetailsModal: React.FC<{
             </div>
 
             <div className="p-8 sm:p-16 overflow-y-auto custom-scrollbar">
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 mb-12 text-center sm:text-left">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 mb-12 text-center sm:text-start">
                 <div className="w-28 h-28 bg-slate-50 dark:bg-slate-800 rounded-[2rem] flex items-center justify-center text-slate-400 dark:text-slate-500 font-black text-5xl border border-slate-100 dark:border-slate-700 shadow-2xl shrink-0 overflow-hidden">
                   {job.logo ? (
                     <img src={job.logo} alt={job.company} className="w-full h-full object-cover" referrerPolicy="no-referrer" loading="lazy" decoding="async" />
@@ -251,7 +251,7 @@ const JobDetailsModal: React.FC<{
             </div>
 
             <div className="p-10 bg-slate-900 dark:bg-slate-950 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
-              <div className="text-center sm:text-left">
+              <div className="text-center sm:text-start">
                 <p className="text-lg text-white font-black mb-1">Ready to take the next step?</p>
                 <p className="text-sm text-slate-400 font-medium">Mention code <span className="font-mono font-black text-indigo-400 bg-indigo-400/10 px-2 py-0.5 rounded">{job.code}</span> in your application</p>
               </div>
@@ -327,7 +327,7 @@ export default function HashHuntPage() {
       {/* Hero Section */}
       <section className="relative pt-40 pb-24 overflow-hidden bg-white dark:bg-slate-950">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:64px_64px]"></div>
-        <div className="absolute left-1/2 top-0 -translate-x-1/2 -z-10 h-[800px] w-[800px] rounded-full bg-indigo-500 opacity-[0.03] blur-[120px]"></div>
+        <div className="absolute start-1/2 top-0 -translate-x-1/2 -z-10 h-[800px] w-[800px] rounded-full bg-indigo-500 opacity-[0.03] blur-[120px]"></div>
         
         <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
           <motion.div
@@ -367,13 +367,13 @@ export default function HashHuntPage() {
             className="max-w-4xl mx-auto bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-4 sm:p-4 rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white/20 dark:border-slate-800/50 flex flex-col lg:flex-row items-center gap-4"
           >
             <div className="relative flex-1 w-full">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
+              <Search className="absolute start-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
               <input 
                 type="text" 
                 placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-14 pr-6 py-4 sm:py-6 bg-slate-50 dark:bg-slate-800/50 border-none rounded-[1.5rem] sm:rounded-[1.8rem] focus:ring-2 focus:ring-indigo-500 transition-all text-slate-900 dark:text-white font-bold text-base sm:text-lg placeholder:text-slate-400"
+                className="w-full ps-14 pe-6 py-4 sm:py-6 bg-slate-50 dark:bg-slate-800/50 border-none rounded-[1.5rem] sm:rounded-[1.8rem] focus:ring-2 focus:ring-indigo-500 transition-all text-slate-900 dark:text-white font-bold text-base sm:text-lg placeholder:text-slate-400"
               />
             </div>
             <div className="flex items-center gap-2 w-full lg:w-auto overflow-x-auto scrollbar-hide px-1 lg:px-0 py-1">
@@ -404,9 +404,9 @@ export default function HashHuntPage() {
       {/* Benefits Section */}
       <section className="py-24 bg-slate-50 dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="bg-slate-900 dark:bg-slate-900/50 rounded-[4rem] p-10 md:p-24 text-center md:text-left flex flex-col lg:flex-row items-center gap-20 shadow-3xl overflow-hidden relative border border-white/5">
-            <div className="absolute top-0 right-0 -mt-40 -mr-40 w-[600px] h-[600px] bg-indigo-500 rounded-full blur-[160px] opacity-10"></div>
-            <div className="absolute bottom-0 left-0 -mb-40 -ml-40 w-[600px] h-[600px] bg-purple-500 rounded-full blur-[160px] opacity-10"></div>
+          <div className="bg-slate-900 dark:bg-slate-900/50 rounded-[4rem] p-10 md:p-24 text-center md:text-start flex flex-col lg:flex-row items-center gap-20 shadow-3xl overflow-hidden relative border border-white/5">
+            <div className="absolute top-0 end-0 -mt-40 -me-40 w-[600px] h-[600px] bg-indigo-500 rounded-full blur-[160px] opacity-10"></div>
+            <div className="absolute bottom-0 start-0 -mb-40 -ms-40 w-[600px] h-[600px] bg-purple-500 rounded-full blur-[160px] opacity-10"></div>
             
             <div className="flex-1 relative z-10">
               <h2 className="text-4xl md:text-7xl font-black text-white mb-10 font-display tracking-tighter leading-[0.9]">{t.whyJoinTitle}</h2>
@@ -460,7 +460,7 @@ export default function HashHuntPage() {
       <section className="py-24 bg-slate-50 dark:bg-slate-950 min-h-[800px]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-start">
               <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest mb-4 border border-slate-200 dark:border-slate-700">
                 <Briefcase size={12} />
                 {loading ? t.loadingJobs : `${filteredJobs.length} ${t.jobsFound}`}
@@ -584,7 +584,7 @@ export default function HashHuntPage() {
           </div>
           
           <div className="grid md:grid-cols-3 gap-16 relative">
-            <div className="hidden md:block absolute top-16 left-[15%] right-[15%] h-0.5 bg-slate-100 dark:bg-slate-800 -z-10"></div>
+            <div className="hidden md:block absolute top-16 start-[15%] end-[15%] h-0.5 bg-slate-100 dark:bg-slate-800 -z-10"></div>
             
             {[
               { icon: Briefcase, title: t.step1Title, desc: t.step1Desc, color: 'indigo' },
@@ -612,7 +612,7 @@ export default function HashHuntPage() {
       <footer className="bg-slate-950 text-slate-500 py-42 border-t border-white/5 pb-safe">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-20">
-            <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <div className="flex flex-col items-center md:items-start text-center md:text-start">
               <div className="flex items-center gap-4 mb-6">
                 <Logo className="w-12 h-12 text-[#ff4d2d]" />
                 <span className="text-4xl font-black text-white font-display tracking-tighter">Hash Resume</span>
@@ -620,7 +620,7 @@ export default function HashHuntPage() {
               <p className="text-xl max-w-sm font-bold opacity-80 leading-relaxed">Professional resumes, simplified. Built with privacy in mind.</p>
             </div>
             
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-12 text-center md:text-left">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-12 text-center md:text-start">
               <div className="space-y-4">
                 <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6">Product</h4>
                 <Link to="/" className="block hover:text-white transition-colors font-bold">Resume Builder</Link>

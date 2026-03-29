@@ -35,7 +35,7 @@ export default function Navbar() {
   return (
     <header 
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
+        "fixed top-0 start-0 end-0 z-50 transition-all duration-500",
         isScrolled 
           ? "py-4" 
           : "py-6"
@@ -76,7 +76,7 @@ export default function Navbar() {
                 {link.icon}
                 {link.name}
                 {link.highlight && !location.pathname.includes(link.path) && (
-                  <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                  <span className="absolute -top-1 -end-1 flex h-2 w-2">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
                   </span>
@@ -136,7 +136,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto', y: 0 }}
             exit={{ opacity: 0, height: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden absolute top-full left-4 right-4 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
+            className="md:hidden absolute top-full start-4 end-4 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
           >
             <div className="p-6 flex flex-col gap-4">
               {navLinks.map((link, i) => (

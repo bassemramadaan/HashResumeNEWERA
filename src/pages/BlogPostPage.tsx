@@ -59,7 +59,7 @@ export default function BlogPostPage() {
             <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-700 dark:text-indigo-400 font-bold">
               {post.author[language].charAt(0)}
             </div>
-            <div className="text-left rtl:text-right">
+            <div className="text-start rtl:text-end">
               <p className="font-bold text-slate-900 dark:text-white">{post.author[language]}</p>
               <p className="text-xs text-slate-500 dark:text-slate-400">{language === 'ar' ? 'محرر' : 'Editor'}</p>
             </div>

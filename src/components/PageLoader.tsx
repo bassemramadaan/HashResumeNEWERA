@@ -4,7 +4,7 @@ export default function PageLoader() {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col font-sans">
       {/* Navbar Skeleton */}
-      <div className="sticky top-6 left-0 right-0 flex justify-center z-50 px-4 mb-8">
+      <div className="sticky top-6 start-0 end-0 flex justify-center z-50 px-4 mb-8">
         <div className="w-full max-w-3xl h-16 rounded-full bg-white/70 dark:bg-slate-900/70 border border-slate-200 dark:border-slate-800 shadow-sm animate-pulse flex items-center px-6 gap-4">
           <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800"></div>
           <div className="w-px h-8 bg-slate-200 dark:bg-slate-800 mx-2"></div>

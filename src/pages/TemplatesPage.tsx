@@ -167,10 +167,34 @@ const templates: Template[] = [
     image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600&auto=format&fit=crop',
     color: '#BE185D',
     categories: ['Creative', 'Business']
+  },
+  {
+    id: 'arabic',
+    name: 'Arabic (RTL)',
+    description: 'Optimized for Arabic language with full RTL support.',
+    image: 'https://images.unsplash.com/photo-1542810634-71277d95dc8c?q=80&w=600&auto=format&fit=crop',
+    color: '#059669',
+    categories: ['Business', 'Technology']
+  },
+  {
+    id: 'engineering',
+    name: 'Engineering',
+    description: 'Technical and structured layout for engineers.',
+    image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=600&auto=format&fit=crop',
+    color: '#0284C7',
+    categories: ['Engineering', 'Technology']
+  },
+  {
+    id: 'finance',
+    name: 'Finance',
+    description: 'Professional and data-focused layout for finance roles.',
+    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=600&auto=format&fit=crop',
+    color: '#0F766E',
+    categories: ['Finance', 'Business']
   }
 ];
 
-const categories = ['All', 'Technology', 'Business', 'Creative', 'Healthcare', 'Academic'] as const;
+const categories = ['All', 'Technology', 'Business', 'Creative', 'Healthcare', 'Academic', 'Engineering', 'Finance'] as const;
 type Category = typeof categories[number];
 
 export default function TemplatesPage() {
@@ -198,7 +222,7 @@ export default function TemplatesPage() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Link to="/" className="p-2 -ml-2 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
+            <Link to="/" className="p-2 -ms-2 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors rounded-full hover:bg-slate-100 dark:hover:bg-slate-800">
               <ArrowLeft size={20} className="rtl:rotate-180" />
             </Link>
             <Link to="/" className="flex items-center gap-2">
@@ -279,7 +303,7 @@ export default function TemplatesPage() {
                   }`}
                 >
                   {isSelected && (
-                    <div className="absolute top-4 right-4 z-20 bg-[#ff4d2d] text-white p-2 rounded-full shadow-md">
+                    <div className="absolute top-4 end-4 z-20 bg-[#ff4d2d] text-white p-2 rounded-full shadow-md">
                       <CheckCircle2 size={20} />
                     </div>
                   )}
@@ -289,7 +313,7 @@ export default function TemplatesPage() {
                     
                     {/* Real Resume Preview - Scaled to fit */}
                     <div 
-                      className="absolute top-0 left-0 w-[800px] origin-top-left transition-transform duration-500"
+                      className="absolute top-0 start-0 w-[800px] origin-top-left transition-transform duration-500"
                       style={{ transform: 'scale(calc(100cqi / 800))' }}
                     >
                       <ResumePreview 
@@ -305,7 +329,7 @@ export default function TemplatesPage() {
                     </div>
 
                     {/* Bottom Fade */}
-                    <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white dark:from-slate-900 to-transparent z-10 opacity-60"></div>
+                    <div className="absolute bottom-0 start-0 end-0 h-24 bg-gradient-to-t from-white dark:from-slate-900 to-transparent z-10 opacity-60"></div>
 
                     {/* Hover Actions */}
                     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/20 md:bg-slate-900/20 backdrop-blur-[2px] md:backdrop-blur-[2px]">
@@ -365,7 +389,7 @@ export default function TemplatesPage() {
               className="bg-slate-100 dark:bg-slate-900 w-full max-w-6xl h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
             >
               {/* Sidebar Info */}
-              <div className="w-full md:w-80 bg-white dark:bg-slate-950 p-8 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 overflow-y-auto">
+              <div className="w-full md:w-80 bg-white dark:bg-slate-950 p-8 border-e border-slate-200 dark:border-slate-800 flex flex-col shrink-0 overflow-y-auto">
                 <div className="flex justify-between items-center mb-8 md:hidden">
                   <h2 className="text-2xl font-bold text-slate-900 dark:text-white">{previewTemplate.name}</h2>
                   <button onClick={() => setPreviewTemplate(null)} className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors">

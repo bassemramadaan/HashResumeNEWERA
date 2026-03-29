@@ -50,7 +50,7 @@ export default function WizardShowcase() {
       <motion.div 
         animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }} 
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-20 right-[5%] -z-10 hidden lg:block opacity-40 dark:opacity-20"
+        className="absolute top-20 end-[5%] -z-10 hidden lg:block opacity-40 dark:opacity-20"
       >
         <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M40 0L80 40L40 80L0 40L40 0Z" stroke="url(#paint0_linear_wizard)" strokeWidth="2" strokeDasharray="4 4"/>
@@ -66,7 +66,7 @@ export default function WizardShowcase() {
       <motion.div 
         animate={{ y: [0, -30, 0], x: [0, -20, 0] }} 
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-20 left-[5%] -z-10 hidden lg:block opacity-30 dark:opacity-10"
+        className="absolute bottom-20 start-[5%] -z-10 hidden lg:block opacity-30 dark:opacity-10"
       >
         <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="30" cy="30" r="28" stroke="url(#paint1_linear_wizard)" strokeWidth="4"/>
@@ -99,9 +99,9 @@ export default function WizardShowcase() {
           {/* Steps Navigation */}
           <div className="w-full lg:w-1/2 space-y-6 relative">
             {/* Connecting line */}
-            <div className="absolute left-8 top-10 bottom-10 w-1 bg-slate-200 dark:bg-slate-800 hidden md:block rounded-full overflow-hidden">
+            <div className="absolute start-8 top-10 bottom-10 w-1 bg-slate-200 dark:bg-slate-800 hidden md:block rounded-full overflow-hidden">
               <motion.div 
-                className="absolute top-0 left-0 w-full bg-[#ff4d2d] rounded-full"
+                className="absolute top-0 start-0 w-full bg-[#ff4d2d] rounded-full"
                 animate={{ height: `${(activeStep / (steps.length - 1)) * 100}%` }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
               />
@@ -122,7 +122,7 @@ export default function WizardShowcase() {
                 }`}>
                   <step.icon size={28} className={activeStep === index ? "animate-pulse" : ""} />
                   {activeStep === index && (
-                    <span className="absolute -top-1 -right-1 flex h-4 w-4">
+                    <span className="absolute -top-1 -end-1 flex h-4 w-4">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-4 w-4 bg-white"></span>
                     </span>
@@ -139,7 +139,7 @@ export default function WizardShowcase() {
                 {activeStep === index && (
                   <motion.div 
                     layoutId="active-arrow" 
-                    className="absolute right-6 top-1/2 -translate-y-1/2 text-[#ff4d2d] hidden sm:block"
+                    className="absolute end-6 top-1/2 -translate-y-1/2 text-[#ff4d2d] hidden sm:block"
                   >
                     <ArrowRight size={24} />
                   </motion.div>
@@ -166,7 +166,7 @@ export default function WizardShowcase() {
                   <div className="w-4 h-4 rounded-full bg-rose-400 dark:bg-rose-500"></div>
                   <div className="w-4 h-4 rounded-full bg-amber-400 dark:bg-amber-500"></div>
                   <div className="w-4 h-4 rounded-full bg-emerald-400 dark:bg-emerald-500"></div>
-                  <div className="ml-4 flex-1 h-6 bg-white dark:bg-slate-950 rounded-md border border-slate-200 dark:border-slate-800 flex items-center px-4">
+                  <div className="ms-4 flex-1 h-6 bg-white dark:bg-slate-950 rounded-md border border-slate-200 dark:border-slate-800 flex items-center px-4">
                     <div className="w-32 h-2 bg-slate-200 dark:bg-slate-800 rounded-full"></div>
                   </div>
                 </div>
@@ -217,7 +217,7 @@ export default function WizardShowcase() {
                             </div>
                             <div className="h-6 bg-slate-200 dark:bg-slate-800 rounded-full w-24"></div>
                           </div>
-                          <div className="space-y-4 pl-6 border-l-2 border-red-200 dark:border-red-800/50 pt-2">
+                          <div className="space-y-4 ps-6 border-s-2 border-red-200 dark:border-red-800/50 pt-2">
                             <div className="h-2 bg-slate-300 dark:bg-slate-700 rounded w-full"></div>
                             <div className="h-2 bg-slate-300 dark:bg-slate-700 rounded w-4/5"></div>
                             <div className="h-2 bg-slate-300 dark:bg-slate-700 rounded w-4/5"></div>
@@ -236,7 +236,7 @@ export default function WizardShowcase() {
                         <div className="h-40 bg-slate-100 dark:bg-slate-800/50 rounded-xl w-full"></div>
                       </div>
                       <div className="w-full md:w-1/2 bg-white dark:bg-slate-900 shadow-2xl border border-slate-200 dark:border-slate-700 rounded-xl p-6 transform md:rotate-3 md:scale-110 origin-center transition-transform relative">
-                        <div className="absolute -top-4 -right-4 bg-amber-500 text-white p-4 rounded-full shadow-lg">
+                        <div className="absolute -top-4 -end-4 bg-amber-500 text-white p-4 rounded-full shadow-lg">
                           <Check size={24} />
                         </div>
                         <div className="space-y-5">

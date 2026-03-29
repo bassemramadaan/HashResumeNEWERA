@@ -1,6 +1,6 @@
 import React, { forwardRef, memo } from 'react';
 import { useResumeStore, ResumeData } from '../../store/useResumeStore';
-import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Calendar } from 'lucide-react';
 
 interface ResumePreviewProps {
   data?: ResumeData;
@@ -545,7 +545,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
                 <div className="space-y-10">
                   {experience.map((exp) => (
                     <div key={exp.id} className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <div className="text-[15px] text-slate-400 font-medium md:text-right pt-1">
+                      <div className="text-[15px] text-slate-400 font-medium md:text-end pt-1">
                         {exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}
                       </div>
                       <div className="md:col-span-3">
@@ -566,7 +566,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
                 <div className="space-y-8">
                   {education.map((edu) => (
                     <div key={edu.id} className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                      <div className="text-[15px] text-slate-400 font-medium md:text-right pt-1">
+                      <div className="text-[15px] text-slate-400 font-medium md:text-end pt-1">
                         {edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}
                       </div>
                       <div className="md:col-span-3">
@@ -1127,7 +1127,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
           <h1 className="text-4xl font-black text-slate-900 mb-2">{personalInfo.fullName || 'Your Name'}</h1>
           <h2 className="text-xl font-bold text-slate-500 uppercase tracking-wider">{personalInfo.jobTitle}</h2>
         </div>
-        <div className="mt-4 md:mt-0 text-right text-sm text-slate-600 space-y-1">
+        <div className="mt-4 md:mt-0 text-end text-sm text-slate-600 space-y-1">
           {personalInfo.email && <div>{personalInfo.email}</div>}
           {personalInfo.phone && <div>{personalInfo.phone}</div>}
           {personalInfo.address && <div>{personalInfo.address}</div>}
@@ -1296,6 +1296,368 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
     </div>
   );
 
+  const renderArabic = () => (
+    <div className="font-sans text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-white" dir="rtl">
+      <header className="border-b-4 pb-6 mb-8" style={{ borderColor: themeColor }}>
+        <h1 className="text-4xl font-bold text-slate-900 mb-2">{personalInfo.fullName || 'الاسم الكامل'}</h1>
+        {personalInfo.jobTitle && <h2 className="text-xl text-slate-600 mb-4">{personalInfo.jobTitle}</h2>}
+        <div className="flex flex-wrap gap-4 text-sm text-slate-500">
+          {personalInfo.email && <span className="flex items-center gap-1.5"><Mail size={14} /> {personalInfo.email}</span>}
+          {personalInfo.phone && <span className="flex items-center gap-1.5"><Phone size={14} /> <span dir="ltr">{personalInfo.phone}</span></span>}
+          {personalInfo.address && <span className="flex items-center gap-1.5"><MapPin size={14} /> {personalInfo.address}</span>}
+          {personalInfo.linkedin && <span className="flex items-center gap-1.5"><Linkedin size={14} /> {personalInfo.linkedin}</span>}
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="md:col-span-2 space-y-8">
+          {personalInfo.summary && (
+            <section>
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: themeColor }}>
+                <span className="w-8 h-1 bg-current rounded-full"></span>
+                الملخص المهني
+              </h3>
+              <p className="text-sm text-slate-700 leading-relaxed text-justify whitespace-pre-wrap">{personalInfo.summary}</p>
+            </section>
+          )}
+
+          {experience.length > 0 && (
+            <section>
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: themeColor }}>
+                <span className="w-8 h-1 bg-current rounded-full"></span>
+                الخبرات المهنية
+              </h3>
+              <div className="space-y-6">
+                {experience.map((exp) => (
+                  <div key={exp.id} className="relative ps-4 border-s-2 border-slate-200">
+                    <div className="absolute w-3 h-3 rounded-full -start-[7px] top-1.5" style={{ backgroundColor: themeColor }}></div>
+                    <h4 className="text-lg font-bold text-slate-900">{exp.position}</h4>
+                    <div className="text-sm font-medium text-slate-600 mb-1">{exp.company}</div>
+                    <div className="text-xs text-slate-500 mb-3 flex items-center gap-2">
+                      <Calendar size={12} />
+                      <span dir="ltr">{exp.startDate} - {exp.endDate || 'الآن'}</span>
+                    </div>
+                    <p className="text-sm text-slate-700 whitespace-pre-wrap">{exp.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+          
+          {projects.length > 0 && (
+            <section>
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: themeColor }}>
+                <span className="w-8 h-1 bg-current rounded-full"></span>
+                المشاريع
+              </h3>
+              <div className="space-y-6">
+                {projects.map((proj) => (
+                  <div key={proj.id} className="relative ps-4 border-s-2 border-slate-200">
+                    <div className="absolute w-3 h-3 rounded-full -start-[7px] top-1.5" style={{ backgroundColor: themeColor }}></div>
+                    <h4 className="text-lg font-bold text-slate-900">{proj.name}</h4>
+                    {proj.link && <a href={proj.link} className="text-xs text-blue-600 hover:underline mb-2 block" dir="ltr">{proj.link}</a>}
+                    <p className="text-sm text-slate-700 whitespace-pre-wrap">{proj.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+
+        <div className="space-y-8">
+          {skills.length > 0 && (
+            <section>
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: themeColor }}>
+                <span className="w-8 h-1 bg-current rounded-full"></span>
+                المهارات
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill, i) => (
+                  <span key={i} className="px-3 py-1 bg-slate-100 text-slate-700 text-sm rounded-md border border-slate-200">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {education.length > 0 && (
+            <section>
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: themeColor }}>
+                <span className="w-8 h-1 bg-current rounded-full"></span>
+                التعليم
+              </h3>
+              <div className="space-y-4">
+                {education.map((edu) => (
+                  <div key={edu.id} className="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <h4 className="font-bold text-slate-900 text-sm">{edu.degree}</h4>
+                    <div className="text-sm text-slate-600">{edu.institution}</div>
+                    <div className="text-xs text-slate-500 mt-1" dir="ltr">{edu.startDate} - {edu.endDate}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {certifications.length > 0 && (
+            <section>
+              <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: themeColor }}>
+                <span className="w-8 h-1 bg-current rounded-full"></span>
+                الشهادات
+              </h3>
+              <div className="space-y-3">
+                {certifications.map((cert) => (
+                  <div key={cert.id}>
+                    <h4 className="font-bold text-slate-900 text-sm">{cert.name}</h4>
+                    <div className="text-xs text-slate-500">{cert.issuer} • <span dir="ltr">{cert.date}</span></div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+          
+          {data.customSections?.length > 0 && (
+            <React.Fragment>
+              {data.customSections.map((section) => (
+                <section key={section.id}>
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: themeColor }}>
+                    <span className="w-8 h-1 bg-current rounded-full"></span>
+                    {section.title}
+                  </h3>
+                  <p className="text-sm text-slate-700 whitespace-pre-wrap">{section.content}</p>
+                </section>
+              ))}
+            </React.Fragment>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderEngineering = () => (
+    <div className="font-mono text-slate-800 p-8 max-w-[850px] mx-auto bg-[#fafafa] border-t-8" style={{ borderColor: themeColor }}>
+      <header className="mb-8 flex justify-between items-end border-b-2 border-slate-200 pb-6">
+        <div>
+          <h1 className="text-4xl font-black tracking-tight text-slate-900 mb-2 uppercase">{personalInfo.fullName || 'Your Name'}</h1>
+          {personalInfo.jobTitle && <h2 className="text-xl font-bold text-slate-500 uppercase tracking-widest">{personalInfo.jobTitle}</h2>}
+        </div>
+        <div className="text-end text-xs space-y-1 font-medium">
+          {personalInfo.email && <div>{personalInfo.email}</div>}
+          {personalInfo.phone && <div>{personalInfo.phone}</div>}
+          {personalInfo.linkedin && <div>{personalInfo.linkedin}</div>}
+          {personalInfo.address && <div>{personalInfo.address}</div>}
+        </div>
+      </header>
+
+      <div className="space-y-8">
+        {personalInfo.summary && (
+          <section className="bg-white p-4 border border-slate-200 shadow-sm">
+            <h3 className="text-sm font-bold uppercase tracking-widest mb-2" style={{ color: themeColor }}>// Profile</h3>
+            <p className="text-sm leading-relaxed">{personalInfo.summary}</p>
+          </section>
+        )}
+
+        <div className="grid grid-cols-3 gap-8">
+          <div className="col-span-2 space-y-8">
+            {experience.length > 0 && (
+              <section>
+                <h3 className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-2" style={{ color: themeColor }}>// Experience</h3>
+                <div className="space-y-6">
+                  {experience.map((exp) => (
+                    <div key={exp.id}>
+                      <div className="flex justify-between items-baseline mb-1">
+                        <h4 className="text-base font-bold text-slate-900">{exp.position}</h4>
+                        <span className="text-xs font-bold bg-slate-200 px-2 py-1 rounded">{exp.startDate} - {exp.endDate || 'Present'}</span>
+                      </div>
+                      <div className="text-sm font-bold text-slate-600 mb-2">@ {exp.company}</div>
+                      <p className="text-sm leading-relaxed whitespace-pre-wrap">{exp.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+            
+            {projects.length > 0 && (
+              <section>
+                <h3 className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-2" style={{ color: themeColor }}>// Projects</h3>
+                <div className="grid grid-cols-1 gap-4">
+                  {projects.map((proj) => (
+                    <div key={proj.id} className="bg-white p-4 border border-slate-200 shadow-sm">
+                      <h4 className="font-bold text-slate-900 mb-1">{proj.name}</h4>
+                      {proj.link && <a href={proj.link} className="text-xs text-blue-600 hover:underline mb-2 block">{proj.link}</a>}
+                      <p className="text-sm">{proj.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+
+          <div className="space-y-8">
+            {skills.length > 0 && (
+              <section>
+                <h3 className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-2" style={{ color: themeColor }}>// Skills</h3>
+                <ul className="list-square ps-4 text-sm space-y-1">
+                  {skills.map((skill, i) => (
+                    <li key={i}>{skill}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {education.length > 0 && (
+              <section>
+                <h3 className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-2" style={{ color: themeColor }}>// Education</h3>
+                <div className="space-y-4">
+                  {education.map((edu) => (
+                    <div key={edu.id}>
+                      <h4 className="font-bold text-sm text-slate-900 leading-tight">{edu.degree}</h4>
+                      <div className="text-xs text-slate-600 mt-1">{edu.institution}</div>
+                      <div className="text-xs text-slate-400 mt-1">{edu.startDate} - {edu.endDate}</div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+            
+            {certifications.length > 0 && (
+              <section>
+                <h3 className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-2" style={{ color: themeColor }}>// Certifications</h3>
+                <div className="space-y-3">
+                  {certifications.map((cert) => (
+                    <div key={cert.id}>
+                      <h4 className="font-bold text-sm text-slate-900">{cert.name}</h4>
+                      <div className="text-xs text-slate-500">{cert.issuer} • {cert.date}</div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+            
+            {data.customSections?.length > 0 && (
+              <React.Fragment>
+                {data.customSections.map((section) => (
+                  <section key={section.id}>
+                    <h3 className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-2" style={{ color: themeColor }}>// {section.title}</h3>
+                    <p className="text-sm whitespace-pre-wrap">{section.content}</p>
+                  </section>
+                ))}
+              </React.Fragment>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderFinance = () => (
+    <div className="font-serif text-slate-900 p-8 md:p-12 max-w-[850px] mx-auto bg-white">
+      <header className="text-center border-b-2 border-slate-900 pb-6 mb-8">
+        <h1 className="text-3xl font-bold uppercase tracking-widest mb-2">{personalInfo.fullName || 'Your Name'}</h1>
+        <div className="text-sm font-sans flex flex-wrap justify-center gap-x-4 gap-y-1 text-slate-700">
+          {personalInfo.address && <span>{personalInfo.address}</span>}
+          {personalInfo.address && (personalInfo.phone || personalInfo.email) && <span>|</span>}
+          {personalInfo.phone && <span>{personalInfo.phone}</span>}
+          {personalInfo.phone && personalInfo.email && <span>|</span>}
+          {personalInfo.email && <span>{personalInfo.email}</span>}
+          {personalInfo.linkedin && <span>|</span>}
+          {personalInfo.linkedin && <span>{personalInfo.linkedin}</span>}
+        </div>
+      </header>
+
+      <div className="space-y-6">
+        {personalInfo.summary && (
+          <section>
+            <p className="text-sm text-justify leading-relaxed">{personalInfo.summary}</p>
+          </section>
+        )}
+
+        {experience.length > 0 && (
+          <section>
+            <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1">Professional Experience</h3>
+            <div className="space-y-5">
+              {experience.map((exp) => (
+                <div key={exp.id}>
+                  <div className="flex justify-between items-baseline font-bold font-sans text-sm">
+                    <span>{exp.company}</span>
+                    <span>{exp.startDate} - {exp.endDate || 'Present'}</span>
+                  </div>
+                  <div className="font-italic text-sm mb-2">{exp.position}</div>
+                  <p className="text-sm leading-relaxed text-justify whitespace-pre-wrap ps-4 border-s-2 border-slate-200">{exp.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {education.length > 0 && (
+          <section>
+            <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1">Education</h3>
+            <div className="space-y-4">
+              {education.map((edu) => (
+                <div key={edu.id} className="flex justify-between items-baseline text-sm">
+                  <div>
+                    <span className="font-bold font-sans">{edu.institution}</span>
+                    <span> - {edu.degree}</span>
+                  </div>
+                  <span className="font-bold font-sans">{edu.endDate}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {skills.length > 0 && (
+          <section>
+            <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1">Skills & Expertise</h3>
+            <p className="text-sm leading-relaxed">
+              {skills.join(' • ')}
+            </p>
+          </section>
+        )}
+        
+        {projects.length > 0 && (
+          <section>
+            <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1">Selected Transactions / Projects</h3>
+            <div className="space-y-4">
+              {projects.map((proj) => (
+                <div key={proj.id}>
+                  <div className="font-bold font-sans text-sm mb-1">{proj.name}</div>
+                  <p className="text-sm leading-relaxed text-justify whitespace-pre-wrap ps-4 border-s-2 border-slate-200">{proj.description}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        
+        {certifications.length > 0 && (
+          <section>
+            <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1">Certifications</h3>
+            <div className="space-y-2">
+              {certifications.map((cert) => (
+                <div key={cert.id} className="text-sm flex justify-between">
+                  <span><span className="font-bold font-sans">{cert.name}</span>, {cert.issuer}</span>
+                  <span>{cert.date}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        
+        {data.customSections?.length > 0 && (
+          <React.Fragment>
+            {data.customSections.map((section) => (
+              <section key={section.id}>
+                <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1">{section.title}</h3>
+                <p className="text-sm leading-relaxed text-justify whitespace-pre-wrap">{section.content}</p>
+              </section>
+            ))}
+          </React.Fragment>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <div 
       ref={ref} 
@@ -1314,6 +1676,9 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
       {settings.template === 'academic' && renderAcademic()}
       {settings.template === 'professional' && renderProfessional()}
       {settings.template === 'elegant' && renderElegant()}
+      {settings.template === 'arabic' && renderArabic()}
+      {settings.template === 'engineering' && renderEngineering()}
+      {settings.template === 'finance' && renderFinance()}
       
       {/* Watermark */}
       <div className="mt-8 pb-4 text-center text-xs text-slate-300 font-medium opacity-50">

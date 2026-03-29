@@ -49,7 +49,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label htmlFor="fullName" className="text-sm font-medium text-slate-700 dark:text-slate-300">Full Name <span className="text-rose-500">*</span></label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
               <User className={`h-4 w-4 ${errors.fullName ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
             </div>
             <input
@@ -59,13 +59,13 @@ const PersonalInfoForm = () => {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.fullName ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. John Doe"
             />
             {errors.fullName && (
-              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 end-0 pe-4 flex items-center pointer-events-none">
                 <AlertCircle className="h-4 w-4 text-rose-500" />
               </div>
             )}

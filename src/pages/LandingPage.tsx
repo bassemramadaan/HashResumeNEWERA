@@ -58,13 +58,13 @@ export default function LandingPage() {
       <section className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-gradient-to-b from-orange-50 to-white dark:from-slate-950 dark:to-slate-900">
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="absolute right-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
+        <div className="absolute end-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-12">
             
             {/* Left Column: Text & CTA */}
-            <div className="flex-1 text-center lg:text-left rtl:lg:text-right">
+            <div className="flex-1 text-center lg:text-start rtl:lg:text-end">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -205,7 +205,7 @@ export default function LandingPage() {
                   </div>
                   
                   {/* Editor UI Elements Overlay */}
-                  <div className="absolute top-4 left-4 right-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 z-30">
+                  <div className="absolute top-4 start-4 end-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 z-30">
                     <div className="flex gap-2">
                       <div className="w-4 h-4 rounded-full bg-rose-400"></div>
                       <div className="w-4 h-4 rounded-full bg-amber-400"></div>
@@ -224,7 +224,7 @@ export default function LandingPage() {
                 <motion.div 
                   animate={{ y: [0, -15, 0], x: [0, 5, 0] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -top-8 -right-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 dark:border-slate-700/50 flex items-center gap-4 z-30"
+                  className="absolute -top-8 -end-8 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 dark:border-slate-700/50 flex items-center gap-4 z-30"
                 >
                   <div className="relative w-12 h-12 flex items-center justify-center">
                     <svg className="w-full h-full transform -rotate-90">
@@ -243,7 +243,7 @@ export default function LandingPage() {
                 <motion.div 
                   animate={{ y: [0, 15, 0], x: [0, -5, 0] }}
                   transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                  className="absolute bottom-12 -left-12 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 dark:border-slate-700/50 flex items-center gap-4 z-30"
+                  className="absolute bottom-12 -start-12 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 dark:border-slate-700/50 flex items-center gap-4 z-30"
                 >
                   <div className="flex -space-x-3 rtl:space-x-reverse">
                     {[1,2,3].map(i => (
@@ -316,7 +316,7 @@ export default function LandingPage() {
                 <motion.div 
                   initial={{ scale: 0.8, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
-                  className="absolute bottom-6 right-6 bg-[#ff4d2d] text-white p-4 rounded-2xl shadow-xl flex flex-col items-center"
+                  className="absolute bottom-6 end-6 bg-[#ff4d2d] text-white p-4 rounded-2xl shadow-xl flex flex-col items-center"
                 >
                   <span className="text-xs font-bold uppercase tracking-widest mb-1">{t.scoreBoost}</span>
                   <span className="text-3xl font-black">+40%</span>
@@ -362,8 +362,8 @@ export default function LandingPage() {
 
       {/* Hash Hunt Integration Section */}
       <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700 text-white overflow-hidden relative">
-        <div className="absolute top-0 left-0 w-full h-full opacity-10">
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
+        <div className="absolute top-0 start-0 w-full h-full opacity-10">
+          <div className="absolute top-0 start-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -374,7 +374,7 @@ export default function LandingPage() {
               viewport={{ once: true }}
             >
               <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold text-sm mb-6">
-                <Sparkles className="w-4 h-4 mr-2" />
+                <Sparkles className="w-4 h-4 me-2" />
                 {language === 'ar' ? 'جديد: Hash Hunt' : 'New: Hash Hunt'}
               </div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
@@ -431,7 +431,7 @@ export default function LandingPage() {
                   decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-blue-900/50 to-transparent" />
-                <div className="absolute bottom-12 left-12 right-12">
+                <div className="absolute bottom-12 start-12 end-12">
                   <div className="bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl">
                     <div className="flex items-center gap-4 mb-4">
                       <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-xl">
@@ -527,7 +527,7 @@ export default function LandingPage() {
 
             {/* Single Download Plan */}
             <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#ff4d2d] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
-              <div className="absolute top-0 right-0 bg-[#ff4d2d] text-white text-xs font-bold px-4 py-2 rounded-bl-xl uppercase tracking-wider">
+              <div className="absolute top-0 end-0 bg-[#ff4d2d] text-white text-xs font-bold px-4 py-2 rounded-es-xl uppercase tracking-wider">
                 {t.mostPopular}
               </div>
               
@@ -643,7 +643,7 @@ export default function LandingPage() {
       <FAQ />
 
       {/* Scroll to Top & Floating CTA */}
-      <div className="fixed bottom-8 right-8 z-40 flex flex-col gap-4">
+      <div className="fixed bottom-8 end-8 z-40 flex flex-col gap-4">
         {showScrollTop && (
           <motion.button
             initial={{ opacity: 0, scale: 0.5 }}
@@ -692,7 +692,7 @@ export default function LandingPage() {
               </div>
 
               <h4 className="text-white font-semibold mb-4 mt-8">{t.product}</h4>
-              <ul className="space-y-2 text-sm md:text-right">
+              <ul className="space-y-2 text-sm md:text-end">
                 <li><Link to="/templates" className="hover:text-white transition-colors">{t.resumeBuilder || 'Resume Builder'}</Link></li>
                 <li><Link to="/cover-letter" className="hover:text-white transition-colors">{t.coverLetter || 'Cover Letter'}</Link></li>
                 <li><Link to="/blog" className="hover:text-white transition-colors">{t.blog || 'Blog'}</Link></li>
@@ -700,7 +700,7 @@ export default function LandingPage() {
                 <li>
                   <button 
                     onClick={() => setShowFeedbackModal(true)} 
-                    className="hover:text-white transition-colors text-left w-full md:text-right"
+                    className="hover:text-white transition-colors text-start w-full md:text-end"
                   >
                     {t.feedback}
                   </button>
@@ -708,7 +708,7 @@ export default function LandingPage() {
               </ul>
 
               <h4 className="text-white font-semibold mb-4 mt-8">{language === 'ar' ? 'الثقة والأمان' : 'Trust & Safety'}</h4>
-              <ul className="space-y-2 text-sm md:text-right">
+              <ul className="space-y-2 text-sm md:text-end">
                 <li><Link to="/privacy" className="hover:text-white transition-colors">{language === 'ar' ? 'سياسة الخصوصية' : 'Privacy Policy'}</Link></li>
                 <li><Link to="/how-ats-works" className="hover:text-white transition-colors">{language === 'ar' ? 'كيف يعمل ATS' : 'How ATS Works'}</Link></li>
                 <li><Link to="/why-no-signup" className="hover:text-white transition-colors">{language === 'ar' ? 'لماذا لا نطلب التسجيل؟' : 'Why No Sign-up?'}</Link></li>

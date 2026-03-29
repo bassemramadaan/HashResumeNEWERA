@@ -101,7 +101,7 @@ export default function ATSAudit() {
             </div>
           </div>
           
-          <div className="text-center md:text-left">
+          <div className="text-center md:text-start">
             <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
               {score >= 80 ? t.greatJob : score >= 50 ? t.goodStart : t.needsImprovement}
             </h3>
@@ -193,7 +193,7 @@ export default function ATSAudit() {
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <Briefcase className="text-indigo-500 dark:text-indigo-400" size={24} />
-              {t.jobMatcher} <span className="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 text-xs px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ml-2">{t.free}</span>
+              {t.jobMatcher} <span className="bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 text-xs px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ms-2">{t.free}</span>
             </h3>
             <button 
               onClick={() => setShowMatcher(!showMatcher)}

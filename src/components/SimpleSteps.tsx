@@ -45,7 +45,7 @@ export default function SimpleSteps() {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
           {/* Connecting Line */}
-          <div className="hidden md:block absolute top-12 left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-emerald-200 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-emerald-500/20 z-0"></div>
+          <div className="hidden md:block absolute top-12 start-[15%] end-[15%] h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-emerald-200 dark:from-blue-500/20 dark:via-purple-500/20 dark:to-emerald-500/20 z-0"></div>
           
           {steps.map((step, index) => (
             <motion.div 
@@ -57,7 +57,7 @@ export default function SimpleSteps() {
               className="relative z-10 flex flex-col items-center text-center"
             >
               <div className={`w-24 h-24 rounded-full ${step.bg} ${step.border} border-2 flex items-center justify-center mb-6 shadow-sm relative`}>
-                <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-bold text-sm shadow-md">
+                <div className="absolute -top-3 -end-3 w-8 h-8 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 flex items-center justify-center font-bold text-sm shadow-md">
                   {index + 1}
                 </div>
                 <step.icon size={40} className={step.color} />

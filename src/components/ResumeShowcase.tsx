@@ -62,7 +62,7 @@ export default function ResumeShowcase() {
                   </div>
                   
                   <div className="grid grid-cols-3 gap-4 h-full">
-                    <div className="col-span-1 space-y-4 border-r border-slate-100 dark:border-slate-800 pr-2">
+                    <div className="col-span-1 space-y-4 border-e border-slate-100 dark:border-slate-800 pe-2">
                       <div className="space-y-1">
                         <div className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Contact</div>
                         <div className="h-1 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>

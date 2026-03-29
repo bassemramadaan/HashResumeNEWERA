@@ -144,7 +144,7 @@ const ProjectsForm = () => {
                                 updateProject(proj.id, { description: currentDesc + suggestion });
                                 setShowSuggestionsFor(null);
                               }}
-                              className="block w-full text-left text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800"
+                              className="block w-full text-start text-sm text-slate-600 dark:text-slate-300 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-white dark:hover:bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 dark:hover:border-indigo-800"
                             >
                               {suggestion}
                             </button>

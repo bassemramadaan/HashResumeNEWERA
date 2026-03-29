@@ -131,7 +131,7 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
 
       {/* Backup Section */}
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-sm relative overflow-hidden group">
-        <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110 duration-500" />
+        <div className="absolute top-0 end-0 w-32 h-32 bg-orange-500/5 rounded-full -me-16 -mt-16 transition-transform group-hover:scale-110 duration-500" />
         
         <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
           <div className="flex-1 space-y-3">

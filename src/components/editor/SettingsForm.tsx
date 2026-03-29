@@ -26,6 +26,9 @@ const TEMPLATES = [
   { id: 'medical', name: 'Medical', description: 'Clean and clinical layout' },
   { id: 'legal', name: 'Legal', description: 'Formal and authoritative' },
   { id: 'academic', name: 'Academic', description: 'Detailed and comprehensive' },
+  { id: 'arabic', name: 'Arabic (RTL)', description: 'Optimized for Arabic language with RTL support' },
+  { id: 'engineering', name: 'Engineering', description: 'Technical and structured layout' },
+  { id: 'finance', name: 'Finance', description: 'Professional and data-focused' },
 ] as const;
 
 export default React.memo(function SettingsForm() {
@@ -140,14 +143,14 @@ export default React.memo(function SettingsForm() {
                 key={template.id}
                 onClick={() => updateSettings({ template: template.id })}
                 className={cn(
-                  "p-4 rounded-xl border-2 text-left transition-all relative overflow-hidden group",
+                  "p-4 rounded-xl border-2 text-start transition-all relative overflow-hidden group",
                   settings.template === template.id
                     ? "border-orange-500 bg-orange-50 dark:bg-orange-900/20 shadow-sm"
                     : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800/50"
                 )}
               >
                 {settings.template === template.id && (
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-orange-500/10 dark:bg-orange-500/20 rounded-bl-full -mr-8 -mt-8 transition-transform group-hover:scale-110" />
+                  <div className="absolute top-0 end-0 w-16 h-16 bg-orange-500/10 dark:bg-orange-500/20 rounded-bl-full -me-8 -mt-8 transition-transform group-hover:scale-110" />
                 )}
                 <div className={cn(
                   "font-bold mb-1 transition-colors relative z-10",
@@ -316,7 +319,7 @@ export default React.memo(function SettingsForm() {
             </label>
             <button
               onClick={() => setShowResetConfirm(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 text-red-600 dark:text-red-400 rounded-xl hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors text-sm font-bold shadow-sm ml-auto"
+              className="flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 text-red-600 dark:text-red-400 rounded-xl hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors text-sm font-bold shadow-sm ms-auto"
             >
               Reset All Data
             </button>

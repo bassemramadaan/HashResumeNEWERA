@@ -239,7 +239,7 @@ export default function EditorPage() {
       <OnboardingTour />
       
       {/* Floating Dock Navbar (Top) */}
-      <div className="fixed top-4 left-1/2 -translate-x-1/2 flex justify-center z-50 px-4 pointer-events-none w-full max-w-5xl">
+      <div className="fixed top-4 start-1/2 -translate-x-1/2 flex justify-center z-50 px-4 pointer-events-none w-full max-w-5xl">
         <nav className="pointer-events-auto flex items-center gap-2 p-2 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-white/20 dark:border-slate-800/50 shadow-2xl transition-all duration-300 hover:scale-[1.01] w-full justify-between sm:justify-start">
           
           <div className="flex items-center gap-2">
@@ -482,7 +482,7 @@ export default function EditorPage() {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.5, y: 20 }}
                     onClick={scrollToFormTop}
-                    className="md:hidden fixed bottom-24 right-6 w-10 h-10 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-full shadow-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center z-40 active:scale-90 transition-transform"
+                    className="md:hidden fixed bottom-24 end-6 w-10 h-10 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-full shadow-xl border border-slate-200 dark:border-slate-700 flex items-center justify-center z-40 active:scale-90 transition-transform"
                   >
                     <ArrowUp size={20} />
                   </motion.button>
@@ -496,14 +496,14 @@ export default function EditorPage() {
         <div 
           data-tour="preview-pane"
           className={cn(
-            "bg-slate-100 dark:bg-slate-900/40 border-l border-slate-200 dark:border-slate-800 flex-col h-full overflow-hidden relative transition-colors duration-200",
+            "bg-slate-100 dark:bg-slate-900/40 border-s border-slate-200 dark:border-slate-800 flex-col h-full overflow-hidden relative transition-colors duration-200",
             showMobilePreview ? "flex w-full absolute inset-0 z-50 bg-white dark:bg-slate-950" : "hidden md:flex md:w-[45%] lg:w-[50%]"
           )}
         >
-          <div className="h-14 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 shrink-0 absolute top-0 left-0 right-0 z-10 transition-colors duration-200">
+          <div className="h-14 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200">
             <div className="flex items-center gap-2">
               {showMobilePreview && (
-                <button onClick={() => setShowMobilePreview(false)} className="mr-2 p-2 -ml-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg md:hidden text-slate-700 dark:text-slate-300">
+                <button onClick={() => setShowMobilePreview(false)} className="me-2 p-2 -ms-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg md:hidden text-slate-700 dark:text-slate-300">
                   <ChevronLeft size={20} />
                 </button>
               )}
@@ -564,7 +564,7 @@ export default function EditorPage() {
       </div>
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-full border border-white/20 dark:border-slate-800/50 shadow-2xl transition-all duration-300 mb-safe p-2">
+      <div className="fixed bottom-6 start-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-full border border-white/20 dark:border-slate-800/50 shadow-2xl transition-all duration-300 mb-safe p-2">
         <div className="flex items-center gap-1">
           {tabs.map((tab) => {
             const Icon = tab.icon;

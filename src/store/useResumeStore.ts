@@ -88,7 +88,7 @@ export type ResumeData = {
   certifications: Certification[];
   customSections: CustomSection[];
   settings: {
-    template: 'modern' | 'classic' | 'creative' | 'minimal' | 'tech' | 'executive' | 'medical' | 'legal' | 'academic' | 'professional' | 'elegant';
+    template: 'modern' | 'classic' | 'creative' | 'minimal' | 'tech' | 'executive' | 'medical' | 'legal' | 'academic' | 'professional' | 'elegant' | 'arabic' | 'engineering' | 'finance';
     themeColor: string;
     language: 'en' | 'ar' | 'fr';
     isFreshGrad: boolean;

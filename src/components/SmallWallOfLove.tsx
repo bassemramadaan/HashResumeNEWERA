@@ -53,8 +53,8 @@ export default function SmallWallOfLove() {
       {/* Marquee Container */}
       <div className="relative w-full flex overflow-hidden group py-4">
         {/* Left/Right Gradient Masks for smooth fade out */}
-        <div className="absolute top-0 left-0 w-12 md:w-32 h-full bg-gradient-to-r from-white dark:from-slate-950 to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 right-0 w-12 md:w-32 h-full bg-gradient-to-l from-white dark:from-slate-950 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 start-0 w-12 md:w-32 h-full bg-gradient-to-r from-white dark:from-slate-950 to-transparent z-10 pointer-events-none" />
+        <div className="absolute top-0 end-0 w-12 md:w-32 h-full bg-gradient-to-l from-white dark:from-slate-950 to-transparent z-10 pointer-events-none" />
         
         <motion.div 
           className="flex gap-6 px-4 w-max"

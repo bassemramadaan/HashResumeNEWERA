@@ -54,9 +54,9 @@ export default function Testimonials() {
   return (
     <section id="testimonials" className="py-16 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
       {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-orange-500/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-500/20 blur-[120px]" />
+      <div className="absolute top-0 start-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+        <div className="absolute top-[-10%] start-[-10%] w-[40%] h-[40%] rounded-full bg-orange-500/20 blur-[120px]" />
+        <div className="absolute bottom-[-10%] end-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-500/20 blur-[120px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -90,7 +90,7 @@ export default function Testimonials() {
               transition={{ delay: index * 0.05 }}
               className="break-inside-avoid bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-slate-200 dark:border-slate-800 hover:border-[#ff4d2d]/40 transition-all duration-500 group relative shadow-sm hover:shadow-xl hover:shadow-orange-500/5 hover:-translate-y-1"
             >
-              <div className="absolute top-6 right-8 opacity-10 group-hover:opacity-20 transition-opacity">
+              <div className="absolute top-6 end-8 opacity-10 group-hover:opacity-20 transition-opacity">
                 <Quote size={40} className="text-[#ff4d2d]" />
               </div>
               
