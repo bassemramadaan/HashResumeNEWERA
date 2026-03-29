@@ -52,7 +52,7 @@ export default function Testimonials() {
   const t = translations[language].landing;
 
   return (
-    <section id="testimonials" className="py-24 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
+    <section id="testimonials" className="py-16 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-orange-500/20 blur-[120px]" />
@@ -60,7 +60,7 @@ export default function Testimonials() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div className="max-w-2xl">
             <motion.div
               initial={{ opacity: 0, x: -20 }}

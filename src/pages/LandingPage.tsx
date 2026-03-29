@@ -55,13 +55,13 @@ export default function LandingPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-40 overflow-hidden bg-gradient-to-b from-orange-50 to-white dark:from-slate-950 dark:to-slate-900">
+      <section className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-gradient-to-b from-orange-50 to-white dark:from-slate-950 dark:to-slate-900">
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute right-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-12">
             
             {/* Left Column: Text & CTA */}
             <div className="flex-1 text-center lg:text-left rtl:lg:text-right">
@@ -266,9 +266,9 @@ export default function LandingPage() {
       <ProductShowcase />
 
       {/* ATS Audit Showcase */}
-      <section className="py-24 bg-white dark:bg-slate-950 overflow-hidden">
+      <section className="py-16 bg-white dark:bg-slate-950 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
+          <div className="flex flex-col lg:flex-row items-center gap-10">
             <div className="flex-1 relative order-2 lg:order-1">
               <div className="absolute -inset-4 bg-indigo-500/10 rounded-[2rem] blur-3xl -z-10"></div>
               <div className="bg-slate-50 dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl relative overflow-hidden">
@@ -361,13 +361,13 @@ export default function LandingPage() {
       </section>
 
       {/* Hash Hunt Integration Section */}
-      <section className="py-24 bg-gradient-to-br from-blue-600 to-indigo-700 text-white overflow-hidden relative">
+      <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-700 text-white overflow-hidden relative">
         <div className="absolute top-0 left-0 w-full h-full opacity-10">
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent" />
         </div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <motion.div
               initial={{ opacity: 0, x: language === 'ar' ? 50 : -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -454,9 +454,9 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-24 bg-white dark:bg-slate-950 relative overflow-hidden">
+      <section id="pricing" className="py-16 bg-white dark:bg-slate-950 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 font-display tracking-tight">
               {t.pricingTitle}
             </h2>
@@ -579,9 +579,9 @@ export default function LandingPage() {
       </section>
 
       {/* Latest Blog Posts */}
-      <section className="py-24 bg-white dark:bg-slate-950">
+      <section className="py-16 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
+          <div className="flex justify-between items-end mb-8">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4 font-display">
                 {t.latestBlog}

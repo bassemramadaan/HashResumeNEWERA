@@ -43,8 +43,8 @@ export default function SmallWallOfLove() {
   const duplicatedReviews = [...reviews, ...reviews];
 
   return (
-    <section className="py-12 bg-white dark:bg-slate-950 border-y border-slate-100 dark:border-slate-900 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+    <section className="py-8 bg-white dark:bg-slate-950 border-y border-slate-100 dark:border-slate-900 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
         <p className="text-center text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
           {language === 'ar' ? 'آراء مستخدمينا' : 'Wall of Love'}
         </p>

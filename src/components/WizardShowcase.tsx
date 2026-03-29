@@ -42,7 +42,7 @@ export default function WizardShowcase() {
   }, [steps.length]);
 
   return (
-    <section className="py-32 bg-slate-50 dark:bg-slate-950 overflow-hidden relative">
+    <section className="py-16 bg-slate-50 dark:bg-slate-950 overflow-hidden relative">
       {/* Background graphics */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       
@@ -80,7 +80,7 @@ export default function WizardShowcase() {
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-20">
+        <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-[#ff4d2d] dark:text-orange-400 font-medium text-sm mb-6 border border-orange-200 dark:border-orange-800/50">
             <Sparkles size={16} />
             {language === 'ar' ? 'عملية مبسطة' : 'Streamlined Process'}
@@ -95,7 +95,7 @@ export default function WizardShowcase() {
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-center gap-16">
+        <div className="flex flex-col lg:flex-row items-center gap-10">
           {/* Steps Navigation */}
           <div className="w-full lg:w-5/12 space-y-6 relative">
             {/* Connecting line */}
