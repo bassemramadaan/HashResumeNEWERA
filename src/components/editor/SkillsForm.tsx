@@ -48,13 +48,13 @@ const SkillsForm = () => {
               id="skillInput"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="flex-1 px-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="flex-1 px-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. React, Project Management..."
             />
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 dark:disabled:from-slate-700 dark:disabled:to-slate-700 disabled:text-slate-500 text-white px-4 py-2.5 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm shadow-indigo-500/20"
+              className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 dark:disabled:from-slate-700 dark:disabled:to-slate-700 disabled:text-slate-500 text-white px-4 py-2 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm shadow-indigo-500/20"
             >
               <Plus size={18} />
               <span className="hidden sm:inline">Add</span>
@@ -63,7 +63,7 @@ const SkillsForm = () => {
         </form>
 
         <div className="mb-8">
-          <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3">Your Skills</h3>
+          <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4">Your Skills</h3>
           {skills.length === 0 ? (
             <p className="text-sm text-slate-400 italic">No skills added yet.</p>
           ) : (
@@ -71,7 +71,7 @@ const SkillsForm = () => {
               {skills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-sm font-medium group transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-sm font-medium group transition-colors"
                 >
                   {skill}
                   <button
@@ -89,7 +89,7 @@ const SkillsForm = () => {
 
         {/* ATS Hint */}
         {jobDescription && matchResults && (
-          <div className="mb-8 text-xs flex items-start gap-1.5 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
+          <div className="mb-8 text-xs flex items-start gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
             <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
             <div className="text-slate-600 dark:text-slate-400">
               <span className="font-semibold text-slate-700 dark:text-slate-300">ATS Hint: </span>
@@ -104,7 +104,7 @@ const SkillsForm = () => {
 
         {unaddedSuggestions.length > 0 && (
           <div>
-            <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-3 flex items-center gap-1.5">
+            <h3 className="text-sm font-medium text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-2">
               <Sparkles size={14} className="text-indigo-500 dark:text-indigo-400" />
               AI Suggested Skills (Free)
             </h3>
@@ -113,7 +113,7 @@ const SkillsForm = () => {
                 <button
                   key={skill}
                   onClick={() => addSkill(skill)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-700 dark:hover:text-indigo-300 hover:border-indigo-200 dark:hover:border-indigo-800 text-sm font-medium transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-700 dark:hover:text-indigo-300 hover:border-indigo-200 dark:hover:border-indigo-800 text-sm font-medium transition-colors"
                 >
                   <Plus size={14} />
                   {skill}

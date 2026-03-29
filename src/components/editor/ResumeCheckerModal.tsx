@@ -164,7 +164,7 @@ export default function ResumeCheckerModal({ isOpen, onClose, onProceed }: Resum
                   <div 
                     key={check.id} 
                     className={cn(
-                      "flex items-start gap-3 p-3 rounded-xl border transition-colors",
+                      "flex items-start gap-4 p-4 rounded-xl border transition-colors",
                       check.passed 
                         ? "bg-emerald-50/50 border-emerald-100 dark:bg-emerald-900/10 dark:border-emerald-900/30" 
                         : "bg-rose-50/50 border-rose-100 dark:bg-rose-900/10 dark:border-rose-900/30"

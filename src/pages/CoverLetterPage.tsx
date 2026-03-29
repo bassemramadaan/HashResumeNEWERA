@@ -104,7 +104,7 @@ export default function CoverLetterPage() {
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Job Details</h2>
             <button
               onClick={importFromResume}
-              className="flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 px-3 py-1.5 rounded-lg transition-colors"
+              className="flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 px-4 py-2 rounded-lg transition-colors"
               title="Import Name, Job Title, and Skills from your resume"
             >
               <Import size={16} />
@@ -190,16 +190,16 @@ export default function CoverLetterPage() {
           <button
             onClick={generateCoverLetter}
             disabled={!formData.fullName || !formData.jobTitle || !formData.companyName || isGenerating}
-            className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 dark:disabled:from-slate-700 dark:disabled:to-slate-700 disabled:text-slate-500 text-white px-6 py-3 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-95"
+            className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 dark:disabled:from-slate-700 dark:disabled:to-slate-700 disabled:text-slate-500 text-white px-6 py-4 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-95"
           >
             {isGenerating ? (
               <>
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 Generating...
               </>
             ) : (
               <>
-                <div className="bg-white/20 rounded-full p-1.5 group-hover:rotate-12 transition-transform">
+                <div className="bg-white/20 rounded-full p-2 group-hover:rotate-12 transition-transform">
                   <Sparkles size={16} className="text-white" />
                 </div>
                 Generate Cover Letter

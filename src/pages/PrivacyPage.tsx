@@ -29,7 +29,7 @@ export default function PrivacyPage() {
         <div className="space-y-12">
           <section className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <div className="flex items-start gap-4 mb-4">
-              <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl text-emerald-600 dark:text-emerald-400">
+              <div className="p-4 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl text-emerald-600 dark:text-emerald-400">
                 <Server size={24} />
               </div>
               <div>
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
 
           <section className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <div className="flex items-start gap-4 mb-4">
-              <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl text-blue-600 dark:text-blue-400">
+              <div className="p-4 bg-blue-100 dark:bg-blue-900/30 rounded-xl text-blue-600 dark:text-blue-400">
                 <EyeOff size={24} />
               </div>
               <div>
@@ -61,7 +61,7 @@ export default function PrivacyPage() {
 
           <section className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <div className="flex items-start gap-4 mb-4">
-              <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl text-purple-600 dark:text-purple-400">
+              <div className="p-4 bg-purple-100 dark:bg-purple-900/30 rounded-xl text-purple-600 dark:text-purple-400">
                 <Lock size={24} />
               </div>
               <div>
@@ -77,7 +77,7 @@ export default function PrivacyPage() {
 
           <section className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <div className="flex items-start gap-4 mb-4">
-              <div className="p-3 bg-orange-100 dark:bg-orange-900/30 rounded-xl text-[#ff4d2d]">
+              <div className="p-4 bg-orange-100 dark:bg-orange-900/30 rounded-xl text-[#ff4d2d]">
                 <FileText size={24} />
               </div>
               <div>

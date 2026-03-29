@@ -29,9 +29,9 @@ export default function ProductShowcase() {
             {/* Left Panel: Editor */}
             <div className="flex-1 border-r border-slate-200 dark:border-slate-800 p-8 flex flex-col bg-slate-50/50 dark:bg-slate-900/50" dir="ltr">
               <div className="flex items-center gap-2 mb-6">
-                <div className="w-3 h-3 rounded-full bg-rose-400"></div>
-                <div className="w-3 h-3 rounded-full bg-amber-400"></div>
-                <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
+                <div className="w-4 h-4 rounded-full bg-rose-400"></div>
+                <div className="w-4 h-4 rounded-full bg-amber-400"></div>
+                <div className="w-4 h-4 rounded-full bg-emerald-400"></div>
                 <div className="ml-4 text-sm font-medium text-slate-400">Experience Editor</div>
               </div>
 
@@ -44,7 +44,7 @@ export default function ProductShowcase() {
                       backgroundColor: step >= 1 ? '#ff4d2d' : '#fff7ed',
                       color: step >= 1 ? '#ffffff' : '#ff4d2d'
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-colors border border-orange-100 dark:border-orange-900/30"
+                    className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-colors border border-orange-100 dark:border-orange-900/30"
                   >
                     <Sparkles size={14} />
                     AI Enhance
@@ -76,7 +76,7 @@ export default function ProductShowcase() {
                           <motion.span 
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
-                            className="text-orange-500 mt-1"
+                            className="text-orange-500 mt-2"
                           >•</motion.span>
                           <span>Spearheaded the development of scalable web applications using React and Node.js, improving load times by 40%.</span>
                         </div>
@@ -85,7 +85,7 @@ export default function ProductShowcase() {
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
                             transition={{ delay: 0.2 }}
-                            className="text-orange-500 mt-1"
+                            className="text-orange-500 mt-2"
                           >•</motion.span>
                           <span>Resolved 50+ critical bugs, increasing overall system stability and user satisfaction.</span>
                         </div>
@@ -99,9 +99,9 @@ export default function ProductShowcase() {
             {/* Right Panel: ATS Score */}
             <div className="w-full md:w-80 bg-white dark:bg-slate-900 p-8 flex flex-col items-center justify-center border-t md:border-t-0 md:border-l border-slate-200 dark:border-slate-800" dir="ltr">
               <div className="text-center mb-8">
-                <Target className="w-8 h-8 text-orange-500 mx-auto mb-3" />
+                <Target className="w-8 h-8 text-orange-500 mx-auto mb-4" />
                 <h3 className="font-bold text-slate-900 dark:text-white">Live ATS Score</h3>
-                <p className="text-xs text-slate-500 mt-1">Updates as you type</p>
+                <p className="text-xs text-slate-500 mt-2">Updates as you type</p>
               </div>
 
               <div className="relative w-40 h-40 flex items-center justify-center mb-8">

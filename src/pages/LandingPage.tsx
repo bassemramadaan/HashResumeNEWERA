@@ -66,11 +66,11 @@ export default function LandingPage() {
             {/* Left Column: Text & CTA */}
             <div className="flex-1 text-center lg:text-left rtl:lg:text-right">
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-900/20 text-[#ff4d2d] text-xs font-bold uppercase tracking-wider mb-6 border border-orange-100 dark:border-orange-800/30 shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 dark:bg-orange-900/20 text-[#ff4d2d] text-xs font-bold uppercase tracking-wider mb-8 border border-orange-100 dark:border-orange-800/30 shadow-sm"
               >
                 <Zap size={14} className="fill-current" />
                 <span>{t.aiPowered}</span>
@@ -102,15 +102,15 @@ export default function LandingPage() {
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.25 }}
-                className="flex items-center justify-center lg:justify-start gap-4 mb-10"
+                className="flex items-center justify-center lg:justify-start gap-4 mb-8"
               >
-                <div className="flex gap-1">
+                <div className="flex gap-2">
                   {[1, 2, 3, 4, 5].map((star) => (
-                    <svg key={star} className="w-5 h-5 text-amber-400 fill-current" viewBox="0 0 20 20">
+                    <svg key={star} className="w-6 h-6 text-amber-400 fill-current" viewBox="0 0 20 20">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
                   ))}
@@ -140,17 +140,17 @@ export default function LandingPage() {
               {/* Stats Section */}
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto lg:mx-0">
                 {[
-                  { icon: <CheckCircle2 className="w-5 h-5 text-emerald-500" />, text: t.interviewIncrease },
-                  { icon: <Clock className="w-5 h-5 text-blue-500" />, text: t.timeSaved },
-                  { icon: <ShieldCheck className="w-5 h-5 text-purple-500" />, text: t.atsPassRate },
+                  { icon: <CheckCircle2 className="w-6 h-6 text-emerald-500" />, text: t.interviewIncrease },
+                  { icon: <Clock className="w-6 h-6 text-blue-500" />, text: t.timeSaved },
+                  { icon: <ShieldCheck className="w-6 h-6 text-purple-500" />, text: t.atsPassRate },
                 ].map((stat, i) => (
                   <motion.div
                     key={i}
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 8 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.4 + i * 0.1 }}
-                    className="flex items-center gap-2 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm p-3 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm"
+                    className="flex items-center gap-2 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm p-4 rounded-xl border border-slate-100 dark:border-slate-800 shadow-sm"
                   >
                     {stat.icon}
                     <span className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tight">{stat.text}</span>
@@ -178,8 +178,8 @@ export default function LandingPage() {
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800" />
                       <div className="flex-1 space-y-2">
-                        <div className="h-4 w-3/4 bg-slate-100 dark:bg-slate-800 rounded" />
-                        <div className="h-3 w-1/2 bg-slate-50 dark:bg-slate-800/50 rounded" />
+                        <div className="h-4 w-4/5 bg-slate-100 dark:bg-slate-800 rounded" />
+                        <div className="h-4 w-1/2 bg-slate-50 dark:bg-slate-800/50 rounded" />
                       </div>
                     </div>
                     {/* Content Mockup */}
@@ -189,10 +189,10 @@ export default function LandingPage() {
                       <div className="h-2 w-2/3 bg-slate-50 dark:bg-slate-800/50 rounded" />
                     </div>
                     <div className="mt-4 space-y-4">
-                      <div className="h-3 w-1/3 bg-slate-100 dark:bg-slate-800 rounded" />
+                      <div className="h-4 w-1/3 bg-slate-100 dark:bg-slate-800 rounded" />
                       <div className="space-y-2">
                         <div className="h-2 w-full bg-slate-50 dark:bg-slate-800/50 rounded" />
-                        <div className="h-2 w-5/6 bg-slate-50 dark:bg-slate-800/50 rounded" />
+                        <div className="h-2 w-4/5 bg-slate-50 dark:bg-slate-800/50 rounded" />
                       </div>
                     </div>
                     <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
@@ -205,16 +205,16 @@ export default function LandingPage() {
                   </div>
                   
                   {/* Editor UI Elements Overlay */}
-                  <div className="absolute top-4 left-4 right-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-3 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 z-30">
+                  <div className="absolute top-4 left-4 right-4 flex justify-between items-center bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm p-4 rounded-xl shadow-lg border border-slate-200/50 dark:border-slate-700/50 z-30">
                     <div className="flex gap-2">
-                      <div className="w-3 h-3 rounded-full bg-rose-400"></div>
-                      <div className="w-3 h-3 rounded-full bg-amber-400"></div>
-                      <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
+                      <div className="w-4 h-4 rounded-full bg-rose-400"></div>
+                      <div className="w-4 h-4 rounded-full bg-amber-400"></div>
+                      <div className="w-4 h-4 rounded-full bg-emerald-400"></div>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="h-2 w-16 bg-slate-200 dark:bg-slate-700 rounded-md"></div>
                       <div className="w-6 h-6 rounded bg-indigo-500 flex items-center justify-center">
-                        <Sparkles size={12} className="text-white" />
+                        <Sparkles size={16} className="text-white" />
                       </div>
                     </div>
                   </div>
@@ -278,12 +278,12 @@ export default function LandingPage() {
                     <Target className="text-indigo-500" size={20} />
                     <span className="font-bold text-slate-900 dark:text-white">{t.atsAuditReport}</span>
                   </div>
-                  <div className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold rounded-full">95/100</div>
+                  <div className="px-4 py-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold rounded-full">95/100</div>
                 </div>
 
                 <div className="space-y-6">
                   <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
-                    <div className="flex items-center gap-3 mb-3">
+                    <div className="flex items-center gap-4 mb-4">
                       <CheckCircle2 className="text-emerald-500" size={18} />
                       <span className="text-sm font-bold text-slate-900 dark:text-white">{t.keywordsMatched}</span>
                     </div>
@@ -295,17 +295,17 @@ export default function LandingPage() {
                   </div>
 
                   <div className="p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm">
-                    <div className="flex items-center gap-3 mb-3">
+                    <div className="flex items-center gap-4 mb-4">
                       <TrendingUp className="text-indigo-500" size={18} />
                       <span className="text-sm font-bold text-slate-900 dark:text-white">{t.improvementSuggestions}</span>
                     </div>
                     <div className="space-y-2">
                       <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
+                        <div className="w-2 h-2 rounded-full bg-amber-400 mt-2 shrink-0" />
                         <p className="text-xs text-slate-600 dark:text-slate-400">Add more quantifiable metrics to your experience descriptions.</p>
                       </div>
                       <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
+                        <div className="w-2 h-2 rounded-full bg-emerald-400 mt-2 shrink-0" />
                         <p className="text-xs text-slate-600 dark:text-slate-400 text-emerald-600 dark:text-emerald-400 font-medium line-through opacity-50">Missing LinkedIn profile URL.</p>
                       </div>
                     </div>
@@ -325,7 +325,7 @@ export default function LandingPage() {
             </div>
 
             <div className="flex-1 space-y-8 order-1 lg:order-2">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 dark:bg-orange-900/30 text-[#ff4d2d] text-sm font-bold border border-orange-100 dark:border-orange-800">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 dark:bg-orange-900/30 text-[#ff4d2d] text-sm font-bold border border-orange-100 dark:border-orange-800">
                 <Target size={16} />
                 {t.beatAts}
               </div>
@@ -467,12 +467,12 @@ export default function LandingPage() {
 
           {/* Currency Switcher */}
           <div className="flex justify-center mb-12">
-            <div className="inline-flex p-1.5 bg-slate-100 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner backdrop-blur-sm">
+            <div className="inline-flex p-2 bg-slate-100 dark:bg-slate-900/50 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner backdrop-blur-sm">
               {Object.keys(currencies).map((c) => (
                 <button
                   key={c}
                   onClick={() => setCurrency(c as keyof typeof currencies)}
-                  className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 ${currency === c ? 'bg-white dark:bg-slate-800 text-[#ff4d2d] shadow-md ring-1 ring-black/5 dark:ring-white/5' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
+                  className={`px-6 py-2 rounded-xl text-sm font-bold transition-all duration-300 ${currency === c ? 'bg-white dark:bg-slate-800 text-[#ff4d2d] shadow-md ring-1 ring-black/5 dark:ring-white/5' : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'}`}
                 >
                   {c}
                 </button>
@@ -527,7 +527,7 @@ export default function LandingPage() {
 
             {/* Single Download Plan */}
             <div className="relative bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-xl border-2 border-[#ff4d2d] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
-              <div className="absolute top-0 right-0 bg-[#ff4d2d] text-white text-xs font-bold px-3 py-1 rounded-bl-xl uppercase tracking-wider">
+              <div className="absolute top-0 right-0 bg-[#ff4d2d] text-white text-xs font-bold px-4 py-2 rounded-bl-xl uppercase tracking-wider">
                 {t.mostPopular}
               </div>
               
@@ -544,7 +544,7 @@ export default function LandingPage() {
                       <>{selectedCurrency.symbol}{selectedCurrency.price}</>
                     )}
                   </span>
-                  <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-800">
+                  <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider border border-emerald-100 dark:border-emerald-800">
                     <CheckCircle2 size={14} />
                     {t.noSubscriptionPayOnce}
                   </div>
@@ -560,7 +560,7 @@ export default function LandingPage() {
                   t.noWatermark,
                   t.noHiddenFees
                 ].map((feature, i) => (
-                  <li key={i} className="flex items-start gap-3 text-slate-700 dark:text-slate-300">
+                  <li key={i} className="flex items-start gap-4 text-slate-700 dark:text-slate-300">
                     <CheckCircle2 className="text-[#ff4d2d] shrink-0 mt-0.5" size={20} />
                     <span className="text-sm leading-tight font-medium">{feature}</span>
                   </li>
@@ -590,7 +590,7 @@ export default function LandingPage() {
                 {t.blogSubtitle}
               </p>
             </div>
-            <Link to="/blog" className="hidden sm:flex items-center gap-2 text-[#ff4d2d] font-medium hover:gap-3 transition-all">
+            <Link to="/blog" className="hidden sm:flex items-center gap-2 text-[#ff4d2d] font-medium hover:gap-4 transition-all">
               {t.viewAllArticles}
               <ArrowRight size={20} className="rtl:rotate-180" />
             </Link>
@@ -608,7 +608,7 @@ export default function LandingPage() {
                     decoding="async"
                   />
                 </Link>
-                <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-3">
+                <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-4">
                   <span className="flex items-center gap-1">
                     <Calendar size={14} />
                     {post.date}

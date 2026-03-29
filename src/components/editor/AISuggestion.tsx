@@ -57,7 +57,7 @@ export default function AISuggestion({ currentValue, onApply, context }: AISugge
   if (!currentValue.trim()) return null;
 
   return (
-    <div className="mt-2 p-3 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50">
+    <div className="mt-2 p-4 rounded-xl bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800/50">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
           <Sparkles size={14} className="animate-pulse" />
@@ -89,14 +89,14 @@ export default function AISuggestion({ currentValue, onApply, context }: AISugge
                 onApply(suggestion);
                 setSuggestion(null);
               }}
-              className="flex items-center gap-1 px-3 py-1 bg-indigo-600 text-white rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-colors"
+              className="flex items-center gap-1 px-4 py-1 bg-indigo-600 text-white rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-colors"
             >
               <Check size={12} />
               {language === 'ar' ? 'تطبيق' : 'Apply'}
             </button>
             <button 
               onClick={generateSuggestion}
-              className="flex items-center gap-1 px-3 py-1 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 rounded-lg text-[10px] font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+              className="flex items-center gap-1 px-4 py-1 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 rounded-lg text-[10px] font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
             >
               <RefreshCw size={12} />
               {language === 'ar' ? 'إعادة المحاولة' : 'Retry'}

@@ -47,7 +47,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <p className="text-slate-600 dark:text-slate-400 mb-6">
               We're sorry, but an unexpected error occurred. Please try refreshing the page.
             </p>
-            <div className="flex gap-3 justify-center">
+            <div className="flex gap-4 justify-center">
               <button
                 onClick={() => window.location.reload()}
                 className="bg-indigo-600 text-white px-6 py-2 rounded-full font-medium hover:bg-indigo-700 transition-colors"

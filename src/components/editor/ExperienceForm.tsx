@@ -55,7 +55,7 @@ const ExperienceForm = () => {
                 className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                 onClick={() => setExpandedId(expandedId === exp.id ? null : exp.id)}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <div 
                     className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                     onClick={(e) => e.stopPropagation()}
@@ -67,7 +67,7 @@ const ExperienceForm = () => {
                     <p className="text-sm text-slate-500 dark:text-slate-400">{exp.company || 'Company Name'} • {exp.startDate || 'Start'} - {exp.endDate || 'End'}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation(); 
@@ -99,7 +99,7 @@ const ExperienceForm = () => {
                         type="text"
                         value={exp.position}
                         onChange={(e) => updateExperience(exp.id, { position: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. Software Engineer"
                       />
                     </div>
@@ -109,7 +109,7 @@ const ExperienceForm = () => {
                         type="text"
                         value={exp.company}
                         onChange={(e) => updateExperience(exp.id, { company: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. Google"
                       />
                     </div>
@@ -119,7 +119,7 @@ const ExperienceForm = () => {
                         type="month"
                         value={exp.startDate}
                         onChange={(e) => updateExperience(exp.id, { startDate: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -128,7 +128,7 @@ const ExperienceForm = () => {
                         type="text"
                         value={exp.endDate}
                         onChange={(e) => updateExperience(exp.id, { endDate: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. Present or YYYY-MM"
                       />
                     </div>
@@ -169,13 +169,13 @@ const ExperienceForm = () => {
                         rows={5}
                         value={exp.description}
                         onChange={(e) => updateExperience(exp.id, { description: e.target.value })}
-                        className="block w-full p-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full p-4 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="• Describe your responsibilities and achievements..."
                       />
                       
                       {/* ATS Hint */}
                       {jobDescription && matchResults && (
-                        <div className="mt-2 text-xs flex items-start gap-1.5 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
+                        <div className="mt-2 text-xs flex items-start gap-2 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
                           <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
                           <div className="text-slate-600 dark:text-slate-400">
                             <span className="font-semibold text-slate-700 dark:text-slate-300">ATS Hint: </span>

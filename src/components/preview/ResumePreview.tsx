@@ -50,7 +50,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
 
   const FreshGradBadge = () => (
     settings.isFreshGrad ? (
-      <div className="absolute top-4 right-4 z-50 bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full border border-emerald-200 shadow-sm print:hidden flex items-center gap-1.5 opacity-80 hover:opacity-100 transition-opacity">
+      <div className="absolute top-4 right-4 z-50 bg-emerald-100 text-emerald-700 text-xs font-bold px-4 py-1 rounded-full border border-emerald-200 shadow-sm print:hidden flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
         <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
         {lang === 'ar' ? 'وضع حديثي التخرج' : 'Fresh Graduate Mode'}
       </div>
@@ -85,7 +85,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
             if (!personalInfo.summary) return null;
             return (
               <section key="summary" className="mb-8">
-                <h3 className="text-lg font-bold uppercase tracking-wider mb-3 flex items-center gap-2" style={{ color: themeColor }}>
+                <h3 className="text-lg font-bold uppercase tracking-wider mb-4 flex items-center gap-2" style={{ color: themeColor }}>
                   <span className="w-6 h-0.5 bg-current rounded-full"></span>
                   {labels.summary}
                 </h3>
@@ -103,7 +103,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
                 <div className="space-y-6">
                   {experience.map((exp) => (
                     <div key={exp.id} className="relative ps-4 border-s-2 border-slate-200">
-                      <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -start-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
+                      <div className="absolute w-2 h-2 bg-white border-2 rounded-full -start-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
                       <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                         <h4 className="font-bold text-slate-900 text-[15px]">{exp.position}</h4>
                         <span className="text-sm font-medium text-slate-500">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
@@ -126,7 +126,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
                 <div className="space-y-5">
                   {education.map((edu) => (
                     <div key={edu.id} className="relative ps-4 border-s-2 border-slate-200">
-                      <div className="absolute w-2.5 h-2.5 bg-white border-2 rounded-full -start-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
+                      <div className="absolute w-2 h-2 bg-white border-2 rounded-full -start-[6px] top-1.5" style={{ borderColor: themeColor }}></div>
                       <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
                         <h4 className="font-bold text-slate-900 text-[15px]">{edu.degree}</h4>
                         <span className="text-sm font-medium text-slate-500">{edu.startDate} {edu.startDate && edu.endDate ? '–' : ''} {edu.endDate}</span>
@@ -187,7 +187,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
                 </h3>
                 <div className="space-y-4">
                   {certifications.map((cert) => (
-                    <div key={cert.id} className="mb-3 last:mb-0">
+                    <div key={cert.id} className="mb-4 last:mb-0">
                       <h4 className="font-bold text-slate-900 text-sm">{cert.name}</h4>
                       <div className="flex items-center gap-2 text-xs font-medium text-slate-500">
                         <span>{cert.issuer}</span>
@@ -226,7 +226,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
       <FreshGradBadge />
       {/* Header */}
       <header className="mb-8 text-center border-b-2 border-slate-800 pb-6">
-        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-3 text-slate-900">
+        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-4 text-slate-900">
           {personalInfo.fullName || 'Your Name'}
         </h1>
         {personalInfo.jobTitle && (
@@ -252,7 +252,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
             if (!personalInfo.summary) return null;
             return (
               <section key="summary" className="mb-8">
-                <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-3 pb-1 text-slate-800">Professional Summary</h3>
+                <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">Professional Summary</h3>
                 <p className="text-[15px] text-justify whitespace-pre-wrap leading-relaxed text-slate-700">{personalInfo.summary}</p>
               </section>
             );
@@ -298,7 +298,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
             if (skills.length === 0) return null;
             return (
               <section key="skills" className="mb-8">
-                <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-3 pb-1 text-slate-800">Skills</h3>
+                <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">Skills</h3>
                 <p className="text-[15px] leading-relaxed text-slate-700">
                   {skills.map((skill, i) => (
                     <span key={i}>
@@ -377,10 +377,10 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
 
         <div className="space-y-8 flex-1">
           <div className="space-y-4 text-[15px] text-slate-700">
-            {personalInfo.email && <div className="flex items-center gap-3"><Mail size={18} style={{ color: themeColor }} /> <span className="break-all">{personalInfo.email}</span></div>}
-            {personalInfo.phone && <div className="flex items-center gap-3"><Phone size={18} style={{ color: themeColor }} /> <span>{personalInfo.phone}</span></div>}
-            {personalInfo.address && <div className="flex items-center gap-3"><MapPin size={18} style={{ color: themeColor }} /> <span>{personalInfo.address}</span></div>}
-            {personalInfo.linkedin && <div className="flex items-center gap-3"><Linkedin size={18} style={{ color: themeColor }} /> <span className="break-all">{personalInfo.linkedin}</span></div>}
+            {personalInfo.email && <div className="flex items-center gap-4"><Mail size={18} style={{ color: themeColor }} /> <span className="break-all">{personalInfo.email}</span></div>}
+            {personalInfo.phone && <div className="flex items-center gap-4"><Phone size={18} style={{ color: themeColor }} /> <span>{personalInfo.phone}</span></div>}
+            {personalInfo.address && <div className="flex items-center gap-4"><MapPin size={18} style={{ color: themeColor }} /> <span>{personalInfo.address}</span></div>}
+            {personalInfo.linkedin && <div className="flex items-center gap-4"><Linkedin size={18} style={{ color: themeColor }} /> <span className="break-all">{personalInfo.linkedin}</span></div>}
           </div>
 
           {skills.length > 0 && (
@@ -417,7 +417,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
       <div className="w-full md:w-[65%] p-6 md:p-10 bg-white text-slate-800">
         {personalInfo.summary && (
           <section className="mb-10">
-            <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-4 text-slate-900 flex items-center gap-3">
+            <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-4 text-slate-900 flex items-center gap-4">
               <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
               Profile
             </h3>
@@ -429,7 +429,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
           if (section === 'experience' && experience.length > 0) {
             return (
               <section key="experience" className="mb-10">
-                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-4">
                   <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
                   {labels.experience}
                 </h3>
@@ -440,7 +440,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
                         <h4 className="font-bold text-slate-900 text-lg">{exp.position}</h4>
                         <span className="text-sm font-bold" style={{ color: themeColor }}>{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
                       </div>
-                      <div className="text-[15px] font-bold text-slate-500 mb-3 uppercase tracking-wide">{exp.company}</div>
+                      <div className="text-[15px] font-bold text-slate-500 mb-4 uppercase tracking-wide">{exp.company}</div>
                       <p className="text-[15px] leading-relaxed text-slate-700 whitespace-pre-wrap">{exp.description}</p>
                     </div>
                   ))}
@@ -452,7 +452,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
           if (section === 'education' && education.length > 0) {
             return (
               <section key="education" className="mb-10">
-                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-4">
                   <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
                   {labels.education}
                 </h3>
@@ -477,7 +477,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
 
         {projects.length > 0 && (
           <section className="mb-10">
-            <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
+            <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-4">
               <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
               Projects
             </h3>
@@ -499,7 +499,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
           <React.Fragment>
             {data.customSections.map((section) => (
               <section key={section.id} className="mb-10">
-                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-3">
+                <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-4">
                   <span className="w-8 h-1 rounded-full" style={{ backgroundColor: themeColor }}></span>
                   {section.title}
                 </h3>
@@ -516,8 +516,8 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
     <div className="font-sans text-slate-800 leading-relaxed p-6 md:p-14 max-w-[850px] mx-auto relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
       <FreshGradBadge />
       <header className="mb-12 text-center">
-        <h1 className="text-3xl md:text-4xl font-light tracking-[0.15em] text-slate-900 mb-3 uppercase">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.jobTitle && <h2 className="text-lg md:text-xl font-medium text-slate-500 mb-5 tracking-widest uppercase">{personalInfo.jobTitle}</h2>}
+        <h1 className="text-3xl md:text-4xl font-light tracking-[0.15em] text-slate-900 mb-4 uppercase">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.jobTitle && <h2 className="text-lg md:text-xl font-medium text-slate-500 mb-6 tracking-widest uppercase">{personalInfo.jobTitle}</h2>}
         <div className="flex flex-wrap justify-center gap-6 text-[15px] text-slate-500">
           {personalInfo.email && <span>{personalInfo.email}</span>}
           {personalInfo.phone && <span>{personalInfo.phone}</span>}
@@ -550,7 +550,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
                       </div>
                       <div className="md:col-span-3">
                         <h4 className="font-semibold text-slate-900 text-lg">{exp.position}</h4>
-                        <div className="text-[15px] text-slate-500 mb-3 font-medium">{exp.company}</div>
+                        <div className="text-[15px] text-slate-500 mb-4 font-medium">{exp.company}</div>
                         <p className="text-[15px] text-slate-600 leading-relaxed whitespace-pre-wrap">{exp.description}</p>
                       </div>
                     </div>
@@ -584,7 +584,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
             return (
               <section key="skills" className="mb-12">
                 <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-slate-400 mb-8 text-center border-b border-slate-100 pb-4">Skills</h3>
-                <div className="flex flex-wrap justify-center gap-3">
+                <div className="flex flex-wrap justify-center gap-4">
                   {skills.map((skill, index) => (
                     <span key={index} className="text-[15px] text-slate-600 font-medium">
                       {skill}
@@ -603,7 +603,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
                   {projects.map((proj) => (
                     <div key={proj.id} className="text-center">
                       <h4 className="font-semibold text-slate-900 text-lg mb-1">{proj.name}</h4>
-                      {proj.link && <a href={proj.link} className="text-[15px] text-slate-400 hover:text-slate-600 mb-3 block">{proj.link}</a>}
+                      {proj.link && <a href={proj.link} className="text-[15px] text-slate-400 hover:text-slate-600 mb-4 block">{proj.link}</a>}
                       <p className="text-[15px] text-slate-600 leading-relaxed max-w-3xl mx-auto whitespace-pre-wrap">{proj.description}</p>
                     </div>
                   ))}
@@ -652,10 +652,10 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
     <div className="font-mono text-slate-800 leading-relaxed p-6 md:p-12 bg-slate-50 min-h-full relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
       <FreshGradBadge />
       <header className="mb-10 border-b-2 border-slate-300 pb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3 tracking-tight" style={{ color: themeColor }}>
+        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight" style={{ color: themeColor }}>
           &gt; {personalInfo.fullName || 'Your Name'}
         </h1>
-        {personalInfo.jobTitle && <h2 className="text-lg md:text-xl text-slate-600 mb-5">/* {personalInfo.jobTitle} */</h2>}
+        {personalInfo.jobTitle && <h2 className="text-lg md:text-xl text-slate-600 mb-6">/* {personalInfo.jobTitle} */</h2>}
         <div className="flex flex-wrap gap-x-6 gap-y-3 text-[15px] text-slate-600">
           {personalInfo.email && <div><span className="font-semibold" style={{ color: themeColor }}>email:</span> '{personalInfo.email}'</div>}
           {personalInfo.phone && <div><span className="font-semibold" style={{ color: themeColor }}>phone:</span> '{personalInfo.phone}'</div>}
@@ -674,7 +674,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
       {skills.length > 0 && (
         <section className="mb-10">
           <h3 className="text-lg font-bold mb-4" style={{ color: themeColor }}># skills</h3>
-          <div className="flex flex-wrap gap-3 ps-4">
+          <div className="flex flex-wrap gap-4 ps-4">
             {skills.map((skill, index) => (
               <span key={index} className="text-[15px] text-slate-800 font-medium">
                 {skill}
@@ -689,7 +689,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
         if (section === 'experience' && experience.length > 0) {
           return (
             <section key="experience" className="mb-10">
-              <h3 className="text-lg font-bold mb-5" style={{ color: themeColor }}># experience</h3>
+              <h3 className="text-lg font-bold mb-6" style={{ color: themeColor }}># experience</h3>
               <div className="space-y-8 ps-4">
                 {experience.map((exp) => (
                   <div key={exp.id}>
@@ -708,7 +708,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
         if (section === 'education' && education.length > 0) {
           return (
             <section key="education" className="mb-10">
-              <h3 className="text-lg font-bold mb-5" style={{ color: themeColor }}># education</h3>
+              <h3 className="text-lg font-bold mb-6" style={{ color: themeColor }}># education</h3>
               <div className="space-y-6 ps-4">
                 {education.map((edu) => (
                   <div key={edu.id}>
@@ -729,7 +729,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
 
       {projects.length > 0 && (
         <section className="mb-10">
-          <h3 className="text-lg font-bold mb-5" style={{ color: themeColor }}># projects</h3>
+          <h3 className="text-lg font-bold mb-6" style={{ color: themeColor }}># projects</h3>
           <div className="space-y-8 ps-4">
             {projects.map((proj) => (
               <div key={proj.id}>
@@ -748,7 +748,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
         <React.Fragment>
           {data.customSections.map((section) => (
             <section key={section.id} className="mb-10">
-              <h3 className="text-lg font-bold mb-5" style={{ color: themeColor }}># {section.title.toLowerCase()}</h3>
+              <h3 className="text-lg font-bold mb-6" style={{ color: themeColor }}># {section.title.toLowerCase()}</h3>
               <p className="text-[15px] text-slate-700 whitespace-pre-wrap ps-4 border-s-2 border-slate-300 leading-relaxed">{section.content}</p>
             </section>
           ))}
@@ -761,13 +761,13 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
     <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 relative text-start" dir={settings.language === 'ar' ? 'rtl' : 'ltr'}>
       <FreshGradBadge />
       <header className="mb-10 flex flex-col items-center border-b-[3px] pb-8" style={{ borderColor: themeColor }}>
-        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-3 text-center">{personalInfo.fullName || 'Your Name'}</h1>
-        {personalInfo.jobTitle && <h2 className="text-lg md:text-xl font-medium text-slate-600 mb-5 text-center uppercase tracking-wider">{personalInfo.jobTitle}</h2>}
+        <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-4 text-center">{personalInfo.fullName || 'Your Name'}</h1>
+        {personalInfo.jobTitle && <h2 className="text-lg md:text-xl font-medium text-slate-600 mb-6 text-center uppercase tracking-wider">{personalInfo.jobTitle}</h2>}
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-[15px] font-sans text-slate-600">
-          {personalInfo.address && <span className="flex items-center gap-1.5"><MapPin size={16} />{personalInfo.address}</span>}
-          {personalInfo.phone && <span className="flex items-center gap-1.5"><Phone size={16} />{personalInfo.phone}</span>}
-          {personalInfo.email && <span className="flex items-center gap-1.5"><Mail size={16} />{personalInfo.email}</span>}
-          {personalInfo.linkedin && <span className="flex items-center gap-1.5"><Linkedin size={16} />{personalInfo.linkedin}</span>}
+          {personalInfo.address && <span className="flex items-center gap-2"><MapPin size={16} />{personalInfo.address}</span>}
+          {personalInfo.phone && <span className="flex items-center gap-2"><Phone size={16} />{personalInfo.phone}</span>}
+          {personalInfo.email && <span className="flex items-center gap-2"><Mail size={16} />{personalInfo.email}</span>}
+          {personalInfo.linkedin && <span className="flex items-center gap-2"><Linkedin size={16} />{personalInfo.linkedin}</span>}
         </div>
       </header>
 
@@ -784,7 +784,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
             if (section === 'experience' && experience.length > 0) {
               return (
                 <section key="experience" className="mb-10">
-                  <h3 className="text-lg font-bold uppercase tracking-widest mb-5 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Professional Experience</h3>
+                  <h3 className="text-lg font-bold uppercase tracking-widest mb-6 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Professional Experience</h3>
                   <div className="space-y-8">
                     {experience.map((exp) => (
                       <div key={exp.id}>
@@ -792,7 +792,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
                           <h4 className="font-bold text-lg">{exp.position}</h4>
                           <span className="text-[15px] font-sans font-medium text-slate-600">{exp.startDate} {exp.startDate && exp.endDate ? '–' : ''} {exp.endDate}</span>
                         </div>
-                        <div className="text-base font-medium text-slate-700 mb-3 uppercase tracking-wide">{exp.company}</div>
+                        <div className="text-base font-medium text-slate-700 mb-4 uppercase tracking-wide">{exp.company}</div>
                         <p className="text-[15px] text-slate-800 whitespace-pre-wrap leading-relaxed">{exp.description}</p>
                       </div>
                     ))}
@@ -804,7 +804,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
             if (section === 'education' && education.length > 0) {
               return (
                 <section key="education" className="mb-10">
-                  <h3 className="text-lg font-bold uppercase tracking-widest mb-5 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Education</h3>
+                  <h3 className="text-lg font-bold uppercase tracking-widest mb-6 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Education</h3>
                   <div className="space-y-6">
                     {education.map((edu) => (
                       <div key={edu.id}>
@@ -827,7 +827,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
             <React.Fragment>
               {data.customSections.map((section) => (
                 <section key={section.id} className="mb-10">
-                  <h3 className="text-lg font-bold uppercase tracking-widest mb-5 border-b border-slate-300 pb-2" style={{ color: themeColor }}>{section.title}</h3>
+                  <h3 className="text-lg font-bold uppercase tracking-widest mb-6 border-b border-slate-300 pb-2" style={{ color: themeColor }}>{section.title}</h3>
                   <p className="text-[15px] text-slate-800 whitespace-pre-wrap leading-relaxed">{section.content}</p>
                 </section>
               ))}
@@ -838,7 +838,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
         <div className="md:col-span-1">
           {skills.length > 0 && (
             <section className="mb-10">
-              <h3 className="text-lg font-bold uppercase tracking-widest mb-5 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Core Competencies</h3>
+              <h3 className="text-lg font-bold uppercase tracking-widest mb-6 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Core Competencies</h3>
               <ul className="list-disc list-inside space-y-2.5 text-[15px] text-slate-800 font-sans">
                 {skills.map((skill, index) => (
                   <li key={index}>{skill}</li>
@@ -849,7 +849,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
 
           {certifications.length > 0 && (
             <section className="mb-10">
-              <h3 className="text-lg font-bold uppercase tracking-widest mb-5 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Certifications</h3>
+              <h3 className="text-lg font-bold uppercase tracking-widest mb-6 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Certifications</h3>
               <div className="space-y-5">
                 {certifications.map((cert) => (
                   <div key={cert.id}>
@@ -863,7 +863,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
 
           {projects.length > 0 && (
             <section className="mb-10">
-              <h3 className="text-lg font-bold uppercase tracking-widest mb-5 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Key Projects</h3>
+              <h3 className="text-lg font-bold uppercase tracking-widest mb-6 border-b border-slate-300 pb-2" style={{ color: themeColor }}>Key Projects</h3>
               <div className="space-y-6">
                 {projects.map((proj) => (
                   <div key={proj.id}>
@@ -896,17 +896,17 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
       <div className="grid grid-cols-1 gap-8">
         {personalInfo.summary && (
           <section>
-            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-3 border-b border-emerald-100 pb-1">Professional Summary</h3>
+            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-4 border-b border-emerald-100 pb-1">Professional Summary</h3>
             <p className="text-sm text-slate-700 leading-relaxed">{personalInfo.summary}</p>
           </section>
         )}
 
         {certifications.length > 0 && (
           <section>
-            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-3 border-b border-emerald-100 pb-1">Licenses & Certifications</h3>
+            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-4 border-b border-emerald-100 pb-1">Licenses & Certifications</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {certifications.map((cert) => (
-                <div key={cert.id} className="bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                <div key={cert.id} className="bg-emerald-50 p-4 rounded-lg border border-emerald-100">
                   <div className="font-bold text-emerald-900">{cert.name}</div>
                   <div className="text-sm text-emerald-700">{cert.issuer} • {cert.date}</div>
                 </div>
@@ -917,7 +917,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
 
         {experience.length > 0 && (
           <section>
-            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-3 border-b border-emerald-100 pb-1">Clinical Experience</h3>
+            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-4 border-b border-emerald-100 pb-1">Clinical Experience</h3>
             <div className="space-y-6">
               {experience.map((exp) => (
                 <div key={exp.id}>
@@ -935,7 +935,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
 
         {education.length > 0 && (
           <section>
-            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-3 border-b border-emerald-100 pb-1">Education</h3>
+            <h3 className="text-lg font-bold text-emerald-700 uppercase mb-4 border-b border-emerald-100 pb-1">Education</h3>
             <div className="space-y-4">
               {education.map((edu) => (
                 <div key={edu.id}>
@@ -954,7 +954,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
           <React.Fragment>
             {data.customSections.map((section) => (
               <section key={section.id}>
-                <h3 className="text-lg font-bold text-emerald-700 uppercase mb-3 border-b border-emerald-100 pb-1">{section.title}</h3>
+                <h3 className="text-lg font-bold text-emerald-700 uppercase mb-4 border-b border-emerald-100 pb-1">{section.title}</h3>
                 <p className="text-sm text-slate-700 whitespace-pre-wrap">{section.content}</p>
               </section>
             ))}

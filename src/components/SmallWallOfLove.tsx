@@ -57,7 +57,7 @@ export default function SmallWallOfLove() {
         <div className="absolute top-0 right-0 w-12 md:w-32 h-full bg-gradient-to-l from-white dark:from-slate-950 to-transparent z-10 pointer-events-none" />
         
         <motion.div 
-          className="flex gap-6 px-3 w-max"
+          className="flex gap-6 px-4 w-max"
           animate={{ x: language === 'ar' ? ['0%', '50%'] : ['0%', '-50%'] }}
           transition={{ 
             ease: "linear", 
@@ -70,7 +70,7 @@ export default function SmallWallOfLove() {
               key={index}
               className="flex-shrink-0 w-[280px] md:w-[350px] bg-white dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow"
             >
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-2">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} size={14} className="fill-amber-400 text-amber-400" />
                 ))}
@@ -78,13 +78,13 @@ export default function SmallWallOfLove() {
               <p className="text-sm text-slate-700 dark:text-slate-300 font-medium italic">
                 "{review.text}"
               </p>
-              <div className="mt-auto flex items-center gap-3 pt-2">
+              <div className="mt-auto flex items-center gap-4 pt-2">
                 <div className="w-10 h-10 rounded-full bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 font-bold text-sm border border-indigo-100 dark:border-indigo-800/50">
                   {review.name.charAt(0)}
                 </div>
                 <div>
                   <div className="text-sm font-bold text-slate-900 dark:text-white leading-none">{review.name}</div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">{review.role}</div>
+                  <div className="text-xs text-slate-500 dark:text-slate-400 mt-2">{review.role}</div>
                 </div>
               </div>
             </div>

@@ -62,7 +62,7 @@ export default function SimpleSteps() {
                 </div>
                 <step.icon size={40} className={step.color} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3">{step.title}</h3>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">{step.title}</h3>
               <p className="text-slate-600 dark:text-slate-400 max-w-[250px]">{step.desc}</p>
             </motion.div>
           ))}

@@ -35,17 +35,17 @@ export default function WelcomeModal({ isOpen, onStartTour, onSkip }: WelcomeMod
               <Sparkles className="text-white w-10 h-10" />
             </div>
             
-            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-3 font-display">
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-4 font-display">
               Welcome to Hash Resume!
             </h2>
             <p className="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
               Let's take a quick tour to help you build your perfect resume in minutes. We'll show you the key features and how to get the most out of our editor.
             </p>
             
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-4">
               <button
                 onClick={onStartTour}
-                className="w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white py-3.5 rounded-xl font-bold transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
+                className="w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
               >
                 <Play size={18} fill="currentColor" />
                 Start Quick Tour
@@ -53,7 +53,7 @@ export default function WelcomeModal({ isOpen, onStartTour, onSkip }: WelcomeMod
               
               <button
                 onClick={onSkip}
-                className="w-full bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 py-3.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                className="w-full bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 py-4 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 hover:bg-slate-50 dark:hover:bg-slate-700/50"
               >
                 <SkipForward size={18} />
                 Skip for Now

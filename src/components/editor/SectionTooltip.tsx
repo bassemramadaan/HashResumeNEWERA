@@ -35,9 +35,9 @@ export default function SectionTooltip({ title, content, example, className }: S
               initial={{ opacity: 0, scale: 0.9, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 10 }}
-              className="absolute left-0 bottom-full mb-2 w-72 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-5 z-[70] pointer-events-auto"
+              className="absolute left-0 bottom-full mb-2 w-72 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 p-6 z-[70] pointer-events-auto"
             >
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-4">
                 <h4 className="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-2">
                   <HelpCircle size={14} className="text-indigo-500" />
                   {title}
@@ -55,7 +55,7 @@ export default function SectionTooltip({ title, content, example, className }: S
               </p>
 
               {example && (
-                <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800">
+                <div className="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-4 border border-slate-100 dark:border-slate-800">
                   <span className="block text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">Example</span>
                   <p className="text-[11px] text-slate-700 dark:text-slate-300 italic leading-relaxed">
                     "{example}"
@@ -64,7 +64,7 @@ export default function SectionTooltip({ title, content, example, className }: S
               )}
 
               {/* Arrow */}
-              <div className="absolute left-4 top-full w-3 h-3 bg-white dark:bg-slate-800 border-r border-b border-slate-200 dark:border-slate-700 rotate-45 -translate-y-1.5" />
+              <div className="absolute left-4 top-full w-4 h-4 bg-white dark:bg-slate-800 border-r border-b border-slate-200 dark:border-slate-700 rotate-45 -translate-y-1.5" />
             </motion.div>
           </>
         )}

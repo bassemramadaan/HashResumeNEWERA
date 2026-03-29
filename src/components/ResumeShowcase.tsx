@@ -66,13 +66,13 @@ export default function ResumeShowcase() {
                       <div className="space-y-1">
                         <div className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Contact</div>
                         <div className="h-1 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>
-                        <div className="h-1 bg-slate-200 dark:bg-slate-800 rounded w-3/4"></div>
+                        <div className="h-1 bg-slate-200 dark:bg-slate-800 rounded w-4/5"></div>
                       </div>
                       <div className="space-y-1">
                         <div className="font-bold text-slate-900 dark:text-white uppercase tracking-wider">Skills</div>
                         <div className="flex flex-wrap gap-1">
                           {[1,2,3,4,5].map(k => (
-                            <div key={k} className="h-3 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
+                            <div key={k} className="h-4 bg-slate-100 dark:bg-slate-800 rounded w-full"></div>
                           ))}
                         </div>
                       </div>
@@ -88,7 +88,7 @@ export default function ResumeShowcase() {
                             </div>
                             <div className="h-1 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>
                             <div className="h-1 bg-slate-200 dark:bg-slate-800 rounded w-full"></div>
-                            <div className="h-1 bg-slate-200 dark:bg-slate-800 rounded w-5/6"></div>
+                            <div className="h-1 bg-slate-200 dark:bg-slate-800 rounded w-4/5"></div>
                           </div>
                         ))}
                       </div>

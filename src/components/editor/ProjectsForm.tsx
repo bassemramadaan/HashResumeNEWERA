@@ -54,7 +54,7 @@ const ProjectsForm = () => {
                 className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                 onClick={() => setExpandedId(expandedId === proj.id ? null : proj.id)}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <div 
                     className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                     onClick={(e) => e.stopPropagation()}
@@ -66,7 +66,7 @@ const ProjectsForm = () => {
                     <p className="text-sm text-slate-500 dark:text-slate-400">{proj.link || 'No link provided'}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation(); 
@@ -98,7 +98,7 @@ const ProjectsForm = () => {
                         type="text"
                         value={proj.name}
                         onChange={(e) => updateProject(proj.id, { name: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. E-commerce Platform"
                       />
                     </div>
@@ -108,7 +108,7 @@ const ProjectsForm = () => {
                         type="url"
                         value={proj.link}
                         onChange={(e) => updateProject(proj.id, { link: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. github.com/username/project"
                       />
                     </div>
@@ -156,7 +156,7 @@ const ProjectsForm = () => {
                         rows={4}
                         value={proj.description}
                         onChange={(e) => updateProject(proj.id, { description: e.target.value })}
-                        className="block w-full p-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full p-4 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="• Describe the project, technologies used, and your role..."
                       />
                     </div>

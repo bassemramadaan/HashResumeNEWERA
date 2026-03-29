@@ -279,7 +279,7 @@ export default function TemplatesPage() {
                   }`}
                 >
                   {isSelected && (
-                    <div className="absolute top-4 right-4 z-20 bg-[#ff4d2d] text-white p-1.5 rounded-full shadow-md">
+                    <div className="absolute top-4 right-4 z-20 bg-[#ff4d2d] text-white p-2 rounded-full shadow-md">
                       <CheckCircle2 size={20} />
                     </div>
                   )}
@@ -308,13 +308,13 @@ export default function TemplatesPage() {
                     <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white dark:from-slate-900 to-transparent z-10 opacity-60"></div>
 
                     {/* Hover Actions */}
-                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/20 md:bg-slate-900/20 backdrop-blur-[2px] md:backdrop-blur-[2px]">
+                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/20 md:bg-slate-900/20 backdrop-blur-[2px] md:backdrop-blur-[2px]">
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
                           handleSelectTemplate(template.id);
                         }}
-                        className="bg-[#ff4d2d] text-white px-6 py-3 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#e63e1d] hover:scale-105 min-w-[160px] active:scale-95"
+                        className="bg-[#ff4d2d] text-white px-6 py-4 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#e63e1d] hover:scale-105 min-w-[160px] active:scale-95"
                       >
                         {isSelected 
                           ? (language === 'ar' ? 'محدد حالياً' : language === 'fr' ? 'Sélectionné' : 'Currently Selected')
@@ -326,7 +326,7 @@ export default function TemplatesPage() {
                           e.stopPropagation();
                           setPreviewTemplate(template);
                         }}
-                        className="bg-white text-slate-900 px-6 py-3 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-slate-100 hover:scale-105 min-w-[160px] flex items-center justify-center gap-2 active:scale-95"
+                        className="bg-white text-slate-900 px-6 py-4 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-slate-100 hover:scale-105 min-w-[160px] flex items-center justify-center gap-2 active:scale-95"
                       >
                         <Eye size={18} />
                         {language === 'ar' ? 'معاينة' : 'Preview'}
@@ -380,10 +380,10 @@ export default function TemplatesPage() {
 
                 <div className="space-y-6 mb-8">
                   <div>
-                    <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Best For</h3>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4">Best For</h3>
                     <div className="flex flex-wrap gap-2">
                       {previewTemplate.categories.map(cat => (
-                        <span key={cat} className="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium">
+                        <span key={cat} className="px-4 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-sm font-medium">
                           {cat}
                         </span>
                       ))}
@@ -391,7 +391,7 @@ export default function TemplatesPage() {
                   </div>
                   
                   <div>
-                    <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-3">Features</h3>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mb-4">Features</h3>
                     <ul className="space-y-2">
                       <li className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
                         <CheckCircle2 size={16} className="text-emerald-500" />
@@ -418,7 +418,7 @@ export default function TemplatesPage() {
                   </button>
                   <button 
                     onClick={() => setPreviewTemplate(null)}
-                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 py-3 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors hidden md:block"
+                    className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 py-4 rounded-xl font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors hidden md:block"
                   >
                     Close Preview
                   </button>

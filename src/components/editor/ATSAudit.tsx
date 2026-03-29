@@ -127,7 +127,7 @@ export default function ATSAudit() {
                     {section.score}/{section.maxScore}
                   </span>
                 </div>
-                <div className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
                   <div 
                     className={cn("h-full transition-all duration-500", 
                       section.score === section.maxScore ? "bg-emerald-500" :
@@ -154,8 +154,8 @@ export default function ATSAudit() {
                   </h4>
                   <ul className="space-y-2">
                     {section.improvements.map((imp, i) => (
-                      <li key={i} className="flex items-start gap-3 p-4 bg-red-50/30 dark:bg-red-900/10 rounded-xl border border-red-100/50 dark:border-red-800/30">
-                        <div className="mt-1.5 shrink-0 w-1.5 h-1.5 rounded-full bg-red-500" />
+                      <li key={i} className="flex items-start gap-4 p-4 bg-red-50/30 dark:bg-red-900/10 rounded-xl border border-red-100/50 dark:border-red-800/30">
+                        <div className="mt-2 shrink-0 w-2 h-2 rounded-full bg-red-500" />
                         <span className="text-sm text-slate-700 dark:text-slate-300">{imp}</span>
                       </li>
                     ))}
@@ -176,7 +176,7 @@ export default function ATSAudit() {
                   </h4>
                   <ul className="space-y-2">
                     {section.goodPoints.map((gp, i) => (
-                      <li key={i} className="flex items-start gap-3 p-4 bg-emerald-50/30 dark:bg-emerald-900/10 rounded-xl border border-emerald-100/50 dark:border-emerald-800/30">
+                      <li key={i} className="flex items-start gap-4 p-4 bg-emerald-50/30 dark:bg-emerald-900/10 rounded-xl border border-emerald-100/50 dark:border-emerald-800/30">
                         <CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-0.5" />
                         <span className="text-sm text-slate-700 dark:text-slate-300">{gp}</span>
                       </li>
@@ -234,13 +234,13 @@ export default function ATSAudit() {
 
                   <div className="md:col-span-2 space-y-6">
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                         <AlertCircle className="text-red-500 dark:text-red-400" size={16} />
                         {t.missingKeywords} ({matchResults.missing.length})
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {matchResults.missing.length > 0 ? matchResults.missing.map(kw => (
-                          <span key={kw} className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-3 py-1 rounded-full text-xs font-medium transition-colors">
+                          <span key={kw} className="bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-100 dark:border-red-800/50 px-4 py-1 rounded-full text-xs font-medium transition-colors">
                             {kw}
                           </span>
                         )) : (
@@ -250,13 +250,13 @@ export default function ATSAudit() {
                     </div>
 
                     <div>
-                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                         <CheckCircle2 className="text-emerald-500 dark:text-emerald-400" size={16} />
                         {t.matchedKeywords} ({matchResults.matched.length})
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {matchResults.matched.length > 0 ? matchResults.matched.map(kw => (
-                          <span key={kw} className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 px-3 py-1 rounded-full text-xs font-medium transition-colors">
+                          <span key={kw} className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/50 px-4 py-1 rounded-full text-xs font-medium transition-colors">
                             {kw}
                           </span>
                         )) : (

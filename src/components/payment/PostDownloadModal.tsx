@@ -51,7 +51,7 @@ export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModal
             </p>
 
             <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl p-6 mb-8 border border-indigo-100 dark:border-indigo-800/50">
-              <div className="flex items-center justify-center gap-3 mb-3">
+              <div className="flex items-center justify-center gap-4 mb-4">
                 <Target className="text-indigo-500" size={24} />
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                   {isRtl ? 'هل تريد أن تبحث الشركات عنك؟' : 'Want companies to reach out to you?'}
@@ -64,7 +64,7 @@ export default function PostDownloadModal({ isOpen, onClose }: PostDownloadModal
               </p>
               <Link 
                 to="/hash-hunt"
-                className="inline-flex items-center justify-center gap-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
+                className="inline-flex items-center justify-center gap-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-4 rounded-xl font-bold transition-colors shadow-sm"
               >
                 {isRtl ? 'انضم إلى Hash Hunt' : 'Join Hash Hunt'}
                 <ArrowRight size={18} className={isRtl ? 'rotate-180' : ''} />

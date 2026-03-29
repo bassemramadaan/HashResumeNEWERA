@@ -105,7 +105,7 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
                 <p className="text-slate-700 dark:text-slate-300 font-medium">{alertMessage}</p>
                 <button
                   onClick={() => setAlertMessage(null)}
-                  className="w-full py-2.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+                  className="w-full py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl font-bold hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
                 >
                   OK
                 </button>
@@ -135,9 +135,9 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
         
         <div className="relative flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
           <div className="flex-1 space-y-3">
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-4">
               <div className="p-2 bg-orange-100 dark:bg-orange-900/30 rounded-lg">
-                <Save className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+                <Save className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
               {t.backupTitle}
             </h3>
@@ -146,30 +146,30 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
             </p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-wrap items-center gap-3 w-full lg:w-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-wrap items-center gap-4 w-full lg:w-auto">
             <button
               onClick={onPrint}
               data-tour="download-button"
-              className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
+              className="flex items-center justify-center gap-2 px-6 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
             >
               <FileText size={18} className="text-red-500" />
               Export PDF
             </button>
             <button
               onClick={handleProceedToExportWord}
-              className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
+              className="flex items-center justify-center gap-2 px-6 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
             >
               <FileText size={18} className="text-blue-500" />
               {t.exportWord}
             </button>
             <button
               onClick={handleExportJson}
-              className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
+              className="flex items-center justify-center gap-2 px-6 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
             >
               <Download size={18} className="text-emerald-500" />
               {t.backupData}
             </button>
-            <label className="flex items-center justify-center gap-2 px-5 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95 cursor-pointer">
+            <label className="flex items-center justify-center gap-2 px-6 py-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95 cursor-pointer">
               <Upload size={18} className="text-orange-500" />
               {t.restoreData}
               <input 
@@ -195,7 +195,7 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
                 to={step.path!}
                 className="group p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-3xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:shadow-slate-500/5 transition-all duration-300 text-start"
               >
-                <div className="mb-4 p-3 bg-white dark:bg-slate-900 rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
+                <div className="mb-4 p-4 bg-white dark:bg-slate-900 rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
                   {step.icon}
                 </div>
                 <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
@@ -212,7 +212,7 @@ export default function FinishStep({ onPrint, onExportWord, onJumpToStep }: Fini
                 onClick={step.action}
                 className="group p-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 rounded-3xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xl hover:shadow-slate-500/5 transition-all duration-300 text-start"
               >
-                <div className="mb-4 p-3 bg-white dark:bg-slate-900 rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
+                <div className="mb-4 p-4 bg-white dark:bg-slate-900 rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
                   {step.icon}
                 </div>
                 <h4 className="font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">

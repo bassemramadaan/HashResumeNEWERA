@@ -37,7 +37,7 @@ export default function Navbar() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
         isScrolled 
-          ? "py-3" 
+          ? "py-4" 
           : "py-6"
       )}
     >
@@ -59,7 +59,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1 bg-slate-100/50 dark:bg-slate-800/50 p-1 rounded-full border border-slate-200/50 dark:border-slate-700/50">
+          <nav className="hidden md:flex items-center gap-2 bg-slate-100/50 dark:bg-slate-800/50 p-2 rounded-full border border-slate-200/50 dark:border-slate-700/50">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -86,16 +86,16 @@ export default function Navbar() {
           </nav>
 
           {/* Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            <div className="flex items-center gap-1 bg-slate-100/50 dark:bg-slate-800/50 p-1 rounded-full border border-slate-200/50 dark:border-slate-700/50">
+          <div className="hidden md:flex items-center gap-4">
+            <div className="flex items-center gap-2 bg-slate-100/50 dark:bg-slate-800/50 p-2 rounded-full border border-slate-200/50 dark:border-slate-700/50">
               <ThemeToggle className="p-2 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-colors" />
-              <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-1"></div>
-              <LanguageSwitcher size={18} className="text-xs px-3 py-1.5 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-colors" />
+              <div className="w-px h-4 bg-slate-300 dark:bg-slate-600 mx-2"></div>
+              <LanguageSwitcher size={18} className="text-xs px-4 py-2 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-colors" />
             </div>
             
             <Link 
               to="/editor" 
-              className="flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-[#ff4d2d] dark:hover:bg-[#ff4d2d] dark:hover:text-white font-bold py-2.5 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
+              className="flex items-center gap-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-[#ff4d2d] dark:hover:bg-[#ff4d2d] dark:hover:text-white font-bold py-2 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
             >
               <Sparkles size={16} className="text-orange-400 group-hover:text-white transition-colors" />
               <span className="text-sm tracking-tight">{t.landing.buildResume || 'Build Resume'}</span>
@@ -138,7 +138,7 @@ export default function Navbar() {
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="md:hidden absolute top-full left-4 right-4 mt-2 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
           >
-            <div className="p-6 flex flex-col gap-3">
+            <div className="p-6 flex flex-col gap-4">
               {navLinks.map((link, i) => (
                 <motion.div
                   key={link.path}
@@ -150,7 +150,7 @@ export default function Navbar() {
                     to={link.path}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
-                      "px-5 py-4 text-base font-bold rounded-2xl transition-all flex items-center justify-between group",
+                      "px-6 py-4 text-base font-bold rounded-2xl transition-all flex items-center justify-between group",
                       location.pathname === link.path
                         ? "text-white bg-[#ff4d2d]"
                         : link.highlight
@@ -177,7 +177,7 @@ export default function Navbar() {
               <Link 
                 to="/editor" 
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-3 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 px-5 rounded-2xl text-center shadow-xl shadow-slate-900/10 dark:shadow-white/5 active:scale-95 transition-all"
+                className="flex items-center justify-center gap-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold py-4 px-6 rounded-2xl text-center shadow-xl shadow-slate-900/10 dark:shadow-white/5 active:scale-95 transition-all"
               >
                 <Sparkles size={18} className="text-orange-400" />
                 {t.landing.buildResume || 'Build Resume'}

@@ -50,7 +50,7 @@ const JobCard = React.forwardRef<HTMLDivElement, {
             <h3 className="font-black text-lg text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-1 mb-0.5 tracking-tight">
               {job.title}
             </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold flex items-center gap-1.5 uppercase tracking-wider">
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-bold flex items-center gap-2 uppercase tracking-wider">
               <Building2 size={12} className="text-indigo-500" />
               {job.company}
             </p>
@@ -62,7 +62,7 @@ const JobCard = React.forwardRef<HTMLDivElement, {
             onToggleSave();
           }}
           className={cn(
-            "p-2.5 rounded-xl shadow-sm border transition-all duration-300 active:scale-90",
+            "p-2 rounded-xl shadow-sm border transition-all duration-300 active:scale-90",
             isSaved 
               ? 'bg-indigo-600 border-indigo-600 text-white' 
               : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/20'
@@ -74,18 +74,18 @@ const JobCard = React.forwardRef<HTMLDivElement, {
       </div>
       
       <div className="flex flex-wrap gap-2 mb-6 relative z-10">
-        <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-100 dark:border-slate-700 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 transition-colors">
+        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-100 dark:border-slate-700 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 transition-colors">
           <MapPin size={12} className="text-indigo-500" />
           {job.location}
         </div>
-        <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-3 py-1.5 rounded-full border border-slate-100 dark:border-slate-700 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 transition-colors">
+        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-4 py-2 rounded-full border border-slate-100 dark:border-slate-700 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 transition-colors">
           <Briefcase size={12} className="text-indigo-500" />
           {job.type}
         </div>
       </div>
 
       {job.description && (
-        <p className="text-sm text-slate-600 dark:text-slate-400 mb-8 line-clamp-3 flex-grow leading-relaxed relative z-10 font-medium italic opacity-80">
+        <p className="text-sm text-slate-600 dark:text-slate-400 mb-8 line-clamp-4 flex-grow leading-relaxed relative z-10 font-medium italic opacity-80">
           "{job.description}"
         </p>
       )}
@@ -148,11 +148,11 @@ const JobDetailsModal: React.FC<{
             exit={{ opacity: 0, scale: 0.9, y: 40 }}
             className="relative w-full max-w-4xl bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-white/10"
           >
-            <div className="absolute top-8 right-8 z-20 flex gap-3">
+            <div className="absolute top-8 right-8 z-20 flex gap-4">
               <button 
                 onClick={onToggleSave}
                 className={cn(
-                  "p-3 rounded-2xl shadow-xl border transition-all duration-300 active:scale-90",
+                  "p-4 rounded-2xl shadow-xl border transition-all duration-300 active:scale-90",
                   isSaved 
                     ? 'bg-indigo-600 border-indigo-600 text-white' 
                     : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400'
@@ -162,7 +162,7 @@ const JobDetailsModal: React.FC<{
               </button>
               <button 
                 onClick={onClose}
-                className="p-3 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all shadow-xl active:scale-90"
+                className="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all shadow-xl active:scale-90"
               >
                 <X size={22} />
               </button>
@@ -178,7 +178,7 @@ const JobDetailsModal: React.FC<{
                   )}
                 </div>
                 <div className="flex-1">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-4 border border-indigo-100 dark:border-indigo-800">
+                  <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-[10px] font-black uppercase tracking-widest mb-4 border border-indigo-100 dark:border-indigo-800">
                     <Sparkles size={12} />
                     {job.type}
                   </div>
@@ -203,7 +203,7 @@ const JobDetailsModal: React.FC<{
                   { label: 'Job Type', value: job.type, color: 'purple' },
                   { label: 'Job Code', value: job.code || 'N/A', color: 'orange', isMono: true },
                 ].map((item, i) => (
-                  <div key={i} className="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-3xl border border-slate-100 dark:border-slate-800/50">
+                  <div key={i} className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-3xl border border-slate-100 dark:border-slate-800/50">
                     <span className="block text-[9px] uppercase tracking-widest font-black text-slate-400 mb-2">{item.label}</span>
                     <span className={cn(
                       "text-slate-900 dark:text-white font-black text-sm",
@@ -217,7 +217,7 @@ const JobDetailsModal: React.FC<{
 
               <div className="space-y-12">
                 <div>
-                  <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-4">
                     <div className="w-2 h-8 bg-indigo-500 rounded-full"></div>
                     {t.jobDescription}
                   </h3>
@@ -227,7 +227,7 @@ const JobDetailsModal: React.FC<{
                 </div>
 
                 <div>
-                  <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-3">
+                  <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-4">
                     <div className="w-2 h-8 bg-purple-500 rounded-full"></div>
                     {t.requirements}
                   </h3>
@@ -259,7 +259,7 @@ const JobDetailsModal: React.FC<{
                 href={applyUrl}
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white text-slate-900 hover:bg-indigo-50 px-12 py-5 rounded-2xl text-xl font-black shadow-2xl transition-all hover:scale-105 active:scale-95 group"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-4 bg-white text-slate-900 hover:bg-indigo-50 px-12 py-6 rounded-2xl text-xl font-black shadow-2xl transition-all hover:scale-105 active:scale-95 group"
               >
                 {t.applyNow}
                 <ExternalLink size={24} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -364,7 +364,7 @@ export default function HashHuntPage() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="max-w-4xl mx-auto bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-4 sm:p-3 rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white/20 dark:border-slate-800/50 flex flex-col lg:flex-row items-center gap-4"
+            className="max-w-4xl mx-auto bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl p-4 sm:p-4 rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white/20 dark:border-slate-800/50 flex flex-col lg:flex-row items-center gap-4"
           >
             <div className="relative flex-1 w-full">
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400" size={20} />
@@ -373,19 +373,19 @@ export default function HashHuntPage() {
                 placeholder={t.searchPlaceholder}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-14 pr-6 py-4 sm:py-5 bg-slate-50 dark:bg-slate-800/50 border-none rounded-[1.5rem] sm:rounded-[1.8rem] focus:ring-2 focus:ring-indigo-500 transition-all text-slate-900 dark:text-white font-bold text-base sm:text-lg placeholder:text-slate-400"
+                className="w-full pl-14 pr-6 py-4 sm:py-6 bg-slate-50 dark:bg-slate-800/50 border-none rounded-[1.5rem] sm:rounded-[1.8rem] focus:ring-2 focus:ring-indigo-500 transition-all text-slate-900 dark:text-white font-bold text-base sm:text-lg placeholder:text-slate-400"
               />
             </div>
             <div className="flex items-center gap-2 w-full lg:w-auto overflow-x-auto scrollbar-hide px-1 lg:px-0 py-1">
-              <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-1.5 rounded-[1.5rem] sm:rounded-[1.8rem] border border-slate-100 dark:border-slate-800/50">
-                <SlidersHorizontal size={16} className="mx-2 sm:mx-3 text-slate-400 shrink-0" />
+              <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800/50 p-2 rounded-[1.5rem] sm:rounded-[1.8rem] border border-slate-100 dark:border-slate-800/50">
+                <SlidersHorizontal size={16} className="mx-2 sm:mx-4 text-slate-400 shrink-0" />
                 <div className="flex gap-2">
                   {jobTypes.map((type) => (
                     <button
                       key={type}
                       onClick={() => setSelectedType(type)}
                       className={cn(
-                        "px-4 sm:px-6 py-2.5 sm:py-3 rounded-[1rem] sm:rounded-[1.2rem] text-[10px] sm:text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all active:scale-95",
+                        "px-4 sm:px-6 py-2 sm:py-4 rounded-[1rem] sm:rounded-[1.2rem] text-[10px] sm:text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all active:scale-95",
                         selectedType === type 
                           ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-sm ring-1 ring-slate-200 dark:ring-slate-600' 
                           : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -417,7 +417,7 @@ export default function HashHuntPage() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="flex items-start gap-5 text-slate-300"
+                    className="flex items-start gap-6 text-slate-300"
                   >
                     <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 flex items-center justify-center shrink-0 mt-1 border border-indigo-500/20">
                       <CheckCircle2 size={24} className="text-indigo-400" />
@@ -461,7 +461,7 @@ export default function HashHuntPage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
             <div className="text-center md:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest mb-4 border border-slate-200 dark:border-slate-700">
+              <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest mb-4 border border-slate-200 dark:border-slate-700">
                 <Briefcase size={12} />
                 {loading ? t.loadingJobs : `${filteredJobs.length} ${t.jobsFound}`}
               </div>
@@ -472,7 +472,7 @@ export default function HashHuntPage() {
               <button
                 onClick={() => setShowSavedOnly(!showSavedOnly)}
                 className={cn(
-                  "flex items-center gap-3 px-8 py-4 rounded-2xl border transition-all shadow-xl font-black uppercase tracking-widest text-xs",
+                  "flex items-center gap-4 px-8 py-4 rounded-2xl border transition-all shadow-xl font-black uppercase tracking-widest text-xs",
                   showSavedOnly 
                     ? 'bg-indigo-600 border-indigo-600 text-white shadow-indigo-600/30' 
                     : 'bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-indigo-200 dark:hover:border-indigo-800'
@@ -491,24 +491,24 @@ export default function HashHuntPage() {
                   <div className="flex gap-6 mb-8">
                     <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-2xl"></div>
                     <div className="flex-1 space-y-4 py-2">
-                      <div className="h-6 bg-slate-100 dark:bg-slate-800 rounded-full w-3/4"></div>
+                      <div className="h-6 bg-slate-100 dark:bg-slate-800 rounded-full w-4/5"></div>
                       <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-full w-1/2"></div>
                     </div>
                   </div>
                   <div className="space-y-4 mb-10">
                     <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-full w-full"></div>
-                    <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-full w-5/6"></div>
+                    <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-full w-4/5"></div>
                     <div className="h-4 bg-slate-100 dark:bg-slate-800 rounded-full w-4/6"></div>
                   </div>
                   <div className="flex justify-between items-center mt-auto pt-6 border-t border-slate-50 dark:border-slate-800">
-                    <div className="h-5 w-20 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
+                    <div className="h-6 w-20 bg-slate-100 dark:bg-slate-800 rounded-full"></div>
                     <div className="h-12 w-32 bg-slate-100 dark:bg-slate-800 rounded-xl"></div>
                   </div>
                 </div>
               ))}
             </div>
           ) : error ? (
-            <div className="text-center py-32 bg-white dark:bg-slate-900 rounded-[4rem] border border-slate-100 dark:border-slate-800 shadow-2xl">
+            <div className="text-center py-42 bg-white dark:bg-slate-900 rounded-[4rem] border border-slate-100 dark:border-slate-800 shadow-2xl">
               <div className="w-24 h-24 bg-rose-50 dark:bg-rose-900/20 rounded-full flex items-center justify-center mx-auto mb-8">
                 <X size={48} className="text-rose-500" />
               </div>
@@ -521,7 +521,7 @@ export default function HashHuntPage() {
               </button>
             </div>
           ) : filteredJobs.length === 0 ? (
-            <div className="text-center py-32 bg-white dark:bg-slate-900 rounded-[4rem] border border-slate-100 dark:border-slate-800 shadow-2xl">
+            <div className="text-center py-42 bg-white dark:bg-slate-900 rounded-[4rem] border border-slate-100 dark:border-slate-800 shadow-2xl">
               <div className="w-32 h-32 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-10">
                 <Search size={64} className="text-slate-200" />
               </div>
@@ -576,7 +576,7 @@ export default function HashHuntPage() {
       </section>
 
       {/* How it works Section */}
-      <section className="py-32 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900">
+      <section className="py-42 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-24">
             <h2 className="text-4xl md:text-7xl font-black text-slate-900 dark:text-white mb-6 font-display tracking-tighter leading-none">{t.howItWorksTitle}</h2>
@@ -609,11 +609,11 @@ export default function HashHuntPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-950 text-slate-500 py-32 border-t border-white/5 pb-safe">
+      <footer className="bg-slate-950 text-slate-500 py-42 border-t border-white/5 pb-safe">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-20">
             <div className="flex flex-col items-center md:items-start text-center md:text-left">
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-4 mb-6">
                 <Logo className="w-12 h-12 text-[#ff4d2d]" />
                 <span className="text-4xl font-black text-white font-display tracking-tighter">Hash Resume</span>
               </div>
@@ -643,7 +643,7 @@ export default function HashHuntPage() {
               <div className="flex items-center gap-6">
                 <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">
                   <span className="sr-only">Twitter</span>
-                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                  <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
                 </a>
               </div>
             </div>

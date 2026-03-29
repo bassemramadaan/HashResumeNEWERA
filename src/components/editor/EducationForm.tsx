@@ -102,7 +102,7 @@ const EducationForm = () => {
                 className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                 onClick={() => setExpandedId(expandedId === edu.id ? null : edu.id)}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <div 
                     className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                     onClick={(e) => e.stopPropagation()}
@@ -114,7 +114,7 @@ const EducationForm = () => {
                     <p className="text-sm text-slate-500 dark:text-slate-400">{edu.institution || 'Institution Name'} • {edu.startDate || 'Start'} - {edu.endDate || 'End'}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation(); 
@@ -146,7 +146,7 @@ const EducationForm = () => {
                         type="text"
                         value={edu.degree}
                         onChange={(e) => updateEducation(edu.id, { degree: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. Bachelor of Science in Computer Science"
                       />
                     </div>
@@ -157,7 +157,7 @@ const EducationForm = () => {
                         type="text"
                         value={edu.institution}
                         onChange={(e) => updateEducation(edu.id, { institution: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. Cairo University"
                       />
                       <datalist id={`universities-${edu.id}`}>
@@ -172,7 +172,7 @@ const EducationForm = () => {
                         type="month"
                         value={edu.startDate}
                         onChange={(e) => updateEducation(edu.id, { startDate: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -181,7 +181,7 @@ const EducationForm = () => {
                         type="text"
                         value={edu.endDate}
                         onChange={(e) => updateEducation(edu.id, { endDate: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. 2024 or Present"
                       />
                     </div>
@@ -222,7 +222,7 @@ const EducationForm = () => {
                         rows={3}
                         value={edu.description}
                         onChange={(e) => updateEducation(edu.id, { description: e.target.value })}
-                        className="block w-full p-3 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full p-4 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="• Relevant coursework, honors, GPA..."
                       />
                     </div>

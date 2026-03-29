@@ -87,10 +87,10 @@ export default function SharePage() {
                 <p className="text-center text-slate-600 dark:text-slate-400">
                   This will overwrite your current editor data with this CV. Are you sure you want to continue?
                 </p>
-                <div className="flex gap-3 pt-4">
+                <div className="flex gap-4 pt-4">
                   <button
                     onClick={() => setShowConfirm(false)}
-                    className="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    className="flex-1 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                   >
                     Cancel
                   </button>
@@ -99,7 +99,7 @@ export default function SharePage() {
                       setShowConfirm(false);
                       handleUseTemplate();
                     }}
-                    className="flex-1 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-colors"
+                    className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-colors"
                   >
                     Yes, Continue
                   </button>
@@ -114,7 +114,7 @@ export default function SharePage() {
         <Link to="/" className="text-xl font-bold text-slate-900 dark:text-white">
           Hash Resume
         </Link>
-        <div className="flex gap-3">
+        <div className="flex gap-4">
           <button
             onClick={handleCopyLink}
             className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-full shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"

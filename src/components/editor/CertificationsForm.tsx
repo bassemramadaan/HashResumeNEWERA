@@ -44,7 +44,7 @@ const CertificationsForm = () => {
                 className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                 onClick={() => setExpandedId(expandedId === cert.id ? null : cert.id)}
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <div 
                     className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                     onClick={(e) => e.stopPropagation()}
@@ -56,7 +56,7 @@ const CertificationsForm = () => {
                     <p className="text-sm text-slate-500 dark:text-slate-400">{cert.issuer || 'Issuer'} • {cert.date || 'Date'}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation(); 
@@ -88,7 +88,7 @@ const CertificationsForm = () => {
                         type="text"
                         value={cert.name}
                         onChange={(e) => updateCertification(cert.id, { name: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. AWS Certified Developer"
                       />
                     </div>
@@ -98,7 +98,7 @@ const CertificationsForm = () => {
                         type="text"
                         value={cert.issuer}
                         onChange={(e) => updateCertification(cert.id, { issuer: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
                         placeholder="e.g. Amazon Web Services"
                       />
                     </div>
@@ -108,7 +108,7 @@ const CertificationsForm = () => {
                         type="month"
                         value={cert.date}
                         onChange={(e) => updateCertification(cert.id, { date: e.target.value })}
-                        className="block w-full px-3 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
                       />
                     </div>
                   </div>

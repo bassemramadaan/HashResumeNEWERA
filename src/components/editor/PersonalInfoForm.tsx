@@ -49,7 +49,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label htmlFor="fullName" className="text-sm font-medium text-slate-700 dark:text-slate-300">Full Name <span className="text-rose-500">*</span></label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <User className={`h-4 w-4 ${errors.fullName ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
             </div>
             <input
@@ -59,13 +59,13 @@ const PersonalInfoForm = () => {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.fullName ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. John Doe"
             />
             {errors.fullName && (
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                 <AlertCircle className="h-4 w-4 text-rose-500" />
               </div>
             )}
@@ -76,7 +76,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label htmlFor="jobTitle" className="text-sm font-medium text-slate-700 dark:text-slate-300">Job Title <span className="text-rose-500">*</span></label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <FileText className={`h-4 w-4 ${errors.jobTitle ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
             </div>
             <input
@@ -86,13 +86,13 @@ const PersonalInfoForm = () => {
               value={personalInfo.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.jobTitle ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. Senior Software Engineer"
             />
             {errors.jobTitle && (
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                 <AlertCircle className="h-4 w-4 text-rose-500" />
               </div>
             )}
@@ -103,7 +103,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium text-slate-700 dark:text-slate-300">Email Address <span className="text-rose-500">*</span></label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Mail className={`h-4 w-4 ${errors.email ? 'text-rose-400' : 'text-slate-400 dark:text-slate-500'}`} />
             </div>
             <input
@@ -113,13 +113,13 @@ const PersonalInfoForm = () => {
               value={personalInfo.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full pl-10 pr-3 py-2.5 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
+              className={`block w-full pl-10 pr-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 ${
                 errors.email ? 'border-rose-300 dark:border-rose-700 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 dark:border-slate-700'
               }`}
               placeholder="e.g. john.doe@example.com"
             />
             {errors.email && (
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
                 <AlertCircle className="h-4 w-4 text-rose-500" />
               </div>
             )}
@@ -130,7 +130,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label htmlFor="phone" className="text-sm font-medium text-slate-700 dark:text-slate-300">Phone Number</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Phone className="h-4 w-4 text-slate-400 dark:text-slate-500" />
             </div>
             <input
@@ -139,7 +139,7 @@ const PersonalInfoForm = () => {
               name="phone"
               value={personalInfo.phone}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. +1 234 567 8900"
             />
           </div>
@@ -148,7 +148,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label htmlFor="address" className="text-sm font-medium text-slate-700 dark:text-slate-300">Address / Location</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <MapPin className="h-4 w-4 text-slate-400 dark:text-slate-500" />
             </div>
             <input
@@ -157,7 +157,7 @@ const PersonalInfoForm = () => {
               name="address"
               value={personalInfo.address}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. New York, NY"
             />
           </div>
@@ -166,7 +166,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label htmlFor="linkedin" className="text-sm font-medium text-slate-700 dark:text-slate-300">LinkedIn URL</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Linkedin className="h-4 w-4 text-slate-400 dark:text-slate-500" />
             </div>
             <input
@@ -175,7 +175,7 @@ const PersonalInfoForm = () => {
               name="linkedin"
               value={personalInfo.linkedin}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. linkedin.com/in/johndoe"
             />
           </div>
@@ -184,7 +184,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label htmlFor="github" className="text-sm font-medium text-slate-700 dark:text-slate-300">GitHub URL</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Github className="h-4 w-4 text-slate-400 dark:text-slate-500" />
             </div>
             <input
@@ -193,7 +193,7 @@ const PersonalInfoForm = () => {
               name="github"
               value={personalInfo.github || ''}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. github.com/johndoe"
             />
           </div>
@@ -202,7 +202,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label htmlFor="portfolio" className="text-sm font-medium text-slate-700 dark:text-slate-300">Portfolio / Website</label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <Globe className="h-4 w-4 text-slate-400 dark:text-slate-500" />
             </div>
             <input
@@ -211,7 +211,7 @@ const PersonalInfoForm = () => {
               name="portfolio"
               value={personalInfo.portfolio || ''}
               onChange={handleChange}
-              className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+              className="block w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
               placeholder="e.g. johndoe.dev"
             />
           </div>
@@ -256,7 +256,7 @@ const PersonalInfoForm = () => {
             rows={4}
             value={personalInfo.summary}
             onChange={handleChange}
-            className="block w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
+            className="block w-full p-4 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-none bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500"
             placeholder="e.g. Creative Graphic Designer with 5+ years of experience in branding and digital marketing. Proven track record of increasing client engagement by 40%. Skilled in Adobe Creative Suite and UI/UX design principles."
           />
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Aim for 3-4 sentences highlighting your key achievements and skills.</p>

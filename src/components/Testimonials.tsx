@@ -66,7 +66,7 @@ export default function Testimonials() {
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-900/30 text-[#ff4d2d] text-xs font-bold uppercase tracking-widest mb-4"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-[#ff4d2d] text-xs font-bold uppercase tracking-widest mb-4"
             >
               <Star size={12} className="fill-current" />
               <span>{language === 'ar' ? 'آراء المستخدمين' : 'Testimonials'}</span>
@@ -111,7 +111,7 @@ export default function Testimonials() {
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900 dark:text-white text-base leading-tight">{review.name}</h4>
-                    <div className="h-1 w-8 bg-[#ff4d2d]/20 rounded-full mt-1 group-hover:w-12 transition-all duration-500" />
+                    <div className="h-1 w-8 bg-[#ff4d2d]/20 rounded-full mt-2 group-hover:w-12 transition-all duration-500" />
                   </div>
                 </div>
               </div>

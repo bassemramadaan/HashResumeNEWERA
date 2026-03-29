@@ -44,7 +44,7 @@ export default function ConversationalOnboarding({ onClose }: { onClose: () => v
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Resume Assistant</h2>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-sm text-slate-500 dark:text-slate-400 font-medium">Step {step + 1} of {steps.length}</span>
-              <div className="flex-1 h-1.5 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+              <div className="flex-1 h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-emerald-500 transition-all duration-300 ease-out"
                   style={{ width: `${((step + 1) / steps.length) * 100}%` }}
@@ -62,7 +62,7 @@ export default function ConversationalOnboarding({ onClose }: { onClose: () => v
             exit={{ opacity: 0, x: -20 }}
           >
             <p className="text-lg text-slate-600 dark:text-slate-400 mb-6">{steps[step].question}</p>
-            <div className="grid gap-3">
+            <div className="grid gap-4">
               {steps[step].options.map(option => (
                 <button
                   key={option}

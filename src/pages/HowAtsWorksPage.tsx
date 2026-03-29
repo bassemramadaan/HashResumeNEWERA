@@ -29,7 +29,7 @@ export default function HowAtsWorksPage() {
         <div className="space-y-12">
           <section className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <div className="flex items-start gap-4 mb-4">
-              <div className="p-3 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl text-emerald-600 dark:text-emerald-400">
+              <div className="p-4 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl text-emerald-600 dark:text-emerald-400">
                 <FileSearch size={24} />
               </div>
               <div>
@@ -45,7 +45,7 @@ export default function HowAtsWorksPage() {
 
           <section className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <div className="flex items-start gap-4 mb-4">
-              <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl text-blue-600 dark:text-blue-400">
+              <div className="p-4 bg-blue-100 dark:bg-blue-900/30 rounded-xl text-blue-600 dark:text-blue-400">
                 <CheckCircle2 size={24} />
               </div>
               <div>
@@ -61,7 +61,7 @@ export default function HowAtsWorksPage() {
 
           <section className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <div className="flex items-start gap-4 mb-4">
-              <div className="p-3 bg-amber-100 dark:bg-amber-900/30 rounded-xl text-amber-600 dark:text-amber-400">
+              <div className="p-4 bg-amber-100 dark:bg-amber-900/30 rounded-xl text-amber-600 dark:text-amber-400">
                 <AlertTriangle size={24} />
               </div>
               <div>
@@ -77,7 +77,7 @@ export default function HowAtsWorksPage() {
 
           <section className="bg-white dark:bg-slate-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
             <div className="flex items-start gap-4 mb-4">
-              <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-xl text-purple-600 dark:text-purple-400">
+              <div className="p-4 bg-purple-100 dark:bg-purple-900/30 rounded-xl text-purple-600 dark:text-purple-400">
                 <Search size={24} />
               </div>
               <div>

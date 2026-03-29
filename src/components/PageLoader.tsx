@@ -21,12 +21,12 @@ export default function PageLoader() {
       <div className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
         <div className="space-y-8">
           <div className="space-y-4">
-            <div className="h-12 w-3/4 bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse"></div>
+            <div className="h-12 w-4/5 bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse"></div>
             <div className="h-12 w-1/2 bg-slate-200 dark:bg-slate-800 rounded-2xl animate-pulse delay-75"></div>
           </div>
           <div className="space-y-3">
             <div className="h-4 w-full bg-slate-200 dark:bg-slate-800 rounded-full animate-pulse delay-100"></div>
-            <div className="h-4 w-5/6 bg-slate-200 dark:bg-slate-800 rounded-full animate-pulse delay-150"></div>
+            <div className="h-4 w-4/5 bg-slate-200 dark:bg-slate-800 rounded-full animate-pulse delay-150"></div>
             <div className="h-4 w-4/6 bg-slate-200 dark:bg-slate-800 rounded-full animate-pulse delay-200"></div>
           </div>
           <div className="flex gap-4 pt-4">

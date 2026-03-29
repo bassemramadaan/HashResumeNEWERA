@@ -64,12 +64,12 @@ export default function BlogPage() {
                     {post.readTime[language]}
                   </span>
                 </div>
-                <Link to={`/blog/${post.id}`} className="block mb-3">
+                <Link to={`/blog/${post.id}`} className="block mb-4">
                   <h2 className="text-xl font-bold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors line-clamp-2">
                     {post.title[language]}
                   </h2>
                 </Link>
-                <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 line-clamp-3 flex-1">
+                <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 line-clamp-4 flex-1">
                   {post.excerpt[language]}
                 </p>
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">

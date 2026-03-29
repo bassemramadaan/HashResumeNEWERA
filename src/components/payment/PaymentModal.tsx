@@ -90,7 +90,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">Unlock Premium Export</h2>
             <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">One-time fee for a single professional PDF export.</p>
             
-            <div className="inline-block bg-red-50 text-red-500 text-xs font-bold px-3 py-1 rounded-full mb-2">Limited Time Offer</div>
+            <div className="inline-block bg-red-50 text-red-500 text-xs font-bold px-4 py-2 rounded-full mb-2">Limited Time Offer</div>
             <div className="text-3xl font-bold text-slate-900 dark:text-white mb-4 flex items-center justify-center gap-1">
               {currency === 'EGP' || currency === 'SAR' || currency === 'AED' ? (
                 <span>{selected.price} {selected.symbol}</span>
@@ -99,12 +99,12 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               )}
             </div>
 
-            <div className="flex flex-wrap justify-center gap-2 mb-5">
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
               {Object.keys(currencies).map((c) => (
                 <button
                   key={c}
                   onClick={() => setCurrency(c as keyof typeof currencies)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${currency === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}`}
+                  className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${currency === c ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}`}
                 >
                   {c}
                 </button>
@@ -123,34 +123,34 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             </div>
 
             <div className="mb-6 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 text-left">
-              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
                 <CheckCircle2 size={16} className="text-indigo-500" />
                 How to get your code
               </h3>
               <div className="space-y-3">
-                <div className="flex gap-3">
-                  <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</div>
+                <div className="flex gap-4">
+                  <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</div>
                   <p className="text-xs text-slate-600 dark:text-slate-400">Click "Get Code via WhatsApp" below to message us.</p>
                 </div>
-                <div className="flex gap-3">
-                  <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</div>
+                <div className="flex gap-4">
+                  <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</div>
                   <p className="text-xs text-slate-600 dark:text-slate-400">Complete the payment and receive your unique activation code instantly.</p>
                 </div>
-                <div className="flex gap-3">
-                  <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</div>
+                <div className="flex gap-4">
+                  <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</div>
                   <p className="text-xs text-slate-600 dark:text-slate-400">Enter the code below to unlock your download.</p>
                 </div>
               </div>
             </div>
 
-            <div className="mb-5 text-left">
+            <div className="mb-6 text-left">
               <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Enter your activation code</label>
               <input 
                 type="text"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="E.G. HASH-1234-ABCD"
-                className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                className="w-full p-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
               />
               {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </div>
@@ -158,18 +158,18 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             <button 
               onClick={handleVerify}
               disabled={verifying || !code}
-              className="w-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-3 rounded-xl font-bold transition-all mb-5 disabled:opacity-50 text-sm"
+              className="w-full bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 py-4 rounded-xl font-bold transition-all mb-6 disabled:opacity-50 text-sm"
             >
               {verifying ? 'Verifying...' : 'Unlock Now'}
             </button>
 
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-4">
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium whitespace-nowrap">Don't have a code?</p>
               <a 
                 href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2.5 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm"
+                className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm"
               >
                 <Ticket size={18} />
                 Get Code via WhatsApp
