@@ -50,7 +50,7 @@ const ResumePreview = memo(forwardRef<HTMLDivElement, ResumePreviewProps>((props
 
   const FreshGradBadge = () => (
     settings.isFreshGrad ? (
-      <div className="absolute top-4 right-4 z-50 bg-emerald-100 text-emerald-700 text-xs font-bold px-4 py-1 rounded-full border border-emerald-200 shadow-sm print:hidden flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
+      <div className="absolute top-4 end-4 z-50 bg-emerald-100 text-emerald-700 text-xs font-bold px-4 py-1 rounded-full border border-emerald-200 shadow-sm print:hidden flex items-center gap-2 opacity-80 hover:opacity-100 transition-opacity">
         <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
         {lang === 'ar' ? 'وضع حديثي التخرج' : 'Fresh Graduate Mode'}
       </div>

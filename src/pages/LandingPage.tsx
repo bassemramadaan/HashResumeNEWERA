@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Zap, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, TrendingUp, Calendar, Clock, Target, Plus, Search, Sparkles, Layout, ArrowUp } from 'lucide-react';
+import { ShieldCheck, Zap, CheckCircle2, ArrowRight, MessageCircle, Facebook, Instagram, AtSign, TrendingUp, Calendar, Clock, Target, Plus, Search, Sparkles, Layout, ArrowUp, PenTool } from 'lucide-react';
 import Logo from '../components/Logo';
 import FAQ from '../components/FAQ';
 import ProductShowcase from '../components/ProductShowcase';
@@ -123,15 +123,15 @@ export default function LandingPage() {
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
                 className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-4 mb-12"
               >
-                <Link to="/editor" className="w-full sm:w-auto bg-gradient-to-r from-[#ff4d2d] to-orange-600 hover:from-[#e63e1d] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                <Link to="/editor" className="w-full sm:w-auto bg-gradient-to-r from-[#ff4d2d] to-orange-600 hover:from-[#e63e1d] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 group hover:scale-105 active:scale-95">
                    <Plus size={20} />
                    {t.startFromScratch}
                 </Link>
-                <Link to="/templates" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-[#ff4d2d] dark:hover:border-orange-500 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-sm flex items-center justify-center gap-2 group hover:scale-105 active:scale-95">
+                <Link to="/templates" className="w-full sm:w-auto bg-white dark:bg-slate-800 text-slate-900 dark:text-white border border-slate-200 dark:border-slate-700 hover:border-[#ff4d2d] dark:hover:border-orange-500 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-sm flex items-center justify-center gap-3 group hover:scale-105 active:scale-95">
                    <Layout size={20} className="text-slate-400 group-hover:text-[#ff4d2d] transition-colors" />
                    {t.chooseTemplate}
                 </Link>
@@ -373,8 +373,8 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold text-sm mb-6">
-                <Sparkles className="w-4 h-4 me-2" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold text-sm mb-6">
+                <Sparkles className="w-4 h-4" />
                 {language === 'ar' ? 'جديد: Hash Hunt' : 'New: Hash Hunt'}
               </div>
               <h2 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
@@ -405,10 +405,12 @@ export default function LandingPage() {
               </div>
               
               <div className="flex flex-wrap gap-4">
-                <Link to="/hash-hunt" className="px-8 py-4 bg-white text-blue-600 rounded-xl font-bold text-lg shadow-xl transition-all hover:scale-105 active:scale-95">
+                <Link to="/hash-hunt" className="px-8 py-4 bg-white text-blue-600 rounded-xl font-bold text-lg shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                  <Target size={20} />
                   {language === 'ar' ? 'اكتشف Hash Hunt' : 'Explore Hash Hunt'}
                 </Link>
-                <Link to="/editor" className="px-8 py-4 bg-blue-500/30 backdrop-blur-md border border-white/30 text-white rounded-xl font-bold text-lg transition-all hover:bg-blue-500/40">
+                <Link to="/editor" className="px-8 py-4 bg-blue-500/30 backdrop-blur-md border border-white/30 text-white rounded-xl font-bold text-lg transition-all hover:bg-blue-500/40 flex items-center justify-center gap-2">
+                  <PenTool size={20} />
                   {language === 'ar' ? 'أنشئ سيرتك الذاتية أولاً' : 'Create Your Resume First'}
                 </Link>
               </div>
