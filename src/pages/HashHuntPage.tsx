@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Briefcase,
@@ -12,15 +11,14 @@ import {
   Bookmark,
   X,
   Sparkles,
-  SlidersHorizontal,
-  Info,
+  Clock,
+  Banknote,
 } from "lucide-react";
-import Logo from "../components/Logo";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useApplicationStore } from "../store/useApplicationStore";
 import { translations } from "../i18n/translations";
 import Navbar from "../components/Navbar";
-import LanguageSwitcher from "../components/LanguageSwitcher";
+import Footer from "../components/Footer";
 import { cn } from "../utils";
 import { mockJobs, Job } from "../data/jobs";
 
@@ -42,16 +40,19 @@ const JobCard = React.forwardRef<
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ y: -8 }}
-      className="group relative bg-white rounded-[2rem] p-6 shadow-sm border border-slate-100 hover:shadow-2xl :shadow-indigo-900/20 transition-all duration-500 flex flex-col h-full cursor-pointer overflow-hidden"
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      className="group relative bg-white rounded-3xl p-8 shadow-sm border border-slate-200 hover:shadow-2xl hover:shadow-indigo-100 hover:border-indigo-300 transition-all duration-500 flex flex-col h-full cursor-pointer overflow-hidden"
       onClick={onOpenDetails}
     >
-      {/* Decorative background element */}
-      <div className="absolute top-0 end-0 w-32 h-32 bg-gradient-to-br from-indigo-500/5 to-transparent rounded-es-full -me-16 -mt-16 group-hover:scale-150 transition-transform duration-700"></div>
+      {/* Subtle background glow */}
+      <div className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-50 rounded-full blur-[80px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+      
+      {/* Shimmer effect */}
+      <div className="absolute inset-0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-20deg]"></div>
 
-      <div className="flex items-start justify-between mb-6 relative z-10">
+      <div className="flex items-start justify-between mb-5 relative z-10">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center text-slate-400 font-black text-xl overflow-hidden shrink-0 border border-slate-100 group-hover:border-indigo-500/30 transition-colors shadow-sm">
+          <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-400 font-bold text-xl overflow-hidden shrink-0 border border-slate-100 group-hover:border-indigo-100 transition-colors">
             {job.logo ? (
               <img
                 src={job.logo}
@@ -59,18 +60,16 @@ const JobCard = React.forwardRef<
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
                 loading="lazy"
-                decoding="async"
               />
             ) : (
               job.company.charAt(0)
             )}
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="font-black text-lg text-slate-900 group-hover:text-indigo-600 :text-indigo-400 transition-colors line-clamp-1 mb-0.5 tracking-tight">
+          <div>
+            <h3 className="font-bold text-base text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1 tracking-tight">
               {job.title}
             </h3>
-            <p className="text-xs text-slate-500 font-bold flex items-center gap-2 uppercase tracking-wider">
-              <Building2 size={12} className="text-indigo-500" />
+            <p className="text-sm text-slate-500 font-medium">
               {job.company}
             </p>
           </div>
@@ -81,64 +80,51 @@ const JobCard = React.forwardRef<
             onToggleSave();
           }}
           className={cn(
-            "p-2 rounded-xl shadow-sm border transition-all duration-300 active:scale-90",
+            "p-2 rounded-xl border transition-all duration-300",
             isSaved
-              ? "bg-indigo-600 border-indigo-600 text-white"
-              : "bg-white border-slate-100 text-slate-400 hover:text-indigo-600 :text-indigo-400 hover:bg-indigo-50 :bg-indigo-900/20",
+              ? "bg-indigo-600 border-indigo-600 text-white shadow-lg shadow-indigo-200"
+              : "bg-white border-slate-100 text-slate-400 hover:text-indigo-600 hover:border-indigo-100 hover:bg-indigo-50",
           )}
-          title={isSaved ? "Remove from saved" : "Save job"}
         >
           <Bookmark size={18} fill={isSaved ? "currentColor" : "none"} />
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-6 relative z-10">
-        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-600 bg-slate-50 px-4 py-2 rounded-full border border-slate-100 group-hover:bg-indigo-50 :bg-indigo-900/30 transition-colors">
-          <MapPin size={12} className="text-indigo-500" />
+      <div className="flex flex-wrap gap-2 mb-5 relative z-10">
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 text-slate-600 text-[11px] font-bold border border-slate-100">
+          <MapPin size={12} className="text-slate-400" />
           {job.location}
         </div>
-        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-600 bg-slate-50 px-4 py-2 rounded-full border border-slate-100 group-hover:bg-indigo-50 :bg-indigo-900/30 transition-colors">
-          <Briefcase size={12} className="text-indigo-500" />
+        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-[11px] font-bold border border-indigo-100">
+          <Briefcase size={12} className="text-indigo-400" />
           {job.type}
         </div>
       </div>
 
       {job.description && (
-        <p className="text-sm text-slate-600 mb-8 line-clamp-4 flex-grow leading-relaxed relative z-10 font-medium italic opacity-80">
-          "{job.description}"
+        <p className="text-sm text-slate-600 mb-6 line-clamp-2 leading-relaxed flex-grow relative z-10">
+          {job.description}
         </p>
       )}
 
-      <div className="flex items-center justify-between mt-auto pt-6 border-t border-slate-50 relative z-10">
+      <div className="flex items-center justify-between mt-auto pt-5 border-t border-slate-100 relative z-10">
         <div className="flex flex-col">
-          <span className="text-[9px] uppercase tracking-widest font-black text-slate-400 mb-1">
-            {t.useCode}
+          <span className="text-[10px] uppercase tracking-widest font-bold text-slate-400 mb-1">
+            {t.jobCode}
           </span>
-          <span className="font-mono text-indigo-600 font-black bg-indigo-50 px-2 py-0.5 rounded text-xs ring-1 ring-indigo-100">
+          <span className="font-mono text-indigo-600 font-bold text-xs">
             {job.code || "N/A"}
           </span>
         </div>
-        <div className="flex gap-2">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onApply();
-            }}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition"
-          >
-            Apply
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onOpenDetails();
-            }}
-            className="inline-flex items-center justify-center w-10 h-10 bg-slate-100 hover:bg-slate-200 :bg-slate-700 text-slate-700 rounded-xl transition-all"
-            title={t.viewDetails}
-          >
-            <Info size={18} />
-          </button>
-        </div>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onApply();
+          }}
+          className="px-6 py-2.5 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-indigo-600 transition-all shadow-sm active:scale-95"
+        >
+          {t.applyNow}
+        </button>
       </div>
     </motion.div>
   );
@@ -163,65 +149,68 @@ const JobDetailsModal: React.FC<{
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
+            className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+            initial={{ opacity: 0, scale: 0.98, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 40 }}
-            className="relative w-full max-w-4xl bg-white rounded-[3rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-white/10"
+            exit={{ opacity: 0, scale: 0.98, y: 10 }}
+            className="relative w-full max-w-3xl bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-200"
           >
-            <div className="absolute top-8 end-8 z-20 flex gap-4">
+            <div className="absolute top-6 end-6 z-20 flex gap-2">
               <button
                 onClick={onToggleSave}
                 className={cn(
-                  "p-4 rounded-2xl shadow-xl border transition-all duration-300 active:scale-90",
+                  "p-2.5 rounded-xl border transition-all duration-300 active:scale-90 bg-white shadow-sm",
                   isSaved
                     ? "bg-indigo-600 border-indigo-600 text-white"
-                    : "bg-white border-slate-100 text-slate-400 hover:text-indigo-600 :text-indigo-400",
+                    : "border-slate-200 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50",
                 )}
               >
-                <Bookmark size={22} fill={isSaved ? "currentColor" : "none"} />
+                <Bookmark size={20} fill={isSaved ? "currentColor" : "none"} />
               </button>
               <button
                 onClick={onClose}
-                className="p-4 rounded-2xl bg-white border border-slate-100 text-slate-400 hover:text-slate-900 :text-white transition-all shadow-xl active:scale-90"
+                className="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-all shadow-sm active:scale-90"
               >
-                <X size={22} />
+                <X size={20} />
               </button>
             </div>
 
-            <div className="p-8 sm:p-16 overflow-y-auto custom-scrollbar">
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 mb-12 text-center sm:text-start">
-                <div className="w-28 h-28 bg-slate-50 rounded-[2rem] flex items-center justify-center text-slate-400 font-black text-5xl border border-slate-100 shadow-2xl shrink-0 overflow-hidden">
+            <div className="p-8 sm:p-12 overflow-y-auto custom-scrollbar">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-10 mb-12">
+                <div className="w-24 h-24 bg-slate-50 rounded-[2rem] flex items-center justify-center text-slate-300 font-bold text-4xl border border-slate-100 shadow-sm shrink-0 overflow-hidden group">
                   {job.logo ? (
                     <img
                       src={job.logo}
                       alt={job.company}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       referrerPolicy="no-referrer"
                       loading="lazy"
-                      decoding="async"
                     />
                   ) : (
                     job.company.charAt(0)
                   )}
                 </div>
-                <div className="flex-1">
-                  <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-widest mb-4 border border-indigo-100">
+                <div className="flex-1 text-center sm:text-start">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-[10px] font-bold mb-6 border border-indigo-100 uppercase tracking-widest">
                     <Sparkles size={12} />
                     {job.type}
                   </div>
-                  <h2 className="text-4xl sm:text-5xl font-black text-slate-900 mb-4 leading-[0.9] tracking-tighter">
+                  <h2 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6 tracking-tight leading-tight">
                     {job.title}
                   </h2>
-                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-6 text-slate-500 font-bold">
-                    <span className="flex items-center gap-2">
-                      <Building2 size={20} className="text-indigo-500" />
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-8 text-slate-500 font-semibold text-sm">
+                    <span className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                        <Building2 size={16} className="text-slate-400" />
+                      </div>
                       {job.company}
                     </span>
-                    <span className="flex items-center gap-2">
-                      <MapPin size={20} className="text-indigo-500" />
+                    <span className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                        <MapPin size={16} className="text-slate-400" />
+                      </div>
                       {job.location}
                     </span>
                   </div>
@@ -231,33 +220,44 @@ const JobDetailsModal: React.FC<{
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
                 {[
                   {
-                    label: "Salary Range",
+                    label: t.salaryRange,
                     value: job.salary || "Competitive",
-                    color: "indigo",
+                    icon: Banknote,
+                    color: "text-emerald-500",
                   },
                   {
-                    label: "Posted",
+                    label: t.posted,
                     value: job.postedAt || "Recently",
-                    color: "emerald",
+                    icon: Clock,
+                    color: "text-blue-500",
                   },
-                  { label: "Job Type", value: job.type, color: "purple" },
+                  { 
+                    label: t.jobType, 
+                    value: job.type, 
+                    icon: Briefcase,
+                    color: "text-purple-500",
+                  },
                   {
-                    label: "Job Code",
+                    label: t.jobCode,
                     value: job.code || "N/A",
-                    color: "orange",
+                    icon: Search,
+                    color: "text-indigo-500",
                     isMono: true,
                   },
                 ].map((item, i) => (
                   <div
                     key={i}
-                    className="bg-slate-50 p-6 rounded-3xl border border-slate-100"
+                    className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex flex-col gap-2"
                   >
-                    <span className="block text-[9px] uppercase tracking-widest font-black text-slate-400 mb-2">
-                      {item.label}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <item.icon size={14} className={item.color} />
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                        {item.label}
+                      </span>
+                    </div>
                     <span
                       className={cn(
-                        "text-slate-900 font-black text-sm",
+                        "text-slate-900 font-bold text-sm",
                         item.isMono && "font-mono text-indigo-600",
                       )}
                     >
@@ -268,22 +268,22 @@ const JobDetailsModal: React.FC<{
               </div>
 
               <div className="space-y-12">
-                <div>
-                  <h3 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-4">
-                    <div className="w-2 h-8 bg-indigo-500 rounded-full"></div>
+                <div className="prose prose-slate max-w-none">
+                  <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                    <span className="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
                     {t.jobDescription}
                   </h3>
-                  <p className="text-lg text-slate-600 leading-relaxed font-medium whitespace-pre-line opacity-90">
+                  <p className="text-base text-slate-600 leading-relaxed whitespace-pre-line">
                     {job.description}
                   </p>
                 </div>
 
                 <div>
-                  <h3 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-4">
-                    <div className="w-2 h-8 bg-purple-500 rounded-full"></div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                    <span className="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
                     {t.requirements}
                   </h3>
-                  <ul className="grid sm:grid-cols-2 gap-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
                     {[
                       "3+ years of experience in the field",
                       "Strong problem-solving skills",
@@ -292,44 +292,44 @@ const JobDetailsModal: React.FC<{
                       "Proficiency in modern tech stacks",
                       "Strong analytical thinking",
                     ].map((req, i) => (
-                      <li
+                      <div
                         key={i}
-                        className="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-600 font-bold text-sm"
+                        className="flex items-start gap-3 p-4 rounded-2xl bg-white border border-slate-100 text-slate-600 text-sm font-medium shadow-sm hover:border-indigo-100 transition-colors"
                       >
                         <CheckCircle2
-                          size={20}
-                          className="text-emerald-500 shrink-0"
+                          size={18}
+                          className="text-indigo-500 shrink-0 mt-0.5"
                         />
                         {req}
-                      </li>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-10 bg-slate-900 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-8">
+            <div className="p-8 sm:p-10 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-8">
               <div className="text-center sm:text-start">
-                <p className="text-lg text-white font-black mb-1">
-                  Ready to take the next step?
+                <p className="text-lg text-slate-900 font-bold mb-1">
+                  {t.readyToTakeNextStep}
                 </p>
-                <p className="text-sm text-slate-400 font-medium">
-                  Mention code{" "}
-                  <span className="font-mono font-black text-indigo-400 bg-indigo-400/10 px-2 py-0.5 rounded">
+                <p className="text-sm text-slate-500">
+                  {t.mentionCode}{" "}
+                  <span className="font-mono font-bold text-indigo-600">
                     {job.code}
                   </span>{" "}
-                  in your application
+                  {t.inYourApplication}
                 </p>
               </div>
               <a
                 href={applyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-4 bg-white text-slate-900 hover:bg-indigo-50 px-12 py-6 rounded-2xl text-xl font-black shadow-2xl transition-all hover:scale-105 active:scale-95 group"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-slate-900 text-white hover:bg-indigo-600 px-10 py-4 rounded-2xl text-base font-bold shadow-lg shadow-slate-200 transition-all active:scale-95 group"
               >
                 {t.applyNow}
                 <ExternalLink
-                  size={24}
+                  size={18}
                   className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
                 />
               </a>
@@ -388,13 +388,13 @@ export default function HashHuntPage() {
   }, [jobs, searchQuery, selectedType, showSavedOnly, savedJobIds]);
 
   const jobTypes = [
-    "All",
-    "Full-time",
-    "Part-time",
-    "Remote",
-    "Contract",
-    "Hybrid",
-    "On-site",
+    { value: "All", label: t.allLocations || "All" },
+    { value: "Full-time", label: t.fullTime || "Full-time" },
+    { value: "Part-time", label: t.partTime || "Part-time" },
+    { value: "Remote", label: t.remote || "Remote" },
+    { value: "Contract", label: t.contract || "Contract" },
+    { value: "Hybrid", label: t.hybrid || "Hybrid" },
+    { value: "On-site", label: t.onSite || "On-site" },
   ];
 
   return (
@@ -405,164 +405,156 @@ export default function HashHuntPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-24 overflow-hidden bg-white">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:64px_64px]"></div>
-        <div className="absolute start-1/2 top-0 -translate-x-1/2 -z-10 h-[800px] w-[800px] rounded-full bg-indigo-500 opacity-[0.03] blur-[120px]"></div>
+      <section className="relative pt-32 pb-24 overflow-hidden bg-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,#e0e7ff_0%,transparent_50%)]"></div>
+        
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col items-center text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-bold uppercase tracking-widest mb-8 border border-indigo-100"
+        animate={{
+          y: [0, -5, 0],
+        }}
+        transition={{
+          duration: 3,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+      >
+        <Sparkles size={12} />
+        {t.heroBadge}
+      </motion.div>
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-indigo-50 text-indigo-600 text-[10px] font-black uppercase tracking-[0.2em] mb-12 border border-indigo-100 shadow-sm"
-          >
-            <Sparkles size={14} className="animate-pulse" />
-            {t.heroBadge}
-          </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-6xl md:text-8xl font-bold tracking-tight text-slate-900 mb-8 leading-[0.9] max-w-4xl"
+            >
+              {t.heroTitlePart1} <br />
+              <span className="text-indigo-600 italic font-serif">
+                {t.heroTitlePart2}
+              </span>
+            </motion.h1>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-6xl md:text-[110px] font-black tracking-tighter text-slate-900 mb-10 leading-[0.85] font-display"
-          >
-            {t.heroTitlePart1} <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600">
-              {t.heroTitlePart2}
-            </span>
-          </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="text-lg md:text-xl text-slate-500 max-w-2xl mb-12 leading-relaxed font-medium"
+            >
+              {t.heroSubtitle}
+            </motion.p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-slate-500 max-w-3xl mx-auto mb-20 leading-relaxed font-medium"
-          >
-            {t.heroSubtitle}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="max-w-4xl mx-auto bg-white/80 backdrop-blur-xl p-4 sm:p-4 rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] border border-white/20 flex flex-col lg:flex-row items-center gap-4"
-          >
-            <div className="relative flex-1 w-full">
-              <Search
-                className="absolute start-6 top-1/2 -translate-y-1/2 text-slate-400"
-                size={20}
-              />
-              <input
-                type="text"
-                placeholder={t.searchPlaceholder}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full ps-14 pe-6 py-4 sm:py-6 bg-slate-50 border-none rounded-[1.5rem] sm:rounded-[1.8rem] focus:ring-2 focus:ring-indigo-500 transition-all text-slate-900 font-bold text-base sm:text-lg placeholder:text-slate-400"
-              />
-            </div>
-            <div className="flex items-center gap-2 w-full lg:w-auto overflow-x-auto scrollbar-hide px-1 lg:px-0 py-1">
-              <div className="flex items-center gap-2 bg-slate-50 p-2 rounded-[1.5rem] sm:rounded-[1.8rem] border border-slate-100">
-                <SlidersHorizontal
-                  size={16}
-                  className="mx-2 sm:mx-4 text-slate-400 shrink-0"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="w-full max-w-2xl bg-white p-2 rounded-2xl shadow-2xl shadow-indigo-100 border border-slate-200 flex flex-col md:flex-row items-center gap-2"
+            >
+              <div className="relative flex-1 w-full">
+                <Search
+                  className="absolute start-4 top-1/2 -translate-y-1/2 text-slate-300"
+                  size={18}
                 />
-                <div className="flex gap-2">
-                  {jobTypes.map((type) => (
-                    <button
-                      key={type}
-                      onClick={() => setSelectedType(type)}
-                      className={cn(
-                        "px-4 sm:px-6 py-2 sm:py-4 rounded-[1rem] sm:rounded-[1.2rem] text-[10px] sm:text-xs font-black uppercase tracking-widest whitespace-nowrap transition-all active:scale-95",
-                        selectedType === type
-                          ? "bg-white text-indigo-600 shadow-sm ring-1 ring-slate-200 "
-                          : "text-slate-500 hover:text-slate-900 :text-white",
-                      )}
-                    >
-                      {type === "All" ? t.allTypes : type}
-                    </button>
-                  ))}
-                </div>
+                <input
+                  type="text"
+                  placeholder={t.searchPlaceholder}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full ps-12 pe-4 py-4 bg-transparent border-none rounded-xl focus:ring-0 text-slate-900 font-medium text-sm placeholder:text-slate-300"
+                />
               </div>
-            </div>
-          </motion.div>
+              <div className="flex items-center gap-1 w-full md:w-auto p-1 bg-slate-50 rounded-xl">
+                {jobTypes.slice(0, 4).map((type) => (
+                  <button
+                    key={type.value}
+                    onClick={() => setSelectedType(type.value)}
+                    className={cn(
+                      "px-4 py-2 rounded-lg text-[10px] font-bold uppercase tracking-wider whitespace-nowrap transition-all",
+                      selectedType === type.value
+                        ? "bg-white text-indigo-600 shadow-sm"
+                        : "text-slate-400 hover:text-slate-600",
+                    )}
+                  >
+                    {type.label}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Benefits Section */}
       <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="bg-slate-900 rounded-[4rem] p-10 md:p-24 text-center md:text-start flex flex-col lg:flex-row items-center gap-20 shadow-3xl overflow-hidden relative border border-white/5">
-            <div className="absolute top-0 end-0 -mt-40 -me-40 w-[600px] h-[600px] bg-indigo-500 rounded-full blur-[160px] opacity-10"></div>
-            <div className="absolute bottom-0 start-0 -mb-40 -ms-40 w-[600px] h-[600px] bg-purple-500 rounded-full blur-[160px] opacity-10"></div>
-
-            <div className="flex-1 relative z-10">
-              <h2 className="text-4xl md:text-7xl font-black text-white mb-10 font-display tracking-tighter leading-[0.9]">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8 tracking-tight leading-[1.1]">
                 {t.whyJoinTitle}
               </h2>
-              <ul className="space-y-6">
+              <div className="grid sm:grid-cols-2 gap-6">
                 {[t.benefit1, t.benefit2, t.benefit3, t.benefit4].map(
                   (benefit, i) => (
-                    <motion.li
+                    <motion.div
                       key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.1 }}
-                      className="flex items-start gap-6 text-slate-300"
+                      className="p-6 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
                     >
-                      <div className="w-10 h-10 rounded-2xl bg-indigo-500/10 flex items-center justify-center shrink-0 mt-1 border border-indigo-500/20">
-                        <CheckCircle2 size={24} className="text-indigo-400" />
+                      <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center mb-4 text-indigo-600">
+                        <CheckCircle2 size={20} />
                       </div>
-                      <span className="text-xl font-bold leading-relaxed opacity-90">
+                      <p className="text-sm font-bold text-slate-900 leading-snug">
                         {benefit}
-                      </span>
-                    </motion.li>
+                      </p>
+                    </motion.div>
                   ),
                 )}
-              </ul>
-              <div className="mt-16">
+              </div>
+              <div className="mt-12">
                 <a
                   href="https://forms.gle/5kEp1zSjMz3f4HyJ9"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-4 bg-white text-slate-900 hover:bg-indigo-50 px-12 py-6 rounded-2xl text-xl font-black transition-all shadow-2xl hover:scale-105 active:scale-95 group uppercase tracking-widest"
+                  className="inline-flex items-center gap-3 bg-slate-900 text-white hover:bg-indigo-600 px-8 py-4 rounded-2xl text-base font-bold transition-all shadow-lg active:scale-95 group"
                 >
                   {t.joinTalentPool}
-                  <ArrowRight
-                    size={28}
-                    className="group-hover:translate-x-2 transition-transform"
-                  />
+                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
             </div>
 
-            <div className="flex-1 relative z-10 hidden lg:block">
-              <div className="relative group">
-                <div className="absolute -inset-8 bg-gradient-to-tr from-indigo-500 to-purple-500 rounded-[4rem] blur-3xl opacity-20 group-hover:opacity-40 transition-opacity duration-700"></div>
-                <img
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80"
-                  alt="Team collaboration"
-                  className="rounded-[3.5rem] shadow-3xl border-8 border-white/5 relative z-10 grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
-                  referrerPolicy="no-referrer"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
+            <div className="relative">
+              <div className="absolute -inset-4 bg-indigo-100 rounded-[2.5rem] -rotate-2"></div>
+              <img
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1000&q=80"
+                alt="Team collaboration"
+                className="relative rounded-[2rem] shadow-2xl grayscale-[0.2] hover:grayscale-0 transition-all duration-700"
+                referrerPolicy="no-referrer"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* Jobs Grid Section */}
-      <section className="py-24 bg-slate-50 min-h-[800px]">
+      <section className="py-24 bg-white min-h-[800px]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
-            <div className="text-center md:text-start">
-              <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-slate-100 text-slate-500 text-[10px] font-black uppercase tracking-widest mb-4 border border-slate-200">
+            <div className="max-w-xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-4 border border-slate-200">
                 <Briefcase size={12} />
                 {loading
                   ? t.loadingJobs
                   : `${filteredJobs.length} ${t.jobsFound}`}
               </div>
-              <h2 className="text-4xl md:text-6xl font-black text-slate-900 font-display tracking-tighter leading-none">
+              <h2 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight leading-[0.9]">
                 {t.latestOpportunities}
               </h2>
             </div>
@@ -571,14 +563,14 @@ export default function HashHuntPage() {
               <button
                 onClick={() => setShowSavedOnly(!showSavedOnly)}
                 className={cn(
-                  "flex items-center gap-4 px-8 py-4 rounded-2xl border transition-all shadow-xl font-black uppercase tracking-widest text-xs",
+                  "flex items-center gap-3 px-6 py-3 rounded-2xl border transition-all font-bold uppercase tracking-widest text-[10px]",
                   showSavedOnly
-                    ? "bg-indigo-600 border-indigo-600 text-white shadow-indigo-600/30"
-                    : "bg-white border-slate-100 text-slate-700 hover:border-indigo-200 :border-indigo-800",
+                    ? "bg-slate-900 border-slate-900 text-white shadow-xl shadow-slate-200"
+                    : "bg-white border-slate-200 text-slate-600 hover:border-indigo-200 hover:text-indigo-600",
                 )}
               >
                 <Bookmark
-                  size={18}
+                  size={14}
                   fill={showSavedOnly ? "currentColor" : "none"}
                 />
                 {t.savedOnly} ({savedJobIds.length})
@@ -587,59 +579,58 @@ export default function HashHuntPage() {
           </div>
 
           {loading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div
                   key={i}
-                  className="bg-white rounded-[2rem] p-8 shadow-sm border border-slate-100 animate-pulse h-[400px] flex flex-col"
+                  className="bg-white rounded-3xl p-8 border border-slate-100 animate-pulse h-[380px] flex flex-col"
                 >
-                  <div className="flex gap-6 mb-8">
-                    <div className="w-16 h-16 bg-slate-100 rounded-2xl"></div>
-                    <div className="flex-1 space-y-4 py-2">
-                      <div className="h-6 bg-slate-100 rounded-full w-4/5"></div>
-                      <div className="h-4 bg-slate-100 rounded-full w-1/2"></div>
+                  <div className="flex gap-4 mb-8">
+                    <div className="w-12 h-12 bg-slate-50 rounded-xl"></div>
+                    <div className="flex-1 space-y-3 py-1">
+                      <div className="h-5 bg-slate-50 rounded-full w-4/5"></div>
+                      <div className="h-3 bg-slate-50 rounded-full w-1/2"></div>
                     </div>
                   </div>
-                  <div className="space-y-4 mb-10">
-                    <div className="h-4 bg-slate-100 rounded-full w-full"></div>
-                    <div className="h-4 bg-slate-100 rounded-full w-4/5"></div>
-                    <div className="h-4 bg-slate-100 rounded-full w-4/6"></div>
+                  <div className="space-y-3 mb-8">
+                    <div className="h-3 bg-slate-50 rounded-full w-full"></div>
+                    <div className="h-3 bg-slate-50 rounded-full w-4/5"></div>
                   </div>
-                  <div className="flex justify-between items-center mt-auto pt-6 border-t border-slate-50">
-                    <div className="h-6 w-20 bg-slate-100 rounded-full"></div>
-                    <div className="h-12 w-32 bg-slate-100 rounded-xl"></div>
+                  <div className="mt-auto pt-6 border-t border-slate-50 flex justify-between items-center">
+                    <div className="h-4 w-20 bg-slate-50 rounded-full"></div>
+                    <div className="h-10 w-28 bg-slate-50 rounded-xl"></div>
                   </div>
                 </div>
               ))}
             </div>
           ) : error ? (
-            <div className="text-center py-42 bg-white rounded-[4rem] border border-slate-100 shadow-2xl">
-              <div className="w-24 h-24 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-8">
-                <X size={48} className="text-rose-500" />
+            <div className="text-center py-24 bg-slate-50 rounded-[3rem] border border-slate-100">
+              <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-6 text-rose-500">
+                <X size={32} />
               </div>
-              <p className="text-2xl font-black text-slate-900 mb-6">{error}</p>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">{error}</h3>
+              <p className="text-slate-500 mb-8 max-w-xs mx-auto text-sm">Something went wrong while fetching the latest jobs. Please try again.</p>
               <button
                 onClick={() => window.location.reload()}
-                className="bg-indigo-600 text-white px-12 py-4 rounded-2xl font-black uppercase tracking-widest text-sm hover:bg-indigo-700 transition-all shadow-2xl shadow-indigo-600/20 active:scale-95"
+                className="bg-slate-900 text-white px-8 py-3 rounded-xl font-bold uppercase tracking-widest text-[10px] hover:bg-indigo-600 transition-all active:scale-95"
               >
                 {t.tryRefreshing}
               </button>
             </div>
           ) : filteredJobs.length === 0 ? (
-            <div className="text-center py-42 bg-white rounded-[4rem] border border-slate-100 shadow-2xl">
-              <div className="w-32 h-32 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-10">
-                <Search size={64} className="text-slate-200" />
+            <div className="text-center py-24 bg-slate-50 rounded-[3rem] border border-slate-100">
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 text-slate-200 border border-slate-100">
+                <Search size={32} />
               </div>
-              <p className="text-3xl font-black text-slate-900 mb-6 tracking-tight">
-                {t.noJobsFound}
-              </p>
+              <h3 className="text-xl font-bold text-slate-900 mb-2">{t.noJobsFound}</h3>
+              <p className="text-slate-500 mb-8 max-w-xs mx-auto text-sm">Try adjusting your search or filters to find what you're looking for.</p>
               <button
                 onClick={() => {
                   setSearchQuery("");
                   setSelectedType("All");
                   setShowSavedOnly(false);
                 }}
-                className="text-indigo-600 font-black uppercase tracking-widest text-sm hover:underline"
+                className="text-indigo-600 font-bold uppercase tracking-widest text-[10px] hover:text-indigo-700 underline underline-offset-4"
               >
                 Clear all filters
               </button>
@@ -647,7 +638,7 @@ export default function HashHuntPage() {
           ) : (
             <motion.div
               layout
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
             >
               <AnimatePresence mode="popLayout">
                 {filteredJobs.map((job) => (
@@ -664,7 +655,7 @@ export default function HashHuntPage() {
                         company: job.company,
                         status: "Applied",
                       });
-                      alert("Applied successfully!");
+                      window.open("https://forms.gle/h1UNQfD55dc2o8wM6", "_blank", "noopener,noreferrer");
                     }}
                     t={t}
                   />
@@ -687,59 +678,55 @@ export default function HashHuntPage() {
       </section>
 
       {/* How it works Section */}
-      <section className="py-42 bg-white border-t border-slate-100">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-24">
-            <h2 className="text-4xl md:text-7xl font-black text-slate-900 mb-6 font-display tracking-tighter leading-none">
-              {t.howItWorksTitle}
-            </h2>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto font-bold">
-              {t.howItWorksSubtitle}
-            </p>
+      <section className="py-24 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
+            <div className="max-w-xl">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 tracking-tight leading-[1.1]">
+                {t.howItWorksTitle}
+              </h2>
+              <p className="text-lg text-slate-500 font-medium">
+                {t.howItWorksSubtitle}
+              </p>
+            </div>
+            <div className="hidden md:block">
+              <div className="w-24 h-1 bg-indigo-600 rounded-full"></div>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-16 relative">
-            <div className="hidden md:block absolute top-16 start-[15%] end-[15%] h-0.5 bg-slate-100 -z-10"></div>
-
+          <div className="grid md:grid-cols-3 gap-12">
             {[
               {
                 icon: Briefcase,
                 title: t.step1Title,
                 desc: t.step1Desc,
-                color: "indigo",
               },
               {
                 icon: Search,
                 title: t.step2Title,
                 desc: t.step2Desc,
-                color: "purple",
               },
               {
                 icon: Building2,
                 title: t.step3Title,
                 desc: t.step3Desc,
-                color: "emerald",
               },
             ].map((item, i) => (
-              <div key={i} className="text-center relative group">
-                <div
-                  className={cn(
-                    "w-32 h-32 mx-auto bg-white border-8 border-slate-50 rounded-[2.5rem] flex items-center justify-center mb-10 shadow-2xl transition-all duration-700 group-hover:rotate-12 group-hover:scale-110",
-                    item.color === "indigo"
-                      ? "text-indigo-600 group-hover:bg-indigo-50 :bg-indigo-900/30"
-                      : item.color === "purple"
-                        ? "text-purple-600 group-hover:bg-purple-50 :bg-purple-900/30"
-                        : "text-emerald-600 group-hover:bg-emerald-50 :bg-emerald-900/30",
-                  )}
-                >
-                  <item.icon size={48} />
+              <div key={i} className="relative group">
+                <div className="absolute -start-4 -top-4 text-8xl font-black text-slate-100 group-hover:text-indigo-50 transition-colors duration-500 select-none">
+                  0{i + 1}
                 </div>
-                <h3 className="text-2xl font-black text-slate-900 mb-4 tracking-tight">
-                  {item.title}
-                </h3>
-                <p className="text-lg text-slate-500 font-bold leading-relaxed opacity-80">
-                  {item.desc}
-                </p>
+                <div className="relative pt-8">
+                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-slate-200 text-indigo-600 group-hover:scale-110 transition-transform duration-500">
+                    <item.icon size={28} />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">
+                    {item.title}
+                  </h3>
+                  <p className="text-slate-500 leading-relaxed font-medium">
+                    {item.desc}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -747,96 +734,7 @@ export default function HashHuntPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-slate-950 text-slate-500 py-42 border-t border-white/5 pb-safe">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-12 mb-20">
-            <div className="flex flex-col items-center md:items-start text-center md:text-start">
-              <div className="flex items-center gap-4 mb-6">
-                <Logo className="w-12 h-12 text-[#ff4d2d]" />
-                <span className="text-4xl font-black text-white font-display tracking-tighter">
-                  Hash Resume
-                </span>
-              </div>
-              <p className="text-xl max-w-sm font-bold opacity-80 leading-relaxed">
-                Professional resumes, simplified. Built with privacy in mind.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-12 text-center md:text-start">
-              <div className="space-y-4">
-                <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6">
-                  Product
-                </h4>
-                <Link
-                  to="/"
-                  className="block hover:text-white transition-colors font-bold"
-                >
-                  Resume Builder
-                </Link>
-                <Link
-                  to="/editor"
-                  className="block hover:text-white transition-colors font-bold"
-                >
-                  Editor
-                </Link>
-                <Link
-                  to="/hash-hunt"
-                  className="block hover:text-white transition-colors font-bold"
-                >
-                  Hash Hunt
-                </Link>
-              </div>
-              <div className="space-y-4">
-                <h4 className="text-white font-black uppercase tracking-widest text-xs mb-6">
-                  Support
-                </h4>
-                <a
-                  href="#"
-                  className="block hover:text-white transition-colors font-bold"
-                >
-                  Feedback
-                </a>
-                <a
-                  href="#"
-                  className="block hover:text-white transition-colors font-bold"
-                >
-                  Privacy Policy
-                </a>
-                <a
-                  href="#"
-                  className="block hover:text-white transition-colors font-bold"
-                >
-                  Terms of Service
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-            <p className="font-black text-sm uppercase tracking-widest">
-              © {new Date().getFullYear()} Hash Resume. All rights reserved.
-            </p>
-            <div className="flex items-center gap-10">
-              <LanguageSwitcher
-                size={18}
-                variant="ghost"
-                className="px-0 py-0 text-white font-black"
-              />
-              <div className="flex items-center gap-6">
-                <a
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors"
-                >
-                  <span className="sr-only">Twitter</span>
-                  <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
