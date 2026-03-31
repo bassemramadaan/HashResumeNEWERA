@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { AIResponse, IResumeService } from '../types/ai.types';
+import { AIResponse, IResumeService } from "../types/ai.types";
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
@@ -10,10 +10,13 @@ export const aiService: IResumeService = {
   /**
    * Generates content using Google Gemini API directly
    */
-  generateContent: async (prompt: string, systemInstruction?: string): Promise<AIResponse> => {
+  generateContent: async (
+    prompt: string,
+    systemInstruction?: string,
+  ): Promise<AIResponse> => {
     try {
       if (!apiKey) {
-        throw new Error('Gemini API key is not configured');
+        throw new Error("Gemini API key is not configured");
       }
 
       const genAI = new GoogleGenAI({ apiKey });
@@ -24,38 +27,44 @@ export const aiService: IResumeService = {
           systemInstruction: systemInstruction,
         },
       });
-      
+
       const response = await model;
       const text = response.text;
-      
+
       if (!text) {
-        throw new Error('Empty response from Gemini');
+        throw new Error("Empty response from Gemini");
       }
-      
+
       return { text };
     } catch (err: unknown) {
-      console.error('AI Generation failed:', err);
-      return { 
-        text: '', 
-        error: err instanceof Error ? err.message : 'Failed to generate content. Please try again later.' 
+      console.error("AI Generation failed:", err);
+      return {
+        text: "",
+        error:
+          err instanceof Error
+            ? err.message
+            : "Failed to generate content. Please try again later.",
       };
     }
   },
-  matchResumeToJob: async (resume: string, jobDescription: string): Promise<AIResponse> => {
+  matchResumeToJob: async (
+    resume: string,
+    jobDescription: string,
+  ): Promise<AIResponse> => {
     try {
       if (!apiKey) {
-        throw new Error('Gemini API key is not configured');
+        throw new Error("Gemini API key is not configured");
       }
 
       const genAI = new GoogleGenAI({ apiKey });
       const systemInstruction = `You are an expert ATS (Applicant Tracking System) analyzer. 
-      Analyze the provided resume against the job description.
-      Return a JSON object with:
-      - score: number (0-100)
-      - missingKeywords: string[]
-      - suggestions: string[]
-      - seniorityFit: string
-      `;
+ Analyze the provided resume against the job description.
+ Return a JSON object with:
+ - score: number (0-100)
+ - missingKeywords: string[]
+ - suggestions: string[]
+ - seniorityFit: string
+`;
 
       const prompt = `Resume: ${resume}\n\nJob Description: ${jobDescription}`;
 
@@ -67,20 +76,23 @@ export const aiService: IResumeService = {
           responseMimeType: "application/json",
         },
       });
-      
+
       const text = response.text;
-      
+
       if (!text) {
-        throw new Error('Empty response from Gemini');
+        throw new Error("Empty response from Gemini");
       }
-      
+
       return { text };
     } catch (err: unknown) {
-      console.error('ATS Matching failed:', err);
-      return { 
-        text: '', 
-        error: err instanceof Error ? err.message : 'Failed to analyze resume. Please try again later.' 
+      console.error("ATS Matching failed:", err);
+      return {
+        text: "",
+        error:
+          err instanceof Error
+            ? err.message
+            : "Failed to analyze resume. Please try again later.",
       };
     }
-  }
+  },
 };

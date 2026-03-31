@@ -1,6 +1,6 @@
-import { resumeSchema, ResumeData } from '../schemas/resume.schema';
+import { resumeSchema, ResumeData } from "../schemas/resume.schema";
 
-const STORAGE_KEY = 'hash_resume_data';
+const STORAGE_KEY = "hash_resume_data";
 
 export const StorageService = {
   /**
@@ -49,5 +49,5 @@ export const StorageService = {
     } catch (error) {
       console.error("Error clearing resume data from local storage:", error);
     }
-  }
+  },
 };

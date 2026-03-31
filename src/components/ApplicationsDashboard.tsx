@@ -1,26 +1,36 @@
-import React from 'react';
-import { useApplicationStore } from '../store/useApplicationStore';
-import { Trash2 } from 'lucide-react';
+import React from "react";
+import { useApplicationStore } from "../store/useApplicationStore";
+import { Trash2 } from "lucide-react";
 
 export const ApplicationsDashboard: React.FC = () => {
-  const { applications, removeApplication, updateStatus } = useApplicationStore();
+  const { applications, removeApplication, updateStatus } =
+    useApplicationStore();
 
   return (
-    <div className="p-6 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 transition-colors">
-      <h2 className="text-2xl font-bold mb-6 text-slate-900 dark:text-white">My Applications</h2>
+    <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 transition-colors">
+      <h2 className="text-2xl font-bold mb-6 text-slate-900">
+        My Applications
+      </h2>
       <div className="space-y-4">
         {applications.map((app) => (
-          <div key={app.id} className="flex items-center justify-between p-4 border border-slate-200 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+          <div
+            key={app.id}
+            className="flex items-center justify-between p-4 border border-slate-200 rounded-xl bg-slate-50"
+          >
             <div>
-              <h3 className="font-semibold text-slate-900 dark:text-white">{app.jobTitle}</h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400">{app.company}</p>
-              <p className="text-xs text-slate-400 dark:text-slate-500">Applied: {new Date(app.appliedAt).toLocaleDateString()}</p>
+              <h3 className="font-semibold text-slate-900">{app.jobTitle}</h3>
+              <p className="text-sm text-slate-500">{app.company}</p>
+              <p className="text-xs text-slate-400">
+                Applied: {new Date(app.appliedAt).toLocaleDateString()}
+              </p>
             </div>
             <div className="flex items-center gap-4">
               <select
                 value={app.status}
-                onChange={(e) => updateStatus(app.id, e.target.value as ApplicationStatus)}
-                className="p-2 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                onChange={(e) =>
+                  updateStatus(app.id, e.target.value as ApplicationStatus)
+                }
+                className="p-2 border border-slate-200 rounded-lg bg-white text-slate-900"
               >
                 <option value="Applied">Applied</option>
                 <option value="Interview">Interview</option>

@@ -1,13 +1,13 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const personalInfoSchema = z.object({
   fullName: z.string().min(2, "Full name is required"),
   email: z.string().email("Invalid email address"),
   phone: z.string().optional(),
   location: z.string().optional(),
-  website: z.string().url().optional().or(z.literal('')),
-  linkedin: z.string().url().optional().or(z.literal('')),
-  github: z.string().url().optional().or(z.literal('')),
+  website: z.string().url().optional().or(z.literal("")),
+  linkedin: z.string().url().optional().or(z.literal("")),
+  github: z.string().url().optional().or(z.literal("")),
 });
 
 export const experienceSchema = z.object({
@@ -38,8 +38,24 @@ export const resumeSchema = z.object({
   education: z.array(educationSchema),
   skills: z.array(z.string()),
   languages: z.array(z.object({ name: z.string(), level: z.string() })),
-  certifications: z.array(z.object({ id: z.string(), name: z.string(), issuer: z.string(), date: z.string(), url: z.string().optional() })),
-  projects: z.array(z.object({ id: z.string(), name: z.string(), description: z.string(), url: z.string().optional(), technologies: z.array(z.string()) })),
+  certifications: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      issuer: z.string(),
+      date: z.string(),
+      url: z.string().optional(),
+    }),
+  ),
+  projects: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      description: z.string(),
+      url: z.string().optional(),
+      technologies: z.array(z.string()),
+    }),
+  ),
 });
 
 export type ResumeData = z.infer<typeof resumeSchema>;

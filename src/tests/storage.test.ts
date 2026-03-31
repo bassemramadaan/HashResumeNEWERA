@@ -1,18 +1,18 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { StorageService } from '../services/storage.service';
+import { describe, it, expect, beforeEach } from "vitest";
+import { StorageService } from "../services/storage.service";
 
-describe('StorageService', () => {
+describe("StorageService", () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
-  it('should save and load resume data', () => {
+  it("should save and load resume data", () => {
     const resumeData = {
       personalInfo: {
-        fullName: 'Jane Doe',
-        email: 'jane@example.com',
+        fullName: "Jane Doe",
+        email: "jane@example.com",
       },
-      summary: 'A summary',
+      summary: "A summary",
       experience: [],
       education: [],
       skills: [],
@@ -27,13 +27,13 @@ describe('StorageService', () => {
     expect(loadedData).toEqual(resumeData);
   });
 
-  it('should clear resume data', () => {
+  it("should clear resume data", () => {
     const resumeData = {
       personalInfo: {
-        fullName: 'Jane Doe',
-        email: 'jane@example.com',
+        fullName: "Jane Doe",
+        email: "jane@example.com",
       },
-      summary: 'A summary',
+      summary: "A summary",
       experience: [],
       education: [],
       skills: [],

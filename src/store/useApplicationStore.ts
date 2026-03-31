@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-export type ApplicationStatus = 'Applied' | 'Interview' | 'Offer' | 'Rejected';
+export type ApplicationStatus = "Applied" | "Interview" | "Offer" | "Rejected";
 
 export interface Application {
   id: string;
@@ -14,7 +14,7 @@ export interface Application {
 
 interface ApplicationStore {
   applications: Application[];
-  addApplication: (app: Omit<Application, 'id' | 'appliedAt'>) => void;
+  addApplication: (app: Omit<Application, "id" | "appliedAt">) => void;
   updateStatus: (id: string, status: ApplicationStatus) => void;
   removeApplication: (id: string) => void;
 }
@@ -37,7 +37,7 @@ export const useApplicationStore = create<ApplicationStore>()(
       updateStatus: (id, status) =>
         set((state) => ({
           applications: state.applications.map((app) =>
-            app.id === id ? { ...app, status } : app
+            app.id === id ? { ...app, status } : app,
           ),
         })),
       removeApplication: (id) =>
@@ -46,7 +46,7 @@ export const useApplicationStore = create<ApplicationStore>()(
         })),
     }),
     {
-      name: 'application-tracking-storage',
-    }
-  )
+      name: "application-tracking-storage",
+    },
+  ),
 );

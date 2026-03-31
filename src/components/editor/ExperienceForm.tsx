@@ -1,29 +1,48 @@
-import React, { useState, useMemo, Suspense, lazy } from 'react';
-import { useResumeStore } from '../../store/useResumeStore';
-import { Plus, Trash2, ChevronDown, ChevronUp, Sparkles, Copy, AlertCircle, GripVertical } from 'lucide-react';
-import { Reorder } from 'framer-motion';
-import SectionTooltip from './SectionTooltip';
-import { getJobMatchResults } from '../../utils/ats';
+import React, { useState, useMemo, Suspense, lazy } from "react";
+import { useResumeStore } from "../../store/useResumeStore";
+import {
+  Plus,
+  Trash2,
+  ChevronDown,
+  ChevronUp,
+  Sparkles,
+  Copy,
+  AlertCircle,
+  GripVertical,
+} from "lucide-react";
+import { Reorder } from "framer-motion";
+import SectionTooltip from "./SectionTooltip";
+import { getJobMatchResults } from "../../utils/ats";
 
-const AISuggestion = lazy(() => import('./AISuggestion'));
+const AISuggestion = lazy(() => import("./AISuggestion"));
 
 const ExperienceForm = () => {
-  const { data, addExperience, updateExperience, removeExperience, updateData } = useResumeStore();
+  const {
+    data,
+    addExperience,
+    updateExperience,
+    removeExperience,
+    updateData,
+  } = useResumeStore();
   const { experience, jobDescription, settings } = data;
-  const [expandedId, setExpandedId] = useState<string | null>(experience[0]?.id || null);
-  const [showAISuggestionFor, setShowAISuggestionFor] = useState<string | null>(null);
+  const [expandedId, setExpandedId] = useState<string | null>(
+    experience[0]?.id || null,
+  );
+  const [showAISuggestionFor, setShowAISuggestionFor] = useState<string | null>(
+    null,
+  );
 
-  const lang = settings.language || 'en';
+  const lang = settings.language || "en";
 
   const matchResults = useMemo(() => getJobMatchResults(data), [data]);
 
   const handleAdd = () => {
     addExperience({
-      company: '',
-      position: '',
-      startDate: '',
-      endDate: '',
-      description: '',
+      company: "",
+      position: "",
+      startDate: "",
+      endDate: "",
+      description: "",
     });
   };
 
@@ -36,7 +55,7 @@ const ExperienceForm = () => {
       <div className="flex items-center justify-end">
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200 dark:border-slate-700"
+          className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
         >
           <Plus size={16} />
           Add Experience
@@ -44,120 +63,176 @@ const ExperienceForm = () => {
       </div>
 
       {experience.length === 0 ? (
-        <div className="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 border-dashed text-center text-slate-500 dark:text-slate-400">
-          No experience added yet. Click the button above to add your work history.
+        <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
+          No experience added yet. Click the button above to add your work
+          history.
         </div>
       ) : (
-        <Reorder.Group axis="y" values={experience} onReorder={handleReorder} className="space-y-4">
+        <Reorder.Group
+          axis="y"
+          values={experience}
+          onReorder={handleReorder}
+          className="space-y-4"
+        >
           {experience.map((exp) => (
-            <Reorder.Item key={exp.id} value={exp} className="bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden transition-all">
-              <div 
-                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-                onClick={() => setExpandedId(expandedId === exp.id ? null : exp.id)}
+            <Reorder.Item
+              key={exp.id}
+              value={exp}
+              className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all"
+            >
+              <div
+                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 :bg-slate-800/50 transition-colors"
+                onClick={() =>
+                  setExpandedId(expandedId === exp.id ? null : exp.id)
+                }
               >
                 <div className="flex items-center gap-4">
-                  <div 
-                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                  <div
+                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 :text-slate-300"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <GripVertical size={20} />
                   </div>
                   <div>
-                    <h3 className="font-bold text-slate-900 dark:text-white">{exp.position || '(Not specified)'}</h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">{exp.company || 'Company Name'} • {exp.startDate || 'Start'} - {exp.endDate || 'End'}</p>
+                    <h3 className="font-bold text-slate-900">
+                      {exp.position || "(Not specified)"}
+                    </h3>
+                    <p className="text-sm text-slate-500">
+                      {exp.company || "Company Name"} •{" "}
+                      {exp.startDate || "Start"} - {exp.endDate || "End"}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <button 
-                    onClick={(e) => { 
-                      e.stopPropagation(); 
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
                       const { id: _id, ...rest } = exp;
                       addExperience(rest);
                     }}
-                    className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg transition-colors"
+                    className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 :bg-indigo-900/20 rounded-lg transition-colors"
                     title="Duplicate"
                   >
                     <Copy size={18} />
                   </button>
-                  <button 
-                    onClick={(e) => { e.stopPropagation(); removeExperience(exp.id); }}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeExperience(exp.id);
+                    }}
+                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 :bg-red-900/20 rounded-lg transition-colors"
                     title="Remove"
                   >
                     <Trash2 size={18} />
                   </button>
-                  {expandedId === exp.id ? <ChevronUp size={20} className="text-slate-400" /> : <ChevronDown size={20} className="text-slate-400" />}
+                  {expandedId === exp.id ? (
+                    <ChevronUp size={20} className="text-slate-400" />
+                  ) : (
+                    <ChevronDown size={20} className="text-slate-400" />
+                  )}
                 </div>
               </div>
 
               {expandedId === exp.id && (
-                <div className="p-4 md:p-6 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 space-y-4">
+                <div className="p-4 md:p-6 border-t border-slate-100 bg-slate-50/50 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Job Title</label>
+                      <label className="text-xs font-medium text-slate-700">
+                        Job Title
+                      </label>
                       <input
                         type="text"
                         value={exp.position}
-                        onChange={(e) => updateExperience(exp.id, { position: e.target.value })}
-                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        onChange={(e) =>
+                          updateExperience(exp.id, { position: e.target.value })
+                        }
+                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder="e.g. Software Engineer"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Company</label>
+                      <label className="text-xs font-medium text-slate-700">
+                        Company
+                      </label>
                       <input
                         type="text"
                         value={exp.company}
-                        onChange={(e) => updateExperience(exp.id, { company: e.target.value })}
-                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        onChange={(e) =>
+                          updateExperience(exp.id, { company: e.target.value })
+                        }
+                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder="e.g. Google"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Start Date</label>
+                      <label className="text-xs font-medium text-slate-700">
+                        Start Date
+                      </label>
                       <input
                         type="month"
                         value={exp.startDate}
-                        onChange={(e) => updateExperience(exp.id, { startDate: e.target.value })}
-                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+                        onChange={(e) =>
+                          updateExperience(exp.id, {
+                            startDate: e.target.value,
+                          })
+                        }
+                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-slate-700 dark:text-slate-300">End Date</label>
+                      <label className="text-xs font-medium text-slate-700">
+                        End Date
+                      </label>
                       <input
                         type="text"
                         value={exp.endDate}
-                        onChange={(e) => updateExperience(exp.id, { endDate: e.target.value })}
-                        className="block w-full px-4 py-2 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400 dark:placeholder-slate-500"
+                        onChange={(e) =>
+                          updateExperience(exp.id, { endDate: e.target.value })
+                        }
+                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder="e.g. Present or YYYY-MM"
                       />
                     </div>
                     <div className="col-span-1 md:col-span-2 space-y-1.5">
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
-                          <label className="text-xs font-medium text-slate-700 dark:text-slate-300">Description</label>
-                          <SectionTooltip 
-                            title="Experience Tips" 
-                            content="Use action verbs and quantify your achievements whenever possible. Bullet points are essential for ATS readability." 
+                          <label className="text-xs font-medium text-slate-700">
+                            Description
+                          </label>
+                          <SectionTooltip
+                            title="Experience Tips"
+                            content="Use action verbs and quantify your achievements whenever possible. Bullet points are essential for ATS readability."
                             example="• Increased sales by 25% through the implementation of a new CRM system and targeted marketing campaigns."
                           />
                         </div>
-                        <button 
+                        <button
                           type="button"
-                          onClick={() => setShowAISuggestionFor(showAISuggestionFor === exp.id ? null : exp.id)}
-                          className="text-xs font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
+                          onClick={() =>
+                            setShowAISuggestionFor(
+                              showAISuggestionFor === exp.id ? null : exp.id,
+                            )
+                          }
+                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
                         >
                           <Sparkles size={12} />
-                          {lang === 'ar' ? 'اقتراحات الذكاء الاصطناعي' : 'AI Suggestions'}
+                          {lang === "ar"
+                            ? "اقتراحات الذكاء الاصطناعي"
+                            : "AI Suggestions"}
                         </button>
                       </div>
 
                       {showAISuggestionFor === exp.id && (
-                        <Suspense fallback={<div className="h-20 animate-pulse bg-slate-100 dark:bg-slate-800 rounded-xl mb-4" />}>
+                        <Suspense
+                          fallback={
+                            <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
+                          }
+                        >
                           <AISuggestion
                             currentText={exp.description}
                             onApply={(newText) => {
-                              updateExperience(exp.id, { description: newText });
+                              updateExperience(exp.id, {
+                                description: newText,
+                              });
                               setShowAISuggestionFor(null);
                             }}
                             context={`Job Title: ${exp.position}, Company: ${exp.company}`}
@@ -168,21 +243,38 @@ const ExperienceForm = () => {
                       <textarea
                         rows={5}
                         value={exp.description}
-                        onChange={(e) => updateExperience(exp.id, { description: e.target.value })}
-                        className="block w-full p-4 border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 dark:placeholder-slate-500"
+                        onChange={(e) =>
+                          updateExperience(exp.id, {
+                            description: e.target.value,
+                          })
+                        }
+                        className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
                         placeholder="• Describe your responsibilities and achievements..."
                       />
-                      
+
                       {/* ATS Hint */}
                       {jobDescription && matchResults && (
-                        <div className="mt-2 text-xs flex items-start gap-2 p-2 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-slate-100 dark:border-slate-800">
-                          <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
-                          <div className="text-slate-600 dark:text-slate-400">
-                            <span className="font-semibold text-slate-700 dark:text-slate-300">ATS Hint: </span>
+                        <div className="mt-2 text-xs flex items-start gap-2 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                          <AlertCircle
+                            size={14}
+                            className="text-amber-500 shrink-0 mt-0.5"
+                          />
+                          <div className="text-slate-600">
+                            <span className="font-semibold text-slate-700">
+                              ATS Hint:{" "}
+                            </span>
                             {matchResults.missing.length > 0 ? (
-                              <>Try incorporating some of these missing keywords if applicable: <span className="text-red-500 font-medium">{matchResults.missing.slice(0, 3).join(', ')}</span></>
+                              <>
+                                Try incorporating some of these missing keywords
+                                if applicable:{" "}
+                                <span className="text-red-500 font-medium">
+                                  {matchResults.missing.slice(0, 3).join(", ")}
+                                </span>
+                              </>
                             ) : (
-                              <span className="text-emerald-500 font-medium">Great! You've matched the top keywords.</span>
+                              <span className="text-emerald-500 font-medium">
+                                Great! You've matched the top keywords.
+                              </span>
                             )}
                           </div>
                         </div>

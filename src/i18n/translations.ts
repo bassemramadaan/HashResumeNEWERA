@@ -18,7 +18,8 @@ export const translations = {
       heroTitle1: "Hash Resume",
       heroTitle2: "Land the Job.",
       heroTitle3: "Effortlessly.",
-      heroSubtitle: "Build an ATS-optimized, professional resume in minutes. Private, secure, and no sign-up required.",
+      heroSubtitle:
+        "Build an ATS-optimized, professional resume in minutes. Private, secure, and no sign-up required.",
       aiPowered: "AI-Powered Resume Builder",
       startFromScratch: "Start from Scratch",
       chooseTemplate: "Choose a Template",
@@ -29,9 +30,11 @@ export const translations = {
       excellent: "Excellent",
       joinedThisMonth: "joined this month",
       aiContentGeneration: "AI Content Generation",
-      aiContentDesc: "Overcome writer's block with our AI assistant that generates professional summaries and bullet points tailored to your industry.",
+      aiContentDesc:
+        "Overcome writer's block with our AI assistant that generates professional summaries and bullet points tailored to your industry.",
       premiumTemplates: "Multiple Premium Templates",
-      premiumTemplatesDesc: "Choose from a variety of professionally designed templates that stand out while remaining ATS-compliant and easy to read.",
+      premiumTemplatesDesc:
+        "Choose from a variety of professionally designed templates that stand out while remaining ATS-compliant and easy to read.",
       atsAuditReport: "ATS Audit Report",
       keywordsMatched: "Keywords Matched",
       improvementSuggestions: "Improvement Suggestions",
@@ -50,18 +53,24 @@ export const translations = {
       privacyBadge: "Your data never leaves your device — 100% private",
       partOf: "is a part of Hash Social Media Marketing Agency",
       featuresTitle: "Everything you need to land the job",
-      featuresSubtitle: "Powerful features designed to make your resume stand out to both recruiters and applicant tracking systems.",
+      featuresSubtitle:
+        "Powerful features designed to make your resume stand out to both recruiters and applicant tracking systems.",
       feature1Title: "Instant Generation",
-      feature1Desc: "See your changes in real-time. No waiting, no loading screens.",
+      feature1Desc:
+        "See your changes in real-time. No waiting, no loading screens.",
       feature2Title: "100% Private",
-      feature2Desc: "Your data is stored locally on your device. We never see your info.",
+      feature2Desc:
+        "Your data is stored locally on your device. We never see your info.",
       feature3Title: "ATS Ready",
-      feature3Desc: "Templates optimized to pass through Applicant Tracking Systems.",
+      feature3Desc:
+        "Templates optimized to pass through Applicant Tracking Systems.",
       feature4Title: "Smart Suggestions",
-      feature4Desc: "Built-in tips and examples to help you write better content.",
+      feature4Desc:
+        "Built-in tips and examples to help you write better content.",
       coverLetterNew: "New Feature",
       coverLetterTitle: "Write a compelling cover letter in seconds.",
-      coverLetterDesc: "Don't let a blank page stop you. Our AI-powered Cover Letter Builder helps you craft personalized, professional letters that match your resume's style and tone.",
+      coverLetterDesc:
+        "Don't let a blank page stop you. Our AI-powered Cover Letter Builder helps you craft personalized, professional letters that match your resume's style and tone.",
       coverLetterList1: "Tailored to the job description",
       coverLetterList2: "Matches your resume design",
       coverLetterList3: "Professional tone and formatting",
@@ -69,11 +78,14 @@ export const translations = {
       tryCoverLetter: "Try Cover Letter Builder",
       startWriting: "Start Writing Now",
       step1Title: "Fill Data",
-      step1Desc: "Enter your details. Our smart forms make it quick and painless.",
+      step1Desc:
+        "Enter your details. Our smart forms make it quick and painless.",
       step2Title: "Audit & Refine",
-      step2Desc: "Check your ATS score in real-time and use our suggestions to improve your content.",
+      step2Desc:
+        "Check your ATS score in real-time and use our suggestions to improve your content.",
       step3Title: "Export & Apply",
-      step3Desc: "Download as a pixel-perfect PDF and start applying to your dream jobs immediately.",
+      step3Desc:
+        "Download as a pixel-perfect PDF and start applying to your dream jobs immediately.",
       statsText: "1k user joined this month",
       trustedBy: "Trusted by professionals from",
       interviewIncrease: "85% increase in interview callbacks",
@@ -82,37 +94,49 @@ export const translations = {
       oneClickApply: "One-click application to Hash Hunt",
       seamlessFlow: "Build, Optimize, and Apply - all in one place.",
       beforeAfterTitle: "See the difference",
-      beforeAfterSubtitle: "Transform your messy resume into a professional, ATS-optimized masterpiece.",
-      beforeAfterDesc: "Stop sending messy resumes that get ignored. Our AI-powered builder ensures your resume is clean, professional, and readable by both humans and machines.",
+      beforeAfterSubtitle:
+        "Transform your messy resume into a professional, ATS-optimized masterpiece.",
+      beforeAfterDesc:
+        "Stop sending messy resumes that get ignored. Our AI-powered builder ensures your resume is clean, professional, and readable by both humans and machines.",
       beforeTitle: "Before Hash Resume",
       afterTitle: "With Hash Resume",
       showcaseTitle: "Designed for your success",
-      showcaseSubtitle: "Take a look at our editor and the professional templates we offer.",
+      showcaseSubtitle:
+        "Take a look at our editor and the professional templates we offer.",
       testimonialsTitle: "Wall of Love",
-      testimonialsSubtitle: "See what professionals across the globe are saying about Hash Resume.",
+      testimonialsSubtitle:
+        "See what professionals across the globe are saying about Hash Resume.",
       beFirstToReview: "Be the first to review",
       shareYourStory: "Share your success story with us!",
       faqsTitle: "Frequently Asked Questions",
       faqsSubtitle: "Got questions? We've got answers.",
       faq1Q: "Is my data safe?",
-      faq1A: "Yes, absolutely. Hash Resume runs entirely in your browser. Your personal data is stored locally on your device and is never sent to our servers. We prioritize your privacy above all else.",
+      faq1A:
+        "Yes, absolutely. Hash Resume runs entirely in your browser. Your personal data is stored locally on your device and is never sent to our servers. We prioritize your privacy above all else.",
       faq2Q: "How much does it cost?",
-      faq2A: "You can build and preview your resume for free. We charge a one-time fee of 25 EGP (approx. 0.52 USD, 0.48 EUR, 1.95 SAR, 1.91 AED) for a single professional PDF download. No subscriptions, no hidden fees.",
+      faq2A:
+        "You can build and preview your resume for free. We charge a one-time fee of 25 EGP (approx. 0.52 USD, 0.48 EUR, 1.95 SAR, 1.91 AED) for a single professional PDF download. No subscriptions, no hidden fees.",
       faq3Q: "What is an ATS-friendly resume?",
-      faq3A: "ATS (Applicant Tracking System) software is used by recruiters to filter resumes. Our templates are designed with clean formatting and standard sections to ensure these systems can easily read and rank your application.",
+      faq3A:
+        "ATS (Applicant Tracking System) software is used by recruiters to filter resumes. Our templates are designed with clean formatting and standard sections to ensure these systems can easily read and rank your application.",
       faq4Q: "Does it support Arabic resumes?",
-      faq4A: "Yes! Hash Resume fully supports Arabic language with RTL (Right-to-Left) layout optimization. You can create professional Arabic resumes that look great and are ATS-compatible.",
+      faq4A:
+        "Yes! Hash Resume fully supports Arabic language with RTL (Right-to-Left) layout optimization. You can create professional Arabic resumes that look great and are ATS-compatible.",
       faq5Q: "How do I save my resume?",
-      faq5A: "Your resume is automatically saved to your browser's local storage in real-time. You can close the tab and come back later to continue editing. We also recommend using the 'Backup Data' feature in the Review step to save a file to your computer.",
+      faq5A:
+        "Your resume is automatically saved to your browser's local storage in real-time. You can close the tab and come back later to continue editing. We also recommend using the 'Backup Data' feature in the Review step to save a file to your computer.",
       faq6Q: "Can I create a cover letter too?",
-      faq6A: "Yes! We have a dedicated AI-powered Cover Letter Builder that helps you craft professional cover letters tailored to your job applications and matching your resume style.",
-      footerDesc: "Professional resumes, simplified. Built with privacy in mind.",
+      faq6A:
+        "Yes! We have a dedicated AI-powered Cover Letter Builder that helps you craft professional cover letters tailored to your job applications and matching your resume style.",
+      footerDesc:
+        "Professional resumes, simplified. Built with privacy in mind.",
       connect: "Connect with us",
       product: "Product",
       resumeBuilder: "Resume Builder",
       feedback: "Feedback",
       pricingTitle: "Simple, Transparent Pricing",
-      pricingSubtitle: "Pay only when you're ready to download. No hidden fees.",
+      pricingSubtitle:
+        "Pay only when you're ready to download. No hidden fees.",
       whyChooseUs: "Why choose us?",
       noSubscriptions: "No monthly subscriptions. No auto-renewal.",
       singleDownload: "Single Download",
@@ -120,7 +144,8 @@ export const translations = {
       mostPopular: "Most Popular",
       hashHuntNew: "New Feature",
       hashHuntTitle: "Let the jobs find you with Hash Hunt",
-      hashHuntSubtitle: "Don't just build a great resume. Join our exclusive talent pool and let our partner companies reach out to you directly.",
+      hashHuntSubtitle:
+        "Don't just build a great resume. Join our exclusive talent pool and let our partner companies reach out to you directly.",
       hashHuntList1: "Direct access to hiring managers",
       hashHuntList2: "Exclusive unlisted roles",
       hashHuntList3: "100% free for job seekers",
@@ -132,39 +157,51 @@ export const translations = {
       privateFooter: "100% Private. Your data stays on your device.",
       beatAts: "Beat the ATS Systems",
       resumesHumansLove: "Resumes Humans Love, Machines Understand",
-      atsDescription: "Most major companies use Applicant Tracking Systems (ATS). Our editor ensures your resume is technically optimized to pass these filters and reach the hiring manager's desk.",
+      atsDescription:
+        "Most major companies use Applicant Tracking Systems (ATS). Our editor ensures your resume is technically optimized to pass these filters and reach the hiring manager's desk.",
       keywordAnalysis: "Keyword Analysis",
-      keywordAnalysisDesc: "We compare your resume against the job description to find missing keywords.",
+      keywordAnalysisDesc:
+        "We compare your resume against the job description to find missing keywords.",
       compliantStructure: "Compliant Structure",
-      compliantStructureDesc: "Our templates are designed to be easily readable by scanning systems and ATS.",
+      compliantStructureDesc:
+        "Our templates are designed to be easily readable by scanning systems and ATS.",
       uploadCv: "Upload CV from Hash Resume",
-      uploadCvDesc: "With one click, add your completed resume to our database.",
+      uploadCvDesc:
+        "With one click, add your completed resume to our database.",
       profileToPartner: "Profile goes to partner database",
-      profileToPartnerDesc: "We match your skills with companies looking for talent.",
+      profileToPartnerDesc:
+        "We match your skills with companies looking for talent.",
       companiesContact: "Companies contact you directly",
-      companiesContactDesc: "Get job offers and interview requests without the hassle of searching.",
+      companiesContactDesc:
+        "Get job offers and interview requests without the hassle of searching.",
       finish: {
         readyTitle: "Your Resume is Ready!",
-        readySubtitle: "You've built a professional, ATS-optimized resume. What's next?",
+        readySubtitle:
+          "You've built a professional, ATS-optimized resume. What's next?",
         backupTitle: "Download & Backup",
-        backupDesc: "Download your resume in multiple formats or save a backup file to your computer to edit later.",
+        backupDesc:
+          "Download your resume in multiple formats or save a backup file to your computer to edit later.",
         exportWord: "Export Word",
         backupData: "Backup Data",
         restoreData: "Restore Data",
         nextStepsTitle: "Maximize Your Success",
         checkAts: "Check ATS Score",
-        checkAtsDesc: "Get a detailed audit of your resume and see how to improve your score.",
+        checkAtsDesc:
+          "Get a detailed audit of your resume and see how to improve your score.",
         findJobs: "Find Jobs",
-        findJobsDesc: "Explore exclusive job opportunities from our partner companies.",
+        findJobsDesc:
+          "Explore exclusive job opportunities from our partner companies.",
         createCover: "Create Cover Letter",
-        createCoverDesc: "Generate a matching cover letter tailored to your resume and the job."
-      }
+        createCoverDesc:
+          "Generate a matching cover letter tailored to your resume and the job.",
+      },
     },
     hashHunt: {
       heroBadge: "Exclusive Job Opportunities",
       heroTitlePart1: "Let the jobs",
       heroTitlePart2: "find you.",
-      heroSubtitle: "Browse exclusive roles from our partner companies or upload your resume to get matched automatically.",
+      heroSubtitle:
+        "Browse exclusive roles from our partner companies or upload your resume to get matched automatically.",
       submitResume: "Submit Resume",
       latestOpportunities: "Latest Opportunities",
       loadingJobs: "Loading jobs...",
@@ -176,11 +213,14 @@ export const translations = {
       step1Title: "1. Build Your Resume",
       step1Desc: "Use Hash Resume to create a professional, ATS-friendly CV.",
       step2Title: "2. Submit to Hash Hunt",
-      step2Desc: "Upload your resume to our secure talent pool via our quick form.",
+      step2Desc:
+        "Upload your resume to our secure talent pool via our quick form.",
       step3Title: "3. Get Matched",
-      step3Desc: "Our team matches your profile with partner companies looking for your skills.",
+      step3Desc:
+        "Our team matches your profile with partner companies looking for your skills.",
       whyJoinTitle: "Why join Hash Hunt?",
-      benefit1: "Direct access to hiring managers, skipping the ATS black hole.",
+      benefit1:
+        "Direct access to hiring managers, skipping the ATS black hole.",
       benefit2: "Personalized job matching based on your unique skills.",
       benefit3: "100% free for candidates. We only charge employers.",
       benefit4: "Exclusive roles not posted on public job boards.",
@@ -202,7 +242,7 @@ export const translations = {
       requirements: "Requirements",
       responsibilities: "Responsibilities",
       aboutCompany: "About Company",
-      close: "Close"
+      close: "Close",
     },
     feedbackModal: {
       title: "How was your experience?",
@@ -214,7 +254,7 @@ export const translations = {
       sending: "Sending...",
       thankYouTitle: "Thank You!",
       thankYouMessage: "Your feedback helps us improve Hash Resume.",
-      close: "Close"
+      close: "Close",
     },
     editor: {
       profile: "Profile",
@@ -243,19 +283,23 @@ export const translations = {
       skillsDesc: "Your technical and soft skills.",
       coverLetterDesc: "Generate a professional cover letter.",
       finishDesc: "Optimize for ATS and download your resume.",
-      overwriteConfirm: "This will overwrite your current data with example data. Are you sure?",
-      clearConfirm: "This will clear all your data. This action cannot be undone. Are you sure?",
+      overwriteConfirm:
+        "This will overwrite your current data with example data. Are you sure?",
+      clearConfirm:
+        "This will clear all your data. This action cannot be undone. Are you sure?",
       resumePreview: "Resume Preview",
-      backToHome: "Back to Home"
+      backToHome: "Back to Home",
     },
     atsAudit: {
       title: "ATS Resume Audit",
       noDataTitle: "No Data to Analyze",
-      noDataDesc: "Please fill in your personal information, experience, education, and skills to get an ATS score and personalized suggestions.",
+      noDataDesc:
+        "Please fill in your personal information, experience, education, and skills to get an ATS score and personalized suggestions.",
       greatJob: "Great Job! You're ATS Ready.",
       goodStart: "Good start, but needs work.",
       needsImprovement: "Needs significant improvements.",
-      atsExplanation: "Applicant Tracking Systems (ATS) scan resumes for keywords, formatting, and completeness. Follow the suggestions below to improve your score and increase your chances of landing an interview.",
+      atsExplanation:
+        "Applicant Tracking Systems (ATS) scan resumes for keywords, formatting, and completeness. Follow the suggestions below to improve your score and increase your chances of landing an interview.",
       sectionBreakdown: "Section Breakdown",
       detailedSuggestions: "Detailed Suggestions",
       workingWell: "What's Working Well",
@@ -264,14 +308,15 @@ export const translations = {
       hideMatcher: "Hide Matcher",
       compareWithJD: "Compare with JD",
       pasteJD: "Paste Job Description Here",
-      pastePlaceholder: "Paste the requirements and responsibilities from the job posting...",
+      pastePlaceholder:
+        "Paste the requirements and responsibilities from the job posting...",
       matchScore: "Match Score",
       basedOnKeywords: "Based on top 20 keywords",
       missingKeywords: "Missing Keywords",
       matchedKeywords: "Matched Keywords",
       noMissingKeywords: "No missing keywords found!",
       noMatchedKeywords: "No matched keywords yet.",
-    }
+    },
   },
   ar: {
     landing: {
@@ -292,7 +337,8 @@ export const translations = {
       heroTitle1: "Hash Resume",
       heroTitle2: "احصل على الوظيفة.",
       heroTitle3: "بكل سهولة.",
-      heroSubtitle: "أنشئ سيرة ذاتية احترافية ومتوافقة مع أنظمة الـ ATS في دقائق. خصوصية تامة، أمان، وبدون الحاجة لتسجيل حساب.",
+      heroSubtitle:
+        "أنشئ سيرة ذاتية احترافية ومتوافقة مع أنظمة الـ ATS في دقائق. خصوصية تامة، أمان، وبدون الحاجة لتسجيل حساب.",
       aiPowered: "منشئ سيرة ذاتية بالذكاء الاصطناعي",
       startFromScratch: "ابدأ من الصفر",
       chooseTemplate: "اختر قالبًا",
@@ -303,9 +349,11 @@ export const translations = {
       excellent: "ممتاز",
       joinedThisMonth: "انضم هذا الشهر",
       aiContentGeneration: "توليد المحتوى بالذكاء الاصطناعي",
-      aiContentDesc: "تغلب على قفلة الكاتب مع مساعدنا الذكي الذي يولد ملخصات ونقاط مهنية مخصصة لمجالك.",
+      aiContentDesc:
+        "تغلب على قفلة الكاتب مع مساعدنا الذكي الذي يولد ملخصات ونقاط مهنية مخصصة لمجالك.",
       premiumTemplates: "قوالب مميزة متعددة",
-      premiumTemplatesDesc: "اختر من بين مجموعة متنوعة من القوالب المصممة باحتراف والتي تبرز مع بقائها متوافقة مع أنظمة الـ ATS.",
+      premiumTemplatesDesc:
+        "اختر من بين مجموعة متنوعة من القوالب المصممة باحتراف والتي تبرز مع بقائها متوافقة مع أنظمة الـ ATS.",
       atsAuditReport: "تقرير تدقيق ATS",
       keywordsMatched: "الكلمات المفتاحية المتطابقة",
       improvementSuggestions: "مقترحات التحسين",
@@ -324,18 +372,21 @@ export const translations = {
       privacyBadge: "بياناتك لا تغادر جهازك أبدًا — خاصة 100%",
       partOf: "هو جزء من وكالة Hash للتسويق عبر وسائل التواصل الاجتماعي",
       featuresTitle: "كل ما تحتاجه للحصول على الوظيفة",
-      featuresSubtitle: "ميزات قوية مصممة لجعل سيرتك الذاتية تبرز لكل من مسؤولي التوظيف وأنظمة تتبع المتقدمين.",
+      featuresSubtitle:
+        "ميزات قوية مصممة لجعل سيرتك الذاتية تبرز لكل من مسؤولي التوظيف وأنظمة تتبع المتقدمين.",
       feature1Title: "توليد فوري",
       feature1Desc: "شاهد تغييراتك في الوقت الفعلي. لا انتظار، لا شاشات تحميل.",
       feature2Title: "100% خاص",
-      feature2Desc: "يتم تخزين بياناتك محليًا على جهازك. نحن لا نرى معلوماتك أبدًا.",
+      feature2Desc:
+        "يتم تخزين بياناتك محليًا على جهازك. نحن لا نرى معلوماتك أبدًا.",
       feature3Title: "جاهز لـ ATS",
       feature3Desc: "قوالب محسنة للمرور عبر أنظمة تتبع المتقدمين.",
       feature4Title: "اقتراحات ذكية",
       feature4Desc: "نصائح وأمثلة مدمجة لمساعدتك في كتابة محتوى أفضل.",
       coverLetterNew: "ميزة جديدة",
       coverLetterTitle: "اكتب خطاب تقديم مقنع في ثوانٍ.",
-      coverLetterDesc: "لا تدع الصفحة البيضاء توقفك. يساعدك منشئ خطاب التقديم المدعوم بالذكاء الاصطناعي على صياغة خطابات مخصصة واحترافية تتناسب مع أسلوب ونبرة سيرتك الذاتية.",
+      coverLetterDesc:
+        "لا تدع الصفحة البيضاء توقفك. يساعدك منشئ خطاب التقديم المدعوم بالذكاء الاصطناعي على صياغة خطابات مخصصة واحترافية تتناسب مع أسلوب ونبرة سيرتك الذاتية.",
       coverLetterList1: "مخصص للوصف الوظيفي",
       coverLetterList2: "يطابق تصميم سيرتك الذاتية",
       coverLetterList3: "نبرة وتنسيق احترافي",
@@ -345,9 +396,11 @@ export const translations = {
       step1Title: "املأ البيانات",
       step1Desc: "أدخل تفاصيلك. نماذجنا الذكية تجعل الأمر سريعًا وغير مؤلم.",
       step2Title: "دقق وحسن",
-      step2Desc: "تحقق من درجة ATS الخاصة بك في الوقت الفعلي واستخدم اقتراحاتنا لتحسين المحتوى الخاص بك.",
+      step2Desc:
+        "تحقق من درجة ATS الخاصة بك في الوقت الفعلي واستخدم اقتراحاتنا لتحسين المحتوى الخاص بك.",
       step3Title: "صدر وقدم",
-      step3Desc: "قم بالتنزيل كملف PDF مثالي وابدأ التقديم لوظائف أحلامك على الفور.",
+      step3Desc:
+        "قم بالتنزيل كملف PDF مثالي وابدأ التقديم لوظائف أحلامك على الفور.",
       statsText: "1k مستخدم انضم هذا الشهر",
       trustedBy: "موثوق به من قبل محترفين في",
       interviewIncrease: "زيادة بنسبة 85% في الرد على طلبات المقابلة",
@@ -356,31 +409,41 @@ export const translations = {
       oneClickApply: "تقديم بضغطة زر واحدة على Hash Hunt",
       seamlessFlow: "أنشئ، حسن، وقدم - كل ذلك في مكان واحد.",
       beforeAfterTitle: "شاهد الفرق",
-      beforeAfterSubtitle: "حوّل سيرتك الذاتية الفوضوية إلى تحفة احترافية متوافقة مع أنظمة ATS.",
-      beforeAfterDesc: "توقف عن إرسال سير ذاتية فوضوية يتم تجاهلها. يضمن منشئنا المدعوم بالذكاء الاصطناعي أن تكون سيرتك الذاتية نظيفة واحترافية وقابلة للقراءة من قبل البشر والآلات.",
+      beforeAfterSubtitle:
+        "حوّل سيرتك الذاتية الفوضوية إلى تحفة احترافية متوافقة مع أنظمة ATS.",
+      beforeAfterDesc:
+        "توقف عن إرسال سير ذاتية فوضوية يتم تجاهلها. يضمن منشئنا المدعوم بالذكاء الاصطناعي أن تكون سيرتك الذاتية نظيفة واحترافية وقابلة للقراءة من قبل البشر والآلات.",
       beforeTitle: "قبل Hash Resume",
       afterTitle: "مع Hash Resume",
       showcaseTitle: "مصممة لنجاحك",
       showcaseSubtitle: "ألقِ نظرة على محررنا والقوالب الاحترافية التي نقدمها.",
       testimonialsTitle: "حائط التقييمات",
-      testimonialsSubtitle: "شوف رأي المحترفين حول العالم عن تجربتهم مع Hash Resume.",
+      testimonialsSubtitle:
+        "شوف رأي المحترفين حول العالم عن تجربتهم مع Hash Resume.",
       beFirstToReview: "كن أول من يقيمنا",
       shareYourStory: "شاركنا قصة نجاحك وكيف ساعدك Hash Resume!",
       faqsTitle: "الأسئلة الشائعة",
       faqsSubtitle: "عندك استفسار؟ جمعنا لك أهم الأسئلة وإجاباتها.",
       faq1Q: "هل بياناتي آمنة؟",
-      faq1A: "نعم، بالتأكيد. يعمل Hash Resume بالكامل داخل متصفحك. يتم تخزين بياناتك الشخصية محليًا على جهازك ولا يتم إرسالها أبدًا إلى خوادمنا. نحن نضع خصوصيتك فوق كل اعتبار.",
+      faq1A:
+        "نعم، بالتأكيد. يعمل Hash Resume بالكامل داخل متصفحك. يتم تخزين بياناتك الشخصية محليًا على جهازك ولا يتم إرسالها أبدًا إلى خوادمنا. نحن نضع خصوصيتك فوق كل اعتبار.",
       faq2Q: "كم تبلغ التكلفة؟",
-      faq2A: "يمكنك إنشاء ومعاينة سيرتك الذاتية مجانًا. نحن نفرض رسومًا لمرة واحدة قدرها 25 جنيه مصري لتحميل ملف PDF احترافي واحد. لا توجد اشتراكات أو رسوم خفية.",
+      faq2A:
+        "يمكنك إنشاء ومعاينة سيرتك الذاتية مجانًا. نحن نفرض رسومًا لمرة واحدة قدرها 25 جنيه مصري لتحميل ملف PDF احترافي واحد. لا توجد اشتراكات أو رسوم خفية.",
       faq3Q: "ما هي السيرة الذاتية المتوافقة مع ATS؟",
-      faq3A: "برنامج ATS (نظام تتبع المتقدمين) هو برنامج يستخدمه مسؤولو التوظيف لتصفية السير الذاتية. تم تصميم قوالبنا بتنسيق نظيف وأقسام قياسية لضمان قدرة هذه الأنظمة على قراءة وتصنيف طلبك بسهولة.",
+      faq3A:
+        "برنامج ATS (نظام تتبع المتقدمين) هو برنامج يستخدمه مسؤولو التوظيف لتصفية السير الذاتية. تم تصميم قوالبنا بتنسيق نظيف وأقسام قياسية لضمان قدرة هذه الأنظمة على قراءة وتصنيف طلبك بسهولة.",
       faq4Q: "هل يدعم السير الذاتية باللغة العربية؟",
-      faq4A: "نعم! يدعم Hash Resume اللغة العربية بشكل كامل مع تحسين التنسيق من اليمين إلى اليسار (RTL). يمكنك إنشاء سير ذاتية عربية احترافية تبدو رائعة ومتوافقة مع أنظمة ATS.",
+      faq4A:
+        "نعم! يدعم Hash Resume اللغة العربية بشكل كامل مع تحسين التنسيق من اليمين إلى اليسار (RTL). يمكنك إنشاء سير ذاتية عربية احترافية تبدو رائعة ومتوافقة مع أنظمة ATS.",
       faq5Q: "كيف أحفظ سيرتي الذاتية؟",
-      faq5A: "يتم حفظ سيرتك الذاتية تلقائيًا في التخزين المحلي لمتصفحك في الوقت الفعلي. يمكنك إغلاق الصفحة والعودة لاحقًا لمواصلة التعديل. ننصحك أيضًا باستخدام ميزة 'نسخ احتياطي للبيانات' في خطوة المراجعة لحفظ ملف على جهازك.",
+      faq5A:
+        "يتم حفظ سيرتك الذاتية تلقائيًا في التخزين المحلي لمتصفحك في الوقت الفعلي. يمكنك إغلاق الصفحة والعودة لاحقًا لمواصلة التعديل. ننصحك أيضًا باستخدام ميزة 'نسخ احتياطي للبيانات' في خطوة المراجعة لحفظ ملف على جهازك.",
       faq6Q: "هل يمكنني إنشاء خطاب تقديم أيضًا؟",
-      faq6A: "نعم! لدينا منشئ خطاب تقديم مخصص مدعوم بالذكاء الاصطناعي يساعدك على صياغة خطابات احترافية مخصصة لوظيفتك وتناسب تصميم سيرتك الذاتية.",
-      footerDesc: "سير ذاتية احترافية، بكل بساطة. بنيت مع الخصوصية في الاعتبار.",
+      faq6A:
+        "نعم! لدينا منشئ خطاب تقديم مخصص مدعوم بالذكاء الاصطناعي يساعدك على صياغة خطابات احترافية مخصصة لوظيفتك وتناسب تصميم سيرتك الذاتية.",
+      footerDesc:
+        "سير ذاتية احترافية، بكل بساطة. بنيت مع الخصوصية في الاعتبار.",
       connect: "تواصل معنا",
       product: "المنتج",
       resumeBuilder: "منشئ السيرة الذاتية",
@@ -394,7 +457,8 @@ export const translations = {
       mostPopular: "الأكثر طلباً",
       hashHuntNew: "جديد",
       hashHuntTitle: "دع الوظائف تبحث عنك مع Hash Hunt",
-      hashHuntSubtitle: "لا تكتفِ بإنشاء سيرة ذاتية رائعة. انضم إلى مجموعة المواهب الحصرية الخاصة بنا ودع الشركات الشريكة لنا تتواصل معك مباشرة.",
+      hashHuntSubtitle:
+        "لا تكتفِ بإنشاء سيرة ذاتية رائعة. انضم إلى مجموعة المواهب الحصرية الخاصة بنا ودع الشركات الشريكة لنا تتواصل معك مباشرة.",
       hashHuntList1: "وصول مباشر لمديري التوظيف",
       hashHuntList2: "وظائف حصرية غير معلنة",
       hashHuntList3: "مجاني 100% للباحثين عن عمل",
@@ -406,39 +470,48 @@ export const translations = {
       privateFooter: "100% خاص. بياناتك تبقى على جهازك.",
       beatAts: "تجاوز أنظمة الـ ATS",
       resumesHumansLove: "سيرة ذاتية يقرأها البشر وتفهمها الآلات",
-      atsDescription: "تستخدم معظم الشركات الكبرى أنظمة تتبع المتقدمين (ATS). محررنا يضمن أن سيرتك الذاتية مهيأة تقنياً لتجاوز هذه الفلاتر والوصول ليد مدير التوظيف.",
+      atsDescription:
+        "تستخدم معظم الشركات الكبرى أنظمة تتبع المتقدمين (ATS). محررنا يضمن أن سيرتك الذاتية مهيأة تقنياً لتجاوز هذه الفلاتر والوصول ليد مدير التوظيف.",
       keywordAnalysis: "فحص الكلمات المفتاحية",
-      keywordAnalysisDesc: "نقوم بمقارنة سيرتك الذاتية مع وصف الوظيفة للعثور على الكلمات المفقودة.",
+      keywordAnalysisDesc:
+        "نقوم بمقارنة سيرتك الذاتية مع وصف الوظيفة للعثور على الكلمات المفقودة.",
       compliantStructure: "هيكلة متوافقة",
-      compliantStructureDesc: "قوالبنا مصممة لتكون سهلة القراءة لأنظمة المسح الضوئي والـ ATS.",
+      compliantStructureDesc:
+        "قوالبنا مصممة لتكون سهلة القراءة لأنظمة المسح الضوئي والـ ATS.",
       uploadCv: "ارفع سيرتك الذاتية من Hash Resume",
       uploadCvDesc: "بضغطة زر، أضف سيرتك الذاتية المكتملة إلى قاعدة بياناتنا.",
       profileToPartner: "ملفك يذهب لشركائنا",
-      profileToPartnerDesc: "نقوم بمطابقة مهاراتك مع الشركات التي تبحث عن كفاءات.",
+      profileToPartnerDesc:
+        "نقوم بمطابقة مهاراتك مع الشركات التي تبحث عن كفاءات.",
       companiesContact: "الشركات تتواصل معك مباشرة",
       companiesContactDesc: "احصل على عروض عمل ومقابلات دون عناء البحث.",
       finish: {
         readyTitle: "سيرتك الذاتية جاهزة!",
-        readySubtitle: "لقد أنشأت سيرة ذاتية احترافية ومتوافقة مع ATS. ما هي الخطوة التالية؟",
+        readySubtitle:
+          "لقد أنشأت سيرة ذاتية احترافية ومتوافقة مع ATS. ما هي الخطوة التالية؟",
         backupTitle: "التحميل والنسخ الاحتياطي",
-        backupDesc: "قم بتحميل سيرتك الذاتية بصيغ متعددة أو احفظ ملف نسخة احتياطية على جهازك لتعديله لاحقاً.",
+        backupDesc:
+          "قم بتحميل سيرتك الذاتية بصيغ متعددة أو احفظ ملف نسخة احتياطية على جهازك لتعديله لاحقاً.",
         exportWord: "تصدير Word",
         backupData: "نسخ احتياطي",
         restoreData: "استعادة البيانات",
         nextStepsTitle: "عزز فرص نجاحك",
         checkAts: "فحص درجة ATS",
-        checkAtsDesc: "احصل على تدقيق مفصل لسيرتك الذاتية وشاهد كيفية تحسين درجتك.",
+        checkAtsDesc:
+          "احصل على تدقيق مفصل لسيرتك الذاتية وشاهد كيفية تحسين درجتك.",
         findJobs: "البحث عن وظائف",
         findJobsDesc: "استكشف فرص عمل حصرية من الشركات الشريكة لنا.",
         createCover: "إنشاء خطاب تقديم",
-        createCoverDesc: "قم بتوليد خطاب تقديم مطابق ومخصص لسيرتك الذاتية والوظيفة."
-      }
+        createCoverDesc:
+          "قم بتوليد خطاب تقديم مطابق ومخصص لسيرتك الذاتية والوظيفة.",
+      },
     },
     hashHunt: {
       heroBadge: "فرص عمل حصرية",
       heroTitlePart1: "دع الوظائف",
       heroTitlePart2: "تبحث عنك.",
-      heroSubtitle: "تصفح الأدوار الحصرية من الشركات الشريكة لنا أو ارفع سيرتك الذاتية ليتم مطابقتك تلقائيًا.",
+      heroSubtitle:
+        "تصفح الأدوار الحصرية من الشركات الشريكة لنا أو ارفع سيرتك الذاتية ليتم مطابقتك تلقائيًا.",
       submitResume: "إرسال السيرة الذاتية",
       latestOpportunities: "أحدث الفرص",
       loadingJobs: "جاري تحميل الوظائف...",
@@ -448,11 +521,14 @@ export const translations = {
       howItWorksTitle: "كيف يعمل Hash Hunt",
       howItWorksSubtitle: "خطوتك المهنية التالية على بعد نقرات قليلة.",
       step1Title: "1. أنشئ سيرتك الذاتية",
-      step1Desc: "استخدم Hash Resume لإنشاء سيرة ذاتية احترافية ومتوافقة مع ATS.",
+      step1Desc:
+        "استخدم Hash Resume لإنشاء سيرة ذاتية احترافية ومتوافقة مع ATS.",
       step2Title: "2. أرسل إلى Hash Hunt",
-      step2Desc: "ارفع سيرتك الذاتية إلى مجموعة المواهب الآمنة لدينا عبر نموذجنا السريع.",
+      step2Desc:
+        "ارفع سيرتك الذاتية إلى مجموعة المواهب الآمنة لدينا عبر نموذجنا السريع.",
       step3Title: "3. احصل على المطابقة",
-      step3Desc: "يقوم فريقنا بمطابقة ملفك الشخصي مع الشركات الشريكة التي تبحث عن مهاراتك.",
+      step3Desc:
+        "يقوم فريقنا بمطابقة ملفك الشخصي مع الشركات الشريكة التي تبحث عن مهاراتك.",
       whyJoinTitle: "لماذا تنضم إلى Hash Hunt؟",
       benefit1: "وصول مباشر لمديري التوظيف، وتجاوز ثقب ATS الأسود.",
       benefit2: "مطابقة وظيفية مخصصة بناءً على مهاراتك الفريدة.",
@@ -476,7 +552,7 @@ export const translations = {
       requirements: "المتطلبات",
       responsibilities: "المسؤوليات",
       aboutCompany: "عن الشركة",
-      close: "إغلاق"
+      close: "إغلاق",
     },
     feedbackModal: {
       title: "كيف كانت تجربتك؟",
@@ -488,7 +564,7 @@ export const translations = {
       sending: "جاري الإرسال...",
       thankYouTitle: "شكراً جزيلاً!",
       thankYouMessage: "تقييمك يساعدنا على تحسين Hash Resume.",
-      close: "إإغلاق"
+      close: "إإغلاق",
     },
     editor: {
       profile: "الملف الشخصي",
@@ -517,19 +593,23 @@ export const translations = {
       skillsDesc: "مهاراتك التقنية والشخصية.",
       coverLetterDesc: "إنشاء خطاب تقديم احترافي.",
       finishDesc: "تحسين لـ ATS وتحميل سيرتك الذاتية.",
-      overwriteConfirm: "سيؤدي هذا إلى استبدال بياناتك الحالية ببيانات تجريبية. هل أنت متأكد؟",
-      clearConfirm: "سيؤدي هذا إلى مسح جميع بياناتك. لا يمكن التراجع عن هذا الإجراء. هل أنت متأكد؟",
+      overwriteConfirm:
+        "سيؤدي هذا إلى استبدال بياناتك الحالية ببيانات تجريبية. هل أنت متأكد؟",
+      clearConfirm:
+        "سيؤدي هذا إلى مسح جميع بياناتك. لا يمكن التراجع عن هذا الإجراء. هل أنت متأكد؟",
       resumePreview: "معاينة السيرة الذاتية",
-      backToHome: "العودة للرئيسية"
+      backToHome: "العودة للرئيسية",
     },
     atsAudit: {
       title: "تدقيق ATS للسيرة الذاتية",
       noDataTitle: "لا توجد بيانات لتحليلها",
-      noDataDesc: "يرجى ملء معلوماتك الشخصية وخبراتك وتعليمك ومهاراتك للحصول على درجة ATS واقتراحات مخصصة.",
+      noDataDesc:
+        "يرجى ملء معلوماتك الشخصية وخبراتك وتعليمك ومهاراتك للحصول على درجة ATS واقتراحات مخصصة.",
       greatJob: "عمل رائع! سيرتك الذاتية جاهزة لـ ATS.",
       goodStart: "بداية جيدة، ولكنها تحتاج إلى عمل.",
       needsImprovement: "تحتاج إلى تحسينات كبيرة.",
-      atsExplanation: "تقوم أنظمة تتبع المتقدمين (ATS) بفحص السير الذاتية بحثًا عن الكلمات الرئيسية والتنسيق والاكتمال. اتبع الاقتراحات أدناه لتحسين درجتك وزيادة فرصك في الحصول على مقابلة.",
+      atsExplanation:
+        "تقوم أنظمة تتبع المتقدمين (ATS) بفحص السير الذاتية بحثًا عن الكلمات الرئيسية والتنسيق والاكتمال. اتبع الاقتراحات أدناه لتحسين درجتك وزيادة فرصك في الحصول على مقابلة.",
       sectionBreakdown: "تفاصيل الأقسام",
       detailedSuggestions: "اقتراحات مفصلة",
       workingWell: "ما الذي يعمل بشكل جيد",
@@ -545,7 +625,7 @@ export const translations = {
       matchedKeywords: "الكلمات الرئيسية المتطابقة",
       noMissingKeywords: "لم يتم العثور على كلمات رئيسية مفقودة!",
       noMatchedKeywords: "لا توجد كلمات رئيسية متطابقة بعد.",
-    }
+    },
   },
   fr: {
     landing: {
@@ -558,15 +638,18 @@ export const translations = {
       hashHuntJobs: "Hash Hunt",
       howItWorksTitle: "Comment ça marche ?",
       simpleStep1Title: "Saisir les détails",
-      simpleStep1Desc: "Remplissez vos informations de base et votre expérience.",
+      simpleStep1Desc:
+        "Remplissez vos informations de base et votre expérience.",
       simpleStep2Title: "Améliorer avec l'IA",
-      simpleStep2Desc: "Laissez l'IA rédiger votre expérience de manière professionnelle.",
+      simpleStep2Desc:
+        "Laissez l'IA rédiger votre expérience de manière professionnelle.",
       simpleStep3Title: "Télécharger",
       simpleStep3Desc: "Obtenez un fichier PDF prêt à l'emploi.",
       heroTitle1: "Hash Resume",
       heroTitle2: "Décrochez le job.",
       heroTitle3: "Sans effort.",
-      heroSubtitle: "Créez un CV professionnel optimisé pour l'ATS en quelques minutes. Privé, sécurisé et sans inscription requise.",
+      heroSubtitle:
+        "Créez un CV professionnel optimisé pour l'ATS en quelques minutes. Privé, sécurisé et sans inscription requise.",
       aiPowered: "Générateur de CV par IA",
       startFromScratch: "Partir de zéro",
       chooseTemplate: "Choisir un modèle",
@@ -577,16 +660,19 @@ export const translations = {
       excellent: "Excellent",
       joinedThisMonth: "inscrits ce mois-ci",
       aiContentGeneration: "Génération de contenu par IA",
-      aiContentDesc: "Surmontez le syndrome de la page blanche avec notre assistant IA qui génère des résumés professionnels et des points clés adaptés à votre secteur.",
+      aiContentDesc:
+        "Surmontez le syndrome de la page blanche avec notre assistant IA qui génère des résumés professionnels et des points clés adaptés à votre secteur.",
       premiumTemplates: "Plusieurs modèles premium",
-      premiumTemplatesDesc: "Choisissez parmi une variété de modèles conçus professionnellement qui se démarquent tout en restant conformes à l'ATS.",
+      premiumTemplatesDesc:
+        "Choisissez parmi une variété de modèles conçus professionnellement qui se démarquent tout en restant conformes à l'ATS.",
       atsAuditReport: "Rapport d'audit ATS",
       keywordsMatched: "Mots-clés correspondants",
       improvementSuggestions: "Suggestions d'amélioration",
       scoreBoost: "Boost de score",
       tryCoverLetterBuilder: "Essayer le générateur de lettre de motivation",
       startWritingNow: "Commencer à écrire maintenant",
-      noSubscriptionPayOnce: "Sans inscription, sans abonnement, payez une fois",
+      noSubscriptionPayOnce:
+        "Sans inscription, sans abonnement, payez une fois",
       payOncePerResume: "Payez une fois par téléchargement de CV",
       includesPdfWord: "Inclut les formats PDF et Word",
       unlimitedFreeEdits: "Modifications gratuites illimitées avant de payer",
@@ -595,21 +681,27 @@ export const translations = {
       noHiddenFees: "Pas d'abonnement, pas de frais cachés",
       buildResume: "Commencer",
       createCoverLetter: "Créer une lettre",
-      privacyBadge: "Vos données ne quittent jamais votre appareil — 100% privé",
+      privacyBadge:
+        "Vos données ne quittent jamais votre appareil — 100% privé",
       partOf: "fait partie de l'agence Hash Social Media Marketing",
       featuresTitle: "Tout ce dont vous avez besoin pour décrocher le job",
-      featuresSubtitle: "Des fonctionnalités puissantes conçues pour faire ressortir votre CV.",
+      featuresSubtitle:
+        "Des fonctionnalités puissantes conçues pour faire ressortir votre CV.",
       feature1Title: "Génération instantanée",
       feature1Desc: "Voyez vos modifications en temps réel. Pas d'attente.",
       feature2Title: "100% Privé",
       feature2Desc: "Vos données sont stockées localement sur votre appareil.",
       feature3Title: "Prêt pour les ATS",
-      feature3Desc: "Modèles optimisés pour passer les systèmes de suivi des candidatures.",
+      feature3Desc:
+        "Modèles optimisés pour passer les systèmes de suivi des candidatures.",
       feature4Title: "Suggestions intelligentes",
-      feature4Desc: "Conseils et exemples intégrés pour vous aider à mieux rédiger.",
+      feature4Desc:
+        "Conseils et exemples intégrés pour vous aider à mieux rédiger.",
       coverLetterNew: "Nouveau",
-      coverLetterTitle: "Rédigez une lettre de motivation convaincante en quelques secondes.",
-      coverLetterDesc: "Ne laissez pas une page blanche vous arrêter. Notre créateur de lettres de motivation vous aide à rédiger des lettres personnalisées.",
+      coverLetterTitle:
+        "Rédigez une lettre de motivation convaincante en quelques secondes.",
+      coverLetterDesc:
+        "Ne laissez pas une page blanche vous arrêter. Notre créateur de lettres de motivation vous aide à rédiger des lettres personnalisées.",
       coverLetterList1: "Adapté à la description du poste",
       coverLetterList2: "Correspond au design de votre CV",
       coverLetterList3: "Ton et formatage professionnels",
@@ -617,82 +709,105 @@ export const translations = {
       tryCoverLetter: "Essayer le créateur de lettre",
       startWriting: "Commencer à écrire",
       step1Title: "Remplir les données",
-      step1Desc: "Saisissez vos coordonnées. Nos formulaires intelligents rendent cela rapide et indolore.",
+      step1Desc:
+        "Saisissez vos coordonnées. Nos formulaires intelligents rendent cela rapide et indolore.",
       step2Title: "Auditer et affiner",
-      step2Desc: "Vérifiez votre score ATS en temps réel et utilisez nos suggestions pour améliorer votre contenu.",
+      step2Desc:
+        "Vérifiez votre score ATS en temps réel et utilisez nos suggestions pour améliorer votre contenu.",
       step3Title: "Exporter et postuler",
-      step3Desc: "Téléchargez en PDF parfait et commencez à postuler immédiatement.",
+      step3Desc:
+        "Téléchargez en PDF parfait et commencez à postuler immédiatement.",
       statsText: "1k utilisateur inscrit ce mois-ci",
       beforeAfterTitle: "Voyez la différence",
-      beforeAfterSubtitle: "Transformez votre CV désordonné en un chef-d'œuvre professionnel optimisé pour les ATS.",
+      beforeAfterSubtitle:
+        "Transformez votre CV désordonné en un chef-d'œuvre professionnel optimisé pour les ATS.",
       beforeTitle: "Avant Hash Resume",
       afterTitle: "Avec Hash Resume",
       showcaseTitle: "Conçu pour votre succès",
-      showcaseSubtitle: "Jetez un œil à notre éditeur et aux modèles professionnels que nous proposons.",
+      showcaseSubtitle:
+        "Jetez un œil à notre éditeur et aux modèles professionnels que nous proposons.",
       testimonialsTitle: "Mur d'amour",
-      testimonialsSubtitle: "Découvrez ce que les professionnels du monde entier disent de Hash Resume.",
+      testimonialsSubtitle:
+        "Découvrez ce que les professionnels du monde entier disent de Hash Resume.",
       beFirstToReview: "Soyez le premier à donner votre avis",
       shareYourStory: "Partagez votre histoire de réussite avec nous !",
       faqsTitle: "Foire Aux Questions",
       faqsSubtitle: "Vous avez des questions ? Nous avons des réponses.",
       faq1Q: "Mes données sont-elles en sécurité ?",
-      faq1A: "Oui, absolument. Hash Resume s'exécute entièrement dans votre navigateur. Vos données personnelles sont stockées localement sur votre appareil et ne sont jamais envoyées à nos serveurs.",
+      faq1A:
+        "Oui, absolument. Hash Resume s'exécute entièrement dans votre navigateur. Vos données personnelles sont stockées localement sur votre appareil et ne sont jamais envoyées à nos serveurs.",
       faq2Q: "Combien ça coûte ?",
-      faq2A: "Vous pouvez créer et prévisualiser votre CV gratuitement. Nous facturons des frais uniques de 25 EGP pour un seul téléchargement PDF professionnel. Pas d'abonnements, pas de frais cachés.",
+      faq2A:
+        "Vous pouvez créer et prévisualiser votre CV gratuitement. Nous facturons des frais uniques de 25 EGP pour un seul téléchargement PDF professionnel. Pas d'abonnements, pas de frais cachés.",
       faq3Q: "Qu'est-ce qu'un CV compatible ATS ?",
-      faq3A: "Les logiciels ATS sont utilisés par les recruteurs pour filtrer les CV. Nos modèles sont conçus avec un formatage propre pour garantir que ces systèmes peuvent facilement lire votre candidature.",
+      faq3A:
+        "Les logiciels ATS sont utilisés par les recruteurs pour filtrer les CV. Nos modèles sont conçus avec un formatage propre pour garantir que ces systèmes peuvent facilement lire votre candidature.",
       faq4Q: "Prend-il en charge les CV en arabe ?",
-      faq4A: "Oui ! Hash Resume prend entièrement en charge la langue arabe avec une optimisation de la mise en page de droite à gauche (RTL).",
+      faq4A:
+        "Oui ! Hash Resume prend entièrement en charge la langue arabe avec une optimisation de la mise en page de droite à gauche (RTL).",
       faq5Q: "Comment enregistrer mon CV ?",
-      faq5A: "Votre CV est automatiquement enregistré dans le stockage local de votre navigateur en temps réel. Nous vous recommandons également d'utiliser la fonction 'Sauvegarder les données'.",
+      faq5A:
+        "Votre CV est automatiquement enregistré dans le stockage local de votre navigateur en temps réel. Nous vous recommandons également d'utiliser la fonction 'Sauvegarder les données'.",
       faq6Q: "Puis-je aussi créer une lettre de motivation ?",
-      faq6A: "Oui ! Nous avons un créateur de lettres de motivation dédié, propulsé par l'IA.",
-      footerDesc: "Des CV professionnels, simplifiés. Construit avec la confidentialité à l'esprit.",
+      faq6A:
+        "Oui ! Nous avons un créateur de lettres de motivation dédié, propulsé par l'IA.",
+      footerDesc:
+        "Des CV professionnels, simplifiés. Construit avec la confidentialité à l'esprit.",
       connect: "Connectez-vous avec nous",
       product: "Produit",
       resumeBuilder: "Créateur de CV",
       feedback: "Commentaires",
       pricingTitle: "Tarification simple et transparente",
-      pricingSubtitle: "Payez seulement quand vous êtes prêt à télécharger. Pas de frais cachés.",
+      pricingSubtitle:
+        "Payez seulement quand vous êtes prêt à télécharger. Pas de frais cachés.",
       whyChooseUs: "Pourquoi nous choisir ?",
-      noSubscriptions: "Pas d'abonnements mensuels. Pas de renouvellement automatique.",
+      noSubscriptions:
+        "Pas d'abonnements mensuels. Pas de renouvellement automatique.",
       singleDownload: "Téléchargement unique",
       getStartedNow: "Commencer maintenant",
       mostPopular: "Le plus populaire",
       hashHuntNew: "Nouveau",
       hashHuntTitle: "Laissez les emplois vous trouver avec Hash Hunt",
-      hashHuntSubtitle: "Ne vous contentez pas de créer un excellent CV. Rejoignez notre vivier de talents exclusif.",
+      hashHuntSubtitle:
+        "Ne vous contentez pas de créer un excellent CV. Rejoignez notre vivier de talents exclusif.",
       hashHuntList1: "Accès direct aux responsables du recrutement",
       hashHuntList2: "Rôles exclusifs non répertoriés",
       hashHuntList3: "100% gratuit pour les chercheurs d'emploi",
       exploreHashHunt: "Explorer Hash Hunt",
       latestBlog: "Derniers articles du blog",
-      blogSubtitle: "Conseils de carrière pour vous aider à décrocher votre prochain emploi.",
+      blogSubtitle:
+        "Conseils de carrière pour vous aider à décrocher votre prochain emploi.",
       viewAllArticles: "Voir tous les articles",
       rightsReserved: "Hash Resume. Tous droits réservés.",
       privateFooter: "100% Privé. Vos données restent sur votre appareil.",
       finish: {
         readyTitle: "Votre CV est prêt !",
-        readySubtitle: "Vous avez créé un CV professionnel optimisé pour les ATS. Quelle est la suite ?",
+        readySubtitle:
+          "Vous avez créé un CV professionnel optimisé pour les ATS. Quelle est la suite ?",
         backupTitle: "Téléchargement et sauvegarde",
-        backupDesc: "Téléchargez votre CV dans plusieurs formats ou enregistrez un fichier de sauvegarde sur votre ordinateur pour le modifier plus tard.",
+        backupDesc:
+          "Téléchargez votre CV dans plusieurs formats ou enregistrez un fichier de sauvegarde sur votre ordinateur pour le modifier plus tard.",
         exportWord: "Exporter Word",
         backupData: "Sauvegarder les données",
         restoreData: "Restaurer les données",
         nextStepsTitle: "Maximisez votre succès",
         checkAts: "Vérifier le score ATS",
-        checkAtsDesc: "Obtenez un audit détaillé de votre CV et voyez comment améliorer votre score.",
+        checkAtsDesc:
+          "Obtenez un audit détaillé de votre CV et voyez comment améliorer votre score.",
         findJobs: "Trouver des emplois",
-        findJobsDesc: "Explorez des opportunités d'emploi exclusives de nos entreprises partenaires.",
+        findJobsDesc:
+          "Explorez des opportunités d'emploi exclusives de nos entreprises partenaires.",
         createCover: "Créer une lettre de motivation",
-        createCoverDesc: "Générez une lettre de motivation assortie, adaptée à votre CV et au poste."
-      }
+        createCoverDesc:
+          "Générez une lettre de motivation assortie, adaptée à votre CV et au poste.",
+      },
     },
     hashHunt: {
       heroBadge: "Opportunités d'emploi exclusives",
       heroTitlePart1: "Laissez les emplois",
       heroTitlePart2: "vous trouver.",
-      heroSubtitle: "Parcourez les rôles exclusifs de nos entreprises partenaires ou téléchargez votre CV pour être mis en correspondance automatiquement.",
+      heroSubtitle:
+        "Parcourez les rôles exclusifs de nos entreprises partenaires ou téléchargez votre CV pour être mis en correspondance automatiquement.",
       submitResume: "Soumettre le CV",
       latestOpportunities: "Dernières opportunités",
       loadingJobs: "Chargement des emplois...",
@@ -700,20 +815,28 @@ export const translations = {
       noJobsFound: "Aucun emploi trouvé pour le moment. Revenez plus tard !",
       tryRefreshing: "Essayez de rafraîchir la page",
       howItWorksTitle: "Comment fonctionne Hash Hunt",
-      howItWorksSubtitle: "Votre prochaine étape de carrière n'est qu'à quelques clics.",
+      howItWorksSubtitle:
+        "Votre prochaine étape de carrière n'est qu'à quelques clics.",
       step1Title: "1. Créez votre CV",
-      step1Desc: "Utilisez Hash Resume pour créer un CV professionnel optimisé pour les ATS.",
+      step1Desc:
+        "Utilisez Hash Resume pour créer un CV professionnel optimisé pour les ATS.",
       step2Title: "2. Soumettez à Hash Hunt",
-      step2Desc: "Téléchargez votre CV dans notre vivier de talents sécurisé via notre formulaire rapide.",
+      step2Desc:
+        "Téléchargez votre CV dans notre vivier de talents sécurisé via notre formulaire rapide.",
       step3Title: "3. Soyez mis en correspondance",
-      step3Desc: "Notre équipe fait correspondre votre profil avec des entreprises partenaires à la recherche de vos compétences.",
+      step3Desc:
+        "Notre équipe fait correspondre votre profil avec des entreprises partenaires à la recherche de vos compétences.",
       whyJoinTitle: "Pourquoi rejoindre Hash Hunt ?",
-      benefit1: "Accès direct aux responsables du recrutement, en évitant le trou noir des ATS.",
-      benefit2: "Correspondance d'emploi personnalisée basée sur vos compétences uniques.",
-      benefit3: "100% gratuit pour les candidats. Nous ne facturons que les employeurs.",
+      benefit1:
+        "Accès direct aux responsables du recrutement, en évitant le trou noir des ATS.",
+      benefit2:
+        "Correspondance d'emploi personnalisée basée sur vos compétences uniques.",
+      benefit3:
+        "100% gratuit pour les candidats. Nous ne facturons que les employeurs.",
       benefit4: "Rôles exclusifs non publiés sur les sites d'emploi publics.",
       joinTalentPool: "Rejoindre le vivier de talents",
-      searchPlaceholder: "Rechercher des emplois, des entreprises ou des mots-clés...",
+      searchPlaceholder:
+        "Rechercher des emplois, des entreprises ou des mots-clés...",
       allTypes: "Tous les types",
       fullTime: "Temps plein",
       partTime: "Temps partiel",
@@ -730,7 +853,7 @@ export const translations = {
       requirements: "Exigences",
       responsibilities: "Responsabilités",
       aboutCompany: "À propos de l'entreprise",
-      close: "Fermer"
+      close: "Fermer",
     },
     feedbackModal: {
       title: "Comment s'est passée votre expérience ?",
@@ -742,7 +865,7 @@ export const translations = {
       sending: "Envoi en cours...",
       thankYouTitle: "Merci !",
       thankYouMessage: "Vos commentaires nous aident à améliorer Hash Resume.",
-      close: "Fermer"
+      close: "Fermer",
     },
     editor: {
       profile: "Profil",
@@ -771,19 +894,23 @@ export const translations = {
       skillsDesc: "Vos compétences techniques et comportementales.",
       coverLetterDesc: "Générer une lettre de motivation professionnelle.",
       finishDesc: "Optimiser pour les ATS et télécharger votre CV.",
-      overwriteConfirm: "Cela écrasera vos données actuelles par des données d'exemple. Êtes-vous sûr ?",
-      clearConfirm: "Cela effacera toutes vos données. Cette action est irréversible. Êtes-vous sûr ?",
+      overwriteConfirm:
+        "Cela écrasera vos données actuelles par des données d'exemple. Êtes-vous sûr ?",
+      clearConfirm:
+        "Cela effacera toutes vos données. Cette action est irréversible. Êtes-vous sûr ?",
       resumePreview: "Aperçu du CV",
-      backToHome: "Retour à l'accueil"
+      backToHome: "Retour à l'accueil",
     },
     atsAudit: {
       title: "Audit ATS du CV",
       noDataTitle: "Aucune donnée à analyser",
-      noDataDesc: "Veuillez remplir vos informations personnelles, votre expérience, votre formation et vos compétences pour obtenir un score ATS et des suggestions personnalisées.",
+      noDataDesc:
+        "Veuillez remplir vos informations personnelles, votre expérience, votre formation et vos compétences pour obtenir un score ATS et des suggestions personnalisées.",
       greatJob: "Excellent travail ! Votre CV est prêt pour l'ATS.",
       goodStart: "Bon début, mais nécessite du travail.",
       needsImprovement: "Nécessite des améliorations significatives.",
-      atsExplanation: "Les systèmes de suivi des candidats (ATS) analysent les CV à la recherche de mots-clés, de formatage et d'exhaustivité. Suivez les suggestions ci-dessous pour améliorer votre score et augmenter vos chances de décrocher un entretien.",
+      atsExplanation:
+        "Les systèmes de suivi des candidats (ATS) analysent les CV à la recherche de mots-clés, de formatage et d'exhaustivité. Suivez les suggestions ci-dessous pour améliorer votre score et augmenter vos chances de décrocher un entretien.",
       sectionBreakdown: "Détail par section",
       detailedSuggestions: "Suggestions détaillées",
       workingWell: "Ce qui fonctionne bien",
@@ -792,13 +919,14 @@ export const translations = {
       hideMatcher: "Masquer le comparateur",
       compareWithJD: "Comparer avec la description de poste",
       pasteJD: "Collez la description de poste ici",
-      pastePlaceholder: "Collez les exigences et les responsabilités de l'offre d'emploi...",
+      pastePlaceholder:
+        "Collez les exigences et les responsabilités de l'offre d'emploi...",
       matchScore: "Score de correspondance",
       basedOnKeywords: "Basé sur les 20 meilleurs mots-clés",
       missingKeywords: "Mots-clés manquants",
       matchedKeywords: "Mots-clés correspondants",
       noMissingKeywords: "Aucun mot-clé manquant trouvé !",
       noMatchedKeywords: "Aucun mot-clé correspondant pour l'instant.",
-    }
-  }
+    },
+  },
 };

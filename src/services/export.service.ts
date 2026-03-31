@@ -7,7 +7,10 @@ export const ExportService = {
    * @param elementId The ID of the HTML element to export.
    * @param filename The desired filename for the downloaded PDF.
    */
-  async exportToPDF(elementId: string, filename: string = "resume.pdf"): Promise<void> {
+  async exportToPDF(
+    elementId: string,
+    filename: string = "resume.pdf",
+  ): Promise<void> {
     const element = document.getElementById(elementId);
     if (!element) {
       console.error(`Element with ID ${elementId} not found.`);
@@ -36,7 +39,10 @@ export const ExportService = {
    * Generates a Word document from resume data.
    * Note: This is a placeholder for the actual docx generation logic.
    */
-  async exportToWord(resumeData: unknown, filename: string = "resume.docx"): Promise<void> {
+  async exportToWord(
+    resumeData: unknown,
+    filename: string = "resume.docx",
+  ): Promise<void> {
     console.log("Exporting to Word with data:", resumeData);
     // In a real implementation, you would use the 'docx' library to build the document.
     // For now, we simulate the process.
@@ -46,5 +52,5 @@ export const ExportService = {
         resolve();
       }, 1000);
     });
-  }
+  },
 };
