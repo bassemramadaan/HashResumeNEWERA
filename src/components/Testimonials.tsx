@@ -54,77 +54,75 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-16 bg-slate-50 relative overflow-hidden"
+      className="py-16 sm:py-24 bg-slate-50 relative overflow-hidden"
     >
       {/* Decorative elements */}
-      <div className="absolute top-0 start-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
+      <div className="absolute top-0 start-0 w-full h-full overflow-hidden pointer-events-none opacity-30">
         <div className="absolute top-[-10%] start-[-10%] w-[40%] h-[40%] rounded-full bg-orange-500/20 blur-[120px]" />
         <div className="absolute bottom-[-10%] end-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-500/20 blur-[120px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-          <div className="max-w-2xl">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 gap-6">
+          <div className="max-w-2xl text-center md:text-start mx-auto md:mx-0">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100 text-[#ff4d2d] text-xs font-bold uppercase tracking-widest mb-4"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-100/80 text-[#ff4d2d] text-xs font-bold uppercase tracking-widest mb-6 border border-orange-200/50 shadow-sm"
             >
-              <Star size={12} className="fill-current" />
+              <Star size={16} className="fill-current" />
               <span>
                 {language === "ar" ? "آراء المستخدمين" : "Testimonials"}
               </span>
             </motion.div>
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 font-display tracking-tight leading-none">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 font-display tracking-tight leading-tight mb-4">
               {language === "ar" ? "ماذا يقولون عنا؟" : "Wall of Love"}
             </h2>
+            <p className="text-lg text-slate-600 max-w-xl mx-auto md:mx-0">
+              {t.testimonialsSubtitle}
+            </p>
           </div>
-          <p className="text-lg text-slate-600 max-w-md">
-            {t.testimonialsSubtitle}
-          </p>
         </div>
 
-        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 auto-rows-max items-start">
           {reviews.map((review, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="break-inside-avoid bg-white p-8 rounded-[2rem] border border-slate-200 hover:border-[#ff4d2d]/40 transition-all duration-500 group relative shadow-sm hover:shadow-xl hover:shadow-orange-500/5 hover:-translate-y-1"
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 hover:border-[#ff4d2d]/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#ff4d2d]/10 relative overflow-hidden group h-full flex flex-col"
             >
-              <div className="absolute top-6 end-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                <Quote size={40} className="text-[#ff4d2d]" />
+              <div className="absolute top-0 end-0 p-6 opacity-5 group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110 group-hover:-rotate-12">
+                <Quote size={80} className="text-[#ff4d2d] rtl:-scale-x-100" />
               </div>
 
-              <div className="relative z-10">
-                <div className="flex gap-0.5 mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      size={14}
-                      className="fill-[#ff4d2d] text-[#ff4d2d]"
-                    />
-                  ))}
-                </div>
-
-                <p className="text-slate-700 text-lg mb-8 leading-relaxed font-medium italic">
-                  "{review.text}"
-                </p>
-
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center font-black text-[#ff4d2d] text-lg border border-orange-200/50 shadow-inner group-hover:scale-110 transition-transform duration-500">
+              <div className="relative z-10 flex-1 flex flex-col">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center font-bold text-[#ff4d2d] text-xl border border-orange-200/50 shrink-0 shadow-inner">
                     {review.name.charAt(0)}
                   </div>
                   <div>
-                    <h4 className="font-bold text-slate-900 text-base leading-tight">
+                    <h4 className="font-bold text-slate-900 text-base sm:text-lg leading-tight">
                       {review.name}
                     </h4>
-                    <div className="h-1 w-8 bg-[#ff4d2d]/20 rounded-full mt-2 group-hover:w-12 transition-all duration-500" />
+                    <div className="flex items-center gap-1 mt-1.5">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={14}
+                          className="fill-[#ff4d2d] text-[#ff4d2d]"
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
+
+                <p className="text-slate-700 text-base sm:text-lg leading-relaxed font-medium mt-auto">
+                  "{review.text}"
+                </p>
               </div>
             </motion.div>
           ))}
