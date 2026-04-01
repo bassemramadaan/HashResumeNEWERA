@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
+import { useLanguageStore } from "../../store/useLanguageStore";
+import { translations } from "../../i18n/translations";
 import {
   Plus,
   Trash2,
@@ -11,6 +13,8 @@ import {
 import { Reorder } from "framer-motion";
 
 const CertificationsForm = () => {
+  const { language } = useLanguageStore();
+  const t = translations[language].editor;
   const {
     data,
     addCertification,
@@ -43,14 +47,13 @@ const CertificationsForm = () => {
           className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
         >
           <Plus size={16} />
-          Add Certification
+          {t.certifications.add}
         </button>
       </div>
 
       {certifications.length === 0 ? (
         <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
-          No certifications added yet. Click the button above to add your
-          certifications.
+          {t.certifications.noCertifications}
         </div>
       ) : (
         <Reorder.Group
@@ -80,10 +83,10 @@ const CertificationsForm = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900">
-                      {cert.name || "(Not specified)"}
+                      {cert.name || t.certifications.notSpecified}
                     </h3>
                     <p className="text-sm text-slate-500">
-                      {cert.issuer || "Issuer"} • {cert.date || "Date"}
+                      {cert.issuer || t.certifications.issuer} • {cert.date || t.certifications.date}
                     </p>
                   </div>
                 </div>
@@ -95,7 +98,7 @@ const CertificationsForm = () => {
                       addCertification(rest);
                     }}
                     className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 :bg-indigo-900/20 rounded-lg transition-colors"
-                    title="Duplicate"
+                    title={t.certifications.duplicate}
                   >
                     <Copy size={18} />
                   </button>
@@ -105,7 +108,7 @@ const CertificationsForm = () => {
                       removeCertification(cert.id);
                     }}
                     className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 :bg-red-900/20 rounded-lg transition-colors"
-                    title="Remove"
+                    title={t.certifications.remove}
                   >
                     <Trash2 size={18} />
                   </button>
@@ -122,7 +125,7 @@ const CertificationsForm = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="col-span-1 md:col-span-2 space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        Certification Name
+                        {t.certifications.name}
                       </label>
                       <input
                         type="text"
@@ -136,7 +139,7 @@ const CertificationsForm = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        Issuing Organization
+                        {t.certifications.issuer}
                       </label>
                       <input
                         type="text"
@@ -152,7 +155,7 @@ const CertificationsForm = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        Date Earned
+                        {t.certifications.date}
                       </label>
                       <input
                         type="month"

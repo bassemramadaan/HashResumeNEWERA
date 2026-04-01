@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
+import { useLanguageStore } from "../../store/useLanguageStore";
+import { translations } from "../../i18n/translations";
 import {
   Plus,
   Trash2,
@@ -21,6 +23,8 @@ const PROJ_SUGGESTIONS = [
 ];
 
 const ProjectsForm = () => {
+  const { language } = useLanguageStore();
+  const t = translations[language].editor;
   const { data, addProject, updateProject, removeProject, updateData } =
     useResumeStore();
   const { projects } = data;
@@ -51,13 +55,13 @@ const ProjectsForm = () => {
           className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
         >
           <Plus size={16} />
-          Add Project
+          {t.projects.add}
         </button>
       </div>
 
       {projects.length === 0 ? (
         <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
-          No projects added yet. Click the button above to add your projects.
+          {t.projects.noProjects}
         </div>
       ) : (
         <Reorder.Group
@@ -87,10 +91,10 @@ const ProjectsForm = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900">
-                      {proj.name || "(Not specified)"}
+                      {proj.name || t.projects.notSpecified}
                     </h3>
                     <p className="text-sm text-slate-500">
-                      {proj.link || "No link provided"}
+                      {proj.link || t.projects.noLink}
                     </p>
                   </div>
                 </div>
@@ -102,7 +106,7 @@ const ProjectsForm = () => {
                       addProject(rest);
                     }}
                     className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 :bg-indigo-900/20 rounded-lg transition-colors"
-                    title="Duplicate"
+                    title={t.projects.duplicate}
                   >
                     <Copy size={18} />
                   </button>
@@ -112,7 +116,7 @@ const ProjectsForm = () => {
                       removeProject(proj.id);
                     }}
                     className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 :bg-red-900/20 rounded-lg transition-colors"
-                    title="Remove"
+                    title={t.projects.remove}
                   >
                     <Trash2 size={18} />
                   </button>
@@ -129,7 +133,7 @@ const ProjectsForm = () => {
                   <div className="grid grid-cols-1 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        Project Name
+                        {t.projects.name}
                       </label>
                       <input
                         type="text"
@@ -138,12 +142,12 @@ const ProjectsForm = () => {
                           updateProject(proj.id, { name: e.target.value })
                         }
                         className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
-                        placeholder="e.g. E-commerce Platform"
+                        placeholder={t.projects.name}
                       />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        Project Link
+                        {t.projects.link}
                       </label>
                       <input
                         type="url"
@@ -159,12 +163,12 @@ const ProjectsForm = () => {
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
                           <label className="text-xs font-medium text-slate-700">
-                            Description
+                            {t.projects.description}
                           </label>
                           <SectionTooltip
-                            title="Project Tips"
-                            content="Focus on your specific contributions, technologies used, and the impact or results of the project."
-                            example="• Built a real-time chat application using Socket.io and React, supporting 500+ concurrent users."
+                            title={t.projects.tips}
+                            content={t.projects.tipsContent}
+                            example={t.projects.tipsExample}
                           />
                         </div>
                         <button
@@ -177,14 +181,14 @@ const ProjectsForm = () => {
                           className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
                         >
                           <Sparkles size={12} />
-                          AI Suggestions (Free)
+                          {t.projects.aiSuggestionsFree}
                         </button>
                       </div>
 
                       {showSuggestionsFor === proj.id && (
                         <div className="bg-indigo-50/50 border border-indigo-100 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
                           <p className="text-xs font-semibold text-indigo-800 mb-2">
-                            Click a suggestion to append it to your description:
+                            {t.projects.clickToAppend}
                           </p>
                           {PROJ_SUGGESTIONS.map((suggestion, idx) => (
                             <button
@@ -216,7 +220,7 @@ const ProjectsForm = () => {
                           })
                         }
                         className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
-                        placeholder="• Describe the project, technologies used, and your role..."
+                        placeholder={t.projects.description}
                       />
                     </div>
                   </div>

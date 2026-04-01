@@ -61,15 +61,13 @@ export default function FinishStep({
           importedData.experience
         ) {
           updateData(importedData);
-          setAlertMessage("Resume data imported successfully!");
+          setAlertMessage(t.importSuccess);
         } else {
-          setAlertMessage("Invalid resume data format.");
+          setAlertMessage(t.importInvalid);
         }
       } catch (error) {
         console.error("Error parsing JSON:", error);
-        setAlertMessage(
-          "Failed to parse the file. Please ensure it is a valid JSON backup.",
-        );
+        setAlertMessage(t.importFailed);
       }
     };
     reader.readAsText(file);
@@ -128,7 +126,7 @@ export default function FinishStep({
                   onClick={() => setAlertMessage(null)}
                   className="w-full py-2 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 :bg-slate-100 transition-colors"
                 >
-                  OK
+                  {t.ok}
                 </button>
               </div>
             </motion.div>
@@ -174,7 +172,7 @@ export default function FinishStep({
               className="flex items-center justify-center gap-2 px-6 py-4 bg-white border border-slate-200 text-slate-700 rounded-2xl hover:bg-slate-50 :bg-slate-700 transition-all text-sm font-bold shadow-sm hover:shadow-md active:scale-95"
             >
               <FileText size={18} className="text-red-500" />
-              Export PDF
+              {t.exportPdf}
             </button>
             <button
               onClick={handleProceedToExportWord}

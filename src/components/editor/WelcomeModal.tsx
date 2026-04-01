@@ -10,6 +10,8 @@ import {
   FileText,
 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
+import { useLanguageStore } from "../../store/useLanguageStore";
+import { translations } from "../../i18n/translations";
 
 interface WelcomeModalProps {
   isOpen: boolean;
@@ -17,39 +19,8 @@ interface WelcomeModalProps {
   onSkip: () => void;
 }
 
-const QUICK_TEMPLATES = [
-  {
-    id: "modern",
-    name: "Modern",
-    description: "Clean & minimal",
-    color: "bg-blue-500",
-    gradient: "from-blue-500/20 to-cyan-500/20",
-  },
-  {
-    id: "professional",
-    name: "Professional",
-    description: "Traditional & trusted",
-    color: "bg-slate-700",
-    gradient: "from-slate-500/20 to-slate-700/20",
-  },
-  {
-    id: "arabic",
-    name: "Arabic (RTL)",
-    description: "Optimized for RTL",
-    color: "bg-emerald-600",
-    gradient: "from-emerald-500/20 to-teal-500/20",
-  },
-  {
-    id: "creative",
-    name: "Creative",
-    description: "Stand out visually",
-    color: "bg-[#ff4d2d]",
-    gradient: "from-orange-500/20 to-rose-500/20",
-  },
-] as const;
-
 const containerVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.95, y: 20 },
+  hidden: { opacity: 0, scale: 0.9, y: 40 },
   visible: {
     opacity: 1,
     scale: 1,
@@ -58,15 +29,33 @@ const containerVariants: Variants = {
       type: "spring",
       damping: 25,
       stiffness: 300,
-      staggerChildren: 0.1,
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
     },
   },
-  exit: { opacity: 0, scale: 0.95, y: 20, transition: { duration: 0.2 } },
+  exit: { 
+    opacity: 0, 
+    scale: 0.95, 
+    y: 20, 
+    transition: { 
+      duration: 0.3,
+      ease: "easeInOut"
+    } 
+  },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  hidden: { opacity: 0, y: 20, filter: "blur(10px)" },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    filter: "blur(0px)",
+    transition: { 
+      type: "spring",
+      damping: 20,
+      stiffness: 100
+    } 
+  },
 };
 
 export default function WelcomeModal({
@@ -76,8 +65,41 @@ export default function WelcomeModal({
 }: WelcomeModalProps) {
   const [step, setStep] = useState<"welcome" | "template">("welcome");
   const { data, updateSettings } = useResumeStore();
+  const { language } = useLanguageStore();
+  const t = translations[language].welcomeModal;
 
   if (!isOpen) return null;
+
+  const QUICK_TEMPLATES = [
+    {
+      id: "modern",
+      name: t.templates.modern.name,
+      description: t.templates.modern.desc,
+      color: "bg-blue-500",
+      gradient: "from-blue-500/20 to-cyan-500/20",
+    },
+    {
+      id: "professional",
+      name: t.templates.professional.name,
+      description: t.templates.professional.desc,
+      color: "bg-slate-700",
+      gradient: "from-slate-500/20 to-slate-700/20",
+    },
+    {
+      id: "arabic",
+      name: t.templates.arabic.name,
+      description: t.templates.arabic.desc,
+      color: "bg-emerald-600",
+      gradient: "from-emerald-500/20 to-teal-500/20",
+    },
+    {
+      id: "creative",
+      name: t.templates.creative.name,
+      description: t.templates.creative.desc,
+      color: "bg-[#ff4d2d]",
+      gradient: "from-orange-500/20 to-rose-500/20",
+    },
+  ] as const;
 
   return (
     <AnimatePresence mode="wait">
@@ -122,14 +144,14 @@ export default function WelcomeModal({
                     variants={itemVariants}
                     className="text-3xl sm:text-4xl font-black text-slate-900 mb-4 font-display tracking-tight"
                   >
-                    Welcome to Hash Resume
+                    {t.welcomeTitle}
                   </motion.h2>
                   
                   <motion.p
                     variants={itemVariants}
                     className="text-base sm:text-lg text-slate-600 mb-10 leading-relaxed max-w-md mx-auto"
                   >
-                    Let's build your perfect resume in minutes. We'll show you around the editor and help you get started with a professional template.
+                    {t.welcomeDesc}
                   </motion.p>
 
                   <motion.div variants={itemVariants} className="w-full flex flex-col gap-4">
@@ -137,7 +159,7 @@ export default function WelcomeModal({
                       onClick={() => setStep("template")}
                       className="w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white py-4 px-6 rounded-2xl font-bold text-lg transition-all shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-3 group"
                     >
-                      <span>Get Started</span>
+                      <span>{t.getStarted}</span>
                       <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                     </button>
 
@@ -146,7 +168,7 @@ export default function WelcomeModal({
                       className="w-full bg-slate-50 text-slate-500 hover:text-slate-700 hover:bg-slate-100 py-4 px-6 rounded-2xl font-semibold transition-colors flex items-center justify-center gap-2"
                     >
                       <SkipForward size={18} />
-                      Skip the tour
+                      {t.skipTour}
                     </button>
                   </motion.div>
                 </motion.div>
@@ -164,10 +186,10 @@ export default function WelcomeModal({
                   </motion.div>
 
                   <motion.h2 variants={itemVariants} className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 font-display tracking-tight">
-                    Pick a Starting Point
+                    {t.pickTemplate}
                   </motion.h2>
                   <motion.p variants={itemVariants} className="text-slate-500 mb-8 text-base">
-                    Choose a template to begin. You can easily change this later.
+                    {t.pickTemplateDesc}
                   </motion.p>
 
                   <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mb-8">
@@ -211,14 +233,14 @@ export default function WelcomeModal({
                       onClick={() => setStep("welcome")}
                       className="w-full sm:w-auto px-6 py-4 rounded-2xl font-semibold text-slate-600 bg-slate-50 hover:bg-slate-100 transition-colors"
                     >
-                      Back
+                      {t.back}
                     </button>
                     <button
                       onClick={onStartTour}
                       className="flex-1 bg-slate-900 hover:bg-slate-800 text-white py-4 px-6 rounded-2xl font-bold transition-all shadow-lg shadow-slate-900/20 hover:shadow-slate-900/30 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
                     >
                       <Play size={18} fill="currentColor" />
-                      Start Editing
+                      {t.startEditing}
                     </button>
                   </motion.div>
                 </motion.div>

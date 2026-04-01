@@ -1,5 +1,7 @@
 import React, { useState, useMemo, Suspense, lazy } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
+import { useLanguageStore } from "../../store/useLanguageStore";
+import { translations } from "../../i18n/translations";
 import {
   Plus,
   Trash2,
@@ -17,6 +19,10 @@ import { getJobMatchResults } from "../../utils/ats";
 const AISuggestion = lazy(() => import("./AISuggestion"));
 
 const ExperienceForm = () => {
+  const { language } = useLanguageStore();
+  console.log("Language:", language);
+  console.log("Translations:", translations);
+  const t = translations[language].editor;
   const {
     data,
     addExperience,
@@ -24,15 +30,13 @@ const ExperienceForm = () => {
     removeExperience,
     updateData,
   } = useResumeStore();
-  const { experience, jobDescription, settings } = data;
+  const { experience, jobDescription } = data;
   const [expandedId, setExpandedId] = useState<string | null>(
     experience[0]?.id || null,
   );
   const [showAISuggestionFor, setShowAISuggestionFor] = useState<string | null>(
     null,
   );
-
-  const lang = settings.language || "en";
 
   const matchResults = useMemo(() => getJobMatchResults(data), [data]);
 
@@ -58,14 +62,13 @@ const ExperienceForm = () => {
           className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
         >
           <Plus size={16} />
-          Add Experience
+          {t.experience.add}
         </button>
       </div>
 
       {experience.length === 0 ? (
         <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
-          No experience added yet. Click the button above to add your work
-          history.
+          {t.experience.noExperience}
         </div>
       ) : (
         <Reorder.Group
@@ -95,11 +98,11 @@ const ExperienceForm = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900">
-                      {exp.position || "(Not specified)"}
+                      {exp.position || t.experience.notSpecified}
                     </h3>
                     <p className="text-sm text-slate-500">
-                      {exp.company || "Company Name"} •{" "}
-                      {exp.startDate || "Start"} - {exp.endDate || "End"}
+                      {exp.company || t.experience.company} •{" "}
+                      {exp.startDate || t.experience.startDate} - {exp.endDate || t.experience.endDate}
                     </p>
                   </div>
                 </div>
@@ -111,7 +114,7 @@ const ExperienceForm = () => {
                       addExperience(rest);
                     }}
                     className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 :bg-indigo-900/20 rounded-lg transition-colors"
-                    title="Duplicate"
+                    title={t.experience.duplicate}
                   >
                     <Copy size={18} />
                   </button>
@@ -121,7 +124,7 @@ const ExperienceForm = () => {
                       removeExperience(exp.id);
                     }}
                     className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 :bg-red-900/20 rounded-lg transition-colors"
-                    title="Remove"
+                    title={t.experience.remove}
                   >
                     <Trash2 size={18} />
                   </button>
@@ -138,7 +141,7 @@ const ExperienceForm = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        Job Title
+                        {t.experience.position}
                       </label>
                       <input
                         type="text"
@@ -147,12 +150,12 @@ const ExperienceForm = () => {
                           updateExperience(exp.id, { position: e.target.value })
                         }
                         className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
-                        placeholder="e.g. Software Engineer"
+                        placeholder={t.experience.position}
                       />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        Company
+                        {t.experience.company}
                       </label>
                       <input
                         type="text"
@@ -161,12 +164,12 @@ const ExperienceForm = () => {
                           updateExperience(exp.id, { company: e.target.value })
                         }
                         className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
-                        placeholder="e.g. Google"
+                        placeholder={t.experience.company}
                       />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        Start Date
+                        {t.experience.startDate}
                       </label>
                       <input
                         type="month"
@@ -181,7 +184,7 @@ const ExperienceForm = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        End Date
+                        {t.experience.endDate}
                       </label>
                       <input
                         type="text"
@@ -190,19 +193,19 @@ const ExperienceForm = () => {
                           updateExperience(exp.id, { endDate: e.target.value })
                         }
                         className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
-                        placeholder="e.g. Present or YYYY-MM"
+                        placeholder={t.experience.endDate}
                       />
                     </div>
                     <div className="col-span-1 md:col-span-2 space-y-1.5">
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
                           <label className="text-xs font-medium text-slate-700">
-                            Description
+                            {t.experience.description}
                           </label>
                           <SectionTooltip
-                            title="Experience Tips"
-                            content="Use action verbs and quantify your achievements whenever possible. Bullet points are essential for ATS readability."
-                            example="• Increased sales by 25% through the implementation of a new CRM system and targeted marketing campaigns."
+                            title={t.experience.experienceTips}
+                            content={t.experience.experienceDescTips}
+                            example={t.experience.experienceExample}
                           />
                         </div>
                         <button
@@ -215,9 +218,7 @@ const ExperienceForm = () => {
                           className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
                         >
                           <Sparkles size={12} />
-                          {lang === "ar"
-                            ? "اقتراحات الذكاء الاصطناعي"
-                            : "AI Suggestions"}
+                          {t.aiSuggestions}
                         </button>
                       </div>
 
@@ -249,7 +250,7 @@ const ExperienceForm = () => {
                           })
                         }
                         className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
-                        placeholder="• Describe your responsibilities and achievements..."
+                        placeholder={t.experience.descriptionPlaceholder}
                       />
 
                       {/* ATS Hint */}
@@ -261,19 +262,18 @@ const ExperienceForm = () => {
                           />
                           <div className="text-slate-600">
                             <span className="font-semibold text-slate-700">
-                              ATS Hint:{" "}
+                              {t.experience.atsHint}:{" "}
                             </span>
                             {matchResults.missing.length > 0 ? (
                               <>
-                                Try incorporating some of these missing keywords
-                                if applicable:{" "}
+                                {t.experience.tryIncorporating}{" "}
                                 <span className="text-red-500 font-medium">
                                   {matchResults.missing.slice(0, 3).join(", ")}
                                 </span>
                               </>
                             ) : (
                               <span className="text-emerald-500 font-medium">
-                                Great! You've matched the top keywords.
+                                {t.experience.greatMatched}
                               </span>
                             )}
                           </div>

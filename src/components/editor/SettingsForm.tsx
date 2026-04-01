@@ -1,4 +1,6 @@
 import { useResumeStore } from "../../store/useResumeStore";
+import { useLanguageStore } from "../../store/useLanguageStore";
+import { translations } from "../../i18n/translations";
 import {
   Palette,
   LayoutTemplate,
@@ -12,74 +14,88 @@ import {
 import { cn } from "../../utils";
 import React, { useRef, useState } from "react";
 
-const COLORS = [
-  { name: "Navy", value: "#1e3a8a" },
-  { name: "Blue", value: "#2563eb" },
-  { name: "Cyan", value: "#0891b2" },
-  { name: "Teal", value: "#0d9488" },
-  { name: "Green", value: "#16a34a" },
-  { name: "Purple", value: "#9333ea" },
-  { name: "Rose", value: "#e11d48" },
-  { name: "Orange", value: "#ea580c" },
-  { name: "Slate", value: "#475569" },
-  { name: "Black", value: "#000000" },
-];
-
-const TEMPLATES = [
-  {
-    id: "modern",
-    name: "Modern",
-    description: "Clean lines and clear hierarchy",
-  },
-  {
-    id: "classic",
-    name: "Classic",
-    description: "Traditional and professional",
-  },
-  {
-    id: "creative",
-    name: "Creative",
-    description: "Stand out with bold typography",
-  },
-  {
-    id: "minimal",
-    name: "Minimal",
-    description: "Simple, elegant, and focused",
-  },
-  { id: "tech", name: "Tech", description: "Optimized for developers and IT" },
-  {
-    id: "executive",
-    name: "Executive",
-    description: "Sophisticated for leadership roles",
-  },
-  { id: "medical", name: "Medical", description: "Clean and clinical layout" },
-  { id: "legal", name: "Legal", description: "Formal and authoritative" },
-  {
-    id: "academic",
-    name: "Academic",
-    description: "Detailed and comprehensive",
-  },
-  {
-    id: "arabic",
-    name: "Arabic (RTL)",
-    description: "Optimized for Arabic language with RTL support",
-  },
-  {
-    id: "engineering",
-    name: "Engineering",
-    description: "Technical and structured layout",
-  },
-  {
-    id: "finance",
-    name: "Finance",
-    description: "Professional and data-focused",
-  },
-] as const;
-
 export default React.memo(function SettingsForm() {
+  const { language } = useLanguageStore();
+  const t = translations[language].editor;
   const { data, updateSettings, updateData, resetData } = useResumeStore();
   const { settings } = data;
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const COLORS = [
+    { name: t.settings.colors.navy, value: "#1e3a8a" },
+    { name: t.settings.colors.blue, value: "#2563eb" },
+    { name: t.settings.colors.cyan, value: "#0891b2" },
+    { name: t.settings.colors.teal, value: "#0d9488" },
+    { name: t.settings.colors.green, value: "#16a34a" },
+    { name: t.settings.colors.purple, value: "#9333ea" },
+    { name: t.settings.colors.rose, value: "#e11d48" },
+    { name: t.settings.colors.orange, value: "#ea580c" },
+    { name: t.settings.colors.slate, value: "#475569" },
+    { name: t.settings.colors.black, value: "#000000" },
+  ];
+
+  const TEMPLATES = [
+    {
+      id: "modern",
+      name: t.settings.templates.modern.name,
+      description: t.settings.templates.modern.desc,
+    },
+    {
+      id: "classic",
+      name: t.settings.templates.classic.name,
+      description: t.settings.templates.classic.desc,
+    },
+    {
+      id: "creative",
+      name: t.settings.templates.creative.name,
+      description: t.settings.templates.creative.desc,
+    },
+    {
+      id: "minimal",
+      name: t.settings.templates.minimal.name,
+      description: t.settings.templates.minimal.desc,
+    },
+    {
+      id: "tech",
+      name: t.settings.templates.tech.name,
+      description: t.settings.templates.tech.desc,
+    },
+    {
+      id: "executive",
+      name: t.settings.templates.executive.name,
+      description: t.settings.templates.executive.desc,
+    },
+    {
+      id: "medical",
+      name: t.settings.templates.medical.name,
+      description: t.settings.templates.medical.desc,
+    },
+    {
+      id: "legal",
+      name: t.settings.templates.legal.name,
+      description: t.settings.templates.legal.desc,
+    },
+    {
+      id: "academic",
+      name: t.settings.templates.academic.name,
+      description: t.settings.templates.academic.desc,
+    },
+    {
+      id: "arabic",
+      name: t.settings.templates.arabic.name,
+      description: t.settings.templates.arabic.desc,
+    },
+    {
+      id: "engineering",
+      name: t.settings.templates.engineering.name,
+      description: t.settings.templates.engineering.desc,
+    },
+    {
+      id: "finance",
+      name: t.settings.templates.finance.name,
+      description: t.settings.templates.finance.desc,
+    },
+  ] as const;
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
@@ -110,15 +126,13 @@ export default React.memo(function SettingsForm() {
           importedData.experience
         ) {
           updateData(importedData);
-          setAlertMessage("Resume data imported successfully!");
+          setAlertMessage(t.settings.importSuccess);
         } else {
-          setAlertMessage("Invalid resume data format.");
+          setAlertMessage(t.settings.importInvalid);
         }
       } catch (error) {
         console.error("Error parsing JSON:", error);
-        setAlertMessage(
-          "Failed to parse the file. Please ensure it is a valid JSON backup.",
-        );
+        setAlertMessage(t.settings.importFailed);
       }
     };
     reader.readAsText(file);
@@ -155,28 +169,27 @@ export default React.memo(function SettingsForm() {
                 <AlertTriangle className="text-red-600" size={24} />
               </div>
               <h3 className="text-xl font-bold text-center text-slate-900">
-                Reset All Data?
+                {t.settings.resetConfirmTitle}
               </h3>
               <p className="text-center text-slate-600">
-                Are you sure you want to reset all your resume data? This action
-                cannot be undone.
+                {t.settings.resetConfirmDesc}
               </p>
               <div className="flex gap-4 pt-4">
                 <button
                   onClick={() => setShowResetConfirm(false)}
                   className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 :bg-slate-700 transition-colors"
                 >
-                  Cancel
+                  {t.settings.cancel}
                 </button>
                 <button
                   onClick={() => {
                     resetData();
                     setShowResetConfirm(false);
-                    setAlertMessage("All data has been reset.");
+                    setAlertMessage(t.settings.dataReset);
                   }}
                   className="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold transition-colors"
                 >
-                  Yes, Reset
+                  {t.settings.yesReset}
                 </button>
               </div>
             </div>
@@ -189,7 +202,7 @@ export default React.memo(function SettingsForm() {
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <LayoutTemplate size={20} className="text-slate-400" />
-            Template Style
+            {t.settings.templateStyle}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {TEMPLATES.map((template) => (
@@ -235,7 +248,7 @@ export default React.memo(function SettingsForm() {
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <Palette size={20} className="text-slate-400" />
-            Theme Color
+            {t.settings.themeColor}
           </h3>
           <div className="flex flex-wrap gap-4">
             {COLORS.map((color) => (
@@ -263,7 +276,7 @@ export default React.memo(function SettingsForm() {
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <Globe size={20} className="text-slate-400" />
-            Language
+            {t.settings.language}
           </h3>
           <div className="flex gap-4">
             <button
@@ -306,7 +319,7 @@ export default React.memo(function SettingsForm() {
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <GraduationCap size={20} className="text-slate-400" />
-            Fresh Graduate Mode
+            {t.settings.freshGradMode}
           </h3>
           <label className="flex items-start gap-4 cursor-pointer group p-4 rounded-xl border border-slate-200 hover:bg-slate-50 :bg-slate-800/50 transition-colors">
             <div className="relative flex items-center justify-center mt-0.5">
@@ -358,11 +371,10 @@ export default React.memo(function SettingsForm() {
             </div>
             <div>
               <div className="font-bold text-slate-900">
-                Enable Fresh Graduate Mode
+                {t.settings.enableFreshGrad}
               </div>
               <div className="text-sm text-slate-500 mt-1">
-                This will automatically reorder your resume to show Education
-                before Experience, which is recommended for recent graduates.
+                {t.settings.freshGradModeDesc}
               </div>
             </div>
           </label>
@@ -372,11 +384,10 @@ export default React.memo(function SettingsForm() {
         <div className="space-y-4 p-6 bg-orange-50 rounded-2xl border border-orange-100">
           <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
             <Save size={20} className="text-orange-500" />
-            Data Backup & Portability
+            {t.settings.dataBackup}
           </h3>
           <p className="text-sm text-slate-600">
-            Your data is stored locally in your browser. Export it to a file to
-            move it to another device or keep a safe backup.
+            {t.settings.dataBackupDesc}
           </p>
           <div className="flex flex-wrap gap-4">
             <button
@@ -384,11 +395,11 @@ export default React.memo(function SettingsForm() {
               className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 :bg-slate-700 transition-colors text-sm font-bold shadow-sm"
             >
               <Download size={16} />
-              Export Data (.json)
+              {t.settings.exportData}
             </button>
             <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 :bg-slate-700 transition-colors text-sm font-bold shadow-sm cursor-pointer">
               <Upload size={16} />
-              Import Data (.json)
+              {t.settings.importData}
               <input
                 type="file"
                 accept=".json"
@@ -401,7 +412,7 @@ export default React.memo(function SettingsForm() {
               onClick={() => setShowResetConfirm(true)}
               className="flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-200 text-red-600 rounded-xl hover:bg-red-100 :bg-red-900/40 transition-colors text-sm font-bold shadow-sm ms-auto"
             >
-              Reset All Data
+              {t.settings.resetAll}
             </button>
           </div>
         </div>

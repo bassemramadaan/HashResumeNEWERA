@@ -2,6 +2,8 @@ import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, AlertCircle } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
+import { useLanguageStore } from "../../store/useLanguageStore";
+import { translations } from "../../i18n/translations";
 import { cn } from "../../utils";
 
 interface ResumeCheckerModalProps {
@@ -56,64 +58,65 @@ export default function ResumeCheckerModal({
   onProceed,
 }: ResumeCheckerModalProps) {
   const { data } = useResumeStore();
+  const { language } = useLanguageStore();
+  const t = translations[language].resumeChecker;
   const { personalInfo, experience, education, skills } = data;
 
   const checks = [
     {
       id: "contact",
-      title: "Contact Information",
+      title: t.contactTitle,
       passed: !!(
         personalInfo.email &&
         personalInfo.phone &&
         personalInfo.address
       ),
-      message: "Add email, phone, and location.",
+      message: t.contactMsg,
       severity: "high",
     },
     {
       id: "summary",
-      title: "Professional Summary",
+      title: t.summaryTitle,
       passed: !!(personalInfo.summary && personalInfo.summary.length > 50),
-      message: "Add a summary of at least 50 characters.",
+      message: t.summaryMsg,
       severity: "medium",
     },
     {
       id: "experience_bullets",
-      title: "Bullet Points",
+      title: t.bulletsTitle,
       passed:
         experience.length > 0 &&
         experience.every(
           (exp) =>
             exp.description.includes("•") || exp.description.includes("-"),
         ),
-      message: "Use bullet points for all experience entries.",
+      message: t.bulletsMsg,
       severity: "high",
     },
     {
       id: "action_verbs",
-      title: "Action Verbs",
+      title: t.verbsTitle,
       passed:
         experience.length > 0 &&
         experience.some((exp) => {
           const words = exp.description.toLowerCase().split(/\s+/);
           return words.some((w) => ACTION_VERBS.has(w));
         }),
-      message:
-        "Start bullet points with strong action verbs (e.g., Led, Developed).",
+      message: t.verbsMsg,
       severity: "medium",
     },
     {
       id: "skills",
-      title: "Skills Section",
+      title: t.skillsTitle,
       passed: skills.length >= 5,
-      message: "List at least 5 relevant skills.",
+      message: t.skillsMsg,
       severity: "medium",
     },
     {
       id: "education",
-      title: "Education",
+      title: t.educationTitle,
       passed: education.length > 0,
-      message: "Include your educational background.",
+      message: t.educationMsg,
       severity: "high",
     },
   ];
@@ -138,10 +141,10 @@ export default function ResumeCheckerModal({
             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
               <div>
                 <h2 className="text-xl font-bold text-slate-900">
-                  Resume Check
+                  {t.title}
                 </h2>
                 <p className="text-sm text-slate-500">
-                  Review these items before exporting
+                  {t.subtitle}
                 </p>
               </div>
               <button
@@ -241,7 +244,7 @@ export default function ResumeCheckerModal({
                         {score}%
                       </span>
                       <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">
-                        Resume Score
+                        {t.scoreLabel}
                       </span>
                     </div>
                   </div>
@@ -297,12 +300,12 @@ export default function ResumeCheckerModal({
                 onClick={onClose}
                 className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 :text-white transition-colors"
               >
-                Keep Editing
+                {t.keepEditing}
               </button>
 
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-slate-500 me-2">
-                  Export as:
+                  {t.exportAs}
                 </span>
                 <button
                   onClick={() => onProceed("pdf")}

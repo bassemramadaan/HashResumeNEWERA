@@ -18,7 +18,6 @@ import {
   PenTool,
 } from "lucide-react";
 import FAQ from "../components/FAQ";
-import ProductShowcase from "../components/ProductShowcase";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
 import SarIcon from "../components/payment/SarIcon";
@@ -139,8 +138,7 @@ export default function LandingPage() {
                   ))}
                 </div>
                 <div className="text-sm text-slate-600">
-                  <span className="font-bold text-slate-900">4.9/5</span> from
-                  over 2,000+ reviews
+                  <span className="font-bold text-slate-900">4.9/5</span> {t.reviews}
                 </div>
               </motion.div>
 
@@ -332,7 +330,7 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <p className="text-sm font-bold text-slate-900">
-                      {displayCount} user
+                      {displayCount} {t.joinedThisMonth.includes("inscrit") || t.joinedThisMonth.includes("user") ? "utilisateurs" : "مستخدم"}
                     </p>
                     <p className="text-xs text-slate-500">
                       {t.joinedThisMonth}
@@ -346,8 +344,6 @@ export default function LandingPage() {
       </section>
 
       <SmallWallOfLove />
-
-      <ProductShowcase />
 
       {/* ATS Audit Showcase */}
       <section className="py-16 bg-white overflow-hidden">
@@ -402,14 +398,13 @@ export default function LandingPage() {
                       <div className="flex items-start gap-2">
                         <div className="w-2 h-2 rounded-full bg-amber-400 mt-2 shrink-0" />
                         <p className="text-xs text-slate-600">
-                          Add more quantifiable metrics to your experience
-                          descriptions.
+                          {t.quantifiableMetrics}
                         </p>
                       </div>
                       <div className="flex items-start gap-2">
                         <div className="w-2 h-2 rounded-full bg-emerald-400 mt-2 shrink-0" />
                         <p className="text-xs text-slate-600 text-emerald-600 font-medium line-through opacity-50">
-                          Missing LinkedIn profile URL.
+                          {t.missingLinkedin}
                         </p>
                       </div>
                     </div>
@@ -475,13 +470,9 @@ export default function LandingPage() {
       </section>
 
       {/* Hash Hunt Integration Section */}
-      <section className="py-24 bg-slate-900 text-white overflow-hidden relative">
-        {/* Abstract Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-[20%] -end-[10%] w-[70%] h-[70%] rounded-full bg-indigo-500/10 blur-[120px]" />
-          <div className="absolute -bottom-[20%] -start-[10%] w-[60%] h-[60%] rounded-full bg-blue-500/10 blur-[120px]" />
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
-        </div>
+      <section className="py-24 bg-white text-slate-900 overflow-hidden relative">
+        {/* Subtle Background Graphics */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -491,65 +482,48 @@ export default function LandingPage() {
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, ease: "easeOut" }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 font-bold text-xs uppercase tracking-widest mb-8">
-                <Sparkles className="w-6 h-6" />
-                {language === "ar" ? "جديد: Hash Hunt" : "New: Hash Hunt"}
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold text-xs uppercase tracking-widest mb-8">
+                <Sparkles className="w-4 h-4" />
+                {t.newHashHunt}
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-[1.1] tracking-tight text-white">
-                {language === "ar"
-                  ? "لا تبحث عن الوظائف، دعها تجدك."
-                  : "Don't hunt for jobs, let them find you."}
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-[1.1] tracking-tight text-slate-900">
+                {t.hashHuntTagline}
               </h2>
-              <p className="text-lg md:text-xl text-slate-400 mb-10 leading-relaxed font-medium">
-                {language === "ar"
-                  ? "بمجرد انتهائك من إنشاء سيرتك الذاتية، يمكنك إضافتها بضغطة زر واحدة إلى Hash Hunt. سيقوم أصحاب العمل برؤية ملفك الشخصي والتواصل معك مباشرة."
-                  : "Once you finish your resume, add it with one click to Hash Hunt. Employers will see your profile and contact you directly."}
+              <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed font-medium">
+                {t.hashHuntDesc}
               </p>
 
-              <div className="space-y-8 mb-12">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
                 {[
                   {
-                    title:
-                      language === "ar" ? "تقديم بضغطة زر" : "One-Click Apply",
-                    desc:
-                      language === "ar"
-                        ? "اربط سيرتك الذاتية مباشرة بطلبات التوظيف."
-                        : "Connect your resume directly to job applications.",
+                    title: t.oneClickApply,
+                    desc: t.oneClickApplyDesc,
                     icon: Target,
                   },
                   {
-                    title:
-                      language === "ar" ? "ملف شخصي موحد" : "Unified Profile",
-                    desc:
-                      language === "ar"
-                        ? "لا حاجة للتسجيل مرة أخرى، بياناتك جاهزة."
-                        : "No need to register again, your data is ready.",
+                    title: t.unifiedProfile,
+                    desc: t.unifiedProfileDesc,
                     icon: Layout,
                   },
                   {
-                    title: language === "ar" ? "تنبيهات ذكية" : "Smart Alerts",
-                    desc:
-                      language === "ar"
-                        ? "احصل على إشعارات عندما يهتم صاحب عمل بملفك."
-                        : "Get notified when an employer is interested in your profile.",
+                    title: t.smartAlerts,
+                    desc: t.smartAlertsDesc,
                     icon: Zap,
                   },
                 ].map((item, i) => (
                   <motion.div 
                     key={i} 
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
-                    className="flex gap-6 group"
+                    className="p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:shadow-lg transition-all duration-300"
                   >
-                    <div className="flex-shrink-0 w-14 h-14 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center group-hover:bg-indigo-500/20 group-hover:border-indigo-500/50 transition-colors duration-300">
-                      <item.icon className="w-6 h-6 text-indigo-400" />
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center mb-4 shadow-sm">
+                      <item.icon className="w-6 h-6 text-indigo-600" />
                     </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-100 mb-2">{item.title}</h3>
-                      <p className="text-slate-400 leading-relaxed">{item.desc}</p>
-                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
                   </motion.div>
                 ))}
               </div>
@@ -557,19 +531,17 @@ export default function LandingPage() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/hash-hunt"
-                  className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold text-base shadow-lg shadow-indigo-500/25 transition-all hover:bg-indigo-500 hover:-translate-y-1 flex items-center justify-center gap-4"
+                  className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold text-base shadow-lg shadow-indigo-500/25 transition-all hover:bg-indigo-700 hover:-translate-y-1 flex items-center justify-center gap-4"
                 >
-                  <Search size={24} />
-                  {language === "ar" ? "اكتشف Hash Hunt" : "Explore Hash Hunt"}
+                  <Search size={20} />
+                  {t.exploreHashHunt}
                 </Link>
                 <Link
                   to="/editor"
-                  className="px-8 py-4 bg-slate-800 border border-slate-700 text-white rounded-2xl font-bold text-base transition-all hover:bg-slate-700 hover:-translate-y-1 flex items-center justify-center gap-4"
+                  className="px-8 py-4 bg-white border border-slate-200 text-slate-900 rounded-2xl font-bold text-base transition-all hover:border-indigo-300 hover:-translate-y-1 flex items-center justify-center gap-4"
                 >
-                  <PenTool size={24} />
-                  {language === "ar"
-                    ? "أنشئ سيرتك الذاتية أولاً"
-                    : "Create Your Resume First"}
+                  <PenTool size={20} />
+                  {t.createResumeFirst}
                 </Link>
               </div>
             </motion.div>
@@ -584,24 +556,24 @@ export default function LandingPage() {
               <motion.div 
                 animate={{ y: [-10, 10, -10] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="relative w-full max-w-md aspect-[4/5] bg-slate-800/60 backdrop-blur-2xl border border-slate-700/50 rounded-[2.5rem] p-6 shadow-2xl transform-style-3d group"
+                className="relative w-full max-w-md aspect-[4/5] bg-white backdrop-blur-2xl border border-slate-100 rounded-[2.5rem] p-6 shadow-2xl shadow-slate-200 transform-style-3d group"
               >
                 {/* Glowing border effect */}
-                <div className="absolute inset-0 rounded-[2.5rem] border-2 border-transparent bg-gradient-to-b from-indigo-500/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" style={{ maskImage: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'exclude' }}></div>
+                <div className="absolute inset-0 rounded-[2.5rem] border-2 border-transparent bg-gradient-to-b from-indigo-100 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" style={{ maskImage: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'exclude' }}></div>
 
                 {/* Mock UI Header */}
-                <div className="flex items-center justify-between mb-8 border-b border-slate-700/50 pb-6">
+                <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30 shadow-inner">
-                      <Sparkles className="w-6 h-6 text-indigo-400" />
+                    <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-inner">
+                      <Sparkles className="w-6 h-6 text-indigo-600" />
                     </div>
                     <div>
-                      <div className="text-base font-bold text-white">Hash Hunt Match</div>
-                      <div className="text-xs text-emerald-400 font-bold tracking-wide uppercase mt-2">98% Compatibility</div>
+                      <div className="text-base font-bold text-slate-900">{t.hashHuntMatch}</div>
+                      <div className="text-xs text-emerald-600 font-bold tracking-wide uppercase mt-2">98% {t.compatibility}</div>
                     </div>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-slate-700/50 border border-slate-600/50 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
+                  <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center">
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
                   </div>
                 </div>
 
@@ -614,15 +586,15 @@ export default function LandingPage() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.5 + i * 0.1, duration: 0.4 }}
-                      className="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 flex gap-4 items-center hover:bg-slate-700/80 hover:border-indigo-500/30 transition-all cursor-pointer group/item"
+                      className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex gap-4 items-center hover:bg-white hover:border-indigo-100 hover:shadow-md transition-all cursor-pointer group/item"
                     >
-                      <div className="w-14 h-14 rounded-2xl bg-slate-700/80 flex-shrink-0 group-hover/item:bg-indigo-500/20 transition-colors" />
+                      <div className="w-14 h-14 rounded-2xl bg-slate-100 flex-shrink-0 group-hover/item:bg-indigo-50 transition-colors" />
                       <div className="flex-1 space-y-2">
-                        <div className="h-4 w-3/4 bg-slate-600 rounded-full group-hover/item:bg-indigo-400/50 transition-colors" />
-                        <div className="h-2 w-1/2 bg-slate-700 rounded-full" />
+                        <div className="h-4 w-3/4 bg-slate-200 rounded-full group-hover/item:bg-indigo-200 transition-colors" />
+                        <div className="h-2 w-1/2 bg-slate-100 rounded-full" />
                       </div>
-                      <div className="w-10 h-10 rounded-full border border-slate-600 flex items-center justify-center group-hover/item:border-indigo-400 group-hover/item:bg-indigo-500/10 transition-all">
-                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover/item:text-indigo-400 group-hover/item:-rotate-45 transition-all" />
+                      <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center group-hover/item:border-indigo-200 group-hover/item:bg-indigo-50 transition-all">
+                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover/item:text-indigo-600 group-hover/item:-rotate-45 transition-all" />
                       </div>
                     </motion.div>
                   ))}
@@ -634,14 +606,14 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: 1.2, type: "spring", stiffness: 200, damping: 20 }}
-                  className="absolute -bottom-8 -start-8 -end-8 bg-gradient-to-r from-indigo-600 to-violet-600 p-6 rounded-2xl shadow-2xl shadow-indigo-900/50 border border-indigo-400/30 flex items-center gap-4 z-20"
+                  className="absolute -bottom-8 -start-8 -end-8 bg-gradient-to-r from-indigo-600 to-violet-600 p-6 rounded-2xl shadow-2xl shadow-indigo-900/20 border border-indigo-400/30 flex items-center gap-4 z-20"
                 >
                   <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 backdrop-blur-md border border-white/20">
                     <CheckCircle2 className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <div className="font-bold text-white text-sm mb-2">Interview Request!</div>
-                    <div className="text-indigo-100 text-xs font-medium">TechCorp loved your profile and wants to chat.</div>
+                    <div className="font-bold text-white text-sm mb-2">{t.interviewRequest}</div>
+                    <div className="text-indigo-100 text-xs font-medium">{t.interviewRequestDesc}</div>
                   </div>
                 </motion.div>
               </motion.div>
@@ -701,7 +673,7 @@ export default function LandingPage() {
                         {25 * selectedCurrency.price}
                       </>
                     )}{" "}
-                    / month
+                    / {t.month}
                   </span>
                 </div>
                 <div className="h-px bg-slate-200 w-full"></div>
@@ -719,7 +691,7 @@ export default function LandingPage() {
                         {(12.99 * selectedCurrency.price).toFixed(2)}
                       </>
                     )}{" "}
-                    / month
+                    / {t.month}
                   </span>
                 </div>
                 <div className="h-px bg-slate-200 w-full"></div>
@@ -738,7 +710,7 @@ export default function LandingPage() {
                         {selectedCurrency.price}
                       </>
                     )}{" "}
-                    / download
+                    / {t.download}
                   </span>
                 </div>
               </div>

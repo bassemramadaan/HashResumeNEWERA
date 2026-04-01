@@ -33,6 +33,7 @@ import Logo from "../components/Logo";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import { cn } from "../utils";
 import { calculateATSScore } from "../utils/ats";
+import { generateWord } from "../utils/generateWord";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -288,33 +289,48 @@ export default function EditorPage() {
     setShowResumeChecker(true);
   };
 
-  const handleProceedToExport = () => {
+  const handleProceedToExport = (format: "pdf" | "docx" | "txt" = "pdf") => {
     setShowResumeChecker(false);
     if (isPremium) {
-      handlePrint();
+      if (format === "pdf") {
+        handlePrint();
+      } else if (format === "docx") {
+        generateWord(useResumeStore.getState().data);
+      } else if (format === "txt") {
+        const data = useResumeStore.getState().data;
+        const text = `${data.personalInfo.fullName}\n${data.personalInfo.email}\n${data.personalInfo.phone}\n\nEXPERIENCE\n${data.experience
+          .map((exp) => `${exp.position} at ${exp.company}\n${exp.description}`)
+          .join("\n\n")}`;
+        const blob = new Blob([text], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${data.personalInfo.fullName || "resume"}.txt`;
+        link.click();
+      }
     } else {
       setShowPaymentModal(true);
     }
   };
 
   const tabs: TabItem[] = [
-    { id: "basics", label: t.profile, icon: User, tourId: "personal-info" },
+    { id: "basics", label: t.personalInfo, icon: User, tourId: "personal-info" },
     {
       id: "experience",
-      label: t.experience,
+      label: t.experience.title,
       icon: Briefcase,
       tourId: "experience-section",
     },
     {
       id: "education",
-      label: t.education,
+      label: t.education.title,
       icon: GraduationCap,
       tourId: "education-section",
     },
-    { id: "skills", label: t.skills, icon: Wrench, tourId: "skills-section" },
+    { id: "skills", label: t.skills.title, icon: Wrench, tourId: "skills-section" },
     {
       id: "cover-letter",
-      label: t.coverLetter,
+      label: t.coverLetter.title,
       icon: FileText,
       tourId: "cover-letter-section",
     },
@@ -361,7 +377,7 @@ export default function EditorPage() {
                 onClick={() => undo()}
                 disabled={pastStates.length === 0}
                 className="p-2 rounded-full text-slate-500 hover:bg-white/50 :bg-slate-800/50 disabled:opacity-30 transition-colors"
-                title="Undo (Ctrl+Z)"
+                title={t.undo}
               >
                 <Undo2 size={16} />
               </button>
@@ -369,7 +385,7 @@ export default function EditorPage() {
                 onClick={() => redo()}
                 disabled={futureStates.length === 0}
                 className="p-2 rounded-full text-slate-500 hover:bg-white/50 :bg-slate-800/50 disabled:opacity-30 transition-colors"
-                title="Redo (Ctrl+Y)"
+                title={t.redo}
               >
                 <Redo2 size={16} />
               </button>
@@ -458,7 +474,7 @@ export default function EditorPage() {
                 {activeTabIndex}
               </div>
               <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight capitalize">
-                {activeTab.replace("-", " ")}
+                {tabs.find((t) => t.id === activeTab)?.label}
               </h1>
               <p className="text-slate-500 text-sm font-medium max-w-md leading-relaxed">
                 {tabDescriptions[activeTab]}

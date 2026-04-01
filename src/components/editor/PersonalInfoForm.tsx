@@ -1,6 +1,8 @@
 import React, { useState, Suspense, lazy } from "react";
 import { ZodIssue } from "zod";
 import { useResumeStore } from "../../store/useResumeStore";
+import { useLanguageStore } from "../../store/useLanguageStore";
+import { translations } from "../../i18n/translations";
 import {
   User,
   Mail,
@@ -19,6 +21,8 @@ import { personalInfoSchema } from "../../lib/validation";
 const AISuggestion = lazy(() => import("./AISuggestion"));
 
 const PersonalInfoForm = () => {
+  const { language } = useLanguageStore();
+  const t = translations[language].editor;
   const { data, updatePersonalInfo } = useResumeStore();
   const { personalInfo, settings } = data;
   const [showAISuggestions, setShowAISuggestions] = useState(false);
@@ -70,7 +74,7 @@ const PersonalInfoForm = () => {
             htmlFor="fullName"
             className="text-sm font-medium text-slate-700"
           >
-            Full Name <span className="text-rose-500">*</span>
+            {t.fullName} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
@@ -90,7 +94,7 @@ const PersonalInfoForm = () => {
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500"
                   : "border-slate-200 "
               }`}
-              placeholder="e.g. John Doe"
+              placeholder={t.fullName}
             />
             {errors.fullName && (
               <div className="absolute inset-y-0 end-0 pe-4 flex items-center pointer-events-none">
@@ -108,7 +112,7 @@ const PersonalInfoForm = () => {
             htmlFor="jobTitle"
             className="text-sm font-medium text-slate-700"
           >
-            Job Title <span className="text-rose-500">*</span>
+            {t.jobTitle} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
@@ -128,7 +132,7 @@ const PersonalInfoForm = () => {
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500"
                   : "border-slate-200 "
               }`}
-              placeholder="e.g. Senior Software Engineer"
+              placeholder={t.jobTitle}
             />
             {errors.jobTitle && (
               <div className="absolute inset-y-0 end-0 pe-4 flex items-center pointer-events-none">
@@ -143,7 +147,7 @@ const PersonalInfoForm = () => {
 
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium text-slate-700">
-            Email Address <span className="text-rose-500">*</span>
+            {t.email} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
@@ -163,7 +167,7 @@ const PersonalInfoForm = () => {
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500"
                   : "border-slate-200 "
               }`}
-              placeholder="e.g. john.doe@example.com"
+              placeholder={t.email}
             />
             {errors.email && (
               <div className="absolute inset-y-0 end-0 pe-4 flex items-center pointer-events-none">
@@ -178,7 +182,7 @@ const PersonalInfoForm = () => {
 
         <div className="space-y-2">
           <label htmlFor="phone" className="text-sm font-medium text-slate-700">
-            Phone Number
+            {t.phone}
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
@@ -191,7 +195,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.phone}
               onChange={handleChange}
               className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
-              placeholder="e.g. +1 234 567 8900"
+              placeholder={t.phone}
             />
           </div>
         </div>
@@ -201,7 +205,7 @@ const PersonalInfoForm = () => {
             htmlFor="address"
             className="text-sm font-medium text-slate-700"
           >
-            Address / Location
+            {t.address}
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
@@ -214,7 +218,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.address}
               onChange={handleChange}
               className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
-              placeholder="e.g. New York, NY"
+              placeholder={t.address}
             />
           </div>
         </div>
@@ -224,7 +228,7 @@ const PersonalInfoForm = () => {
             htmlFor="linkedin"
             className="text-sm font-medium text-slate-700"
           >
-            LinkedIn URL
+            {t.linkedin}
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
@@ -237,7 +241,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.linkedin}
               onChange={handleChange}
               className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
-              placeholder="e.g. linkedin.com/in/johndoe"
+              placeholder={t.linkedin}
             />
           </div>
         </div>
@@ -247,7 +251,7 @@ const PersonalInfoForm = () => {
             htmlFor="github"
             className="text-sm font-medium text-slate-700"
           >
-            GitHub URL
+            {t.github}
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
@@ -260,7 +264,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.github || ""}
               onChange={handleChange}
               className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
-              placeholder="e.g. github.com/johndoe"
+              placeholder={t.github}
             />
           </div>
         </div>
@@ -270,7 +274,7 @@ const PersonalInfoForm = () => {
             htmlFor="portfolio"
             className="text-sm font-medium text-slate-700"
           >
-            Portfolio / Website
+            {t.website}
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
@@ -283,7 +287,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.portfolio || ""}
               onChange={handleChange}
               className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
-              placeholder="e.g. johndoe.dev"
+              placeholder={t.website}
             />
           </div>
         </div>
@@ -295,12 +299,12 @@ const PersonalInfoForm = () => {
                 htmlFor="summary"
                 className="text-sm font-medium text-slate-700"
               >
-                Professional Summary
+                {t.summary}
               </label>
               <SectionTooltip
-                title="Summary Tips"
-                content="Your summary is the first thing recruiters read. Keep it concise, professional, and focused on your value proposition."
-                example="Results-driven Software Engineer with 5+ years of experience in building scalable web applications. Expert in React and Node.js, with a focus on performance optimization."
+                title={t.summaryTips}
+                content={t.summaryDesc}
+                example={t.summaryExample}
               />
             </div>
             <button
@@ -309,7 +313,7 @@ const PersonalInfoForm = () => {
               className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
             >
               <Sparkles size={12} />
-              {lang === "ar" ? "اقتراحات الذكاء الاصطناعي" : "AI Suggestions"}
+              {t.aiSuggestions}
             </button>
           </div>
 
@@ -337,11 +341,9 @@ const PersonalInfoForm = () => {
             value={personalInfo.summary}
             onChange={handleChange}
             className="block w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-none bg-white text-slate-900 placeholder-slate-400"
-            placeholder="e.g. Creative Graphic Designer with 5+ years of experience in branding and digital marketing. Proven track record of increasing client engagement by 40%. Skilled in Adobe Creative Suite and UI/UX design principles."
+            placeholder={t.summaryPlaceholder}
           />
-          <p className="text-xs text-slate-500 mt-1">
-            Aim for 3-4 sentences highlighting your key achievements and skills.
-          </p>
+          <p className="text-xs text-slate-500 mt-1">{t.summaryFooter}</p>
         </div>
       </div>
     </div>

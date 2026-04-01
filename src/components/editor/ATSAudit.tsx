@@ -124,7 +124,7 @@ export default function ATSAudit() {
                 {score}
               </span>
               <span className="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1">
-                / 100
+                {t.scoreOutOf}
               </span>
             </div>
           </div>

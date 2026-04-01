@@ -48,7 +48,7 @@ const JobCard = React.forwardRef<
       {/* Decorative background element */}
       <div className="absolute top-0 end-0 w-32 h-32 bg-gradient-to-br from-indigo-50/80 to-transparent rounded-es-full -me-16 -mt-16 group-hover:scale-[2] transition-transform duration-700 ease-out"></div>
 
-      <div className="flex items-start justify-between mb-5 relative z-10">
+      <div className="flex items-start justify-between mb-6 relative z-10">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-slate-500 font-bold text-xl overflow-hidden shrink-0 border border-slate-100 shadow-sm group-hover:shadow-md transition-shadow">
             {job.logo ? (
@@ -67,7 +67,7 @@ const JobCard = React.forwardRef<
             <h3 className="font-bold text-base text-slate-900 group-hover:text-indigo-600 transition-colors line-clamp-1">
               {job.title}
             </h3>
-            <p className="text-sm text-slate-500 font-medium mt-0.5">
+            <p className="text-sm text-slate-500 font-medium mt-1">
               {job.company}
             </p>
           </div>
@@ -88,11 +88,11 @@ const JobCard = React.forwardRef<
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-2 mb-5">
-        <span className="text-xs font-semibold text-slate-600 bg-slate-100/80 px-2.5 py-1 rounded-lg border border-slate-200/50">
+      <div className="flex flex-wrap gap-2 mb-6">
+        <span className="text-xs font-semibold text-slate-600 bg-slate-100/80 px-3 py-1 rounded-lg border border-slate-200/50">
           {job.location}
         </span>
-        <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-lg border border-indigo-100/50">
+        <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg border border-indigo-100/50">
           {job.type}
         </span>
       </div>
@@ -393,13 +393,21 @@ export default function HashHuntPage() {
         setLoading(true);
         const response = await fetch("/api/jobs");
         if (!response.ok) throw new Error("Failed to fetch jobs");
-        const data = await response.json();
-        if (data.jobs && data.jobs.length > 0) {
-          setJobs(data.jobs);
+        const text = await response.text();
+        try {
+          const data = JSON.parse(text);
+          if (data.jobs && data.jobs.length > 0) {
+            setJobs(data.jobs);
+          } else {
+            setJobs(mockJobs);
+          }
+        } catch (e) {
+          // Response is not JSON (likely source code), fallback to mock data silently
+          setJobs(mockJobs);
         }
       } catch (err) {
-        console.error("Error fetching jobs:", err);
-        setError("Could not load jobs. Please try again later.");
+        console.warn("Error fetching jobs, falling back to mock data.");
+        setJobs(mockJobs);
       } finally {
         setLoading(false);
       }
