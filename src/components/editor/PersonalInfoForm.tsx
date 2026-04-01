@@ -1,4 +1,5 @@
 import React, { useState, Suspense, lazy } from "react";
+import { ZodIssue } from "zod";
 import { useResumeStore } from "../../store/useResumeStore";
 import {
   User,
@@ -31,10 +32,9 @@ const PersonalInfoForm = () => {
     const result = schema.safeParse({ ...personalInfo, [name]: value });
 
     if (!result.success) {
-      // @ts-expect-error: Handle different Zod error structures
-      const errors = result.error?.issues || result.error?.errors || result.issues || JSON.parse(result.error?.message || "[]");
-      const fieldError = errors.find(
-        (err: any) => err.path[0] === name,
+      const issues = result.error.issues;
+      const fieldError = issues.find(
+        (err: ZodIssue) => err.path[0] === name,
       );
       return fieldError ? fieldError.message : "";
     }

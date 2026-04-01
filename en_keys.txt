@@ -1,0 +1,195 @@
+      afterTitle: "With Hash Resume",
+      aiContentDesc:
+      aiContentGeneration: "AI Content Generation",
+      aiPowered: "AI-Powered Resume Builder",
+      aiPoweredBadge: "AI-Powered",
+      allLocations: "All Locations",
+      allPremiumTemplates: "All premium templates included",
+      allTypes: "All Types",
+      applyNow: "Apply Now",
+      atsAuditReport: "ATS Audit Report",
+      atsDescription:
+      atsFriendly: "ATS-Friendly",
+      atsPassRate: "98% ATS pass rate",
+      atsScore: "ATS Score",
+        backupData: "Backup Data",
+        backupDesc:
+        backupTitle: "Download & Backup",
+      beatAts: "Beat the ATS Systems",
+      beFirstToReview: "Be the first to review",
+      beforeAfterDesc:
+      beforeAfterSubtitle:
+      beforeAfterTitle: "See the difference",
+      beforeTitle: "Before Hash Resume",
+      benefit1:
+      benefit2: "Personalized job matching based on your unique skills.",
+      benefit3: "100% free for candidates. We only charge employers.",
+      benefit4: "Exclusive roles not posted on public job boards.",
+      blog: "Blog",
+      blogSubtitle: "Career advice to help you land your next job.",
+      buildResume: "Start Now",
+        checkAts: "Check ATS Score",
+        checkAtsDesc:
+      chooseTemplate: "Choose a Template",
+      companiesContact: "Companies contact you directly",
+      companiesContactDesc:
+      compliantStructure: "Compliant Structure",
+      compliantStructureDesc:
+      connect: "Connect with us",
+      contract: "Contract",
+      coverLetter: "Cover Letter",
+      coverLetterDesc:
+      coverLetterList1: "Tailored to the job description",
+      coverLetterList2: "Matches your resume design",
+      coverLetterList3: "Professional tone and formatting",
+      coverLetterList4: "Instant PDF export",
+      coverLetterNew: "New Feature",
+      coverLetterTitle: "Write a compelling cover letter in seconds.",
+        createCover: "Create Cover Letter",
+        createCoverDesc:
+      createCoverLetter: "Create Cover Letter",
+      excellent: "Excellent",
+      exploreHashHunt: "Explore Hash Hunt",
+        exportWord: "Export Word",
+      faq1A:
+      faq1Q: "Is my data safe?",
+      faq2A:
+      faq2Q: "How much does it cost?",
+      faq3A:
+      faq3Q: "What is an ATS-friendly resume?",
+      faq4A:
+      faq4Q: "Does it support Arabic resumes?",
+      faq5A:
+      faq5Q: "How do I save my resume?",
+      faq6A:
+      faq6Q: "Can I create a cover letter too?",
+      faqsSubtitle: "Got questions? We've got answers.",
+      faqsTitle: "Frequently Asked Questions",
+      feature1Desc:
+      feature1Title: "Instant Generation",
+      feature2Desc:
+      feature2Title: "100% Private",
+      feature3Desc:
+      feature3Title: "ATS Ready",
+      feature4Desc:
+      feature4Title: "Smart Suggestions",
+      features: "Features",
+      featuresSubtitle:
+      featuresTitle: "Everything you need to land the job",
+      feedback: "Feedback",
+        findJobsDesc:
+        findJobs: "Find Jobs",
+      finish: {
+      footerDesc:
+      freeTemplates: "Free Templates",
+      fullTime: "Full-time",
+      getStartedNow: "Get Started Now",
+    hashHunt: {
+      hashHuntJobs: "Hash Hunt",
+      hashHuntList1: "Direct access to hiring managers",
+      hashHuntList2: "Exclusive unlisted roles",
+      hashHuntList3: "100% free for job seekers",
+      hashHuntNew: "New Feature",
+      hashHuntSubtitle:
+      hashHuntTitle: "Let the jobs find you with Hash Hunt",
+      heroBadge: "Exclusive Job Opportunities",
+      heroSubtitle:
+      heroSubtitle:
+      heroTitle1: "Hash Resume",
+      heroTitle2: "Land the Job.",
+      heroTitle3: "Effortlessly.",
+      heroTitlePart1: "Let the jobs",
+      heroTitlePart2: "find you.",
+      howItWorks: "How it works",
+      howItWorksSubtitle: "Your next career move is just a few clicks away.",
+      howItWorksTitle: "How Hash Hunt Works",
+      howItWorksTitle: "How it works?",
+      hybrid: "Hybrid",
+      improvementSuggestions: "Improvement Suggestions",
+      includesPdfWord: "Includes both PDF & Word formats",
+      interviewIncrease: "85% increase in interview callbacks",
+      jobsFound: "jobs found",
+      joinedThisMonth: "joined this month",
+      joinTalentPool: "Join the Talent Pool",
+      keywordAnalysisDesc:
+      keywordAnalysis: "Keyword Analysis",
+      keywordsMatched: "Keywords Matched",
+      latestBlog: "Latest from the Blog",
+      latestOpportunities: "Latest Opportunities",
+      loadingJobs: "Loading jobs...",
+      mostPopular: "Most Popular",
+        nextStepsTitle: "Maximize Your Success",
+      noHiddenFees: "No subscriptions, no hidden fees",
+      noJobsFound: "No jobs found at the moment. Check back later!",
+      noSubscriptionPayOnce: "No Login, No Subscription, Pay once",
+      noSubscriptions: "No monthly subscriptions. No auto-renewal.",
+      noWatermark: "No Watermark",
+      oneClickApply: "One-click application to Hash Hunt",
+      onSite: "On-site",
+      partOf: "is a part of Hash Social Media Marketing Agency",
+      partTime: "Part-time",
+      payOncePerResume: "Pay once per resume download",
+      premiumTemplatesDesc:
+      premiumTemplates: "Multiple Premium Templates",
+      pricing: "Pricing",
+      pricingSubtitle:
+      pricingTitle: "Simple, Transparent Pricing",
+      privacyBadge: "Your data never leaves your device — 100% private",
+      privateFooter: "100% Private. Your data stays on your device.",
+      product: "Product",
+      profileToPartnerDesc:
+      profileToPartner: "Profile goes to partner database",
+        readySubtitle:
+        readyTitle: "Your Resume is Ready!",
+      remote: "Remote",
+        restoreData: "Restore Data",
+      resumeBuilder: "Resume Builder",
+      resumesHumansLove: "Resumes Humans Love, Machines Understand",
+      rightsReserved: "Hash Resume. All rights reserved.",
+      savedOnly: "Saved Only",
+      scoreBoost: "Score Boost",
+      seamlessFlow: "Build, Optimize, and Apply - all in one place.",
+      searchPlaceholder: "Search jobs, companies, or keywords...",
+      shareYourStory: "Share your success story with us!",
+      showcaseSubtitle:
+      showcaseTitle: "Designed for your success",
+      simpleStep1Desc: "Fill in your basic info and experience.",
+      simpleStep1Title: "Enter details",
+      simpleStep2Desc: "Let AI craft your experience professionally.",
+      simpleStep2Title: "Improve with AI",
+      simpleStep3Desc: "Get a ready-to-apply PDF file.",
+      simpleStep3Title: "Download",
+      singleDownload: "Single Download",
+      startFromScratch: "Start from Scratch",
+      startWritingNow: "Start Writing Now",
+      startWriting: "Start Writing Now",
+      statsText: "1k user joined this month",
+      step1Desc:
+      step1Desc: "Use Hash Resume to create a professional, ATS-friendly CV.",
+      step1Title: "1. Build Your Resume",
+      step1Title: "Fill Data",
+      step2Desc:
+      step2Desc:
+      step2Title: "2. Submit to Hash Hunt",
+      step2Title: "Audit & Refine",
+      step3Desc:
+      step3Desc:
+      step3Title: "3. Get Matched",
+      step3Title: "Export & Apply",
+      submitResume: "Submit Resume",
+      templates: "Templates",
+      testimonialsSubtitle:
+      testimonialsTitle: "Wall of Love",
+      timeSaved: "Save 4+ hours per resume",
+      trustedBy: "Trusted by professionals from",
+      tryCoverLetterBuilder: "Try Cover Letter Builder",
+      tryCoverLetter: "Try Cover Letter Builder",
+      tryRefreshing: "Try refreshing the page",
+      unlimitedFreeEdits: "Unlimited free edits before paying",
+      uploadCvDesc:
+      uploadCv: "Upload CV from Hash Resume",
+      useCode: "Use code",
+      viewAllArticles: "View all articles",
+      viewDetails: "View Details",
+      whyChooseUs: "Why choose us?",
+      whyJoinTitle: "Why join Hash Hunt?",

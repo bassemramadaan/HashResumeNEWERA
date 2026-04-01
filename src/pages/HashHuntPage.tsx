@@ -365,9 +365,9 @@ export default function HashHuntPage() {
   const { language, dir } = useLanguageStore();
   const { addApplication } = useApplicationStore();
   const t = translations[language].hashHunt;
-  const [jobs] = useState<Job[]>(mockJobs);
-  const [loading, setLoading] = useState(false);
-  const [error] = useState<string | null>(null);
+  const [jobs, setJobs] = useState<Job[]>(mockJobs);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedType, setSelectedType] = useState("All");
   const [showSavedOnly, setShowSavedOnly] = useState(false);
@@ -387,10 +387,25 @@ export default function HashHuntPage() {
     });
   };
 
-  // No longer need to fetch from API in pure frontend version
   useEffect(() => {
-    // We could still simulate a fetch if we wanted, but for now we just use mockJobs
-    setLoading(false);
+    const fetchJobs = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/jobs");
+        if (!response.ok) throw new Error("Failed to fetch jobs");
+        const data = await response.json();
+        if (data.jobs && data.jobs.length > 0) {
+          setJobs(data.jobs);
+        }
+      } catch (err) {
+        console.error("Error fetching jobs:", err);
+        setError("Could not load jobs. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
   }, []);
 
   const filteredJobs = useMemo(() => {

@@ -1,0 +1,178 @@
+      aboutCompany: "À propos de l'entreprise",
+      allLocations: "Tous les lieux",
+      allTypes: "Tous les types",
+      applyNow: "Postuler maintenant",
+      at: "à",
+    atsAudit: {
+      atsExplanation:
+      atsScore: "Score ATS",
+      backToHome: "Retour à l'accueil",
+        backupData: "Sauvegarder les données",
+        backupDesc:
+        backupTitle: "Téléchargement et sauvegarde",
+      basedOnKeywords: "Basé sur les 20 meilleurs mots-clés",
+      basicsDesc: "Vos informations de base et paramètres du CV.",
+      beFirstToReview: "Soyez le premier à donner votre avis",
+      benefit1:
+      benefit2:
+      benefit3:
+      benefit4: "Rôles exclusifs non publiés sur les sites d'emploi publics.",
+      blogSubtitle:
+      certifications: "Certifications",
+        checkAtsDesc:
+        checkAts: "Vérifier le score ATS",
+      clearAll: "Tout effacer",
+      clearConfirm:
+      close: "Fermer",
+      close: "Fermer",
+      commentPlaceholder: "Dites-nous ce que vous pensez...",
+      companiesContactDesc: "Asseyez-vous et détendez-vous. Les entreprises intéressées par votre profil vous contacteront directement avec des opportunités d'entretien.",
+      companiesContact: "Les entreprises vous contactent",
+      compareWithJD: "Comparer avec la description de poste",
+      connect: "Connectez-vous avec nous",
+      contract: "Contrat",
+      coverLetterDesc: "Générer une lettre de motivation professionnelle.",
+      coverLetter: "Lettre de motivation",
+        createCover: "Créer une lettre de motivation",
+        createCoverDesc:
+      detailedSuggestions: "Suggestions détaillées",
+    editor: {
+      educationDesc: "Votre formation académique et vos certifications.",
+      education: "Éducation",
+      experienceDesc: "Votre parcours professionnel et vos projets.",
+      experience: "Expérience",
+      exploreHashHunt: "Explorer Hash Hunt",
+      exportPdf: "Exporter PDF",
+        exportWord: "Exporter Word",
+      faq1A:
+      faq1Q: "Mes données sont-elles en sécurité ?",
+      faq2A:
+      faq2Q: "Combien ça coûte ?",
+      faq3A:
+      faq3Q: "Qu'est-ce qu'un CV compatible ATS ?",
+      faq4A:
+      faq4Q: "Prend-il en charge les CV en arabe ?",
+      faq5A:
+      faq5Q: "Comment enregistrer mon CV ?",
+      faq6A:
+      faq6Q: "Puis-je aussi créer une lettre de motivation ?",
+      faqsSubtitle: "Vous avez des questions ? Nous avons des réponses.",
+      faqsTitle: "Foire Aux Questions",
+      feedback: "Commentaires",
+    feedbackModal: {
+        findJobsDesc:
+        findJobs: "Trouver des emplois",
+      finish: {
+      finishDesc: "Optimiser pour les ATS et télécharger votre CV.",
+      footerDesc:
+      free: "Gratuit",
+      fullPreview: "Aperçu complet",
+      fullTime: "Temps plein",
+      getStartedNow: "Commencer maintenant",
+      goodStart: "Bon début, mais nécessite du travail.",
+      greatJob: "Excellent travail ! Votre CV est prêt pour l'ATS.",
+    hashHunt: {
+      hashHuntList1: "Accès direct aux responsables du recrutement",
+      hashHuntList2: "Rôles exclusifs non répertoriés",
+      hashHuntList3: "100% gratuit pour les chercheurs d'emploi",
+      hashHuntNew: "Nouveau",
+      hashHuntSubtitle:
+      hashHuntTitle: "Laissez les emplois vous trouver avec Hash Hunt",
+      heroBadge: "Opportunités d'emploi exclusives",
+      heroSubtitle:
+      heroTitlePart1: "Laissez les emplois",
+      heroTitlePart2: "vous trouver.",
+      hideMatcher: "Masquer le comparateur",
+      howItWorksSubtitle:
+      howItWorksTitle: "Comment fonctionne Hash Hunt",
+      hybrid: "Hybride",
+      inYourApplication: "dans votre candidature",
+      jobCode: "Code de poste",
+      jobDescription: "Description du poste",
+      jobMatcher: "Comparateur de description de poste",
+      jobsFound: "emplois trouvés",
+      jobType: "Type de poste",
+      joinTalentPool: "Rejoindre le vivier de talents",
+      latestBlog: "Derniers articles du blog",
+      latestOpportunities: "Dernières opportunités",
+      loadExample: "Charger l'exemple",
+      loadingJobs: "Chargement des emplois...",
+      matchedKeywords: "Mots-clés correspondants",
+      matchScore: "Score de correspondance",
+      mentionCode: "Mentionnez le code",
+      missingKeywords: "Mots-clés manquants",
+      mostPopular: "Le plus populaire",
+      namePlaceholder: "Votre nom (Facultatif)",
+      needsImprovement: "Nécessite des améliorations significatives.",
+        nextStepsTitle: "Maximisez votre succès",
+      noDataDesc:
+      noDataTitle: "Aucune donnée à analyser",
+      noJobsFound: "Aucun emploi trouvé pour le moment. Revenez plus tard !",
+      noMatchedKeywords: "Aucun mot-clé correspondant pour l'instant.",
+      noMissingKeywords: "Aucun mot-clé manquant trouvé !",
+      noSubscriptions:
+      noThanks: "Non merci",
+      onSite: "Sur site",
+      overwriteConfirm:
+      partTime: "Temps partiel",
+      pasteJD: "Collez la description de poste ici",
+      pastePlaceholder:
+      personalInfo: "Informations personnelles",
+      posted: "Publié",
+      pricingSubtitle:
+      pricingTitle: "Tarification simple et transparente",
+      privateFooter: "100% Privé. Vos données restent sur votre appareil.",
+      product: "Produit",
+      profile: "Profil",
+      profileToPartnerDesc: "Nous partageons votre profil anonymisé avec notre réseau d'entreprises partenaires de premier plan qui recrutent activement.",
+      profileToPartner: "Profil envoyé aux partenaires",
+      projects: "Projets",
+        readySubtitle:
+        readyTitle: "Votre CV est prêt !",
+      readyToTakeNextStep: "Prêt à passer à l'étape suivante ?",
+      remote: "À distance",
+      requirements: "Exigences",
+      responsibilities: "Responsabilités",
+        restoreData: "Restaurer les données",
+      resumeBuilder: "Créateur de CV",
+      resumePreview: "Aperçu du CV",
+      resumeSettings: "Paramètres du CV",
+      review: "Révision",
+      rightsReserved: "Hash Resume. Tous droits réservés.",
+      salaryRange: "Fourchette de salaire",
+      savedLocally: "Enregistré localement",
+      savedOnly: "Enregistrés uniquement",
+      saving: "Enregistrement...",
+      searchPlaceholder:
+      sectionBreakdown: "Détail par section",
+      sending: "Envoi en cours...",
+      shareYourStory: "Partagez votre histoire de réussite avec nous !",
+      showcaseSubtitle:
+      showcaseTitle: "Conçu pour votre succès",
+      showMeAround: "Me faire visiter",
+      singleDownload: "Téléchargement unique",
+      skills: "Compétences",
+      skillsDesc: "Vos compétences techniques et comportementales.",
+      step1Desc:
+      step1Title: "1. Créez votre CV",
+      step2Desc:
+      step2Title: "2. Soumettez à Hash Hunt",
+      step3Desc:
+      step3Title: "3. Soyez mis en correspondance",
+      submit: "Envoyer",
+      submitResume: "Soumettre le CV",
+      subtitle: "Votre avis compte pour nous 🙏",
+      testimonialsSubtitle:
+      testimonialsTitle: "Mur d'amour",
+      thankYouMessage: "Vos commentaires nous aident à améliorer Hash Resume.",
+      thankYouTitle: "Merci !",
+      title: "Audit ATS du CV",
+      title: "Comment s'est passée votre expérience ?",
+      tryRefreshing: "Essayez de rafraîchir la page",
+      useCode: "Utilisez le code",
+      viewAllArticles: "Voir tous les articles",
+      viewDetails: "Voir les détails",
+      whyChooseUs: "Pourquoi nous choisir ?",
+      whyJoinTitle: "Pourquoi rejoindre Hash Hunt ?",
+      workExperience: "Expérience professionnelle",
+      workingWell: "Ce qui fonctionne bien",

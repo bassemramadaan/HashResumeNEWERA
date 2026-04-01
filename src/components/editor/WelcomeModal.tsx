@@ -9,7 +9,7 @@ import {
   ArrowRight,
   FileText,
 } from "lucide-react";
-import { useResumeStore, ResumeData } from "../../store/useResumeStore";
+import { useResumeStore } from "../../store/useResumeStore";
 
 interface WelcomeModalProps {
   isOpen: boolean;
