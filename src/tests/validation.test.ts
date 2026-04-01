@@ -30,11 +30,7 @@ describe("Validation Schemas", () => {
     const result = schema.safeParse(invalidData);
     expect(result.success).toBe(false);
     if (!result.success) {
-      // @ts-expect-error: Zod v4 error structure parsing
-      const errors =
-        result.error?.issues ||
-        result.issues ||
-        JSON.parse(result.error?.message || "[]");
+      const errors = result.error.issues;
       expect(errors.length).toBeGreaterThan(0);
     }
   });
@@ -52,11 +48,7 @@ describe("Validation Schemas", () => {
     const result = schema.safeParse(invalidData);
     expect(result.success).toBe(false);
     if (!result.success) {
-      // @ts-expect-error: Zod v4 error structure parsing
-      const errors =
-        result.error?.issues ||
-        result.issues ||
-        JSON.parse(result.error?.message || "[]");
+      const errors = result.error.issues;
       const emailError = errors.find((e: ZodIssue) => e.path[0] === "email");
       expect(emailError?.message).toBe("بريد إلكتروني غير صالح");
     }

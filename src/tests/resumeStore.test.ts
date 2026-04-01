@@ -39,7 +39,7 @@ describe("Resume Store", () => {
 
   it("should reorder sections", () => {
     const { reorderSections } = useResumeStore.getState();
-    const newOrder: string[] = ["experience", "summary", "education"];
+    const newOrder: any[] = ["experience", "summary", "education"];
 
     reorderSections(newOrder);
 

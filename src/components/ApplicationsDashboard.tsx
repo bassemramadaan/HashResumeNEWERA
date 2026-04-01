@@ -1,5 +1,5 @@
 import React from "react";
-import { useApplicationStore } from "../store/useApplicationStore";
+import { useApplicationStore, ApplicationStatus } from "../store/useApplicationStore";
 import { Trash2 } from "lucide-react";
 
 export const ApplicationsDashboard: React.FC = () => {

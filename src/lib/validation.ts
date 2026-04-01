@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const personalInfoSchema = (lang: "en" | "ar" = "en") =>
+export const personalInfoSchema = (lang: "en" | "fr" | "ar" = "en") =>
   z.object({
     fullName: z.string().min(2, {
       message:
@@ -35,7 +35,7 @@ export const personalInfoSchema = (lang: "en" | "ar" = "en") =>
       .or(z.literal("")),
   });
 
-export const experienceSchema = (lang: "en" | "ar" = "en") =>
+export const experienceSchema = (lang: "en" | "fr" | "ar" = "en") =>
   z.object({
     company: z.string().min(2, {
       message: lang === "ar" ? "اسم الشركة مطلوب" : "Company name is required",
@@ -55,7 +55,7 @@ export const experienceSchema = (lang: "en" | "ar" = "en") =>
     }),
   });
 
-export const educationSchema = (lang: "en" | "ar" = "en") =>
+export const educationSchema = (lang: "en" | "fr" | "ar" = "en") =>
   z.object({
     institution: z.string().min(2, {
       message: lang === "ar" ? "اسم المؤسسة مطلوب" : "Institution is required",
@@ -70,7 +70,7 @@ export const educationSchema = (lang: "en" | "ar" = "en") =>
     description: z.string().optional(),
   });
 
-export const projectSchema = (lang: "en" | "ar" = "en") =>
+export const projectSchema = (lang: "en" | "fr" | "ar" = "en") =>
   z.object({
     name: z.string().min(2, {
       message: lang === "ar" ? "اسم المشروع مطلوب" : "Project name is required",

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import {
   Sparkles,
   Play,
@@ -48,7 +48,7 @@ const QUICK_TEMPLATES = [
   },
 ] as const;
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0, scale: 0.95, y: 20 },
   visible: {
     opacity: 1,
@@ -64,7 +64,7 @@ const containerVariants = {
   exit: { opacity: 0, scale: 0.95, y: 20, transition: { duration: 0.2 } },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 10 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };

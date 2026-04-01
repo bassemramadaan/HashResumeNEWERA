@@ -31,8 +31,10 @@ const PersonalInfoForm = () => {
     const result = schema.safeParse({ ...personalInfo, [name]: value });
 
     if (!result.success) {
-      const fieldError = result.error.errors.find(
-        (err) => err.path[0] === name,
+      // @ts-expect-error: Handle different Zod error structures
+      const errors = result.error?.issues || result.error?.errors || result.issues || JSON.parse(result.error?.message || "[]");
+      const fieldError = errors.find(
+        (err: any) => err.path[0] === name,
       );
       return fieldError ? fieldError.message : "";
     }
@@ -318,7 +320,7 @@ const PersonalInfoForm = () => {
               }
             >
               <AISuggestion
-                currentText={personalInfo.summary}
+                currentValue={personalInfo.summary}
                 onApply={(newText) => {
                   updatePersonalInfo({ summary: newText });
                   setShowAISuggestions(false);

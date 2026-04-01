@@ -612,7 +612,11 @@ export default function EditorPage() {
                       <div className="space-y-8">
                         <ATSAudit />
                         <div className="pt-12 border-t border-slate-100">
-                          <FinishStep onPrint={handleProceedToExport} />
+                          <FinishStep 
+                            onPrint={handleProceedToExport} 
+                            onExportWord={() => setShowPaymentModal(true)}
+                            onJumpToStep={(step) => setActiveTab(step as Tab)}
+                          />
                         </div>
                       </div>
                     )}

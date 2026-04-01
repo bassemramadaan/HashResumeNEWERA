@@ -488,6 +488,7 @@ export const useResumeStore = create<ResumeStore>()(
                   date: "2021-08",
                 },
               ],
+              customSections: [],
               settings: {
                 template: "modern",
                 themeColor: "#2563EB",

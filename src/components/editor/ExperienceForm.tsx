@@ -228,7 +228,7 @@ const ExperienceForm = () => {
                           }
                         >
                           <AISuggestion
-                            currentText={exp.description}
+                            currentValue={exp.description}
                             onApply={(newText) => {
                               updateExperience(exp.id, {
                                 description: newText,
