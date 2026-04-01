@@ -290,10 +290,10 @@ export const translations = {
     },
     editor: {
       profile: "Profile",
-      experience: "Experience",
-      education: "Education",
+      experienceTab: "Experience",
+      educationTab: "Education",
       skills: "Skills",
-      coverLetter: "Cover Letter",
+      coverLetterTab: "Cover Letter",
       review: "Review",
       personalInfo: "Personal Information",
       resumeSettings: "Resume Settings",
