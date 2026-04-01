@@ -84,24 +84,42 @@ const OnboardingTour = () => {
           backgroundColor: "#ffffff",
           textColor: "#0f172a",
           arrowColor: "#ffffff",
+          overlayColor: "rgba(15, 23, 42, 0.4)",
+        },
+        tooltip: {
+          borderRadius: "24px",
+          padding: "24px",
+          boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
         },
         tooltipContainer: {
           textAlign: "left",
-          borderRadius: "16px",
-          padding: "10px",
+        },
+        tooltipTitle: {
+          fontWeight: 900,
+          fontSize: "1.25rem",
+          marginBottom: "8px",
+          color: "#0f172a",
+        },
+        tooltipContent: {
+          padding: "16px 0",
+          color: "#475569",
+          lineHeight: 1.6,
+          fontSize: "1rem",
         },
         buttonNext: {
-          borderRadius: "9999px",
+          borderRadius: "16px",
           fontWeight: "bold",
-          padding: "10px 20px",
+          padding: "12px 24px",
+          backgroundColor: "#ff4d2d",
         },
         buttonBack: {
-          marginRight: "10px",
+          marginRight: "16px",
           fontWeight: "bold",
           color: "#64748b",
         },
         buttonSkip: {
           color: "#94a3b8",
+          fontWeight: "600",
         },
       }}
       locale={{
