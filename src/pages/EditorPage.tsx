@@ -565,7 +565,7 @@ export default function EditorPage() {
                               <Target size={18} />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.projects}
+                              {t.projects.title}
                             </h2>
                           </div>
                           <ProjectsForm />
@@ -605,7 +605,7 @@ export default function EditorPage() {
                             <Wrench size={18} />
                           </div>
                           <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                            {t.skills}
+                            {t.skills.title}
                           </h2>
                         </div>
                         <SkillsForm />
@@ -618,7 +618,7 @@ export default function EditorPage() {
                             <FileText size={18} />
                           </div>
                           <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                            {t.coverLetter}
+                            {t.coverLetter.title}
                           </h2>
                         </div>
                         <CoverLetterForm />
