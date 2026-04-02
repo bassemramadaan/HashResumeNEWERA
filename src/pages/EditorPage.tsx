@@ -23,6 +23,7 @@ import {
   Sparkles,
   Loader2,
   ArrowUp,
+  Settings,
 } from "lucide-react";
 import { useResumeStore } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
@@ -31,6 +32,7 @@ import { translations } from "../i18n/translations";
 import Stepper from "../components/editor/Stepper";
 import Logo from "../components/Logo";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import SettingsModal from "../components/SettingsModal";
 import { cn } from "../utils";
 import { calculateATSScore } from "../utils/ats";
 import { generateWord } from "../utils/generateWord";
@@ -48,7 +50,6 @@ const ProjectsForm = lazy(() => import("../components/editor/ProjectsForm"));
 const CertificationsForm = lazy(
   () => import("../components/editor/CertificationsForm"),
 );
-const SettingsForm = lazy(() => import("../components/editor/SettingsForm"));
 const ATSAudit = lazy(() => import("../components/editor/ATSAudit"));
 const CoverLetterForm = lazy(
   () => import("../components/editor/CoverLetterForm"),
@@ -218,6 +219,7 @@ export default function EditorPage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{
     type: "load" | "clear";
     message: string;
@@ -412,6 +414,13 @@ export default function EditorPage() {
                 <Sparkles size={16} className="animate-pulse" />
               </button>
               <LanguageSwitcher className="[&>span]:hidden lg:[&>span]:inline" />
+              <button
+                onClick={() => setIsSettingsModalOpen(true)}
+                className="p-2 text-slate-600 hover:text-slate-900 :text-white hover:bg-white :bg-slate-700 rounded-full transition-colors"
+                title="Resume Settings"
+              >
+                <Settings size={18} />
+              </button>
             </div>
 
             <button
@@ -533,17 +542,6 @@ export default function EditorPage() {
                           </div>
                           <PersonalInfoForm />
                         </section>
-                        <section className="pt-12 border-t border-slate-100">
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600">
-                              <LayoutTemplate size={18} />
-                            </div>
-                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.resumeSettings}
-                            </h2>
-                          </div>
-                          <SettingsForm />
-                        </section>
                       </div>
                     )}
                     {activeTab === "experience" && (
@@ -554,7 +552,7 @@ export default function EditorPage() {
                               <Briefcase size={18} />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.workExperience}
+                              {t.experience.title}
                             </h2>
                           </div>
                           <ExperienceForm />
@@ -580,7 +578,7 @@ export default function EditorPage() {
                               <GraduationCap size={18} />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.education}
+                              {t.education.title}
                             </h2>
                           </div>
                           <EducationForm />
@@ -591,7 +589,7 @@ export default function EditorPage() {
                               <CheckCircle2 size={18} />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.certifications}
+                              {t.certifications.title}
                             </h2>
                           </div>
                           <CertificationsForm />
@@ -793,6 +791,10 @@ export default function EditorPage() {
 
       {/* Modals */}
       <Suspense fallback={null}>
+        <SettingsModal
+          isOpen={isSettingsModalOpen}
+          onClose={() => setIsSettingsModalOpen(false)}
+        />
         {/* Full Page Preview Modal */}
         <AnimatePresence>
           {showFullPreview && (

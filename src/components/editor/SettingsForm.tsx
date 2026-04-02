@@ -2,7 +2,6 @@ import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import {
-  Palette,
   LayoutTemplate,
   Globe,
   GraduationCap,
@@ -20,19 +19,6 @@ export default React.memo(function SettingsForm() {
   const { data, updateSettings, updateData, resetData } = useResumeStore();
   const { settings } = data;
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const COLORS = [
-    { name: t.settings.colors.navy, value: "#1e3a8a" },
-    { name: t.settings.colors.blue, value: "#2563eb" },
-    { name: t.settings.colors.cyan, value: "#0891b2" },
-    { name: t.settings.colors.teal, value: "#0d9488" },
-    { name: t.settings.colors.green, value: "#16a34a" },
-    { name: t.settings.colors.purple, value: "#9333ea" },
-    { name: t.settings.colors.rose, value: "#e11d48" },
-    { name: t.settings.colors.orange, value: "#ea580c" },
-    { name: t.settings.colors.slate, value: "#475569" },
-    { name: t.settings.colors.black, value: "#000000" },
-  ];
 
   const TEMPLATES = [
     {
@@ -239,34 +225,6 @@ export default React.memo(function SettingsForm() {
                 >
                   {template.description}
                 </div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Theme Color */}
-        <div className="space-y-4">
-          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <Palette size={20} className="text-slate-400" />
-            {t.settings.themeColor}
-          </h3>
-          <div className="flex flex-wrap gap-4">
-            {COLORS.map((color) => (
-              <button
-                key={color.value}
-                onClick={() => updateSettings({ themeColor: color.value })}
-                className={cn(
-                  "w-10 h-10 rounded-full border-2 transition-all flex items-center justify-center",
-                  settings.themeColor === color.value
-                    ? "border-slate-900 scale-110"
-                    : "border-transparent hover:scale-105",
-                )}
-                style={{ backgroundColor: color.value }}
-                title={color.name}
-              >
-                {settings.themeColor === color.value && (
-                  <div className="w-4 h-4 bg-white rounded-full shadow-sm" />
-                )}
               </button>
             ))}
           </div>
