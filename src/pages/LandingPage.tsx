@@ -17,7 +17,6 @@ import {
   ArrowUp,
   PenTool,
 } from "lucide-react";
-import FAQ from "../components/FAQ";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
 import SarIcon from "../components/payment/SarIcon";
@@ -781,9 +780,6 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
-
-      {/* FAQ Section */}
-      <FAQ />
 
       {/* Latest Blog Posts */}
       <section className="py-12 bg-slate-50">
