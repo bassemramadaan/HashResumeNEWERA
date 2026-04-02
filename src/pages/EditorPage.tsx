@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
 import { Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { motion, AnimatePresence } from "framer-motion";
+import { useStore } from "zustand";
 import {
   User,
   Briefcase,
