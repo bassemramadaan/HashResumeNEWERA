@@ -55,7 +55,7 @@ export default function Stepper({
               </button>
               <span
                 className={cn(
-                  "absolute -bottom-7 text-[9px] font-bold uppercase tracking-[0.1em] whitespace-nowrap transition-colors duration-300",
+                  "absolute -bottom-7 text-[8px] font-bold uppercase tracking-tight whitespace-nowrap transition-colors duration-300",
                   isActive ? "text-[#ff4d2d]" : "text-slate-400",
                 )}
               >

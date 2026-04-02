@@ -171,6 +171,8 @@ const initialData: ResumeData = {
 
 type ResumeStore = {
   data: ResumeData;
+  isHydrated: boolean;
+  setHydrated: (isHydrated: boolean) => void;
   updatePersonalInfo: (info: Partial<PersonalInfo>) => void;
   addExperience: (exp: Omit<Experience, "id">) => void;
   updateExperience: (id: string, exp: Partial<Experience>) => void;
@@ -208,6 +210,8 @@ export const useResumeStore = create<ResumeStore>()(
     persist(
       (set) => ({
         data: initialData,
+        isHydrated: false,
+        setHydrated: (isHydrated) => set({ isHydrated }),
         reorderSections: (newOrder) =>
           set((state) => ({
             data: {
@@ -505,6 +509,9 @@ export const useResumeStore = create<ResumeStore>()(
       {
         name: "hash-resume-storage",
         storage: createJSONStorage(() => debouncedStorage),
+        onRehydrateStorage: () => (state) => {
+          state?.setHydrated(true);
+        },
       },
     ),
   ),

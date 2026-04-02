@@ -12,21 +12,28 @@ import {
   GripVertical,
 } from "lucide-react";
 import { Reorder } from "framer-motion";
+import FormSkeleton from "./FormSkeleton";
 
 const EducationForm = () => {
   const { language } = useLanguageStore();
   const t = translations[language].editor;
   const eduSuggestions = t.education.eduSuggestions;
   const universities = t.education.universities;
-  const { data, addEducation, updateEducation, removeEducation, updateData } =
+  const { data, isHydrated, addEducation, updateEducation, removeEducation, updateData } =
     useResumeStore();
-  const { education } = data;
+
   const [expandedId, setExpandedId] = useState<string | null>(
-    education[0]?.id || null,
+    data.education[0]?.id || null,
   );
   const [showSuggestionsFor, setShowSuggestionsFor] = useState<string | null>(
     null,
   );
+
+  if (!isHydrated) {
+    return <FormSkeleton />;
+  }
+
+  const { education } = data;
 
   const handleAdd = () => {
     addEducation({

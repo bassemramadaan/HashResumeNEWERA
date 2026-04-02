@@ -18,27 +18,34 @@ import { getJobMatchResults } from "../../utils/ats";
 
 const AISuggestion = lazy(() => import("./AISuggestion"));
 
+import FormSkeleton from "./FormSkeleton";
+
 const ExperienceForm = () => {
   const { language } = useLanguageStore();
-  console.log("Language:", language);
-  console.log("Translations:", translations);
   const t = translations[language].editor;
   const {
     data,
+    isHydrated,
     addExperience,
     updateExperience,
     removeExperience,
     updateData,
   } = useResumeStore();
-  const { experience, jobDescription } = data;
+
   const [expandedId, setExpandedId] = useState<string | null>(
-    experience[0]?.id || null,
+    data.experience[0]?.id || null,
   );
   const [showAISuggestionFor, setShowAISuggestionFor] = useState<string | null>(
     null,
   );
 
   const matchResults = useMemo(() => getJobMatchResults(data), [data]);
+
+  if (!isHydrated) {
+    return <FormSkeleton />;
+  }
+
+  const { experience, jobDescription } = data;
 
   const handleAdd = () => {
     addExperience({
