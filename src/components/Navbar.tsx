@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PenTool, Target, ArrowRight, Menu, X, Sparkles, Settings } from "lucide-react";
+import { PenTool, Target, ArrowRight, Menu, X, Sparkles } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { cn } from "../utils";
 import { AnimatePresence } from "framer-motion";
-import SettingsModal from "./SettingsModal";
 
 export default function Navbar() {
   const { language } = useLanguageStore();
@@ -16,7 +15,6 @@ export default function Navbar() {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -102,13 +100,6 @@ export default function Navbar() {
                 size={18}
                 className="text-xs px-4 py-2 hover:bg-white :bg-slate-700 rounded-full transition-colors"
               />
-              <button
-                onClick={() => setIsSettingsModalOpen(true)}
-                className="p-2 text-slate-600 hover:text-slate-900 :text-white hover:bg-white :bg-slate-700 rounded-full transition-colors"
-                title="Resume Settings"
-              >
-                <Settings size={18} />
-              </button>
             </div>
 
             <Link
@@ -124,11 +115,6 @@ export default function Navbar() {
               </span>
             </Link>
           </div>
-          <SettingsModal
-            isOpen={isSettingsModalOpen}
-            onClose={() => setIsSettingsModalOpen(false)}
-          />
-
 
 
 

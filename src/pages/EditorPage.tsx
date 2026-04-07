@@ -873,6 +873,11 @@ export default function EditorPage() {
           onSkip={handleSkipTour}
         />
 
+        <SettingsModal
+          isOpen={isSettingsModalOpen}
+          onClose={() => setIsSettingsModalOpen(false)}
+        />
+
         {/* Action Confirmation Modal */}
         <AnimatePresence>
           {confirmAction && (
