@@ -687,7 +687,7 @@ export const translations = {
       step3Title: "صدر وقدم",
       step3Desc:
         "قم بالتنزيل كملف PDF مثالي وابدأ التقديم لوظائف أحلامك على الفور.",
-      statsText: "1k مستخدم انضم هذا الشهر",
+      statsText: "أكثر من 1000 مستخدم انضموا هذا الشهر",
       reviews: "من أكثر من 2,000+ تقييم",
       quantifiableMetrics: "أضف المزيد من المقاييس القابلة للقياس إلى أوصاف خبرتك.",
       missingLinkedin: "رابط ملف LinkedIn الشخصي مفقود.",

@@ -39,8 +39,8 @@ const reviews = [
 export default function SmallWallOfLove() {
   const { language } = useLanguageStore();
 
-  // Duplicate reviews multiple times to ensure the marquee never runs out of content on wide screens
-  const duplicatedReviews = [...reviews, ...reviews, ...reviews, ...reviews];
+  // Duplicate reviews once to create a seamless infinite scroll effect
+  const duplicatedReviews = [...reviews, ...reviews];
 
   return (
     <section className="py-12 bg-white border-y border-slate-100 overflow-hidden relative">
@@ -56,15 +56,7 @@ export default function SmallWallOfLove() {
         <div className="absolute top-0 start-0 w-16 md:w-48 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
         <div className="absolute top-0 end-0 w-16 md:w-48 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
 
-        <motion.div
-          className="flex gap-6 px-4 w-max"
-          animate={{ x: language === "ar" ? ["0%", "25%"] : ["0%", "-25%"] }}
-          transition={{
-            ease: "linear",
-            duration: 40,
-            repeat: Infinity,
-          }}
-        >
+        <div className="flex gap-6 w-max animate-marquee hover:[animation-play-state:paused]">
           {duplicatedReviews.map((review, index) => (
             <div
               key={index}
@@ -97,7 +89,7 @@ export default function SmallWallOfLove() {
               </div>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

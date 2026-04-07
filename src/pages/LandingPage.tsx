@@ -86,8 +86,8 @@ export default function LandingPage() {
                 transition={{ duration: 0.5 }}
                 className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 text-[#ff4d2d] text-xs font-bold uppercase tracking-wider mb-8 border border-orange-100 shadow-sm"
               >
-                <Zap size={16} className="fill-current" />
-                <span>{t.aiPowered}</span>
+                <Sparkles size={16} className="fill-current" />
+                <span>{language === "ar" ? "مدعوم بـ Gemini AI" : "Powered by Gemini AI"}</span>
               </motion.div>
 
               <motion.h1
@@ -171,16 +171,16 @@ export default function LandingPage() {
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto lg:mx-0">
                 {[
                   {
-                    icon: <CheckCircle2 className="w-6 h-6 text-emerald-500" />,
-                    text: t.interviewIncrease,
+                    value: "85%",
+                    text: language === "ar" ? "زيادة في المقابلات" : "Interview Increase",
                   },
                   {
-                    icon: <Clock className="w-6 h-6 text-blue-500" />,
-                    text: t.timeSaved,
+                    value: "4+ hrs",
+                    text: language === "ar" ? "توفير للوقت" : "Time Saved",
                   },
                   {
-                    icon: <ShieldCheck className="w-6 h-6 text-purple-500" />,
-                    text: t.atsPassRate,
+                    value: "98%",
+                    text: language === "ar" ? "نسبة نجاح ATS" : "ATS Pass Rate",
                   },
                 ].map((stat, i) => (
                   <motion.div
@@ -189,10 +189,12 @@ export default function LandingPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.4 + i * 0.1 }}
-                    className="flex items-center gap-2 bg-white/50 backdrop-blur-sm p-4 rounded-2xl border border-slate-100 shadow-sm"
+                    className="flex flex-col items-center lg:items-start gap-1 bg-white/50 backdrop-blur-sm p-4 rounded-2xl border border-slate-100 shadow-sm"
                   >
-                    {stat.icon}
-                    <span className="text-xs font-bold text-slate-700 uppercase tracking-tight">
+                    <span className="text-3xl font-black text-slate-900 tracking-tight">
+                      {stat.value}
+                    </span>
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                       {stat.text}
                     </span>
                   </motion.div>
@@ -201,7 +203,7 @@ export default function LandingPage() {
             </div>
 
             {/* Right Column: Dynamic Resume Graphic */}
-            <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-end mt-12 lg:mt-0 perspective-1000">
+            <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-center mt-12 lg:mt-0 perspective-1000">
               <motion.div
                 initial={{ opacity: 0, rotateY: 20, rotateX: 10, scale: 0.9 }}
                 whileInView={{ opacity: 1, rotateY: -10, rotateX: 5, scale: 1 }}
