@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
 import {
   ShieldCheck,
   Zap,
@@ -67,6 +68,10 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 :bg-indigo-900 :text-indigo-100 transition-colors duration-300">
+      <Helmet>
+        <title>{language === "ar" ? "هاش ريزيومي - منشئ السير الذاتية بالذكاء الاصطناعي" : "Hash Resume - AI Resume Builder for MENA"}</title>
+        <meta name="description" content={language === "ar" ? "أنشئ سيرة ذاتية احترافية ومتوافقة مع أنظمة تتبع المتقدمين (ATS) باللغتين العربية والإنجليزية. أفضل أداة لبناء السيرة الذاتية في مصر والسعودية والشرق الأوسط." : "Create professional, ATS-friendly resumes in Arabic and English. The best AI resume builder for Egypt, Saudi Arabia, and the MENA region. No sign-up required."} />
+      </Helmet>
       <Navbar />
 
       {/* Hero Section */}
@@ -216,36 +221,12 @@ export default function LandingPage() {
 
                 {/* Main Resume Document Mockup */}
                 <div className="absolute inset-0 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
-                  <div className="p-8 flex-1 flex flex-col gap-6">
-                    {/* Header Mockup */}
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 rounded-full bg-slate-100" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-4 w-4/5 bg-slate-100 rounded-lg" />
-                        <div className="h-4 w-1/2 bg-slate-50 rounded-lg" />
-                      </div>
-                    </div>
-                    {/* Content Mockup */}
-                    <div className="space-y-4">
-                      <div className="h-2 w-full bg-slate-50 rounded-lg" />
-                      <div className="h-2 w-full bg-slate-50 rounded-lg" />
-                      <div className="h-2 w-2/3 bg-slate-50 rounded-lg" />
-                    </div>
-                    <div className="mt-4 space-y-4">
-                      <div className="h-4 w-1/3 bg-slate-100 rounded-lg" />
-                      <div className="space-y-2">
-                        <div className="h-2 w-full bg-slate-50 rounded-lg" />
-                        <div className="h-2 w-4/5 bg-slate-50 rounded-lg" />
-                      </div>
-                    </div>
-                    <div className="mt-auto pt-6 border-t border-slate-100 flex justify-between items-center">
-                      <div className="flex gap-2">
-                        <div className="w-8 h-8 rounded-lg bg-slate-50" />
-                        <div className="w-8 h-8 rounded-lg bg-slate-50" />
-                      </div>
-                      <div className="h-8 w-24 bg-orange-500/10 rounded-full" />
-                    </div>
-                  </div>
+                  <img 
+                    src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=800&auto=format&fit=crop" 
+                    alt="Hash Resume App Screenshot" 
+                    className="w-full h-full object-cover opacity-90"
+                    referrerPolicy="no-referrer"
+                  />
 
                   {/* Editor UI Elements Overlay */}
                   <div className="absolute top-4 start-4 end-4 flex justify-between items-center bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg border border-slate-200/50 z-30">
@@ -651,73 +632,60 @@ export default function LandingPage() {
           </div>
 
           <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8 max-w-5xl mx-auto">
-            {/* Competitor Comparison */}
-            <div className="w-full max-w-md bg-slate-50 rounded-3xl p-8 border border-slate-200 flex flex-col justify-center">
-              <h3 className="text-xl font-bold text-slate-900 mb-6 text-center">
-                {t.whyChooseUs}
-              </h3>
-              <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-600 font-medium">
-                    Zety / Resume.io
-                  </span>
-                  <span className="text-slate-900 font-bold flex items-center gap-2">
-                    {currency === "EGP" ? (
-                      <>
-                        {15 * selectedCurrency.price} -{" "}
-                        {25 * selectedCurrency.price} {selectedCurrency.symbol}
-                      </>
-                    ) : (
-                      <>
-                        {selectedCurrency.symbol}
-                        {15 * selectedCurrency.price} -{" "}
-                        {25 * selectedCurrency.price}
-                      </>
-                    )}{" "}
-                    / {t.month}
-                  </span>
+            {/* Multi Download Plan */}
+            <div className="w-full max-w-md bg-slate-50 rounded-3xl p-8 border border-slate-200 flex flex-col justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-100">
+                  <Sparkles size={14} />
+                  {t.bestValue || "Best Value"}
                 </div>
-                <div className="h-px bg-slate-200 w-full"></div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-600 font-medium">Canva Pro</span>
-                  <span className="text-slate-900 font-bold flex items-center gap-2">
+                <h3 className="text-xl font-bold text-slate-900 mb-6">
+                  {t.multiDownload || "Multi-Download Pack"}
+                </h3>
+                <div className="flex flex-col items-start justify-center gap-2 mb-2">
+                  <span className="text-4xl font-black text-slate-900 flex items-center gap-2">
                     {currency === "EGP" ? (
                       <>
-                        {(12.99 * selectedCurrency.price).toFixed(2)}{" "}
-                        {selectedCurrency.symbol}
+                        {Math.round(selectedCurrency.price * 2.4)} {selectedCurrency.symbol}
                       </>
                     ) : (
                       <>
                         {selectedCurrency.symbol}
-                        {(12.99 * selectedCurrency.price).toFixed(2)}
+                        {(selectedCurrency.price * 2.4).toFixed(2)}
                       </>
-                    )}{" "}
-                    / {t.month}
+                    )}
                   </span>
-                </div>
-                <div className="h-px bg-slate-200 w-full"></div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#ff4d2d] font-bold text-lg">
-                    Hash Resume
-                  </span>
-                  <span className="text-[#ff4d2d] font-black text-xl flex items-center gap-2">
-                    {currency === "EGP" ? (
-                      <>
-                        {selectedCurrency.price} {selectedCurrency.symbol}
-                      </>
-                    ) : (
-                      <>
-                        {selectedCurrency.symbol}
-                        {selectedCurrency.price}
-                      </>
-                    )}{" "}
-                    / {t.download}
-                  </span>
+                  <div className="text-sm text-slate-500 font-medium">
+                    {t.threeDownloads || "3 Downloads"} ({t.savePercentage || "Save 20%"})
+                  </div>
                 </div>
               </div>
-              <p className="text-sm text-slate-500 mt-8 text-center">
-                {t.noSubscriptions}
-              </p>
+              
+              <ul className="space-y-4 my-8">
+                {[
+                  t.payOncePerResume,
+                  t.includesPdfWord,
+                  t.unlimitedFreeEdits,
+                  t.allPremiumTemplates,
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-start gap-4 text-slate-600">
+                    <CheckCircle2
+                      className="text-indigo-500 shrink-0 mt-0"
+                      size={20}
+                    />
+                    <span className="text-sm leading-tight font-medium">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              
+              <Link
+                to="/templates"
+                className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 mt-auto"
+              >
+                {t.getStartedNow}
+              </Link>
             </div>
 
             {/* Single Download Plan */}

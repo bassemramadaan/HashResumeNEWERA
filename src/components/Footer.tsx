@@ -17,14 +17,31 @@ export default function Footer() {
       <footer className="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 pb-safe">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-10">
-            <div className="sm:col-span-2 lg:col-span-5">
+            <div className="sm:col-span-2 lg:col-span-4">
               <div className="flex flex-col items-start mb-4">
                 <Logo className="w-10 h-10 text-[#ff4d2d] mb-2" />
                 <span className="text-2xl font-black text-white font-display">
                   Hash Resume
                 </span>
               </div>
-              <p className="text-sm max-w-sm">{t.footerDesc}</p>
+              <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>
+              <div className="text-sm text-slate-400 space-y-1">
+                <p>
+                  <span className="font-semibold text-slate-300">{language === "ar" ? "البريد الإلكتروني:" : "Email:"}</span> support@hashresume.com
+                </p>
+                <p>
+                  <span className="font-semibold text-slate-300">{language === "ar" ? "الهاتف:" : "Phone:"}</span> +20 110 100 7965
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-col lg:col-span-2">
+              <h4 className="text-white font-semibold mb-4">{language === "ar" ? "عن الشركة" : "About Us"}</h4>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                {language === "ar" 
+                  ? "نحن فريق شغوف بمساعدة الباحثين عن عمل في الشرق الأوسط وشمال إفريقيا على بناء سير ذاتية احترافية تتوافق مع أنظمة ATS بسهولة وخصوصية تامة."
+                  : "We are a passionate team dedicated to helping job seekers in the MENA region build professional, ATS-friendly resumes with ease and complete privacy."}
+              </p>
             </div>
 
             <div className="flex flex-col lg:col-span-2">

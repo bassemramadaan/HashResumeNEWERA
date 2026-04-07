@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React, { useEffect, Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
+import { HelmetProvider } from "react-helmet-async";
 import { useLanguageStore } from "./store/useLanguageStore";
 import PageLoader from "./components/PageLoader";
 
@@ -25,23 +26,25 @@ export default function App() {
   }, [dir, language]);
 
   return (
-    <BrowserRouter>
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/editor" element={<EditorPage />} />
-          <Route path="/templates" element={<TemplatesPage />} />
-          <Route path="/hash-hunt" element={<HashHuntPage />} />
-          <Route path="/cover-letter" element={<CoverLetterPage />} />
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/:id" element={<BlogPostPage />} />
-          <Route path="/share/:id" element={<SharePage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
-          <Route path="/why-no-signup" element={<WhyNoSignupPage />} />
-        </Routes>
-        <Analytics />
-      </Suspense>
-    </BrowserRouter>
+    <HelmetProvider>
+      <BrowserRouter>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/editor" element={<EditorPage />} />
+            <Route path="/templates" element={<TemplatesPage />} />
+            <Route path="/hash-hunt" element={<HashHuntPage />} />
+            <Route path="/cover-letter" element={<CoverLetterPage />} />
+            <Route path="/blog" element={<BlogPage />} />
+            <Route path="/blog/:id" element={<BlogPostPage />} />
+            <Route path="/share/:id" element={<SharePage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
+            <Route path="/why-no-signup" element={<WhyNoSignupPage />} />
+          </Routes>
+          <Analytics />
+        </Suspense>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 }

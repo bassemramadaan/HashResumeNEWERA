@@ -8,41 +8,49 @@ const reviews = [
   {
     name: "Sarah Jenkins",
     text: "Hash Resume helped me land my dream job in just 2 weeks! The ATS optimization is real.",
+    role: "Software Engineer",
     lang: "en",
   },
   {
     name: "محمد إبراهيم",
     text: "يا باشا الأداة دي جامدة جداً، وفرت عليا وقت ومجهود كبير في تنسيق الـ CV، بجد تسلم إيديكو!",
+    role: "مهندس مدني",
     lang: "ar",
   },
   {
     name: "Mark Thompson",
     text: "The interface is so clean and intuitive. I love that it's 100% private.",
+    role: "Product Manager",
     lang: "en",
   },
   {
     name: "محمود حسن",
     text: "بصراحة يا جماعة الموقع ده غير حياتي، الـ CV طلع شكله بروفيشنال أوي والـ ATS قبله من أول مرة.",
+    role: "محاسب",
     lang: "ar",
   },
   {
     name: "Emily Rodriguez",
     text: "Finally, a resume builder that actually cares about privacy and design quality.",
+    role: "UX Designer",
     lang: "en",
   },
   {
     name: "خالد العتيبي",
     text: "ما شاء الله، الموقع جداً ممتاز وسهل الاستخدام، القوالب احترافية وتناسب سوق العمل عندنا في السعودية.",
+    role: "مدير تسويق",
     lang: "ar",
   },
   {
     name: "سارة محمود",
     text: "أحلى حاجة إن الموقع سهل ومفهوم، والـ CV طلع شكله يفتح النفس، شكراً ليكم بجد على المجهود ده.",
+    role: "مصممة جرافيك",
     lang: "ar",
   },
   {
     name: "عبد العزيز القحطاني",
     text: "تجربة ممتازة، الموقع يوفر قوالب احترافية جداً ومناسبة لمتطلبات الشركات الكبرى في المملكة.",
+    role: "محلل بيانات",
     lang: "ar",
   },
 ];
@@ -108,6 +116,9 @@ export default function Testimonials() {
                     <h4 className="font-bold text-slate-900 text-base sm:text-lg leading-tight">
                       {review.name}
                     </h4>
+                    <div className="text-sm text-slate-500 mt-0.5 font-medium">
+                      {review.role}
+                    </div>
                     <div className="flex items-center gap-1 mt-1.5">
                       {[...Array(5)].map((_, i) => (
                         <Star
