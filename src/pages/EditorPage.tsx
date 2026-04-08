@@ -414,13 +414,6 @@ export default function EditorPage() {
                 <Sparkles size={16} className="animate-pulse" />
               </button>
               <LanguageSwitcher className="[&>span]:hidden lg:[&>span]:inline" />
-              <button
-                onClick={() => setIsSettingsModalOpen(true)}
-                className="p-2 text-slate-600 hover:text-slate-900 :text-white hover:bg-white :bg-slate-700 rounded-full transition-colors"
-                title="Resume Settings"
-              >
-                <Settings size={18} />
-              </button>
             </div>
 
             <button
@@ -711,6 +704,13 @@ export default function EditorPage() {
                 title={t.fullPreview}
               >
                 <Maximize2 size={18} />
+              </button>
+              <button
+                onClick={() => setIsSettingsModalOpen(true)}
+                className="p-2 text-slate-400 hover:text-slate-900 :text-white hover:bg-slate-100 :bg-slate-800 rounded-lg transition-colors"
+                title={t.resumeSettings}
+              >
+                <Settings size={18} />
               </button>
             </div>
           </div>

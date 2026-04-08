@@ -91,6 +91,11 @@ export default function SmallWallOfLove() {
           ))}
         </div>
       </div>
+      <div className="text-center mt-4 text-slate-400 text-sm flex items-center justify-center gap-2">
+        <span className="hidden sm:inline-block">←</span>
+        <span>{language === "ar" ? "اسحب للتصفح" : "Swipe to explore"}</span>
+        <span className="hidden sm:inline-block">→</span>
+      </div>
     </section>
   );
 }

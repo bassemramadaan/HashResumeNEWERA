@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import {
   ShieldCheck,
@@ -66,8 +66,19 @@ export default function LandingPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 :bg-indigo-900 :text-indigo-100 transition-colors duration-300">
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-[#ff4d2d] origin-left rtl:origin-right z-[60]"
+        style={{ scaleX }}
+      />
       <Helmet>
         <title>{language === "ar" ? "هاش ريزيومي - منشئ السير الذاتية بالذكاء الاصطناعي" : "Hash Resume - AI Resume Builder for MENA"}</title>
         <meta name="description" content={language === "ar" ? "أنشئ سيرة ذاتية احترافية ومتوافقة مع أنظمة تتبع المتقدمين (ATS) باللغتين العربية والإنجليزية. أفضل أداة لبناء السيرة الذاتية في مصر والسعودية والشرق الأوسط." : "Create professional, ATS-friendly resumes in Arabic and English. The best AI resume builder for Egypt, Saudi Arabia, and the MENA region. No sign-up required."} />
@@ -151,25 +162,47 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-4 mb-12"
+                className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-4 mb-8"
               >
                 <Link
                   to="/editor"
-                  className="w-full sm:w-auto bg-gradient-to-r from-[#ff4d2d] to-orange-600 hover:from-[#e63e1d] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-4 group hover:scale-105 active:scale-95"
+                  className="w-full sm:w-auto bg-gradient-to-r from-[#ff4d2d] to-orange-600 hover:from-[#e63e1d] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-black transition-all shadow-xl shadow-orange-500/30 flex items-center justify-center gap-3 group hover:scale-105 active:scale-95 ring-4 ring-orange-500/10"
                 >
-                  <Plus size={24} />
+                  <Plus size={24} className="group-hover:rotate-90 transition-transform duration-300" />
                   {t.startFromScratch}
                 </Link>
                 <Link
                   to="/templates"
-                  className="w-full sm:w-auto bg-white text-slate-900 border border-slate-200 hover:border-[#ff4d2d] :border-orange-500 px-8 py-4 rounded-full text-lg font-bold transition-all shadow-sm flex items-center justify-center gap-4 group hover:scale-105 active:scale-95"
+                  className="w-full sm:w-auto bg-white/50 backdrop-blur-sm text-slate-700 border-2 border-slate-200 hover:border-slate-300 hover:bg-white px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 group hover:scale-105 active:scale-95"
                 >
                   <Layout
                     size={24}
-                    className="text-slate-400 group-hover:text-[#ff4d2d] transition-colors"
+                    className="text-slate-400 group-hover:text-slate-600 transition-colors"
                   />
                   {t.chooseTemplate}
                 </Link>
+              </motion.div>
+
+              {/* Trust Badges */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 mb-12 text-sm font-medium text-slate-500"
+              >
+                <div className="flex items-center gap-1.5">
+                  <ShieldCheck size={18} className="text-emerald-500" />
+                  <span>{language === "ar" ? "تشفير SSL آمن" : "Secure SSL"}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <svg className="w-4 h-4 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  <span>{language === "ar" ? "خصوصية 100%" : "100% Privacy"}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Zap size={18} className="text-amber-500" />
+                  <span>{language === "ar" ? "بدون تسجيل" : "No Sign-up"}</span>
+                </div>
               </motion.div>
 
               {/* Stats Section */}
@@ -312,10 +345,7 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <p className="text-sm font-bold text-slate-900">
-                      {displayCount} {t.joinedThisMonth.includes("inscrit") || t.joinedThisMonth.includes("user") ? "utilisateurs" : "مستخدم"}
-                    </p>
-                    <p className="text-xs text-slate-500">
-                      {t.joinedThisMonth}
+                      {t.statsText}
                     </p>
                   </div>
                 </motion.div>

@@ -86,7 +86,7 @@ export const translations = {
       step3Title: "Export & Apply",
       step3Desc:
         "Download as a pixel-perfect PDF and start applying to your dream jobs immediately.",
-      statsText: "1k user joined this month",
+      statsText: "users joined this month",
       reviews: "from over 2,000+ reviews",
       quantifiableMetrics: "Add more quantifiable metrics to your experience descriptions.",
       missingLinkedin: "Missing LinkedIn profile URL.",
@@ -691,7 +691,7 @@ export const translations = {
       step3Title: "صدر وقدم",
       step3Desc:
         "قم بالتنزيل كملف PDF مثالي وابدأ التقديم لوظائف أحلامك على الفور.",
-      statsText: "أكثر من 1000 مستخدم انضموا هذا الشهر",
+      statsText: "مستخدم انضموا هذا الشهر",
       reviews: "من أكثر من 2,000+ تقييم",
       quantifiableMetrics: "أضف المزيد من المقاييس القابلة للقياس إلى أوصاف خبرتك.",
       missingLinkedin: "رابط ملف LinkedIn الشخصي مفقود.",
@@ -1297,7 +1297,7 @@ export const translations = {
       step3Title: "Exporter et postuler",
       step3Desc:
         "Téléchargez en PDF parfait et commencez à postuler immédiatement.",
-      statsText: "1k utilisateur inscrit ce mois-ci",
+      statsText: "utilisateurs inscrits ce mois-ci",
       reviews: "de plus de 2 000+ avis",
       quantifiableMetrics: "Ajoutez plus de mesures quantifiables à vos descriptions d'expérience.",
       missingLinkedin: "URL du profil LinkedIn manquante.",
