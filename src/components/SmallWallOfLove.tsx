@@ -1,5 +1,5 @@
-import React from "react";
-import { Star } from "lucide-react";
+import React, { useRef } from "react";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 
 const reviews = [
@@ -37,29 +37,54 @@ const reviews = [
 
 export default function SmallWallOfLove() {
   const { language } = useLanguageStore();
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Duplicate reviews once to create a seamless infinite scroll effect
-  const duplicatedReviews = [...reviews, ...reviews];
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const scrollAmount = 350; // Approximate width of a card + gap
+      const currentScroll = scrollRef.current.scrollLeft;
+      const newScroll = direction === "left" 
+        ? currentScroll - scrollAmount 
+        : currentScroll + scrollAmount;
+      
+      scrollRef.current.scrollTo({
+        left: newScroll,
+        behavior: "smooth"
+      });
+    }
+  };
 
   return (
     <section className="py-12 bg-white border-y border-slate-100 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <p className="text-center text-sm font-bold text-slate-400 uppercase tracking-widest">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 flex items-center justify-between">
+        <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
           {language === "ar" ? "آراء مستخدمينا" : "Wall of Love"}
         </p>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => scroll(language === "ar" ? "right" : "left")}
+            className="p-2 rounded-full border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors"
+          >
+            <ChevronLeft size={20} className="rtl:rotate-180" />
+          </button>
+          <button 
+            onClick={() => scroll(language === "ar" ? "left" : "right")}
+            className="p-2 rounded-full border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors"
+          >
+            <ChevronRight size={20} className="rtl:rotate-180" />
+          </button>
+        </div>
       </div>
 
-      {/* Marquee Container */}
-      <div className="relative w-full flex overflow-hidden group py-4">
-        {/* Left/Right Gradient Masks for smooth fade out */}
-        <div className="absolute top-0 start-0 w-16 md:w-48 h-full bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-        <div className="absolute top-0 end-0 w-16 md:w-48 h-full bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-
-        <div className="flex gap-6 w-max animate-marquee hover:[animation-play-state:paused]">
-          {duplicatedReviews.map((review, index) => (
+      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div 
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
+        >
+          {reviews.map((review, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[300px] md:w-[380px] bg-white p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200/50 transition-all duration-300"
+              className="snap-center flex-shrink-0 w-[300px] md:w-[380px] bg-white p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200/50 transition-all duration-300"
             >
               <div className="flex items-center gap-1">
                 {[...Array(5)].map((_, i) => (
@@ -89,11 +114,6 @@ export default function SmallWallOfLove() {
             </div>
           ))}
         </div>
-      </div>
-      <div className="text-center mt-4 text-slate-400 text-sm flex items-center justify-center gap-2">
-        <span className="hidden sm:inline-block">←</span>
-        <span>{language === "ar" ? "اسحب للتصفح" : "Swipe to explore"}</span>
-        <span className="hidden sm:inline-block">→</span>
       </div>
     </section>
   );

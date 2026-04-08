@@ -18,6 +18,7 @@ import {
   ArrowUp,
   PenTool,
   PlayCircle,
+  MessageCircle,
 } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
@@ -30,11 +31,11 @@ import { blogPosts } from "../data/blogPosts";
 import Navbar from "../components/Navbar";
 import FAQ from "../components/FAQ";
 import VideoDemoModal from "../components/VideoDemoModal";
+import Logo from "../components/Logo";
 
 export default function LandingPage() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
-  const [showVideoModal, setShowVideoModal] = useState(false);
 
   const currencies = {
     EGP: { symbol: "EGP", price: 25 },
@@ -52,6 +53,8 @@ export default function LandingPage() {
 
   const [currency, setCurrency] = useState<keyof typeof currencies>("EGP");
   const selectedCurrency = currencies[currency];
+
+  const [showVideoModal, setShowVideoModal] = useState(false);
 
   const [showScrollTop, setShowScrollTop] = useState(false);
 
@@ -210,8 +213,31 @@ export default function LandingPage() {
                   className="w-full sm:w-auto bg-indigo-50 text-indigo-600 border-2 border-transparent hover:border-indigo-100 hover:bg-indigo-100 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 group hover:scale-105 active:scale-95"
                 >
                   <PlayCircle size={24} className="group-hover:scale-110 transition-transform" />
-                  {language === "ar" ? "شاهد عرضاً توضيحياً" : language === "fr" ? "Voir la démo" : "Watch Demo"}
+                  {t.watchDemo}
                 </button>
+              </motion.div>
+
+              {/* Social Proof Counter */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="flex items-center justify-center lg:justify-start gap-2 mb-8 text-sm font-medium text-slate-500"
+              >
+                <div className="flex -space-x-2">
+                  {[1, 2, 3].map((i) => (
+                    <img
+                      key={i}
+                      src={`https://i.pravatar.cc/100?img=${i + 10}`}
+                      alt="User"
+                      className="w-6 h-6 rounded-full border-2 border-white"
+                    />
+                  ))}
+                </div>
+                <span>
+                  <span className="text-emerald-600 font-bold">142</span> {t.resumesBuiltToday}
+                </span>
               </motion.div>
 
               {/* Trust Badges */}
@@ -224,15 +250,15 @@ export default function LandingPage() {
               >
                 <div className="flex items-center gap-1.5">
                   <ShieldCheck size={18} className="text-emerald-500" />
-                  <span>{language === "ar" ? "تشفير SSL آمن" : "Secure SSL"}</span>
+                  <span>{t.secureSsl}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <svg className="w-4 h-4 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                  <span>{language === "ar" ? "خصوصية 100%" : "100% Privacy"}</span>
+                  <span>{t.privacy100}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Zap size={18} className="text-amber-500" />
-                  <span>{language === "ar" ? "بدون تسجيل" : "No Sign-up"}</span>
+                  <span>{t.noSignup}</span>
                 </div>
               </motion.div>
 
@@ -241,15 +267,15 @@ export default function LandingPage() {
                 {[
                   {
                     value: "85%",
-                    text: language === "ar" ? "زيادة في المقابلات" : "Interview Increase",
+                    text: t.interviewIncreaseLabel,
                   },
                   {
                     value: "4+ hrs",
-                    text: language === "ar" ? "توفير للوقت" : "Time Saved",
+                    text: t.timeSavedLabel,
                   },
                   {
                     value: "98%",
-                    text: language === "ar" ? "نسبة نجاح ATS" : "ATS Pass Rate",
+                    text: t.atsPassRateLabel,
                   },
                 ].map((stat, i) => (
                   <motion.div
@@ -287,26 +313,11 @@ export default function LandingPage() {
                 <div className="absolute inset-0 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
                   <img 
                     src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=800&auto=format&fit=crop" 
-                    alt="Hash Resume App Screenshot" 
-                    className="w-full h-full object-cover opacity-90"
+                    alt={t.heroImageAlt} 
+                    className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
                     fetchpriority="high"
                   />
-
-                  {/* Editor UI Elements Overlay */}
-                  <div className="absolute top-4 start-4 end-4 flex justify-between items-center bg-white/90 backdrop-blur-sm p-4 rounded-2xl shadow-lg border border-slate-200/50 z-30">
-                    <div className="flex gap-2">
-                      <div className="w-4 h-4 rounded-full bg-rose-400"></div>
-                      <div className="w-4 h-4 rounded-full bg-amber-400"></div>
-                      <div className="w-4 h-4 rounded-full bg-emerald-400"></div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="h-2 w-16 bg-slate-200 rounded-lg"></div>
-                      <div className="w-6 h-6 rounded-lg bg-indigo-500 flex items-center justify-center">
-                        <Sparkles size={16} className="text-white" />
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Floating Badge 1: ATS Score */}
@@ -508,6 +519,16 @@ export default function LandingPage() {
                   </div>
                 </div>
               </div>
+
+              <div className="pt-4">
+                <Link
+                  to="/templates"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-slate-200"
+                >
+                  {t.startBuildingNow}
+                  <ArrowRight size={20} className="rtl:rotate-180" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -561,7 +582,7 @@ export default function LandingPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
-                    className="p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:shadow-lg transition-all duration-300"
+                    className={`p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:shadow-lg transition-all duration-300 ${i === 2 ? 'sm:col-span-2' : ''}`}
                   >
                     <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center mb-4 shadow-sm">
                       <item.icon className="w-6 h-6 text-indigo-600" />
@@ -679,7 +700,15 @@ export default function LandingPage() {
           </div>
 
           {/* Currency Switcher */}
-          <div className="flex justify-center mb-12">
+          <div className="flex flex-col items-center mb-12">
+            <div className="w-full max-w-md bg-slate-100 rounded-full h-2 mb-4 overflow-hidden">
+              <div className="bg-[#ff4d2d] h-full w-1/3 rounded-full"></div>
+            </div>
+            <p className="text-sm font-bold text-slate-900 mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              {t.payOnDownload} — <span className="text-[#ff4d2d]">{t.zeroToStart}</span>
+            </p>
+
             <div className="inline-flex p-2 bg-slate-100 rounded-2xl border border-slate-200 shadow-inner backdrop-blur-sm">
               {Object.keys(currencies).map((c) => (
                 <button
@@ -694,62 +723,6 @@ export default function LandingPage() {
           </div>
 
           <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8 max-w-5xl mx-auto">
-            {/* Multi Download Plan */}
-            <div className="w-full max-w-md bg-slate-50 rounded-3xl p-8 border border-slate-200 flex flex-col justify-between">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-100">
-                  <Sparkles size={14} />
-                  {t.bestValue || "Best Value"}
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-6">
-                  {t.multiDownload || "Multi-Download Pack"}
-                </h3>
-                <div className="flex flex-col items-start justify-center gap-2 mb-2">
-                  <span className="text-4xl font-black text-slate-900 flex items-center gap-2">
-                    {currency === "EGP" ? (
-                      <>
-                        {Math.round(selectedCurrency.price * 2.4)} {selectedCurrency.symbol}
-                      </>
-                    ) : (
-                      <>
-                        {selectedCurrency.symbol}
-                        {(selectedCurrency.price * 2.4).toFixed(2)}
-                      </>
-                    )}
-                  </span>
-                  <div className="text-sm text-slate-500 font-medium">
-                    {t.threeDownloads || "3 Downloads"} ({t.savePercentage || "Save 20%"})
-                  </div>
-                </div>
-              </div>
-              
-              <ul className="space-y-4 my-8">
-                {[
-                  t.payOncePerResume,
-                  t.includesPdfWord,
-                  t.unlimitedFreeEdits,
-                  t.allPremiumTemplates,
-                ].map((feature, i) => (
-                  <li key={i} className="flex items-start gap-4 text-slate-600">
-                    <CheckCircle2
-                      className="text-indigo-500 shrink-0 mt-0"
-                      size={20}
-                    />
-                    <span className="text-sm leading-tight font-medium">
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              
-              <Link
-                to="/templates"
-                className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 mt-auto"
-              >
-                {t.getStartedNow}
-              </Link>
-            </div>
-
             {/* Single Download Plan */}
             <div className="relative bg-white rounded-3xl p-8 shadow-xl border-2 border-[#ff4d2d] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
               <div className="absolute top-0 end-0 bg-[#ff4d2d] text-white text-xs font-bold px-4 py-2 rounded-es-2xl uppercase tracking-wider">
@@ -804,10 +777,220 @@ export default function LandingPage() {
 
               <Link
                 to="/templates"
-                className="block w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white text-center font-bold py-4 rounded-2xl shadow-lg shadow-orange-500/20 transition-all active:scale-95"
+                className="block w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white text-center font-bold py-4 rounded-2xl shadow-lg shadow-orange-500/25 transition-all active:scale-95"
               >
                 {t.getStartedNow}
               </Link>
+            </div>
+
+            {/* Multi Download Plan */}
+            <div className="w-full max-w-md bg-slate-50 rounded-3xl p-8 border border-slate-200 flex flex-col justify-between">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-100">
+                  <Sparkles size={14} />
+                  {t.bestValue || "Best Value"}
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-6">
+                  {t.multiDownload || "Multi-Download Pack"}
+                </h3>
+                <div className="flex flex-col items-start justify-center gap-2 mb-2">
+                  <span className="text-4xl font-black text-slate-900 flex items-center gap-2">
+                    {currency === "EGP" ? (
+                      <>
+                        {Math.round(selectedCurrency.price * 2.4)} {selectedCurrency.symbol}
+                      </>
+                    ) : (
+                      <>
+                        {selectedCurrency.symbol}
+                        {(selectedCurrency.price * 2.4).toFixed(2)}
+                      </>
+                    )}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <div className="text-sm text-slate-500 font-medium">
+                      {t.threeDownloads || "3 Downloads"} ({t.savePercentage || "Save 20%"})
+                    </div>
+                    <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase">
+                      {t.saveAmount}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              
+              <ul className="space-y-4 my-8">
+                {[
+                  t.payOncePerResume,
+                  t.includesPdfWord,
+                  t.unlimitedFreeEdits,
+                  t.allPremiumTemplates,
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-start gap-4 text-slate-600">
+                    <CheckCircle2
+                      className="text-indigo-500 shrink-0 mt-0"
+                      size={20}
+                    />
+                    <span className="text-sm leading-tight font-medium">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              
+              <Link
+                to="/templates"
+                className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 mt-auto"
+              >
+                {t.getStartedNow}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison Section */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 font-display">
+              {t.comparisonTitle}
+            </h2>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              {t.comparisonSubtitle}
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="border-b border-slate-100">
+                  <th className="py-6 px-4 text-start text-slate-400 font-medium uppercase tracking-wider text-xs">Features</th>
+                  <th className="py-6 px-4 text-center bg-orange-50/50 rounded-t-3xl">
+                    <div className="flex items-center justify-center gap-2 text-[#ff4d2d] font-black">
+                      <Logo className="w-5 h-5" />
+                      Hash Resume
+                    </div>
+                  </th>
+                  <th className="py-6 px-4 text-center text-slate-400 font-bold">Zety / Canva</th>
+                </tr>
+              </thead>
+              <tbody className="text-sm">
+                {[
+                  { feature: "Privacy", hash: true, others: false, desc: "Data stays on your device" },
+                  { feature: "ATS Optimization", hash: true, others: "Partial", desc: "Built-in audit & scoring" },
+                  { feature: "No Sign-up", hash: true, others: false, desc: "Start building instantly" },
+                  { feature: "Pricing", hash: "Pay-once", others: "Subscription", desc: "No recurring fees" },
+                  { feature: "AI Content", hash: true, others: true, desc: "Smart bullet points" },
+                ].map((row, i) => (
+                  <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
+                    <td className="py-6 px-4">
+                      <div className="font-bold text-slate-900">{row.feature}</div>
+                      <div className="text-xs text-slate-500">{row.desc}</div>
+                    </td>
+                    <td className="py-6 px-4 text-center bg-orange-50/30">
+                      {row.hash === true ? (
+                        <CheckCircle2 className="mx-auto text-emerald-500" size={24} />
+                      ) : (
+                        <span className="font-bold text-slate-900">{row.hash}</span>
+                      )}
+                    </td>
+                    <td className="py-6 px-4 text-center text-slate-400">
+                      {row.others === false ? (
+                        <div className="w-6 h-6 mx-auto border-2 border-slate-200 rounded-full flex items-center justify-center">
+                          <Plus className="rotate-45 text-slate-300" size={16} />
+                        </div>
+                      ) : row.others === true ? (
+                        <CheckCircle2 className="mx-auto text-slate-300" size={24} />
+                      ) : (
+                        <span className="font-medium">{row.others}</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Employer Section */}
+      <section className="py-24 bg-slate-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500 rounded-full blur-[120px]"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-500/10 text-indigo-400 text-sm font-bold border border-indigo-500/20 mb-6">
+                <Sparkles size={16} />
+                {t.employerContactTitle}
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6 font-display leading-tight">
+                {t.hashHuntTagline}
+              </h2>
+              <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+                {t.employerContactDesc}
+              </p>
+              
+              <div className="grid sm:grid-cols-2 gap-6 mb-10">
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                  <div className="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center mb-4">
+                    <Target size={24} />
+                  </div>
+                  <h4 className="font-bold mb-2">{t.hashHuntList1}</h4>
+                  <p className="text-xs text-slate-500">{t.hashHuntDesc}</p>
+                </div>
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
+                    <Zap size={24} />
+                  </div>
+                  <h4 className="font-bold mb-2">{t.hashHuntList2}</h4>
+                  <p className="text-xs text-slate-500">{t.hashHuntList3}</p>
+                </div>
+              </div>
+
+              <Link
+                to="/hash-hunt"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 rounded-2xl font-bold hover:bg-slate-100 transition-all shadow-xl shadow-white/5"
+              >
+                {t.exploreHashHunt}
+                <ArrowRight size={20} className="rtl:rotate-180" />
+              </Link>
+            </div>
+
+            <div className="relative">
+              <div className="absolute -inset-4 bg-indigo-500/20 blur-3xl rounded-full"></div>
+              <div className="relative bg-slate-800 border border-white/10 rounded-3xl p-8 shadow-2xl">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-slate-700"></div>
+                    <div>
+                      <div className="h-4 w-32 bg-slate-700 rounded mb-2"></div>
+                      <div className="h-3 w-20 bg-slate-700/50 rounded"></div>
+                    </div>
+                  </div>
+                  <div className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold">
+                    {t.compatibility}: 98%
+                  </div>
+                </div>
+                <div className="space-y-4 mb-8">
+                  <div className="h-4 w-full bg-slate-700 rounded"></div>
+                  <div className="h-4 w-5/6 bg-slate-700 rounded"></div>
+                  <div className="h-4 w-4/6 bg-slate-700 rounded"></div>
+                </div>
+                <div className="p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white">
+                      <MessageCircle size={20} />
+                    </div>
+                    <div>
+                      <div className="text-sm font-bold text-indigo-300">{t.interviewRequest}</div>
+                      <div className="text-xs text-indigo-300/60">{t.interviewRequestDesc}</div>
+                    </div>
+                  </div>
+                  <ArrowRight className="text-indigo-400 rtl:rotate-180" size={20} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -191,6 +191,15 @@ body {
   @apply outline-none ring-2 ring-indigo-500 ring-offset-2 ring-offset-white;
 }
 
+/* Hide scrollbar for horizontal scroll areas */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(calc(-50% - 0.75rem)); }

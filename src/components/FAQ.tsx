@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 
@@ -72,6 +73,18 @@ export default function FAQ() {
               </div>
             );
           })}
+        </div>
+
+        <div className="mt-12 text-center bg-slate-50 rounded-3xl p-8 border border-slate-100">
+          <h3 className="text-xl font-bold text-slate-900 mb-2">{t.faqCTA}</h3>
+          <p className="text-slate-600 mb-6">{t.faqsSubtitle}</p>
+          <Link
+            to="/templates"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[#ff4d2d] text-white rounded-2xl font-bold hover:bg-[#e63e1d] transition-all shadow-lg shadow-orange-500/20"
+          >
+            {t.faqCTAButton}
+            <ArrowRight size={20} className="rtl:rotate-180" />
+          </Link>
         </div>
       </div>
     </section>
