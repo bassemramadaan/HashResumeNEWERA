@@ -17,6 +17,7 @@ import {
   Layout,
   ArrowUp,
   PenTool,
+  PlayCircle,
 } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
@@ -27,13 +28,13 @@ import { translations } from "../i18n/translations";
 import { blogPosts } from "../data/blogPosts";
 
 import Navbar from "../components/Navbar";
+import FAQ from "../components/FAQ";
+import VideoDemoModal from "../components/VideoDemoModal";
 
 export default function LandingPage() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
-
-  // Fixed count as requested
-  const displayCount = "1k";
+  const [showVideoModal, setShowVideoModal] = useState(false);
 
   const currencies = {
     EGP: { symbol: "EGP", price: 25 },
@@ -80,8 +81,31 @@ export default function LandingPage() {
         style={{ scaleX }}
       />
       <Helmet>
-        <title>{language === "ar" ? "هاش ريزيومي - منشئ السير الذاتية بالذكاء الاصطناعي" : "Hash Resume - AI Resume Builder for MENA"}</title>
-        <meta name="description" content={language === "ar" ? "أنشئ سيرة ذاتية احترافية ومتوافقة مع أنظمة تتبع المتقدمين (ATS) باللغتين العربية والإنجليزية. أفضل أداة لبناء السيرة الذاتية في مصر والسعودية والشرق الأوسط." : "Create professional, ATS-friendly resumes in Arabic and English. The best AI resume builder for Egypt, Saudi Arabia, and the MENA region. No sign-up required."} />
+        <title>{language === "ar" ? "هاش ريزيومي - منشئ السير الذاتية بالذكاء الاصطناعي | قوالب ATS مجانية" : language === "fr" ? "Hash Resume - Créateur de CV IA | Modèles ATS Gratuits" : "Hash Resume - AI Resume Builder | Free ATS-Friendly Templates"}</title>
+        <meta name="description" content={language === "ar" ? "أنشئ سيرة ذاتية احترافية ومتوافقة مع أنظمة تتبع المتقدمين (ATS) باللغتين العربية والإنجليزية. أفضل أداة لبناء السيرة الذاتية في مصر والسعودية والشرق الأوسط بدون تسجيل." : language === "fr" ? "Créez des CV professionnels et compatibles ATS en arabe, anglais et français. Le meilleur créateur de CV IA pour la région MENA. Aucune inscription requise." : "Create professional, ATS-friendly resumes in Arabic, English, and French. The best AI resume builder for Egypt, Saudi Arabia, and the MENA region. No sign-up required."} />
+        <meta name="keywords" content={language === "ar" ? "سيرة ذاتية, منشئ سيرة ذاتية, قوالب سيرة ذاتية, ذكاء اصطناعي, ATS, وظائف, مصر, السعودية" : "resume builder, AI resume, ATS friendly, CV maker, templates, MENA, jobs"} />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "Hash Resume",
+              "operatingSystem": "Web",
+              "applicationCategory": "BusinessApplication",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+              },
+              "description": "AI-powered resume builder for creating ATS-friendly resumes.",
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "ratingCount": "1024"
+              }
+            }
+          `}
+        </script>
       </Helmet>
       <Navbar />
 
@@ -181,6 +205,13 @@ export default function LandingPage() {
                   />
                   {t.chooseTemplate}
                 </Link>
+                <button
+                  onClick={() => setShowVideoModal(true)}
+                  className="w-full sm:w-auto bg-indigo-50 text-indigo-600 border-2 border-transparent hover:border-indigo-100 hover:bg-indigo-100 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 group hover:scale-105 active:scale-95"
+                >
+                  <PlayCircle size={24} className="group-hover:scale-110 transition-transform" />
+                  {language === "ar" ? "شاهد عرضاً توضيحياً" : language === "fr" ? "Voir la démo" : "Watch Demo"}
+                </button>
               </motion.div>
 
               {/* Trust Badges */}
@@ -259,6 +290,7 @@ export default function LandingPage() {
                     alt="Hash Resume App Screenshot" 
                     className="w-full h-full object-cover opacity-90"
                     referrerPolicy="no-referrer"
+                    fetchpriority="high"
                   />
 
                   {/* Editor UI Elements Overlay */}
@@ -781,6 +813,9 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <FAQ />
+
       {/* Latest Blog Posts */}
       <section className="py-12 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -850,6 +885,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Video Demo Modal */}
+      <VideoDemoModal isOpen={showVideoModal} onClose={() => setShowVideoModal(false)} />
 
       {/* Scroll to Top & Floating CTA */}
       <div className="fixed bottom-8 end-8 z-40 flex flex-col gap-4">

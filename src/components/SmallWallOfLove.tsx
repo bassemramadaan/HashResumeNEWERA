@@ -1,6 +1,5 @@
 import React from "react";
 import { Star } from "lucide-react";
-import { motion } from "framer-motion";
 import { useLanguageStore } from "../store/useLanguageStore";
 
 const reviews = [

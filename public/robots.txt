@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /editor
+Disallow: /share/
 
 Sitemap: https://hashresume.com/sitemap.xml

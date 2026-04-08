@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from "react-helmet-async";
 import { useLanguageStore } from "./store/useLanguageStore";
 import PageLoader from "./components/PageLoader";
+import ExitIntentPopup from "./components/ExitIntentPopup";
 
 const LandingPage = React.lazy(() => import("./pages/LandingPage"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
@@ -14,6 +15,7 @@ const BlogPostPage = React.lazy(() => import("./pages/BlogPostPage"));
 const TemplatesPage = React.lazy(() => import("./pages/TemplatesPage"));
 const SharePage = React.lazy(() => import("./pages/SharePage"));
 const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage"));
+const TermsOfServicePage = React.lazy(() => import("./pages/TermsOfServicePage"));
 const HowAtsWorksPage = React.lazy(() => import("./pages/HowAtsWorksPage"));
 const WhyNoSignupPage = React.lazy(() => import("./pages/WhyNoSignupPage"));
 
@@ -39,9 +41,11 @@ export default function App() {
             <Route path="/blog/:id" element={<BlogPostPage />} />
             <Route path="/share/:id" element={<SharePage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsOfServicePage />} />
             <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
             <Route path="/why-no-signup" element={<WhyNoSignupPage />} />
           </Routes>
+          <ExitIntentPopup />
           <Analytics />
         </Suspense>
       </BrowserRouter>

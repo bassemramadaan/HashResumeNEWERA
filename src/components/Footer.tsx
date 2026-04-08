@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, AtSign, MessageCircle } from "lucide-react";
+import { Facebook, Instagram, MessageCircle, Linkedin, Twitter } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import FeedbackModal from "./FeedbackModal";
@@ -105,6 +105,14 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
+                    to="/terms"
+                    className="hover:text-white transition-colors"
+                  >
+                    {language === "ar" ? "شروط الخدمة" : "Terms of Service"}
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="/how-ats-works"
                     className="hover:text-white transition-colors"
                   >
@@ -126,12 +134,30 @@ export default function Footer() {
 
             <div className="flex flex-col lg:col-span-2">
               <h4 className="text-white font-semibold mb-4">{t.connect}</h4>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
+                <a
+                  href="https://www.linkedin.com/company/hashresume"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-400 hover:text-[#0077b5] transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin size={20} />
+                </a>
+                <a
+                  href="https://twitter.com/hashresume"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-400 hover:text-[#1DA1F2] transition-colors"
+                  aria-label="Twitter"
+                >
+                  <Twitter size={20} />
+                </a>
                 <a
                   href="https://www.facebook.com/hashsocialmarketing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-[#ff4d2d] transition-colors"
+                  className="text-slate-400 hover:text-[#1877F2] transition-colors"
                   aria-label="Facebook"
                 >
                   <Facebook size={20} />
@@ -140,25 +166,16 @@ export default function Footer() {
                   href="https://www.instagram.com/hashsocialmarketing/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-pink-500 transition-colors"
+                  className="text-slate-400 hover:text-[#E4405F] transition-colors"
                   aria-label="Instagram"
                 >
                   <Instagram size={20} />
                 </a>
                 <a
-                  href="https://www.threads.com/@hashsocialmarketing"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-white transition-colors"
-                  aria-label="Threads"
-                >
-                  <AtSign size={20} />
-                </a>
-                <a
                   href="https://wa.me/201101007965"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-green-500 transition-colors"
+                  className="text-slate-400 hover:text-[#25D366] transition-colors"
                   aria-label="WhatsApp"
                 >
                   <MessageCircle size={20} />

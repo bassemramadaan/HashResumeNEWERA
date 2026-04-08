@@ -135,7 +135,7 @@ export default function HashHuntPage() {
                 alt="Team collaboration"
                 className="rounded-3xl shadow-2xl border border-white/50"
                 referrerPolicy="no-referrer"
-                loading="lazy"
+                fetchpriority="high"
               />
             </motion.div>
           </div>
