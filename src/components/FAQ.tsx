@@ -8,7 +8,7 @@ import { translations } from "../i18n/translations";
 export default function FAQ() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
-  const [openIndices, setOpenIndices] = useState<number[]>([0, 1, 2, 3, 4, 5]);
+  const [openIndices, setOpenIndices] = useState<number[]>([0]);
 
   const toggleIndex = (index: number) => {
     setOpenIndices((prev) =>
@@ -75,16 +75,21 @@ export default function FAQ() {
           })}
         </div>
 
-        <div className="mt-12 text-center bg-slate-50 rounded-3xl p-8 border border-slate-100">
-          <h3 className="text-xl font-bold text-slate-900 mb-2">{t.faqCTA}</h3>
-          <p className="text-slate-600 mb-6">{t.faqsSubtitle}</p>
-          <Link
-            to="/templates"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-[#ff4d2d] text-white rounded-2xl font-bold hover:bg-[#e63e1d] transition-all shadow-lg shadow-orange-500/20"
-          >
-            {t.faqCTAButton}
-            <ArrowRight size={20} className="rtl:rotate-180" />
-          </Link>
+        <div className="mt-16 text-center bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-10 border border-slate-700 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 end-0 w-64 h-64 bg-[#ff4d2d] rounded-full mix-blend-multiply filter blur-3xl opacity-20 -translate-y-1/2 translate-x-1/2"></div>
+          <div className="absolute bottom-0 start-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 translate-y-1/2 -translate-x-1/2"></div>
+          
+          <div className="relative z-10">
+            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">{t.faqCTA}</h3>
+            <p className="text-slate-300 mb-8 max-w-xl mx-auto text-lg">{t.faqsSubtitle}</p>
+            <Link
+              to="/templates"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#ff4d2d] text-white rounded-2xl font-bold hover:bg-[#e63e1d] hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-500/25"
+            >
+              {t.faqCTAButton}
+              <ArrowRight size={20} className="rtl:rotate-180" />
+            </Link>
+          </div>
         </div>
       </div>
     </section>

@@ -135,7 +135,7 @@ export default function LandingPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden bg-gradient-to-b from-orange-50 to-white">
+      <section className="relative pt-24 pb-12 md:pt-40 md:pb-24 overflow-hidden bg-gradient-to-b from-orange-50 to-white">
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute end-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
@@ -268,18 +268,18 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 mb-12 text-sm font-medium text-slate-500"
+                className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 mb-12 text-base font-bold text-slate-600"
               >
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck size={18} className="text-emerald-500" />
+                <div className="flex items-center gap-2">
+                  <ShieldCheck size={24} className="text-emerald-500" />
                   <span>{t.secureSsl}</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <svg className="w-4 h-4 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                <div className="flex items-center gap-2">
+                  <svg className="w-6 h-6 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                   <span>{t.privacy100}</span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Zap size={18} className="text-amber-500" />
+                <div className="flex items-center gap-2">
+                  <Zap size={24} className="text-amber-500" />
                   <span>{t.noSignup}</span>
                 </div>
               </motion.div>
@@ -783,11 +783,26 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Currency Switcher */}
+          {/* Currency Switcher & Progress Indicator */}
           <div className="flex flex-col items-center mb-12">
-            <div className="w-full max-w-md bg-slate-100 rounded-full h-2 mb-4 overflow-hidden">
-              <div className="bg-[#ff4d2d] h-full w-1/3 rounded-full"></div>
+            {/* Progress Indicator */}
+            <div className="flex items-center gap-2 sm:gap-4 mb-8 text-xs sm:text-sm font-bold text-slate-400">
+              <div className="flex items-center gap-2 text-slate-900">
+                <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs">1</div>
+                <span>{language === "ar" ? "ابنِ مجاناً" : "Build Free"}</span>
+              </div>
+              <div className="w-8 sm:w-12 h-px bg-slate-300"></div>
+              <div className="flex items-center gap-2 text-slate-900">
+                <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs">2</div>
+                <span>{language === "ar" ? "عاين" : "Preview"}</span>
+              </div>
+              <div className="w-8 sm:w-12 h-px bg-slate-300"></div>
+              <div className="flex items-center gap-2 text-[#ff4d2d]">
+                <div className="w-6 h-6 rounded-full bg-[#ff4d2d] text-white flex items-center justify-center text-xs">3</div>
+                <span>{language === "ar" ? "ادفع للتحميل" : "Pay to Download"}</span>
+              </div>
             </div>
+
             <p className="text-sm font-bold text-slate-900 mb-6 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               {t.payOnDownload} — <span className="text-[#ff4d2d]">{t.zeroToStart}</span>
@@ -806,9 +821,9 @@ export default function LandingPage() {
             </div>
           </div>
 
-          <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8 max-w-5xl mx-auto">
+          <div className="flex overflow-x-auto snap-x snap-mandatory lg:overflow-visible lg:flex-row lg:justify-center items-stretch gap-6 pb-8 lg:pb-0 max-w-5xl mx-auto -mx-4 px-4 lg:mx-auto lg:px-0 scrollbar-hide">
             {/* Single Download Plan */}
-            <div className="relative bg-white rounded-3xl p-8 shadow-xl border-2 border-[#ff4d2d] overflow-hidden group hover:scale-105 transition-transform duration-300 w-full max-w-md">
+            <div className="snap-center shrink-0 relative bg-white rounded-3xl p-8 shadow-xl border-2 border-[#ff4d2d] overflow-hidden group hover:scale-105 transition-transform duration-300 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md">
               <div className="absolute top-0 end-0 bg-[#ff4d2d] text-white text-xs font-bold px-4 py-2 rounded-es-2xl uppercase tracking-wider">
                 {t.mostPopular}
               </div>
@@ -868,7 +883,7 @@ export default function LandingPage() {
             </div>
 
             {/* Multi Download Plan */}
-            <div className="w-full max-w-md bg-slate-50 rounded-3xl p-8 border border-slate-200 flex flex-col justify-between">
+            <div className="snap-center shrink-0 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md bg-slate-50 rounded-3xl p-8 border border-slate-200 flex flex-col justify-between">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-100">
                   <Sparkles size={14} />

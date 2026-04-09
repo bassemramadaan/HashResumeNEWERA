@@ -82,12 +82,12 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <button
-                    onClick={() => setShowFeedbackModal(true)}
+                  <a
+                    href="mailto:support@hashresume.com"
                     className="hover:text-white transition-colors text-start w-full"
                   >
                     {t.feedback}
-                  </button>
+                  </a>
                 </li>
               </ul>
             </div>

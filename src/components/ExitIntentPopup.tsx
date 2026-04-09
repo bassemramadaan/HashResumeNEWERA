@@ -79,10 +79,10 @@ export default function ExitIntentPopup() {
 
               <h2 className="text-2xl font-black text-slate-900 mb-4 font-display">
                 {language === "ar"
-                  ? "انتظر! لا تغادر قبل أن تبني سيرتك الذاتية"
+                  ? "ما زلت تفكر؟ ابدأ مجاناً — بدون بريد إلكتروني"
                   : language === "fr"
-                  ? "Attendez ! Ne partez pas sans créer votre CV"
-                  : "Wait! Don't leave without building your resume"}
+                  ? "Vous hésitez encore ? Commencez gratuitement — Sans email"
+                  : "Still thinking? Start Free — No Email Needed"}
               </h2>
 
               <p className="text-slate-600 mb-8 leading-relaxed">
