@@ -36,18 +36,45 @@ export default function LandingPage() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
 
+  const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({
+    EGP: 1,
+    SAR: 0.08,
+    AED: 0.08,
+    EUR: 0.02,
+    USD: 0.02,
+  });
+
+  useEffect(() => {
+    fetch("https://open.er-api.com/v6/latest/EGP")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.rates) {
+          setExchangeRates({
+            EGP: 1,
+            SAR: data.rates.SAR,
+            AED: data.rates.AED,
+            EUR: data.rates.EUR,
+            USD: data.rates.USD,
+          });
+        }
+      })
+      .catch((err) => console.error("Failed to fetch exchange rates", err));
+  }, []);
+
+  const basePriceEGP = 25;
+
   const currencies = {
-    EGP: { symbol: "EGP", price: 25 },
+    EGP: { symbol: "EGP", price: basePriceEGP },
     SAR: {
       symbol: <SarIcon className="w-[1em] h-[1em] inline-block shrink-0" />,
-      price: 2,
+      price: Math.ceil(basePriceEGP * exchangeRates.SAR),
     },
     AED: {
       symbol: <AedIcon className="w-[1em] h-[1em] inline-block shrink-0" />,
-      price: 2,
+      price: Math.ceil(basePriceEGP * exchangeRates.AED),
     },
-    EUR: { symbol: "€", price: 1 },
-    USD: { symbol: "$", price: 1 },
+    EUR: { symbol: "€", price: Math.ceil(basePriceEGP * exchangeRates.EUR) },
+    USD: { symbol: "$", price: Math.ceil(basePriceEGP * exchangeRates.USD) },
   };
 
   const [currency, setCurrency] = useState<keyof typeof currencies>("EGP");
@@ -797,7 +824,7 @@ export default function LandingPage() {
                           {selectedCurrency.price} {selectedCurrency.symbol}
                         </div>
                         <div className="text-sm font-medium text-slate-400 mt-1">
-                          ≈ $0.52 USD
+                          ≈ ${(selectedCurrency.price * exchangeRates.USD).toFixed(2)} USD
                         </div>
                       </div>
                     ) : (
@@ -861,7 +888,7 @@ export default function LandingPage() {
                           {Math.round(selectedCurrency.price * 2.4)} {selectedCurrency.symbol}
                         </div>
                         <div className="text-xs font-medium text-slate-400 mt-1">
-                          ≈ $1.25 USD
+                          ≈ ${(Math.round(selectedCurrency.price * 2.4) * exchangeRates.USD).toFixed(2)} USD
                         </div>
                       </div>
                     ) : (
