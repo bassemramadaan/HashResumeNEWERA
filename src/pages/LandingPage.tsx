@@ -19,6 +19,7 @@ import {
   PenTool,
   PlayCircle,
   MessageCircle,
+  Type,
 } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
@@ -340,14 +341,67 @@ export default function LandingPage() {
                 <div className="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 to-purple-500/20 rounded-[2rem] blur-2xl -z-10 animate-pulse"></div>
 
                 {/* Main Resume Document Mockup */}
-                <div className="absolute inset-0 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
-                  <img 
-                    src="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?q=80&w=800&auto=format&fit=crop" 
-                    alt={t.heroImageAlt} 
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                    fetchpriority="high"
-                  />
+                <div className="absolute inset-0 bg-slate-50 rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
+                  {/* Editor Header */}
+                  <div className="h-12 bg-white border-b border-slate-200 flex items-center px-4 justify-between shrink-0">
+                    <div className="flex gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                      <div className="w-3 h-3 rounded-full bg-amber-400"></div>
+                      <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
+                    </div>
+                    <div className="h-4 w-24 bg-slate-100 rounded-md"></div>
+                    <div className="h-6 w-16 bg-indigo-100 rounded-md"></div>
+                  </div>
+                  {/* Editor Body */}
+                  <div className="flex flex-1 overflow-hidden">
+                    {/* Sidebar */}
+                    <div className="w-12 sm:w-16 bg-white border-r border-slate-200 flex flex-col items-center py-4 gap-4 shrink-0">
+                      <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center"><Layout size={16} /></div>
+                      <div className="w-8 h-8 rounded-lg text-slate-400 flex items-center justify-center"><PenTool size={16} /></div>
+                      <div className="w-8 h-8 rounded-lg text-slate-400 flex items-center justify-center"><Type size={16} /></div>
+                    </div>
+                    {/* Canvas */}
+                    <div className="flex-1 bg-slate-50 p-3 sm:p-4 flex justify-center overflow-hidden">
+                      {/* Resume Document */}
+                      <div className="w-full max-w-sm bg-white shadow-sm border border-slate-200 rounded-sm p-4 flex flex-col gap-3">
+                        {/* Header */}
+                        <div className="flex items-center gap-3 border-b border-slate-100 pb-3">
+                          <div className="w-10 h-10 rounded-full bg-slate-200"></div>
+                          <div>
+                            <div className="h-3 w-24 bg-slate-800 rounded-sm mb-1.5"></div>
+                            <div className="h-2 w-32 bg-slate-400 rounded-sm"></div>
+                          </div>
+                        </div>
+                        {/* Content */}
+                        <div className="flex gap-4">
+                          {/* Left Column */}
+                          <div className="w-1/3 flex flex-col gap-2">
+                            <div className="h-2 w-12 bg-slate-300 rounded-sm mb-1"></div>
+                            <div className="h-1.5 w-full bg-slate-200 rounded-sm"></div>
+                            <div className="h-1.5 w-5/6 bg-slate-200 rounded-sm"></div>
+                            <div className="h-1.5 w-full bg-slate-200 rounded-sm"></div>
+                            <div className="h-2 w-12 bg-slate-300 rounded-sm mt-2 mb-1"></div>
+                            <div className="h-1.5 w-full bg-slate-200 rounded-sm"></div>
+                            <div className="h-1.5 w-4/6 bg-slate-200 rounded-sm"></div>
+                          </div>
+                          {/* Right Column */}
+                          <div className="w-2/3 flex flex-col gap-2">
+                            <div className="h-2 w-16 bg-slate-300 rounded-sm mb-1"></div>
+                            <div className="h-2 w-24 bg-slate-800 rounded-sm"></div>
+                            <div className="h-1.5 w-20 bg-slate-400 rounded-sm mb-1"></div>
+                            <div className="h-1.5 w-full bg-slate-200 rounded-sm"></div>
+                            <div className="h-1.5 w-full bg-slate-200 rounded-sm"></div>
+                            <div className="h-1.5 w-5/6 bg-slate-200 rounded-sm mb-2"></div>
+                            
+                            <div className="h-2 w-24 bg-slate-800 rounded-sm"></div>
+                            <div className="h-1.5 w-20 bg-slate-400 rounded-sm mb-1"></div>
+                            <div className="h-1.5 w-full bg-slate-200 rounded-sm"></div>
+                            <div className="h-1.5 w-4/6 bg-slate-200 rounded-sm"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Floating Badge 1: ATS Score */}

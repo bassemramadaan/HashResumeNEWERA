@@ -32,7 +32,7 @@ export default function VideoDemoModal({ isOpen, onClose }: VideoDemoModalProps)
               <iframe
                 width="100%"
                 height="100%"
-                src="https://www.youtube.com/embed/J---aiyznGQ?autoplay=1&mute=1"
+                src="https://www.youtube.com/embed/pA1B28_2R4g?autoplay=1&mute=0"
                 title="Product Demo"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

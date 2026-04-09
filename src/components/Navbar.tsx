@@ -71,7 +71,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-2 bg-slate-100/50 p-2 rounded-full border border-slate-200/50">
+          <nav className="hidden lg:flex items-center gap-2 bg-slate-100/50 p-2 rounded-full border border-slate-200/50">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -141,7 +141,7 @@ export default function Navbar() {
           </nav>
 
           {/* Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-4">
             <div className="flex items-center gap-2 bg-slate-100/50 p-2 rounded-full border border-slate-200/50">
               <LanguageSwitcher
                 size={18}
@@ -166,7 +166,7 @@ export default function Navbar() {
 
 
           {/* Mobile Menu Toggle */}
-          <div className="md:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-2 text-slate-900 bg-slate-100 rounded-xl transition-all active:scale-90"
@@ -185,7 +185,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsMobileMenuOpen(false)}
-            className="md:hidden fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-40"
+            className="lg:hidden fixed inset-0 bg-slate-950/40 backdrop-blur-sm z-40"
           />
         )}
       </AnimatePresence>
@@ -198,7 +198,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="md:hidden absolute top-full start-4 end-4 mt-2 bg-white/95 backdrop-blur-xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
+            className="lg:hidden absolute top-full start-4 end-4 mt-2 bg-white/95 backdrop-blur-xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
           >
             <div className="p-6 flex flex-col gap-4">
               {[...navLinks, ...moreLinks].map((link, i) => (
