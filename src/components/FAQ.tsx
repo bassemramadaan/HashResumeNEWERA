@@ -8,7 +8,7 @@ import { translations } from "../i18n/translations";
 export default function FAQ() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
-  const [openIndices, setOpenIndices] = useState<number[]>([0, 1, 2]);
+  const [openIndices, setOpenIndices] = useState<number[]>([0, 1, 2, 3, 4, 5]);
 
   const toggleIndex = (index: number) => {
     setOpenIndices((prev) =>

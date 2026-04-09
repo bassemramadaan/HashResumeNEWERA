@@ -58,6 +58,27 @@ export default function LandingPage() {
 
   const [showScrollTop, setShowScrollTop] = useState(false);
 
+  const [resumesBuilt, setResumesBuilt] = useState(142);
+
+  // Dynamic live counter
+  useEffect(() => {
+    // Start with a base number that grows throughout the day
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    const minutesSinceStartOfDay = Math.floor((now.getTime() - startOfDay) / 60000);
+    
+    // Base calculation: roughly 1 resume every 3-5 minutes
+    const baseCount = Math.floor(minutesSinceStartOfDay / 4) + 45; // Start with at least 45
+    setResumesBuilt(baseCount);
+
+    // Increment randomly every 15-45 seconds to simulate live activity
+    const interval = setInterval(() => {
+      setResumesBuilt(prev => prev + 1);
+    }, Math.floor(Math.random() * 30000) + 15000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);
@@ -236,7 +257,7 @@ export default function LandingPage() {
                   ))}
                 </div>
                 <span>
-                  <span className="text-emerald-600 font-bold">142</span> {t.resumesBuiltToday}
+                  <span className="text-emerald-600 font-bold">{resumesBuilt}</span> {t.resumesBuiltToday}
                 </span>
               </motion.div>
 
@@ -295,6 +316,15 @@ export default function LandingPage() {
                   </motion.div>
                 ))}
               </div>
+              <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.8 }}
+                className="mt-3 text-xs text-slate-400 text-center lg:text-start max-w-2xl mx-auto lg:mx-0"
+              >
+                {t.statsSource}
+              </motion.div>
             </div>
 
             {/* Right Column: Dynamic Resume Graphic */}
@@ -312,7 +342,7 @@ export default function LandingPage() {
                 {/* Main Resume Document Mockup */}
                 <div className="absolute inset-0 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
                   <img 
-                    src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=800&auto=format&fit=crop" 
+                    src="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?q=80&w=800&auto=format&fit=crop" 
                     alt={t.heroImageAlt} 
                     className="w-full h-full object-cover"
                     referrerPolicy="no-referrer"
@@ -913,7 +943,13 @@ export default function LandingPage() {
       </section>
 
       {/* Employer Section */}
-      <section className="py-24 bg-slate-900 text-white overflow-hidden relative">
+      <motion.section 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="py-24 bg-slate-900 text-white overflow-hidden relative"
+      >
         <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500 rounded-full blur-[120px]"></div>
         </div>
@@ -994,13 +1030,19 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* FAQ Section */}
       <FAQ />
 
       {/* Latest Blog Posts */}
-      <section className="py-12 bg-slate-50">
+      <motion.section 
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8 }}
+        className="py-12 bg-slate-50"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-8">
             <div>
@@ -1038,7 +1080,7 @@ export default function LandingPage() {
                 <div className="flex items-center gap-4 text-xs text-slate-500 mb-4">
                   <span className="flex items-center gap-2">
                     <Calendar size={16} />
-                    {post.date}
+                    {new Date(post.date).toLocaleDateString(language === 'ar' ? 'ar-EG' : language === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </span>
                   <span className="flex items-center gap-2">
                     <Clock size={16} />
@@ -1067,7 +1109,7 @@ export default function LandingPage() {
             </Link>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Video Demo Modal */}
       <VideoDemoModal isOpen={showVideoModal} onClose={() => setShowVideoModal(false)} />

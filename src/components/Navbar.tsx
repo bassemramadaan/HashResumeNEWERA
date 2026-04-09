@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PenTool, Target, ArrowRight, Menu, X, Sparkles } from "lucide-react";
+import { PenTool, Target, ArrowRight, Menu, X, Sparkles, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -15,6 +15,7 @@ export default function Navbar() {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMoreOpen, setIsMoreOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,17 +28,20 @@ export default function Navbar() {
   const navLinks = [
     { name: t.landing.templates || "Templates", path: "/templates" },
     {
-      name: t.landing.coverLetter || "Cover Letter",
-      path: "/cover-letter",
-      icon: <PenTool size={14} />,
-    },
-    { name: t.landing.blog || "Blog", path: "/blog" },
-    {
       name: t.landing.hashHuntJobs || "Hash Hunt",
       path: "/hash-hunt",
       icon: <Target size={18} className="text-[#ff4d2d]" />,
       highlight: true,
     },
+  ];
+
+  const moreLinks = [
+    {
+      name: t.landing.coverLetter || "Cover Letter",
+      path: "/cover-letter",
+      icon: <PenTool size={14} />,
+    },
+    { name: t.landing.blog || "Blog", path: "/blog" },
   ];
 
   return (
@@ -91,6 +95,49 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
+
+            {/* More Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsMoreOpen(true)}
+              onMouseLeave={() => setIsMoreOpen(false)}
+            >
+              <button
+                className={cn(
+                  "px-4 py-2 text-sm font-bold rounded-full transition-all flex items-center gap-1 relative group text-slate-600 hover:text-slate-900 hover:bg-white shadow-sm shadow-transparent hover:shadow-slate-200/50",
+                  moreLinks.some(link => location.pathname === link.path) && "text-slate-900 bg-white shadow-slate-200/50"
+                )}
+              >
+                {t.landing.more || "More"}
+                <ChevronDown size={14} className={cn("transition-transform duration-200", isMoreOpen && "rotate-180")} />
+              </button>
+              
+              <AnimatePresence>
+                {isMoreOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full start-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden py-2 z-50"
+                  >
+                    {moreLinks.map((link) => (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        className={cn(
+                          "px-4 py-3 text-sm font-bold transition-all flex items-center gap-3 hover:bg-slate-50",
+                          location.pathname === link.path ? "text-[#ff4d2d] bg-orange-50/50" : "text-slate-600"
+                        )}
+                      >
+                        {link.icon && <span className="text-slate-400">{link.icon}</span>}
+                        {link.name}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </nav>
 
           {/* Actions */}
@@ -154,7 +201,7 @@ export default function Navbar() {
             className="md:hidden absolute top-full start-4 end-4 mt-2 bg-white/95 backdrop-blur-xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
           >
             <div className="p-6 flex flex-col gap-4">
-              {navLinks.map((link, i) => (
+              {[...navLinks, ...moreLinks].map((link, i) => (
                 <motion.div
                   key={link.path}
                   initial={{ opacity: 0, x: -10 }}

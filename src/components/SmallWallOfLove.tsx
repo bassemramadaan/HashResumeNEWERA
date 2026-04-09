@@ -7,31 +7,37 @@ const reviews = [
     name: "Sarah Jenkins",
     text: "Landed my dream job in 2 weeks! ATS optimization is real.",
     role: "Software Engineer",
+    date: "2 days ago",
   },
   {
     name: "محمد إبراهيم",
     text: "أداة ممتازة، وفرت عليا وقت ومجهود كبير في تنسيق الـ CV.",
     role: "مهندس مدني",
+    date: "منذ أسبوع",
   },
   {
     name: "Mark Thompson",
     text: "Clean, intuitive, and 100% private. Best resume builder.",
     role: "Product Manager",
+    date: "3 weeks ago",
   },
   {
     name: "محمود حسن",
     text: "الـ CV طلع بروفيشنال والـ ATS قبله من أول مرة.",
     role: "محاسب",
+    date: "منذ شهر",
   },
   {
     name: "Emily Rodriguez",
     text: "Finally, a builder that cares about privacy and design.",
     role: "UX Designer",
+    date: "1 month ago",
   },
   {
     name: "خالد العتيبي",
     text: "قوالب احترافية وتناسب سوق العمل في السعودية.",
     role: "مدير تسويق",
+    date: "منذ شهرين",
   },
 ];
 
@@ -86,14 +92,17 @@ export default function SmallWallOfLove() {
               key={index}
               className="snap-center flex-shrink-0 w-[300px] md:w-[380px] bg-white p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200/50 transition-all duration-300"
             >
-              <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    size={16}
-                    className="fill-amber-400 text-amber-400"
-                  />
-                ))}
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      size={16}
+                      className="fill-amber-400 text-amber-400"
+                    />
+                  ))}
+                </div>
+                <span className="text-xs text-slate-400 font-medium">{review.date}</span>
               </div>
               <p className="text-base text-slate-700 font-medium italic leading-relaxed">
                 "{review.text}"
