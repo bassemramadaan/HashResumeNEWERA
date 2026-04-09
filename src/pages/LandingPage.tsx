@@ -106,9 +106,15 @@ export default function LandingPage() {
         style={{ scaleX }}
       />
       <Helmet>
-        <title>{language === "ar" ? "هاش ريزيومي - منشئ السير الذاتية بالذكاء الاصطناعي | قوالب ATS مجانية" : language === "fr" ? "Hash Resume - Créateur de CV IA | Modèles ATS Gratuits" : "Hash Resume - AI Resume Builder | Free ATS-Friendly Templates"}</title>
-        <meta name="description" content={language === "ar" ? "أنشئ سيرة ذاتية احترافية ومتوافقة مع أنظمة تتبع المتقدمين (ATS) باللغتين العربية والإنجليزية. أفضل أداة لبناء السيرة الذاتية في مصر والسعودية والشرق الأوسط بدون تسجيل." : language === "fr" ? "Créez des CV professionnels et compatibles ATS en arabe, anglais et français. Le meilleur créateur de CV IA pour la région MENA. Aucune inscription requise." : "Create professional, ATS-friendly resumes in Arabic, English, and French. The best AI resume builder for Egypt, Saudi Arabia, and the MENA region. No sign-up required."} />
-        <meta name="keywords" content={language === "ar" ? "سيرة ذاتية, منشئ سيرة ذاتية, قوالب سيرة ذاتية, ذكاء اصطناعي, ATS, وظائف, مصر, السعودية" : "resume builder, AI resume, ATS friendly, CV maker, templates, MENA, jobs"} />
+        <title>{language === "ar" ? "هاش ريزيومي — منشئ سير ذاتية مجاني ومحسن لأنظمة ATS" : language === "fr" ? "Hash Resume — Créateur de CV gratuit et optimisé ATS" : "Hash Resume — Free ATS-Optimized CV Builder"}</title>
+        <meta name="description" content={language === "ar" ? "أنشئ سيرة ذاتية احترافية ومجانية ومتوافقة مع أنظمة تتبع المتقدمين (ATS) باللغة العربية. أفضل أداة لبناء السيرة الذاتية." : language === "fr" ? "Créez un CV gratuit, professionnel et optimisé ATS en arabe, anglais et français. Le meilleur créateur de CV." : "Create a free, professional, ATS-optimized resume in Arabic, English, and French. The best AI resume builder."} />
+        <meta name="keywords" content={language === "ar" ? "ATS, سيرة ذاتية, مجاني, منشئ سيرة ذاتية, قوالب سيرة ذاتية, ذكاء اصطناعي, وظائف, مصر, السعودية" : "ATS, resume builder, free, Arabic, CV maker, templates, MENA, jobs"} />
+        <meta property="og:title" content={language === "ar" ? "هاش ريزيومي — منشئ سير ذاتية مجاني ومحسن لأنظمة ATS" : language === "fr" ? "Hash Resume — Créateur de CV gratuit et optimisé ATS" : "Hash Resume — Free ATS-Optimized CV Builder"} />
+        <meta property="og:description" content={language === "ar" ? "أنشئ سيرة ذاتية احترافية ومجانية ومتوافقة مع أنظمة تتبع المتقدمين (ATS) باللغة العربية. أفضل أداة لبناء السيرة الذاتية." : language === "fr" ? "Créez un CV gratuit, professionnel et optimisé ATS en arabe, anglais et français. Le meilleur créateur de CV." : "Create a free, professional, ATS-optimized resume in Arabic, English, and French. The best AI resume builder."} />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?q=80&w=1200&h=630&auto=format&fit=crop" />
+        <meta property="twitter:title" content={language === "ar" ? "هاش ريزيومي — منشئ سير ذاتية مجاني ومحسن لأنظمة ATS" : language === "fr" ? "Hash Resume — Créateur de CV gratuit et optimisé ATS" : "Hash Resume — Free ATS-Optimized CV Builder"} />
+        <meta property="twitter:description" content={language === "ar" ? "أنشئ سيرة ذاتية احترافية ومجانية ومتوافقة مع أنظمة تتبع المتقدمين (ATS) باللغة العربية. أفضل أداة لبناء السيرة الذاتية." : language === "fr" ? "Créez un CV gratuit, professionnel et optimisé ATS en arabe, anglais et français. Le meilleur créateur de CV." : "Create a free, professional, ATS-optimized resume in Arabic, English, and French. The best AI resume builder."} />
+        <meta property="twitter:image" content="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?q=80&w=1200&h=630&auto=format&fit=crop" />
         <script type="application/ld+json">
           {`
             {
@@ -252,7 +258,7 @@ export default function LandingPage() {
                     <img
                       key={i}
                       src={`https://i.pravatar.cc/100?img=${i + 10}`}
-                      alt="User"
+                      alt="Hash Resume User"
                       className="w-6 h-6 rounded-full border-2 border-white"
                     />
                   ))}
