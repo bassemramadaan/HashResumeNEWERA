@@ -125,7 +125,7 @@ Writing for an ATS doesn't mean writing like a robot. It means structuring your 
       ar: "فريق Hash Resume",
     },
     image:
-      "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?auto=format&fit=crop&q=80&w=800",
     readTime: {
       en: "5 min read",
       ar: "5 دقائق قراءة",
@@ -183,7 +183,7 @@ The only constant is change. Show examples of how you've learned new tools or pi
       ar: "سارة جونسون",
     },
     image:
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800",
     readTime: {
       en: "4 min read",
       ar: "4 دقائق قراءة",
@@ -231,7 +231,7 @@ Keep it short. Three paragraphs max. Focus on the company's problems and how you
       ar: "عمر خالد",
     },
     image:
-      "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1586282391129-76a6df230234?auto=format&fit=crop&q=80&w=800",
     readTime: {
       en: "3 min read",
       ar: "3 دقائق قراءة",
@@ -301,7 +301,7 @@ An interview is a two-way street. Asking thoughtful questions shows you're genui
       ar: "فريق Hash Resume",
     },
     image:
-      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800",
     readTime: {
       en: "6 min read",
       ar: "6 دقائق قراءة",
@@ -359,7 +359,7 @@ Don't just"like"posts. Leave thoughtful comments. Share articles with your own i
       ar: "أحمد يوسف",
     },
     image:
-      "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&q=80&w=800",
     readTime: {
       en: "4 min read",
       ar: "4 دقائق قراءة",
@@ -415,7 +415,7 @@ Your summary statement is crucial when changing careers. It's your elevator pitc
       ar: "سارة جونسون",
     },
     image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800",
     readTime: {
       en: "5 min read",
       ar: "5 دقائق قراءة",

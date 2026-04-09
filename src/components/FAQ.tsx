@@ -12,7 +12,7 @@ export default function FAQ() {
 
   const toggleIndex = (index: number) => {
     setOpenIndices((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
+      prev.includes(index) ? [] : [index],
     );
   };
 

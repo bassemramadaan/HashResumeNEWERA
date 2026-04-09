@@ -4,40 +4,46 @@ import { useLanguageStore } from "../store/useLanguageStore";
 
 const reviews = [
   {
-    name: "Sarah Jenkins",
+    name: "أحمد حسن",
     text: "Landed my dream job in 2 weeks! ATS optimization is real.",
     role: "Software Engineer",
     date: "2 days ago",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "محمد إبراهيم",
     text: "أداة ممتازة، وفرت عليا وقت ومجهود كبير في تنسيق الـ CV.",
     role: "مهندس مدني",
     date: "منذ أسبوع",
+    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
-    name: "Mark Thompson",
+    name: "ياسمين عادل",
     text: "Clean, intuitive, and 100% private. Best resume builder.",
     role: "Product Manager",
     date: "3 weeks ago",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "محمود حسن",
     text: "الـ CV طلع بروفيشنال والـ ATS قبله من أول مرة.",
     role: "محاسب",
     date: "منذ شهر",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
-    name: "Emily Rodriguez",
+    name: "نورهان طارق",
     text: "Finally, a builder that cares about privacy and design.",
     role: "UX Designer",
     date: "1 month ago",
+    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "خالد العتيبي",
     text: "قوالب احترافية وتناسب سوق العمل في السعودية.",
     role: "مدير تسويق",
     date: "منذ شهرين",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&auto=format&fit=crop"
   },
 ];
 
@@ -108,9 +114,11 @@ export default function SmallWallOfLove() {
                 "{review.text}"
               </p>
               <div className="mt-auto flex items-center gap-4 pt-4">
-                <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold text-lg border border-indigo-100 shrink-0">
-                  {review.name.charAt(0)}
-                </div>
+                <img
+                  src={review.image}
+                  alt={review.name}
+                  className="w-12 h-12 rounded-full object-cover border border-slate-200 shrink-0"
+                />
                 <div>
                   <div className="text-base font-bold text-slate-900 leading-tight">
                     {review.name}
