@@ -7,12 +7,14 @@ interface AISuggestionProps {
   currentValue: string;
   onApply: (newValue: string) => void;
   context?: string;
+  promptOverride?: string;
 }
 
 export default function AISuggestion({
   currentValue,
   onApply,
   context,
+  promptOverride,
 }: AISuggestionProps) {
   const { language } = useLanguageStore();
   const [isGenerating, setIsGenerating] = useState(false);
@@ -20,13 +22,13 @@ export default function AISuggestion({
   const [error, setError] = useState<string | null>(null);
 
   const generateSuggestion = async () => {
-    if (!currentValue.trim()) return;
+    if (!currentValue.trim() && !promptOverride) return;
 
     setIsGenerating(true);
     setError(null);
 
     try {
-      const prompt = `
+      const prompt = promptOverride || `
  You are a professional resume writer. 
  Improve the following sentence for a resume to make it more impactful, professional, and result-oriented.
  If possible, turn it into a numerical achievement.
@@ -54,7 +56,7 @@ export default function AISuggestion({
     }
   };
 
-  if (!currentValue.trim()) return null;
+  if (!currentValue.trim() && !promptOverride) return null;
 
   return (
     <div className="mt-2 p-4 rounded-xl bg-indigo-50 border border-indigo-100">

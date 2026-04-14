@@ -11,6 +11,7 @@ import {
   GripVertical,
 } from "lucide-react";
 import { Reorder } from "framer-motion";
+import SectionTooltip from "./SectionTooltip";
 
 const CertificationsForm = () => {
   const { language } = useLanguageStore();
@@ -41,7 +42,14 @@ const CertificationsForm = () => {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <SectionTooltip
+            title={t.certifications.title}
+            content={t.certifications.tooltipDesc || "Add relevant certifications to showcase your specialized skills."}
+            example={t.certifications.tooltipExample || "e.g., AWS Certified Solutions Architect"}
+          />
+        </div>
         <button
           onClick={handleAdd}
           className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { Reorder } from "framer-motion";
 import FormSkeleton from "./FormSkeleton";
+import SectionTooltip from "./SectionTooltip";
 
 const EducationForm = () => {
   const { language } = useLanguageStore();
@@ -51,7 +52,14 @@ const EducationForm = () => {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <SectionTooltip
+            title={t.education.title}
+            content={t.education.tooltipDesc || "Add your educational background, starting with the most recent."}
+            example={t.education.tooltipExample || "e.g., Bachelor of Science in Computer Science, Cairo University"}
+          />
+        </div>
         <button
           onClick={handleAdd}
           className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"

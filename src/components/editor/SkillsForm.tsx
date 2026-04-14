@@ -1,10 +1,12 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, Suspense, lazy } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { Plus, X, Sparkles, AlertCircle } from "lucide-react";
 import SectionTooltip from "./SectionTooltip";
 import { getJobMatchResults } from "../../utils/ats";
+
+const AISuggestion = lazy(() => import("./AISuggestion"));
 
 const SUGGESTED_SKILLS = [
   "JavaScript",
@@ -33,6 +35,7 @@ const SkillsForm = () => {
   const { data, addSkill, removeSkill } = useResumeStore();
   const { skills, jobDescription } = data;
   const [inputValue, setInputValue] = useState("");
+  const [showAISuggestions, setShowAISuggestions] = useState(false);
 
   const matchResults = useMemo(() => getJobMatchResults(data), [data]);
 
@@ -53,19 +56,56 @@ const SkillsForm = () => {
     <div className="space-y-6 font-sans">
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 transition-colors">
         <form onSubmit={handleAdd} className="mb-6">
-          <div className="flex items-center gap-2 mb-2">
-            <label
-              htmlFor="skillInput"
-              className="block text-sm font-medium text-slate-700"
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <label
+                htmlFor="skillInput"
+                className="block text-sm font-medium text-slate-700"
+              >
+                {t.skills.title}
+              </label>
+              <SectionTooltip
+                title={t.skills.tips}
+                content={t.skills.tipsContent}
+                example={t.skills.tipsExample}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowAISuggestions(!showAISuggestions)}
+              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
             >
-              {t.skills.title}
-            </label>
-            <SectionTooltip
-              title={t.skills.tips}
-              content={t.skills.tipsContent}
-              example={t.skills.tipsExample}
-            />
+              <Sparkles size={12} />
+              {t.aiSuggestions}
+            </button>
           </div>
+
+          {showAISuggestions && (
+            <Suspense
+              fallback={
+                <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
+              }
+            >
+              <AISuggestion
+                currentValue={skills.join(", ")}
+                onApply={(newText) => {
+                  const newSkills = newText
+                    .split(",")
+                    .map((s) => s.trim())
+                    .filter(Boolean);
+                  newSkills.forEach((skill) => {
+                    if (!skills.includes(skill)) {
+                      addSkill(skill);
+                    }
+                  });
+                  setShowAISuggestions(false);
+                }}
+                context={`Job Title: ${data.personalInfo.jobTitle}, Job Description: ${data.jobDescription}`}
+                promptOverride="Based on the job title and description, suggest a comma-separated list of 5-10 relevant skills. Only return the comma-separated list, no other text."
+              />
+            </Suspense>
+          )}
+
           <div className="flex gap-2">
             <input
               type="text"

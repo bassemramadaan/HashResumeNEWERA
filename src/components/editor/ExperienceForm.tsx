@@ -63,7 +63,14 @@ const ExperienceForm = () => {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <SectionTooltip
+            title={t.experience.title}
+            content={t.experience.tooltipDesc || "Add your work experience, starting with the most recent."}
+            example={t.experience.tooltipExample || "e.g., Senior Software Engineer at Google"}
+          />
+        </div>
         <button
           onClick={handleAdd}
           className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"

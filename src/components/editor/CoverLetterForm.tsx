@@ -4,6 +4,7 @@ import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { Sparkles, Check, AlertCircle, Import } from "lucide-react";
 import { aiService } from "../../services/aiService";
+import SectionTooltip from "./SectionTooltip";
 
 export default function CoverLetterForm() {
   const { language } = useLanguageStore();
@@ -119,7 +120,14 @@ export default function CoverLetterForm() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex justify-end items-center">
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <SectionTooltip
+            title={t.coverLetter.title}
+            content={t.coverLetter.tooltipDesc || "Generate a tailored cover letter using AI based on your resume and the job description."}
+            example={t.coverLetter.tooltipExample || "Fill in the details below and click Generate."}
+          />
+        </div>
         <button
           onClick={handleImportFromResume}
           className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 :text-slate-200 bg-slate-100 hover:bg-slate-200 :bg-slate-700 px-4 py-2 rounded-lg transition-colors"

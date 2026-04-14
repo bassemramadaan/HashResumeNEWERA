@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "zustand";
+import { useThemeStore } from "../store/useThemeStore";
 import {
   User,
   Briefcase,
@@ -25,6 +26,8 @@ import {
   Loader2,
   ArrowUp,
   Settings,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { useResumeStore } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
@@ -161,15 +164,15 @@ const ATSScoreIndicator = ({
   return (
     <button
       onClick={() => setActiveTab("finish")}
-      className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 hover:bg-slate-200 :bg-slate-700 transition-all border border-slate-200 group"
+      className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-100 hover:bg-slate-200 :bg-slate-700 transition-all border border-slate-200 group"
     >
       <div className="flex flex-col items-start">
-        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">
-          {t.atsScore}
+        <span className="text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">
+          {language === "ar" ? "اكتمال الملف" : "Profile Complete"}
         </span>
         <span
           className={cn(
-            "text-sm font-black leading-none",
+            "text-xs sm:text-sm font-black leading-none",
             atsScore >= 80
               ? "text-emerald-600"
               : atsScore >= 50
@@ -180,7 +183,7 @@ const ATSScoreIndicator = ({
           {atsScore}%
         </span>
       </div>
-      <div className="w-8 h-2 bg-slate-200 rounded-full overflow-hidden">
+      <div className="w-6 sm:w-12 h-1.5 sm:h-2 bg-slate-200 rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${atsScore}%` }}
@@ -228,6 +231,7 @@ export default function EditorPage() {
   const [previewMode, setPreviewMode] = useState<"resume" | "cover-letter">(
     "resume",
   );
+  const { theme, toggleTheme } = useThemeStore();
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
   const isPremium = useResumeStore((state) => state.data.isPremium);
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
@@ -399,10 +403,12 @@ export default function EditorPage() {
             </div>
           </div>
 
-          {/* Center Section: Saving & ATS (Desktop) */}
-          <div className="hidden md:flex items-center gap-4 flex-1 justify-center">
+          {/* Center Section: Saving & ATS */}
+          <div className="flex items-center gap-2 sm:gap-4 flex-1 justify-center">
             {/* Saving Indicator */}
-            <AutoSaveIndicator />
+            <div className="hidden sm:block">
+              <AutoSaveIndicator />
+            </div>
 
             {/* ATS Score */}
             <ATSScoreIndicator setActiveTab={setActiveTab} />
@@ -411,6 +417,13 @@ export default function EditorPage() {
           {/* Right Section: Actions */}
           <div className="flex items-center gap-2">
             <div className="hidden sm:flex items-center gap-2">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-full text-slate-600 hover:bg-slate-100 :bg-slate-800 transition-colors"
+                title={theme === "dark" ? "Light Mode" : "Dark Mode"}
+              >
+                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+              </button>
               <button
                 onClick={() => setShowWelcomeModal(true)}
                 className="p-2 rounded-full text-[#ff4d2d] bg-orange-50 hover:bg-orange-100 :bg-orange-900/40 transition-colors border border-orange-200"

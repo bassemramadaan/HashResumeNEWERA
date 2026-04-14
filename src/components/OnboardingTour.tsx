@@ -1,59 +1,70 @@
 import React from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import { useOnboardingStore } from "../store/useOnboardingStore";
+import { useLanguageStore } from "../store/useLanguageStore";
 
 const OnboardingTour = () => {
   const { isActive, skipOnboarding } = useOnboardingStore();
+  const { language } = useLanguageStore();
+
+  const isAr = language === "ar";
 
   const steps: Step[] = [
     {
       target: "body",
       placement: "center",
-      title: "Welcome to Hash Resume!",
-      content:
-        "Let us show you around the editor to help you build your professional resume in minutes.",
+      title: isAr ? "مرحباً بك في Hash Resume!" : "Welcome to Hash Resume!",
+      content: isAr 
+        ? "دعنا نأخذك في جولة سريعة في المحرر لمساعدتك في بناء سيرتك الذاتية الاحترافية في دقائق."
+        : "Let us show you around the editor to help you build your professional resume in minutes.",
       disableBeacon: true,
     },
     {
       target: '[data-tour="personal-info"]',
-      title: "1. Personal Information",
-      content:
-        "Start by filling in your contact details and a professional summary.",
+      title: isAr ? "1. المعلومات الشخصية" : "1. Personal Information",
+      content: isAr
+        ? "ابدأ بإدخال بيانات الاتصال الخاصة بك وملخص احترافي."
+        : "Start by filling in your contact details and a professional summary.",
       placement: "top",
     },
     {
       target: '[data-tour="experience-section"]',
-      title: "2. Work Experience",
-      content:
-        "Add your professional history. Use our AI tools to polish your bullet points.",
+      title: isAr ? "2. خبرات العمل" : "2. Work Experience",
+      content: isAr
+        ? "أضف تاريخك المهني. استخدم أدوات الذكاء الاصطناعي لتحسين النقاط."
+        : "Add your professional history. Use our AI tools to polish your bullet points.",
       placement: "top",
     },
     {
       target: '[data-tour="skills-section"]',
-      title: "3. Skills & Expertise",
-      content:
-        "List your technical and soft skills. AI can suggest relevant skills for your role.",
+      title: isAr ? "3. المهارات والخبرات" : "3. Skills & Expertise",
+      content: isAr
+        ? "أضف مهاراتك التقنية والشخصية. يمكن للذكاء الاصطناعي اقتراح مهارات مناسبة لدورك."
+        : "List your technical and soft skills. AI can suggest relevant skills for your role.",
       placement: "top",
     },
     {
       target: '[data-tour="review-section"]',
-      title: "4. ATS Review",
-      content:
-        "Check your ATS score and get actionable feedback to improve your resume.",
+      title: isAr ? "4. مراجعة ATS" : "4. ATS Review",
+      content: isAr
+        ? "تحقق من درجة ATS الخاصة بك واحصل على ملاحظات قابلة للتنفيذ لتحسين سيرتك الذاتية."
+        : "Check your ATS score and get actionable feedback to improve your resume.",
       placement: "top",
     },
     {
       target: '[data-tour="preview-pane"]',
-      title: "5. Real-time Preview",
-      content:
-        "See your changes instantly as you type. What you see is what you get!",
+      title: isAr ? "5. معاينة فورية" : "5. Real-time Preview",
+      content: isAr
+        ? "شاهد تغييراتك فوراً أثناء الكتابة. ما تراه هو ما ستحصل عليه!"
+        : "See your changes instantly as you type. What you see is what you get!",
       placement: "left",
     },
     {
       target: '[data-tour="export-button"]',
-      title: "6. Export & Apply",
-      content:
-        "Once you are happy with your resume, download it as a professional PDF.",
+      title: isAr ? "6. التصدير والتقديم" : "6. Export & Apply",
+      content: isAr
+        ? "بمجرد أن تكون راضياً عن سيرتك الذاتية، قم بتحميلها كملف PDF احترافي."
+        : "Once you are happy with your resume, download it as a professional PDF.",
       placement: "bottom",
     },
   ];
@@ -92,7 +103,7 @@ const OnboardingTour = () => {
           boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
         },
         tooltipContainer: {
-          textAlign: "left",
+          textAlign: isAr ? "right" : "left",
         },
         tooltipTitle: {
           fontWeight: 900,
@@ -113,7 +124,8 @@ const OnboardingTour = () => {
           backgroundColor: "#ff4d2d",
         },
         buttonBack: {
-          marginRight: "16px",
+          marginRight: isAr ? "0" : "16px",
+          marginLeft: isAr ? "16px" : "0",
           fontWeight: "bold",
           color: "#64748b",
         },
@@ -123,11 +135,11 @@ const OnboardingTour = () => {
         },
       }}
       locale={{
-        back: "Back",
-        close: "Close",
-        last: "Finish",
-        next: "Next",
-        skip: "Skip",
+        back: isAr ? "السابق" : "Back",
+        close: isAr ? "إغلاق" : "Close",
+        last: isAr ? "إنهاء" : "Finish",
+        next: isAr ? "التالي" : "Next",
+        skip: isAr ? "تخطي" : "Skip",
       }}
     />
   );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -14,13 +14,7 @@ import {
 import { Reorder } from "framer-motion";
 import SectionTooltip from "./SectionTooltip";
 
-const PROJ_SUGGESTIONS = [
-  "• Designed and developed a full-stack web application using React and Node.js, serving over 10,000 monthly active users.",
-  "• Implemented a responsive and accessible user interface, improving user engagement by 25%.",
-  "• Integrated third-party APIs for payment processing and user authentication, ensuring secure transactions.",
-  "• Optimized database queries and backend logic, reducing page load times by 40%.",
-  "• Collaborated with a team of 4 developers using Agile methodologies and Git for version control.",
-];
+const AISuggestion = lazy(() => import("./AISuggestion"));
 
 const ProjectsForm = () => {
   const { language } = useLanguageStore();
@@ -49,7 +43,14 @@ const ProjectsForm = () => {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <SectionTooltip
+            title={t.projects.title}
+            content={t.projects.tooltipDesc || "Add your key projects to demonstrate your practical experience."}
+            example={t.projects.tooltipExample || "e.g., E-commerce Platform - Built with React and Node.js"}
+          />
+        </div>
         <button
           onClick={handleAdd}
           className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
@@ -186,29 +187,22 @@ const ProjectsForm = () => {
                       </div>
 
                       {showSuggestionsFor === proj.id && (
-                        <div className="bg-indigo-50/50 border border-indigo-100 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
-                          <p className="text-xs font-semibold text-indigo-800 mb-2">
-                            {t.projects.clickToAppend}
-                          </p>
-                          {PROJ_SUGGESTIONS.map((suggestion, idx) => (
-                            <button
-                              key={idx}
-                              type="button"
-                              onClick={() => {
-                                const currentDesc = proj.description
-                                  ? proj.description + "\n"
-                                  : "";
-                                updateProject(proj.id, {
-                                  description: currentDesc + suggestion,
-                                });
-                                setShowSuggestionsFor(null);
-                              }}
-                              className="block w-full text-start text-sm text-slate-600 hover:text-indigo-700 :text-indigo-300 hover:bg-white :bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 :border-indigo-800"
-                            >
-                              {suggestion}
-                            </button>
-                          ))}
-                        </div>
+                        <Suspense
+                          fallback={
+                            <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
+                          }
+                        >
+                          <AISuggestion
+                            currentValue={proj.description}
+                            onApply={(newText) => {
+                              updateProject(proj.id, {
+                                description: newText,
+                              });
+                              setShowSuggestionsFor(null);
+                            }}
+                            context={`Project Name: ${proj.name}, Link: ${proj.link}`}
+                          />
+                        </Suspense>
                       )}
 
                       <textarea
