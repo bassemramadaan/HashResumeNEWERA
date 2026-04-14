@@ -467,6 +467,77 @@ export default function LandingPage() {
 
       <SmallWallOfLove />
 
+      {/* How it Works Section */}
+      <section id="how-it-works" className="py-24 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 text-[#ff4d2d] text-sm font-bold border border-orange-100 mb-4"
+            >
+              <Sparkles size={16} />
+              {t.howItWorks}
+            </motion.div>
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 font-display tracking-tight">
+              {t.howItWorksTitle}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+            {/* Connection Line (Desktop) */}
+            <div className="hidden md:block absolute top-24 left-[20%] right-[20%] h-0.5 bg-gradient-to-r from-orange-100 via-orange-200 to-orange-100 -z-10"></div>
+
+            {[
+              {
+                step: "01",
+                title: t.step1Title,
+                desc: t.step1Desc,
+                icon: PenTool,
+                color: "bg-orange-50 text-orange-600 border-orange-100",
+              },
+              {
+                step: "02",
+                title: t.step2Title,
+                desc: t.step2Desc,
+                icon: Search,
+                color: "bg-indigo-50 text-indigo-600 border-indigo-100",
+              },
+              {
+                step: "03",
+                title: t.step3Title,
+                desc: t.step3Desc,
+                icon: CheckCircle2,
+                color: "bg-emerald-50 text-emerald-600 border-emerald-100",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.2 }}
+                className="flex flex-col items-center text-center group"
+              >
+                <div className={`w-20 h-20 rounded-3xl ${item.color} border-2 flex items-center justify-center mb-6 relative shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                  <item.icon size={32} />
+                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white border-2 border-slate-100 flex items-center justify-center text-xs font-black text-slate-900 shadow-sm">
+                    {item.step}
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-[#ff4d2d] transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-slate-600 leading-relaxed max-w-xs">
+                  {item.desc}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ATS Audit Showcase */}
       <section className="py-16 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
