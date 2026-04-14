@@ -40,13 +40,13 @@ function handleFirestoreError(
   const errInfo: FirestoreErrorInfo = {
     error: error instanceof Error ? error.message : String(error),
     authInfo: {
-      userId: firebaseAuth.currentUser?.uid,
-      email: firebaseAuth.currentUser?.email,
-      emailVerified: firebaseAuth.currentUser?.emailVerified,
-      isAnonymous: firebaseAuth.currentUser?.isAnonymous,
-      tenantId: firebaseAuth.currentUser?.tenantId,
+      userId: firebaseAuth?.currentUser?.uid,
+      email: firebaseAuth?.currentUser?.email,
+      emailVerified: firebaseAuth?.currentUser?.emailVerified,
+      isAnonymous: firebaseAuth?.currentUser?.isAnonymous,
+      tenantId: firebaseAuth?.currentUser?.tenantId,
       providerInfo:
-        firebaseAuth.currentUser?.providerData.map((provider) => ({
+        firebaseAuth?.currentUser?.providerData.map((provider) => ({
           providerId: provider.providerId,
           displayName: provider.displayName,
           email: provider.email,
@@ -66,7 +66,7 @@ const FirebaseSync = () => {
 
   // 1. Listen for remote changes when user is logged in
   useEffect(() => {
-    if (!user || !isHydrated) return;
+    if (!user || !isHydrated || !db) return;
 
     const path = `resumes/${user.uid}`;
     const resumeRef = doc(db, "resumes", user.uid);
@@ -110,7 +110,7 @@ const FirebaseSync = () => {
 
   // 2. Push local changes to remote
   useEffect(() => {
-    if (!user || !isHydrated) return;
+    if (!user || !isHydrated || !db) return;
 
     const path = `resumes/${user.uid}`;
     const resumeRef = doc(db, "resumes", user.uid);
@@ -136,7 +136,7 @@ const FirebaseSync = () => {
 
   // 3. Sync user profile
   useEffect(() => {
-    if (!user) return;
+    if (!user || !db) return;
 
     const path = `users/${user.uid}`;
     const userRef = doc(db, "users", user.uid);

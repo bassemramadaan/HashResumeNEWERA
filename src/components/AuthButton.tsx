@@ -9,6 +9,10 @@ const AuthButton = () => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleLogin = async () => {
+    if (!auth) {
+      console.warn("Firebase Auth is not initialized.");
+      return;
+    }
     setIsProcessing(true);
     try {
       await signInWithPopup(auth, googleProvider);
@@ -25,6 +29,7 @@ const AuthButton = () => {
   };
 
   const handleLogout = async () => {
+    if (!auth) return;
     setIsProcessing(true);
     try {
       await signOut(auth);
