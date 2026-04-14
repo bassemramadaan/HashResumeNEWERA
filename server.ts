@@ -15,6 +15,14 @@ async function startServer() {
   app.use(cors());
   app.use(express.json());
 
+  // General Rate Limiter for all API routes
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message: { error: 'Too many requests, please try again later.' }
+  });
+  app.use('/api/', limiter);
+
   // Rate Limiter for AI Endpoints
   const aiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
