@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Facebook, Instagram, MessageCircle, Linkedin, Twitter } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 import FeedbackModal from "./FeedbackModal";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
@@ -129,8 +130,8 @@ export default function Footer() {
                     className="hover:text-white transition-colors"
                   >
                     {language === "ar"
-                      ? "لماذا لا نطلب التسجيل؟"
-                      : "Why No Sign-up?"}
+                      ? "لماذا نستخدم تسجيل الدخول؟"
+                      : "Why use Sign-in?"}
                   </Link>
                 </li>
               </ul>
@@ -200,11 +201,14 @@ export default function Footer() {
               </Link>
             </div>
             <div className="flex items-center gap-6">
-              <LanguageSwitcher
-                size={16}
-                variant="ghost"
-                className="px-0 py-0"
-              />
+              <div className="flex items-center gap-2">
+                <LanguageSwitcher
+                  size={16}
+                  variant="ghost"
+                  className="px-0 py-0"
+                />
+                <ThemeToggle size={16} className="w-8 h-8 bg-transparent border-none shadow-none hover:bg-slate-800" />
+              </div>
               <p>{t.privateFooter}</p>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { UserX, Zap, Shield, Clock } from "lucide-react";
+import { UserCheck, Cloud, Shield, Laptop } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { useLanguageStore } from "../store/useLanguageStore";
 
@@ -17,17 +17,17 @@ export default function WhyNoSignupPage() {
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
         <div className="text-center mb-16">
           <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <UserX className="w-10 h-10 text-indigo-600" />
+            <UserCheck className="w-10 h-10 text-indigo-600" />
           </div>
           <h1 className="text-4xl md:text-5xl font-black font-display mb-6">
             {isAr
-              ? "لماذا لا نطلب منك إنشاء حساب؟"
-              : "Why Don't We Ask You to Sign Up?"}
+              ? "لماذا نستخدم تسجيل الدخول؟"
+              : "Why Do We Use Sign-In?"}
           </h1>
           <p className="text-xl text-slate-600">
             {isAr
-              ? "نحن نؤمن بتجربة مستخدم خالية من التعقيدات. إليك الأسباب."
-              : "We believe in a friction-free user experience. Here is why."}
+              ? "نحن نستخدم تسجيل الدخول عبر جوجل لضمان أفضل تجربة ممكنة لك. إليك الأسباب."
+              : "We use Google Sign-In to ensure the best possible experience for you. Here is why."}
           </p>
         </div>
 
@@ -35,16 +35,16 @@ export default function WhyNoSignupPage() {
           <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="p-4 bg-emerald-100 rounded-xl text-emerald-600">
-                <Zap size={24} />
+                <Cloud size={24} />
               </div>
               <div>
                 <h2 className="text-2xl font-bold mb-2">
-                  {isAr ? "السرعة والسهولة" : "Speed and Simplicity"}
+                  {isAr ? "المزامنة السحابية" : "Cloud Sync"}
                 </h2>
                 <p className="text-slate-600 leading-relaxed">
                   {isAr
-                    ? "أنت هنا لإنشاء سيرة ذاتية، وليس لتذكر كلمة مرور جديدة. يمكنك البدء في كتابة سيرتك الذاتية فوراً دون أي خطوات إضافية."
-                    : "You are here to build a resume, not to remember another password. You can start writing your resume immediately without any extra steps."}
+                    ? "عند تسجيل الدخول، يتم حفظ سيرتك الذاتية تلقائياً في السحابة. هذا يعني أنك لن تفقد بياناتك أبداً حتى لو قمت بمسح بيانات المتصفح."
+                    : "When you sign in, your resume is automatically saved in the cloud. This means you will never lose your data even if you clear your browser data."}
                 </p>
               </div>
             </div>
@@ -53,16 +53,16 @@ export default function WhyNoSignupPage() {
           <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="p-4 bg-blue-100 rounded-xl text-blue-600">
-                <Shield size={24} />
+                <Laptop size={24} />
               </div>
               <div>
                 <h2 className="text-2xl font-bold mb-2">
-                  {isAr ? "الخصوصية التامة" : "Total Privacy"}
+                  {isAr ? "الوصول من أي جهاز" : "Access from Any Device"}
                 </h2>
                 <p className="text-slate-600 leading-relaxed">
                   {isAr
-                    ? "عدم وجود حساب يعني أننا لا نمتلك قاعدة بيانات تحتوي على معلوماتك الشخصية أو بريدك الإلكتروني. بياناتك تُحفظ محلياً على جهازك فقط."
-                    : "No account means we do not have a database containing your personal information or email. Your data is saved locally on your device only."}
+                    ? "يمكنك البدء في كتابة سيرتك الذاتية على الكمبيوتر وإكمالها لاحقاً من هاتفك المحمول بمجرد تسجيل الدخول بنفس الحساب."
+                    : "You can start writing your resume on your computer and finish it later from your mobile phone just by signing in with the same account."}
                 </p>
               </div>
             </div>
@@ -71,18 +71,16 @@ export default function WhyNoSignupPage() {
           <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="p-4 bg-amber-100 rounded-xl text-amber-600">
-                <Clock size={24} />
+                <Shield size={24} />
               </div>
               <div>
                 <h2 className="text-2xl font-bold mb-2">
-                  {isAr
-                    ? "كيف تسترجع بياناتك؟"
-                    : "How Do You Retrieve Your Data?"}
+                  {isAr ? "الأمان والخصوصية" : "Security and Privacy"}
                 </h2>
                 <p className="text-slate-600 leading-relaxed">
                   {isAr
-                    ? "طالما أنك تستخدم نفس المتصفح ولم تقم بمسح بياناته (Local Storage)، ستجد سيرتك الذاتية كما تركتها تماماً عند عودتك للموقع."
-                    : "As long as you use the same browser and haven't cleared its data (Local Storage), you will find your resume exactly as you left it when you return to the site."}
+                    ? "نحن نستخدم تسجيل دخول جوجل الآمن. بياناتك مشفرة ومحمية، ولا يمكن لأحد غيرك الوصول إليها."
+                    : "We use secure Google Sign-In. Your data is encrypted and protected, and no one but you can access it."}
                 </p>
               </div>
             </div>

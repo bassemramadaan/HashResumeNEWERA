@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "zustand";
-import { useThemeStore } from "../store/useThemeStore";
 import {
   User,
   Briefcase,
@@ -26,8 +25,6 @@ import {
   Loader2,
   ArrowUp,
   Settings,
-  Moon,
-  Sun,
 } from "lucide-react";
 import { useResumeStore } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
@@ -36,6 +33,8 @@ import { translations } from "../i18n/translations";
 import Stepper from "../components/editor/Stepper";
 import Logo from "../components/Logo";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import ThemeToggle from "../components/ThemeToggle";
+import AuthButton from "../components/AuthButton";
 import SettingsModal from "../components/SettingsModal";
 import { cn } from "../utils";
 import { calculateATSScore } from "../utils/ats";
@@ -92,6 +91,7 @@ type Tab =
 interface TabItem {
   id: Tab;
   label: string;
+  shortLabel: string;
   icon: React.ElementType;
   tourId?: string;
 }
@@ -157,7 +157,6 @@ const ATSScoreIndicator = ({
   setActiveTab: (tab: Tab) => void;
 }) => {
   const { language } = useLanguageStore();
-  const t = translations[language].editor;
   const data = useResumeStore((state) => state.data);
   const atsScore = React.useMemo(() => calculateATSScore(data).score, [data]);
 
@@ -168,7 +167,7 @@ const ATSScoreIndicator = ({
     >
       <div className="flex flex-col items-start">
         <span className="text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">
-          {language === "ar" ? "اكتمال الملف" : "Profile Complete"}
+          {language === "ar" ? "النتيجة" : "Score"}
         </span>
         <span
           className={cn(
@@ -231,7 +230,6 @@ export default function EditorPage() {
   const [previewMode, setPreviewMode] = useState<"resume" | "cover-letter">(
     "resume",
   );
-  const { theme, toggleTheme } = useThemeStore();
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
   const isPremium = useResumeStore((state) => state.data.isPremium);
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
@@ -321,27 +319,48 @@ export default function EditorPage() {
   };
 
   const tabs: TabItem[] = [
-    { id: "basics", label: t.personalInfo, icon: User, tourId: "personal-info" },
+    {
+      id: "basics",
+      label: t.personalInfo,
+      shortLabel: language === "ar" ? "البيانات" : "Basics",
+      icon: User,
+      tourId: "personal-info",
+    },
     {
       id: "experience",
       label: t.experience.title,
+      shortLabel: language === "ar" ? "الخبرة" : "Exp",
       icon: Briefcase,
       tourId: "experience-section",
     },
     {
       id: "education",
       label: t.education.title,
+      shortLabel: language === "ar" ? "التعليم" : "Edu",
       icon: GraduationCap,
       tourId: "education-section",
     },
-    { id: "skills", label: t.skills.title, icon: Wrench, tourId: "skills-section" },
+    {
+      id: "skills",
+      label: t.skills.title,
+      shortLabel: language === "ar" ? "المهارات" : "Skills",
+      icon: Wrench,
+      tourId: "skills-section",
+    },
     {
       id: "cover-letter",
       label: t.coverLetter.title,
+      shortLabel: language === "ar" ? "الخطاب" : "Cover",
       icon: FileText,
       tourId: "cover-letter-section",
     },
-    { id: "finish", label: t.review, icon: Target, tourId: "review-section" },
+    {
+      id: "finish",
+      label: t.review,
+      shortLabel: language === "ar" ? "مراجعة" : "Review",
+      icon: Target,
+      tourId: "review-section",
+    },
   ];
 
   const activeTabIndex = tabs.findIndex((t) => t.id === activeTab) + 1;
@@ -417,13 +436,8 @@ export default function EditorPage() {
           {/* Right Section: Actions */}
           <div className="flex items-center gap-2">
             <div className="hidden sm:flex items-center gap-2">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-full text-slate-600 hover:bg-slate-100 :bg-slate-800 transition-colors"
-                title={theme === "dark" ? "Light Mode" : "Dark Mode"}
-              >
-                {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
+              <AuthButton />
+              <ThemeToggle size={18} className="w-9 h-9" />
               <button
                 onClick={() => setShowWelcomeModal(true)}
                 className="p-2 rounded-full text-[#ff4d2d] bg-orange-50 hover:bg-orange-100 :bg-orange-900/40 transition-colors border border-orange-200"
@@ -780,7 +794,7 @@ export default function EditorPage() {
                       exit={{ opacity: 0, y: 10 }}
                       className="absolute -top-10 px-4 py-2 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-xl pointer-events-none whitespace-nowrap"
                     >
-                      {tab.label}
+                      {tab.shortLabel}
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -794,10 +808,11 @@ export default function EditorPage() {
           {/* Start / Export Button */}
           <button
             onClick={handleExportClick}
-            className="flex items-center gap-2 bg-[#ff4d2d] hover:bg-[#e63e1d] text-white font-black py-2 px-6 rounded-full shadow-xl hover:scale-105 active:scale-95 transition-all group shrink-0"
+            className="flex items-center gap-2 bg-[#ff4d2d] hover:bg-[#e63e1d] text-white font-black py-2 px-4 sm:px-6 rounded-full shadow-xl hover:scale-105 active:scale-95 transition-all group shrink-0"
           >
             <span className="text-[10px] uppercase tracking-widest">
-              {t.exportPdf}
+              <span className="hidden sm:inline">{t.exportPdf}</span>
+              <span className="sm:hidden">{language === "ar" ? "تصدير" : "Export"}</span>
             </span>
             <ArrowRight
               size={16}

@@ -1,0 +1,46 @@
+{
+  "entities": {
+    "Resume": {
+      "title": "Resume",
+      "description": "A user's resume data",
+      "type": "object",
+      "properties": {
+        "personalInfo": { "type": "object" },
+        "experience": { "type": "array" },
+        "education": { "type": "array" },
+        "skills": { "type": "array" },
+        "projects": { "type": "array" },
+        "certifications": { "type": "array" },
+        "customSections": { "type": "array" },
+        "settings": { "type": "object" },
+        "jobDescription": { "type": "string" },
+        "isPremium": { "type": "boolean" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "userId": { "type": "string" }
+      },
+      "required": ["userId", "updatedAt"]
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/resumes/{resumeId}": {
+      "schema": "Resume",
+      "description": "User resumes"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    }
+  }
+}

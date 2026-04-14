@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { PenTool, Target, ArrowRight, Menu, X, Sparkles, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
+import AuthButton from "./AuthButton";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { cn } from "../utils";
@@ -142,11 +144,14 @@ export default function Navbar() {
 
           {/* Actions */}
           <div className="hidden lg:flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-slate-100/50 p-2 rounded-full border border-slate-200/50">
+            <AuthButton />
+            
+            <div className="flex items-center gap-2 bg-slate-100/50 dark:bg-slate-800/50 p-2 rounded-full border border-slate-200/50 dark:border-slate-700/50">
               <LanguageSwitcher
                 size={18}
-                className="text-xs px-4 py-2 hover:bg-white :bg-slate-700 rounded-full transition-colors"
+                className="text-xs px-4 py-2 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-colors"
               />
+              <ThemeToggle size={18} className="w-9 h-9" />
             </div>
 
             <Link
@@ -201,6 +206,16 @@ export default function Navbar() {
             className="lg:hidden absolute top-full start-4 end-4 mt-2 bg-white/95 backdrop-blur-xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
           >
             <div className="p-6 flex flex-col gap-4">
+              <div className="flex items-center justify-between px-2 mb-2">
+                <AuthButton />
+                <div className="flex items-center gap-2">
+                  <LanguageSwitcher size={18} className="text-sm" />
+                  <ThemeToggle size={18} />
+                </div>
+              </div>
+
+              <div className="h-px bg-slate-200 my-2"></div>
+
               {[...navLinks, ...moreLinks].map((link, i) => (
                 <motion.div
                   key={link.path}
@@ -236,13 +251,6 @@ export default function Navbar() {
               ))}
 
               <div className="h-px bg-slate-200 my-2"></div>
-
-              <div className="flex items-center justify-between px-2 mb-2">
-                <span className="text-sm font-bold text-slate-500">
-                  Language
-                </span>
-                <LanguageSwitcher size={18} className="text-sm" />
-              </div>
 
               <Link
                 to="/editor"

@@ -7,6 +7,7 @@ import { useThemeStore } from "./store/useThemeStore";
 import PageLoader from "./components/PageLoader";
 import ExitIntentPopup from "./components/ExitIntentPopup";
 import { ErrorBoundary } from "./components/ErrorBoundary";
+import FirebaseSync from "./components/FirebaseSync";
 
 const LandingPage = React.lazy(() => import("./pages/LandingPage"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
@@ -42,6 +43,7 @@ export default function App() {
     <HelmetProvider>
       <BrowserRouter>
         <ErrorBoundary>
+          <FirebaseSync />
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<LandingPage />} />

@@ -33,6 +33,25 @@ export class ErrorBoundary extends Component<Props, State> {
         return this.props.fallback;
       }
 
+      let errorMessage = "We're sorry, but an unexpected error occurred. Please try refreshing the page.";
+      let isFirestoreError = false;
+
+      try {
+        if (this.state.error) {
+          const parsed = JSON.parse(this.state.error.message);
+          if (parsed.error && parsed.operationType) {
+            isFirestoreError = true;
+            if (parsed.error.includes("permission-denied") || parsed.error.includes("insufficient permissions")) {
+              errorMessage = "You don't have permission to perform this action. Please make sure you are signed in with the correct account.";
+            } else {
+              errorMessage = `A database error occurred: ${parsed.error}`;
+            }
+          }
+        }
+      } catch {
+        // Not a JSON error message, use default
+      }
+
       return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4 transition-colors">
           <div className="bg-white p-8 rounded-xl shadow-lg border border-slate-200 max-w-md w-full text-center transition-colors">
@@ -54,11 +73,10 @@ export class ErrorBoundary extends Component<Props, State> {
               </svg>
             </div>
             <h2 className="text-2xl font-bold text-slate-900 mb-2">
-              Something went wrong
+              {isFirestoreError ? "Database Error" : "Something went wrong"}
             </h2>
             <p className="text-slate-600 mb-6">
-              We're sorry, but an unexpected error occurred. Please try
-              refreshing the page.
+              {errorMessage}
             </p>
             <div className="flex gap-4 justify-center">
               <button
@@ -74,7 +92,7 @@ export class ErrorBoundary extends Component<Props, State> {
                 Go Home
               </button>
             </div>
-            {import.meta.env.DEV && this.state.error && (
+            {(import.meta.env.DEV || isFirestoreError) && this.state.error && (
               <div className="mt-8 text-start bg-slate-100 p-4 rounded-lg overflow-auto max-h-48 text-xs font-mono text-slate-700">
                 {this.state.error.toString()}
               </div>
