@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { motion, AnimatePresence } from "framer-motion";
@@ -355,6 +356,10 @@ export default function EditorPage() {
       className="flex flex-col h-screen bg-slate-50 overflow-hidden font-sans transition-colors duration-200"
       dir={dir}
     >
+      <Helmet>
+        <title>{t.editor?.title || "Resume Editor"} | Hash Resume</title>
+        <meta name="description" content="Build your professional resume with our AI-powered editor." />
+      </Helmet>
       <OnboardingTour />
 
       {/* Floating Dock Navbar (Top) */}

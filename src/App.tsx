@@ -5,6 +5,7 @@ import { HelmetProvider } from "react-helmet-async";
 import { useLanguageStore } from "./store/useLanguageStore";
 import PageLoader from "./components/PageLoader";
 import ExitIntentPopup from "./components/ExitIntentPopup";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const LandingPage = React.lazy(() => import("./pages/LandingPage"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
@@ -30,24 +31,26 @@ export default function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/editor" element={<EditorPage />} />
-            <Route path="/templates" element={<TemplatesPage />} />
-            <Route path="/hash-hunt" element={<HashHuntPage />} />
-            <Route path="/cover-letter" element={<CoverLetterPage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/blog/:id" element={<BlogPostPage />} />
-            <Route path="/share/:id" element={<SharePage />} />
-            <Route path="/privacy" element={<PrivacyPage />} />
-            <Route path="/terms" element={<TermsOfServicePage />} />
-            <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
-            <Route path="/why-no-signup" element={<WhyNoSignupPage />} />
-          </Routes>
-          <ExitIntentPopup />
-          <Analytics />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/editor" element={<EditorPage />} />
+              <Route path="/templates" element={<TemplatesPage />} />
+              <Route path="/hash-hunt" element={<HashHuntPage />} />
+              <Route path="/cover-letter" element={<CoverLetterPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:id" element={<BlogPostPage />} />
+              <Route path="/share/:id" element={<SharePage />} />
+              <Route path="/privacy" element={<PrivacyPage />} />
+              <Route path="/terms" element={<TermsOfServicePage />} />
+              <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
+              <Route path="/why-no-signup" element={<WhyNoSignupPage />} />
+            </Routes>
+            <ExitIntentPopup />
+            <Analytics />
+          </Suspense>
+        </ErrorBoundary>
       </BrowserRouter>
     </HelmetProvider>
   );

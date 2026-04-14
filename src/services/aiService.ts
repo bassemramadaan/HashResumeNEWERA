@@ -1,41 +1,39 @@
-import { GoogleGenAI } from "@google/genai";
 import { AIResponse, IResumeService } from "../types/ai.types";
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
 /**
- * Centralized AI Service for Gemini API calls
+ * Centralized AI Service for Gemini API calls via Express Backend
  */
 export const aiService: IResumeService = {
   /**
-   * Generates content using Google Gemini API directly
+   * Generates content using the backend API
    */
   generateContent: async (
     prompt: string,
     systemInstruction?: string,
   ): Promise<AIResponse> => {
     try {
-      if (!apiKey) {
-        throw new Error("Gemini API key is not configured");
-      }
-
-      const genAI = new GoogleGenAI({ apiKey });
-      const model = genAI.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt,
-        config: {
-          systemInstruction: systemInstruction,
+      const response = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          prompt,
+          systemInstruction,
+        }),
       });
 
-      const response = await model;
-      const text = response.text;
+      const data = await response.json();
 
-      if (!text) {
-        throw new Error("Empty response from Gemini");
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to generate content");
       }
 
-      return { text };
+      if (!data.text) {
+        throw new Error("Empty response from AI");
+      }
+
+      return { text: data.text };
     } catch (err: unknown) {
       console.error("AI Generation failed:", err);
       return {
@@ -52,11 +50,6 @@ export const aiService: IResumeService = {
     jobDescription: string,
   ): Promise<AIResponse> => {
     try {
-      if (!apiKey) {
-        throw new Error("Gemini API key is not configured");
-      }
-
-      const genAI = new GoogleGenAI({ apiKey });
       const systemInstruction = `You are an expert ATS (Applicant Tracking System) analyzer. 
  Analyze the provided resume against the job description.
  Return a JSON object with:
@@ -68,22 +61,29 @@ export const aiService: IResumeService = {
 
       const prompt = `Resume: ${resume}\n\nJob Description: ${jobDescription}`;
 
-      const response = await genAI.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt,
-        config: {
+      const response = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
           systemInstruction,
           responseMimeType: "application/json",
-        },
+        }),
       });
 
-      const text = response.text;
+      const data = await response.json();
 
-      if (!text) {
-        throw new Error("Empty response from Gemini");
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to analyze resume");
       }
 
-      return { text };
+      if (!data.text) {
+        throw new Error("Empty response from AI");
+      }
+
+      return { text: data.text };
     } catch (err: unknown) {
       console.error("ATS Matching failed:", err);
       return {

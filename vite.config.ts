@@ -22,7 +22,7 @@ export default defineConfig(({mode}) => {
           manualChunks: {
             vendor: ['react', 'react-dom', 'react-router-dom'],
             ui: ['lucide-react', 'framer-motion', 'motion'],
-            pdf: ['jspdf', 'html2canvas', 'react-to-print'],
+            pdf: ['react-to-print'],
             utils: ['date-fns', 'papaparse', 'nanoid', 'clsx', 'tailwind-merge']
           }
         }

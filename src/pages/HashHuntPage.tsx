@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
   Briefcase,
@@ -26,6 +27,10 @@ export default function HashHuntPage() {
       className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 transition-colors duration-300"
       dir={dir}
     >
+      <Helmet>
+        <title>{t.heroTitlePart1} {t.heroTitlePart2} | Hash Hunt</title>
+        <meta name="description" content={t.heroSubtitle} />
+      </Helmet>
       <Navbar />
 
       {/* Hero Section */}

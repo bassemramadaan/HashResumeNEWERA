@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Sparkles, Loader2, Check, RefreshCw } from "lucide-react";
-import { GoogleGenAI } from "@google/genai";
 import { useLanguageStore } from "../../store/useLanguageStore";
+import { aiService } from "../../services/aiService";
 
 interface AISuggestionProps {
   currentValue: string;
@@ -26,7 +26,6 @@ export default function AISuggestion({
     setError(null);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
       const prompt = `
  You are a professional resume writer. 
  Improve the following sentence for a resume to make it more impactful, professional, and result-oriented.
@@ -39,16 +38,13 @@ export default function AISuggestion({
  Provide ONLY the improved sentence, no other text.
 `;
 
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt,
-      });
+      const response = await aiService.generateContent(prompt);
 
       const text = response.text?.trim();
       if (text) {
         setSuggestion(text);
       } else {
-        setError("Could not generate suggestion");
+        setError(response.error || "Could not generate suggestion");
       }
     } catch (err) {
       console.error("AI Suggestion Error:", err);
