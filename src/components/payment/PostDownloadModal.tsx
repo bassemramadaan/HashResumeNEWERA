@@ -24,7 +24,7 @@ export default function PostDownloadModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm"
           onClick={onClose}
         />
 
@@ -32,11 +32,11 @@ export default function PostDownloadModal({
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+          className="relative w-full max-w-lg bg-slate-50 rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
         >
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 :text-slate-300 hover:bg-slate-100 :bg-slate-800 rounded-full transition-colors z-10"
+            className="absolute top-4 right-4 p-2 text-slate-500 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-10"
           >
             <X size={20} />
           </button>
@@ -80,7 +80,7 @@ export default function PostDownloadModal({
 
             <button
               onClick={onClose}
-              className="text-sm font-medium text-slate-500 hover:text-slate-800 :text-slate-200 transition-colors"
+              className="text-sm font-medium text-white0 hover:text-slate-800 transition-colors"
             >
               {isRtl ? "إغلاق" : "Close"}
             </button>

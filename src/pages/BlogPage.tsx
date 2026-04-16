@@ -42,7 +42,7 @@ export default function BlogPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-slate-100 flex flex-col"
+              className="bg-slate-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow border border-slate-100 flex flex-col"
             >
               <Link
                 to={`/blog/${post.id}`}
@@ -57,7 +57,7 @@ export default function BlogPage() {
                 />
               </Link>
               <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-center gap-4 text-xs text-slate-500 mb-4">
+                <div className="flex items-center gap-4 text-xs text-white0 mb-4">
                   <span className="flex items-center gap-1">
                     <Calendar size={14} />
                     {post.date}
@@ -68,7 +68,7 @@ export default function BlogPage() {
                   </span>
                 </div>
                 <Link to={`/blog/${post.id}`} className="block mb-4">
-                  <h2 className="text-xl font-bold text-slate-900 hover:text-indigo-600 :text-indigo-400 transition-colors line-clamp-2">
+                  <h2 className="text-xl font-bold text-slate-900 hover:text-indigo-600 transition-colors line-clamp-2">
                     {post.title[language]}
                   </h2>
                 </Link>

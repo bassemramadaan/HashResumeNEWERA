@@ -23,7 +23,7 @@ export default function SectionTooltip({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="text-slate-400 hover:text-indigo-500 transition-colors p-1"
+        className="text-slate-500 hover:text-indigo-500 transition-colors p-1"
         title="Click for tips"
       >
         <HelpCircle size={16} />
@@ -40,7 +40,7 @@ export default function SectionTooltip({
               initial={{ opacity: 0, scale: 0.9, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 10 }}
-              className="absolute start-0 bottom-full mb-2 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 p-6 z-[70] pointer-events-auto"
+              className="absolute start-0 bottom-full mb-2 w-72 bg-slate-50 rounded-2xl shadow-2xl border border-slate-200 p-6 z-[70] pointer-events-auto"
             >
               <div className="flex items-center justify-between mb-4">
                 <h4 className="font-bold text-slate-900 text-sm flex items-center gap-2">
@@ -49,7 +49,7 @@ export default function SectionTooltip({
                 </h4>
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="text-slate-400 hover:text-slate-600 :text-slate-300"
+                  className="text-slate-500 hover:text-slate-600"
                 >
                   <X size={14} />
                 </button>
@@ -71,7 +71,7 @@ export default function SectionTooltip({
               )}
 
               {/* Arrow */}
-              <div className="absolute start-4 top-full w-4 h-4 bg-white border-e border-b border-slate-200 rotate-45 -translate-y-1.5" />
+              <div className="absolute start-4 top-full w-4 h-4 bg-slate-50 border-e border-b border-slate-200 rotate-45 -translate-y-1.5" />
             </motion.div>
           </>
         )}

@@ -16,11 +16,11 @@ export default function CoverLetterPreview() {
 
   if (!coverLetter.generatedContent) {
     return (
-      <div className="h-full flex flex-col items-center justify-center text-slate-400 p-8 text-center">
-        <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
+      <div className="h-full flex flex-col items-center justify-center text-neutral-500 p-8 text-center">
+        <div className="w-16 h-16 rounded-full bg-neutral-100 flex items-center justify-center mb-4">
           <FileText size={32} />
         </div>
-        <h3 className="text-lg font-medium text-slate-900 mb-2">
+        <h3 className="text-lg font-medium text-neutral-900 mb-2">
           No Cover Letter Yet
         </h3>
         <p className="max-w-xs">
@@ -32,11 +32,11 @@ export default function CoverLetterPreview() {
   }
 
   return (
-    <div className="h-full bg-white p-8 md:p-12 shadow-sm overflow-y-auto font-serif text-slate-800 leading-relaxed whitespace-pre-wrap">
+    <div className="h-full bg-neutral-50 p-8 md:p-12 shadow-sm overflow-y-auto font-serif text-neutral-800 leading-relaxed whitespace-pre-wrap">
       <div className="flex justify-end mb-6 print:hidden">
         <button
           onClick={handleCopy}
-          className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-700 bg-slate-50 hover:bg-slate-100 px-4 py-2 rounded-lg transition-colors"
+          className="flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-neutral-700 bg-neutral-50 hover:bg-slate-100 px-4 py-2 rounded-lg transition-colors"
         >
           {copied ? <Check size={16} /> : <Copy size={16} />}
           {copied ? "Copied!" : "Copy Text"}

@@ -1,11 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-sans: "Inter", "Cairo", ui-sans-serif, system-ui, sans-serif;
-  --font-display:
-    "Outfit", "Cairo", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Alexandria", "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", "Alexandria", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   /* Primary Orange - More Vibrant & Sophisticated */
@@ -22,7 +21,7 @@
   --color-indigo-950: #801809;
 
   /* Neutral Slate - Clean & Modern (Updated to pure neutral/black) */
-  --color-slate-50: #fafafa;
+  --color-slate-50: #ffffff;
   --color-slate-100: #f5f5f5;
   --color-slate-200: #e5e5e5;
   --color-slate-300: #d4d4d4;
@@ -41,23 +40,6 @@
 }
 
 @layer base {
-  .dark {
-    --color-slate-50: #0a0a0a;
-    --color-slate-100: #171717;
-    --color-slate-200: #262626;
-    --color-slate-300: #404040;
-    --color-slate-400: #525252;
-    --color-slate-500: #737373;
-    --color-slate-600: #a3a3a3;
-    --color-slate-700: #d4d4d4;
-    --color-slate-800: #e5e5e5;
-    --color-slate-900: #f5f5f5;
-    --color-slate-950: #fafafa;
-    
-    background-color: var(--color-slate-50);
-    color: var(--color-slate-900);
-  }
-
   input,
   textarea {
     unicode-bidi: plaintext;
@@ -110,7 +92,7 @@
 
 @layer components {
   .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-xl;
+    @apply bg-slate-50/70 backdrop-blur-xl border border-slate-200/20 shadow-xl;
   }
 
   .btn-primary {
@@ -118,7 +100,7 @@
   }
 
   .card-premium {
-    @apply bg-white rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500;
+    @apply bg-slate-50 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500;
   }
 }
 

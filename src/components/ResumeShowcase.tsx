@@ -51,12 +51,12 @@ export default function ResumeShowcase() {
               transition={{ delay: i * 0.1 }}
               className="relative group"
             >
-              <div className="absolute inset-0 bg-slate-900/5 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-transform"></div>
+              <div className="absolute inset-0 bg-zinc-900/5 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-transform"></div>
               <div
-                className={`relative bg-white p-2 rounded-2xl shadow-sm border border-slate-200 overflow-hidden h-[400px] hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2`}
+                className={`relative bg-slate-50 p-2 rounded-2xl shadow-sm border border-slate-200 overflow-hidden h-[400px] hover:shadow-xl transition-all duration-300 group-hover:-translate-y-2`}
               >
                 {/* Mini Resume Mockup */}
-                <div className="h-full w-full bg-white flex flex-col p-6 text-[8px] leading-relaxed select-none pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity">
+                <div className="h-full w-full bg-slate-50 flex flex-col p-6 text-[8px] leading-relaxed select-none pointer-events-none opacity-80 group-hover:opacity-100 transition-opacity">
                   <div className="flex justify-between items-start mb-6 border-b border-slate-100 pb-4">
                     <div>
                       <div className="text-lg font-bold text-slate-900 mb-1">
@@ -107,7 +107,7 @@ export default function ResumeShowcase() {
                               <div className="font-bold text-slate-800">
                                 Senior Role
                               </div>
-                              <div className="text-slate-400">
+                              <div className="text-slate-500">
                                 2020 - Present
                               </div>
                             </div>

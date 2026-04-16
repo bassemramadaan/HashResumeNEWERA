@@ -43,7 +43,7 @@ const AuthButton = () => {
   if (loading) {
     return (
       <div className="w-10 h-10 flex items-center justify-center">
-        <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
+        <Loader2 className="w-5 h-5 animate-spin text-slate-500" />
       </div>
     );
   }
@@ -58,7 +58,7 @@ const AuthButton = () => {
           <button
             onClick={handleLogout}
             disabled={isProcessing}
-            className="text-[10px] font-bold text-slate-500 hover:text-[#ff4d2d] transition-colors"
+            className="text-[10px] font-bold text-white0 hover:text-[#ff4d2d] transition-colors"
           >
             {isProcessing ? "..." : "Sign Out"}
           </button>
@@ -67,7 +67,7 @@ const AuthButton = () => {
           {user.photoURL ? (
             <img src={user.photoURL} alt={user.displayName || ""} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center text-slate-400">
+            <div className="w-full h-full flex items-center justify-center text-slate-500">
               <UserIcon size={20} />
             </div>
           )}
@@ -80,7 +80,7 @@ const AuthButton = () => {
     <button
       onClick={handleLogin}
       disabled={isProcessing}
-      className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white hover:bg-slate-800 transition-all text-xs font-bold shadow-md active:scale-95 disabled:opacity-50"
+      className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 text-white hover:bg-zinc-800 transition-all text-xs font-bold shadow-md active:scale-95 disabled:opacity-50"
     >
       {isProcessing ? (
         <Loader2 size={14} className="animate-spin" />

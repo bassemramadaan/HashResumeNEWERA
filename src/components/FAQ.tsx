@@ -26,7 +26,7 @@ export default function FAQ() {
   ];
 
   return (
-    <section id="faq" className="py-12 bg-white">
+    <section id="faq" className="py-12 bg-slate-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">
@@ -41,11 +41,11 @@ export default function FAQ() {
             return (
               <div
                 key={index}
-                className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-colors"
+                className="bg-slate-50 rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-colors"
               >
                 <button
                   onClick={() => toggleIndex(index)}
-                  className="w-full px-6 py-4 text-start flex justify-between items-center hover:bg-slate-50 :bg-slate-800/50 transition-colors"
+                  className="w-full px-6 py-4 text-start flex justify-between items-center hover:bg-slate-50 transition-colors"
                 >
                   <span className="font-semibold text-slate-900">
                     {faq.question}
@@ -53,7 +53,7 @@ export default function FAQ() {
                   {isOpen ? (
                     <ChevronUp className="text-[#ff4d2d]" size={20} />
                   ) : (
-                    <ChevronDown className="text-slate-400" size={20} />
+                    <ChevronDown className="text-slate-500" size={20} />
                   )}
                 </button>
                 <AnimatePresence>
@@ -80,7 +80,7 @@ export default function FAQ() {
           <div className="absolute bottom-0 start-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 group-hover:opacity-50 transition-opacity duration-700 translate-y-1/2 -translate-x-1/2"></div>
           
           <div className="relative z-10 flex flex-col items-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-6 border border-white/20 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50/10 text-white text-xs font-bold uppercase tracking-wider mb-6 border border-slate-200/20 backdrop-blur-md">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               {language === "ar" ? "جاهز للبدء؟" : "Ready to start?"}
             </div>

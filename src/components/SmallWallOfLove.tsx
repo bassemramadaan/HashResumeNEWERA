@@ -67,15 +67,15 @@ export default function SmallWallOfLove() {
   };
 
   return (
-    <section className="py-12 bg-white border-y border-slate-100 overflow-hidden relative">
+    <section className="py-12 bg-slate-50 border-y border-slate-100 overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 flex items-center justify-between">
-        <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">
+        <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
           {language === "ar" ? "آراء مستخدمينا" : "Wall of Love"}
         </p>
         <div className="flex items-center gap-2">
           <button 
             onClick={() => scroll(language === "ar" ? "right" : "left")}
-            className="p-2 rounded-full border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors"
+            className="p-2 rounded-full border border-slate-200 text-slate-500 hover:text-slate-600 hover:bg-slate-50 transition-colors"
           >
             <ChevronLeft size={20} className="rtl:rotate-180" />
           </button>
@@ -96,7 +96,7 @@ export default function SmallWallOfLove() {
           {reviews.map((review, index) => (
             <div
               key={index}
-              className="snap-center flex-shrink-0 w-[300px] md:w-[380px] bg-white p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200/50 transition-all duration-300"
+              className="snap-center flex-shrink-0 w-[300px] md:w-[380px] bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200/50 transition-all duration-300"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-1">
@@ -123,7 +123,7 @@ export default function SmallWallOfLove() {
                   <div className="text-base font-bold text-slate-900 leading-tight">
                     {review.name}
                   </div>
-                  <div className="text-sm text-slate-500 mt-1 font-medium">
+                  <div className="text-sm text-white0 mt-1 font-medium">
                     {review.role}
                   </div>
                 </div>

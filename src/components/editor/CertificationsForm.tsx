@@ -52,7 +52,7 @@ const CertificationsForm = () => {
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
+          className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
         >
           <Plus size={16} />
           {t.certifications.add}
@@ -60,7 +60,7 @@ const CertificationsForm = () => {
       </div>
 
       {certifications.length === 0 ? (
-        <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
+        <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 border-dashed text-center text-white0">
           {t.certifications.noCertifications}
         </div>
       ) : (
@@ -74,17 +74,17 @@ const CertificationsForm = () => {
             <Reorder.Item
               key={cert.id}
               value={cert}
-              className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all"
+              className="bg-slate-50 rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all"
             >
               <div
-                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 :bg-slate-800/50 transition-colors"
+                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors"
                 onClick={() =>
                   setExpandedId(expandedId === cert.id ? null : cert.id)
                 }
               >
                 <div className="flex items-center gap-4">
                   <div
-                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 :text-slate-300"
+                    className="cursor-grab active:cursor-grabbing p-1 text-slate-500 hover:text-slate-600"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <GripVertical size={20} />
@@ -105,7 +105,7 @@ const CertificationsForm = () => {
                       const { id: _id, ...rest } = cert;
                       addCertification(rest);
                     }}
-                    className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 :bg-indigo-900/20 rounded-lg transition-colors"
+                    className="p-2 text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
                     title={t.certifications.duplicate}
                   >
                     <Copy size={18} />
@@ -115,7 +115,7 @@ const CertificationsForm = () => {
                       e.stopPropagation();
                       removeCertification(cert.id);
                     }}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 :bg-red-900/20 rounded-lg transition-colors"
+                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                     title={t.certifications.remove}
                   >
                     <Trash2 size={18} />
@@ -141,7 +141,7 @@ const CertificationsForm = () => {
                         onChange={(e) =>
                           updateCertification(cert.id, { name: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder="e.g. AWS Certified Developer"
                       />
                     </div>
@@ -157,7 +157,7 @@ const CertificationsForm = () => {
                             issuer: e.target.value,
                           })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder="e.g. Amazon Web Services"
                       />
                     </div>
@@ -171,7 +171,7 @@ const CertificationsForm = () => {
                         onChange={(e) =>
                           updateCertification(cert.id, { date: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
                       />
                     </div>
                   </div>

@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { PenTool, Target, ArrowRight, Menu, X, Sparkles, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
-import ThemeToggle from "./ThemeToggle";
 import AuthButton from "./AuthButton";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
@@ -58,7 +57,7 @@ export default function Navbar() {
           className={cn(
             "flex items-center justify-between px-4 py-2 rounded-2xl transition-all duration-500",
             isScrolled
-              ? "bg-white/80 backdrop-blur-xl shadow-lg shadow-slate-200/20 border border-white/20"
+              ? "bg-slate-50/80 backdrop-blur-xl shadow-lg shadow-slate-200/20 border border-slate-200/20"
               : "bg-transparent",
           )}
         >
@@ -83,8 +82,8 @@ export default function Navbar() {
                   location.pathname === link.path
                     ? "text-white bg-[#ff4d2d] shadow-md"
                     : link.highlight
-                      ? "text-[#ff4d2d] hover:bg-orange-50 :bg-orange-900/20"
-                      : "text-slate-600 hover:text-slate-900 :text-white hover:bg-white :bg-slate-700 shadow-sm shadow-transparent hover:shadow-slate-200/50 :shadow-black/50",
+                      ? "text-[#ff4d2d] hover:bg-orange-50"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm shadow-transparent hover:shadow-slate-200/50",
                 )}
               >
                 {link.icon}
@@ -106,8 +105,8 @@ export default function Navbar() {
             >
               <button
                 className={cn(
-                  "px-4 py-2 text-sm font-bold rounded-full transition-all flex items-center gap-1 relative group text-slate-600 hover:text-slate-900 hover:bg-white shadow-sm shadow-transparent hover:shadow-slate-200/50",
-                  moreLinks.some(link => location.pathname === link.path) && "text-slate-900 bg-white shadow-slate-200/50"
+                  "px-4 py-2 text-sm font-bold rounded-full transition-all flex items-center gap-1 relative group text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm shadow-transparent hover:shadow-slate-200/50",
+                  moreLinks.some(link => location.pathname === link.path) && "text-slate-900 bg-slate-50 shadow-slate-200/50"
                 )}
               >
                 {t.landing.more || "More"}
@@ -121,7 +120,7 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full start-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden py-2 z-50"
+                    className="absolute top-full start-0 mt-2 w-48 bg-slate-50 rounded-2xl shadow-xl border border-slate-100 overflow-hidden py-2 z-50"
                   >
                     {moreLinks.map((link) => (
                       <Link
@@ -132,7 +131,7 @@ export default function Navbar() {
                           location.pathname === link.path ? "text-[#ff4d2d] bg-orange-50/50" : "text-slate-600"
                         )}
                       >
-                        {link.icon && <span className="text-slate-400">{link.icon}</span>}
+                        {link.icon && <span className="text-slate-500">{link.icon}</span>}
                         {link.name}
                       </Link>
                     ))}
@@ -146,17 +145,16 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-4">
             <AuthButton />
             
-            <div className="flex items-center gap-2 bg-slate-100/50 dark:bg-slate-800/50 p-2 rounded-full border border-slate-200/50 dark:border-slate-700/50">
+            <div className="flex items-center gap-2 bg-slate-100/50  p-2 rounded-full border border-slate-200/50 ">
               <LanguageSwitcher
                 size={18}
-                className="text-xs px-4 py-2 hover:bg-white dark:hover:bg-slate-700 rounded-full transition-colors"
+                className="text-xs px-4 py-2 hover:bg-slate-100 rounded-full transition-colors"
               />
-              <ThemeToggle size={18} className="w-9 h-9" />
             </div>
 
             <Link
               to="/editor"
-              className="flex items-center gap-2 bg-slate-900 text-white hover:bg-[#ff4d2d] :bg-[#ff4d2d] :text-white font-bold py-2 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
+              className="flex items-center gap-2 bg-zinc-900 text-white hover:bg-[#ff4d2d] :bg-[#ff4d2d] font-bold py-2 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
             >
               <Sparkles
                 size={16}
@@ -203,14 +201,13 @@ export default function Navbar() {
             animate={{ opacity: 1, height: "auto", y: 0 }}
             exit={{ opacity: 0, height: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="lg:hidden absolute top-full start-4 end-4 mt-2 bg-white/95 backdrop-blur-xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
+            className="lg:hidden absolute top-full start-4 end-4 mt-2 bg-slate-50/95 backdrop-blur-xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
           >
             <div className="p-6 flex flex-col gap-4">
               <div className="flex items-center justify-between px-2 mb-2">
                 <AuthButton />
                 <div className="flex items-center gap-2">
                   <LanguageSwitcher size={18} className="text-sm" />
-                  <ThemeToggle size={18} />
                 </div>
               </div>
 
@@ -232,7 +229,7 @@ export default function Navbar() {
                         ? "text-white bg-[#ff4d2d]"
                         : link.highlight
                           ? "text-[#ff4d2d] bg-orange-50"
-                          : "text-slate-600 hover:bg-slate-50 :bg-slate-800/50",
+                          : "text-slate-600 hover:bg-slate-50",
                     )}
                   >
                     <div className="flex items-center gap-4">
@@ -255,7 +252,7 @@ export default function Navbar() {
               <Link
                 to="/editor"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-4 bg-slate-900 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-xl shadow-slate-900/10 active:scale-95 transition-all"
+                className="flex items-center justify-center gap-4 bg-zinc-900 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-xl shadow-slate-900/10 active:scale-95 transition-all"
               >
                 <Sparkles size={18} className="text-orange-400" />
                 {t.landing.buildResume || "Build Resume"}

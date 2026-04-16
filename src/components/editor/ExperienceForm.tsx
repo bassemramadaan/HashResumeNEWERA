@@ -73,7 +73,7 @@ const ExperienceForm = () => {
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
+          className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
         >
           <Plus size={16} />
           {t.experience.add}
@@ -81,7 +81,7 @@ const ExperienceForm = () => {
       </div>
 
       {experience.length === 0 ? (
-        <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
+        <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 border-dashed text-center text-white0">
           {t.experience.noExperience}
         </div>
       ) : (
@@ -95,17 +95,17 @@ const ExperienceForm = () => {
             <Reorder.Item
               key={exp.id}
               value={exp}
-              className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all"
+              className="bg-slate-50 rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all"
             >
               <div
-                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 :bg-slate-800/50 transition-colors"
+                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors"
                 onClick={() =>
                   setExpandedId(expandedId === exp.id ? null : exp.id)
                 }
               >
                 <div className="flex items-center gap-4">
                   <div
-                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 :text-slate-300"
+                    className="cursor-grab active:cursor-grabbing p-1 text-slate-500 hover:text-slate-600"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <GripVertical size={20} />
@@ -127,7 +127,7 @@ const ExperienceForm = () => {
                       const { id: _id, ...rest } = exp;
                       addExperience(rest);
                     }}
-                    className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 :bg-indigo-900/20 rounded-lg transition-colors"
+                    className="p-2 text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
                     title={t.experience.duplicate}
                   >
                     <Copy size={18} />
@@ -137,7 +137,7 @@ const ExperienceForm = () => {
                       e.stopPropagation();
                       removeExperience(exp.id);
                     }}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 :bg-red-900/20 rounded-lg transition-colors"
+                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                     title={t.experience.remove}
                   >
                     <Trash2 size={18} />
@@ -163,7 +163,7 @@ const ExperienceForm = () => {
                         onChange={(e) =>
                           updateExperience(exp.id, { position: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder={t.experience.position}
                       />
                     </div>
@@ -177,7 +177,7 @@ const ExperienceForm = () => {
                         onChange={(e) =>
                           updateExperience(exp.id, { company: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder={t.experience.company}
                       />
                     </div>
@@ -193,7 +193,7 @@ const ExperienceForm = () => {
                             startDate: e.target.value,
                           })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -206,7 +206,7 @@ const ExperienceForm = () => {
                         onChange={(e) =>
                           updateExperience(exp.id, { endDate: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder={t.experience.endDate}
                       />
                     </div>
@@ -229,7 +229,7 @@ const ExperienceForm = () => {
                               showAISuggestionFor === exp.id ? null : exp.id,
                             )
                           }
-                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
+                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-full transition-colors"
                         >
                           <Sparkles size={12} />
                           {t.aiSuggestions}
@@ -263,7 +263,7 @@ const ExperienceForm = () => {
                             description: e.target.value,
                           })
                         }
-                        className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
+                        className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
                         placeholder={t.experience.descriptionPlaceholder}
                       />
 

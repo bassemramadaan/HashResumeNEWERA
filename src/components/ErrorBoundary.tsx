@@ -54,7 +54,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4 transition-colors">
-          <div className="bg-white p-8 rounded-xl shadow-lg border border-slate-200 max-w-md w-full text-center transition-colors">
+          <div className="bg-slate-50 p-8 rounded-xl shadow-lg border border-slate-200 max-w-md w-full text-center transition-colors">
             <div className="w-16 h-16 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ export class ErrorBoundary extends Component<Props, State> {
               </button>
               <button
                 onClick={() => (window.location.href = "/")}
-                className="bg-slate-100 text-slate-700 px-6 py-2 rounded-full font-medium hover:bg-slate-200 :bg-slate-700 transition-colors"
+                className="bg-slate-100 text-slate-700 px-6 py-2 rounded-full font-medium hover:bg-slate-200 transition-colors"
               >
                 Go Home
               </button>

@@ -130,12 +130,12 @@ export default function ResumeCheckerModal({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-900/50 backdrop-blur-sm">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]"
+            className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]"
           >
             {/* Header */}
             <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
@@ -143,13 +143,13 @@ export default function ResumeCheckerModal({
                 <h2 className="text-xl font-bold text-slate-900">
                   {t.title}
                 </h2>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-white0">
                   {t.subtitle}
                 </p>
               </div>
               <button
                 onClick={onClose}
-                className="text-slate-400 hover:text-slate-600 :text-slate-300 transition-colors"
+                className="text-slate-500 hover:text-slate-600 transition-colors"
               >
                 <X size={24} />
               </button>
@@ -243,7 +243,7 @@ export default function ResumeCheckerModal({
                       >
                         {score}%
                       </span>
-                      <span className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">
                         {t.scoreLabel}
                       </span>
                     </div>
@@ -298,7 +298,7 @@ export default function ResumeCheckerModal({
             <div className="p-6 border-t border-slate-100 bg-slate-50 flex flex-col sm:flex-row justify-between items-center gap-4">
               <button
                 onClick={onClose}
-                className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 :text-white transition-colors"
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
               >
                 {t.keepEditing}
               </button>
@@ -320,13 +320,13 @@ export default function ResumeCheckerModal({
                 </button>
                 <button
                   onClick={() => onProceed("docx")}
-                  className="px-4 py-2 rounded-lg text-sm font-bold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 :bg-slate-600 transition-all shadow-sm"
+                  className="px-4 py-2 rounded-lg text-sm font-bold bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-50 transition-all shadow-sm"
                 >
                   DOCX
                 </button>
                 <button
                   onClick={() => onProceed("txt")}
-                  className="px-4 py-2 rounded-lg text-sm font-bold bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 :bg-slate-600 transition-all shadow-sm"
+                  className="px-4 py-2 rounded-lg text-sm font-bold bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-50 transition-all shadow-sm"
                 >
                   TXT
                 </button>

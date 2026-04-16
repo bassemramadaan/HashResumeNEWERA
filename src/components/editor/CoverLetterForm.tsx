@@ -130,7 +130,7 @@ export default function CoverLetterForm() {
         </div>
         <button
           onClick={handleImportFromResume}
-          className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 :text-slate-200 bg-slate-100 hover:bg-slate-200 :bg-slate-700 px-4 py-2 rounded-lg transition-colors"
+          className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-lg transition-colors"
           title={t.coverLetter.importTooltip}
         >
           {imported ? <Check size={16} /> : <Import size={16} />}
@@ -138,7 +138,7 @@ export default function CoverLetterForm() {
         </button>
       </div>
 
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6 transition-colors">
+      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6 transition-colors">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <label
@@ -153,7 +153,7 @@ export default function CoverLetterForm() {
               name="fullName"
               value={coverLetter.fullName}
               onChange={handleChange}
-              className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-white text-slate-900 placeholder-slate-400"
+              className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
               placeholder={t.coverLetter.fullNamePlaceholder}
             />
           </div>
@@ -171,7 +171,7 @@ export default function CoverLetterForm() {
               name="jobTitle"
               value={coverLetter.jobTitle}
               onChange={handleChange}
-              className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-white text-slate-900 placeholder-slate-400"
+              className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
               placeholder={t.coverLetter.jobTitlePlaceholder}
             />
           </div>

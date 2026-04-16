@@ -62,7 +62,7 @@ const EducationForm = () => {
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 :bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
+          className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
         >
           <Plus size={16} />
           {t.education.add}
@@ -70,7 +70,7 @@ const EducationForm = () => {
       </div>
 
       {education.length === 0 ? (
-        <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
+        <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 border-dashed text-center text-white0">
           {t.education.noEducation}
         </div>
       ) : (
@@ -84,17 +84,17 @@ const EducationForm = () => {
             <Reorder.Item
               key={edu.id}
               value={edu}
-              className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all"
+              className="bg-slate-50 rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all"
             >
               <div
-                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 :bg-slate-800/50 transition-colors"
+                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors"
                 onClick={() =>
                   setExpandedId(expandedId === edu.id ? null : edu.id)
                 }
               >
                 <div className="flex items-center gap-4">
                   <div
-                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600 :text-slate-300"
+                    className="cursor-grab active:cursor-grabbing p-1 text-slate-500 hover:text-slate-600"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <GripVertical size={20} />
@@ -116,7 +116,7 @@ const EducationForm = () => {
                       const { id: _id, ...rest } = edu;
                       addEducation(rest);
                     }}
-                    className="p-2 text-slate-400 hover:text-indigo-500 hover:bg-indigo-50 :bg-indigo-900/20 rounded-lg transition-colors"
+                    className="p-2 text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
                     title={t.education.duplicate}
                   >
                     <Copy size={18} />
@@ -126,7 +126,7 @@ const EducationForm = () => {
                       e.stopPropagation();
                       removeEducation(edu.id);
                     }}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 :bg-red-900/20 rounded-lg transition-colors"
+                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                     title={t.education.remove}
                   >
                     <Trash2 size={18} />
@@ -152,7 +152,7 @@ const EducationForm = () => {
                         onChange={(e) =>
                           updateEducation(edu.id, { degree: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder={t.education.degree}
                       />
                     </div>
@@ -169,7 +169,7 @@ const EducationForm = () => {
                             institution: e.target.value,
                           })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder={t.education.institution}
                       />
                       <datalist id={`universities-${edu.id}`}>
@@ -190,7 +190,7 @@ const EducationForm = () => {
                         onChange={(e) =>
                           updateEducation(edu.id, { startDate: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
                       />
                     </div>
                     <div className="space-y-1.5">
@@ -203,7 +203,7 @@ const EducationForm = () => {
                         onChange={(e) =>
                           updateEducation(edu.id, { endDate: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
                         placeholder={t.education.endDate}
                       />
                     </div>
@@ -219,7 +219,7 @@ const EducationForm = () => {
                               showSuggestionsFor === edu.id ? null : edu.id,
                             )
                           }
-                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
+                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-full transition-colors"
                         >
                           <Sparkles size={12} />
                           {t.education.aiSuggestionsFree}
@@ -244,7 +244,7 @@ const EducationForm = () => {
                                 });
                                 setShowSuggestionsFor(null);
                               }}
-                              className="block w-full text-start text-sm text-slate-600 hover:text-indigo-700 :text-indigo-300 hover:bg-white :bg-slate-800 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200 :border-indigo-800"
+                              className="block w-full text-start text-sm text-slate-600 hover:text-indigo-700 hover:bg-slate-50 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200"
                             >
                               {suggestion}
                             </button>
@@ -260,7 +260,7 @@ const EducationForm = () => {
                             description: e.target.value,
                           })
                         }
-                        className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
+                        className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
                         placeholder={t.education.descriptionPlaceholder}
                       />
                     </div>

@@ -53,12 +53,12 @@ export default function ExitIntentPopup() {
   return (
     <AnimatePresence>
       {isVisible && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-900/40 backdrop-blur-sm">
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="bg-white rounded-3xl shadow-2xl max-w-lg w-full relative overflow-hidden"
+            className="bg-slate-50 rounded-3xl shadow-2xl max-w-lg w-full relative overflow-hidden"
             dir={language === "ar" ? "rtl" : "ltr"}
           >
             {/* Decorative background */}
@@ -67,13 +67,13 @@ export default function ExitIntentPopup() {
 
             <button
               onClick={() => handleClose(false)}
-              className="absolute top-4 end-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-white/50 rounded-full transition-colors"
+              className="absolute top-4 end-4 p-2 text-slate-500 hover:text-slate-600 hover:bg-slate-50/50 rounded-full transition-colors"
             >
               <X size={20} />
             </button>
 
             <div className="p-8 pt-10 text-center">
-              <div className="w-16 h-16 bg-white rounded-2xl shadow-lg border border-slate-100 flex items-center justify-center mx-auto mb-6">
+              <div className="w-16 h-16 bg-slate-50 rounded-2xl shadow-lg border border-slate-100 flex items-center justify-center mx-auto mb-6">
                 <Sparkles size={32} className="text-[#ff4d2d]" />
               </div>
 
@@ -104,13 +104,13 @@ export default function ExitIntentPopup() {
                 </Link>
                 <button
                   onClick={() => handleClose(false)}
-                  className="w-full bg-white text-slate-500 hover:text-slate-700 font-medium py-3 px-6 rounded-2xl transition-colors"
+                  className="w-full bg-slate-50 text-white0 hover:text-slate-700 font-medium py-3 px-6 rounded-2xl transition-colors"
                 >
                   {language === "ar" ? "ربما لاحقاً" : language === "fr" ? "Peut-être plus tard" : "Maybe later"}
                 </button>
                 <button
                   onClick={() => handleClose(true)}
-                  className="text-xs text-slate-400 hover:text-slate-600 mt-2 underline underline-offset-2"
+                  className="text-xs text-slate-500 hover:text-slate-600 mt-2 underline underline-offset-2"
                 >
                   {language === "ar" ? "لا تظهر هذه الرسالة مرة أخرى" : language === "fr" ? "Ne plus afficher ce message" : "Don't show this again"}
                 </button>

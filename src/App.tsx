@@ -3,7 +3,6 @@ import React, { useEffect, Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from "react-helmet-async";
 import { useLanguageStore } from "./store/useLanguageStore";
-import { useThemeStore } from "./store/useThemeStore";
 import PageLoader from "./components/PageLoader";
 import ExitIntentPopup from "./components/ExitIntentPopup";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -24,20 +23,11 @@ const WhyNoSignupPage = React.lazy(() => import("./pages/WhyNoSignupPage"));
 
 export default function App() {
   const { language, dir } = useLanguageStore();
-  const { theme } = useThemeStore();
 
   useEffect(() => {
     document.documentElement.dir = dir;
     document.documentElement.lang = language;
   }, [dir, language]);
-
-  useEffect(() => {
-    if (theme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [theme]);
 
   return (
     <HelmetProvider>

@@ -41,13 +41,13 @@ export default function LanguageSwitcher({
       className={cn(
         "flex items-center gap-2 px-4 sm:px-4 py-2 rounded-full transition-all duration-300 text-sm font-medium",
         variant === "default" && [
-          "bg-white hover:bg-orange-50 :bg-orange-900/20",
-          "text-slate-700 hover:text-[#ff4d2d] :text-orange-400",
-          "border border-slate-200 hover:border-orange-200 :border-orange-800/50 shadow-sm",
+          "bg-slate-50 hover:bg-orange-50",
+          "text-slate-700 hover:text-[#ff4d2d]",
+          "border border-slate-200 hover:border-orange-200 shadow-sm",
         ],
         variant === "ghost" && [
-          "bg-transparent hover:bg-slate-800",
-          "text-slate-400 hover:text-white",
+          "bg-transparent hover:bg-zinc-800",
+          "text-slate-500 hover:text-white",
           "border border-transparent",
         ],
         className,

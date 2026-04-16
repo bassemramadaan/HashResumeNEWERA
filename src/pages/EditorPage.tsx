@@ -33,7 +33,6 @@ import { translations } from "../i18n/translations";
 import Stepper from "../components/editor/Stepper";
 import Logo from "../components/Logo";
 import LanguageSwitcher from "../components/LanguageSwitcher";
-import ThemeToggle from "../components/ThemeToggle";
 import AuthButton from "../components/AuthButton";
 import SettingsModal from "../components/SettingsModal";
 import { cn } from "../utils";
@@ -76,7 +75,7 @@ const ResumeCheckerModal = lazy(
 const FormLoader = () => (
   <div className="flex flex-col items-center justify-center py-20 space-y-4">
     <Loader2 className="w-10 h-10 text-[#ff4d2d] animate-spin" />
-    <p className="text-slate-500 font-medium">Loading section...</p>
+    <p className="text-white0 font-medium">Loading section...</p>
   </div>
 );
 
@@ -127,7 +126,7 @@ const AutoSaveIndicator = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-400"
+            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-500"
           >
             <div className="w-4 h-4 border-2 border-slate-300 border-t-[#ff4d2d] rounded-full animate-spin" />
             {t.saving}
@@ -163,10 +162,10 @@ const ATSScoreIndicator = ({
   return (
     <button
       onClick={() => setActiveTab("finish")}
-      className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-100 hover:bg-slate-200 :bg-slate-700 transition-all border border-slate-200 group"
+      className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-100 hover:bg-slate-200 transition-all border border-slate-200 group"
     >
       <div className="flex flex-col items-start">
-        <span className="text-[8px] sm:text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-0.5">
+        <span className="text-[8px] sm:text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none mb-0.5">
           {language === "ar" ? "النتيجة" : "Score"}
         </span>
         <span
@@ -387,12 +386,12 @@ export default function EditorPage() {
 
       {/* Floating Dock Navbar (Top) */}
       <div className="fixed top-4 start-1/2 -translate-x-1/2 flex justify-center z-50 px-4 pointer-events-none w-full max-w-5xl">
-        <nav className="pointer-events-auto flex items-center gap-2 p-2 rounded-full bg-white/80 backdrop-blur-xl border border-white/20 shadow-2xl transition-all duration-300 hover:scale-[1.01] w-full justify-between sm:justify-start">
+        <nav className="pointer-events-auto flex items-center gap-2 p-2 rounded-full bg-slate-50/80 backdrop-blur-xl border border-slate-200/20 shadow-2xl transition-all duration-300 hover:scale-[1.01] w-full justify-between sm:justify-start">
           <div className="flex items-center gap-2">
             {/* Home / Logo */}
             <Link
               to="/"
-              className="flex items-center justify-center w-10 h-10 bg-white rounded-full shadow-sm text-[#ff4d2d] hover:scale-105 transition-transform shrink-0"
+              className="flex items-center justify-center w-10 h-10 bg-slate-50 rounded-full shadow-sm text-[#ff4d2d] hover:scale-105 transition-transform shrink-0"
               title={t.backToHome}
             >
               <Logo className="w-6 h-6" />
@@ -406,7 +405,7 @@ export default function EditorPage() {
               <button
                 onClick={() => undo()}
                 disabled={pastStates.length === 0}
-                className="p-2 rounded-full text-slate-500 hover:bg-white/50 :bg-slate-800/50 disabled:opacity-30 transition-colors"
+                className="p-2 rounded-full text-slate-500 hover:bg-slate-50/50 disabled:opacity-30 transition-colors"
                 title={t.undo}
               >
                 <Undo2 size={16} />
@@ -414,7 +413,7 @@ export default function EditorPage() {
               <button
                 onClick={() => redo()}
                 disabled={futureStates.length === 0}
-                className="p-2 rounded-full text-slate-500 hover:bg-white/50 :bg-slate-800/50 disabled:opacity-30 transition-colors"
+                className="p-2 rounded-full text-slate-500 hover:bg-slate-50/50 disabled:opacity-30 transition-colors"
                 title={t.redo}
               >
                 <Redo2 size={16} />
@@ -437,10 +436,9 @@ export default function EditorPage() {
           <div className="flex items-center gap-2">
             <div className="hidden sm:flex items-center gap-2">
               <AuthButton />
-              <ThemeToggle size={18} className="w-9 h-9" />
               <button
                 onClick={() => setShowWelcomeModal(true)}
-                className="p-2 rounded-full text-[#ff4d2d] bg-orange-50 hover:bg-orange-100 :bg-orange-900/40 transition-colors border border-orange-200"
+                className="p-2 rounded-full text-[#ff4d2d] bg-orange-50 hover:bg-orange-100 transition-colors border border-orange-200"
                 title={t.showMeAround}
               >
                 <Sparkles size={16} className="animate-pulse" />
@@ -460,7 +458,7 @@ export default function EditorPage() {
             {/* Mobile Preview Toggle */}
             <button
               onClick={() => setShowMobilePreview(true)}
-              className="md:hidden flex items-center justify-center w-10 h-10 text-slate-600 hover:bg-white/50 :bg-slate-800/50 rounded-full transition-colors"
+              className="md:hidden flex items-center justify-center w-10 h-10 text-slate-600 hover:bg-slate-50/50 rounded-full transition-colors"
             >
               <Eye size={18} />
             </button>
@@ -468,7 +466,7 @@ export default function EditorPage() {
             {/* Full Preview (Desktop) */}
             <button
               onClick={() => setShowFullPreview(true)}
-              className="hidden lg:flex items-center justify-center w-10 h-10 text-slate-600 hover:bg-white/50 :bg-slate-800/50 rounded-full transition-colors"
+              className="hidden lg:flex items-center justify-center w-10 h-10 text-slate-600 hover:bg-slate-50/50 rounded-full transition-colors"
               title={t.fullPreview}
             >
               <Maximize2 size={18} />
@@ -484,7 +482,7 @@ export default function EditorPage() {
         {/* Editor Area */}
         <div
           className={cn(
-            "flex-1 flex flex-col h-full overflow-hidden transition-all duration-300 bg-white",
+            "flex-1 flex flex-col h-full overflow-hidden transition-all duration-300 bg-slate-50",
             showMobilePreview ? "hidden md:flex" : "flex",
           )}
         >
@@ -523,7 +521,7 @@ export default function EditorPage() {
                     message: t.overwriteConfirm,
                   })
                 }
-                className="text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-6 py-2 rounded-full transition-all border border-indigo-100 shadow-sm"
+                className="text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-6 py-2 rounded-full transition-all border border-indigo-100 shadow-sm"
               >
                 {t.loadExample}
               </button>
@@ -531,7 +529,7 @@ export default function EditorPage() {
                 onClick={() =>
                   setConfirmAction({ type: "clear", message: t.clearConfirm })
                 }
-                className="text-[10px] font-black uppercase tracking-widest text-rose-500 hover:text-rose-700 :text-rose-300 px-6 py-2 rounded-full hover:bg-rose-50 :bg-rose-900/30 transition-all"
+                className="text-[10px] font-black uppercase tracking-widest text-rose-500 hover:text-rose-700 px-6 py-2 rounded-full hover:bg-rose-50 transition-all"
               >
                 {t.clearAll}
               </button>
@@ -671,7 +669,7 @@ export default function EditorPage() {
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.5, y: 20 }}
                     onClick={scrollToFormTop}
-                    className="md:hidden fixed bottom-24 end-6 w-10 h-10 bg-white text-slate-900 rounded-full shadow-xl border border-slate-200 flex items-center justify-center z-40 active:scale-90 transition-transform"
+                    className="md:hidden fixed bottom-24 end-6 w-10 h-10 bg-slate-50 text-slate-900 rounded-full shadow-xl border border-slate-200 flex items-center justify-center z-40 active:scale-90 transition-transform"
                   >
                     <ArrowUp size={20} />
                   </motion.button>
@@ -687,16 +685,16 @@ export default function EditorPage() {
           className={cn(
             "bg-slate-100 border-s border-slate-200 flex-col h-full overflow-hidden relative transition-colors duration-200",
             showMobilePreview
-              ? "flex w-full absolute inset-0 z-50 bg-white"
+              ? "flex w-full absolute inset-0 z-50 bg-slate-50"
               : "hidden md:flex md:w-[45%] lg:w-[50%]",
           )}
         >
-          <div className="h-14 bg-white/80 backdrop-blur-sm border-b border-slate-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200">
+          <div className="h-14 bg-slate-50/80 backdrop-blur-sm border-b border-slate-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200">
             <div className="flex items-center gap-2">
               {showMobilePreview && (
                 <button
                   onClick={() => setShowMobilePreview(false)}
-                  className="me-2 p-2 -ms-2 hover:bg-slate-100 :bg-slate-800 rounded-lg md:hidden text-slate-700"
+                  className="me-2 p-2 -ms-2 hover:bg-slate-100 rounded-lg md:hidden text-slate-700"
                 >
                   <ChevronLeft size={20} />
                 </button>
@@ -707,8 +705,8 @@ export default function EditorPage() {
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all",
                     previewMode === "resume"
-                      ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200"
-                      : "text-slate-500 hover:text-slate-700 :text-slate-300",
+                      ? "bg-slate-50 text-slate-900 shadow-sm ring-1 ring-slate-200"
+                      : "text-slate-500 hover:text-slate-700",
                   )}
                 >
                   <LayoutTemplate size={14} />
@@ -719,8 +717,8 @@ export default function EditorPage() {
                   className={cn(
                     "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all",
                     previewMode === "cover-letter"
-                      ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200"
-                      : "text-slate-500 hover:text-slate-700 :text-slate-300",
+                      ? "bg-slate-50 text-slate-900 shadow-sm ring-1 ring-slate-200"
+                      : "text-slate-500 hover:text-slate-700",
                   )}
                 >
                   <FileText size={14} />
@@ -732,14 +730,14 @@ export default function EditorPage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setShowFullPreview(true)}
-                className="p-2 text-slate-400 hover:text-slate-900 :text-white hover:bg-slate-100 :bg-slate-800 rounded-lg transition-colors"
+                className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
                 title={t.fullPreview}
               >
                 <Maximize2 size={18} />
               </button>
               <button
                 onClick={() => setIsSettingsModalOpen(true)}
-                className="p-2 text-slate-400 hover:text-slate-900 :text-white hover:bg-slate-100 :bg-slate-800 rounded-lg transition-colors"
+                className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
                 title={t.resumeSettings}
               >
                 <Settings size={18} />
@@ -750,7 +748,7 @@ export default function EditorPage() {
           <div className="flex-1 overflow-y-auto p-4 md:p-12 pt-24 flex justify-center items-start bg-slate-100/50">
             <div
               className={cn(
-                "w-full max-w-[210mm] bg-white shadow-2xl rounded-sm overflow-hidden origin-top transition-all duration-500 ring-1 ring-slate-900/5",
+                "w-full max-w-[210mm] bg-slate-50 shadow-2xl rounded-sm overflow-hidden origin-top transition-all duration-500 ring-1 ring-slate-900/5",
                 previewMode !== "cover-letter" &&
                   "scale-[0.85] sm:scale-95 md:scale-100",
               )}
@@ -768,7 +766,7 @@ export default function EditorPage() {
       </div>
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-6 start-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-white/90 backdrop-blur-2xl rounded-full border border-white/20 shadow-2xl transition-all duration-300 mb-safe p-2">
+      <div className="fixed bottom-6 start-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-slate-50/90 backdrop-blur-2xl rounded-full border border-white/20 shadow-2xl transition-all duration-300 mb-safe p-2">
         <div className="flex items-center gap-1">
           {tabs.map((tab) => {
             const Icon = tab.icon;
@@ -781,8 +779,8 @@ export default function EditorPage() {
                 className={cn(
                   "relative flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-500 group",
                   isActive
-                    ? "bg-slate-900 text-white shadow-xl scale-110 z-10"
-                    : "text-slate-400 hover:text-slate-900 :text-slate-200 hover:bg-slate-100 :bg-slate-800",
+                    ? "bg-zinc-900 text-white shadow-xl scale-110 z-10"
+                    : "text-slate-400 hover:text-slate-900 hover:bg-slate-100",
                 )}
               >
                 <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
@@ -792,7 +790,7 @@ export default function EditorPage() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute -top-10 px-4 py-2 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-xl pointer-events-none whitespace-nowrap"
+                      className="absolute -top-10 px-4 py-2 bg-zinc-900 text-slate-50 text-[10px] font-black uppercase tracking-widest rounded-full shadow-xl pointer-events-none whitespace-nowrap"
                     >
                       {tab.shortLabel}
                     </motion.span>
@@ -840,7 +838,7 @@ export default function EditorPage() {
               >
                 <div className="w-full max-w-5xl flex justify-between items-center mb-8 shrink-0">
                   <div className="flex items-center gap-4">
-                    <div className="p-4 bg-white/10 rounded-2xl">
+                    <div className="p-4 bg-slate-50/10 rounded-2xl">
                       <FileText className="text-white" size={24} />
                     </div>
                     <div>
@@ -862,14 +860,14 @@ export default function EditorPage() {
                     </button>
                     <button
                       onClick={() => setShowFullPreview(false)}
-                      className="bg-white/10 hover:bg-white/20 text-white p-4 rounded-full transition-colors border border-white/10"
+                      className="bg-slate-50/10 hover:bg-slate-50/20 text-white p-4 rounded-full transition-colors border border-white/10"
                     >
                       <X size={24} />
                     </button>
                   </div>
                 </div>
 
-                <div className="w-full max-w-[210mm] bg-white shadow-[0_50px_100px_rgba(0,0,0,0.5)] rounded-sm overflow-hidden shrink-0 mb-20 ring-1 ring-white/20">
+                <div className="w-full max-w-[210mm] bg-slate-50 shadow-[0_50px_100px_rgba(0,0,0,0.5)] rounded-sm overflow-hidden shrink-0 mb-20 ring-1 ring-white/20">
                   <ResumePreview />
                 </div>
               </motion.div>
@@ -919,7 +917,7 @@ export default function EditorPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
+                className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
               >
                 <div className="p-6 space-y-4">
                   <h3 className="text-xl font-bold text-center text-slate-900">
@@ -933,7 +931,7 @@ export default function EditorPage() {
                   <div className="flex gap-4 pt-4">
                     <button
                       onClick={() => setConfirmAction(null)}
-                      className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 :bg-slate-700 transition-colors"
+                      className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-colors"
                     >
                       Cancel
                     </button>

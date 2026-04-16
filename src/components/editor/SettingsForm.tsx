@@ -132,12 +132,12 @@ export default React.memo(function SettingsForm() {
       {/* Alert Modal */}
       {alertMessage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-in fade-in zoom-in duration-200">
+          <div className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-in fade-in zoom-in duration-200">
             <div className="p-6 text-center space-y-4">
               <p className="text-slate-700 font-medium">{alertMessage}</p>
               <button
                 onClick={() => setAlertMessage(null)}
-                className="w-full py-2 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 :bg-slate-100 transition-colors"
+                className="w-full py-2 bg-zinc-900 text-white rounded-xl font-bold hover:bg-zinc-800 transition-colors"
               >
                 OK
               </button>
@@ -149,7 +149,7 @@ export default React.memo(function SettingsForm() {
       {/* Reset Confirmation Modal */}
       {showResetConfirm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+          <div className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
             <div className="p-6 space-y-4">
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <AlertTriangle className="text-red-600" size={24} />
@@ -163,7 +163,7 @@ export default React.memo(function SettingsForm() {
               <div className="flex gap-4 pt-4">
                 <button
                   onClick={() => setShowResetConfirm(false)}
-                  className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 :bg-slate-700 transition-colors"
+                  className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-colors"
                 >
                   {t.settings.cancel}
                 </button>
@@ -183,11 +183,11 @@ export default React.memo(function SettingsForm() {
         </div>
       )}
 
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 space-y-8 transition-colors">
+      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 space-y-8 transition-colors">
         {/* Template Selection */}
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <LayoutTemplate size={20} className="text-slate-400" />
+            <LayoutTemplate size={20} className="text-slate-500" />
             {t.settings.templateStyle}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -199,7 +199,7 @@ export default React.memo(function SettingsForm() {
                   "p-4 rounded-xl border-2 text-start transition-all relative overflow-hidden group",
                   settings.template === template.id
                     ? "border-orange-500 bg-orange-50 shadow-sm"
-                    : "border-slate-200 hover:border-slate-300 :border-slate-600 hover:bg-slate-50 :bg-slate-800/50",
+                    : "border-slate-200 hover:border-slate-300 hover:bg-slate-50",
                 )}
               >
                 {settings.template === template.id && (
@@ -220,7 +220,7 @@ export default React.memo(function SettingsForm() {
                     "text-xs transition-colors relative z-10",
                     settings.template === template.id
                       ? "text-orange-600/80"
-                      : "text-slate-500",
+                      : "text-white0",
                   )}
                 >
                   {template.description}
@@ -233,7 +233,7 @@ export default React.memo(function SettingsForm() {
         {/* Language */}
         <div className="space-y-4">
           <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <Globe size={20} className="text-slate-400" />
+            <Globe size={20} className="text-slate-500" />
             {t.settings.language}
           </h3>
           <div className="flex gap-4">
@@ -243,7 +243,7 @@ export default React.memo(function SettingsForm() {
                 "px-6 py-2 rounded-xl border-2 font-medium transition-all",
                 settings.language === "en"
                   ? "border-orange-500 bg-orange-50 text-orange-700"
-                  : "border-slate-200 text-slate-600 hover:border-slate-300 :border-slate-600 hover:bg-slate-50 :bg-slate-800",
+                  : "border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50",
               )}
             >
               English
@@ -254,7 +254,7 @@ export default React.memo(function SettingsForm() {
                 "px-6 py-2 rounded-xl border-2 font-medium transition-all",
                 settings.language === "ar"
                   ? "border-orange-500 bg-orange-50 text-orange-700"
-                  : "border-slate-200 text-slate-600 hover:border-slate-300 :border-slate-600 hover:bg-slate-50 :bg-slate-800",
+                  : "border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50",
               )}
             >
               العربية
@@ -265,7 +265,7 @@ export default React.memo(function SettingsForm() {
                 "px-6 py-2 rounded-xl border-2 font-medium transition-all",
                 settings.language === "fr"
                   ? "border-orange-500 bg-orange-50 text-orange-700"
-                  : "border-slate-200 text-slate-600 hover:border-slate-300 :border-slate-600 hover:bg-slate-50 :bg-slate-800",
+                  : "border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50",
               )}
             >
               Français
@@ -279,7 +279,7 @@ export default React.memo(function SettingsForm() {
             <GraduationCap size={20} className="text-slate-400" />
             {t.settings.freshGradMode}
           </h3>
-          <label className="flex items-start gap-4 cursor-pointer group p-4 rounded-xl border border-slate-200 hover:bg-slate-50 :bg-slate-800/50 transition-colors">
+          <label className="flex items-start gap-4 cursor-pointer group p-4 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
             <div className="relative flex items-center justify-center mt-0.5">
               <input
                 type="checkbox"
@@ -321,7 +321,7 @@ export default React.memo(function SettingsForm() {
               >
                 <div
                   className={cn(
-                    "absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform shadow-sm",
+                    "absolute top-1 left-1 bg-slate-50 w-4 h-4 rounded-full transition-transform shadow-sm",
                     settings.isFreshGrad ? "translate-x-5" : "translate-x-0",
                   )}
                 />
@@ -350,12 +350,12 @@ export default React.memo(function SettingsForm() {
           <div className="flex flex-wrap gap-4">
             <button
               onClick={handleExportJson}
-              className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 :bg-slate-700 transition-colors text-sm font-bold shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 transition-colors text-sm font-bold shadow-sm"
             >
               <Download size={16} />
               {t.settings.exportData}
             </button>
-            <label className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 :bg-slate-700 transition-colors text-sm font-bold shadow-sm cursor-pointer">
+            <label className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 transition-colors text-sm font-bold shadow-sm cursor-pointer">
               <Upload size={16} />
               {t.settings.importData}
               <input
@@ -368,7 +368,7 @@ export default React.memo(function SettingsForm() {
             </label>
             <button
               onClick={() => setShowResetConfirm(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-200 text-red-600 rounded-xl hover:bg-red-100 :bg-red-900/40 transition-colors text-sm font-bold shadow-sm ms-auto"
+              className="flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-200 text-red-600 rounded-xl hover:bg-red-100 transition-colors text-sm font-bold shadow-sm ms-auto"
             >
               {t.settings.resetAll}
             </button>

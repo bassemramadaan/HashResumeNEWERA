@@ -36,7 +36,7 @@ export default function HowAtsWorksPage() {
         </div>
 
         <div className="space-y-12">
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+          <section className="bg-slate-50 p-8 rounded-3xl shadow-sm border border-slate-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="p-4 bg-emerald-100 rounded-xl text-emerald-600">
                 <FileSearch size={24} />
@@ -54,7 +54,7 @@ export default function HowAtsWorksPage() {
             </div>
           </section>
 
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+          <section className="bg-slate-50 p-8 rounded-3xl shadow-sm border border-slate-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="p-4 bg-blue-100 rounded-xl text-blue-600">
                 <CheckCircle2 size={24} />
@@ -72,7 +72,7 @@ export default function HowAtsWorksPage() {
             </div>
           </section>
 
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+          <section className="bg-slate-50 p-8 rounded-3xl shadow-sm border border-slate-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="p-4 bg-amber-100 rounded-xl text-amber-600">
                 <AlertTriangle size={24} />

@@ -28,7 +28,7 @@ export default function ProductShowcase() {
         </p>
 
         <div className="relative max-w-5xl mx-auto">
-          <div className="relative bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col md:flex-row h-[500px]">
+          <div className="relative bg-slate-50 rounded-3xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col md:flex-row h-[500px]">
             {/* Left Panel: Editor */}
             <div
               className="flex-1 border-e border-slate-200 p-8 flex flex-col bg-slate-50/50"
@@ -38,12 +38,12 @@ export default function ProductShowcase() {
                 <div className="w-4 h-4 rounded-full bg-rose-400"></div>
                 <div className="w-4 h-4 rounded-full bg-amber-400"></div>
                 <div className="w-4 h-4 rounded-full bg-emerald-400"></div>
-                <div className="ms-4 text-sm font-medium text-slate-400">
+                <div className="ms-4 text-sm font-medium text-slate-500">
                   Experience Editor
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl border border-slate-200 p-6 flex-1 shadow-sm relative">
+              <div className="bg-slate-50 rounded-xl border border-slate-200 p-6 flex-1 shadow-sm relative">
                 <div className="flex justify-between items-center mb-4">
                   <div className="font-bold text-slate-700">
                     Software Engineer
@@ -51,8 +51,8 @@ export default function ProductShowcase() {
                   <motion.button
                     animate={{
                       scale: step >= 1 ? [1, 1.1, 1] : 1,
-                      backgroundColor: step >= 1 ? "#ff4d2d" : "#fff7ed",
-                      color: step >= 1 ? "#ffffff" : "#ff4d2d",
+                      backgroundColor: step >= 1 ? "var(--color-indigo-500)" : "var(--color-indigo-50)",
+                      color: step >= 1 ? "white" : "var(--color-indigo-500)",
                     }}
                     className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-colors border border-orange-100"
                   >
@@ -127,7 +127,7 @@ export default function ProductShowcase() {
 
             {/* Right Panel: ATS Score */}
             <div
-              className="w-full md:w-80 bg-white p-8 flex flex-col items-center justify-center border-t md:border-t-0 md:border-s border-slate-200"
+              className="w-full md:w-80 bg-slate-50 p-8 flex flex-col items-center justify-center border-t md:border-t-0 md:border-s border-slate-200"
               dir="ltr"
             >
               <div className="text-center mb-8">

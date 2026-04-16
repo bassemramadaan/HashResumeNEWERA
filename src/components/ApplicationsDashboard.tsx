@@ -7,7 +7,7 @@ export const ApplicationsDashboard: React.FC = () => {
     useApplicationStore();
 
   return (
-    <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-200 transition-colors">
+    <div className="p-6 bg-slate-50 rounded-2xl shadow-sm border border-slate-200 transition-colors">
       <h2 className="text-2xl font-bold mb-6 text-slate-900">
         My Applications
       </h2>
@@ -19,8 +19,8 @@ export const ApplicationsDashboard: React.FC = () => {
           >
             <div>
               <h3 className="font-semibold text-slate-900">{app.jobTitle}</h3>
-              <p className="text-sm text-slate-500">{app.company}</p>
-              <p className="text-xs text-slate-400">
+              <p className="text-sm text-white0">{app.company}</p>
+              <p className="text-xs text-slate-500">
                 Applied: {new Date(app.appliedAt).toLocaleDateString()}
               </p>
             </div>
@@ -30,7 +30,7 @@ export const ApplicationsDashboard: React.FC = () => {
                 onChange={(e) =>
                   updateStatus(app.id, e.target.value as ApplicationStatus)
                 }
-                className="p-2 border border-slate-200 rounded-lg bg-white text-slate-900"
+                className="p-2 border border-slate-200 rounded-lg bg-slate-50 text-slate-900"
               >
                 <option value="Applied">Applied</option>
                 <option value="Interview">Interview</option>

@@ -61,7 +61,7 @@ export default function WizardShowcase() {
   return (
     <section className="py-16 bg-slate-50 overflow-hidden relative">
       {/* Background graphics */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] (to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:40px_40px]"></div>
 
       {/* Floating Abstract Shapes */}
       <motion.div
@@ -171,15 +171,15 @@ export default function WizardShowcase() {
                 onClick={() => setActiveStep(index)}
                 className={`w-full text-start p-6 rounded-2xl transition-all duration-500 flex items-start gap-6 group relative z-10 ${
                   activeStep === index
-                    ? "bg-white shadow-xl shadow-slate-200/50 border border-slate-200 scale-[1.02]"
-                    : "bg-transparent hover:bg-white/50 :bg-slate-900/50 border border-transparent opacity-70 hover:opacity-100"
+                    ? "bg-slate-50 shadow-xl shadow-slate-200/50 border border-slate-200 scale-[1.02]"
+                    : "bg-transparent hover:bg-slate-50/50 border border-transparent opacity-70 hover:opacity-100"
                 }`}
               >
                 <div
                   className={`w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center text-white transition-all duration-500 shadow-lg relative ${
                     activeStep === index
                       ? `${step.color} ${step.shadow}`
-                      : "bg-slate-200 text-slate-500 shadow-none"
+                      : "bg-slate-200 text-white0 shadow-none"
                   }`}
                 >
                   <step.icon
@@ -188,8 +188,8 @@ export default function WizardShowcase() {
                   />
                   {activeStep === index && (
                     <span className="absolute -top-1 -end-1 flex h-4 w-4">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-4 w-4 bg-white"></span>
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-slate-50 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-4 w-4 bg-slate-50"></span>
                     </span>
                   )}
                 </div>
@@ -228,21 +228,21 @@ export default function WizardShowcase() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -30, scale: 0.9 }}
                 transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-                className="w-full h-full bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col relative z-10"
+                className="w-full h-full bg-slate-50 rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col relative z-10"
               >
                 {/* Fake Browser Header */}
                 <div className="h-12 bg-slate-50 border-b border-slate-200 flex items-center px-6 gap-2">
                   <div className="w-4 h-4 rounded-full bg-rose-400"></div>
                   <div className="w-4 h-4 rounded-full bg-amber-400"></div>
                   <div className="w-4 h-4 rounded-full bg-emerald-400"></div>
-                  <div className="ms-4 flex-1 h-6 bg-white rounded-md border border-slate-200 flex items-center px-4">
+                  <div className="ms-4 flex-1 h-6 bg-slate-50 rounded-md border border-slate-200 flex items-center px-4">
                     <div className="w-32 h-2 bg-slate-200 rounded-full"></div>
                   </div>
                 </div>
 
                 {/* Content based on step */}
                 <div
-                  className="flex-1 p-8 md:p-10 overflow-hidden relative bg-white"
+                  className="flex-1 p-8 md:p-10 overflow-hidden relative bg-slate-50"
                   dir={language === "ar" ? "rtl" : "ltr"}
                 >
                   {activeStep === 0 && (
@@ -285,7 +285,7 @@ export default function WizardShowcase() {
                       {[1, 2].map((i) => (
                         <div
                           key={i}
-                          className="p-6 border border-slate-200 rounded-2xl bg-slate-50 space-y-4 hover:border-red-300 :border-red-700 transition-colors"
+                          className="p-6 border border-slate-200 rounded-2xl bg-slate-50 space-y-4 hover:border-red-300 transition-colors"
                         >
                           <div className="flex justify-between items-start">
                             <div className="space-y-2 w-2/3">
@@ -312,7 +312,7 @@ export default function WizardShowcase() {
                         <div className="h-6 bg-slate-200 rounded w-1/2"></div>
                         <div className="h-40 bg-slate-100 rounded-xl w-full"></div>
                       </div>
-                      <div className="w-full md:w-1/2 bg-white shadow-2xl border border-slate-200 rounded-xl p-6 transform md:rotate-3 md:scale-110 origin-center transition-transform relative">
+                      <div className="w-full md:w-1/2 bg-slate-50 shadow-2xl border border-slate-200 rounded-xl p-6 transform md:rotate-3 md:scale-110 origin-center transition-transform relative">
                         <div className="absolute -top-4 -end-4 bg-amber-500 text-white p-4 rounded-full shadow-lg">
                           <Check size={24} />
                         </div>
@@ -320,7 +320,7 @@ export default function WizardShowcase() {
                           <div className="flex gap-4 items-center border-b border-slate-100 pb-4">
                             <div className="w-12 h-12 rounded-full bg-slate-200"></div>
                             <div className="space-y-2 flex-1">
-                              <div className="h-4 bg-slate-800 rounded w-2/3"></div>
+                              <div className="h-4 bg-zinc-800 rounded w-2/3"></div>
                               <div className="h-4 bg-slate-400 rounded w-1/2"></div>
                             </div>
                           </div>

@@ -34,7 +34,7 @@ export default function HashHuntPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-white">
+      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-50">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute start-1/2 top-0 -translate-x-1/2 -z-10 h-[800px] w-[800px] rounded-full bg-indigo-500/10 blur-[120px]"></div>
 
@@ -102,7 +102,7 @@ export default function HashHuntPage() {
                 <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500/20 to-violet-500/20 rounded-[2rem] blur-2xl -z-10 animate-pulse"></div>
                 
                 {/* Main Card */}
-                <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 p-6 relative overflow-hidden">
+                <div className="bg-slate-50 rounded-3xl shadow-2xl border border-slate-100 p-6 relative overflow-hidden">
                   <div className="absolute top-0 end-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                   
                   <div className="flex items-center gap-4 mb-6">
@@ -111,7 +111,7 @@ export default function HashHuntPage() {
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-slate-900">John Doe</h3>
-                      <p className="text-sm text-slate-500">Senior Frontend Developer</p>
+                      <p className="text-sm text-white0">Senior Frontend Developer</p>
                     </div>
                     <div className="ms-auto">
                       <div className="px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-bold rounded-full border border-emerald-100 flex items-center gap-1">
@@ -145,7 +145,7 @@ export default function HashHuntPage() {
                   </div>
 
                   <div className="p-4 bg-indigo-50 rounded-2xl border border-indigo-100 flex items-start gap-4">
-                    <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+                    <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0 shadow-sm">
                       <Building2 size={18} className="text-indigo-600" />
                     </div>
                     <div>
@@ -159,7 +159,7 @@ export default function HashHuntPage() {
                 <motion.div
                   animate={{ y: [0, -15, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -bottom-6 -start-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 z-20"
+                  className="absolute -bottom-6 -start-6 bg-slate-50 p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 z-20"
                 >
                   <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
                     <Zap size={20} />
@@ -217,7 +217,7 @@ export default function HashHuntPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1, duration: 0.5 }}
-                className={`bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${benefit.span} flex flex-col justify-center items-start group`}
+                className={`bg-slate-50 rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${benefit.span} flex flex-col justify-center items-start group`}
               >
                 <div className={`w-14 h-14 rounded-2xl ${benefit.color} border flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   <benefit.icon size={28} />
@@ -232,7 +232,7 @@ export default function HashHuntPage() {
       </section>
 
       {/* How it works Section */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-24 bg-slate-50 relative overflow-hidden">
         <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
@@ -285,7 +285,7 @@ export default function HashHuntPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
-                className="bg-white p-8 sm:p-10 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center shadow-xl shadow-slate-200/20 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 group hover:-translate-y-2 relative"
+                className="bg-slate-50 p-8 sm:p-10 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center shadow-xl shadow-slate-200/20 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 group hover:-translate-y-2 relative"
               >
                 <div className="absolute -top-4 -start-4 w-24 h-24 bg-indigo-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
                 
@@ -322,7 +322,7 @@ export default function HashHuntPage() {
                 href="https://forms.gle/5kEp1zSjMz3f4HyJ9"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-10 py-5 bg-white text-indigo-900 rounded-full font-bold text-lg hover:bg-indigo-50 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/10"
+                className="inline-flex items-center gap-3 px-10 py-5 bg-slate-50 text-indigo-900 rounded-full font-bold text-lg hover:bg-indigo-50 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/10"
               >
                 {t.joinTalentPool}
                 <ArrowRight size={24} className="rtl:rotate-180" />

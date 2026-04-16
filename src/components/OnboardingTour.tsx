@@ -92,10 +92,10 @@ const OnboardingTour = () => {
         options: {
           primaryColor: "#ff4d2d",
           zIndex: 10000,
-          backgroundColor: "#ffffff",
-          textColor: "#0f172a",
-          arrowColor: "#ffffff",
-          overlayColor: "rgba(15, 23, 42, 0.4)",
+          backgroundColor: "var(--color-slate-50)",
+          textColor: "var(--color-slate-900)",
+          arrowColor: "var(--color-slate-50)",
+          overlayColor: "rgba(0, 0, 0, 0.5)",
         },
         tooltip: {
           borderRadius: "24px",
@@ -109,11 +109,11 @@ const OnboardingTour = () => {
           fontWeight: 900,
           fontSize: "1.25rem",
           marginBottom: "8px",
-          color: "#0f172a",
+          color: "var(--color-slate-900)",
         },
         tooltipContent: {
           padding: "16px 0",
-          color: "#475569",
+          color: "var(--color-slate-600)",
           lineHeight: 1.6,
           fontSize: "1rem",
         },
@@ -127,10 +127,10 @@ const OnboardingTour = () => {
           marginRight: isAr ? "0" : "16px",
           marginLeft: isAr ? "16px" : "0",
           fontWeight: "bold",
-          color: "#64748b",
+          color: "var(--color-slate-500)",
         },
         buttonSkip: {
-          color: "#94a3b8",
+          color: "var(--color-slate-400)",
           fontWeight: "600",
         },
       }}

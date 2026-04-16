@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Facebook, Instagram, MessageCircle, Linkedin, Twitter } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
-import ThemeToggle from "./ThemeToggle";
 import FeedbackModal from "./FeedbackModal";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
@@ -15,7 +14,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="bg-slate-900 text-slate-400 py-10 border-t border-slate-800 pb-safe">
+      <footer className="bg-zinc-900 text-slate-500 py-10 border-t border-zinc-800 pb-safe">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-10">
             <div className="sm:col-span-2 lg:col-span-4">
@@ -30,9 +29,9 @@ export default function Footer() {
                 </div>
               </div>
               <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>
-              <div className="text-sm text-slate-400 space-y-1">
+              <div className="text-sm text-slate-500 space-y-1">
                 <p>
-                  <span className="font-semibold text-slate-300">{language === "ar" ? "البريد الإلكتروني:" : "Email:"}</span> support@hashresume.com
+                  <span className="font-semibold text-slate-400">{language === "ar" ? "البريد الإلكتروني:" : "Email:"}</span> support@hashresume.com
                 </p>
                 <p>
                   <span className="font-semibold text-slate-300">{language === "ar" ? "الهاتف:" : "Phone:"}</span> +20 110 100 7965
@@ -184,7 +183,7 @@ export default function Footer() {
                   aria-label="WhatsApp"
                 >
                   <MessageCircle size={20} />
-                  <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-slate-800 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-slate-700">
+                  <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-zinc-800 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-slate-700">
                     {t.whatsappTooltip}
                   </span>
                 </a>
@@ -207,7 +206,6 @@ export default function Footer() {
                   variant="ghost"
                   className="px-0 py-0"
                 />
-                <ThemeToggle size={16} className="w-8 h-8 bg-transparent border-none shadow-none hover:bg-slate-800" />
               </div>
               <p>{t.privateFooter}</p>
             </div>

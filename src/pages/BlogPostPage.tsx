@@ -35,7 +35,7 @@ export default function BlogPostPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-center gap-4 text-sm text-slate-500 mb-6"
+            className="flex items-center justify-center gap-4 text-sm text-white0 mb-6"
           >
             <span className="flex items-center gap-1">
               <Calendar size={16} />
@@ -97,7 +97,7 @@ export default function BlogPostPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="prose prose-lg prose-indigo max-w-none prose-headings:font-display prose-img:rounded-xl prose-a:text-indigo-600 :text-indigo-400 hover:prose-a:text-indigo-700 :prose-a:text-indigo-300"
+          className="prose prose-lg prose-indigo max-w-none prose-headings:font-display prose-img:rounded-xl prose-a:text-indigo-600 hover:prose-a:text-indigo-700 :prose-a:text-indigo-300"
         >
           <ReactMarkdown>{post.content[language]}</ReactMarkdown>
         </motion.div>
@@ -108,18 +108,18 @@ export default function BlogPostPage() {
             {language === "ar" ? "شارك هذا المقال:" : "Share this article:"}
           </p>
           <div className="flex gap-4">
-            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 :bg-indigo-900/50 hover:text-indigo-600 :text-indigo-400 transition-colors">
+            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
               <Facebook size={20} />
             </button>
-            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 :bg-indigo-900/50 hover:text-indigo-600 :text-indigo-400 transition-colors">
+            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
               <Twitter size={20} />
             </button>
-            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 :bg-indigo-900/50 hover:text-indigo-600 :text-indigo-400 transition-colors">
+            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
               <Linkedin size={20} />
             </button>
             <button
               onClick={() => navigator.clipboard.writeText(shareUrl)}
-              className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 :bg-indigo-900/50 hover:text-indigo-600 :text-indigo-400 transition-colors"
+              className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
             >
               <Share2 size={20} />
             </button>

@@ -32,7 +32,7 @@ export default function WhyNoSignupPage() {
         </div>
 
         <div className="space-y-12">
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+          <section className="bg-slate-50 p-8 rounded-3xl shadow-sm border border-slate-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="p-4 bg-emerald-100 rounded-xl text-emerald-600">
                 <Cloud size={24} />
@@ -50,7 +50,7 @@ export default function WhyNoSignupPage() {
             </div>
           </section>
 
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+          <section className="bg-slate-50 p-8 rounded-3xl shadow-sm border border-slate-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="p-4 bg-blue-100 rounded-xl text-blue-600">
                 <Laptop size={24} />
@@ -68,7 +68,7 @@ export default function WhyNoSignupPage() {
             </div>
           </section>
 
-          <section className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+          <section className="bg-slate-50 p-8 rounded-3xl shadow-sm border border-slate-100">
             <div className="flex items-start gap-4 mb-4">
               <div className="p-4 bg-amber-100 rounded-xl text-amber-600">
                 <Shield size={24} />

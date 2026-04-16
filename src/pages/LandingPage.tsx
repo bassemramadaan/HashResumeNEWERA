@@ -125,7 +125,7 @@ export default function LandingPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 :bg-indigo-900 :text-indigo-100 transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 transition-colors duration-300">
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-[#ff4d2d] origin-left rtl:origin-right z-[60]"
         style={{ scaleX }}
@@ -199,7 +199,7 @@ export default function LandingPage() {
                     {t.heroTitle2}
                   </span>
                 </span>
-                <span className="text-slate-400 block text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+                <span className="text-slate-500 block text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
                   {t.heroTitle3}
                 </span>
               </motion.h1>
@@ -253,11 +253,11 @@ export default function LandingPage() {
                 </Link>
                 <Link
                   to="/templates"
-                  className="w-full sm:w-auto bg-white/50 backdrop-blur-sm text-slate-700 border-2 border-slate-200 hover:border-slate-300 hover:bg-white px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 group hover:scale-105 active:scale-95"
+                  className="w-full sm:w-auto bg-slate-50/50 backdrop-blur-sm text-slate-700 border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 group hover:scale-105 active:scale-95"
                 >
                   <Layout
                     size={24}
-                    className="text-slate-400 group-hover:text-slate-600 transition-colors"
+                    className="text-slate-500 group-hover:text-slate-600 transition-colors"
                   />
                   {t.chooseTemplate}
                 </Link>
@@ -276,7 +276,7 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="flex items-center justify-center lg:justify-start gap-2 mb-8 text-sm font-medium text-slate-500"
+                className="flex items-center justify-center lg:justify-start gap-2 mb-8 text-sm font-medium text-white0"
               >
                 <div className="flex -space-x-2">
                   {[1, 2, 3].map((i) => (
@@ -337,12 +337,12 @@ export default function LandingPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.4 + i * 0.1 }}
-                    className="flex flex-col items-center lg:items-start gap-1 bg-white/50 backdrop-blur-sm p-4 rounded-2xl border border-slate-100 shadow-sm"
+                    className="flex flex-col items-center lg:items-start gap-1 bg-slate-50/50 backdrop-blur-sm p-4 rounded-2xl border border-slate-100 shadow-sm"
                   >
                     <span className="text-3xl font-black text-slate-900 tracking-tight">
                       {stat.value}
                     </span>
-                    <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                    <span className="text-xs font-bold text-white0 uppercase tracking-wider">
                       {stat.text}
                     </span>
                   </motion.div>
@@ -372,7 +372,7 @@ export default function LandingPage() {
                 <div className="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 to-purple-500/20 rounded-[2rem] blur-2xl -z-10 animate-pulse"></div>
 
                 {/* Browser Window Wrapper */}
-                <div className="relative bg-slate-900 rounded-2xl shadow-2xl border border-slate-800 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
+                <div className="relative bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-800 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
                   {/* Browser Header */}
                   <div className="h-10 bg-slate-900 border-b border-slate-800 flex items-center px-4 gap-2 shrink-0">
                     <div className="w-3 h-3 rounded-full bg-red-500"></div>
@@ -395,7 +395,7 @@ export default function LandingPage() {
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
-                  className="absolute -top-8 -end-8 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-4 z-30"
+                  className="absolute -top-8 -end-8 bg-slate-50/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-slate-200/50 flex items-center gap-4 z-30"
                 >
                   <div className="relative w-12 h-12 flex items-center justify-center">
                     <svg className="w-full h-full transform -rotate-90">
@@ -443,7 +443,7 @@ export default function LandingPage() {
                     ease: "easeInOut",
                     delay: 1,
                   }}
-                  className="absolute bottom-12 -start-12 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-4 z-30"
+                  className="absolute bottom-12 -start-12 bg-slate-50/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-4 z-30"
                 >
                   <div className="flex -space-x-4 rtl:space-x-reverse">
                     {[1, 2, 3].map((i) => (
@@ -468,7 +468,7 @@ export default function LandingPage() {
       <SmallWallOfLove />
 
       {/* How it Works Section */}
-      <section id="how-it-works" className="py-24 bg-white relative overflow-hidden">
+      <section id="how-it-works" className="py-24 bg-slate-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <motion.div
@@ -522,7 +522,7 @@ export default function LandingPage() {
               >
                 <div className={`w-20 h-20 rounded-3xl ${item.color} border-2 flex items-center justify-center mb-6 relative shadow-sm group-hover:scale-110 transition-transform duration-300`}>
                   <item.icon size={32} />
-                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white border-2 border-slate-100 flex items-center justify-center text-xs font-black text-slate-900 shadow-sm">
+                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-slate-50 border-2 border-slate-100 flex items-center justify-center text-xs font-black text-slate-900 shadow-sm">
                     {item.step}
                   </div>
                 </div>
@@ -539,7 +539,7 @@ export default function LandingPage() {
       </section>
 
       {/* ATS Audit Showcase */}
-      <section className="py-16 bg-white overflow-hidden">
+      <section className="py-16 bg-slate-50 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-10">
             <div className="flex-1 relative order-2 lg:order-1">
@@ -559,7 +559,7 @@ export default function LandingPage() {
                 </div>
 
                 <div className="space-y-6">
-                  <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm">
                     <div className="flex items-center gap-4 mb-4">
                       <CheckCircle2 className="text-emerald-500" size={24} />
                       <span className="text-sm font-bold text-slate-900">
@@ -580,7 +580,7 @@ export default function LandingPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm">
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm">
                     <div className="flex items-center gap-4 mb-4">
                       <TrendingUp className="text-indigo-500" size={24} />
                       <span className="text-sm font-bold text-slate-900">
@@ -661,7 +661,7 @@ export default function LandingPage() {
               <div className="pt-4">
                 <Link
                   to="/templates"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-slate-200"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-zinc-900 text-white rounded-2xl font-bold hover:bg-zinc-800 transition-all shadow-lg hover:shadow-slate-200"
                 >
                   {t.startBuildingNow}
                   <ArrowRight size={20} className="rtl:rotate-180" />
@@ -673,7 +673,7 @@ export default function LandingPage() {
       </section>
 
       {/* Hash Hunt Integration Section */}
-      <section className="py-24 bg-white text-slate-900 overflow-hidden relative">
+      <section className="py-24 bg-slate-50 text-slate-900 overflow-hidden relative">
         {/* Subtle Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]"></div>
 
@@ -722,7 +722,7 @@ export default function LandingPage() {
                     transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
                     className={`p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:shadow-lg transition-all duration-300 ${i === 2 ? 'sm:col-span-2' : ''}`}
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 flex items-center justify-center mb-4 shadow-sm">
+                    <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-4 shadow-sm">
                       <item.icon className="w-6 h-6 text-indigo-600" />
                     </div>
                     <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
@@ -741,7 +741,7 @@ export default function LandingPage() {
                 </Link>
                 <Link
                   to="/editor"
-                  className="px-8 py-4 bg-white border border-slate-200 text-slate-900 rounded-2xl font-bold text-base transition-all hover:border-indigo-300 hover:-translate-y-1 flex items-center justify-center gap-4"
+                  className="px-8 py-4 bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl font-bold text-base transition-all hover:border-indigo-300 hover:-translate-y-1 flex items-center justify-center gap-4"
                 >
                   <PenTool size={20} />
                   {t.createResumeFirst}
@@ -759,7 +759,7 @@ export default function LandingPage() {
               <motion.div 
                 animate={{ y: [-10, 10, -10] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="relative w-full max-w-md aspect-[4/5] bg-white backdrop-blur-2xl border border-slate-100 rounded-[2.5rem] p-6 shadow-2xl shadow-slate-200 transform-style-3d group"
+                className="relative w-full max-w-md aspect-[4/5] bg-slate-50 backdrop-blur-2xl border border-slate-100 rounded-[2.5rem] p-6 shadow-2xl shadow-slate-200 transform-style-3d group"
               >
                 {/* Glowing border effect */}
                 <div className="absolute inset-0 rounded-[2.5rem] border-2 border-transparent bg-gradient-to-b from-indigo-100 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" style={{ maskImage: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'exclude' }}></div>
@@ -789,7 +789,7 @@ export default function LandingPage() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.5 + i * 0.1, duration: 0.4 }}
-                      className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex gap-4 items-center hover:bg-white hover:border-indigo-100 hover:shadow-md transition-all cursor-pointer group/item"
+                      className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex gap-4 items-center hover:bg-slate-50 hover:border-indigo-100 hover:shadow-md transition-all cursor-pointer group/item"
                     >
                       <div className="w-14 h-14 rounded-2xl bg-slate-100 flex-shrink-0 group-hover/item:bg-indigo-50 transition-colors" />
                       <div className="flex-1 space-y-2">
@@ -811,7 +811,7 @@ export default function LandingPage() {
                   transition={{ delay: 1.2, type: "spring", stiffness: 200, damping: 20 }}
                   className="absolute -bottom-8 -start-8 -end-8 bg-gradient-to-r from-indigo-600 to-violet-600 p-6 rounded-2xl shadow-2xl shadow-indigo-900/20 border border-indigo-400/30 flex items-center gap-4 z-20"
                 >
-                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0 backdrop-blur-md border border-white/20">
+                  <div className="w-12 h-12 rounded-full bg-slate-50/20 flex items-center justify-center flex-shrink-0 backdrop-blur-md border border-slate-200/20">
                     <CheckCircle2 className="w-6 h-6 text-white" />
                   </div>
                   <div>
@@ -826,7 +826,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-16 bg-white relative overflow-hidden">
+      <section id="pricing" className="py-16 bg-slate-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6 font-display tracking-tight">
@@ -847,7 +847,7 @@ export default function LandingPage() {
               </div>
               <div className="w-8 sm:w-12 h-px bg-slate-300"></div>
               <div className="flex items-center gap-2 text-slate-900">
-                <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs">2</div>
+                <div className="w-6 h-6 rounded-full bg-slate-900 text-slate-50 flex items-center justify-center text-xs">2</div>
                 <span>{language === "ar" ? "عاين" : "Preview"}</span>
               </div>
               <div className="w-8 sm:w-12 h-px bg-slate-300"></div>
@@ -867,7 +867,7 @@ export default function LandingPage() {
                 <button
                   key={c}
                   onClick={() => setCurrency(c as keyof typeof currencies)}
-                  className={`px-6 py-2 rounded-2xl text-sm font-bold transition-all duration-300 ${currency === c ? "bg-white text-[#ff4d2d] shadow-md ring-1 ring-black/5 " : "text-slate-500 hover:text-slate-700 :text-slate-200"}`}
+                  className={`px-6 py-2 rounded-2xl text-sm font-bold transition-all duration-300 ${currency === c ? "bg-slate-50 text-[#ff4d2d] shadow-md ring-1 ring-black/5 " : "text-slate-500 hover:text-slate-700"}`}
                 >
                   {c}
                 </button>
@@ -877,7 +877,7 @@ export default function LandingPage() {
 
           <div className="flex overflow-x-auto snap-x snap-mandatory lg:overflow-visible lg:flex-row lg:justify-center items-stretch gap-6 pb-8 lg:pb-0 max-w-5xl mx-auto -mx-4 px-4 lg:mx-auto lg:px-0 scrollbar-hide">
             {/* Single Download Plan */}
-            <div className="snap-center shrink-0 relative bg-white rounded-3xl p-8 shadow-xl border-2 border-[#ff4d2d] overflow-hidden group hover:scale-105 transition-transform duration-300 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md">
+            <div className="snap-center shrink-0 relative bg-slate-50 rounded-3xl p-8 shadow-xl border-2 border-[#ff4d2d] overflow-hidden group hover:scale-105 transition-transform duration-300 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md">
               <div className="absolute top-0 end-0 bg-[#ff4d2d] text-white text-xs font-bold px-4 py-2 rounded-es-2xl uppercase tracking-wider">
                 {t.mostPopular}
               </div>
@@ -1001,7 +1001,7 @@ export default function LandingPage() {
               
               <Link
                 to="/templates"
-                className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 mt-auto"
+                className="block w-full bg-slate-900 hover:bg-slate-800 text-slate-50 text-center font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 mt-auto"
               >
                 {t.getStartedNow}
               </Link>
@@ -1011,7 +1011,7 @@ export default function LandingPage() {
       </section>
 
       {/* Comparison Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 font-display">
@@ -1059,7 +1059,7 @@ export default function LandingPage() {
                     <td className="py-6 px-4 text-center text-slate-400">
                       {row.others === false ? (
                         <div className="w-6 h-6 mx-auto border-2 border-slate-200 rounded-full flex items-center justify-center">
-                          <Plus className="rotate-45 text-slate-300" size={16} />
+                          <Plus className="rotate-45 text-slate-400" size={16} />
                         </div>
                       ) : row.others === true ? (
                         <CheckCircle2 className="mx-auto text-slate-300" size={24} />
@@ -1164,7 +1164,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             onClick={scrollToTop}
-            className="w-12 h-12 bg-white text-slate-900 rounded-full shadow-2xl border border-slate-200 flex items-center justify-center hover:bg-slate-50 :bg-slate-700 transition-all active:scale-90"
+            className="w-12 h-12 bg-slate-50 text-slate-900 rounded-full shadow-2xl border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-all active:scale-90"
           >
             <ArrowUp size={24} />
           </motion.button>

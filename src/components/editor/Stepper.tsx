@@ -43,8 +43,8 @@ export default function Stepper({
                   isActive
                     ? "bg-[#ff4d2d] border-[#ff4d2d] text-white shadow-lg shadow-orange-500/20 scale-110"
                     : isCompleted
-                      ? "bg-white border-[#ff4d2d] text-[#ff4d2d]"
-                      : "bg-white border-slate-200 text-slate-400",
+                      ? "bg-slate-50 border-[#ff4d2d] text-[#ff4d2d]"
+                      : "bg-slate-50 border-slate-200 text-slate-500",
                 )}
               >
                 {isCompleted ? (
@@ -56,7 +56,7 @@ export default function Stepper({
               <span
                 className={cn(
                   "absolute -bottom-7 text-[8px] font-bold uppercase tracking-tight whitespace-nowrap transition-colors duration-300",
-                  isActive ? "text-[#ff4d2d]" : "text-slate-400",
+                  isActive ? "text-[#ff4d2d]" : "text-slate-500",
                 )}
               >
                 {tab.label}

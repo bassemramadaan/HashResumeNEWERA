@@ -103,12 +103,12 @@ export default function CoverLetterPage() {
 
       <main className="flex-1 max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-2 gap-8 mt-24">
         {/* Input Form */}
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 space-y-6 transition-colors">
+        <div className="bg-slate-50 rounded-3xl shadow-sm border border-slate-200 p-8 space-y-6 transition-colors">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-slate-900">Job Details</h2>
             <button
               onClick={importFromResume}
-              className="flex items-center gap-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 :bg-indigo-900/30 px-4 py-2 rounded-lg transition-colors"
+              className="flex items-center gap-2 text-sm font-medium text-indigo-600 hover:bg-indigo-50 px-4 py-2 rounded-lg transition-colors"
               title="Import Name, Job Title, and Skills from your resume"
             >
               <Import size={16} />
@@ -126,7 +126,7 @@ export default function CoverLetterPage() {
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                className="w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="e.g. John Doe"
               />
             </div>
@@ -141,7 +141,7 @@ export default function CoverLetterPage() {
                   name="jobTitle"
                   value={formData.jobTitle}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  className="w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                   placeholder="e.g. Software Engineer"
                 />
               </div>
@@ -154,7 +154,7 @@ export default function CoverLetterPage() {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  className="w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                   placeholder="e.g. Tech Corp"
                 />
               </div>
@@ -169,7 +169,7 @@ export default function CoverLetterPage() {
                 name="hiringManager"
                 value={formData.hiringManager}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                className="w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="e.g. Jane Smith"
               />
             </div>
@@ -183,7 +183,7 @@ export default function CoverLetterPage() {
                 name="skills"
                 value={formData.skills}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                className="w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="e.g. React, Node.js, Team Leadership"
               />
             </div>
@@ -197,7 +197,7 @@ export default function CoverLetterPage() {
                 value={formData.jobDescription}
                 onChange={handleChange}
                 rows={4}
-                className="w-full px-4 py-2 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none transition-colors"
+                className="w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none transition-colors"
                 placeholder="Paste a few sentences from the job description..."
               />
             </div>
@@ -211,7 +211,7 @@ export default function CoverLetterPage() {
               !formData.companyName ||
               isGenerating
             }
-            className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 :from-slate-700 :to-slate-700 disabled:text-slate-500 text-white px-6 py-4 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-95"
+            className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 disabled:text-white0 text-white px-6 py-4 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2 group hover:scale-[1.02] active:scale-95"
           >
             {isGenerating ? (
               <>
@@ -220,7 +220,7 @@ export default function CoverLetterPage() {
               </>
             ) : (
               <>
-                <div className="bg-white/20 rounded-full p-2 group-hover:rotate-12 transition-transform">
+                <div className="bg-slate-50/20 rounded-full p-2 group-hover:rotate-12 transition-transform">
                   <Sparkles size={16} className="text-white" />
                 </div>
                 Generate Cover Letter
@@ -230,7 +230,7 @@ export default function CoverLetterPage() {
         </div>
 
         {/* Output Area */}
-        <div className="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 flex flex-col transition-colors">
+        <div className="bg-slate-50 rounded-3xl shadow-sm border border-slate-200 p-8 flex flex-col transition-colors">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-slate-900">
               Your Cover Letter
@@ -238,7 +238,7 @@ export default function CoverLetterPage() {
             {generatedLetter && (
               <button
                 onClick={copyToClipboard}
-                className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600 :text-indigo-400 transition-colors bg-slate-100 hover:bg-indigo-50 :bg-indigo-900/30 px-4 py-2 rounded-full"
+                className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors bg-slate-100 hover:bg-indigo-50 px-4 py-2 rounded-full"
               >
                 {copied ? (
                   <Check size={16} className="text-emerald-500" />
@@ -255,7 +255,7 @@ export default function CoverLetterPage() {
               <textarea
                 value={generatedLetter}
                 onChange={(e) => setGeneratedLetter(e.target.value)}
-                className="w-full h-full min-h-[500px] p-6 border border-slate-200 bg-white rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none font-serif text-slate-800 leading-relaxed transition-colors"
+                className="w-full h-full min-h-[500px] p-6 border border-slate-200 bg-slate-50 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none font-serif text-slate-800 leading-relaxed transition-colors"
               />
             </div>
           ) : (

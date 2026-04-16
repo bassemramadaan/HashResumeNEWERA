@@ -67,7 +67,7 @@ const PersonalInfoForm = () => {
   };
 
   return (
-    <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 font-sans transition-colors">
+    <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 font-sans transition-colors">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <label
@@ -79,7 +79,7 @@ const PersonalInfoForm = () => {
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
               <User
-                className={`h-4 w-4 ${errors.fullName ? "text-rose-400" : "text-slate-400 "}`}
+                className={`h-4 w-4 ${errors.fullName ? "text-rose-400" : "text-slate-500 "}`}
               />
             </div>
             <input
@@ -89,7 +89,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400 ${
+              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400 ${
                 errors.fullName
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500"
                   : "border-slate-200 "
@@ -117,7 +117,7 @@ const PersonalInfoForm = () => {
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
               <FileText
-                className={`h-4 w-4 ${errors.jobTitle ? "text-rose-400" : "text-slate-400 "}`}
+                className={`h-4 w-4 ${errors.jobTitle ? "text-rose-400" : "text-slate-500 "}`}
               />
             </div>
             <input
@@ -127,7 +127,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400 ${
+              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400 ${
                 errors.jobTitle
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500"
                   : "border-slate-200 "
@@ -162,7 +162,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400 ${
+              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400 ${
                 errors.email
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500"
                   : "border-slate-200 "
@@ -194,7 +194,7 @@ const PersonalInfoForm = () => {
               name="phone"
               value={personalInfo.phone}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
               placeholder={t.phone}
             />
           </div>
@@ -217,7 +217,7 @@ const PersonalInfoForm = () => {
               name="address"
               value={personalInfo.address}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
               placeholder={t.address}
             />
           </div>
@@ -240,7 +240,7 @@ const PersonalInfoForm = () => {
               name="linkedin"
               value={personalInfo.linkedin}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
               placeholder={t.linkedin}
             />
           </div>
@@ -263,7 +263,7 @@ const PersonalInfoForm = () => {
               name="github"
               value={personalInfo.github || ""}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
               placeholder={t.github}
             />
           </div>
@@ -286,7 +286,7 @@ const PersonalInfoForm = () => {
               name="portfolio"
               value={personalInfo.portfolio || ""}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
               placeholder={t.website}
             />
           </div>
@@ -310,7 +310,7 @@ const PersonalInfoForm = () => {
             <button
               type="button"
               onClick={() => setShowAISuggestions(!showAISuggestions)}
-              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
+              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-full transition-colors"
             >
               <Sparkles size={12} />
               {t.aiSuggestions}
@@ -340,10 +340,10 @@ const PersonalInfoForm = () => {
             rows={4}
             value={personalInfo.summary}
             onChange={handleChange}
-            className="block w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-none bg-white text-slate-900 placeholder-slate-400"
+            className="block w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-none bg-slate-50 text-slate-900 placeholder-slate-400"
             placeholder={t.summaryPlaceholder}
           />
-          <p className="text-xs text-slate-500 mt-1">{t.summaryFooter}</p>
+          <p className="text-xs text-white0 mt-1">{t.summaryFooter}</p>
         </div>
       </div>
     </div>

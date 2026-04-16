@@ -60,7 +60,7 @@ export default function SharePage() {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-slate-50 text-slate-900">
         <h1 className="text-2xl font-bold mb-4">CV Not Found</h1>
-        <p className="text-slate-500 mb-8">
+        <p className="text-white0 mb-8">
           {error || "The link might be invalid or expired."}
         </p>
         <Link
@@ -82,7 +82,7 @@ export default function SharePage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
+              className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
             >
               <div className="p-6 space-y-4">
                 <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -98,7 +98,7 @@ export default function SharePage() {
                 <div className="flex gap-4 pt-4">
                   <button
                     onClick={() => setShowConfirm(false)}
-                    className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 :bg-slate-700 transition-colors"
+                    className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-colors"
                   >
                     Cancel
                   </button>
@@ -125,7 +125,7 @@ export default function SharePage() {
         <div className="flex gap-4">
           <button
             onClick={handleCopyLink}
-            className="flex items-center gap-2 px-4 py-2 bg-white text-slate-700 rounded-full shadow-sm hover:bg-slate-50 :bg-slate-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-slate-50 text-slate-700 rounded-full shadow-sm hover:bg-slate-50 transition-colors"
           >
             {copied ? <Check size={16} /> : <Copy size={16} />}
             {copied ? "Copied" : "Copy Link"}
@@ -140,7 +140,7 @@ export default function SharePage() {
         </div>
       </div>
 
-      <div className="w-full max-w-[210mm] bg-white shadow-2xl rounded-sm overflow-hidden">
+      <div className="w-full max-w-[210mm] bg-slate-50 shadow-2xl rounded-sm overflow-hidden">
         <ResumePreview data={data} />
       </div>
     </div>

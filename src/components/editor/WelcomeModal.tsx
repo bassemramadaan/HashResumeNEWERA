@@ -108,7 +108,7 @@ export default function WelcomeModal({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-slate-900/40 backdrop-blur-md"
+          className="absolute inset-0 bg-zinc-900/40 backdrop-blur-md"
           onClick={onSkip}
         />
 
@@ -117,7 +117,7 @@ export default function WelcomeModal({
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="relative w-full max-w-xl bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-slate-100/50"
+          className="relative w-full max-w-xl bg-slate-50 rounded-[2rem] shadow-2xl overflow-hidden border border-slate-100/50"
         >
           {/* Decorative Top Gradient */}
           <div className="absolute top-0 start-0 w-full h-40 bg-gradient-to-br from-orange-50 to-indigo-50 opacity-50 pointer-events-none" />
@@ -165,7 +165,7 @@ export default function WelcomeModal({
 
                     <button
                       onClick={onSkip}
-                      className="w-full bg-slate-50 text-slate-500 hover:text-slate-700 hover:bg-slate-100 py-4 px-6 rounded-2xl font-semibold transition-colors flex items-center justify-center gap-2"
+                      className="w-full bg-slate-50 text-white0 hover:text-slate-700 hover:bg-slate-100 py-4 px-6 rounded-2xl font-semibold transition-colors flex items-center justify-center gap-2"
                     >
                       <SkipForward size={18} />
                       {t.skipTour}
@@ -202,13 +202,13 @@ export default function WelcomeModal({
                           className={`relative p-5 rounded-2xl border-2 transition-all flex items-center gap-4 group text-start ${
                             isSelected
                               ? "border-indigo-500 bg-indigo-50/50 shadow-md shadow-indigo-500/10"
-                              : "border-slate-100 hover:border-indigo-200 hover:bg-slate-50 bg-white"
+                              : "border-slate-100 hover:border-indigo-200 hover:bg-slate-50 bg-slate-50"
                           }`}
                         >
                           <div
-                            className={`w-12 h-16 rounded-lg shadow-sm flex items-center justify-center shrink-0 bg-gradient-to-br ${t.gradient} border border-white/50`}
+                            className={`w-12 h-16 rounded-lg shadow-sm flex items-center justify-center shrink-0 bg-gradient-to-br ${t.gradient} border border-slate-200/50`}
                           >
-                            <FileText size={20} className={isSelected ? "text-indigo-600" : "text-slate-400"} />
+                            <FileText size={20} className={isSelected ? "text-indigo-600" : "text-slate-500"} />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className={`font-bold text-base truncate ${isSelected ? "text-indigo-900" : "text-slate-700"}`}>
@@ -237,7 +237,7 @@ export default function WelcomeModal({
                     </button>
                     <button
                       onClick={onStartTour}
-                      className="flex-1 bg-slate-900 hover:bg-slate-800 text-white py-4 px-6 rounded-2xl font-bold transition-all shadow-lg shadow-slate-900/20 hover:shadow-slate-900/30 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
+                      className="flex-1 bg-slate-900 hover:bg-zinc-800 text-slate-50 py-4 px-6 rounded-2xl font-bold transition-all shadow-lg shadow-slate-900/20 hover:shadow-slate-900/30 hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2"
                     >
                       <Play size={18} fill="currentColor" />
                       {t.startEditing}

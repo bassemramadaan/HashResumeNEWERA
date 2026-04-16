@@ -39,11 +39,11 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
   };
 
   return (
-    <div className="p-4 border border-slate-200 rounded-xl bg-white shadow-sm transition-colors">
+    <div className="p-4 border border-slate-200 rounded-xl bg-slate-50 shadow-sm transition-colors">
       <button
         onClick={analyze}
         disabled={loading}
-        className="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 :bg-slate-100 transition-colors disabled:opacity-50 font-medium"
+        className="flex items-center gap-2 px-4 py-2 bg-zinc-900 text-white rounded-lg hover:bg-zinc-800 transition-colors disabled:opacity-50 font-medium"
       >
         {loading ? <Loader2 className="animate-spin" /> : <Sparkles />}
         Analyze ATS Score
@@ -66,7 +66,7 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
               {result.missingKeywords.map((k, i) => (
                 <li
                   key={i}
-                  className="px-2 py-1 bg-white border border-slate-200 rounded-md text-xs font-medium text-slate-600"
+                  className="px-2 py-1 bg-slate-50 border border-slate-200 rounded-md text-xs font-medium text-slate-600"
                 >
                   {k}
                 </li>

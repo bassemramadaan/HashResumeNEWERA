@@ -75,7 +75,7 @@ const ResumePreview = memo(
 
     const renderModern = () => (
       <div
-        className="font-sans text-slate-800 leading-relaxed p-6 md:p-12 relative text-start"
+        className="font-sans text-neutral-800 leading-relaxed p-6 md:p-12 relative text-start"
         dir={lang === "ar" ? "rtl" : "ltr"}
       >
         <FreshGradBadge />
@@ -92,20 +92,20 @@ const ResumePreview = memo(
               (lang === "ar" ? "الاسم الكامل" : "Your Name")}
           </h1>
           {personalInfo.jobTitle && (
-            <h2 className="text-xl md:text-2xl font-bold text-slate-500 mb-6 tracking-tight">
+            <h2 className="text-xl md:text-2xl font-bold text-white0 mb-6 tracking-tight">
               {personalInfo.jobTitle}
             </h2>
           )}
-          <div className="flex flex-wrap gap-y-3 gap-x-6 text-[15px] text-slate-600 font-semibold">
+          <div className="flex flex-wrap gap-y-3 gap-x-6 text-[15px] text-neutral-600 font-semibold">
             {personalInfo.email && (
               <div className="flex items-center gap-2">
-                <Mail size={16} className="text-slate-400" />
+                <Mail size={16} className="text-neutral-500" />
                 {personalInfo.email}
               </div>
             )}
             {personalInfo.phone && (
               <div className="flex items-center gap-2">
-                <Phone size={16} className="text-slate-400" />
+                <Phone size={16} className="text-neutral-400" />
                 {personalInfo.phone}
               </div>
             )}
@@ -140,7 +140,7 @@ const ResumePreview = memo(
                     <span className="w-6 h-0.5 bg-current rounded-full"></span>
                     {labels.summary}
                   </h3>
-                  <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                  <p className="text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap">
                     {personalInfo.summary}
                   </p>
                 </section>
@@ -160,14 +160,14 @@ const ResumePreview = memo(
                     {experience.map((exp) => (
                       <div
                         key={exp.id}
-                        className="relative ps-4 border-s-2 border-slate-200"
+                        className="relative ps-4 border-s-2 border-neutral-200"
                       >
                         <div
                           className="absolute w-2 h-2 bg-white border-2 rounded-full -start-[6px] top-1.5"
                           style={{ borderColor: themeColor }}
                         ></div>
                         <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-1">
-                          <h4 className="font-bold text-slate-900 text-[15px]">
+                          <h4 className="font-bold text-neutral-900 text-[15px]">
                             {exp.position}
                           </h4>
                           <span className="text-sm font-medium text-slate-500">
@@ -250,7 +250,7 @@ const ResumePreview = memo(
                       >
                         {skill}
                         {index < skills.length - 1 && (
-                          <span className="mx-2 text-slate-300">•</span>
+                          <span className="mx-2 text-slate-400">•</span>
                         )}
                       </span>
                     ))}
@@ -354,7 +354,7 @@ const ResumePreview = memo(
       >
         <FreshGradBadge />
         {/* Header */}
-        <header className="mb-8 text-center border-b-2 border-slate-800 pb-6">
+        <header className="mb-8 text-center border-b-2 border-neutral-800 pb-6">
           <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-4 text-slate-900">
             {personalInfo.fullName || "Your Name"}
           </h1>
@@ -390,7 +390,7 @@ const ResumePreview = memo(
               if (!personalInfo.summary) return null;
               return (
                 <section key="summary" className="mb-8">
-                  <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">
+                  <h3 className="text-base font-bold uppercase tracking-widest border-b border-neutral-300 mb-4 pb-1 text-slate-800">
                     Professional Summary
                   </h3>
                   <p className="text-[15px] text-justify whitespace-pre-wrap leading-relaxed text-slate-700">
@@ -474,7 +474,7 @@ const ResumePreview = memo(
                       <span key={i}>
                         <span className="font-medium">{skill}</span>
                         {i < skills.length - 1 && (
-                          <span className="mx-2 text-slate-300">•</span>
+                          <span className="mx-2 text-neutral-300">•</span>
                         )}
                       </span>
                     ))}
@@ -568,7 +568,7 @@ const ResumePreview = memo(
         <FreshGradBadge />
         {/* Left Sidebar */}
         <div
-          className="w-full md:w-[35%] p-6 md:p-8 bg-slate-100 text-slate-800 flex flex-col"
+          className="w-full md:w-[35%] p-6 md:p-8 bg-neutral-100 text-slate-800 flex flex-col"
           style={{ borderRight: `4px solid ${themeColor}` }}
         >
           <div className="mb-10">
@@ -863,7 +863,7 @@ const ResumePreview = memo(
               if (experience.length === 0) return null;
               return (
                 <section key="experience" className="mb-12">
-                  <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-slate-400 mb-8 text-center border-b border-slate-100 pb-4">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-slate-400 mb-8 text-center border-b border-neutral-100 pb-4">
                     Experience
                   </h3>
                   <div className="space-y-10">
@@ -897,7 +897,7 @@ const ResumePreview = memo(
               if (education.length === 0) return null;
               return (
                 <section key="education" className="mb-12">
-                  <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-slate-400 mb-8 text-center border-b border-slate-100 pb-4">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-slate-400 mb-8 text-center border-b border-neutral-100 pb-4">
                     Education
                   </h3>
                   <div className="space-y-8">
@@ -991,7 +991,7 @@ const ResumePreview = memo(
                     {certifications.map((cert) => (
                       <div
                         key={cert.id}
-                        className="flex flex-col md:flex-row md:justify-between md:items-baseline border-b border-slate-50 pb-4 last:border-0"
+                        className="flex flex-col md:flex-row md:justify-between md:items-baseline border-b border-neutral-50 pb-4 last:border-0"
                       >
                         <h4 className="font-bold text-slate-900 text-[15px]">
                           {cert.name}
@@ -1034,7 +1034,7 @@ const ResumePreview = memo(
 
     const renderTech = () => (
       <div
-        className="font-mono text-slate-800 leading-relaxed p-6 md:p-12 bg-slate-50 min-h-full relative text-start"
+        className="font-mono text-slate-800 leading-relaxed p-6 md:p-12 bg-neutral-50 min-h-full relative text-start"
         dir={settings.language === "ar" ? "rtl" : "ltr"}
       >
         <FreshGradBadge />
@@ -1629,7 +1629,7 @@ const ResumePreview = memo(
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2 uppercase tracking-widest">
             {personalInfo.fullName || "Your Name"}
           </h1>
-          <div className="w-24 h-1 bg-slate-900 mx-auto mb-4"></div>
+          <div className="w-24 h-1 bg-neutral-900 mx-auto mb-4"></div>
           {personalInfo.jobTitle && (
             <h2 className="text-xl italic text-slate-700 mb-4">
               {personalInfo.jobTitle}
@@ -2295,7 +2295,7 @@ const ResumePreview = memo(
                   {education.map((edu) => (
                     <div
                       key={edu.id}
-                      className="bg-slate-50 p-3 rounded-lg border border-slate-100"
+                      className="bg-neutral-50 p-3 rounded-lg border border-slate-100"
                     >
                       <h4 className="font-bold text-slate-900 text-sm">
                         {edu.degree}
@@ -2553,7 +2553,7 @@ const ResumePreview = memo(
 
     const renderFinance = () => (
       <div className="font-serif text-slate-900 p-8 md:p-12 max-w-[850px] mx-auto bg-white">
-        <header className="text-center border-b-2 border-slate-900 pb-6 mb-8">
+        <header className="text-center border-b-2 border-neutral-900 pb-6 mb-8">
           <h1 className="text-3xl font-bold uppercase tracking-widest mb-2">
             {personalInfo.fullName || "Your Name"}
           </h1>

@@ -82,7 +82,7 @@ export default function AISuggestion({
       {isGenerating && (
         <div className="flex items-center gap-2 py-1">
           <Loader2 size={12} className="animate-spin text-indigo-500" />
-          <span className="text-xs text-slate-500 italic">Thinking...</span>
+          <span className="text-xs text-white0 italic">Thinking...</span>
         </div>
       )}
 
@@ -102,7 +102,7 @@ export default function AISuggestion({
             </button>
             <button
               onClick={generateSuggestion}
-              className="flex items-center gap-1 px-4 py-1 bg-white text-slate-600 border border-slate-200 rounded-lg text-[10px] font-bold hover:bg-slate-50 :bg-slate-700 transition-colors"
+              className="flex items-center gap-1 px-4 py-1 bg-slate-50 text-slate-600 border border-slate-200 rounded-lg text-[10px] font-bold hover:bg-slate-50 transition-colors"
             >
               <RefreshCw size={12} />
               {language === "ar" ? "إعادة المحاولة" : "Retry"}

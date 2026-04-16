@@ -13,12 +13,12 @@ export default function VideoDemoModal({ isOpen, onClose }: VideoDemoModalProps)
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-900/80 backdrop-blur-sm">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-black rounded-3xl shadow-2xl w-full max-w-5xl relative overflow-hidden aspect-video border border-slate-800"
+            className="bg-black rounded-3xl shadow-2xl w-full max-w-5xl relative overflow-hidden aspect-video border border-zinc-800"
           >
             <button
               onClick={onClose}

@@ -54,7 +54,7 @@ const SkillsForm = () => {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 transition-colors">
+      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 transition-colors">
         <form onSubmit={handleAdd} className="mb-6">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
@@ -73,7 +73,7 @@ const SkillsForm = () => {
             <button
               type="button"
               onClick={() => setShowAISuggestions(!showAISuggestions)}
-              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-2 py-1 rounded-full transition-colors"
+              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-full transition-colors"
             >
               <Sparkles size={12} />
               {t.aiSuggestions}
@@ -112,13 +112,13 @@ const SkillsForm = () => {
               id="skillInput"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="flex-1 px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-white text-slate-900 placeholder-slate-400"
+              className="flex-1 px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
               placeholder={t.skills.placeholder}
             />
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 :from-slate-700 :to-slate-700 disabled:text-slate-500 text-white px-4 py-2 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm shadow-indigo-500/20"
+              className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 disabled:text-white0 text-white px-4 py-2 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm shadow-indigo-500/20"
             >
               <Plus size={18} />
               <span className="hidden sm:inline">{t.skills.add}</span>
@@ -131,7 +131,7 @@ const SkillsForm = () => {
             {t.skills.yourSkills}
           </h3>
           {skills.length === 0 ? (
-            <p className="text-sm text-slate-400 italic">
+            <p className="text-sm text-slate-500 italic">
               {t.skills.noSkills}
             </p>
           ) : (
@@ -144,7 +144,7 @@ const SkillsForm = () => {
                   {skill}
                   <button
                     onClick={() => removeSkill(skill)}
-                    className="text-slate-400 hover:text-red-500 :text-red-400 focus:outline-none transition-colors"
+                    className="text-slate-500 hover:text-red-500 focus:outline-none transition-colors"
                     aria-label={`Remove ${skill}`}
                   >
                     <X size={14} />
@@ -188,7 +188,7 @@ const SkillsForm = () => {
                 <button
                   key={skill}
                   onClick={() => addSkill(skill)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-indigo-50 :bg-indigo-900/30 hover:text-indigo-700 :text-indigo-300 hover:border-indigo-200 :border-indigo-800 text-sm font-medium transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 text-sm font-medium transition-colors"
                 >
                   <Plus size={14} />
                   {skill}

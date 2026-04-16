@@ -35,14 +35,14 @@ export default function ATSAudit() {
             {t.title}
           </h2>
         </div>
-        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 text-center transition-colors">
+        <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 text-center transition-colors">
           <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors ring-1 ring-slate-900/5">
-            <Activity className="text-slate-400" size={32} />
+            <Activity className="text-slate-500" size={32} />
           </div>
           <h3 className="text-xl font-bold text-slate-900 mb-2">
             {t.noDataTitle}
           </h3>
-          <p className="text-slate-500 max-w-md mx-auto">{t.noDataDesc}</p>
+          <p className="text-white0 max-w-md mx-auto">{t.noDataDesc}</p>
         </div>
       </div>
     );
@@ -63,7 +63,7 @@ export default function ATSAudit() {
         </h2>
       </div>
 
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 transition-colors">
+      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 transition-colors">
         {/* Score Header */}
         <div className="flex flex-col md:flex-row items-center gap-8 mb-10 pb-10 border-b border-slate-100">
           <div className="relative flex items-center justify-center shrink-0 w-40 h-40">
@@ -123,7 +123,7 @@ export default function ATSAudit() {
               >
                 {score}
               </span>
-              <span className="text-sm font-bold text-slate-400 uppercase tracking-widest mt-1">
+              <span className="text-sm font-bold text-slate-500 uppercase tracking-widest mt-1">
                 {t.scoreOutOf}
               </span>
             </div>
@@ -265,7 +265,7 @@ export default function ATSAudit() {
             </h3>
             <button
               onClick={() => setShowMatcher(!showMatcher)}
-              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 :text-indigo-300 bg-indigo-50 hover:bg-indigo-100 :bg-indigo-900/50 px-4 py-2 rounded-full transition-colors"
+              className="text-sm font-medium text-indigo-600 hover:text-indigo-700 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-full transition-colors"
             >
               {showMatcher ? t.hideMatcher : t.compareWithJD}
             </button>
@@ -281,13 +281,13 @@ export default function ATSAudit() {
                   value={jobDescription}
                   onChange={(e) => updateJobDescription(e.target.value)}
                   placeholder={t.pastePlaceholder}
-                  className="w-full h-40 p-4 rounded-xl border border-slate-300 bg-white text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm"
+                  className="w-full h-40 p-4 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all resize-none text-sm"
                 />
               </div>
 
               {matchResults && (
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="md:col-span-1 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center transition-colors">
+                  <div className="md:col-span-1 bg-slate-50 p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-center text-center transition-colors">
                     <div className="text-sm font-bold text-slate-500 uppercase tracking-widest mb-2">
                       {t.matchScore}
                     </div>

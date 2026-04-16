@@ -269,12 +269,12 @@ export default function TemplatesPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans transition-colors duration-300">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-40 transition-all duration-500 ease-in-out">
+      <header className="bg-slate-50 border-b border-slate-200 sticky top-0 z-40 transition-all duration-500 ease-in-out">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               to="/"
-              className="p-2 -ms-2 text-slate-500 hover:text-slate-900 :text-white transition-colors rounded-full hover:bg-slate-100 :bg-slate-800"
+              className="p-2 -ms-2 text-white0 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100"
             >
               <ArrowLeft size={20} className="rtl:rotate-180" />
             </Link>
@@ -337,8 +337,8 @@ export default function TemplatesPage() {
               className={cn(
                 "px-4 py-2 rounded-full text-sm font-medium transition-all",
                 activeCategory === category
-                  ? "bg-slate-900 text-white shadow-lg"
-                  : "bg-white text-slate-600 hover:bg-slate-100 :bg-slate-700",
+                  ? "bg-zinc-900 text-white shadow-lg"
+                  : "bg-slate-50 text-slate-600 hover:bg-slate-100",
               )}
             >
               {category}
@@ -359,10 +359,10 @@ export default function TemplatesPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className={`group relative bg-white rounded-3xl overflow-hidden border-2 transition-all duration-300 hover:shadow-xl flex flex-col ${
+                  className={`group relative bg-slate-50 rounded-3xl overflow-hidden border-2 transition-all duration-300 hover:shadow-xl flex flex-col ${
                     isSelected
                       ? "border-[#ff4d2d] shadow-lg shadow-orange-500/10"
-                      : "border-slate-200 hover:border-slate-300 :border-slate-700"
+                      : "border-slate-200 hover:border-slate-300"
                   }`}
                 >
                   {isSelected && (
@@ -375,7 +375,7 @@ export default function TemplatesPage() {
                     className="aspect-[1/1.414] relative overflow-hidden bg-slate-100 @container group cursor-pointer"
                     onClick={() => setPreviewTemplate(template)}
                   >
-                    <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/10 transition-colors z-10"></div>
+                    <div className="absolute inset-0 bg-zinc-900/0 group-hover:bg-slate-900/10 transition-colors z-10"></div>
 
                     {/* Real Resume Preview - Scaled to fit */}
                     <div
@@ -423,7 +423,7 @@ export default function TemplatesPage() {
                           e.stopPropagation();
                           setPreviewTemplate(template);
                         }}
-                        className="bg-white text-slate-900 px-6 py-4 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-slate-100 hover:scale-105 min-w-[160px] flex items-center justify-center gap-2 active:scale-95"
+                        className="bg-slate-50 text-slate-900 px-6 py-4 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-slate-100 hover:scale-105 min-w-[160px] flex items-center justify-center gap-2 active:scale-95"
                       >
                         <Eye size={18} />
                         {language === "ar" ? "معاينة" : "Preview"}
@@ -469,14 +469,14 @@ export default function TemplatesPage() {
               className="bg-slate-100 w-full max-w-6xl h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
             >
               {/* Sidebar Info */}
-              <div className="w-full md:w-80 bg-white p-8 border-e border-slate-200 flex flex-col shrink-0 overflow-y-auto">
+              <div className="w-full md:w-80 bg-slate-50 p-8 border-e border-slate-200 flex flex-col shrink-0 overflow-y-auto">
                 <div className="flex justify-between items-center mb-8 md:hidden">
                   <h2 className="text-2xl font-bold text-slate-900">
                     {previewTemplate.name}
                   </h2>
                   <button
                     onClick={() => setPreviewTemplate(null)}
-                    className="p-2 hover:bg-slate-100 :bg-slate-800 rounded-full transition-colors"
+                    className="p-2 hover:bg-slate-100 rounded-full transition-colors"
                   >
                     <X size={24} />
                   </button>
@@ -538,7 +538,7 @@ export default function TemplatesPage() {
                   </button>
                   <button
                     onClick={() => setPreviewTemplate(null)}
-                    className="w-full bg-white border border-slate-200 text-slate-700 py-4 rounded-xl font-bold hover:bg-slate-50 :bg-slate-700 transition-colors hidden md:block"
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 py-4 rounded-xl font-bold hover:bg-slate-50 transition-colors hidden md:block"
                   >
                     Close Preview
                   </button>
@@ -547,7 +547,7 @@ export default function TemplatesPage() {
 
               {/* Preview Area */}
               <div className="flex-1 bg-slate-200/50 overflow-y-auto p-8 flex justify-center">
-                <div className="w-full max-w-[210mm] bg-white shadow-2xl min-h-[297mm]">
+                <div className="w-full max-w-[210mm] bg-slate-50 shadow-2xl min-h-[297mm]">
                   <ResumePreview
                     data={{
                       ...dummyData,
