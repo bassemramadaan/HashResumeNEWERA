@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import {
-  ShieldCheck,
   Zap,
   CheckCircle2,
   ArrowRight,
@@ -18,6 +17,7 @@ import {
   ArrowUp,
   PenTool,
   PlayCircle,
+  Download,
 } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
@@ -276,7 +276,7 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="flex items-center justify-center lg:justify-start gap-2 mb-8 text-sm font-medium text-white0"
+                className="flex items-center justify-center lg:justify-start gap-2 mb-8 text-sm font-medium text-slate-500"
               >
                 <div className="flex -space-x-2">
                   {[1, 2, 3].map((i) => (
@@ -291,71 +291,6 @@ export default function LandingPage() {
                 <span>
                   <span className="text-emerald-600 font-bold">{resumesBuilt}</span> {t.resumesBuiltToday}
                 </span>
-              </motion.div>
-
-              {/* Trust Badges */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 mb-12 text-base font-bold text-slate-600"
-              >
-                <div className="flex items-center gap-2">
-                  <ShieldCheck size={24} className="text-emerald-500" />
-                  <span>{t.secureSsl}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <svg className="w-6 h-6 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                  <span>{t.privacy100}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Zap size={24} className="text-amber-500" />
-                  <span>{t.noSignup}</span>
-                </div>
-              </motion.div>
-
-              {/* Stats Section */}
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto lg:mx-0">
-                {[
-                  {
-                    value: "85%",
-                    text: t.interviewIncreaseLabel,
-                  },
-                  {
-                    value: "4+ hrs",
-                    text: t.timeSavedLabel,
-                  },
-                  {
-                    value: "98%",
-                    text: t.atsPassRateLabel,
-                  },
-                ].map((stat, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 8 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 + i * 0.1 }}
-                    className="flex flex-col items-center lg:items-start gap-1 bg-slate-50/50 backdrop-blur-sm p-4 rounded-2xl border border-slate-100 shadow-sm"
-                  >
-                    <span className="text-3xl font-black text-slate-900 tracking-tight">
-                      {stat.value}
-                    </span>
-                    <span className="text-xs font-bold text-white0 uppercase tracking-wider">
-                      {stat.text}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-              <motion.div 
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.8 }}
-                className="mt-3 text-xs text-slate-400 text-center lg:text-start max-w-2xl mx-auto lg:mx-0"
-              >
-                {language === "ar" ? "بناءً على استطلاع آراء المستخدمين لعام 2025 (1,250+ مشارك)" : language === "fr" ? "Basé sur une enquête auprès des utilisateurs en 2025 (plus de 1 250 répondants)" : "Based on 2025 user survey (1,250+ respondents)"}
               </motion.div>
             </div>
 
@@ -372,93 +307,56 @@ export default function LandingPage() {
                 <div className="absolute -inset-4 bg-gradient-to-tr from-orange-500/20 to-purple-500/20 rounded-[2rem] blur-2xl -z-10 animate-pulse"></div>
 
                 {/* Browser Window Wrapper */}
-                <div className="relative bg-zinc-900 rounded-2xl shadow-2xl border border-zinc-800 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500">
+                <div className="relative bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500 w-full aspect-[4/3]">
                   {/* Browser Header */}
-                  <div className="h-10 bg-slate-900 border-b border-slate-800 flex items-center px-4 gap-2 shrink-0">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-amber-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                  <div className="h-10 bg-slate-50 border-b border-slate-200 flex items-center px-4 gap-2 shrink-0">
+                    <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+                    <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+                    <div className="w-3 h-3 rounded-full bg-slate-300"></div>
                   </div>
-                  {/* Screenshot Image */}
-                  <img
-                    src="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?auto=format&fit=crop&q=80&w=1000"
-                    alt="Hash Resume Editor Interface"
-                    className="w-full h-auto object-cover border-t border-slate-800"
-                  />
+                  {/* Editor Layout */}
+                  <div className="flex-1 flex bg-slate-100/50">
+                    {/* Sidebar Form */}
+                    <div className="hidden sm:block w-1/3 bg-white border-r border-slate-200 p-4 space-y-4">
+                      <div className="h-4 w-1/2 bg-slate-200 rounded"></div>
+                      <div className="space-y-2">
+                        <div className="h-8 w-full bg-slate-50 border border-slate-200 rounded"></div>
+                        <div className="h-8 w-full bg-slate-50 border border-slate-200 rounded"></div>
+                      </div>
+                      <div className="h-4 w-1/3 bg-slate-200 rounded mt-6"></div>
+                      <div className="h-20 w-full bg-slate-50 border border-slate-200 rounded"></div>
+                      <div className="mt-2 h-8 w-max px-3 bg-orange-50 text-[#ff4d2d] rounded flex items-center justify-center text-[10px] gap-1 font-bold">
+                        <Sparkles size={10} /> AI Ready
+                      </div>
+                    </div>
+                    {/* Preview Panel */}
+                    <div className="flex-1 p-4 sm:p-6 flex justify-center items-start overflow-hidden relative">
+                       <div className="w-full max-w-sm bg-white shadow-md border border-slate-200 p-4 sm:p-6 space-y-4 h-full relative">
+                          <div className="text-center space-y-2 border-b border-slate-100 pb-4">
+                             <div className="h-5 w-3/4 bg-slate-800 rounded mx-auto"></div>
+                             <div className="h-2 w-1/2 bg-slate-400 rounded mx-auto"></div>
+                          </div>
+                          <div className="space-y-2">
+                             <div className="h-3 w-1/3 bg-slate-800 rounded"></div>
+                             <div className="h-2 w-full bg-slate-200 rounded"></div>
+                             <div className="h-2 w-5/6 bg-slate-200 rounded"></div>
+                          </div>
+                           <div className="space-y-2 mt-4">
+                             <div className="h-3 w-1/3 bg-slate-800 rounded"></div>
+                             <div className="h-2 w-full bg-slate-200 rounded"></div>
+                             <div className="h-2 w-5/6 bg-slate-200 rounded"></div>
+                          </div>
+                       </div>
+                       
+                       {/* Floating Action Button */}
+                       <div className="absolute bottom-4 end-4 h-10 px-4 bg-[#ff4d2d] text-white rounded-full flex items-center justify-center shadow-lg text-[10px] font-bold gap-1 z-20">
+                          <ArrowUp size={12} /> ATS OK
+                       </div>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Floating Badge 1: ATS Score */}
-                <motion.div
-                  animate={{ y: [0, -15, 0], x: [0, 5, 0] }}
-                  transition={{
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute -top-8 -end-8 bg-slate-50/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-slate-200/50 flex items-center gap-4 z-30"
-                >
-                  <div className="relative w-12 h-12 flex items-center justify-center">
-                    <svg className="w-full h-full transform -rotate-90">
-                      <circle
-                        cx="24"
-                        cy="24"
-                        r="20"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        fill="transparent"
-                        className="text-slate-100"
-                      />
-                      <circle
-                        cx="24"
-                        cy="24"
-                        r="20"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                        fill="transparent"
-                        strokeDasharray="125.6"
-                        strokeDashoffset="12.56"
-                        className="text-emerald-500"
-                      />
-                    </svg>
-                    <span className="absolute text-xs font-bold text-slate-900">
-                      95
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-900">
-                      {t.atsScore}
-                    </p>
-                    <p className="text-xs text-emerald-500 font-medium">
-                      {t.excellent}
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Floating Badge 2: Users */}
-                <motion.div
-                  animate={{ y: [0, 15, 0], x: [0, -5, 0] }}
-                  transition={{
-                    duration: 7,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1,
-                  }}
-                  className="absolute bottom-12 -start-12 bg-slate-50/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/50 flex items-center gap-4 z-30"
-                >
-                  <div className="flex -space-x-4 rtl:space-x-reverse">
-                    {[1, 2, 3].map((i) => (
-                      <div
-                        key={i}
-                        className="w-10 h-10 rounded-full border-2 border-white bg-slate-200"
-                      ></div>
-                    ))}
-                  </div>
-                  <div>
-                    <p className="text-sm font-bold text-slate-900">
-                      {t.statsText}
-                    </p>
-                  </div>
-                </motion.div>
+                {/* Floatings removed to reduce clutter and keep focus on the product UI */}
               </motion.div>
             </div>
           </div>
@@ -501,14 +399,14 @@ export default function LandingPage() {
                 step: "02",
                 title: t.step2Title,
                 desc: t.step2Desc,
-                icon: Search,
-                color: "bg-indigo-50 text-indigo-600 border-indigo-100",
+                icon: Layout,
+                color: "bg-slate-50 text-slate-600 border-slate-200",
               },
               {
                 step: "03",
                 title: t.step3Title,
                 desc: t.step3Desc,
-                icon: CheckCircle2,
+                icon: Download,
                 color: "bg-emerald-50 text-emerald-600 border-emerald-100",
               },
             ].map((item, i) => (

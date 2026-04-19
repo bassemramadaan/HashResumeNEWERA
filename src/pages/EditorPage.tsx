@@ -495,45 +495,52 @@ export default function EditorPage() {
             />
           </div>
 
-          <div className="flex flex-col items-center text-center px-6 pt-6 pb-4 shrink-0">
+          <div className="px-6 pt-6 pb-4 shrink-0 max-w-4xl mx-auto w-full">
             <motion.div
               key={activeTab}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex flex-col items-center"
+              className="bg-indigo-50/50 rounded-2xl border border-indigo-100/50 p-6 flex flex-col sm:flex-row gap-6 items-start sm:items-center relative overflow-hidden shadow-sm"
             >
-              <div className="w-10 h-10 rounded-2xl bg-slate-100 shadow-sm flex items-center justify-center text-slate-500 text-sm font-bold mb-4 border border-slate-200">
-                {activeTabIndex}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+              
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-indigo-100 relative z-10">
+                <Sparkles size={20} className="text-indigo-600" />
               </div>
-              <h1 className="text-3xl font-black text-slate-900 mb-2 tracking-tight capitalize">
-                {tabs.find((t) => t.id === activeTab)?.label}
-              </h1>
-              <p className="text-slate-500 text-sm font-medium max-w-md leading-relaxed">
-                {tabDescriptions[activeTab]}
-              </p>
-            </motion.div>
+              
+              <div className="flex-1 relative z-10 text-start">
+                <div className="flex flex-wrap items-center gap-2 text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2">
+                  <span>{activeTabIndex} / {tabs.length}</span>
+                  <span className="w-1 h-1 rounded-full bg-indigo-200"></span>
+                  <span>{tabs.find((t) => t.id === activeTab)?.label}</span>
+                </div>
+                <h1 className="text-lg sm:text-xl font-bold text-slate-800 tracking-tight leading-relaxed">
+                  "{tabDescriptions[activeTab]}"
+                </h1>
+              </div>
 
-            <div className="flex items-center gap-4 mt-6">
-              <button
-                onClick={() =>
-                  setConfirmAction({
-                    type: "load",
-                    message: t.overwriteConfirm,
-                  })
-                }
-                className="text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-6 py-2 rounded-full transition-all border border-indigo-100 shadow-sm"
-              >
-                {t.loadExample}
-              </button>
-              <button
-                onClick={() =>
-                  setConfirmAction({ type: "clear", message: t.clearConfirm })
-                }
-                className="text-[10px] font-black uppercase tracking-widest text-rose-500 hover:text-rose-700 px-6 py-2 rounded-full hover:bg-rose-50 transition-all"
-              >
-                {t.clearAll}
-              </button>
-            </div>
+              <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 z-10 w-full sm:w-auto mt-4 sm:mt-0">
+                <button
+                  onClick={() =>
+                    setConfirmAction({
+                      type: "load",
+                      message: t.overwriteConfirm,
+                    })
+                  }
+                  className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-white hover:bg-slate-50 px-4 py-2.5 rounded-xl transition-all border border-indigo-100 shadow-sm whitespace-nowrap"
+                >
+                  {t.loadExample}
+                </button>
+                <button
+                  onClick={() =>
+                    setConfirmAction({ type: "clear", message: t.clearConfirm })
+                  }
+                  className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-rose-500 hover:text-rose-700 px-4 py-2.5 rounded-xl hover:bg-white transition-all border border-transparent hover:border-rose-100 hover:shadow-sm whitespace-nowrap"
+                >
+                  {t.clearAll}
+                </button>
+              </div>
+            </motion.div>
           </div>
 
           <main
