@@ -171,6 +171,15 @@ export const translations = {
       faq6Q: "Can I create a cover letter too?",
       faq6A:
         "Yes! We have a dedicated AI-powered Cover Letter Builder that helps you craft professional cover letters tailored to your job applications and matching your resume style.",
+      faq7Q: "Does my data go to the server when using AI?",
+      faq7A:
+        "Your data remains locally on your device by default. However, when you explicitly click 'Fix with AI' or generate AI content, the specific text you are modifying is securely processed via Google's Gemini API for generation, then immediately discarded. We do not store your data on our servers.",
+      faq8Q: "Is the Word Document export identical to the PDF template?",
+      faq8A:
+        "The Word (.docx) export is formatted to be a clean, purely text-based ATS powerhouse. It retains your precise content and logical hierarchy, but strips away complex multi-column designs that confuse older ATS systems, ensuring 100% parsing success.",
+      faq9Q: "What is the difference between the Free and Paid version?",
+      faq9A:
+        "The Free version gives you full access to the builder, unlimited basic PDF downloads (with a watermark), real-time ATS scoring, and AI assistance. The Paid version (one-time fee per download) gives you a crisp, unwatermarked PDF, the clean Word document export, and full access to premium templates.",
       footerDesc:
         "Professional resumes, simplified. Built with privacy in mind.",
       connect: "Connect with us",
@@ -798,6 +807,15 @@ export const translations = {
       faq6Q: "هل يمكنني إنشاء خطاب تقديم أيضًا؟",
       faq6A:
         "نعم! لدينا منشئ خطاب تقديم مخصص مدعوم بالذكاء الاصطناعي يساعدك على صياغة خطابات احترافية مخصصة لوظيفتك وتناسب تصميم سيرتك الذاتية.",
+      faq7Q: "هل تنتقل بياناتي إلى الخوادم عند استخدام الذكاء الاصطناعي؟",
+      faq7A:
+        "تبقى بياناتك محلياً على جهازك بشكل افتراضي. ولكن، عندما تنقر صراحةً على 'تحسين بالذكاء الاصطناعي'، يتم معالجة النص المحدد بأمان عبر Google Gemini API ثم يُحذف فوراً. نحن لا نقوم بتخزين بياناتك على خوادمنا.",
+      faq8Q: "هل ملف الوورد (Word) مطابق تماماً لتصميم الـ PDF؟",
+      faq8A:
+        "يتم تصدير ملف الوورد بتنسيق نَصّي نظيف مُعَد لاختراق أنظمة الـ ATS بنسبة 100%. يحتفظ الملف بكافة نصوصك وهيكليتها، ولكنه يزيل التصميمات المعقدة ذات الأعمدة المتعددة التي قد تُربك الأنظمة القديمة.",
+      faq9Q: "ما هو الفرق بين النسخة المجانية والمدفوعة؟",
+      faq9A:
+        "تمنحك النسخة المجانية وصولاً كاملاً لأدوات البناء، والتحقق الفوري من الـ ATS، والذكاء الاصطناعي، بالإضافة لتحميل PDF (مدمج بعلامة مائية). النسخة المدفوعة تزيل العلامة المائية، وتمنحك ملف PDF فائق الجودة، وملف وورد متوافق مع ATS، بالإضافة لصلاحية القوالب المدفوعة.",
       footerDesc:
         "سير ذاتية احترافية، بكل بساطة. بنيت مع الخصوصية في الاعتبار.",
       connect: "تواصل معنا",
@@ -1441,6 +1459,15 @@ export const translations = {
       faq6Q: "Puis-je aussi créer une lettre de motivation ?",
       faq6A:
         "Oui ! Nous avons un créateur de lettres de motivation dédié, propulsé par l'IA.",
+      faq7Q: "Mes données vont-elles sur un serveur lors de l'utilisation de l'IA ?",
+      faq7A:
+        "Vos données restent localement sur votre appareil par défaut. Cependant, lorsque vous cliquez explicitement sur 'Corriger avec l'IA', le texte spécifique est traité de manière sécurisée via l'API Google Gemini, puis immédiatement supprimé. Nous ne stockons pas vos données sur nos serveurs.",
+      faq8Q: "L'exportation Word est-elle identique au modèle PDF ?",
+      faq8A:
+        "L'exportation Word (.docx) est formatée pour être 100 % compatible avec les ATS, basée uniquement sur le texte. Elle conserve l'intégralité de votre contenu et de votre hiérarchie, mais supprime les conceptions multi-colonnes complexes.",
+      faq9Q: "Quelle est la différence entre la version gratuite et payante ?",
+      faq9A:
+        "La version gratuite vous donne un accès complet au générateur, des téléchargements PDF illimités avec un filigrane, la vérification ATS en temps réel et l'aide de l'IA. La version payante offre un PDF sans filigrane de haute qualité, l'exportation Word, et l'accès à tous les modèles premium.",
       footerDesc:
         "Des CV professionnels, simplifiés. Construit avec la confidentialité à l'esprit.",
       connect: "Connectez-vous avec nous",

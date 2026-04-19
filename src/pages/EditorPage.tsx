@@ -231,10 +231,25 @@ export default function EditorPage() {
   );
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
   const isPremium = useResumeStore((state) => state.data.isPremium);
+  const data = useResumeStore((state) => state.data);
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
   const resetData = useResumeStore((state) => state.resetData);
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } =
     useOnboardingStore();
+
+  const calculateProgress = () => {
+    let filled = 0;
+    const total = 4; // basics, experience, education, skills
+    if (data.personalInfo.fullName && data.personalInfo.email && data.personalInfo.jobTitle) filled++;
+    if (data.experience.length > 0) filled++;
+    if (data.education.length > 0) filled++;
+    if (data.skills.length > 0) filled++;
+    
+    return Math.round((filled / total) * 100);
+  };
+  
+  const progressPercent = calculateProgress();
+  const estimatedTime = progressPercent === 100 ? 0 : progressPercent > 50 ? 2 : 5;
 
   // Zundo hooks for undo/redo
   const { undo, redo, pastStates, futureStates } = useStore(
@@ -477,6 +492,33 @@ export default function EditorPage() {
 
       {/* Spacer for fixed dock */}
       <div className="h-20 shrink-0" />
+
+      {/* Real-time Progress Bar */}
+      <div className="bg-white border-b border-slate-200 px-6 py-3 hidden md:flex items-center gap-4 z-40 relative shadow-sm">
+        <div className="text-xs font-bold text-slate-700 whitespace-nowrap">
+          {language === "ar" ? "نسبة الاكتمال" : "Completion"}
+        </div>
+        <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+          <motion.div 
+            initial={{ width: 0 }}
+            animate={{ width: `${progressPercent}%` }}
+            className={`h-full ${progressPercent === 100 ? 'bg-emerald-500' : 'bg-[#ff4d2d]'}`}
+          />
+        </div>
+        <div className="text-xs font-bold text-slate-500 whitespace-nowrap">
+          {progressPercent}% 
+          {estimatedTime > 0 && (
+            <span className="text-slate-400 ms-2 font-medium">
+              — {language === "ar" ? `حوالي ${estimatedTime} دقائق لإنهاء المسودة الأولى` : `Est. ${estimatedTime} mins to finish first draft`}
+            </span>
+          )}
+          {progressPercent === 100 && (
+            <span className="text-emerald-500 ms-2 flex items-center gap-1 inline-flex">
+              <CheckCircle2 size={12} /> {language === "ar" ? "جاهز للمراجعة" : "Ready to review"}
+            </span>
+          )}
+        </div>
+      </div>
 
       <div className="flex-1 flex overflow-hidden relative editor-form">
         {/* Editor Area */}

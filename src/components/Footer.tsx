@@ -101,6 +101,14 @@ export default function Footer() {
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link
+                    to="/trust"
+                    className="hover:text-white transition-colors"
+                  >
+                    {language === "ar" ? "الثقة والشفافية" : "Trust & Transparency"}
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     to="/privacy"
                     className="hover:text-white transition-colors"
                   >

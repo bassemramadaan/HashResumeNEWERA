@@ -16,7 +16,6 @@ import {
   Layout,
   ArrowUp,
   PenTool,
-  PlayCircle,
   Download,
 } from "lucide-react";
 import Footer from "../components/Footer";
@@ -249,25 +248,18 @@ export default function LandingPage() {
                   className="w-full sm:w-auto bg-gradient-to-r from-[#ff4d2d] to-orange-600 hover:from-[#e63e1d] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-black transition-all shadow-xl shadow-orange-500/30 flex items-center justify-center gap-3 group hover:scale-105 active:scale-95 ring-4 ring-orange-500/10"
                 >
                   <Plus size={24} className="group-hover:rotate-90 transition-transform duration-300" />
-                  {t.startFromScratch}
+                  {language === "ar" ? "ابدأ السيرة الذاتية مجاناً الآن" : language === "fr" ? "Commencez votre CV gratuit" : "Start Free CV Now"}
                 </Link>
                 <Link
                   to="/templates"
-                  className="w-full sm:w-auto bg-slate-50/50 backdrop-blur-sm text-slate-700 border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 group hover:scale-105 active:scale-95"
+                  className="w-full sm:w-auto bg-transparent border border-slate-300 text-slate-500 hover:bg-slate-50 hover:text-slate-700 hover:border-slate-400 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 active:scale-95"
                 >
                   <Layout
                     size={24}
-                    className="text-slate-500 group-hover:text-slate-600 transition-colors"
+                    className="text-slate-400"
                   />
                   {t.chooseTemplate}
                 </Link>
-                <button
-                  onClick={() => setShowVideoModal(true)}
-                  className="w-full sm:w-auto bg-indigo-50 text-indigo-600 border-2 border-transparent hover:border-indigo-100 hover:bg-indigo-100 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 group hover:scale-105 active:scale-95"
-                >
-                  <PlayCircle size={24} className="group-hover:scale-110 transition-transform" />
-                  {t.watchDemo}
-                </button>
               </motion.div>
 
               {/* Social Proof Counter */}

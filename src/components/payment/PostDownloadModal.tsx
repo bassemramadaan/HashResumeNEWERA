@@ -55,27 +55,48 @@ export default function PostDownloadModal({
                 : "Your professional resume is ready."}
             </p>
 
-            <div className="bg-indigo-50 rounded-2xl p-6 mb-8 border border-indigo-100">
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <Target className="text-indigo-500" size={24} />
-                <h3 className="text-xl font-bold text-slate-900">
-                  {isRtl
-                    ? "هل تريد أن تبحث الشركات عنك؟"
-                    : "Want companies to reach out to you?"}
-                </h3>
+            <div className="grid sm:grid-cols-2 gap-4 mb-8">
+              <div className="bg-orange-50 rounded-2xl p-5 border border-orange-100 flex flex-col justify-between text-start text-orange-900 group">
+                <div>
+                  <h3 className="font-bold flex items-center gap-2 mb-2">
+                    <PenTool size={16} className="text-orange-600" />
+                    {isRtl ? "خطاب تقديم (Cover Letter)" : "Matching Cover Letter"}
+                  </h3>
+                  <p className="text-xs text-orange-700/80 mb-4 font-semibold">
+                    {isRtl
+                      ? "قم بتوليد خطاب احترافي يطابق تصميم سيرتك الذاتية في ثوانٍ."
+                      : "Generate a professional cover letter matching your new resume in seconds."}
+                  </p>
+                </div>
+                <Link
+                  to="/cover-letter"
+                  className="inline-flex items-center gap-2 w-full bg-white text-orange-600 px-4 py-2 rounded-xl font-bold transition-all border border-orange-200 justify-center shadow-sm group-hover:bg-orange-600 group-hover:text-white"
+                >
+                  {isRtl ? "إنشاء الآن" : "Create Now"}
+                  <ArrowRight size={14} className={isRtl ? "rotate-180" : ""} />
+                </Link>
               </div>
-              <p className="text-slate-600 mb-6">
-                {isRtl
-                  ? "انضم إلى Hash Hunt بضغطة زر ودع الشركات الشريكة لنا تتواصل معك مباشرة."
-                  : "Join Hash Hunt in one click and let our partner companies reach out to you directly."}
-              </p>
-              <Link
-                to="/hash-hunt"
-                className="inline-flex items-center justify-center gap-2 w-full bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-4 rounded-xl font-bold transition-colors shadow-sm"
-              >
-                {isRtl ? "انضم إلى Hash Hunt" : "Join Hash Hunt"}
-                <ArrowRight size={18} className={isRtl ? "rotate-180" : ""} />
-              </Link>
+
+              <div className="bg-indigo-50 rounded-2xl p-5 border border-indigo-100 flex flex-col justify-between text-start text-indigo-900 group">
+                <div>
+                  <h3 className="font-bold flex items-center gap-2 mb-2">
+                    <Target size={16} className="text-indigo-600" />
+                    {isRtl ? "وظائف Hash Hunt" : "Hash Hunt Jobs"}
+                  </h3>
+                  <p className="text-xs text-indigo-700/80 mb-4 font-semibold">
+                    {isRtl
+                      ? "انضم وضع سيرتك الذاتية أمام مديري التوظيف مباشرة."
+                      : "Join our talent pool to let partner companies reach out to you."}
+                  </p>
+                </div>
+                <Link
+                  to="/hash-hunt"
+                  className="inline-flex items-center gap-2 w-full bg-white text-indigo-600 px-4 py-2 rounded-xl font-bold transition-all border border-indigo-200 justify-center shadow-sm group-hover:bg-indigo-600 group-hover:text-white"
+                >
+                  {isRtl ? "انضم للمنصة" : "Get Matched"}
+                  <ArrowRight size={14} className={isRtl ? "rotate-180" : ""} />
+                </Link>
+              </div>
             </div>
 
             <button

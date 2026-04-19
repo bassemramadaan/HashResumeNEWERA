@@ -9,14 +9,15 @@
 Hash Resume is a cutting-edge, AI-powered resume builder designed to help job seekers create professional, ATS-friendly resumes and cover letters in minutes. It features real-time editing, AI-driven content generation (powered by Google Gemini), ATS scoring, and high-quality PDF/Word exports.
 
 ### 📸 Screenshots
-*(Add your screenshots here)*
-- **Editor View:** `![Editor View](link-to-image)`
-- **Templates:** `![Templates](link-to-image)`
-- **ATS Scoring:** `![ATS Scoring](link-to-image)`
+- **Editor View:** 
+  <img src="https://images.unsplash.com/photo-1626262483832-68da98af342b?w=800&auto=format&fit=crop" width="600" alt="Editor View showing real-time updates" />
+- **Templates:** 
+  <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop" width="600" alt="Hash Resume Templates Gallery" />
+- **ATS Scoring:** 
+  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop" width="600" alt="ATS Scoring Dashboard" />
 
 ### 🎥 Demo Video
-*(Add your demo video link here)*
-- [Watch the Demo on YouTube](https://youtube.com)
+- [▶️ Watch the 1-Minute Walkthrough on YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 ## ✨ Key Features
 - **🤖 AI-Powered Content:** Generate professional summaries, experience bullet points, and tailored cover letters using Google Gemini.
@@ -24,8 +25,25 @@ Hash Resume is a cutting-edge, AI-powered resume builder designed to help job se
 - **🎨 Multiple Templates:** Choose from Modern, Classic, Creative, Tech, Arabic (RTL), Engineering, Finance, and more.
 - **🌍 Multi-language & RTL Support:** Full support for English, French, and Arabic (with proper Right-to-Left layout).
 - **💾 Local Storage & Privacy:** Your data stays on your device until you decide to share it.
-- **📄 High-Fidelity Exports:** Export to PDF (via `jspdf`/`html2canvas`) or Word (`docx`).
-- **↩️ Undo/Redo:** Never lose your progress with built-in state history.
+- **📄 High-Fidelity Exports:** Export to PDF or purely text-based ATS powerhouse Word document (`docx`).
+
+## 🗺️ Roadmap
+- **Q3 2026**: Resume Import (PDF/DOCX) with Auto-Cleanup algorithms.
+- **Q4 2026**: Job-Tailored Resume Mode (Automatically adjust resume based on target job description).
+- **Q1 2027**: Cover Letter & Resume Unified Bundle checkout.
+- **Q2 2027**: Starter Templates by profession (Sales, Engineering, Healthcare).
+
+## 📢 Release Notes
+**v1.2.0 (April 2026)**
+- Added direct Word (.docx) export for perfect ATS text parsing.
+- Improved Editor UI with AI-chat style conversational prompts.
+- Expanded Arabic translation completeness and improved RTL PDF layout.
+- Added Trust & Transparency page explaining data lifecycle.
+
+**v1.1.0**
+- Integrated Google Gemini API for "Fix with AI" features.
+- Released Cover Letter builder module.
+- Refactored UI to use Tailwind CSS variables and Framer Motion.
 
 ## 🏗️ Architecture
 The application is built using a modern Full-Stack architecture:
