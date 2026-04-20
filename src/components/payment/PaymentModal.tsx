@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, Ticket, Wallet, CheckCircle2 } from "lucide-react";
+import { X, Check, Ticket, Wallet, CheckCircle2, ShieldCheck } from "lucide-react";
 import SarIcon from "./SarIcon";
 import AedIcon from "./AedIcon";
 
@@ -148,6 +148,18 @@ export default function PaymentModal({
               </div>
             </div>
 
+            <div className="bg-slate-100 rounded-lg p-3 text-start mb-6">
+               <p className="text-xs text-slate-500 font-semibold mb-2">Almost there! Complete payment to instantly get your ATS-ready resume.</p>
+               <div className="flex justify-between items-center text-xs font-bold text-slate-600 mb-1">
+                  <span>1. Enter Data</span>
+                  <span>2. Preview</span>
+                  <span className="text-[#ff4d2d]">3. Download</span>
+               </div>
+               <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                  <div className="bg-[#ff4d2d] w-[95%] h-full rounded-full"></div>
+               </div>
+            </div>
+
             <div className="mb-6 p-4 bg-slate-50 rounded-2xl border border-slate-100 text-left">
               <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <CheckCircle2 size={16} className="text-indigo-500" />
@@ -204,19 +216,25 @@ export default function PaymentModal({
               {verifying ? "Verifying..." : "Unlock Now"}
             </button>
 
-            <div className="flex items-center justify-between gap-4">
-              <p className="text-xs text-slate-500 font-medium whitespace-nowrap">
-                Don't have a code?
-              </p>
-              <a
-                href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm"
-              >
-                <Ticket size={18} />
-                Get Code via WhatsApp
-              </a>
+            <div className="flex flex-col gap-4">
+              <div className="flex items-center justify-between gap-4">
+                <p className="text-xs text-slate-500 font-medium whitespace-nowrap">
+                  Don't have a code?
+                </p>
+                <a
+                  href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm"
+                >
+                  <Ticket size={18} />
+                  Get Code via WhatsApp
+                </a>
+              </div>
+              <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400 font-semibold mb-4 mt-2">
+                 <ShieldCheck size={14} className="text-emerald-500" />
+                 Secured by Stripe & WhatsApp End-to-End Encryption
+              </div>
             </div>
           </div>
         </motion.div>

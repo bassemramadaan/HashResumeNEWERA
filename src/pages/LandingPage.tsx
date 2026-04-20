@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring, useMotionValue, useTransform, animate } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import {
   Zap,
@@ -17,6 +17,7 @@ import {
   ArrowUp,
   PenTool,
   Download,
+  ShieldCheck,
 } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
@@ -83,27 +84,6 @@ export default function LandingPage() {
 
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  const [resumesBuilt, setResumesBuilt] = useState(142);
-
-  // Dynamic live counter
-  useEffect(() => {
-    // Start with a base number that grows throughout the day
-    const now = new Date();
-    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-    const minutesSinceStartOfDay = Math.floor((now.getTime() - startOfDay) / 60000);
-    
-    // Base calculation: roughly 1 resume every 3-5 minutes
-    const baseCount = Math.floor(minutesSinceStartOfDay / 4) + 45; // Start with at least 45
-    setResumesBuilt(baseCount);
-
-    // Increment randomly every 15-45 seconds to simulate live activity
-    const interval = setInterval(() => {
-      setResumesBuilt(prev => prev + 1);
-    }, Math.floor(Math.random() * 30000) + 15000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);
@@ -122,6 +102,27 @@ export default function LandingPage() {
     damping: 30,
     restDelta: 0.001
   });
+
+  const countValue = useMotionValue(60);
+  const roundedValue = useTransform(countValue, (latest) => Math.round(latest));
+  const [resumesCount, setResumesCount] = useState(1284);
+
+  useEffect(() => {
+    const controls = animate(countValue, 95, {
+      duration: 2,
+      ease: "easeOut",
+      delay: 0.5,
+    });
+    
+    const interval = setInterval(() => {
+      setResumesCount(prev => prev + Math.floor(Math.random() * 2) + 1);
+    }, 15000);
+
+    return () => {
+      controls.stop();
+      clearInterval(interval);
+    };
+  }, [countValue]);
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 transition-colors duration-300">
@@ -173,7 +174,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-12">
             {/* Left Column: Text & CTA */}
-            <div className="flex-1 text-center lg:text-start rtl:lg:text-end">
+            <div className="flex-1 text-center lg:text-start rtl:lg:text-end mt-12 lg:mt-0">
               <motion.div
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -190,51 +191,18 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-display mb-6"
+                className="font-display mb-8"
               >
-                <span className="text-slate-900 block text-5xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.1] mb-2">
+                <span className="text-slate-900 block text-5xl sm:text-7xl font-black tracking-tight leading-[1.05] mb-4">
                   {t.heroTitle1}{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600">
                     {t.heroTitle2}
                   </span>
                 </span>
-                <span className="text-slate-500 block text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+                <p className="text-slate-500 text-xl sm:text-2xl font-bold tracking-tight max-w-xl">
                   {t.heroTitle3}
-                </span>
+                </p>
               </motion.h1>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="text-lg md:text-xl text-slate-600 mb-6 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
-              >
-                {t.heroSubtitle}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.25 }}
-                className="flex items-center justify-center lg:justify-start gap-4 mb-8"
-              >
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <svg
-                      key={star}
-                      className="w-6 h-6 text-amber-400 fill-current"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <div className="text-sm text-slate-600">
-                  <span className="font-bold text-slate-900">4.9/5</span> {t.reviews}
-                </div>
-              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -271,17 +239,17 @@ export default function LandingPage() {
                 className="flex items-center justify-center lg:justify-start gap-2 mb-8 text-sm font-medium text-slate-500"
               >
                 <div className="flex -space-x-2">
-                  {[1, 2, 3].map((i) => (
+                  {[1, 2, 3, 4].map((i) => (
                     <img
                       key={i}
-                      src={`https://i.pravatar.cc/100?img=${i + 10}`}
-                      alt="Hash Resume User"
-                      className="w-6 h-6 rounded-full border-2 border-white"
+                      src={`https://i.pravatar.cc/100?img=${i + 60}`}
+                      alt="Professional User"
+                      className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
                     />
                   ))}
                 </div>
-                <span>
-                  <span className="text-emerald-600 font-bold">{resumesBuilt}</span> {t.resumesBuiltToday}
+                <span className="ms-2">
+                  {t.resumesBuiltToday.replace("{count}", resumesCount.toLocaleString())}
                 </span>
               </motion.div>
             </div>
@@ -302,9 +270,15 @@ export default function LandingPage() {
                 <div className="relative bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col transform transition-transform hover:scale-[1.02] duration-500 w-full aspect-[4/3]">
                   {/* Browser Header */}
                   <div className="h-10 bg-slate-50 border-b border-slate-200 flex items-center px-4 gap-2 shrink-0">
-                    <div className="w-3 h-3 rounded-full bg-slate-300"></div>
-                    <div className="w-3 h-3 rounded-full bg-slate-300"></div>
-                    <div className="w-3 h-3 rounded-full bg-slate-300"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-rose-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
+                    <div className="ms-auto flex items-center gap-2">
+                       <div className="w-6 h-6 rounded-lg bg-indigo-50 flex items-center justify-center">
+                          <Target size={12} className="text-indigo-600" />
+                       </div>
+                       <div className="w-16 h-4 bg-slate-200/50 rounded-full"></div>
+                    </div>
                   </div>
                   {/* Editor Layout */}
                   <div className="flex-1 flex bg-slate-100/50">
@@ -443,9 +417,9 @@ export default function LandingPage() {
                       {t.atsAuditReport}
                     </span>
                   </div>
-                  <div className="px-4 py-2 bg-emerald-100 text-emerald-600 text-xs font-bold rounded-full">
-                    95/100
-                  </div>
+                  <motion.div className="flex px-4 py-2 bg-emerald-100 text-emerald-600 text-xs font-bold rounded-full">
+                    <motion.span>{roundedValue}</motion.span>/100
+                  </motion.div>
                 </div>
 
                 <div className="space-y-6">
@@ -752,7 +726,7 @@ export default function LandingPage() {
               {t.payOnDownload} — <span className="text-[#ff4d2d]">{t.zeroToStart}</span>
             </p>
 
-            <div className="inline-flex p-2 bg-slate-100 rounded-2xl border border-slate-200 shadow-inner backdrop-blur-sm">
+            <div className="inline-flex p-2 bg-slate-100 rounded-2xl border border-slate-200 shadow-inner backdrop-blur-sm mb-6">
               {Object.keys(currencies).map((c) => (
                 <button
                   key={c}
@@ -762,6 +736,12 @@ export default function LandingPage() {
                   {c}
                 </button>
               ))}
+            </div>
+            
+            {/* Stripe Trust Badge */}
+            <div className="flex items-center justify-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-widest bg-slate-50 px-4 py-2 rounded-full border border-slate-200">
+              <ShieldCheck size={14} className="text-emerald-500" />
+              <span>{language === "ar" ? "مدفوعات آمنة وموثوقة بنسبة 100% عبر Stripe" : "100% Secure Payments via Stripe"}</span>
             </div>
           </div>
 

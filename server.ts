@@ -60,9 +60,9 @@ async function startServer() {
       });
 
       res.json({ text: response.text });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("AI Generation Error:", error);
-      res.status(500).json({ error: error.message || "Failed to generate content" });
+      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to generate content" });
     }
   });
 

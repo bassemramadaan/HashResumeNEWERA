@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { PartyPopper, X, Target, ArrowRight } from "lucide-react";
+import { PartyPopper, X, Target, ArrowRight, PenTool } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguageStore } from "../../store/useLanguageStore";
 

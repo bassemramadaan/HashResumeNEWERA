@@ -199,6 +199,176 @@ const ATSScoreIndicator = ({
   );
 };
 
+const ProgressTrackerModal = ({
+  isOpen,
+  onClose,
+  data,
+  activeTab,
+  onJumpToStep,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  data: any;
+  activeTab: string;
+  onJumpToStep: (id: any) => void;
+}) => {
+  const { language } = useLanguageStore();
+  const t = translations[language].editor.progressTracker;
+
+  const steps = [
+    {
+      id: "basics",
+      label: t.steps.basics,
+      icon: User,
+      done: !!(data.personalInfo.fullName && data.personalInfo.email),
+    },
+    {
+      id: "experience",
+      label: t.steps.experience,
+      icon: Briefcase,
+      done: data.experience.length > 0,
+    },
+    {
+      id: "education",
+      label: t.steps.education,
+      icon: GraduationCap,
+      done: data.education.length > 0,
+    },
+    {
+      id: "skills",
+      label: t.steps.skills,
+      icon: Wrench,
+      done: data.skills.length > 0,
+    },
+    {
+      id: "finish",
+      label: t.steps.polish,
+      icon: Target,
+      done: false,
+    },
+  ];
+
+  const filledCount = steps.filter((s) => s.done).length;
+  const progressPercent = Math.round((filledCount / (steps.length - 1)) * 100);
+  const estimatedTime = progressPercent === 100 ? 0 : progressPercent > 50 ? 2 : 5;
+
+  if (!isOpen) return null;
+
+  return (
+    <AnimatePresence>
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+          onClick={onClose}
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          className="relative w-full max-w-lg bg-slate-50 rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+        >
+          <div className="absolute top-0 right-0 p-4">
+            <button
+              onClick={onClose}
+              className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          <div className="p-8">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl mb-4">
+                <Target size={32} />
+              </div>
+              <h2 className="text-2xl font-black text-slate-900 mb-2">
+                {t.title}
+              </h2>
+              <p className="text-slate-500 text-sm">{t.subtitle}</p>
+            </div>
+
+            <div className="space-y-6">
+              <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-slate-400 mb-2 px-1">
+                <span>{progressPercent}% Complete</span>
+                <span>{estimatedTime > 0 ? t.estimatedTime.replace("{time}", estimatedTime.toString()) : t.ready}</span>
+              </div>
+              <div className="h-3 bg-slate-100 rounded-full overflow-hidden mb-8">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progressPercent}%` }}
+                  className="h-full bg-[#ff4d2d]"
+                />
+              </div>
+
+              <div className="grid gap-3">
+                {steps.map((step) => {
+                  const Icon = step.icon;
+                  const isActive = activeTab === step.id;
+                  return (
+                    <button
+                      key={step.id}
+                      onClick={() => {
+                        onJumpToStep(step.id);
+                        onClose();
+                      }}
+                      className={cn(
+                        "flex items-center gap-4 p-4 rounded-2xl border transition-all text-start group",
+                        isActive
+                          ? "bg-white border-indigo-200 shadow-md ring-1 ring-indigo-50"
+                          : "bg-transparent border-slate-100 hover:bg-slate-50 hover:border-slate-200",
+                      )}
+                    >
+                      <div
+                        className={cn(
+                          "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                          step.done
+                            ? "bg-emerald-50 text-emerald-600"
+                            : isActive
+                              ? "bg-indigo-600 text-white"
+                              : "bg-slate-100 text-slate-400 group-hover:bg-slate-200",
+                        )}
+                      >
+                        {step.done ? <CheckCircle2 size={20} /> : <Icon size={20} />}
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0.5">
+                          {step.id}
+                        </div>
+                        <div
+                          className={cn(
+                            "text-sm font-bold",
+                            isActive ? "text-slate-900" : "text-slate-600",
+                          )}
+                        >
+                          {step.label}
+                        </div>
+                      </div>
+                      {isActive && (
+                        <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="w-full mt-8 bg-zinc-900 text-white py-4 rounded-2xl font-bold hover:bg-zinc-800 transition-all shadow-xl shadow-zinc-900/10 active:scale-95"
+            >
+              Continue Building
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  );
+};
+
 export default function EditorPage() {
   const { language, dir } = useLanguageStore();
   const t = translations[language].editor;
@@ -221,6 +391,7 @@ export default function EditorPage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [showProgressTracker, setShowProgressTracker] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{
     type: "load" | "clear";
@@ -449,6 +620,13 @@ export default function EditorPage() {
 
           {/* Right Section: Actions */}
           <div className="flex items-center gap-2">
+            <button
+               onClick={() => setShowProgressTracker(true)}
+               className="p-2 sm:p-2.5 rounded-full text-indigo-500 hover:bg-slate-50/50 hover:text-indigo-600 transition-colors"
+               title="View Progress"
+            >
+               <Target size={16} />
+            </button>
             <div className="hidden sm:flex items-center gap-2">
               <AuthButton />
               <button
@@ -956,6 +1134,14 @@ export default function EditorPage() {
         <SettingsModal
           isOpen={isSettingsModalOpen}
           onClose={() => setIsSettingsModalOpen(false)}
+        />
+
+        <ProgressTrackerModal
+          isOpen={showProgressTracker}
+          onClose={() => setShowProgressTracker(false)}
+          data={data}
+          activeTab={activeTab}
+          onJumpToStep={(id) => setActiveTab(id)}
         />
 
         {/* Action Confirmation Modal */}

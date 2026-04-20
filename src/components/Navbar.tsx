@@ -29,19 +29,20 @@ export default function Navbar() {
   const navLinks = [
     { name: t.landing.templates || "Templates", path: "/templates" },
     {
+      name: t.landing.coverLetter || "Cover Letter",
+      path: "/cover-letter",
+      icon: <PenTool size={16} className="text-[#ff4d2d]" />,
+      highlight: true,
+    },
+    {
       name: t.landing.hashHuntJobs || "Hash Hunt",
       path: "/hash-hunt",
-      icon: <Target size={18} className="text-[#ff4d2d]" />,
-      highlight: true,
+      icon: <Target size={18} className="text-secondary" />,
+      highlight: false,
     },
   ];
 
   const moreLinks = [
-    {
-      name: t.landing.coverLetter || "Cover Letter",
-      path: "/cover-letter",
-      icon: <PenTool size={14} />,
-    },
     { name: t.landing.blog || "Blog", path: "/blog" },
   ];
 

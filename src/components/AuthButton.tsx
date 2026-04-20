@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, googleProvider } from "../lib/firebase";
 import { useAuthStore } from "../store/useAuthStore";
+import { useLanguageStore } from "../store/useLanguageStore";
 import { LogIn, User as UserIcon, Loader2 } from "lucide-react";
 
 const AuthButton = () => {
   const { user, loading } = useAuthStore();
+  const { language } = useLanguageStore();
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handleLogin = async () => {
@@ -80,6 +82,7 @@ const AuthButton = () => {
     <button
       onClick={handleLogin}
       disabled={isProcessing}
+      title={language === "ar" ? "سجل دخول لمزامنة بياناتك (اختياري)" : "Sign in to sync your data (Optional)"}
       className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 text-white hover:bg-zinc-800 transition-all text-xs font-bold shadow-md active:scale-95 disabled:opacity-50"
     >
       {isProcessing ? (
@@ -87,7 +90,7 @@ const AuthButton = () => {
       ) : (
         <LogIn size={14} />
       )}
-      <span>Sign In</span>
+      <span>{language === "ar" ? "دخول" : "Sign In"}</span>
     </button>
   );
 };

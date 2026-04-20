@@ -3,6 +3,7 @@ import { Star, Quote } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
+import { cn } from "../lib/utils";
 
 const reviews = [
   {
@@ -55,6 +56,15 @@ const reviews = [
   },
 ];
 
+const colors = [
+  "from-pink-500 to-rose-500",
+  "from-amber-500 to-orange-500",
+  "from-emerald-500 to-teal-500",
+  "from-sky-500 to-indigo-500",
+  "from-violet-500 to-purple-500",
+  "from-fuchsia-500 to-pink-500",
+];
+
 export default function Testimonials() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
@@ -94,49 +104,64 @@ export default function Testimonials() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 auto-rows-max items-start">
-          {reviews.map((review, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-200 hover:border-[#ff4d2d]/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#ff4d2d]/10 relative overflow-hidden group h-full flex flex-col"
-            >
-              <div className="absolute top-0 end-0 p-6 opacity-5 group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110 group-hover:-rotate-12">
-                <Quote size={80} className="text-[#ff4d2d] rtl:-scale-x-100" />
-              </div>
-
-              <div className="relative z-10 flex-1 flex flex-col">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center font-bold text-[#ff4d2d] text-xl border border-orange-200/50 shrink-0 shadow-inner">
-                    {review.name.charAt(0)}
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-900 text-base sm:text-lg leading-tight">
-                      {review.name}
-                    </h4>
-                    <div className="text-sm text-white0 mt-0.5 font-medium">
-                      {review.role}
-                    </div>
-                    <div className="flex items-center gap-1 mt-1.5">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          size={14}
-                          className="fill-[#ff4d2d] text-[#ff4d2d]"
-                        />
-                      ))}
-                    </div>
-                  </div>
+          {reviews.map((review, index) => {
+            const avatarColor = colors[index % colors.length];
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 hover:border-[#ff4d2d]/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#ff4d2d]/10 relative overflow-hidden group h-full flex flex-col"
+              >
+                <div className="absolute top-0 end-0 p-6 opacity-5 group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110 group-hover:-rotate-12">
+                  <Quote size={80} className="text-[#ff4d2d] rtl:-scale-x-100" />
                 </div>
 
-                <p className="text-slate-700 text-base sm:text-lg leading-relaxed font-medium mt-auto">
-                  "{review.text}"
-                </p>
-              </div>
-            </motion.div>
-          ))}
+                <div className="relative z-10 flex-1 flex flex-col">
+                  <div className="flex items-center gap-4 mb-6">
+                    {index % 2 === 0 ? (
+                      <img
+                        src={`https://i.pravatar.cc/100?img=${index + 10}`}
+                        alt={review.name}
+                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-white shadow-md object-cover shrink-0"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <div className={cn(
+                        "w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br flex items-center justify-center font-bold text-white text-xl border border-white/20 shrink-0 shadow-md",
+                        avatarColor
+                      )}>
+                        {review.name.charAt(0)}
+                      </div>
+                    )}
+                    <div>
+                      <h4 className="font-bold text-slate-900 text-base sm:text-lg leading-tight">
+                        {review.name}
+                      </h4>
+                      <div className="text-sm text-slate-500 mt-0.5 font-medium">
+                        {review.role}
+                      </div>
+                      <div className="flex items-center gap-1 mt-1.5">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            size={14}
+                            className="fill-[#ff4d2d] text-[#ff4d2d]"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-slate-700 text-base sm:text-lg leading-relaxed font-medium mt-auto">
+                    "{review.text}"
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

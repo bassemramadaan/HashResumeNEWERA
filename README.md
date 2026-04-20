@@ -17,7 +17,7 @@ Hash Resume is a cutting-edge, AI-powered resume builder designed to help job se
   <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop" width="600" alt="ATS Scoring Dashboard" />
 
 ### 🎥 Demo Video
-- [▶️ Watch the 1-Minute Walkthrough on YouTube](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+- [▶️ Watch the 1-Minute Walkthrough](https://ais-pre-ktz5z7det6x7ho2pcewzpe-7760678915.europe-west1.run.app)
 
 ## ✨ Key Features
 - **🤖 AI-Powered Content:** Generate professional summaries, experience bullet points, and tailored cover letters using Google Gemini.
