@@ -158,11 +158,11 @@ export default function TrustPage() {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                  <div className="border-s-4 border-emerald-500 ps-4">
-                    <div className="text-2xl font-black text-slate-900">1,250+</div>
+                    <div className="text-2xl font-bold text-slate-900">1,250+</div>
                     <div className="text-sm text-slate-500">{language === "ar" ? "مشارك في استبانة نجاح المستخدمين لعام 2025" : "Participants in our 2025 User Success Survey"}</div>
                  </div>
                  <div className="border-s-4 border-indigo-500 ps-4">
-                    <div className="text-2xl font-black text-slate-900">35%</div>
+                    <div className="text-2xl font-bold text-slate-900">35%</div>
                     <div className="text-sm text-slate-500">{language === "ar" ? "متوسط الزيادة في نسبة الردود للمستخدمين" : "Avg. increase in callback rates for our users"}</div>
                  </div>
               </div>

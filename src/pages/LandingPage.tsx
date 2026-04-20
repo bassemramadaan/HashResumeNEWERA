@@ -180,7 +180,7 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 text-[#ff4d2d] text-xs font-bold uppercase tracking-wider mb-8 border border-orange-100 shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 text-[#ff4d2d] text-xs font-semibold uppercase tracking-wider mb-8 border border-orange-100 shadow-sm"
               >
                 <Sparkles size={16} className="fill-current" />
                 <span>{language === "ar" ? "مدعوم بـ Gemini AI" : "Powered by Gemini AI"}</span>
@@ -193,13 +193,13 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className="font-display mb-8"
               >
-                <span className="text-slate-900 block text-5xl sm:text-7xl font-black tracking-tight leading-[1.05] mb-4">
+                <span className="text-slate-900 block text-5xl sm:text-7xl font-bold tracking-tight leading-[1.05] mb-4">
                   {t.heroTitle1}{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600">
                     {t.heroTitle2}
                   </span>
                 </span>
-                <p className="text-slate-500 text-xl sm:text-2xl font-bold tracking-tight max-w-xl">
+                <p className="text-slate-500 text-xl sm:text-2xl font-semibold tracking-tight max-w-xl">
                   {t.heroTitle3}
                 </p>
               </motion.h1>
@@ -213,14 +213,14 @@ export default function LandingPage() {
               >
                 <Link
                   to="/editor"
-                  className="w-full sm:w-auto bg-gradient-to-r from-[#ff4d2d] to-orange-600 hover:from-[#e63e1d] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-black transition-all shadow-xl shadow-orange-500/30 flex items-center justify-center gap-3 group hover:scale-105 active:scale-95 ring-4 ring-orange-500/10"
+                  className="w-full sm:w-auto bg-gradient-to-r from-[#ff4d2d] to-orange-600 hover:from-[#e63e1d] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/30 flex items-center justify-center gap-3 group hover:scale-105 active:scale-95 ring-4 ring-orange-500/10"
                 >
                   <Plus size={24} className="group-hover:rotate-90 transition-transform duration-300" />
                   {language === "ar" ? "ابدأ السيرة الذاتية مجاناً الآن" : language === "fr" ? "Commencez votre CV gratuit" : "Start Free CV Now"}
                 </Link>
                 <Link
                   to="/templates"
-                  className="w-full sm:w-auto bg-transparent border border-slate-300 text-slate-500 hover:bg-slate-50 hover:text-slate-700 hover:border-slate-400 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 active:scale-95"
+                  className="w-full sm:w-auto bg-transparent border border-slate-300 text-slate-500 hover:bg-slate-50 hover:text-slate-700 hover:border-slate-400 px-8 py-4 rounded-full text-lg font-semibold transition-all flex items-center justify-center gap-3 active:scale-95"
                 >
                   <Layout
                     size={24}
@@ -553,7 +553,7 @@ export default function LandingPage() {
                 <Sparkles className="w-4 h-4" />
                 {t.newHashHunt}
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 leading-[1.1] tracking-tight text-slate-900">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight text-slate-900">
                 {t.hashHuntTagline}
               </h2>
               <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed font-medium">
@@ -758,7 +758,7 @@ export default function LandingPage() {
                 </h3>
 
                 <div className="flex flex-col items-center justify-center gap-2 mb-2">
-                  <span className="text-5xl font-black text-[#ff4d2d] flex items-center gap-2">
+                  <span className="text-5xl font-bold text-[#ff4d2d] flex items-center gap-2">
                     {currency === "EGP" ? (
                       <div className="flex flex-col items-center">
                         <div className="flex items-center gap-2">
@@ -822,7 +822,7 @@ export default function LandingPage() {
                   {t.multiDownload || "Multi-Download Pack"}
                 </h3>
                 <div className="flex flex-col items-start justify-center gap-2 mb-2">
-                  <span className="text-4xl font-black text-slate-900 flex items-center gap-2">
+                  <span className="text-4xl font-bold text-slate-900 flex items-center gap-2">
                     {currency === "EGP" ? (
                       <div className="flex flex-col items-start">
                         <div className="flex items-center gap-2">
@@ -898,7 +898,7 @@ export default function LandingPage() {
                 <tr className="border-b border-slate-100">
                   <th className="py-6 px-4 text-start text-slate-400 font-medium uppercase tracking-wider text-xs">Features</th>
                   <th className="py-6 px-4 text-center bg-orange-50/50 rounded-t-3xl">
-                    <div className="flex items-center justify-center gap-2 text-[#ff4d2d] font-black">
+                    <div className="flex items-center justify-center gap-2 text-[#ff4d2d] font-bold">
                       <Logo className="w-5 h-5" />
                       Hash Resume
                     </div>

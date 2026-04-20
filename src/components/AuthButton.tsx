@@ -54,13 +54,13 @@ const AuthButton = () => {
     return (
       <div className="flex items-center gap-3">
         <div className="hidden md:flex flex-col items-end">
-          <span className="text-xs font-bold text-slate-900 truncate max-w-[120px]">
+          <span className="text-xs font-semibold text-slate-900 truncate max-w-[120px]">
             {user.displayName}
           </span>
           <button
             onClick={handleLogout}
             disabled={isProcessing}
-            className="text-[10px] font-bold text-white0 hover:text-[#ff4d2d] transition-colors"
+            className="text-[10px] font-semibold text-white0 hover:text-[#ff4d2d] transition-colors"
           >
             {isProcessing ? "..." : "Sign Out"}
           </button>
@@ -83,7 +83,7 @@ const AuthButton = () => {
       onClick={handleLogin}
       disabled={isProcessing}
       title={language === "ar" ? "سجل دخول لمزامنة بياناتك (اختياري)" : "Sign in to sync your data (Optional)"}
-      className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 text-white hover:bg-zinc-800 transition-all text-xs font-bold shadow-md active:scale-95 disabled:opacity-50"
+      className="flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900 text-white hover:bg-zinc-800 transition-all text-xs font-semibold shadow-md active:scale-95 disabled:opacity-50"
     >
       {isProcessing ? (
         <Loader2 size={14} className="animate-spin" />

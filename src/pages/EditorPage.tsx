@@ -165,12 +165,12 @@ const ATSScoreIndicator = ({
       className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-100 hover:bg-slate-200 transition-all border border-slate-200 group"
     >
       <div className="flex flex-col items-start">
-        <span className="text-[8px] sm:text-[9px] font-black text-slate-500 uppercase tracking-widest leading-none mb-0.5">
+        <span className="text-[8px] sm:text-[9px] font-bold text-slate-500 uppercase tracking-widest leading-none mb-0.5">
           {language === "ar" ? "النتيجة" : "Score"}
         </span>
         <span
           className={cn(
-            "text-xs sm:text-sm font-black leading-none",
+            "text-xs sm:text-sm font-bold leading-none",
             atsScore >= 80
               ? "text-emerald-600"
               : atsScore >= 50
@@ -335,12 +335,12 @@ const ProgressTrackerModal = ({
                         {step.done ? <CheckCircle2 size={20} /> : <Icon size={20} />}
                       </div>
                       <div className="flex-1">
-                        <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0.5">
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">
                           {step.id}
                         </div>
                         <div
                           className={cn(
-                            "text-sm font-bold",
+                            "text-sm font-semibold",
                             isActive ? "text-slate-900" : "text-slate-600",
                           )}
                         >

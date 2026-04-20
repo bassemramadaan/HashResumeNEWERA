@@ -67,7 +67,7 @@ export default function Navbar() {
             <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-[#ff4d2d] rounded-xl shadow-lg shadow-orange-500/20 flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
               <Logo className="w-6 h-6" />
             </div>
-            <span className="text-xl font-black tracking-tight text-slate-900 hidden sm:block">
+            <span className="text-xl font-bold tracking-tight text-slate-900 hidden sm:block">
               Hash<span className="text-[#ff4d2d]">Resume</span>
             </span>
           </Link>
@@ -79,7 +79,7 @@ export default function Navbar() {
                 key={link.path}
                 to={link.path}
                 className={cn(
-                  "px-4 py-2 text-sm font-bold rounded-full transition-all flex items-center gap-2 relative group",
+                  "px-4 py-2 text-sm font-semibold rounded-full transition-all flex items-center gap-2 relative group",
                   location.pathname === link.path
                     ? "text-white bg-[#ff4d2d] shadow-md"
                     : link.highlight
@@ -106,7 +106,7 @@ export default function Navbar() {
             >
               <button
                 className={cn(
-                  "px-4 py-2 text-sm font-bold rounded-full transition-all flex items-center gap-1 relative group text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm shadow-transparent hover:shadow-slate-200/50",
+                  "px-4 py-2 text-sm font-semibold rounded-full transition-all flex items-center gap-1 relative group text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm shadow-transparent hover:shadow-slate-200/50",
                   moreLinks.some(link => location.pathname === link.path) && "text-slate-900 bg-slate-50 shadow-slate-200/50"
                 )}
               >
@@ -225,7 +225,7 @@ export default function Navbar() {
                     to={link.path}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
-                      "px-6 py-4 text-base font-bold rounded-2xl transition-all flex items-center justify-between group",
+                      "px-6 py-4 text-base font-semibold rounded-2xl transition-all flex items-center justify-between group",
                       location.pathname === link.path
                         ? "text-white bg-[#ff4d2d]"
                         : link.highlight
@@ -253,7 +253,7 @@ export default function Navbar() {
               <Link
                 to="/editor"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-4 bg-zinc-900 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-xl shadow-slate-900/10 active:scale-95 transition-all"
+                className="flex items-center justify-center gap-4 bg-zinc-900 text-white font-semibold py-4 px-6 rounded-2xl text-center shadow-xl shadow-slate-900/10 active:scale-95 transition-all"
               >
                 <Sparkles size={18} className="text-orange-400" />
                 {t.landing.buildResume || "Build Resume"}

@@ -94,7 +94,7 @@ export default function Testimonials() {
                 {language === "ar" ? "آراء المستخدمين" : "Testimonials"}
               </span>
             </motion.div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 font-display tracking-tight leading-tight mb-4">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 font-display tracking-tight leading-tight mb-4">
               {language === "ar" ? "ماذا يقولون عنا؟" : "Wall of Love"}
             </h2>
             <p className="text-lg text-slate-600 max-w-xl mx-auto md:mx-0">
