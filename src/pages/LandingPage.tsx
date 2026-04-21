@@ -219,8 +219,14 @@ export default function LandingPage() {
                   className="w-full sm:w-auto bg-[#ff4d2d] hover:bg-[#e63e1d] text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-lg flex items-center justify-center gap-3 group active:scale-95"
                 >
                   <Plus size={24} className="transition-transform duration-300" />
-                  {language === "ar" ? "ابدأ كتابة سيرتك مجاناً" : language === "fr" ? "Commencez votre CV gratuit" : "Build Your Resume Free"}
+                  {language === "ar" ? "ابدأ كتابة سيرتك مجاناً" : "Build Your Resume Free"}
                 </Link>
+                <a
+                  href="#templates"
+                  className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 group active:scale-95"
+                >
+                  {language === "ar" ? "تصفح القوالب" : "View Templates"}
+                </a>
               </motion.div>
 
               {/* Social Proof Counter */}
@@ -450,39 +456,39 @@ export default function LandingPage() {
       </section>
 
       {/* ATS Audit Showcase */}
-      <section className="py-16 bg-slate-50 overflow-hidden">
+      <section className="py-16 bg-white overflow-hidden text-center lg:text-start">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-10">
-            <div className="flex-1 relative order-2 lg:order-1">
+            <div className="flex-1 relative order-2 lg:order-1 w-full max-w-md mx-auto lg:mx-0">
               <div className="absolute -inset-4 bg-indigo-500/10 rounded-[2rem] blur-3xl -z-10"></div>
-              <div className="bg-slate-50 p-6 rounded-3xl border border-slate-200 shadow-2xl relative overflow-hidden">
-                {/* Mockup of ATS Audit */}
-                <div className="flex items-center justify-between mb-8">
+              {/* Refined Mockup of ATS Audit - One Clean Card */}
+              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 relative overflow-hidden flex flex-col gap-6">
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <Target className="text-indigo-500" size={24} />
                     <span className="font-bold text-slate-900">
                       {t.atsAuditReport}
                     </span>
                   </div>
-                  <motion.div className="flex px-4 py-2 bg-emerald-100 text-emerald-600 text-xs font-bold rounded-full">
+                  <motion.div className="flex px-4 py-2 bg-emerald-100/50 text-emerald-600 text-sm font-bold rounded-full">
                     <motion.span>{roundedValue}</motion.span>/100
                   </motion.div>
                 </div>
 
-                <div className="space-y-6">
-                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm">
-                    <div className="flex items-center gap-4 mb-4">
-                      <CheckCircle2 className="text-emerald-500" size={24} />
+                <div className="space-y-4">
+                  <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100">
+                    <div className="flex items-center gap-2 mb-3">
+                      <CheckCircle2 className="text-emerald-500" size={18} />
                       <span className="text-sm font-bold text-slate-900">
                         {t.keywordsMatched}
                       </span>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      {["React", "Node.js", "TypeScript", "AWS", "Agile"].map(
+                    <div className="flex flex-wrap gap-2 text-start">
+                      {["React", "Node.js", "TypeScript", "AWS"].map(
                         (kw) => (
                           <span
                             key={kw}
-                            className="px-2 py-2 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-lg border border-emerald-100"
+                            className="px-3 py-1 bg-white text-slate-600 text-xs font-semibold rounded-lg border border-slate-200"
                           >
                             {kw}
                           </span>
@@ -491,22 +497,22 @@ export default function LandingPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 shadow-sm">
-                    <div className="flex items-center gap-4 mb-4">
-                      <TrendingUp className="text-indigo-500" size={24} />
+                  <div className="p-4 bg-amber-50/30 rounded-2xl border border-amber-100/50">
+                    <div className="flex items-center gap-2 mb-3">
+                      <TrendingUp className="text-amber-500" size={18} />
                       <span className="text-sm font-bold text-slate-900">
                         {t.improvementSuggestions}
                       </span>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-3 text-start">
                       <div className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-amber-400 mt-2 shrink-0" />
-                        <p className="text-xs text-slate-600">
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
+                        <p className="text-xs text-slate-600 font-medium">
                           {t.quantifiableMetrics}
                         </p>
                       </div>
                       <div className="flex items-start gap-2">
-                        <div className="w-2 h-2 rounded-full bg-emerald-400 mt-2 shrink-0" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
                         <p className="text-xs text-slate-600 text-emerald-600 font-medium line-through opacity-50">
                           {t.missingLinkedin}
                         </p>
@@ -514,18 +520,13 @@ export default function LandingPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* Floating Score Improvement */}
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  className="absolute bottom-6 end-6 bg-[#ff4d2d] text-white p-4 rounded-2xl shadow-xl flex flex-col items-center"
-                >
-                  <span className="text-xs font-bold uppercase tracking-widest mb-1">
-                    {t.scoreBoost}
+                
+                {/* Clarifying info block */}
+                <div className="mt-2 pt-4 border-t border-slate-100 text-center">
+                  <span className="text-xs text-slate-400 font-medium text-center">
+                    {language === "ar" ? "* تقرير حي - يتم حساب هذه النتيجة لحظياً داخل المحرر." : "* Example report — your score is calculated in real-time inside the editor."}
                   </span>
-                  <span className="text-3xl font-black">+40%</span>
-                </motion.div>
+                </div>
               </div>
             </div>
 
@@ -600,10 +601,13 @@ export default function LandingPage() {
                 <Sparkles className="w-4 h-4" />
                 {t.newHashHunt}
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight text-slate-900">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-[1.1] tracking-tight text-slate-900">
                 {t.hashHuntTagline}
               </h2>
-              <p className="text-lg md:text-xl text-slate-600 mb-10 leading-relaxed font-medium">
+              <p className="text-xl md:text-2xl text-slate-500 font-medium mb-6">
+                {language === "ar" ? "بعد ما تخلص السيرة الذاتية، ما تضيعهاش — خليها تشتغل لوحدها عن طريق Hash Hunt." : "Once your resume is ready, put it to work automatically through Hash Hunt."}
+              </p>
+              <p className="text-lg text-slate-600 mb-10 leading-relaxed font-medium">
                 {t.hashHuntDesc}
               </p>
 
@@ -644,18 +648,18 @@ export default function LandingPage() {
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
-                  to="/hash-hunt"
-                  className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold text-base shadow-lg shadow-indigo-500/25 transition-all hover:bg-indigo-700 hover:-translate-y-1 flex items-center justify-center gap-4"
-                >
-                  <Search size={20} />
-                  {t.exploreHashHunt}
-                </Link>
-                <Link
                   to="/editor"
-                  className="px-8 py-4 bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl font-bold text-base transition-all hover:border-indigo-300 hover:-translate-y-1 flex items-center justify-center gap-4"
+                  className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold text-base shadow-lg shadow-indigo-500/25 transition-all hover:bg-indigo-700 hover:-translate-y-1 flex items-center justify-center gap-4"
                 >
                   <PenTool size={20} />
                   {t.createResumeFirst}
+                </Link>
+                <Link
+                  to="/hash-hunt"
+                  className="px-8 py-4 bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl font-bold text-base transition-all hover:border-indigo-300 hover:-translate-y-1 flex items-center justify-center gap-4"
+                >
+                  <Search size={20} />
+                  {t.exploreHashHunt}
                 </Link>
               </div>
             </motion.div>
@@ -807,9 +811,9 @@ export default function LandingPage() {
                       </>
                     )}
                   </span>
-                  <div className="mt-4 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold uppercase tracking-wider border border-emerald-100">
-                    <CheckCircle2 size={16} />
-                    {t.noSubscriptionPayOnce}
+                  <div className="mt-4 px-6 py-3 rounded-xl bg-orange-100/50 text-orange-700 text-sm font-bold border border-orange-200/50 shadow-sm shadow-orange-100 flex flex-col items-center gap-1">
+                    <span className="block uppercase tracking-wider text-[10px] opacity-80">{language === "ar" ? "نقطة تفوقنا" : "Our Differentiator"}</span>
+                    <span className="flex items-center gap-2 text-base"><CheckCircle2 size={18} className="text-emerald-500" /> {t.noSubscriptionPayOnce}</span>
                   </div>
                 </div>
               </div>
@@ -925,17 +929,17 @@ export default function LandingPage() {
           </div>
 
           <div className="overflow-x-auto pb-4">
-            <table className="w-full border-collapse min-w-[600px]">
+            <table className="w-full border-collapse min-w-[640px] md:min-w-full">
               <thead>
                 <tr className="border-b border-slate-100">
-                  <th className="py-6 px-4 text-start text-slate-400 font-medium uppercase tracking-wider text-xs">Features</th>
-                  <th className="py-6 px-4 text-center bg-orange-50/50 rounded-t-3xl">
+                  <th className="py-6 px-4 text-start text-slate-400 font-medium uppercase tracking-wider text-xs w-1/3">Features</th>
+                  <th className="py-6 px-4 text-center bg-orange-50/50 rounded-t-3xl w-1/3 border-x border-orange-100/50">
                     <div className="flex items-center justify-center gap-2 text-[#ff4d2d] font-bold">
                       <Logo className="w-5 h-5" />
                       Hash Resume
                     </div>
                   </th>
-                  <th className="py-6 px-4 text-center text-slate-400 font-bold">Zety / Canva</th>
+                  <th className="py-6 px-4 text-center text-slate-400 font-bold w-1/3">Zety / Canva</th>
                 </tr>
               </thead>
               <tbody className="text-sm">
@@ -947,18 +951,18 @@ export default function LandingPage() {
                   { feature: "AI Content", hash: true, others: true, desc: "Smart bullet points" },
                 ].map((row, i) => (
                   <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                    <td className="py-6 px-4">
+                    <td className="py-6 px-4 align-top">
                       <div className="font-bold text-slate-900">{row.feature}</div>
                       <div className="text-xs text-slate-500 mt-1">{row.desc}</div>
                     </td>
-                    <td className="py-6 px-4 text-center bg-orange-50/30">
+                    <td className="py-6 px-4 text-center bg-orange-50/30 align-middle border-x border-orange-100/30">
                       {row.hash === true ? (
                         <CheckCircle2 className="mx-auto text-emerald-500" size={24} />
                       ) : (
                         <span className="font-bold text-slate-900">{row.hash}</span>
                       )}
                     </td>
-                    <td className="py-6 px-4 text-center text-slate-400">
+                    <td className="py-6 px-4 text-center text-slate-400 align-middle">
                       {row.others === false ? (
                         <div className="w-6 h-6 mx-auto border-2 border-slate-200 rounded-full flex items-center justify-center">
                           <Plus className="rotate-45 text-slate-400" size={16} />

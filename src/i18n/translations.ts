@@ -15,7 +15,7 @@ export const translations = {
       simpleStep2Desc: "Let AI craft your experience professionally.",
       simpleStep3Title: "Download",
       simpleStep3Desc: "Get a ready-to-apply PDF file.",
-      heroTitle1: "Build Your Perfect Resume",
+      heroTitle1: "Build an ATS-Ready Resume",
       heroTitle2: "in Minutes",
       heroTitle3: "ATS-optimized. 100% Private. Free to start.",
       heroSubtitle:
@@ -155,7 +155,7 @@ export const translations = {
       faqsSubtitle: "Got questions? We've got answers.",
       faq1Q: "Is my data safe?",
       faq1A:
-        "Yes, absolutely. By default, your Hash Resume runs entirely in your browser and is stored locally. This means your personal information remains strictly on your device.",
+        "We prioritize absolute privacy. We store your entire resume completely locally on your device. We do not use databases to collect your personal information.",
       faq2Q: "How much does it cost?",
       faq2A:
         "You can build and preview your resume for free. We charge a one-time fee of 25 EGP (or equivalent in your local currency) for a single professional PDF download. No subscriptions, no hidden fees.",
@@ -173,7 +173,7 @@ export const translations = {
         "Yes! We have a dedicated AI-powered Cover Letter Builder that helps you craft professional cover letters tailored to your job applications and matching your resume style.",
       faq7Q: "Does my data go to the server when using AI?",
       faq7A:
-        "Your data remains locally on your device by default. However, when you explicitly click 'Fix with AI' or generate AI content, the specific text you are modifying is securely processed via Google's Gemini API for generation, then immediately discarded. We do not store your data on our servers.",
+        "Your data remains locally on your device. We only send the specific text snippet you request to improve (no names or contact info) to a secure AI server. Hash Hunt data is explicitly opt-in.",
       faq8Q: "Is the Word Document export identical to the PDF template?",
       faq8A:
         "The Word (.docx) export is formatted to be a clean, purely text-based ATS powerhouse. It retains your precise content and logical hierarchy, but strips away complex multi-column designs that confuse older ATS systems, ensuring 100% parsing success.",
@@ -669,7 +669,7 @@ export const translations = {
       simpleStep2Desc: "دع الذكاء الاصطناعي يصيغ خبراتك باحترافية.",
       simpleStep3Title: "حمل سيرتك",
       simpleStep3Desc: "احصل على ملف PDF جاهز للتقديم.",
-      heroTitle1: "ابنِ سيرتك الذاتية المثالية",
+      heroTitle1: "سيرة ذاتية تتخطى الـ ATS",
       heroTitle2: "في دقائق",
       heroTitle3: "محسنة للـ ATS. خصوصية كاملة. ابدأ مجاناً.",
       heroSubtitle:
@@ -804,7 +804,7 @@ export const translations = {
       faqsSubtitle: "عندك استفسار؟ جمعنا لك أهم الأسئلة وإجاباتها.",
       faq1Q: "هل بياناتي آمنة؟",
       faq1A:
-        "نعم، بالتأكيد. بشكل افتراضي، يعمل Hash Resume ويحفظ مسوداتك بالكامل داخل متصفحك. هذا يعني أن كافة بياناتك الشخصية تبقى مشفرة ومحفوظة على جهازك الخاص ولن يتم نقلها إلا عند استخدام ميزات الحفظ السحابي أو تحسين الذكاء الاصطناعي بناءً على طلبك.",
+        "نحن نضع خصوصيتك في المقام الأول. نخزن سيرتك الذاتية بالكامل وعمليات التعديل محلياً على جهازك، ولا نستخدم أي قواعد بيانات لجمع معلوماتك الشخصية أو تتبعها.",
       faq2Q: "كم تبلغ التكلفة؟",
       faq2A:
         "يمكنك إنشاء ومعاينة سيرتك الذاتية مجانًا. نحن نفرض رسومًا لمرة واحدة قدرها 25 جنيه مصري (أو ما يعادلها بعملتك المحلية) لتحميل ملف PDF احترافي واحد. لا توجد اشتراكات أو رسوم خفية.",
@@ -822,7 +822,7 @@ export const translations = {
         "نعم! لدينا منشئ خطاب تقديم مخصص مدعوم بالذكاء الاصطناعي يساعدك على صياغة خطابات احترافية مخصصة لوظيفتك وتناسب تصميم سيرتك الذاتية.",
       faq7Q: "هل تنتقل بياناتي إلى الخوادم عند استخدام الذكاء الاصطناعي؟",
       faq7A:
-        "تبقى بياناتك محلياً على جهازك بشكل افتراضي. ولكن، عندما تنقر صراحةً على 'تحسين بالذكاء الاصطناعي'، يتم معالجة النص المحدد بأمان عبر Google Gemini API ثم يُحذف فوراً. نحن لا نقوم بتخزين بياناتك على خوادمنا.",
+        "مسودتك الفون تبقى مشفرة في جهازك. نُرسل فقط (النص المُحدد الذي تطلب تحسينه) إلى خادم آمن للذكاء الاصطناعي بدون إرسال اسمك أو بيانات اتصالك، وفي نظام Hash Hunt يتم مشاركة سيرتك فقط برضاك وإذنك.",
       faq8Q: "هل ملف الوورد (Word) مطابق تماماً لتصميم الـ PDF؟",
       faq8A:
         "يتم تصدير ملف الوورد بتنسيق نَصّي نظيف مُعَد لاختراق أنظمة الـ ATS بنسبة 100%. يحتفظ الملف بكافة نصوصك وهيكليتها، ولكنه يزيل التصميمات المعقدة ذات الأعمدة المتعددة التي قد تُربك الأنظمة القديمة.",

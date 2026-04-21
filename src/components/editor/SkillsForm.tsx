@@ -73,37 +73,46 @@ const SkillsForm = () => {
             <button
               type="button"
               onClick={() => setShowAISuggestions(!showAISuggestions)}
-              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-full transition-colors"
+              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors"
+                          title={language === "ar" ? "اقتراح مهارات ذكية بناءً على بياناتك" : "Suggest smart skills based on your profile"}
             >
-              <Sparkles size={12} />
-              {t.aiSuggestions}
+              <Sparkles size={14} />
+              {language === "ar" ? "إصلاح عبر الذكاء الاصطناعي" : "Fix with AI"}
             </button>
           </div>
 
           {showAISuggestions && (
-            <Suspense
-              fallback={
-                <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
-              }
-            >
-              <AISuggestion
-                currentValue={skills.join(", ")}
-                onApply={(newText) => {
-                  const newSkills = newText
-                    .split(",")
-                    .map((s) => s.trim())
-                    .filter(Boolean);
-                  newSkills.forEach((skill) => {
-                    if (!skills.includes(skill)) {
-                      addSkill(skill);
-                    }
-                  });
-                  setShowAISuggestions(false);
-                }}
-                context={`Job Title: ${data.personalInfo.jobTitle}, Job Description: ${data.jobDescription}`}
-                promptOverride="Based on the job title and description, suggest a comma-separated list of 5-10 relevant skills. Only return the comma-separated list, no other text."
-              />
-            </Suspense>
+            <div className="mb-4">
+              <Suspense
+                fallback={
+                  <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
+                }
+              >
+                <AISuggestion
+                  currentValue={skills.join(", ")}
+                  onApply={(newText) => {
+                    const newSkills = newText
+                      .split(",")
+                      .map((s) => s.trim())
+                      .filter(Boolean);
+                    newSkills.forEach((skill) => {
+                      if (!skills.includes(skill)) {
+                        addSkill(skill);
+                      }
+                    });
+                    setShowAISuggestions(false);
+                  }}
+                  context={`Job Title: ${data.personalInfo.jobTitle}, Job Description: ${data.jobDescription}`}
+                  promptOverride="Based on the job title and description, suggest a comma-separated list of 5-10 relevant skills. Only return the comma-separated list, no other text."
+                />
+              </Suspense>
+              <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
+                   <Sparkles size={10} className="text-indigo-400 shrink-0" />
+                   {language === "ar" 
+                     ? "يتم إرسال المهارات والوصف الوظيفي (بدون هويات) بشكل مشفر لاقتراح مهارات مخصصة."
+                     : "Only skills and job description (no PII) are sent anonymously to generate tailored suggestions."}
+              </div>
+            </div>
           )}
 
           <div className="flex gap-2">

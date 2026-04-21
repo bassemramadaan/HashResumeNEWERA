@@ -618,15 +618,16 @@ export default function EditorPage() {
           </div>
 
           {/* Right Section: Actions */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <button
                onClick={() => setShowProgressTracker(true)}
                className="p-2 sm:p-2.5 rounded-full text-indigo-500 hover:bg-slate-50/50 hover:text-indigo-600 transition-colors"
-               title="View Progress"
+               title={language === "ar" ? "عرض التقدم" : "View Progress"}
             >
                <Target size={16} />
             </button>
-            <div className="hidden sm:flex items-center gap-2">
+            
+            <div className="hidden md:flex items-center gap-1 sm:gap-2">
               <button
                 onClick={() => setShowWelcomeModal(true)}
                 className="p-2 rounded-full text-[#ff4d2d] bg-orange-50 hover:bg-orange-100 transition-colors border border-orange-200"
@@ -637,30 +638,27 @@ export default function EditorPage() {
               <LanguageSwitcher className="[&>span]:hidden lg:[&>span]:inline" />
             </div>
 
+            {/* Separator on Desktop */}
+            <div className="hidden lg:block w-px h-6 bg-slate-200 mx-1"></div>
+
+            {/* Persistent Preview Button */}
+            <button
+              onClick={() => setShowFullPreview(true)}
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-slate-100/80 hover:bg-slate-200 text-slate-700 transition-all border border-slate-200/50 active:scale-95 font-bold text-[10px] sm:text-xs uppercase tracking-wider"
+              title={language === "ar" ? "معاينة كاملة" : "Full Preview"}
+            >
+              <Eye size={14} className="text-slate-500" />
+              <span className="hidden lg:inline">{language === "ar" ? "معاينة كاملة" : "Full Preview"}</span>
+            </button>
+
             <button
               onClick={handleExportClick}
               data-tour="export-button"
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-bold text-xs"
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest"
             >
               <Download size={14} />
               <span className="hidden sm:inline">{t.exportPdf}</span>
-            </button>
-
-            {/* Mobile Preview Toggle */}
-            <button
-              onClick={() => setShowMobilePreview(true)}
-              className="md:hidden flex items-center justify-center w-10 h-10 text-slate-600 hover:bg-slate-50/50 rounded-full transition-colors"
-            >
-              <Eye size={18} />
-            </button>
-
-            {/* Full Preview (Desktop) */}
-            <button
-              onClick={() => setShowFullPreview(true)}
-              className="hidden lg:flex items-center justify-center w-10 h-10 text-slate-600 hover:bg-slate-50/50 rounded-full transition-colors"
-              title={t.fullPreview}
-            >
-              <Maximize2 size={18} />
+              <span className="sm:hidden">{language === "ar" ? "تحميل" : "Export"}</span>
             </button>
           </div>
         </nav>

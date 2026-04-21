@@ -229,43 +229,54 @@ const ExperienceForm = () => {
                               showAISuggestionFor === exp.id ? null : exp.id,
                             )
                           }
-                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-full transition-colors"
+                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors"
+                          title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
                         >
-                          <Sparkles size={12} />
-                          {t.aiSuggestions}
+                          <Sparkles size={14} />
+                          {language === "ar" ? "إصلاح الذكاء الاصطناعي" : "Fix with AI"}
                         </button>
                       </div>
 
                       {showAISuggestionFor === exp.id && (
-                        <Suspense
-                          fallback={
-                            <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
-                          }
-                        >
-                          <AISuggestion
-                            currentValue={exp.description}
-                            onApply={(newText) => {
-                              updateExperience(exp.id, {
-                                description: newText,
-                              });
-                              setShowAISuggestionFor(null);
-                            }}
-                            context={`Job Title: ${exp.position}, Company: ${exp.company}`}
-                          />
-                        </Suspense>
+                        <div className="mb-2">
+                          <Suspense
+                            fallback={
+                              <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
+                            }
+                          >
+                            <AISuggestion
+                              currentValue={exp.description}
+                              onApply={(newText) => {
+                                updateExperience(exp.id, {
+                                  description: newText,
+                                });
+                                setShowAISuggestionFor(null);
+                              }}
+                              context={`Job Title: ${exp.position}, Company: ${exp.company}`}
+                            />
+                          </Suspense>
+                        </div>
                       )}
-
-                      <textarea
-                        rows={5}
-                        value={exp.description}
-                        onChange={(e) =>
-                          updateExperience(exp.id, {
-                            description: e.target.value,
-                          })
-                        }
-                        className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
-                        placeholder={t.experience.descriptionPlaceholder}
-                      />
+                      
+                      <div className="relative">
+                        <textarea
+                          rows={6}
+                          value={exp.description}
+                          onChange={(e) =>
+                            updateExperience(exp.id, {
+                              description: e.target.value,
+                            })
+                          }
+                          className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 font-mono leading-relaxed"
+                          placeholder={t.experience.descriptionPlaceholder}
+                        />
+                        <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
+                            <Sparkles size={10} className="text-indigo-400 shrink-0" />
+                            {language === "ar" 
+                              ? "يتم إرسال النص أعلاه فقط (بدون أي هويات أو معلومات تواصل) بشكل مشفر لتخصيص محتواك."
+                              : "Only the text snippet above is sent anonymously to generate tailored content."}
+                        </div>
+                      </div>
 
                       {/* ATS Hint */}
                       {jobDescription && matchResults && (

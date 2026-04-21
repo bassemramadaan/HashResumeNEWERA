@@ -310,14 +310,16 @@ const PersonalInfoForm = () => {
             <button
               type="button"
               onClick={() => setShowAISuggestions(!showAISuggestions)}
-              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-full transition-colors"
+              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors"
+                          title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
             >
-              <Sparkles size={12} />
-              {t.aiSuggestions}
+              <Sparkles size={14} />
+              {language === "ar" ? "إصلاح الذكاء الاصطناعي" : "Fix with AI"}
             </button>
           </div>
 
           {showAISuggestions && (
+            <div className="mb-2">
             <Suspense
               fallback={
                 <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
@@ -332,18 +334,27 @@ const PersonalInfoForm = () => {
                 context={`Job Title: ${personalInfo.jobTitle}`}
               />
             </Suspense>
+            </div>
           )}
 
+          <div className="relative">
           <textarea
             id="summary"
             name="summary"
-            rows={4}
+            rows={5}
             value={personalInfo.summary}
             onChange={handleChange}
-            className="block w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-none bg-slate-50 text-slate-900 placeholder-slate-400"
+            className="block w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y bg-slate-50 text-slate-900 placeholder-slate-400 font-mono leading-relaxed"
             placeholder={t.summaryPlaceholder}
           />
-          <p className="text-xs text-white0 mt-1">{t.summaryFooter}</p>
+          <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
+               <Sparkles size={10} className="text-indigo-400 shrink-0" />
+               {language === "ar" 
+                 ? "يتم إرسال النص أعلاه فقط (بدون أي هويات أو معلومات تواصل) بشكل مشفر لتخصيص محتواك."
+                 : "Only the text snippet above is sent anonymously to generate tailored content."}
+          </div>
+          <p className="text-xs text-slate-500 mt-2 px-2">{t.summaryFooter}</p>
+          </div>
         </div>
       </div>
     </div>

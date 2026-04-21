@@ -80,9 +80,19 @@ export default function AISuggestion({
       </div>
 
       {isGenerating && (
-        <div className="flex items-center gap-2 py-1">
-          <Loader2 size={12} className="animate-spin text-indigo-500" />
-          <span className="text-xs text-white0 italic">Thinking...</span>
+        <div className="flex flex-col gap-1 py-1">
+          <div className="flex items-center gap-2">
+            <Loader2 size={12} className="animate-spin text-indigo-500" />
+            <span className="text-xs text-slate-500 italic">
+               {language === "ar" ? "جاري التفكير..." : "Thinking..."}
+            </span>
+          </div>
+          <div className="text-[9px] text-slate-400 opacity-70 leading-tight flex items-center gap-1">
+             <Sparkles size={8} className="text-indigo-400" />
+             {language === "ar" 
+               ? "يتم معالجة النص بشكل مجهول لتوليد تجربة محتوى احترافية." 
+               : "Processing anonymized text to generate professional content suggestions."}
+          </div>
         </div>
       )}
 

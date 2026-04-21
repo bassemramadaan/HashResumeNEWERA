@@ -256,23 +256,32 @@ export default function CoverLetterForm() {
           </div>
         )}
 
-        <button
-          onClick={generateCoverLetter}
-          disabled={isGenerating}
-          className="w-full flex items-center justify-center gap-2 bg-[#ff4d2d] hover:bg-[#e63e1d] text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg shadow-orange-500/20 disabled:opacity-70 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
-        >
-          {isGenerating ? (
-            <>
-              <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              {t.coverLetter.generating}
-            </>
-          ) : (
-            <>
-              <Sparkles size={18} />
-              {t.coverLetter.generateWithAI}
-            </>
-          )}
-        </button>
+        <div className="relative flex flex-col gap-2">
+          <button
+            onClick={generateCoverLetter}
+            disabled={isGenerating}
+            className="w-full flex items-center justify-center gap-2 bg-[#ff4d2d] hover:bg-[#e63e1d] text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg shadow-orange-500/20 disabled:opacity-70 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
+          >
+            {isGenerating ? (
+              <>
+                <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                {t.coverLetter.generating}
+              </>
+            ) : (
+              <>
+                <Sparkles size={18} />
+                {t.coverLetter.generateWithAI}
+              </>
+            )}
+          </button>
+          
+          <div className="text-[10px] text-slate-400 flex items-center justify-center gap-1 opacity-70 px-2 leading-tight">
+               <Sparkles size={10} className="text-indigo-400 shrink-0" />
+               {language === "ar" 
+                 ? "يتم إرسال المعلومات المدخلة أعلاه فقط (بدون أي هويات أو معلومات תواصل) بشكل مشفر لتخصيص محتواك."
+                 : "Only the snippets above are sent anonymously to generate tailored content."}
+          </div>
+        </div>
       </div>
     </div>
   );

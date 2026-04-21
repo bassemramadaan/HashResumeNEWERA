@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Suspense, lazy } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -14,6 +14,8 @@ import {
 import { Reorder } from "framer-motion";
 import FormSkeleton from "./FormSkeleton";
 import SectionTooltip from "./SectionTooltip";
+
+const AISuggestion = lazy(() => import("./AISuggestion"));
 
 const EducationForm = () => {
   const { language } = useLanguageStore();
@@ -219,50 +221,79 @@ const EducationForm = () => {
                               showSuggestionsFor === edu.id ? null : edu.id,
                             )
                           }
-                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-full transition-colors"
+                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors"
+                          title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
                         >
-                          <Sparkles size={12} />
-                          {t.education.aiSuggestionsFree}
+                          <Sparkles size={14} />
+                          {language === "ar" ? "إصلاح الذكاء الاصطناعي" : "Fix with AI"}
                         </button>
                       </div>
 
                       {showSuggestionsFor === edu.id && (
-                        <div className="bg-indigo-50/50 border border-indigo-100 rounded-xl p-4 mb-2 space-y-2 animate-in fade-in slide-in-from-top-2">
-                          <p className="text-xs font-semibold text-indigo-800 mb-2">
-                            {t.education.clickToAppend}
-                          </p>
-                          {eduSuggestions.map((suggestion, idx) => (
-                            <button
-                              key={idx}
-                              type="button"
-                              onClick={() => {
-                                const currentDesc = edu.description
-                                  ? edu.description + "\n"
-                                  : "";
+                        <div className="mb-2">
+                          <Suspense
+                            fallback={
+                              <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
+                            }
+                          >
+                            <AISuggestion
+                              currentValue={edu.description}
+                              onApply={(newText) => {
                                 updateEducation(edu.id, {
-                                  description: currentDesc + suggestion,
+                                  description: newText,
                                 });
                                 setShowSuggestionsFor(null);
                               }}
-                              className="block w-full text-start text-sm text-slate-600 hover:text-indigo-700 hover:bg-slate-50 p-2 rounded-lg transition-colors border border-transparent hover:border-indigo-200"
-                            >
-                              {suggestion}
-                            </button>
-                          ))}
+                              context={`Institution: ${edu.institution}, Degree: ${edu.degree}`}
+                            />
+                          </Suspense>
+                          
+                          {/* Static Suggestions Fallback/Alternative */}
+                          <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-100">
+                             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">{t.education.clickToAppend}</p>
+                             <div className="flex flex-wrap gap-2">
+                               {eduSuggestions.map((suggestion, idx) => (
+                                 <button
+                                   key={idx}
+                                   type="button"
+                                   onClick={() => {
+                                     const currentDesc = edu.description
+                                       ? edu.description + "\n"
+                                       : "";
+                                     updateEducation(edu.id, {
+                                       description: currentDesc + suggestion,
+                                     });
+                                     setShowSuggestionsFor(null);
+                                   }}
+                                   className="text-xs text-slate-600 bg-white hover:text-indigo-600 hover:border-indigo-200 border border-slate-200 px-3 py-1.5 rounded-lg transition-all"
+                                 >
+                                   {suggestion}
+                                 </button>
+                               ))}
+                             </div>
+                          </div>
                         </div>
                       )}
-
-                      <textarea
-                        rows={3}
-                        value={edu.description}
-                        onChange={(e) =>
-                          updateEducation(edu.id, {
-                            description: e.target.value,
-                          })
-                        }
-                        className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
-                        placeholder={t.education.descriptionPlaceholder}
-                      />
+                      
+                      <div className="relative">
+                        <textarea
+                          rows={4}
+                          value={edu.description}
+                          onChange={(e) =>
+                            updateEducation(edu.id, {
+                              description: e.target.value,
+                            })
+                          }
+                          className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 font-mono leading-relaxed"
+                          placeholder={t.education.descriptionPlaceholder}
+                        />
+                        <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
+                            <Sparkles size={10} className="text-indigo-400 shrink-0" />
+                            {language === "ar" 
+                              ? "يتم إرسال النص أعلاه فقط (بدون أي هويات أو معلومات تواصل) بشكل مشفر لتخصيص محتواك."
+                              : "Only the text snippet above is sent anonymously to generate tailored content."}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -79,18 +79,18 @@ export default function FinishStep({
 
   const nextSteps = [
     {
-      title: t.checkAts,
-      desc: t.checkAtsDesc,
-      icon: <Target className="w-6 h-6 text-white0" />,
-      action: () => onJumpToStep("review"),
-      type: "button",
-    },
-    {
-      title: t.findJobs,
-      desc: t.findJobsDesc,
+      title: t.findJobs || "Apply with Hash Hunt",
+      desc: t.findJobsDesc || "Publish your CV to our partner employers.",
       icon: <Search className="w-6 h-6 text-emerald-500" />,
       path: "/hash-hunt",
       type: "link",
+    },
+    {
+      title: t.checkAts,
+      desc: t.checkAtsDesc,
+      icon: <Target className="w-6 h-6 text-indigo-500" />,
+      action: () => onJumpToStep("review"),
+      type: "button",
     },
     {
       title: t.createCover,

@@ -179,14 +179,16 @@ const ProjectsForm = () => {
                               showSuggestionsFor === proj.id ? null : proj.id,
                             )
                           }
-                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-2 py-1 rounded-full transition-colors"
+                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors"
+                          title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
                         >
-                          <Sparkles size={12} />
-                          {t.projects.aiSuggestionsFree}
+                          <Sparkles size={14} />
+                          {language === "ar" ? "إصلاح الذكاء الاصطناعي" : "Fix with AI"}
                         </button>
                       </div>
 
                       {showSuggestionsFor === proj.id && (
+                        <div className="mb-2">
                         <Suspense
                           fallback={
                             <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
@@ -203,19 +205,28 @@ const ProjectsForm = () => {
                             context={`Project Name: ${proj.name}, Link: ${proj.link}`}
                           />
                         </Suspense>
+                        </div>
                       )}
 
+                      <div className="relative">
                       <textarea
-                        rows={4}
+                        rows={5}
                         value={proj.description}
                         onChange={(e) =>
                           updateProject(proj.id, {
                             description: e.target.value,
                           })
                         }
-                        className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400"
+                        className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 font-mono leading-relaxed"
                         placeholder={t.projects.description}
                       />
+                      <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
+                           <Sparkles size={10} className="text-indigo-400 shrink-0" />
+                           {language === "ar" 
+                             ? "يتم إرسال النص أعلاه فقط (بدون أي هويات أو معلومات تواصل) بشكل مشفر لتخصيص محتواك."
+                             : "Only the text snippet above is sent anonymously to generate tailored content."}
+                      </div>
+                      </div>
                     </div>
                   </div>
                 </div>
