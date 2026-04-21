@@ -6,7 +6,6 @@ import { useLanguageStore } from "./store/useLanguageStore";
 import PageLoader from "./components/PageLoader";
 import ExitIntentPopup from "./components/ExitIntentPopup";
 import { ErrorBoundary } from "./components/ErrorBoundary";
-import FirebaseSync from "./components/FirebaseSync";
 
 const LandingPage = React.lazy(() => import("./pages/LandingPage"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
@@ -19,7 +18,6 @@ const SharePage = React.lazy(() => import("./pages/SharePage"));
 const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage"));
 const TermsOfServicePage = React.lazy(() => import("./pages/TermsOfServicePage"));
 const HowAtsWorksPage = React.lazy(() => import("./pages/HowAtsWorksPage"));
-const WhyNoSignupPage = React.lazy(() => import("./pages/WhyNoSignupPage"));
 const TrustPage = React.lazy(() => import("./pages/TrustPage"));
 
 export default function App() {
@@ -34,7 +32,6 @@ export default function App() {
     <HelmetProvider>
       <BrowserRouter>
         <ErrorBoundary>
-          <FirebaseSync />
           <Suspense fallback={<PageLoader />}>
             <Routes>
               <Route path="/" element={<LandingPage />} />
@@ -49,7 +46,6 @@ export default function App() {
               <Route path="/terms" element={<TermsOfServicePage />} />
               <Route path="/trust" element={<TrustPage />} />
               <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
-              <Route path="/why-no-signup" element={<WhyNoSignupPage />} />
             </Routes>
             <ExitIntentPopup />
             <Analytics />

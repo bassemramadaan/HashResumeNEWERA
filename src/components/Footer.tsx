@@ -131,16 +131,6 @@ export default function Footer() {
                     {language === "ar" ? "كيف يعمل ATS" : "How ATS Works"}
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    to="/why-no-signup"
-                    className="hover:text-white transition-colors"
-                  >
-                    {language === "ar"
-                      ? "لماذا نستخدم تسجيل الدخول؟"
-                      : "Why use Sign-in?"}
-                  </Link>
-                </li>
               </ul>
             </div>
 

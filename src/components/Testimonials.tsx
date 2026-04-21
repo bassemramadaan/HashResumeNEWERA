@@ -1,5 +1,5 @@
 import React from "react";
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
@@ -151,6 +151,10 @@ export default function Testimonials() {
                             className="fill-[#ff4d2d] text-[#ff4d2d]"
                           />
                         ))}
+                        <span className="ms-2 px-1.5 py-0.5 bg-emerald-50 text-emerald-600 rounded text-[10px] font-bold flex items-center gap-1 border border-emerald-100">
+                           <CheckCircle2 size={10} />
+                           {language === "ar" ? "سيرة محملة" : "Downloaded CV"}
+                        </span>
                       </div>
                     </div>
                   </div>

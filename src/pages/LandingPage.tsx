@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useSpring, useMotionValue, useTransform, animate } from "framer-motion";
 import { Helmet } from "react-helmet-async";
@@ -26,6 +26,7 @@ import AedIcon from "../components/payment/AedIcon";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { blogPosts } from "../data/blogPosts";
+import { cn } from "../utils";
 
 import Navbar from "../components/Navbar";
 import FAQ from "../components/FAQ";
@@ -105,22 +106,15 @@ export default function LandingPage() {
 
   const countValue = useMotionValue(60);
   const roundedValue = useTransform(countValue, (latest) => Math.round(latest));
-  const [resumesCount, setResumesCount] = useState(1284);
-
   useEffect(() => {
     const controls = animate(countValue, 95, {
       duration: 2,
       ease: "easeOut",
       delay: 0.5,
     });
-    
-    const interval = setInterval(() => {
-      setResumesCount(prev => prev + Math.floor(Math.random() * 2) + 1);
-    }, 15000);
 
     return () => {
       controls.stop();
-      clearInterval(interval);
     };
   }, [countValue]);
 
@@ -176,13 +170,13 @@ export default function LandingPage() {
             {/* Left Column: Text & CTA */}
             <div className="flex-1 text-center lg:text-start rtl:lg:text-end mt-12 lg:mt-0">
               <motion.div
-                initial={{ opacity: 0, y: 24 }}
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 text-[#ff4d2d] text-xs font-semibold uppercase tracking-wider mb-8 border border-orange-100 shadow-sm"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-[10px] font-semibold uppercase tracking-wider mb-6"
               >
-                <Sparkles size={16} className="fill-current" />
+                <Sparkles size={12} className="text-slate-400" />
                 <span>{language === "ar" ? "مدعوم بـ Gemini AI" : "Powered by Gemini AI"}</span>
               </motion.div>
 
@@ -191,15 +185,24 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className="font-display mb-8"
+                className={cn("font-display mb-8", language === "ar" ? "leading-relaxed" : "leading-[1.05]")}
               >
-                <span className="text-slate-900 block text-5xl sm:text-7xl font-bold tracking-tight leading-[1.05] mb-4">
+                <span className="text-slate-900 block text-5xl sm:text-7xl font-bold tracking-tight mb-4 hidden sm:block">
                   {t.heroTitle1}{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600 inline-block mt-2">
                     {t.heroTitle2}
                   </span>
                 </span>
-                <p className="text-slate-500 text-xl sm:text-2xl font-semibold tracking-tight max-w-xl">
+                
+                {/* Mobile specific slightly smaller title to fit better without wrapping weirdly */}
+                <span className="text-slate-900 block text-4xl font-bold tracking-tight mb-4 sm:hidden leading-tight">
+                  {t.heroTitle1}{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600 block mt-2">
+                    {t.heroTitle2}
+                  </span>
+                </span>
+                
+                <p className={cn("text-slate-500 text-xl font-medium tracking-tight max-w-xl mx-auto lg:mx-0", language === "ar" ? "leading-relaxed" : "")}>
                   {t.heroTitle3}
                 </p>
               </motion.h1>
@@ -213,20 +216,10 @@ export default function LandingPage() {
               >
                 <Link
                   to="/editor"
-                  className="w-full sm:w-auto bg-gradient-to-r from-[#ff4d2d] to-orange-600 hover:from-[#e63e1d] hover:to-orange-700 text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-xl shadow-orange-500/30 flex items-center justify-center gap-3 group hover:scale-105 active:scale-95 ring-4 ring-orange-500/10"
+                  className="w-full sm:w-auto bg-[#ff4d2d] hover:bg-[#e63e1d] text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-lg flex items-center justify-center gap-3 group active:scale-95"
                 >
-                  <Plus size={24} className="group-hover:rotate-90 transition-transform duration-300" />
-                  {language === "ar" ? "ابدأ السيرة الذاتية مجاناً الآن" : language === "fr" ? "Commencez votre CV gratuit" : "Start Free CV Now"}
-                </Link>
-                <Link
-                  to="/templates"
-                  className="w-full sm:w-auto bg-transparent border border-slate-300 text-slate-500 hover:bg-slate-50 hover:text-slate-700 hover:border-slate-400 px-8 py-4 rounded-full text-lg font-semibold transition-all flex items-center justify-center gap-3 active:scale-95"
-                >
-                  <Layout
-                    size={24}
-                    className="text-slate-400"
-                  />
-                  {t.chooseTemplate}
+                  <Plus size={24} className="transition-transform duration-300" />
+                  {language === "ar" ? "ابدأ كتابة سيرتك مجاناً" : language === "fr" ? "Commencez votre CV gratuit" : "Build Your Resume Free"}
                 </Link>
               </motion.div>
 
@@ -238,18 +231,30 @@ export default function LandingPage() {
                 transition={{ delay: 0.4 }}
                 className="flex items-center justify-center lg:justify-start gap-2 mb-8 text-sm font-medium text-slate-500"
               >
-                <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <img
-                      key={i}
-                      src={`https://i.pravatar.cc/100?img=${i + 60}`}
-                      alt="Professional User"
-                      className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
-                    />
-                  ))}
+                <div className="flex -space-x-2 relative z-10">
+                  <img
+                    src={`https://i.pravatar.cc/100?img=61`}
+                    alt="Professional User 1"
+                    className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
+                  />
+                  <img
+                    src={`https://i.pravatar.cc/100?img=62`}
+                    alt="Professional User 2"
+                    className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
+                  />
+                  <img
+                    src={`https://i.pravatar.cc/100?img=63`}
+                    alt="Professional User 3"
+                    className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
+                  />
+                  <img
+                    src={`https://i.pravatar.cc/100?img=64`}
+                    alt="Professional User 4"
+                    className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
+                  />
                 </div>
                 <span className="ms-2">
-                  {t.resumesBuiltToday.replace("{count}", resumesCount.toLocaleString())}
+                  {language === "ar" ? "يثق بنا آلاف المحترفين" : "Trusted by thousands of professionals"}
                 </span>
               </motion.div>
             </div>
@@ -297,32 +302,74 @@ export default function LandingPage() {
                     </div>
                     {/* Preview Panel */}
                     <div className="flex-1 p-4 sm:p-6 flex justify-center items-start overflow-hidden relative">
-                       <div className="w-full max-w-sm bg-white shadow-md border border-slate-200 p-4 sm:p-6 space-y-4 h-full relative">
-                          <div className="text-center space-y-2 border-b border-slate-100 pb-4">
-                             <div className="h-5 w-3/4 bg-slate-800 rounded mx-auto"></div>
-                             <div className="h-2 w-1/2 bg-slate-400 rounded mx-auto"></div>
+                       <div className="w-full max-w-sm bg-white shadow-xl shadow-slate-200/50 border border-slate-100 p-4 sm:p-6 space-y-4 h-full relative" style={{boxShadow: "0 20px 40px -15px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)"}}>
+                          <div className="text-center space-y-2 pb-4">
+                             <div className="h-4 w-1/2 bg-slate-900 rounded mx-auto mb-3"></div>
+                             <div className="flex justify-center gap-3">
+                                <div className="h-1.5 w-16 bg-slate-400 rounded"></div>
+                                <div className="h-1.5 w-16 bg-slate-400 rounded"></div>
+                             </div>
+                             <div className="h-px w-full bg-slate-200 mt-4"></div>
                           </div>
-                          <div className="space-y-2">
-                             <div className="h-3 w-1/3 bg-slate-800 rounded"></div>
-                             <div className="h-2 w-full bg-slate-200 rounded"></div>
-                             <div className="h-2 w-5/6 bg-slate-200 rounded"></div>
+                          
+                          <div className="space-y-3">
+                             <div className="h-2.5 w-1/4 bg-slate-800 rounded font-bold"></div>
+                             <div className="space-y-1.5">
+                                <div className="h-1.5 w-full bg-slate-300 rounded"></div>
+                                <div className="h-1.5 w-[90%] bg-slate-300 rounded"></div>
+                                <div className="h-1.5 w-[95%] bg-slate-300 rounded"></div>
+                             </div>
                           </div>
-                           <div className="space-y-2 mt-4">
-                             <div className="h-3 w-1/3 bg-slate-800 rounded"></div>
-                             <div className="h-2 w-full bg-slate-200 rounded"></div>
-                             <div className="h-2 w-5/6 bg-slate-200 rounded"></div>
+                          
+                           <div className="space-y-3 mt-4">
+                             <div className="h-2.5 w-1/4 bg-slate-800 rounded"></div>
+                             <div className="flex justify-between items-end mb-2">
+                                <div className="h-2 w-1/3 bg-slate-600 rounded"></div>
+                                <div className="h-1.5 w-1/6 bg-slate-400 rounded"></div>
+                             </div>
+                             <div className="space-y-1.5 pl-3">
+                                <div className="h-1.5 w-full bg-slate-300 rounded"></div>
+                                <div className="h-1.5 w-[85%] bg-slate-300 rounded"></div>
+                             </div>
                           </div>
-                       </div>
-                       
-                       {/* Floating Action Button */}
-                       <div className="absolute bottom-4 end-4 h-10 px-4 bg-[#ff4d2d] text-white rounded-full flex items-center justify-center shadow-lg text-[10px] font-bold gap-1 z-20">
-                          <ArrowUp size={12} /> ATS OK
                        </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Floatings removed to reduce clutter and keep focus on the product UI */}
+                {/* ATS Score Floating Badge */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 1, duration: 0.5, type: "spring" }}
+                  className="absolute -end-4 top-12 bg-white p-3 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 z-30"
+                >
+                  <div className="relative w-10 h-10">
+                    <svg className="w-full h-full transform -rotate-90">
+                      <circle cx="20" cy="20" r="16" fill="transparent" stroke="#f1f5f9" strokeWidth="4" />
+                      <motion.circle
+                        cx="20"
+                        cy="20"
+                        r="16"
+                        fill="transparent"
+                        stroke="#10b981"
+                        strokeWidth="4"
+                        strokeDasharray="100.53"
+                        initial={{ strokeDashoffset: 100.53 }}
+                        animate={{ strokeDashoffset: 100.53 * (1 - 0.95) }}
+                        transition={{ duration: 1.5, delay: 1.2, ease: "easeOut" }}
+                        className="drop-shadow-sm"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-emerald-600">
+                      95%
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t.atsScore}</div>
+                    <div className="text-xs font-bold text-slate-800">{t.excellent}</div>
+                  </div>
+                </motion.div>
               </motion.div>
             </div>
           </div>
@@ -384,9 +431,9 @@ export default function LandingPage() {
                 transition={{ delay: i * 0.2 }}
                 className="flex flex-col items-center text-center group"
               >
-                <div className={`w-20 h-20 rounded-3xl ${item.color} border-2 flex items-center justify-center mb-6 relative shadow-sm group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-20 h-20 rounded-3xl ${item.color} border-2 flex items-center justify-center mb-6 relative shadow-sm group-hover:-translate-y-1 transition-transform duration-300`}>
                   <item.icon size={32} />
-                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-slate-50 border-2 border-slate-100 flex items-center justify-center text-xs font-black text-slate-900 shadow-sm">
+                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-slate-50 border-2 border-slate-100 flex items-center justify-center text-xs font-bold text-slate-900 shadow-sm">
                     {item.step}
                   </div>
                 </div>
@@ -614,76 +661,61 @@ export default function LandingPage() {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, rotateY: -10 }}
-              whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="relative lg:h-[600px] flex items-center justify-center perspective-1000"
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="relative lg:h-[600px] flex items-center justify-center p-8"
             >
-              <motion.div 
-                animate={{ y: [-10, 10, -10] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                className="relative w-full max-w-md aspect-[4/5] bg-slate-50 backdrop-blur-2xl border border-slate-100 rounded-[2.5rem] p-6 shadow-2xl shadow-slate-200 transform-style-3d group"
+              <div 
+                className="relative w-full max-w-md aspect-[4/5] bg-white border border-slate-200 rounded-[2rem] p-6 shadow-2xl shadow-slate-200/50 flex flex-col"
               >
-                {/* Glowing border effect */}
-                <div className="absolute inset-0 rounded-[2.5rem] border-2 border-transparent bg-gradient-to-b from-indigo-100 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" style={{ maskImage: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'exclude' }}></div>
-
                 {/* Mock UI Header */}
-                <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-6">
+                <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-6 shrink-0">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-inner">
-                      <Sparkles className="w-6 h-6 text-indigo-600" />
+                    <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center border border-indigo-100">
+                      <Target className="w-5 h-5 text-indigo-600" />
                     </div>
                     <div>
-                      <div className="text-base font-bold text-slate-900">{t.hashHuntMatch}</div>
-                      <div className="text-xs text-emerald-600 font-bold tracking-wide uppercase mt-2">98% {t.compatibility}</div>
+                      <div className="text-sm font-bold text-slate-900">{t.hashHuntMatch}</div>
+                      <div className="text-[10px] text-emerald-600 font-bold uppercase tracking-wider mt-1">98% {t.compatibility}</div>
                     </div>
-                  </div>
-                  <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
                   </div>
                 </div>
 
                 {/* Mock UI Content */}
-                <div className="space-y-4">
+                <div className="space-y-3 flex-1 overflow-hidden">
                   {[1, 2, 3].map((i) => (
-                    <motion.div 
+                    <div 
                       key={i} 
-                      initial={{ opacity: 0, x: 20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.5 + i * 0.1, duration: 0.4 }}
-                      className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex gap-4 items-center hover:bg-slate-50 hover:border-indigo-100 hover:shadow-md transition-all cursor-pointer group/item"
+                      className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex gap-4 items-center group cursor-default"
                     >
-                      <div className="w-14 h-14 rounded-2xl bg-slate-100 flex-shrink-0 group-hover/item:bg-indigo-50 transition-colors" />
+                      <div className="w-12 h-12 rounded-lg bg-slate-200 flex-shrink-0 group-hover:bg-indigo-50 transition-colors" />
                       <div className="flex-1 space-y-2">
-                        <div className="h-4 w-3/4 bg-slate-200 rounded-full group-hover/item:bg-indigo-200 transition-colors" />
-                        <div className="h-2 w-1/2 bg-slate-100 rounded-full" />
+                        <div className="h-3 w-3/4 bg-slate-300 rounded-full group-hover:bg-indigo-200 transition-colors" />
+                        <div className="h-1.5 w-1/2 bg-slate-200 rounded-full" />
                       </div>
-                      <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center group-hover/item:border-indigo-200 group-hover/item:bg-indigo-50 transition-all">
-                        <ArrowRight className="w-4 h-4 text-slate-400 group-hover/item:text-indigo-600 group-hover/item:-rotate-45 transition-all" />
-                      </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
 
                 {/* Floating Notification */}
                 <motion.div 
-                  initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 1.2, type: "spring", stiffness: 200, damping: 20 }}
-                  className="absolute -bottom-8 -start-8 -end-8 bg-gradient-to-r from-indigo-600 to-violet-600 p-6 rounded-2xl shadow-2xl shadow-indigo-900/20 border border-indigo-400/30 flex items-center gap-4 z-20"
+                  transition={{ delay: 0.6, duration: 0.4 }}
+                  className="absolute -bottom-6 -start-4 -end-4 bg-indigo-600 p-4 rounded-xl shadow-xl shadow-indigo-900/10 border border-indigo-500 flex items-center gap-3 z-20"
                 >
-                  <div className="w-12 h-12 rounded-full bg-slate-50/20 flex items-center justify-center flex-shrink-0 backdrop-blur-md border border-slate-200/20">
-                    <CheckCircle2 className="w-6 h-6 text-white" />
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-4 h-4 text-white" />
                   </div>
                   <div>
-                    <div className="font-bold text-white text-sm mb-2">{t.interviewRequest}</div>
-                    <div className="text-indigo-100 text-xs font-medium">{t.interviewRequestDesc}</div>
+                    <div className="font-semibold text-white text-xs mb-0.5">{t.interviewRequest}</div>
+                    <div className="text-indigo-100 text-[10px]">{t.interviewRequestDesc}</div>
                   </div>
                 </motion.div>
-              </motion.div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -747,8 +779,8 @@ export default function LandingPage() {
 
           <div className="flex overflow-x-auto snap-x snap-mandatory lg:overflow-visible lg:flex-row lg:justify-center items-stretch gap-6 pb-8 lg:pb-0 max-w-5xl mx-auto -mx-4 px-4 lg:mx-auto lg:px-0 scrollbar-hide">
             {/* Single Download Plan */}
-            <div className="snap-center shrink-0 relative bg-slate-50 rounded-3xl p-8 shadow-xl border-2 border-[#ff4d2d] overflow-hidden group hover:scale-105 transition-transform duration-300 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md">
-              <div className="absolute top-0 end-0 bg-[#ff4d2d] text-white text-xs font-bold px-4 py-2 rounded-es-2xl uppercase tracking-wider">
+            <div className="snap-center shrink-0 relative bg-white rounded-3xl p-8 shadow-2xl shadow-[#ff4d2d]/10 border-2 border-[#ff4d2d] overflow-hidden group hover:-translate-y-2 transition-transform duration-300 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md">
+              <div className="absolute top-0 end-0 bg-[#ff4d2d] text-white text-xs font-bold px-4 py-2 rounded-es-2xl uppercase tracking-wider shadow-sm">
                 {t.mostPopular}
               </div>
 
@@ -758,7 +790,7 @@ export default function LandingPage() {
                 </h3>
 
                 <div className="flex flex-col items-center justify-center gap-2 mb-2">
-                  <span className="text-5xl font-bold text-[#ff4d2d] flex items-center gap-2">
+                  <span className="text-5xl font-bold text-slate-900 flex items-center gap-2 tracking-tight">
                     {currency === "EGP" ? (
                       <div className="flex flex-col items-center">
                         <div className="flex items-center gap-2">
@@ -805,16 +837,16 @@ export default function LandingPage() {
 
               <Link
                 to="/templates"
-                className="block w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white text-center font-bold py-4 rounded-2xl shadow-lg shadow-orange-500/25 transition-all active:scale-95"
+                className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 text-lg"
               >
                 {t.getStartedNow}
               </Link>
             </div>
 
             {/* Multi Download Plan */}
-            <div className="snap-center shrink-0 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md bg-slate-50 rounded-3xl p-8 border border-slate-200 flex flex-col justify-between">
+            <div className="snap-center shrink-0 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md bg-transparent rounded-3xl p-8 border border-slate-300 flex flex-col justify-between hover:bg-slate-50 transition-colors duration-300">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6 border border-indigo-100">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/50 text-slate-600 text-xs font-bold uppercase tracking-wider mb-6 border border-slate-200">
                   <Sparkles size={14} />
                   {t.bestValue || "Best Value"}
                 </div>
@@ -892,8 +924,8 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
+          <div className="overflow-x-auto pb-4">
+            <table className="w-full border-collapse min-w-[600px]">
               <thead>
                 <tr className="border-b border-slate-100">
                   <th className="py-6 px-4 text-start text-slate-400 font-medium uppercase tracking-wider text-xs">Features</th>
@@ -910,14 +942,14 @@ export default function LandingPage() {
                 {[
                   { feature: "Privacy", hash: true, others: false, desc: "Data stays on your device" },
                   { feature: "ATS Optimization", hash: true, others: "Partial", desc: "Built-in audit & scoring" },
-                  { feature: "No Sign-up", hash: true, others: false, desc: "Start building instantly" },
+                  { feature: "Account Required?", hash: "None", others: "Mandatory", desc: "Use instantly, no sign-ups ever" },
                   { feature: "Pricing", hash: "Pay-once", others: "Subscription", desc: "No recurring fees" },
                   { feature: "AI Content", hash: true, others: true, desc: "Smart bullet points" },
                 ].map((row, i) => (
                   <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
                     <td className="py-6 px-4">
                       <div className="font-bold text-slate-900">{row.feature}</div>
-                      <div className="text-xs text-slate-500">{row.desc}</div>
+                      <div className="text-xs text-slate-500 mt-1">{row.desc}</div>
                     </td>
                     <td className="py-6 px-4 text-center bg-orange-50/30">
                       {row.hash === true ? (

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PenTool, Target, ArrowRight, Menu, X, Sparkles, ChevronDown } from "lucide-react";
+import { Target, ArrowRight, Menu, X, Sparkles, ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
-import AuthButton from "./AuthButton";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { cn } from "../utils";
@@ -31,18 +30,15 @@ export default function Navbar() {
     {
       name: t.landing.coverLetter || "Cover Letter",
       path: "/cover-letter",
-      icon: <PenTool size={16} className="text-[#ff4d2d]" />,
-      highlight: true,
-    },
-    {
-      name: t.landing.hashHuntJobs || "Hash Hunt",
-      path: "/hash-hunt",
-      icon: <Target size={18} className="text-secondary" />,
-      highlight: false,
     },
   ];
 
   const moreLinks = [
+    {
+      name: t.landing.hashHuntJobs || "Hash Hunt",
+      path: "/hash-hunt",
+      icon: <Target size={16} className="text-[#ff4d2d]" />,
+    },
     { name: t.landing.blog || "Blog", path: "/blog" },
   ];
 
@@ -144,7 +140,6 @@ export default function Navbar() {
 
           {/* Actions */}
           <div className="hidden lg:flex items-center gap-4">
-            <AuthButton />
             
             <div className="flex items-center gap-2 bg-slate-100/50  p-2 rounded-full border border-slate-200/50 ">
               <LanguageSwitcher
@@ -205,8 +200,7 @@ export default function Navbar() {
             className="lg:hidden absolute top-full start-4 end-4 mt-2 bg-slate-50/95 backdrop-blur-xl rounded-3xl border border-slate-200 shadow-2xl overflow-hidden z-50 max-h-[80vh] overflow-y-auto"
           >
             <div className="p-6 flex flex-col gap-4">
-              <div className="flex items-center justify-between px-2 mb-2">
-                <AuthButton />
+              <div className="flex items-center justify-end px-2 mb-2">
                 <div className="flex items-center gap-2">
                   <LanguageSwitcher size={18} className="text-sm" />
                 </div>

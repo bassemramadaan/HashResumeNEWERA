@@ -155,7 +155,7 @@ export const translations = {
       faqsSubtitle: "Got questions? We've got answers.",
       faq1Q: "Is my data safe?",
       faq1A:
-        "Yes, absolutely. Hash Resume runs entirely in your browser. Your personal data is stored locally on your device and is never sent to our servers. We prioritize your privacy above all else.",
+        "Yes, absolutely. By default, your Hash Resume runs entirely in your browser and is stored locally. This means your personal information remains strictly on your device.",
       faq2Q: "How much does it cost?",
       faq2A:
         "You can build and preview your resume for free. We charge a one-time fee of 25 EGP (or equivalent in your local currency) for a single professional PDF download. No subscriptions, no hidden fees.",
@@ -804,7 +804,7 @@ export const translations = {
       faqsSubtitle: "عندك استفسار؟ جمعنا لك أهم الأسئلة وإجاباتها.",
       faq1Q: "هل بياناتي آمنة؟",
       faq1A:
-        "نعم، بالتأكيد. يعمل Hash Resume بالكامل داخل متصفحك. يتم تخزين بياناتك الشخصية محليًا على جهازك ولا يتم إرسالها أبدًا إلى خوادمنا. نحن نضع خصوصيتك فوق كل اعتبار.",
+        "نعم، بالتأكيد. بشكل افتراضي، يعمل Hash Resume ويحفظ مسوداتك بالكامل داخل متصفحك. هذا يعني أن كافة بياناتك الشخصية تبقى مشفرة ومحفوظة على جهازك الخاص ولن يتم نقلها إلا عند استخدام ميزات الحفظ السحابي أو تحسين الذكاء الاصطناعي بناءً على طلبك.",
       faq2Q: "كم تبلغ التكلفة؟",
       faq2A:
         "يمكنك إنشاء ومعاينة سيرتك الذاتية مجانًا. نحن نفرض رسومًا لمرة واحدة قدرها 25 جنيه مصري (أو ما يعادلها بعملتك المحلية) لتحميل ملف PDF احترافي واحد. لا توجد اشتراكات أو رسوم خفية.",

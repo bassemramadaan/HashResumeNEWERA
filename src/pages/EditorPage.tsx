@@ -33,7 +33,6 @@ import { translations } from "../i18n/translations";
 import Stepper from "../components/editor/Stepper";
 import Logo from "../components/Logo";
 import LanguageSwitcher from "../components/LanguageSwitcher";
-import AuthButton from "../components/AuthButton";
 import SettingsModal from "../components/SettingsModal";
 import { cn } from "../utils";
 import { calculateATSScore } from "../utils/ats";
@@ -628,7 +627,6 @@ export default function EditorPage() {
                <Target size={16} />
             </button>
             <div className="hidden sm:flex items-center gap-2">
-              <AuthButton />
               <button
                 onClick={() => setShowWelcomeModal(true)}
                 className="p-2 rounded-full text-[#ff4d2d] bg-orange-50 hover:bg-orange-100 transition-colors border border-orange-200"
