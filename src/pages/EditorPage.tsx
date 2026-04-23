@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { motion, AnimatePresence } from "framer-motion";
+import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from "react-resizable-panels";
 import { useStore } from "zustand";
 import {
   User,
@@ -26,7 +27,7 @@ import {
   ArrowUp,
   Settings,
 } from "lucide-react";
-import { useResumeStore } from "../store/useResumeStore";
+import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
@@ -207,9 +208,9 @@ const ProgressTrackerModal = ({
 }: {
   isOpen: boolean;
   onClose: () => void;
-  data: any;
+  data: ResumeData;
   activeTab: string;
-  onJumpToStep: (id: any) => void;
+  onJumpToStep: (id: string) => void;
 }) => {
   const { language } = useLanguageStore();
   const t = translations[language].editor.progressTracker;
@@ -560,7 +561,7 @@ export default function EditorPage() {
 
   return (
     <div
-      className="flex flex-col h-screen bg-slate-50 overflow-hidden font-sans transition-colors duration-200"
+      className={cn("flex flex-col h-screen bg-slate-50 overflow-hidden transition-colors duration-200", language === "ar" ? "font-editor-ar" : "font-editor-en")}
       dir={dir}
     >
       <Helmet>
@@ -694,14 +695,14 @@ export default function EditorPage() {
         </div>
       </div>
 
-      <div className="flex-1 flex overflow-hidden relative editor-form">
+      <PanelGroup direction="horizontal" className="flex-1 w-full h-full overflow-hidden relative editor-form">
         {/* Editor Area */}
-        <div
-          className={cn(
-            "flex-1 flex flex-col h-full overflow-hidden transition-all duration-300 bg-slate-50",
-            showMobilePreview ? "hidden md:flex" : "flex",
-          )}
+        <Panel 
+          defaultSize={55} 
+          minSize={30}
+          className={cn(showMobilePreview ? "hidden md:block" : "block")}
         >
+          <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-slate-50">
           {/* Stepper Integration */}
           <div className="bg-slate-50/50 border-b border-slate-200 pt-4 pb-2">
             <Stepper
@@ -901,17 +902,28 @@ export default function EditorPage() {
             </div>
           </main>
         </div>
+        </Panel>
+
+        <PanelResizeHandle className="w-1.5 focus:outline-none bg-slate-200 hover:bg-indigo-500 active:bg-indigo-600 transition-colors hidden md:block group z-50">
+          <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+             <div className="h-12 w-1 bg-white rounded-full" />
+          </div>
+        </PanelResizeHandle>
 
         {/* Preview Area */}
-        <div
-          data-tour="preview-pane"
+        <Panel 
+          defaultSize={45} 
+          minSize={30}
           className={cn(
-            "bg-slate-100 border-s border-slate-200 flex-col h-full overflow-hidden relative transition-colors duration-200",
-            showMobilePreview
-              ? "flex w-full absolute inset-0 z-50 bg-slate-50"
-              : "hidden md:flex md:w-[45%] lg:w-[50%]",
+            showMobilePreview 
+              ? "block !absolute inset-0 z-50 md:!relative md:inset-auto md:z-auto"
+              : "hidden md:block w-full h-full"
           )}
         >
+          <div
+            data-tour="preview-pane"
+            className="bg-slate-100 border-s border-slate-200 flex-col flex h-full overflow-hidden relative transition-colors duration-200"
+          >
           <div className="h-14 bg-slate-50/80 backdrop-blur-sm border-b border-slate-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200">
             <div className="flex items-center gap-2">
               {showMobilePreview && (
@@ -986,7 +998,8 @@ export default function EditorPage() {
             </div>
           </div>
         </div>
-      </div>
+        </Panel>
+      </PanelGroup>
 
       {/* Floating Compact Navbar (Bottom) */}
       <div className="fixed bottom-6 start-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-slate-50/90 backdrop-blur-2xl rounded-full border border-white/20 shadow-2xl transition-all duration-300 mb-safe p-2">

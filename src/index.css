@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&family=Amiri:wght@400;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap");
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -6,6 +6,9 @@
   --font-sans: "Alexandria", "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit", "Alexandria", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-editor-ar: "Tajawal", sans-serif;
+  --font-editor-en: "Inter", sans-serif;
+
 
   /* Primary Orange - More Vibrant & Sophisticated */
   --color-indigo-50: #fff7f5;

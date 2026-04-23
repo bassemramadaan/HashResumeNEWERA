@@ -1,6 +1,7 @@
 import React, { forwardRef, memo } from "react";
 import { useResumeStore, ResumeData } from "../../store/useResumeStore";
 import { Mail, Phone, MapPin, Linkedin, Calendar } from "lucide-react";
+import { cn } from "../../utils";
 
 interface ResumePreviewProps {
   data?: ResumeData;
@@ -75,7 +76,11 @@ const ResumePreview = memo(
 
     const renderModern = () => (
       <div
-        className="font-sans text-neutral-800 leading-relaxed p-6 md:p-12 relative text-start"
+        className={cn(
+          "leading-relaxed p-6 md:p-12 relative text-start",
+          lang === "ar" ? "font-editor-ar" : "font-editor-en",
+          "text-neutral-800"
+        )}
         dir={lang === "ar" ? "rtl" : "ltr"}
       >
         <FreshGradBadge />
@@ -2697,7 +2702,7 @@ const ResumePreview = memo(
     return (
       <div
         ref={ref}
-        className="w-full h-full bg-white box-border"
+        className={cn("w-full h-full bg-white box-border", settings.language === "ar" ? "font-editor-ar" : "font-editor-en")}
         style={{ minHeight: "297mm" }}
         dir={settings.language === "ar" ? "rtl" : "ltr"}
       >
