@@ -241,7 +241,7 @@ export default function LandingPage() {
               >
                 <Link
                   to="/editor"
-                  className="w-full sm:w-auto bg-[#ff4d2d] hover:bg-[#e63e1d] text-white px-10 py-5 rounded-full text-xl font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 group active:scale-95"
+                  className="w-full sm:w-auto bg-[#ff4d2d] hover:bg-[#e63e1d] text-white px-10 py-5 rounded-full text-xl font-bold transition-all shadow-xl shadow-orange-500/20 hover:shadow-2xl hover:shadow-orange-500/30 flex items-center justify-center gap-3 group active:scale-95"
                 >
                   <Plus size={24} className="transition-transform duration-300 group-hover:rotate-90" />
                   {language === "ar" ? "ابدأ كتابة سيرتك الآن" : "Start Building Now"}
@@ -872,7 +872,7 @@ export default function LandingPage() {
 
               <Link
                 to="/templates"
-                className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 text-lg"
+                className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-slate-900/20 transition-all active:scale-95 text-lg"
               >
                 {t.getStartedNow}
               </Link>
@@ -940,7 +940,7 @@ export default function LandingPage() {
                 href="https://wa.me/201101007965?text=I%20want%20to%20buy%20the%20Multi-Download%20Pack"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full bg-slate-900 hover:bg-slate-800 text-slate-50 text-center font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 mt-auto"
+                className="block w-full bg-slate-900 hover:bg-slate-800 text-slate-50 text-center font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-slate-900/20 transition-all active:scale-95 mt-auto"
               >
                 {t.getStartedNow}
               </a>
