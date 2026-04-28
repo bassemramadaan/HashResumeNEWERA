@@ -463,9 +463,11 @@ export default function LandingPage() {
                 transition={{ delay: i * 0.2 }}
                 className="flex flex-col items-center text-center group"
               >
-                <div className={`w-20 h-20 rounded-3xl ${item.color} border-2 flex items-center justify-center mb-6 relative shadow-sm group-hover:-translate-y-1 transition-transform duration-300`}>
-                  <item.icon size={32} />
-                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-slate-50 border-2 border-slate-100 flex items-center justify-center text-xs font-bold text-slate-900 shadow-sm">
+                <div className={`w-20 h-20 rounded-[2rem] ${item.color.replace('border-2 ', '')} flex items-center justify-center mb-6 relative shadow-[0_8px_30px_rgb(0,0,0,0.06)] group-hover:-translate-y-2 group-hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 overflow-visible`}>
+                  <div className={`absolute inset-0 rounded-[2rem] opacity-50 border-2 ${item.color.split(' ')[2]}`} />
+                  <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-white/60 to-transparent" />
+                  <item.icon size={36} className="relative z-10 drop-shadow-sm" />
+                  <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-slate-900 border-2 border-white text-white flex items-center justify-center text-[10px] font-black shadow-md z-20">
                     {item.step}
                   </div>
                 </div>
@@ -569,8 +571,9 @@ export default function LandingPage() {
               </p>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
-                    <Search size={24} />
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden shrink-0">
+                    <div className="absolute inset-0 border border-white/60 rounded-2xl" />
+                    <Search size={24} className="relative z-10" />
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900 mb-2">
@@ -582,8 +585,9 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                    <Layout size={24} />
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-100/50 shadow-[0_2px_10px_-4px_rgba(16,185,129,0.2)] flex items-center justify-center text-emerald-600 relative overflow-hidden shrink-0">
+                    <div className="absolute inset-0 border border-white/60 rounded-2xl" />
+                    <Layout size={24} className="relative z-10" />
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900 mb-2">
@@ -663,8 +667,9 @@ export default function LandingPage() {
                     transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
                     className={`p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:shadow-lg transition-all duration-300 ${i === 2 ? 'sm:col-span-2' : ''}`}
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-4 shadow-sm">
-                      <item.icon className="w-6 h-6 text-indigo-600" />
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-white to-slate-50 border border-slate-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] flex items-center justify-center mb-6 relative overflow-hidden">
+                      <div className="absolute inset-0 border border-white/60 rounded-2xl" />
+                      <item.icon className="w-6 h-6 text-indigo-600 relative z-10" />
                     </div>
                     <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
                     <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>

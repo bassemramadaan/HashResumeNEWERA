@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, Ticket, Wallet, CheckCircle2, ShieldCheck } from "lucide-react";
+import { X, Check, Ticket, ShieldCheck, Loader2, Zap } from "lucide-react";
 import SarIcon from "./SarIcon";
 import AedIcon from "./AedIcon";
 
@@ -104,12 +104,12 @@ export default function PaymentModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-zinc-900/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
           onClick={onClose}
         />
 
@@ -117,156 +117,155 @@ export default function PaymentModal({
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-sm bg-slate-50 rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+          className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden tracking-tight flex flex-col md:flex-row"
         >
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 p-2 text-slate-500 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-10"
-          >
-            <X size={20} />
-          </button>
-
-          <div className="p-6 text-center">
-            <div className="w-12 h-12 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-4 mx-auto">
-              <Wallet size={24} />
-            </div>
-
-            <h2 className="text-xl font-bold text-slate-900 mb-1">
-              Unlock Premium Export
-            </h2>
-            <p className="text-sm text-white0 mb-4">
-              One-time fee for a single professional PDF export.
-            </p>
-
-            <div className="inline-block bg-red-50 text-red-500 text-xs font-bold px-4 py-2 rounded-full mb-2">
-              Limited Time Offer
-            </div>
-            <div className="text-3xl font-bold text-slate-900 mb-4 flex items-center justify-center gap-1">
-              {currency === "EGP" ||
-              currency === "SAR" ||
-              currency === "AED" ? (
-                <span>
-                  {dynamicPrice} {selected.symbol}
-                </span>
-              ) : (
-                <span>
-                  {selected.symbol}
-                  {dynamicPrice}
-                </span>
-              )}
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-2 mb-6">
-              {Object.keys(currencies).map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setCurrency(c as keyof typeof currencies)}
-                  className={`px-4 py-2 rounded-full text-xs font-medium transition-colors ${currency === c ? "bg-indigo-600 text-white" : "bg-slate-100 text-slate-600 "}`}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
-
-            <div className="space-y-2 mb-6 text-left text-sm">
-              <div className="flex items-center gap-2 text-slate-700">
-                <Check className="text-emerald-500" size={18} />
-                <span>Single professional PDF export</span>
-              </div>
-              <div className="flex items-center gap-2 text-slate-700">
-                <Check className="text-emerald-500" size={18} />
-                <span>All premium templates</span>
-              </div>
-            </div>
-
-            <div className="bg-slate-100 rounded-lg p-3 text-start mb-6">
-               <p className="text-xs text-slate-500 font-semibold mb-2">Almost there! Complete payment to instantly get your ATS-ready resume.</p>
-               <div className="flex justify-between items-center text-xs font-bold text-slate-600 mb-1">
-                  <span>1. Enter Data</span>
-                  <span>2. Preview</span>
-                  <span className="text-[#ff4d2d]">3. Download</span>
+          {/* LEFT PANEL: Value Prop */}
+          <div className="bg-slate-900 text-white p-8 md:w-5/12 flex flex-col justify-between relative overflow-hidden hidden md:flex">
+             {/* Background glow */}
+             <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 rounded-full bg-indigo-500/20 blur-3xl"></div>
+             
+             <div className="relative z-10 space-y-6">
+               <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
+                 <Zap className="text-yellow-400" size={24} fill="currentColor" />
                </div>
-               <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-[#ff4d2d] w-[95%] h-full rounded-full"></div>
+               
+               <div>
+                  <h2 className="text-2xl font-black mb-2 text-white font-display">Premium Export</h2>
+                  <p className="text-slate-400 text-sm leading-relaxed">
+                    You're one step away from downloading your professional, ATS-optimized resume.
+                  </p>
                </div>
-            </div>
 
-            <div className="mb-6 p-4 bg-slate-50 rounded-2xl border border-slate-100 text-left">
-              <h3 className="text-sm font-bold text-slate-900 mb-4 flex items-center gap-2">
-                <CheckCircle2 size={16} className="text-indigo-500" />
-                How to get your code
-              </h3>
-              <div className="space-y-3">
-                <div className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
-                    1
-                  </div>
-                  <p className="text-xs text-slate-600">
-                    Click"Get Code via WhatsApp"below to message us.
-                  </p>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
-                    2
-                  </div>
-                  <p className="text-xs text-slate-600">
-                    Complete the payment and receive your unique activation code
-                    instantly.
-                  </p>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
-                    3
-                  </div>
-                  <p className="text-xs text-slate-600">
-                    Enter the code below to unlock your download.
-                  </p>
-                </div>
-              </div>
-            </div>
+               <div className="space-y-4">
+                 {[
+                   "Lifetime access to your data",
+                   "One-time payment",
+                   "ATS-optimized PDF format",
+                   "All premium templates unlocked"
+                 ].map((feature, i) => (
+                   <div key={i} className="flex items-start gap-3">
+                     <div className="mt-0.5 bg-emerald-500/20 rounded-full p-1 shrink-0">
+                       <Check className="text-emerald-400" size={12} strokeWidth={3} />
+                     </div>
+                     <span className="text-sm font-medium text-slate-300">{feature}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
 
-            <div className="mb-6 text-left">
-              <label className="block text-sm font-medium text-slate-700 mb-2">
-                Enter your activation code
-              </label>
-              <input
-                type="text"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                placeholder="E.G. HASH-1234-ABCD"
-                className="w-full p-4 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
-              />
-              {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
-            </div>
+             <div className="mt-8 relative z-10 flex items-start gap-2 text-xs text-slate-500">
+               <ShieldCheck size={16} className="shrink-0 mt-0.5" />
+               <span>Secured by Stripe & WhatsApp End-to-End Encryption</span>
+             </div>
+          </div>
 
+          {/* RIGHT PANEL: Payment/Action */}
+          <div className="p-6 md:p-8 md:w-7/12 flex flex-col relative w-full">
             <button
-              onClick={handleVerify}
-              disabled={verifying || !code}
-              className="w-full bg-slate-200 text-slate-600 py-4 rounded-xl font-bold transition-all mb-6 disabled:opacity-50 text-sm"
+              onClick={onClose}
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-10"
             >
-              {verifying ? "Verifying..." : "Unlock Now"}
+              <X size={20} />
             </button>
 
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center justify-between gap-4">
-                <p className="text-xs text-slate-500 font-medium whitespace-nowrap">
-                  Don't have a code?
-                </p>
-                <a
-                  href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm"
-                >
-                  <Ticket size={18} />
-                  Get Code via WhatsApp
-                </a>
+            {/* Mobile Title (hidden on desktop since left panel has it) */}
+            <div className="md:hidden mb-6">
+               <h2 className="text-xl font-black text-slate-900 font-display">Premium Export</h2>
+               <p className="text-sm text-slate-500 mt-1">Unlock your ATS-ready resume.</p>
+            </div>
+
+            {/* Price Box */}
+            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 mb-8 relative overflow-hidden">
+               <div className="flex justify-between items-start mb-4">
+                 <div>
+                   <h3 className="text-sm font-bold text-slate-900">Total Price</h3>
+                   <p className="text-xs text-slate-500 font-medium">One-time payment</p>
+                 </div>
+                 
+                 <div className="text-2xl font-black text-slate-900 flex items-center justify-start gap-1 tracking-tight">
+                  {currency === "EGP" || currency === "SAR" || currency === "AED" ? (
+                    <span>{dynamicPrice} {selected.symbol}</span>
+                  ) : (
+                    <span>{selected.symbol}{dynamicPrice}</span>
+                  )}
+                 </div>
+               </div>
+
+               <div className="flex flex-wrap gap-2">
+                 {Object.keys(currencies).map((c) => (
+                   <button
+                     key={c}
+                     onClick={() => setCurrency(c as keyof typeof currencies)}
+                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                       currency === c 
+                         ? "bg-slate-900 text-white shadow-md shadow-slate-900/20" 
+                         : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 hover:text-slate-900"
+                     }`}
+                   >
+                     {c}
+                   </button>
+                 ))}
+               </div>
+            </div>
+
+            <div className="flex-1 flex flex-col space-y-8">
+              {/* WhatsApp Option */}
+              <div>
+                 <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
+                   1. Get your code
+                 </h4>
+                 <a
+                    href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-3.5 px-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm shadow-lg shadow-[#25D366]/20 group"
+                  >
+                    <Ticket size={18} className="group-hover:scale-110 transition-transform" />
+                    Buy Code via WhatsApp
+                  </a>
               </div>
-              <div className="flex items-center justify-center gap-1.5 text-xs text-slate-400 font-semibold mb-4 mt-2">
-                 <ShieldCheck size={14} className="text-emerald-500" />
-                 Secured by Stripe & WhatsApp End-to-End Encryption
+
+              {/* Code Input */}
+              <div className="relative">
+                 <div className="absolute inset-0 flex items-center">
+                   <div className="w-full border-t border-slate-200"></div>
+                 </div>
+                 <div className="relative flex justify-center text-xs">
+                   <span className="bg-white px-3 text-slate-400 font-medium">Wait for code, then</span>
+                 </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-slate-900 mb-3">
+                  2. Unlock download
+                </label>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="text"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    placeholder="Enter code (e.g. HASH-A1B2)"
+                    className="flex-1 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none text-sm transition-all font-mono uppercase tracking-wider"
+                  />
+                  <button
+                    onClick={handleVerify}
+                    disabled={verifying || !code.trim()}
+                    className="px-6 py-3 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm shrink-0"
+                  >
+                    {verifying ? <Loader2 size={16} className="animate-spin" /> : "Unlock"}
+                  </button>
+                </div>
+                {error && (
+                  <motion.p 
+                    initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}
+                    className="text-red-500 text-xs mt-3 flex items-center gap-1.5 font-medium"
+                  >
+                    <X size={14} className="rounded-full bg-red-100 p-0.5" />{error}
+                  </motion.p>
+                )}
               </div>
             </div>
+
           </div>
         </motion.div>
       </div>

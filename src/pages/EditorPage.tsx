@@ -829,8 +829,9 @@ export default function EditorPage() {
                       <div className="space-y-12">
                         <section>
                           <div className="flex items-center gap-4 mb-6">
-                            <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
-                              <User size={18} />
+                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
+                              <div className="absolute inset-0 border border-white/60 rounded-2xl" />
+                              <User size={20} className="relative z-10" />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.personalInfo}
@@ -844,8 +845,9 @@ export default function EditorPage() {
                       <div className="space-y-12">
                         <section>
                           <div className="flex items-center gap-4 mb-6">
-                            <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
-                              <Briefcase size={18} />
+                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
+                              <div className="absolute inset-0 border border-white/60 rounded-2xl" />
+                              <Briefcase size={20} className="relative z-10" />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.experience.title}
@@ -870,8 +872,9 @@ export default function EditorPage() {
                       <div className="space-y-12">
                         <section>
                           <div className="flex items-center gap-4 mb-6">
-                            <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
-                              <GraduationCap size={18} />
+                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
+                              <div className="absolute inset-0 border border-white/60 rounded-2xl" />
+                              <GraduationCap size={20} className="relative z-10" />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.education.title}
@@ -881,8 +884,9 @@ export default function EditorPage() {
                         </section>
                         <section className="pt-12 border-t border-slate-100">
                           <div className="flex items-center gap-4 mb-6">
-                            <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600">
-                              <CheckCircle2 size={18} />
+                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100/50 border border-slate-200/50 shadow-[0_2px_10px_-4px_rgba(100,116,139,0.2)] flex items-center justify-center text-slate-600 relative overflow-hidden">
+                              <div className="absolute inset-0 border border-white/60 rounded-2xl" />
+                              <CheckCircle2 size={20} className="relative z-10" />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.certifications.title}
@@ -895,8 +899,9 @@ export default function EditorPage() {
                     {activeTab === "skills" && (
                       <section>
                         <div className="flex items-center gap-4 mb-6">
-                          <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
-                            <Wrench size={18} />
+                          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
+                            <div className="absolute inset-0 border border-white/60 rounded-2xl" />
+                            <Wrench size={20} className="relative z-10" />
                           </div>
                           <h2 className="text-xl font-black text-slate-900 tracking-tight">
                             {t.skills.title}
@@ -908,8 +913,9 @@ export default function EditorPage() {
                     {activeTab === "cover-letter" && (
                       <section>
                         <div className="flex items-center gap-4 mb-6">
-                          <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600">
-                            <FileText size={18} />
+                          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
+                            <div className="absolute inset-0 border border-white/60 rounded-2xl" />
+                            <FileText size={20} className="relative z-10" />
                           </div>
                           <h2 className="text-xl font-black text-slate-900 tracking-tight">
                             {t.coverLetter.title}

@@ -139,12 +139,13 @@ export default function SimpleSteps() {
                 {step.mockup}
               </div>
               <div
-                className={`w-16 h-16 rounded-2xl ${step.bg} ${step.border} border-2 flex items-center justify-center mb-6 shadow-sm relative rotate-3 group-hover:rotate-0 transition-transform`}
+                className={`w-16 h-16 rounded-[1.5rem] ${step.bg} ${step.border} border border-slate-200/50 flex items-center justify-center mb-6 shadow-xl shadow-slate-200/40 relative overflow-hidden group-hover:-translate-y-1 transition-all`}
               >
-                <div className="absolute -top-2 -end-2 w-6 h-6 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-md">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-transparent" />
+                <div className="absolute -top-2 -end-2 w-7 h-7 rounded-full bg-slate-900 border-2 border-white text-white flex items-center justify-center font-bold text-[10px] shadow-md z-20">
                   {index + 1}
                 </div>
-                <step.icon size={24} className={step.color} />
+                <step.icon size={26} className={`${step.color} relative z-10`} strokeWidth={2.5} />
               </div>
               <h3 className="text-xl font-bold text-slate-900 mb-3">
                 {step.title}
