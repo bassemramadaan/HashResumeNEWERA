@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -109,30 +110,36 @@ export default function FinishStep({
     }
   };
 
+  const AlertModal = () => {
+    if (!alertMessage || typeof document === 'undefined') return null;
+    return createPortal(
+      <AnimatePresence>
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-sm overflow-hidden"
+          >
+            <div className="p-6 text-center space-y-4">
+              <p className="text-slate-700 font-medium">{alertMessage}</p>
+              <button
+                onClick={() => setAlertMessage(null)}
+                className="w-full py-2 bg-zinc-900 text-white rounded-xl font-bold hover:bg-zinc-800 transition-colors"
+              >
+                {t.ok}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </AnimatePresence>,
+      document.body
+    );
+  };
+
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 p-4 max-w-4xl mx-auto relative">
-      <AnimatePresence>
-        {alertMessage && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-sm overflow-hidden"
-            >
-              <div className="p-6 text-center space-y-4">
-                <p className="text-slate-700 font-medium">{alertMessage}</p>
-                <button
-                  onClick={() => setAlertMessage(null)}
-                  className="w-full py-2 bg-zinc-900 text-white rounded-xl font-bold hover:bg-zinc-800 transition-colors"
-                >
-                  {t.ok}
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      <AlertModal />
 
       {/* Celebratory Header */}
       <div className="text-center space-y-4">

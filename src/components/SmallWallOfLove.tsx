@@ -55,9 +55,6 @@ export default function SmallWallOfLove() {
           {language === "ar" ? "آراء مستخدمينا" : "Wall of Love"}
         </p>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400 font-medium hidden sm:inline-block">
-            {language === "ar" ? "بناءً على تصويت 1,024 مستخدم في 2026" : "Based on 1,024 surveyed users in 2026"}
-          </span>
           <button 
             onClick={() => scroll(language === "ar" ? "right" : "left")}
             className="p-2 rounded-full border border-slate-200 text-slate-500 hover:text-slate-600 hover:bg-slate-50 transition-colors"
@@ -92,10 +89,6 @@ export default function SmallWallOfLove() {
                       className="fill-amber-400 text-amber-400"
                     />
                   ))}
-                </div>
-                <div className="flex items-center gap-1 bg-emerald-50 text-emerald-600 px-2 py-1 rounded-full border border-emerald-100">
-                  <CheckCircle2 size={12} />
-                  <span className="text-[10px] font-bold uppercase tracking-wider">{language === "ar" ? "موثق" : "Verified"}</span>
                 </div>
               </div>
               <p className="text-base text-slate-700 font-medium italic leading-relaxed">

@@ -26,6 +26,157 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "ready-arabic-cv-templates-2026",
+    title: {
+      en: "Ready-to-Use Arabic Resume Templates for 2026",
+      ar: "كيفية اختيار نموذج سيرة ذاتية جاهز ومجاني في 2026",
+    },
+    excerpt: {
+      en: "Choosing the right template is half the battle. Discover how to pick the perfect Arabic CV template for your next job application.",
+      ar: "اختيار القالب المناسب هو نصف المعركة. اكتشف كيف تختار نموذج سيرة ذاتية جاهز يتوافق مع سوق العمل العربي وأنظمة التوظيف.",
+    },
+    content: {
+      en: `
+## The Importance of the Right Template
+
+When applying for jobs in the Middle East, having a well-structured Arabic resume is crucial. A simple, ready-to-use template saves you time and ensures you meet industry standards.
+
+## What to Look For
+1. **ATS Compatibility:** Ensure your template doesn't use complex tables or fonts that applicant tracking systems can't read.
+2. **Clean Typography:** Arabic fonts need appropriate line spacing.
+3. **Professional Colors:** Stick to navy blues, dark grays, and professional accents.
+`,
+      ar: `
+## أهمية القالب المناسب
+
+عند التقديم للوظائف في الشرق الأوسط والخليج، فإن امتلاك سيرة ذاتية احترافية باللغة العربية هو مفتاح الوصول للمقابلة. استخدام **نموذج سيرة ذاتية جاهز** يفرّغ وقتك للتركيز على كتابة محتوى الإنجازات والمهارات بدلاً من تضييع الوقت في التصميم.
+
+## معايير اختيار نموذج سيرة ذاتية ناجح:
+
+1. **توافقه مع أنظمة التتبع (ATS):** العديد من الشركات اليوم تستخدم برامج لفلترة السير الذاتية. إذا كان القالب مليئاً بالرسومات والجداول المعقدة، سيتم استبعاد سيرتك تلقائياً حتى لو كانت مؤهلاتك ممتازة.
+2. **الخطوط العربية الواضحة:** يجب أن يدعم القالب خطوطاً عربية احترافية ومقروءة (مثل Cairo أو Tahoma). تأكد من وجود مسافات كافية بين الأسطر.
+3. **التصميم البسيط (Minimalist):** ابتعد عن الألوان الصارخة. الألوان الكلاسيكية مثل الأزرق الداكن أو الرمادي تعطي انطباعاً بالمصداقية والاحترافية.
+
+في **Hash Resume**، قمنا بتجهيز مجموعة من القوالب العربية المجانية المتوافقة تماماً مع أنظمة الـ ATS لتضمن وصول سيرتك لمدير التوظيف مباشرة.
+`,
+    },
+    date: "2026-04-24",
+    author: {
+      en: "Hash Resume Team",
+      ar: "فريق Hash Resume",
+    },
+    image:
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=800",
+    readTime: {
+      en: "4 min read",
+      ar: "4 دقائق قراءة",
+    },
+  },
+  {
+    id: "action-verbs-arabic-resume",
+    title: {
+      en: "Top Action Verbs for Your Arabic Resume",
+      ar: "أفعال الحركة (Action Verbs) لتقوية سيرتك الذاتية بالعربي",
+    },
+    excerpt: {
+      en: "Transform your resume from a list of duties to an impressive list of achievements using powerful action verbs.",
+      ar: "حوّل سيرتك الذاتية من مجرد قائمة بالمهام إلى قائمة إنجازات مبهرة باستخدام أفعال الحركة القوية والمؤثرة.",
+    },
+    content: {
+      en: `
+## Power Words Matter
+
+Hiring managers quickly scan resumes. Words like "responsible for" or "managed" are overused. Instead, use precision verbs like "spearheaded," "optimized," or "negotiated."
+
+## Examples by Category
+* **Leadership:** Directed, Executed, Guided
+* **Communication:** Persuaded, Promoted, Authored
+* **Financial:** Budgeted, Forecasted, Yielded
+`,
+      ar: `
+## الكلمات القوية تصنع الفارق
+
+العديد من الباحثين عن عمل يبدأون جملهم في السيرة الذاتية بعبارات تقليدية مثل "كنت مسؤولاً عن" أو "عملت على". مديرو التوظيف يقرؤون هذه العبارات مئات المرات يومياً. لكي تبرز، يجب استخدام **أفعال حركة (Action Verbs)** قوية توضح التأثير الذي أحدثته في وظيفتك.
+
+## أمثلة حسب التصنيف:
+
+### 1. مهارات القيادة والإدارة
+بدلاً من قـول "أدرت فريقاً"، استخـدم:
+* **وجّهت** فريق المبيعات لزيادة الإيرادات بنسبة 15%.
+* **أشرفت** على تنفيذ مشروع التحول الرقمي.
+* **طوّرت** استراتيجيات أدت إلى تقليل التكاليف.
+
+### 2. مهارات التواصل والتسويق
+بدلاً من "تحدثت مع العملاء"، استخـدم:
+* **تفاوضت** في عقود شركاء جديدة.
+* **روّجت** للحملة الإعلانية التي حققت 10 آلاف اشتراك.
+* **ألّفت** وصاغت المحتوى التقني للموقع.
+
+### 3. المهارات المالية والأرقام
+* **ضاعفت** المبيعات السنوية في الربع الأول.
+* **قلّصت** المصروفات التشغيلية بنسبة 20%.
+* **توقّعت** ميزانيات الأقسام بنجاح.
+
+استخدم الذكاء الاصطناعي الخاص بنا في **Hash Resume** لإعادة صياغة نقاطك العادية وتحويلها إلى نقاط إنجاز احترافية بضغطة زر.
+`,
+    },
+    date: "2026-04-15",
+    author: {
+      en: "Omar Khaled",
+      ar: "عمر خالد",
+    },
+    image:
+      "https://images.unsplash.com/photo-1550592704-6c76defa99ce?auto=format&fit=crop&q=80&w=800",
+    readTime: {
+      en: "5 min read",
+      ar: "5 دقائق قراءة",
+    },
+  },
+  {
+    id: "how-to-write-ats-cv-2",
+    title: {
+      en: "Resume Mistakes to Avoid in 2026",
+      ar: "أخطاء قاتلة في السيرة الذاتية تجنبها تماماً في 2026",
+    },
+    excerpt: {
+      en: "Don't let simple formatting mistakes cost you the interview. Learn the top resume pitfalls for 2026.",
+      ar: "لا تدع أخطاء التنسيق البسيطة تكلفك المقابلة الوظيفية. تعرف على أهم الأخطاء الشائعة لتجنبها عند إنشاء سيرة ذاتية في 2026.",
+    },
+    content: {
+      en: `
+## Keep it Simple
+
+The biggest mistakes we see today involve over-engineering the resume.
+
+1. **Adding a Photo:** In many western countries, adding a photo can cause instant rejection to avoid bias. 
+2. **Too Much Color:** While some color is good, too much distracts from the content.
+3. **Keyword Stuffing:** The ATS is smart now. It knows when you are just pasting words from the job description invisibly.
+      `,
+      ar: `
+## البساطة هي الحل
+
+أكبر الأخطاء التي نراها اليوم تتعلق بالمبالغة في تصميم السيرة الذاتية.
+
+1. **إضافة صورة شخصية:** في بعض الأسواق الدولية (مثل أمريكا وأوروبا وأغلب الشركات متعددة الجنسيات)، إضافة صورة قد تؤدي لرفض سيرتك بسبب قوانين تكافؤ الفرص. في العالم العربي يختلف الأمر، لكن إن لم تُطلب، الأفضل عدم وضعها.
+2. **التصاميم المعقدة:** الألوان الكثيرة والأيقونات تشتت الانتباه وقد تعطل نظام الـ ATS عن قراءة النص.
+3. **حشو الكلمات المفتاحية (Keyword Stuffing):** أنظمة الفلترة أصبحت ذكية، وضع كلمات الوصف الوظيفي باللون الأبيض لتخطي النظام سيتم كشفه فوراً.
+
+استخدم المحرر الذكي في Hash Resume للحفاظ على التوازن المثالي بين التصميم الرائع والمحتوى المتوافق تقنياً.
+      `
+    },
+    date: "2026-04-05",
+    author: {
+      en: "Laila Mahmoud",
+      ar: "ليلى محمود",
+    },
+    image:
+      "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800",
+    readTime: {
+      en: "3 min read",
+      ar: "3 دقائق قراءة",
+    },
+  },
+  {
     id: "how-to-write-ats-cv",
     title: {
       en: "How to Write a CV That Beats the ATS",

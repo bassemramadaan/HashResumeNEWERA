@@ -3,6 +3,82 @@ import { FileText, Sparkles, Download } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 
+const EditorMockup = () => (
+  <div className="w-full h-40 bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden flex flex-col">
+    <div className="h-8 border-b border-slate-100 bg-slate-50 flex items-center px-3 gap-1.5">
+       <div className="w-2 h-2 rounded-full bg-rose-300"></div>
+       <div className="w-2 h-2 rounded-full bg-amber-300"></div>
+       <div className="w-2 h-2 rounded-full bg-emerald-300"></div>
+    </div>
+    <div className="p-4 flex-1 flex flex-col gap-3">
+       <div className="flex gap-3 items-center">
+           <div className="w-10 h-10 rounded-full bg-slate-100 shrink-0"></div>
+           <div className="flex-1 space-y-2 py-1">
+             <motion.div 
+               initial={{ width: "20%" }} 
+               whileInView={{ width: "60%" }} 
+               transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }} 
+               className="h-2 bg-slate-200 rounded-full" 
+             />
+             <motion.div 
+               initial={{ width: "40%" }} 
+               whileInView={{ width: "80%" }} 
+               transition={{ duration: 1.5, delay: 0.2, repeat: Infinity, repeatType: "reverse" }} 
+               className="h-2 bg-slate-100 rounded-full" 
+             />
+           </div>
+       </div>
+       <div className="space-y-2 mt-3">
+         <div className="h-1.5 bg-slate-100 rounded-full w-full"></div>
+         <div className="h-1.5 bg-slate-100 rounded-full w-5/6"></div>
+         <div className="h-1.5 bg-slate-100 rounded-full w-4/6"></div>
+       </div>
+    </div>
+  </div>
+);
+
+const AIMockup = () => (
+  <div className="w-full h-40 bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden relative flex items-center justify-center p-4">
+     <div className="w-full space-y-4">
+        <div className="h-2 bg-slate-100 rounded-full w-full"></div>
+        <motion.div 
+          initial={{ backgroundColor: "#f1f5f9" }}
+          whileInView={{ backgroundColor: "#f3e8ff", scale: 1.02 }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+          className="h-3 rounded-xl w-5/6 relative py-1"
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0, rotate: -45 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 0.3, delay: 0.8, repeat: Infinity, repeatDelay: 3 }}
+            className="absolute -top-5 -right-3 text-purple-600 bg-white rounded-full p-1 shadow-sm border border-purple-100"
+          >
+             <Sparkles size={14} className="fill-purple-100" />
+          </motion.div>
+        </motion.div>
+        <div className="h-2 bg-slate-100 rounded-full w-4/6"></div>
+     </div>
+  </div>
+);
+
+const DownloadMockup = () => (
+  <div className="w-full h-40 bg-emerald-50/50 border border-emerald-100 rounded-xl overflow-hidden relative flex flex-col items-center justify-center gap-4">
+     <motion.div 
+        initial={{ y: -30, opacity: 0 }}
+        whileInView={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 1 }}
+        className="w-16 h-20 bg-white shadow-md border border-slate-200 rounded-sm flex flex-col p-2 top-4 relative"
+     >
+        <div className="h-1.5 bg-emerald-500 rounded-full w-1/2 mb-3"></div>
+        <div className="space-y-1.5">
+          <div className="h-1 bg-slate-200 rounded-full w-full"></div>
+          <div className="h-1 bg-slate-200 rounded-full w-5/6"></div>
+          <div className="h-1 bg-slate-200 rounded-full w-4/6"></div>
+        </div>
+     </motion.div>
+  </div>
+);
+
 export default function SimpleSteps() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
@@ -15,6 +91,7 @@ export default function SimpleSteps() {
       color: "text-blue-500",
       bg: "bg-blue-50 ",
       border: "border-blue-200 ",
+      mockup: <EditorMockup />,
     },
     {
       icon: Sparkles,
@@ -23,6 +100,7 @@ export default function SimpleSteps() {
       color: "text-purple-500",
       bg: "bg-purple-50 ",
       border: "border-purple-200 ",
+      mockup: <AIMockup />,
     },
     {
       icon: Download,
@@ -31,6 +109,7 @@ export default function SimpleSteps() {
       color: "text-emerald-500",
       bg: "bg-emerald-50 ",
       border: "border-emerald-200 ",
+      mockup: <DownloadMockup />,
     },
   ];
 
@@ -43,9 +122,9 @@ export default function SimpleSteps() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative">
           {/* Connecting Line */}
-          <div className="hidden md:block absolute top-12 start-[15%] end-[15%] h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-emerald-200 z-0"></div>
+          <div className="hidden md:block absolute top-[180px] left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-emerald-200 z-0"></div>
 
           {steps.map((step, index) => (
             <motion.div
@@ -54,20 +133,23 @@ export default function SimpleSteps() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="relative z-10 flex flex-col items-center text-center"
+              className="relative z-10 flex flex-col items-center text-center group"
             >
+              <div className="w-full mb-8 transform transition-transform duration-500 group-hover:-translate-y-2">
+                {step.mockup}
+              </div>
               <div
-                className={`w-24 h-24 rounded-full ${step.bg} ${step.border} border-2 flex items-center justify-center mb-6 shadow-sm relative`}
+                className={`w-16 h-16 rounded-2xl ${step.bg} ${step.border} border-2 flex items-center justify-center mb-6 shadow-sm relative rotate-3 group-hover:rotate-0 transition-transform`}
               >
-                <div className="absolute -top-3 -end-3 w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-sm shadow-md">
+                <div className="absolute -top-2 -end-2 w-6 h-6 rounded-full bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-md">
                   {index + 1}
                 </div>
-                <step.icon size={40} className={step.color} />
+                <step.icon size={24} className={step.color} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-4">
+              <h3 className="text-xl font-bold text-slate-900 mb-3">
                 {step.title}
               </h3>
-              <p className="text-slate-600 max-w-[250px]">{step.desc}</p>
+              <p className="text-slate-600 max-w-[250px] leading-relaxed text-sm">{step.desc}</p>
             </motion.div>
           ))}
         </div>

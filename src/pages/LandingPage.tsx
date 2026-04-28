@@ -156,6 +156,40 @@ export default function LandingPage() {
             }
           `}
         </script>
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [
+                {
+                  "@type": "Question",
+                  "name": "Is it really free to use?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, completely free. Hash Resume runs entirely in your browser. We don't store your personal data on our servers."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "How much does it cost to download?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can build and preview your resume for free. We charge a one-time fee of 49 EGP for a professional PDF download."
+                  }
+                },
+                {
+                  "@type": "Question",
+                  "name": "What is an ATS-friendly resume?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ATS software is used by recruiters to filter resumes. Our templates are designed with clean formatting to ensure these systems can easily read your application."
+                  }
+                }
+              ]
+            }
+          `}
+        </script>
       </Helmet>
       <Navbar />
 
@@ -897,12 +931,14 @@ export default function LandingPage() {
                 ))}
               </ul>
               
-              <Link
-                to="/templates"
+              <a
+                href="https://wa.me/201101007965?text=I%20want%20to%20buy%20the%20Multi-Download%20Pack"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block w-full bg-slate-900 hover:bg-slate-800 text-slate-50 text-center font-bold py-4 rounded-2xl shadow-lg transition-all active:scale-95 mt-auto"
               >
                 {t.getStartedNow}
-              </Link>
+              </a>
             </div>
           </div>
         </div>

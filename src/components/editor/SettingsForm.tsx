@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { cn } from "../../utils";
 import React, { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 export default React.memo(function SettingsForm() {
   const { language } = useLanguageStore();
@@ -127,61 +128,70 @@ export default React.memo(function SettingsForm() {
     }
   };
 
-  return (
-    <div className="space-y-6 font-sans relative">
-      {/* Alert Modal */}
-      {alertMessage && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-in fade-in zoom-in duration-200">
-            <div className="p-6 text-center space-y-4">
-              <p className="text-slate-700 font-medium">{alertMessage}</p>
+  const AlertModal = () => {
+    if (!alertMessage || typeof document === 'undefined') return null;
+    return createPortal(
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-sm overflow-hidden animate-in fade-in zoom-in duration-200">
+          <div className="p-6 text-center space-y-4">
+            <p className="text-slate-700 font-medium">{alertMessage}</p>
+            <button
+              onClick={() => setAlertMessage(null)}
+              className="w-full py-2 bg-zinc-900 text-white rounded-xl font-bold hover:bg-zinc-800 transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
+  };
+
+  const ResetConfirmModal = () => {
+    if (!showResetConfirm || typeof document === 'undefined') return null;
+    return createPortal(
+      <div className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+          <div className="p-6 space-y-4">
+            <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <AlertTriangle className="text-red-600" size={24} />
+            </div>
+            <h3 className="text-xl font-bold text-center text-slate-900">
+              {t.settings.resetConfirmTitle}
+            </h3>
+            <p className="text-center text-slate-600">
+              {t.settings.resetConfirmDesc}
+            </p>
+            <div className="flex gap-4 pt-4">
               <button
-                onClick={() => setAlertMessage(null)}
-                className="w-full py-2 bg-zinc-900 text-white rounded-xl font-bold hover:bg-zinc-800 transition-colors"
+                onClick={() => setShowResetConfirm(false)}
+                className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-colors"
               >
-                OK
+                {t.settings.cancel}
+              </button>
+              <button
+                onClick={() => {
+                  resetData();
+                  setShowResetConfirm(false);
+                  setAlertMessage(t.settings.dataReset);
+                }}
+                className="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold transition-colors"
+              >
+                {t.settings.yesReset}
               </button>
             </div>
           </div>
         </div>
-      )}
+      </div>,
+      document.body
+    );
+  };
 
-      {/* Reset Confirmation Modal */}
-      {showResetConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-          <div className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
-            <div className="p-6 space-y-4">
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <AlertTriangle className="text-red-600" size={24} />
-              </div>
-              <h3 className="text-xl font-bold text-center text-slate-900">
-                {t.settings.resetConfirmTitle}
-              </h3>
-              <p className="text-center text-slate-600">
-                {t.settings.resetConfirmDesc}
-              </p>
-              <div className="flex gap-4 pt-4">
-                <button
-                  onClick={() => setShowResetConfirm(false)}
-                  className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-colors"
-                >
-                  {t.settings.cancel}
-                </button>
-                <button
-                  onClick={() => {
-                    resetData();
-                    setShowResetConfirm(false);
-                    setAlertMessage(t.settings.dataReset);
-                  }}
-                  className="flex-1 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold transition-colors"
-                >
-                  {t.settings.yesReset}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+  return (
+    <div className="space-y-6 font-sans relative">
+      <AlertModal />
+      <ResetConfirmModal />
 
       <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 space-y-8 transition-colors">
         {/* Template Selection */}

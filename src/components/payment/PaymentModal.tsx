@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Check, Ticket, Wallet, CheckCircle2, ShieldCheck } from "lucide-react";
 import SarIcon from "./SarIcon";
@@ -33,6 +33,26 @@ export default function PaymentModal({
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState("");
   const [currency, setCurrency] = useState<keyof typeof currencies>("EGP");
+  const [exchangeRates, setExchangeRates] = useState<Record<string, number> | null>(null);
+
+  useEffect(() => {
+    if (isOpen && !exchangeRates) {
+      fetch("https://open.er-api.com/v6/latest/EGP")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.rates) {
+            setExchangeRates({
+              EGP: 1,
+              SAR: data.rates.SAR,
+              AED: data.rates.AED,
+              EUR: data.rates.EUR,
+              USD: data.rates.USD,
+            });
+          }
+        })
+        .catch((err) => console.error("Failed to fetch exchange rates", err));
+    }
+  }, [isOpen, exchangeRates]);
 
   if (!isOpen) return null;
 
@@ -69,7 +89,18 @@ export default function PaymentModal({
     }
   };
 
+  const getDynamicPrice = (curr: keyof typeof currencies) => {
+    const defaultPrice = currencies[curr].price;
+    if (curr === "EGP" || !exchangeRates) return defaultPrice;
+    
+    // Base price is 49 EGP
+    const priceInEGP = 49;
+    const rate = exchangeRates[curr];
+    return Math.ceil(priceInEGP * rate);
+  };
+
   const selected = currencies[currency];
+  const dynamicPrice = getDynamicPrice(currency);
 
   return (
     <AnimatePresence>
@@ -115,12 +146,12 @@ export default function PaymentModal({
               currency === "SAR" ||
               currency === "AED" ? (
                 <span>
-                  {selected.price} {selected.symbol}
+                  {dynamicPrice} {selected.symbol}
                 </span>
               ) : (
                 <span>
                   {selected.symbol}
-                  {selected.price}
+                  {dynamicPrice}
                 </span>
               )}
             </div>

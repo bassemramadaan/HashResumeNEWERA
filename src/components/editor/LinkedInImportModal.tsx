@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import { X, Linkedin, Upload, FileText, Loader2, Sparkles, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguageStore } from "../../store/useLanguageStore";
@@ -139,174 +140,177 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
     }
   };
 
-  if (!isOpen) return null;
+  if (typeof document === 'undefined') return null;
 
-  return (
+  return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
-          onClick={() => !isProcessing && onClose()}
-        />
+      {isOpen && (
+        <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+            onClick={() => !isProcessing && onClose()}
+          />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl p-6 sm:p-8 overflow-hidden z-10"
-          dir={language === "ar" ? "rtl" : "ltr"}
-        >
-          <button
-            onClick={onClose}
-            disabled={isProcessing}
-            className="absolute top-4 end-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors disabled:opacity-50"
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl p-6 sm:p-8 overflow-hidden z-10"
+            dir={language === "ar" ? "rtl" : "ltr"}
           >
-            <X size={20} />
-          </button>
-
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 bg-[#0A66C2]/10 rounded-xl flex items-center justify-center text-[#0A66C2]">
-              <Linkedin size={24} />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-slate-900">
-                {language === "ar" ? "استيراد من لينكد إن" : "Import from LinkedIn"}
-              </h3>
-              <p className="text-sm text-slate-500">
-                {language === "ar" ? "ارفع ملف PDF الخاص بحسابك" : "Upload your profile PDF"}
-              </p>
-            </div>
-          </div>
-
-          {success ? (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }} 
-              animate={{ opacity: 1, scale: 1 }} 
-              className="py-12 flex flex-col items-center justify-center text-center space-y-4"
+            <button
+              onClick={onClose}
+              disabled={isProcessing}
+              className="absolute top-4 end-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors disabled:opacity-50"
             >
-              <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center">
-                <CheckCircle2 size={40} />
+              <X size={20} />
+            </button>
+
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-[#0A66C2]/10 rounded-xl flex items-center justify-center text-[#0A66C2]">
+                <Linkedin size={24} />
               </div>
-              <h4 className="text-xl font-bold text-slate-900">
-                {language === "ar" ? "تم الاستيراد بنجاح!" : "Imported Successfully!"}
-              </h4>
-              <p className="text-slate-500 max-w-xs mx-auto">
-                {language === "ar" ? "تم تعبئة بيانات سيرتك الذاتية بنجاح." : "Your resume data has been populated."}
-              </p>
-            </motion.div>
-          ) : (
-            <>
-              <div className="mb-6 space-y-4 text-sm text-slate-600">
-                <p className="font-medium">
-                  {language === "ar" ? "كيفية الحصول على ملف PDF:" : "How to get your PDF:"}
+              <div>
+                <h3 className="text-xl font-bold text-slate-900">
+                  {language === "ar" ? "استيراد من لينكد إن" : "Import from LinkedIn"}
+                </h3>
+                <p className="text-sm text-slate-500">
+                  {language === "ar" ? "ارفع ملف PDF الخاص بحسابك" : "Upload your profile PDF"}
                 </p>
-                <ol className="list-decimal list-inside space-y-2 text-slate-500 ms-2">
-                  <li>{language === "ar" ? "اذهب إلى حسابك على LinkedIn" : "Go to your LinkedIn profile"}</li>
-                  <li>{language === "ar" ? "اضغط على زر (المزيد / More)" : "Click the (More) button"}</li>
-                  <li>{language === "ar" ? "اختر (حفظ بتنسيق PDF / Save to PDF)" : "Select (Save to PDF)"}</li>
-                </ol>
               </div>
+            </div>
 
-              <div
-                onDragEnter={handleDragEnter}
-                onDragOver={handleDragEnter}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                onClick={() => !isProcessing && fileInputRef.current?.click()}
-                className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
-                  isDragActive
-                    ? "border-[#0A66C2] bg-[#0A66C2]/5"
-                    : selectedFile
-                    ? "border-emerald-500 bg-emerald-50"
-                    : "border-slate-200 hover:border-[#0A66C2]/50 hover:bg-slate-50"
-                } ${isProcessing ? "pointer-events-none opacity-50" : ""}`}
+            {success ? (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }} 
+                animate={{ opacity: 1, scale: 1 }} 
+                className="py-12 flex flex-col items-center justify-center text-center space-y-4"
               >
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files.length > 0) {
-                      setSelectedFile(e.target.files[0]);
-                    }
-                  }}
-                  accept="application/pdf"
-                  className="hidden"
-                />
-                
-                {selectedFile ? (
-                  <>
-                    <FileText size={40} className="text-emerald-500 mb-4" />
-                    <p className="text-emerald-700 font-medium mb-1">{selectedFile.name}</p>
-                    <p className="text-emerald-500 text-sm">
-                      {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <Upload size={40} className="text-slate-400 mb-4" />
-                    <p className="text-slate-700 font-medium mb-1">
-                      {language === "ar" ? "اضغط أو اسحب الملف هنا" : "Click or drag file here"}
-                    </p>
-                    <p className="text-slate-500 text-sm">
-                      {language === "ar" ? "ملفات PDF فقط" : "PDF files only"}
-                    </p>
-                  </>
-                )}
-              </div>
-
-              {error && (
-                <div className="mt-4 p-3 bg-rose-50 text-rose-600 text-sm rounded-xl border border-rose-100 flex items-start gap-2">
-                  <X size={16} className="mt-0.5 shrink-0" />
-                  <p>{error}</p>
+                <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center">
+                  <CheckCircle2 size={40} />
                 </div>
-              )}
-
-              {isProcessing && (
-                <div className="mt-6 space-y-2">
-                  <div className="flex justify-between text-sm text-slate-500">
-                    <span className="flex items-center gap-2">
-                      <Loader2 size={14} className="animate-spin" />
-                      {language === "ar" ? "جاري معالجة البيانات..." : "Processing data..."}
-                    </span>
-                    <span>{progress}%</span>
-                  </div>
-                  <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-[#0A66C2] transition-all duration-300 relative overflow-hidden" 
-                      style={{ width: `${progress}%` }}
-                    >
-                      <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                    </div>
-                  </div>
+                <h4 className="text-xl font-bold text-slate-900">
+                  {language === "ar" ? "تم الاستيراد بنجاح!" : "Imported Successfully!"}
+                </h4>
+                <p className="text-slate-500 max-w-xs mx-auto">
+                  {language === "ar" ? "تم تعبئة بيانات سيرتك الذاتية بنجاح." : "Your resume data has been populated."}
+                </p>
+              </motion.div>
+            ) : (
+              <>
+                <div className="mb-6 space-y-4 text-sm text-slate-600">
+                  <p className="font-medium">
+                    {language === "ar" ? "كيفية الحصول على ملف PDF:" : "How to get your PDF:"}
+                  </p>
+                  <ol className="list-decimal list-inside space-y-2 text-slate-500 ms-2">
+                    <li>{language === "ar" ? "اذهب إلى حسابك على LinkedIn" : "Go to your LinkedIn profile"}</li>
+                    <li>{language === "ar" ? "اضغط على زر (المزيد / More)" : "Click the (More) button"}</li>
+                    <li>{language === "ar" ? "اختر (حفظ بتنسيق PDF / Save to PDF)" : "Select (Save to PDF)"}</li>
+                  </ol>
                 </div>
-              )}
 
-              <div className="mt-8">
-                <button
-                  onClick={processFile}
-                  disabled={!selectedFile || isProcessing}
-                  className="w-full bg-[#0A66C2] hover:bg-[#004182] disabled:bg-slate-300 disabled:text-slate-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+                <div
+                  onDragEnter={handleDragEnter}
+                  onDragOver={handleDragEnter}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => !isProcessing && fileInputRef.current?.click()}
+                  className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
+                    isDragActive
+                      ? "border-[#0A66C2] bg-[#0A66C2]/5"
+                      : selectedFile
+                      ? "border-emerald-500 bg-emerald-50"
+                      : "border-slate-200 hover:border-[#0A66C2]/50 hover:bg-slate-50"
+                  } ${isProcessing ? "pointer-events-none opacity-50" : ""}`}
                 >
-                  {isProcessing ? (
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files.length > 0) {
+                        setSelectedFile(e.target.files[0]);
+                      }
+                    }}
+                    accept="application/pdf"
+                    className="hidden"
+                  />
+                  
+                  {selectedFile ? (
                     <>
-                      <Loader2 size={20} className="animate-spin" />
-                      {language === "ar" ? "جاري الاستيراد..." : "Importing..."}
+                      <FileText size={40} className="text-emerald-500 mb-4" />
+                      <p className="text-emerald-700 font-medium mb-1">{selectedFile.name}</p>
+                      <p className="text-emerald-500 text-sm">
+                        {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                      </p>
                     </>
                   ) : (
                     <>
-                      <Sparkles size={20} />
-                      {language === "ar" ? "استيراد البيانات" : "Import Data"}
+                      <Upload size={40} className="text-slate-400 mb-4" />
+                      <p className="text-slate-700 font-medium mb-1">
+                        {language === "ar" ? "اضغط أو اسحب الملف هنا" : "Click or drag file here"}
+                      </p>
+                      <p className="text-slate-500 text-sm">
+                        {language === "ar" ? "ملفات PDF فقط" : "PDF files only"}
+                      </p>
                     </>
                   )}
-                </button>
-              </div>
-            </>
-          )}
-        </motion.div>
-      </div>
-    </AnimatePresence>
+                </div>
+
+                {error && (
+                  <div className="mt-4 p-3 bg-rose-50 text-rose-600 text-sm rounded-xl border border-rose-100 flex items-start gap-2">
+                    <X size={16} className="mt-0.5 shrink-0" />
+                    <p>{error}</p>
+                  </div>
+                )}
+
+                {isProcessing && (
+                  <div className="mt-6 space-y-2">
+                    <div className="flex justify-between text-sm text-slate-500">
+                      <span className="flex items-center gap-2">
+                        <Loader2 size={14} className="animate-spin" />
+                        {language === "ar" ? "جاري معالجة البيانات..." : "Processing data..."}
+                      </span>
+                      <span>{progress}%</span>
+                    </div>
+                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-[#0A66C2] transition-all duration-300 relative overflow-hidden" 
+                        style={{ width: `${progress}%` }}
+                      >
+                        <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="mt-8">
+                  <button
+                    onClick={processFile}
+                    disabled={!selectedFile || isProcessing}
+                    className="w-full bg-[#0A66C2] hover:bg-[#004182] disabled:bg-slate-300 disabled:text-slate-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+                  >
+                    {isProcessing ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        {language === "ar" ? "جاري الاستيراد..." : "Importing..."}
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles size={20} />
+                        {language === "ar" ? "استيراد البيانات" : "Import Data"}
+                      </>
+                    )}
+                  </button>
+                </div>
+              </>
+            )}
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>,
+    document.body
   );
 }
