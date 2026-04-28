@@ -3,6 +3,7 @@ import { ZodIssue } from "zod";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
+import LinkedInImportModal from "./LinkedInImportModal";
 import {
   User,
   Mail,
@@ -14,6 +15,7 @@ import {
   FileText,
   Sparkles,
   AlertCircle,
+  Download
 } from "lucide-react";
 import SectionTooltip from "./SectionTooltip";
 import { personalInfoSchema } from "../../lib/validation";
@@ -66,9 +68,38 @@ const PersonalInfoForm = () => {
     }
   };
 
+  const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
+
   return (
-    <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 font-sans transition-colors">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="space-y-6">
+      {/* LinkedIn Import Banner */}
+      <div className="bg-[#0A66C2]/5 border border-[#0A66C2]/20 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-4 text-[#0A66C2]">
+          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
+            <Linkedin size={24} />
+          </div>
+          <div>
+            <h3 className="font-bold text-slate-900 mb-1">
+              {language === "ar" ? "وفر وقتك واستورد حسابك" : "Save time & import profile"}
+            </h3>
+            <p className="text-sm text-slate-600">
+              {language === "ar" ? "يمكنك استيراد بياناتك من ملف PDF الخاص بـ لينكد إن مباشرة." : "Extract all your details instantly from your LinkedIn PDF."}
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={() => setIsLinkedInModalOpen(true)}
+          className="w-full sm:w-auto bg-[#0A66C2] hover:bg-[#004182] text-white px-5 py-2.5 rounded-xl font-medium transition-colors whitespace-nowrap flex justify-center items-center gap-2"
+        >
+          <Download size={18} />
+          {language === "ar" ? "استيراد من لينكد إن" : "Import from LinkedIn"}
+        </button>
+      </div>
+
+      <LinkedInImportModal isOpen={isLinkedInModalOpen} onClose={() => setIsLinkedInModalOpen(false)} />
+
+      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 font-sans transition-colors">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <label
             htmlFor="fullName"
@@ -357,6 +388,7 @@ const PersonalInfoForm = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

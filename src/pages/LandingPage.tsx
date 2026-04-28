@@ -62,7 +62,7 @@ export default function LandingPage() {
       .catch((err) => console.error("Failed to fetch exchange rates", err));
   }, []);
 
-  const basePriceEGP = 25;
+  const basePriceEGP = 49;
 
   const currencies = {
     EGP: { symbol: "EGP", price: basePriceEGP },
@@ -194,7 +194,7 @@ export default function LandingPage() {
                   </span>
                 </span>
                 <p className="text-slate-600 text-lg sm:text-xl font-medium tracking-tight mb-2">
-                  {language === "ar" ? "ادفع فقط عندما تكون جاهزاً — ابتداءً من 25 جنيهاً" : "Pay only when ready — from 25 EGP"}
+                  {language === "ar" ? "ادفع فقط عندما تكون جاهزاً — ابتداءً من 49 جنيهاً" : "Pay only when ready — from 49 EGP"}
                 </p>
               </motion.h1>
 

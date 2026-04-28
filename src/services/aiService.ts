@@ -45,6 +45,92 @@ export const aiService: IResumeService = {
       };
     }
   },
+  importResume: async (
+    rawText: string,
+  ): Promise<AIResponse> => {
+    try {
+      const systemInstruction = `You are an expert resume parser.
+ Extract the following information from the provided text into a strict JSON matching this structure:
+ {
+   "personalInfo": {
+     "fullName": "...",
+     "jobTitle": "...",
+     "email": "...",
+     "phone": "...",
+     "address": "...",
+     "linkedin": "...",
+     "github": "...",
+     "portfolio": "...",
+     "summary": "..."
+   },
+   "experience": [
+     {
+       "id": "...",
+       "company": "...",
+       "position": "...",
+       "startDate": "...",
+       "endDate": "...",
+       "description": "..."
+     }
+   ],
+   "education": [
+     {
+       "id": "...",
+       "institution": "...",
+       "degree": "...",
+       "field": "...",
+       "startDate": "...",
+       "endDate": "..."
+     }
+   ],
+   "skills": ["...", "..."],
+   "certifications": [
+     {
+       "id": "...",
+       "name": "...",
+       "issuer": "...",
+       "date": "..."
+     }
+   ]
+ }
+ Ensure that the response is pure JSON without markdown codeblocks or other text.`;
+
+      const prompt = `Parse this resume text:\n\n${rawText}`;
+
+      const response = await fetch("/api/ai/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
+          systemInstruction,
+          responseMimeType: "application/json",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to parse resume");
+      }
+
+      if (!data.text) {
+        throw new Error("Empty response from AI");
+      }
+
+      return { text: data.text };
+    } catch (err: unknown) {
+      console.error("Resume parsing failed:", err);
+      return {
+        text: "",
+        error:
+          err instanceof Error
+            ? err.message
+            : "Failed to parse resume. Please try again later.",
+      };
+    }
+  },
   matchResumeToJob: async (
     resume: string,
     jobDescription: string,

@@ -8,5 +8,6 @@ export interface IResumeService {
     prompt: string,
     systemInstruction?: string,
   ): Promise<AIResponse>;
+  importResume(rawText: string): Promise<AIResponse>;
   matchResumeToJob(resume: string, jobDescription: string): Promise<AIResponse>;
 }

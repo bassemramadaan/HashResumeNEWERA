@@ -1030,19 +1030,26 @@ export default function EditorPage() {
           </div>
 
           <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-slate-100/50">
-            <div
-              className={cn(
-                "bg-slate-50 shadow-2xl rounded-sm overflow-hidden transition-all duration-500 ring-1 ring-slate-900/5 origin-top",
-                previewMode !== "cover-letter" ? "w-[210mm] shrink-0 min-h-[297mm] scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-[0.9] xl:scale-100 mb-[calc(-100vw*0.4)] md:mb-0" : "w-full max-w-3xl"
-              )}
-            >
-              <Suspense fallback={<FormLoader />}>
-                {previewMode === "cover-letter" ? (
-                  <CoverLetterPreview />
-                ) : (
-                  <ResumePreview ref={componentRef} />
+            <div className={cn(
+              "origin-top transition-all duration-500 flex justify-center",
+              previewMode !== "cover-letter" 
+                ? "scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-[0.9] xl:scale-100 h-[calc(297mm*0.45)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.8)] lg:h-[calc(297mm*0.9)] xl:h-auto" 
+                : "w-full max-w-3xl"
+            )}>
+              <div
+                className={cn(
+                  "bg-slate-50 shadow-2xl rounded-sm overflow-hidden ring-1 ring-slate-900/5",
+                  previewMode !== "cover-letter" ? "w-[210mm] min-h-[297mm] shrink-0" : "w-full"
                 )}
-              </Suspense>
+              >
+                <Suspense fallback={<FormLoader />}>
+                  {previewMode === "cover-letter" ? (
+                    <CoverLetterPreview />
+                  ) : (
+                    <ResumePreview ref={componentRef} />
+                  )}
+                </Suspense>
+              </div>
             </div>
           </div>
         </div>

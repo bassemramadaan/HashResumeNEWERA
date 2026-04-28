@@ -11,7 +11,7 @@ interface PaymentModalProps {
 }
 
 const currencies = {
-  EGP: { symbol: "EGP", price: 25 },
+  EGP: { symbol: "EGP", price: 49 },
   SAR: {
     symbol: <SarIcon className="w-[1em] h-[1em] inline-block shrink-0" />,
     price: 2,

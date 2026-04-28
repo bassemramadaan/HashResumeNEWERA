@@ -79,18 +79,18 @@ export default function ExitIntentPopup() {
 
               <h2 className="text-2xl font-black text-slate-900 mb-4 font-display">
                 {language === "ar"
-                  ? "ما زلت تفكر؟ ابدأ مجاناً — بدون بريد إلكتروني"
+                  ? "لست متأكداً بعد؟ شاهد كيف ستبدو سيرتك أولاً"
                   : language === "fr"
-                  ? "Vous hésitez encore ? Commencez gratuitement — Sans email"
-                  : "Still thinking? Start Free — No Email Needed"}
+                  ? "Vous hésitez encore ? Voyez à quoi ça ressemble d'abord"
+                  : "Still not sure? See how it looks first"}
               </h2>
 
               <p className="text-slate-600 mb-8 leading-relaxed">
                 {language === "ar"
-                  ? "جرب أداتنا مجاناً الآن واكتشف كيف يمكن للذكاء الاصطناعي أن يضاعف فرصك في الحصول على مقابلة عمل."
+                  ? "قم بتجربة المحرر الخاص بنا مجاناً. لا يطلب منك أي تسجيل ويمكنك تحميل سيرتك لاحقاً."
                   : language === "fr"
-                  ? "Essayez notre outil gratuitement dès maintenant et découvrez comment l'IA peut doubler vos chances d'obtenir un entretien."
-                  : "Try our tool for free right now and discover how AI can double your chances of getting a job interview."}
+                  ? "Essayez notre éditeur gratuitement. Aucune inscription requise et vous pouvez télécharger plus tard."
+                  : "Try our editor for free. No sign-up required, and you can download it later."}
               </p>
 
               <div className="flex flex-col gap-3">
@@ -104,7 +104,7 @@ export default function ExitIntentPopup() {
                 </Link>
                 <button
                   onClick={() => handleClose(false)}
-                  className="w-full bg-slate-50 text-white0 hover:text-slate-700 font-medium py-3 px-6 rounded-2xl transition-colors"
+                  className="w-full bg-slate-50 text-slate-500 hover:text-slate-700 font-medium py-3 px-6 rounded-2xl transition-colors"
                 >
                   {language === "ar" ? "ربما لاحقاً" : language === "fr" ? "Peut-être plus tard" : "Maybe later"}
                 </button>
