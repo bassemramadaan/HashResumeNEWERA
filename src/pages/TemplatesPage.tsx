@@ -546,8 +546,10 @@ export default function TemplatesPage() {
               </div>
 
               {/* Preview Area */}
-              <div className="flex-1 bg-slate-200/50 overflow-y-auto p-8 flex justify-center">
-                <div className="w-full max-w-[210mm] bg-slate-50 shadow-2xl min-h-[297mm]">
+              <div className="flex-1 bg-slate-200/50 overflow-x-hidden overflow-y-auto p-4 md:p-8 flex justify-center items-start">
+                <div 
+                   className="w-[210mm] shrink-0 bg-slate-50 shadow-2xl min-h-[297mm] origin-top scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-[0.9] xl:scale-100 mb-[-50%] md:mb-0 transition-transform duration-300"
+                >
                   <ResumePreview
                     data={{
                       ...dummyData,

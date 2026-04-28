@@ -187,23 +187,14 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className={cn("font-display mb-8", language === "ar" ? "leading-relaxed" : "leading-[1.05]")}
               >
-                <span className="text-slate-900 block text-5xl sm:text-7xl font-bold tracking-tight mb-4 hidden sm:block">
+                <span className="text-slate-900 block text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
                   {t.heroTitle1}{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600 inline-block mt-2">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600">
                     {t.heroTitle2}
                   </span>
                 </span>
-                
-                {/* Mobile specific slightly smaller title to fit better without wrapping weirdly */}
-                <span className="text-slate-900 block text-4xl font-bold tracking-tight mb-4 sm:hidden leading-tight">
-                  {t.heroTitle1}{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600 block mt-2">
-                    {t.heroTitle2}
-                  </span>
-                </span>
-                
-                <p className={cn("text-slate-500 text-xl font-medium tracking-tight max-w-xl mx-auto lg:mx-0", language === "ar" ? "leading-relaxed" : "")}>
-                  {t.heroTitle3}
+                <p className="text-slate-600 text-lg sm:text-xl font-medium tracking-tight mb-2">
+                  {language === "ar" ? "ادفع فقط عندما تكون جاهزاً — ابتداءً من 25 جنيهاً" : "Pay only when ready — from 25 EGP"}
                 </p>
               </motion.h1>
 
@@ -212,21 +203,22 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="flex flex-col sm:flex-row flex-wrap items-center lg:justify-start justify-center gap-4 mb-8"
+                className="flex flex-col items-center lg:items-start gap-4 mb-10"
               >
                 <Link
                   to="/editor"
-                  className="w-full sm:w-auto bg-[#ff4d2d] hover:bg-[#e63e1d] text-white px-8 py-4 rounded-full text-lg font-bold transition-all shadow-lg flex items-center justify-center gap-3 group active:scale-95"
+                  className="w-full sm:w-auto bg-[#ff4d2d] hover:bg-[#e63e1d] text-white px-10 py-5 rounded-full text-xl font-bold transition-all shadow-xl shadow-orange-500/20 flex items-center justify-center gap-3 group active:scale-95"
                 >
-                  <Plus size={24} className="transition-transform duration-300" />
-                  {language === "ar" ? "ابدأ كتابة سيرتك مجاناً" : "Build Your Resume Free"}
+                  <Plus size={24} className="transition-transform duration-300 group-hover:rotate-90" />
+                  {language === "ar" ? "ابدأ كتابة سيرتك الآن" : "Start Building Now"}
                 </Link>
-                <a
-                  href="#templates"
-                  className="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 px-8 py-4 rounded-full text-lg font-bold transition-all flex items-center justify-center gap-3 group active:scale-95"
-                >
-                  {language === "ar" ? "تصفح القوالب" : "View Templates"}
-                </a>
+                <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
+                  <CheckCircle2 size={16} className="text-emerald-500" />
+                  <span>{language === "ar" ? "أنشئ سيرتك مجاناً" : "Build for free"}</span>
+                  <span className="w-1 h-1 rounded-full bg-slate-300 mx-1"></span>
+                  <CheckCircle2 size={16} className="text-emerald-500" />
+                  <span>{language === "ar" ? "بدون اشتراكات" : "No subscriptions"}</span>
+                </div>
               </motion.div>
 
               {/* Social Proof Counter */}

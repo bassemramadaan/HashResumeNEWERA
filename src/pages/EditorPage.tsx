@@ -400,6 +400,7 @@ export default function EditorPage() {
   const [previewMode, setPreviewMode] = useState<"resume" | "cover-letter">(
     "resume",
   );
+  const [isExporting, setIsExporting] = useState(false);
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
   const isPremium = useResumeStore((state) => state.data.isPremium);
   const data = useResumeStore((state) => state.data);
@@ -479,27 +480,59 @@ export default function EditorPage() {
     setShowResumeChecker(true);
   };
 
-  const handleProceedToExport = (format: "pdf" | "docx" | "txt" = "pdf") => {
+  const handleProceedToExport = async (format: "pdf" | "docx" | "txt" = "pdf") => {
     setShowResumeChecker(false);
-    if (isPremium) {
-      if (format === "pdf") {
-        handlePrint();
-      } else if (format === "docx") {
-        generateWord(useResumeStore.getState().data);
-      } else if (format === "txt") {
-        const data = useResumeStore.getState().data;
-        const text = `${data.personalInfo.fullName}\n${data.personalInfo.email}\n${data.personalInfo.phone}\n\nEXPERIENCE\n${data.experience
-          .map((exp) => `${exp.position} at ${exp.company}\n${exp.description}`)
-          .join("\n\n")}`;
-        const blob = new Blob([text], { type: "text/plain" });
+    if (!isPremium) {
+      setShowPaymentModal(true);
+      return;
+    }
+    
+    if (format === "pdf") {
+      setIsExporting(true);
+      try {
+        const htmlContent = componentRef.current?.innerHTML;
+        const styles = Array.from(document.head.querySelectorAll('style, link[rel="stylesheet"]'))
+          .map(el => el.outerHTML)
+          .join('\\n');
+          
+        const response = await fetch('/api/pdf/generate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ html: `<div class="p-8">${htmlContent}</div>`, css: styles })
+        });
+        
+        if (!response.ok) throw new Error('PDF generation failed');
+        
+        const blob = await response.blob();
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `${data.personalInfo.fullName || "resume"}.txt`;
+        link.download = `${fullName || "Resume"}_CV.pdf`;
         link.click();
+        
+        setShowPostDownloadModal(true);
+        setTimeout(() => setShowFeedbackModal(true), 2000);
+      } catch (err) {
+        console.error('Server PDF Generation Failed. Falling back to client-side. Error:', err);
+        handlePrint();
+      } finally {
+        setIsExporting(false);
       }
-    } else {
-      setShowPaymentModal(true);
+    } else if (format === "docx") {
+      generateWord(useResumeStore.getState().data);
+    } else if (format === "txt") {
+      const data = useResumeStore.getState().data;
+      const text = `${data.personalInfo.fullName}\\n${data.personalInfo.email}\\n${data.personalInfo.phone}\\n\\nEXPERIENCE\\n${data.experience
+        .map((exp) => `${exp.position} at ${exp.company}\\n${exp.description}`)
+        .join("\\n\\n")}`;
+      const blob = new Blob([text], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${data.personalInfo.fullName || "resume"}.txt`;
+      link.click();
     }
   };
 
@@ -654,12 +687,28 @@ export default function EditorPage() {
 
             <button
               onClick={handleExportClick}
+              disabled={isExporting}
               data-tour="export-button"
-              className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest"
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 rounded-full text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest",
+                isExporting ? "bg-slate-400 cursor-not-allowed" : "bg-[#ff4d2d] hover:bg-[#e63e1d]"
+              )}
             >
-              <Download size={14} />
-              <span className="hidden sm:inline">{t.exportPdf}</span>
-              <span className="sm:hidden">{language === "ar" ? "تحميل" : "Export"}</span>
+              {isExporting ? (
+                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              ) : (
+                <Download size={14} />
+              )}
+              <span className="hidden sm:inline">
+                {isExporting 
+                  ? (language === "ar" ? "جاري التصدير..." : "Exporting...") 
+                  : t.exportPdf}
+              </span>
+              <span className="sm:hidden">
+                {isExporting 
+                  ? (language === "ar" ? "الرجاء الانتظار" : "Wait") 
+                  : (language === "ar" ? "تحميل" : "Export")}
+              </span>
             </button>
           </div>
         </nav>
@@ -980,12 +1029,11 @@ export default function EditorPage() {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 md:p-12 pt-24 flex justify-center items-start bg-slate-100/50">
+          <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-slate-100/50">
             <div
               className={cn(
-                "w-full max-w-[210mm] bg-slate-50 shadow-2xl rounded-sm overflow-hidden origin-top transition-all duration-500 ring-1 ring-slate-900/5",
-                previewMode !== "cover-letter" &&
-                  "scale-[0.85] sm:scale-95 md:scale-100",
+                "bg-slate-50 shadow-2xl rounded-sm overflow-hidden transition-all duration-500 ring-1 ring-slate-900/5 origin-top",
+                previewMode !== "cover-letter" ? "w-[210mm] shrink-0 min-h-[297mm] scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-[0.9] xl:scale-100 mb-[calc(-100vw*0.4)] md:mb-0" : "w-full max-w-3xl"
               )}
             >
               <Suspense fallback={<FormLoader />}>

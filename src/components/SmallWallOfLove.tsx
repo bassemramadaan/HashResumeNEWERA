@@ -7,28 +7,24 @@ const reviews = [
     name: "Ahmed Hassan",
     text: "Landed my dream job in 2 weeks! ATS optimization is real.",
     role: "Software Engineer · Egypt",
-    date: "2 days ago",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "ياسمين عادل",
     text: "Clean, intuitive, and 100% private. Best resume builder.",
     role: "Product Manager · UAE",
-    date: "3 weeks ago",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "خالد العتيبي",
     text: "قوالب احترافية وتناسب سوق العمل بشكل مبهر.",
     role: "مدير مشاريع · السعودية",
-    date: "منذ شهر",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&auto=format&fit=crop"
   },
   {
     name: "نورهان طارق",
     text: "Finally, a builder that cares about privacy and design. Clean exports.",
     role: "UX Designer · Egypt",
-    date: "1 month ago",
     image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&h=150&auto=format&fit=crop"
   }
 ];
@@ -97,7 +93,10 @@ export default function SmallWallOfLove() {
                     />
                   ))}
                 </div>
-                <span className="text-xs text-slate-400 font-medium">{review.date}</span>
+                <div className="flex items-center gap-1 bg-emerald-50 text-emerald-600 px-2 py-1 rounded-full border border-emerald-100">
+                  <CheckCircle2 size={12} />
+                  <span className="text-[10px] font-bold uppercase tracking-wider">{language === "ar" ? "موثق" : "Verified"}</span>
+                </div>
               </div>
               <p className="text-base text-slate-700 font-medium italic leading-relaxed">
                 "{review.text}"

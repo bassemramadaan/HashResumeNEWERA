@@ -150,7 +150,7 @@ export default function Navbar() {
 
             <Link
               to="/editor"
-              className="flex items-center gap-2 bg-zinc-900 text-white hover:bg-[#ff4d2d] :bg-[#ff4d2d] font-bold py-2 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
+              className="flex items-center gap-2 bg-zinc-900 text-white hover:bg-[#ff4d2d] font-bold py-2 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
             >
               <Sparkles
                 size={16}
@@ -168,7 +168,8 @@ export default function Navbar() {
           <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-slate-900 bg-slate-100 rounded-xl transition-all active:scale-90"
+              className="p-3 text-slate-900 bg-slate-100 rounded-xl transition-all active:scale-90 flex items-center justify-center min-w-[48px] min-h-[48px]"
+              aria-label="Toggle Menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>

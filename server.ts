@@ -5,6 +5,7 @@ import rateLimit from "express-rate-limit";
 import { GoogleGenAI } from "@google/genai";
 import path from "path";
 import dotenv from "dotenv";
+import puppeteer from "puppeteer";
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ async function startServer() {
   const PORT = 3000;
 
   app.use(cors());
-  app.use(express.json());
+  app.use(express.json({ limit: "50mb" }));
 
   // General Rate Limiter for all API routes
   const limiter = rateLimit({
@@ -63,6 +64,61 @@ async function startServer() {
     } catch (error: unknown) {
       console.error("AI Generation Error:", error);
       res.status(500).json({ error: error instanceof Error ? error.message : "Failed to generate content" });
+    }
+  });
+
+  // PDF Generation Endpoint
+  app.post('/api/pdf/generate', async (req, res) => {
+    try {
+      const { html, css } = req.body;
+      
+      if (!html) {
+        return res.status(400).json({ error: "HTML content is required" });
+      }
+
+      const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+      });
+      const page = await browser.newPage();
+      
+      // Construct complete HTML document with provided CSS
+      const fullHtml = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <meta charset="UTF-8">
+            <style>
+              @page { size: A4; margin: 0; }
+              body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; background: transparent !important; }
+              ${css || ''}
+            </style>
+          </head>
+          <body>
+            ${html}
+          </body>
+        </html>
+      `;
+      
+      await page.setContent(fullHtml, { waitUntil: 'networkidle0' });
+      
+      const pdfBuffer = await page.pdf({
+        format: 'A4',
+        printBackground: true,
+        preferCSSPageSize: true,
+        margin: { top: 0, right: 0, bottom: 0, left: 0 }
+      });
+      
+      await browser.close();
+      
+      res.set({
+        'Content-Type': 'application/pdf',
+        'Content-Length': pdfBuffer.length
+      });
+      
+      res.send(pdfBuffer);
+    } catch (error: unknown) {
+      console.error("PDF Generation Error:", error);
+      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to generate PDF" });
     }
   });
 
