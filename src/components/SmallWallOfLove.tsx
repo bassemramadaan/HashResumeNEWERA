@@ -49,23 +49,23 @@ export default function SmallWallOfLove() {
   };
 
   return (
-    <section className="py-12 bg-slate-50 border-y border-slate-100 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 flex items-center justify-between">
-        <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
+    <section className="py-8 bg-slate-50 border-y border-slate-100 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex items-center justify-between">
+        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">
           {language === "ar" ? "آراء مستخدمينا" : "Wall of Love"}
         </p>
         <div className="flex items-center gap-2">
           <button 
             onClick={() => scroll(language === "ar" ? "right" : "left")}
-            className="p-2 rounded-full border border-slate-200 text-slate-500 hover:text-slate-600 hover:bg-slate-50 transition-colors"
+            className="p-1.5 rounded-full border border-slate-200 text-slate-500 hover:text-slate-600 hover:bg-slate-50 transition-colors"
           >
-            <ChevronLeft size={20} className="rtl:rotate-180" />
+            <ChevronLeft size={16} className="rtl:rotate-180" />
           </button>
           <button 
             onClick={() => scroll(language === "ar" ? "left" : "right")}
-            className="p-2 rounded-full border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors"
+            className="p-1.5 rounded-full border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors"
           >
-            <ChevronRight size={20} className="rtl:rotate-180" />
+            <ChevronRight size={16} className="rtl:rotate-180" />
           </button>
         </div>
       </div>
@@ -73,39 +73,39 @@ export default function SmallWallOfLove() {
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div 
           ref={scrollRef}
-          className="flex gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
+          className="flex gap-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
         >
           {reviews.map((review, index) => (
             <div
               key={index}
-              className="snap-center flex-shrink-0 w-[300px] md:w-[380px] bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-200 flex flex-col gap-4 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200/50 transition-all duration-300"
+              className="snap-center flex-shrink-0 w-[260px] md:w-[320px] bg-slate-50 p-5 rounded-3xl border border-slate-200 flex flex-col gap-3 shadow-sm hover:shadow-lg hover:shadow-indigo-500/5 hover:border-indigo-200/50 transition-all duration-300"
             >
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-1">
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      size={16}
+                      size={14}
                       className="fill-amber-400 text-amber-400"
                     />
                   ))}
                 </div>
               </div>
-              <p className="text-base text-slate-700 font-medium italic leading-relaxed">
+              <p className="text-sm text-slate-700 font-medium italic leading-relaxed">
                 "{review.text}"
               </p>
-              <div className="mt-auto flex items-center gap-4 pt-4">
+              <div className="mt-auto flex items-center gap-3 pt-3">
                 <img
                   src={review.image}
                   alt={review.name}
-                  className="w-12 h-12 rounded-full object-cover border border-slate-200 shrink-0"
+                  className="w-10 h-10 rounded-full object-cover border border-slate-200 shrink-0"
                 />
                 <div>
-                  <div className="text-base font-bold text-slate-900 leading-tight">
+                  <div className="text-sm font-bold text-slate-900 leading-tight">
                     {review.name}
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-slate-500 mt-1 font-medium">
-                    <CheckCircle2 size={12} className="text-emerald-500" />
+                  <div className="flex items-center gap-1 text-xs text-slate-500 mt-0.5 font-medium">
+                    <CheckCircle2 size={10} className="text-emerald-500" />
                     {review.role}
                   </div>
                 </div>
