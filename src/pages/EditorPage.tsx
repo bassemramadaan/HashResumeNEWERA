@@ -27,12 +27,13 @@ import {
   ArrowUp,
   Settings,
   ArrowRight,
+  Award,
+  Plus as PlusIcon,
 } from "lucide-react";
 import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
-import Stepper from "../components/editor/Stepper";
 import Logo from "../components/Logo";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import SettingsModal from "../components/SettingsModal";
@@ -53,6 +54,9 @@ const ProjectsForm = lazy(() => import("../components/editor/ProjectsForm"));
 const CertificationsForm = lazy(
   () => import("../components/editor/CertificationsForm"),
 );
+const CustomSectionsForm = lazy(
+  () => import("../components/editor/CustomSectionsForm"),
+);
 const ATSAudit = lazy(() => import("../components/editor/ATSAudit"));
 const CoverLetterForm = lazy(
   () => import("../components/editor/CoverLetterForm"),
@@ -72,6 +76,7 @@ const WelcomeModal = lazy(() => import("../components/editor/WelcomeModal"));
 const ResumeCheckerModal = lazy(
   () => import("../components/editor/ResumeCheckerModal"),
 );
+import Sidebar from "../components/editor/Sidebar";
 
 const FormLoader = () => (
   <div className="flex flex-col items-center justify-center py-20 space-y-4">
@@ -85,6 +90,9 @@ type Tab =
   | "experience"
   | "education"
   | "skills"
+  | "projects"
+  | "certifications"
+  | "custom"
   | "cover-letter"
   | "finish";
 
@@ -590,6 +598,27 @@ export default function EditorPage() {
       tourId: "skills-section",
     },
     {
+      id: "projects",
+      label: t.projects.title,
+      shortLabel: language === "ar" ? "المشاريع" : "Projects",
+      icon: LayoutTemplate,
+      tourId: "projects-section",
+    },
+    {
+      id: "certifications",
+      label: t.certifications.title,
+      shortLabel: language === "ar" ? "الشهادات" : "Certs",
+      icon: Award,
+      tourId: "certifications-section",
+    },
+    {
+      id: "custom",
+      label: t.custom.title,
+      shortLabel: language === "ar" ? "أقسام إضافية" : "Custom",
+      icon: PlusIcon,
+      tourId: "custom-section",
+    },
+    {
       id: "cover-letter",
       label: t.coverLetter.title,
       shortLabel: language === "ar" ? "الخطاب" : "Cover",
@@ -612,6 +641,9 @@ export default function EditorPage() {
     experience: t.experienceDesc,
     education: t.educationDesc,
     skills: t.skillsDesc,
+    projects: language === "ar" ? "أرنا أفضل أعمالك ومشاريعك." : "Showcase your best work and projects.",
+    certifications: language === "ar" ? "أضف الشهادات والإنجازات المهنية." : "Add professional certifications and achievements.",
+    custom: language === "ar" ? "أضف أي أقسام إضافية تراها مهمة." : "Add any additional sections you find important.",
     "cover-letter": t.coverLetterDesc,
     finish: t.finishDesc,
   };
@@ -793,19 +825,57 @@ export default function EditorPage() {
       </div>
 
       <PanelGroup direction="horizontal" className="flex-1 w-full h-full overflow-hidden relative editor-form">
+        {/* Sidebar Panel - Desktop Only */}
+        <Panel
+          defaultSize={20}
+          minSize={15}
+          maxSize={30}
+          className="hidden md:block"
+        >
+          <Sidebar
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabChange={(id) => setActiveTab(id)}
+            progressPercent={progressPercent}
+          />
+        </Panel>
+
+        <PanelResizeHandle className="w-1.5 focus:outline-none bg-slate-900/5 hover:bg-[#ff4d2d]/20 transition-colors hidden md:block group z-50">
+          <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+             <div className="h-12 w-1 bg-[#ff4d2d] rounded-full shadow-[0_0_10px_rgba(255,77,45,0.5)]" />
+          </div>
+        </PanelResizeHandle>
+
         {/* Editor Area */}
         <Panel 
-          defaultSize={55} 
+          defaultSize={40} 
           minSize={30}
           className={cn(showMobilePreview ? "hidden md:block" : "block")}
         >
           <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-slate-50">
-          <div className="bg-slate-50/50 border-b border-slate-200 pt-4 pb-2">
-            <Stepper
-              tabs={tabs.map((t) => ({ id: t.id, label: t.label }))}
-              activeTab={activeTab}
-              onTabChange={(id) => setActiveTab(id as Tab)}
-            />
+          {/* Header for Mobile only or alternative info */}
+          <div className="md:hidden bg-slate-50 border-b border-slate-200 py-3 overflow-x-auto hide-scrollbar">
+            <div className="flex px-4 gap-2">
+              {tabs.map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as Tab)}
+                    className={cn(
+                      "flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all",
+                      isActive 
+                        ? "bg-[#ff4d2d] text-white shadow-md" 
+                        : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50"
+                    )}
+                  >
+                    <Icon size={14} />
+                    {tab.shortLabel}
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="px-4 sm:px-6 pt-6 pb-4 shrink-0 max-w-4xl mx-auto w-full">
@@ -918,17 +988,6 @@ export default function EditorPage() {
                           <div className="px-1">
                             <ExperienceForm />
                           </div>
-                        </section>
-                        <section className="pt-12 border-t border-slate-100">
-                          <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-[#ff4d2d] border border-orange-100">
-                              <Target size={20} />
-                            </div>
-                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.projects.title}
-                            </h2>
-                          </div>
-                          <ProjectsForm />
 
                           <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
                             <button
@@ -966,17 +1025,6 @@ export default function EditorPage() {
                           <div className="px-1">
                             <EducationForm />
                           </div>
-                        </section>
-                        <section className="pt-12 border-t border-slate-100">
-                          <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-[#ff4d2d] border border-orange-100">
-                              <CheckCircle2 size={20} />
-                            </div>
-                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.certifications.title}
-                            </h2>
-                          </div>
-                          <CertificationsForm />
 
                           <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
                             <button
@@ -1019,10 +1067,106 @@ export default function EditorPage() {
                             {language === "ar" ? "السابق" : "Previous"}
                           </button>
                           <button
-                            onClick={() => setActiveTab("finish")}
+                            onClick={() => setActiveTab("projects")}
                             className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
                           >
-                            {language === "ar" ? "الخطوة التالية: المراجعة النهائية" : "Next: Review & Finish"}
+                            {language === "ar" ? "الخطوة التالية: المشاريع" : "Next: Projects"}
+                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1" />
+                          </button>
+                        </div>
+                      </section>
+                    )}
+                    {activeTab === "projects" && (
+                      <section>
+                        <div className="flex items-center gap-4 mb-6 text-start">
+                          <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <LayoutTemplate size={24} className="relative z-10 drop-shadow-sm" />
+                          </div>
+                          <div>
+                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              {t.projects.title}
+                            </h2>
+                            <p className="text-xs text-slate-500 font-medium">{language === "ar" ? "أرنا أفضل أعمالك ومشاريعك" : "Showcase your best work and projects"}</p>
+                          </div>
+                        </div>
+                        <ProjectsForm />
+
+                        <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                          <button
+                            onClick={() => setActiveTab("skills")}
+                            className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                          >
+                            {language === "ar" ? "السابق" : "Previous"}
+                          </button>
+                          <button
+                            onClick={() => setActiveTab("certifications")}
+                            className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                          >
+                            {language === "ar" ? "الخطوة التالية: الشهادات" : "Next: Certifications"}
+                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1" />
+                          </button>
+                        </div>
+                      </section>
+                    )}
+                    {activeTab === "certifications" && (
+                      <section>
+                        <div className="flex items-center gap-4 mb-6 text-start">
+                          <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <Award size={24} className="relative z-10 drop-shadow-sm" />
+                          </div>
+                          <div>
+                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              {t.certifications.title}
+                            </h2>
+                            <p className="text-xs text-slate-500 font-medium">{language === "ar" ? "الشهادات والإنجازات المهنية" : "Certifications and professional achievements"}</p>
+                          </div>
+                        </div>
+                        <CertificationsForm />
+
+                        <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                          <button
+                            onClick={() => setActiveTab("projects")}
+                            className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                          >
+                            {language === "ar" ? "السابق" : "Previous"}
+                          </button>
+                          <button
+                            onClick={() => setActiveTab("custom")}
+                            className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                          >
+                            {language === "ar" ? "الخطوة التالية: أقسام مخصصة" : "Next: Custom Sections"}
+                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1" />
+                          </button>
+                        </div>
+                      </section>
+                    )}
+                    {activeTab === "custom" && (
+                      <section>
+                        <div className="flex items-center gap-4 mb-6 text-start">
+                          <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <PlusIcon size={24} className="relative z-10 drop-shadow-sm" />
+                          </div>
+                          <div>
+                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              {t.custom.title}
+                            </h2>
+                            <p className="text-xs text-slate-500 font-medium">{language === "ar" ? "أضف أي أقسام إضافية تراها مهمة" : "Add any additional sections you find important"}</p>
+                          </div>
+                        </div>
+                        <CustomSectionsForm />
+
+                        <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                          <button
+                            onClick={() => setActiveTab("certifications")}
+                            className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                          >
+                            {language === "ar" ? "السابق" : "Previous"}
+                          </button>
+                          <button
+                            onClick={() => setActiveTab("cover-letter")}
+                            className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                          >
+                            {language === "ar" ? "الخطوة التالية: خطاب التقديم" : "Next: Cover Letter"}
                             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1" />
                           </button>
                         </div>
@@ -1193,75 +1337,63 @@ export default function EditorPage() {
       </PanelGroup>
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 flex items-center bg-white/95 backdrop-blur-xl rounded-full border border-slate-200/60 shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-all duration-300 mb-safe p-1 sm:p-1.5 w-[94%] sm:w-auto max-w-[500px] sm:max-w-none">
-        <div className="flex items-center justify-around sm:justify-center gap-0.5 sm:gap-1.5 w-full sm:w-auto">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                data-tour={tab.tourId}
-                className={cn(
-                  "relative flex flex-col items-center justify-center w-9 h-9 sm:w-12 sm:h-12 rounded-full transition-all duration-300 group shrink-0",
-                  isActive
-                    ? "bg-slate-900 text-white shadow-lg scale-105 sm:scale-110 z-10"
-                    : "text-slate-400 hover:text-slate-900 hover:bg-slate-100/50",
-                )}
-              >
-                <Icon size={isActive ? 18 : 16} className="sm:w-5 sm:h-5 transition-all" strokeWidth={isActive ? 2.5 : 2} />
-                <AnimatePresence>
-                  {isActive && (
-                    <motion.span
-                      initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.8 }}
-                      className="absolute -top-12 px-3 py-1.5 bg-slate-900 text-white text-[9px] sm:text-[10px] font-black uppercase tracking-widest rounded-xl shadow-xl pointer-events-none whitespace-nowrap border border-white/5"
-                    >
-                      {tab.shortLabel || tab.label}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
-                {isActive && (
-                   <motion.div 
-                     layoutId="nav-glow"
-                     className="absolute inset-0 rounded-full bg-[#ff4d2d]/10 blur-md pointer-events-none"
-                   />
-                )}
-              </button>
-            );
-          })}
+      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 flex items-center bg-white/95 backdrop-blur-xl rounded-full border border-slate-200/60 shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-all duration-300 mb-safe p-1.5 w-[94%] sm:w-auto max-w-[500px] sm:max-w-none">
+        <div className="flex items-center justify-between gap-4 w-full px-4 py-2">
+          <div className="flex items-center gap-3">
+             <button
+              onClick={() => {
+                const currentIndex = tabs.findIndex(t => t.id === activeTab);
+                if (currentIndex > 0) setActiveTab(tabs[currentIndex - 1].id as Tab);
+              }}
+              disabled={activeTab === tabs[0].id}
+              className="p-2 text-slate-400 hover:text-slate-900 disabled:opacity-20"
+            >
+              <ChevronLeft size={20} className="rtl:rotate-180" />
+            </button>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#ff4d2d]">
+                {activeTabIndex} / {tabs.length}
+              </span>
+              <span className="text-sm font-bold text-slate-900 truncate max-w-[120px]">
+                {tabs.find(t => t.id === activeTab)?.label}
+              </span>
+            </div>
+            <button
+              onClick={() => {
+                const currentIndex = tabs.findIndex(t => t.id === activeTab);
+                if (currentIndex < tabs.length - 1) setActiveTab(tabs[currentIndex + 1].id as Tab);
+              }}
+              disabled={activeTab === tabs[tabs.length - 1].id}
+              className="p-2 text-slate-400 hover:text-slate-900 disabled:opacity-20"
+            >
+              <ArrowRight size={20} className="rtl:rotate-180" />
+            </button>
+          </div>
 
-          <div className="w-px h-6 bg-slate-200 mx-1 shrink-0"></div>
+          <div className="flex items-center gap-2">
+            {/* Mobile Preview Toggle */}
+            <button
+              onClick={() => setShowMobilePreview(!showMobilePreview)}
+              className={cn(
+                "md:hidden flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300",
+                showMobilePreview
+                  ? "bg-indigo-100 text-indigo-600 shadow-sm"
+                  : "text-slate-400 hover:text-slate-900 bg-slate-50 border border-slate-200"
+              )}
+              title={language === "ar" ? "معاينة" : "Preview"}
+            >
+              <Eye size={18} />
+            </button>
 
-          {/* Mobile Preview Toggle */}
-          <button
-            onClick={() => setShowMobilePreview(!showMobilePreview)}
-            className={cn(
-              "md:hidden flex flex-col items-center justify-center w-9 h-9 rounded-full transition-all duration-300 shrink-0",
-              showMobilePreview
-                ? "bg-indigo-100 text-indigo-600 shadow-sm"
-                : "text-slate-400 hover:text-slate-900"
-            )}
-            title={language === "ar" ? "معاينة" : "Preview"}
-          >
-            <Eye size={showMobilePreview ? 18 : 16} />
-          </button>
-
-          {/* Action Button: Export */}
-          <button
-            onClick={handleExportClick}
-            className="flex items-center justify-center gap-2 bg-[#ff4d2d] text-white font-black h-9 sm:h-12 px-3 sm:px-6 rounded-full hover:scale-105 active:scale-95 transition-all group shrink-0 shadow-lg shadow-orange-500/20"
-          >
-            <span className="hidden sm:inline text-[10px] uppercase tracking-widest">
-              {t.exportPdf}
-            </span>
-            <Download
-              size={16}
-              className="sm:w-4 sm:h-4 transition-transform group-hover:translate-y-0.5"
-            />
-          </button>
+            {/* Action Button: Export */}
+            <button
+              onClick={handleExportClick}
+              className="flex items-center justify-center gap-2 bg-[#ff4d2d] text-white font-black h-10 px-4 rounded-full hover:scale-105 active:scale-95 transition-all group shrink-0 shadow-lg shadow-orange-500/20 text-xs uppercase tracking-widest"
+            >
+              <Download size={16} />
+              <span>{t.exportPdf}</span>
+            </button>
+          </div>
         </div>
       </div>
 
