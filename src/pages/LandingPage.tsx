@@ -119,7 +119,7 @@ export default function LandingPage() {
   }, [countValue]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 transition-colors duration-300 overflow-x-hidden">
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-[#ff4d2d] origin-left rtl:origin-right z-[60]"
         style={{ scaleX }}
@@ -241,9 +241,9 @@ export default function LandingPage() {
               >
                 <Link
                   to="/editor"
-                  className="w-full sm:w-auto bg-[#ff4d2d] hover:bg-[#e63e1d] text-white px-10 py-5 rounded-full text-xl font-bold transition-all shadow-xl shadow-orange-500/20 hover:shadow-2xl hover:shadow-orange-500/30 flex items-center justify-center gap-3 group active:scale-95"
+                  className="w-full sm:w-auto bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white px-10 py-5 rounded-full text-xl font-bold transition-all hover:shadow-2xl hover:shadow-orange-500/30 flex items-center justify-center gap-3 group hover:-translate-y-1 active:translate-y-0"
                 >
-                  <Plus size={24} className="transition-transform duration-300 group-hover:rotate-90" />
+                  <Plus size={24} className="transition-transform duration-300 group-hover:rotate-90 drop-shadow-sm" />
                   {language === "ar" ? "ابدأ كتابة سيرتك الآن" : "Start Building Now"}
                 </Link>
                 <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
@@ -571,9 +571,8 @@ export default function LandingPage() {
               </p>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden shrink-0">
-                    <div className="absolute inset-0 border border-white/60 rounded-2xl" />
-                    <Search size={24} className="relative z-10" />
+                  <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden shrink-0">
+                    <Search size={24} className="relative z-10 drop-shadow-sm" />
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900 mb-2">
@@ -585,9 +584,8 @@ export default function LandingPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100/50 border border-emerald-100/50 shadow-[0_2px_10px_-4px_rgba(16,185,129,0.2)] flex items-center justify-center text-emerald-600 relative overflow-hidden shrink-0">
-                    <div className="absolute inset-0 border border-white/60 rounded-2xl" />
-                    <Layout size={24} className="relative z-10" />
+                  <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-emerald-400 to-emerald-600 shadow-[0_8px_16px_-6px_rgba(16,185,129,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden shrink-0">
+                    <Layout size={24} className="relative z-10 drop-shadow-sm" />
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900 mb-2">
@@ -602,11 +600,11 @@ export default function LandingPage() {
 
               <div className="pt-4">
                 <Link
-                  to="/templates"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-zinc-900 text-white rounded-2xl font-bold hover:bg-zinc-800 transition-all shadow-lg hover:shadow-slate-200"
+                  to="/editor"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white rounded-2xl font-bold transition-all hover:-translate-y-1 active:translate-y-0 group"
                 >
                   {t.startBuildingNow}
-                  <ArrowRight size={20} className="rtl:rotate-180" />
+                  <ArrowRight size={20} className="rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform drop-shadow-sm" />
                 </Link>
               </div>
             </div>
@@ -667,9 +665,8 @@ export default function LandingPage() {
                     transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
                     className={`p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:shadow-lg transition-all duration-300 ${i === 2 ? 'sm:col-span-2' : ''}`}
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-white to-slate-50 border border-slate-200 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] flex items-center justify-center mb-6 relative overflow-hidden">
-                      <div className="absolute inset-0 border border-white/60 rounded-2xl" />
-                      <item.icon className="w-6 h-6 text-indigo-600 relative z-10" />
+                    <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center mb-6 relative overflow-hidden">
+                      <item.icon className="w-6 h-6 text-white relative z-10 drop-shadow-sm" />
                     </div>
                     <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
                     <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
@@ -1111,9 +1108,9 @@ export default function LandingPage() {
 
         <Link
           to="/editor"
-          className="md:hidden bg-[#ff4d2d] text-white p-4 rounded-full shadow-2xl shadow-orange-500/40 flex items-center justify-center active:scale-90 transition-all"
+          className="md:hidden bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white p-4 rounded-full flex items-center justify-center active:scale-90 transition-all"
         >
-          <Plus size={24} />
+          <Plus size={24} className="drop-shadow-sm" />
         </Link>
       </div>
 

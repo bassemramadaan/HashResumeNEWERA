@@ -829,9 +829,8 @@ export default function EditorPage() {
                       <div className="space-y-12">
                         <section>
                           <div className="flex items-center gap-4 mb-6">
-                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
-                              <div className="absolute inset-0 border border-white/60 rounded-2xl" />
-                              <User size={20} className="relative z-10" />
+                            <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                              <User size={24} className="relative z-10 drop-shadow-sm" />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.personalInfo}
@@ -845,9 +844,8 @@ export default function EditorPage() {
                       <div className="space-y-12">
                         <section>
                           <div className="flex items-center gap-4 mb-6">
-                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
-                              <div className="absolute inset-0 border border-white/60 rounded-2xl" />
-                              <Briefcase size={20} className="relative z-10" />
+                            <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                              <Briefcase size={24} className="relative z-10 drop-shadow-sm" />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.experience.title}
@@ -872,9 +870,8 @@ export default function EditorPage() {
                       <div className="space-y-12">
                         <section>
                           <div className="flex items-center gap-4 mb-6">
-                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
-                              <div className="absolute inset-0 border border-white/60 rounded-2xl" />
-                              <GraduationCap size={20} className="relative z-10" />
+                            <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                              <GraduationCap size={24} className="relative z-10 drop-shadow-sm" />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.education.title}
@@ -884,9 +881,8 @@ export default function EditorPage() {
                         </section>
                         <section className="pt-12 border-t border-slate-100">
                           <div className="flex items-center gap-4 mb-6">
-                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100/50 border border-slate-200/50 shadow-[0_2px_10px_-4px_rgba(100,116,139,0.2)] flex items-center justify-center text-slate-600 relative overflow-hidden">
-                              <div className="absolute inset-0 border border-white/60 rounded-2xl" />
-                              <CheckCircle2 size={20} className="relative z-10" />
+                            <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-slate-400 to-slate-600 shadow-[0_8px_16px_-6px_rgba(100,116,139,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                              <CheckCircle2 size={24} className="relative z-10 drop-shadow-sm" />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.certifications.title}
@@ -899,9 +895,8 @@ export default function EditorPage() {
                     {activeTab === "skills" && (
                       <section>
                         <div className="flex items-center gap-4 mb-6">
-                          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
-                            <div className="absolute inset-0 border border-white/60 rounded-2xl" />
-                            <Wrench size={20} className="relative z-10" />
+                          <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <Wrench size={24} className="relative z-10 drop-shadow-sm" />
                           </div>
                           <h2 className="text-xl font-black text-slate-900 tracking-tight">
                             {t.skills.title}
@@ -913,9 +908,8 @@ export default function EditorPage() {
                     {activeTab === "cover-letter" && (
                       <section>
                         <div className="flex items-center gap-4 mb-6">
-                          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100/50 shadow-[0_2px_10px_-4px_rgba(79,70,229,0.2)] flex items-center justify-center text-indigo-600 relative overflow-hidden">
-                            <div className="absolute inset-0 border border-white/60 rounded-2xl" />
-                            <FileText size={20} className="relative z-10" />
+                          <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <FileText size={24} className="relative z-10 drop-shadow-sm" />
                           </div>
                           <h2 className="text-xl font-black text-slate-900 tracking-tight">
                             {t.coverLetter.title}
@@ -1063,8 +1057,8 @@ export default function EditorPage() {
       </PanelGroup>
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-6 start-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-slate-50/90 backdrop-blur-2xl rounded-full border border-white/20 shadow-2xl transition-all duration-300 mb-safe p-2">
-        <div className="flex items-center gap-1">
+      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-slate-50/90 backdrop-blur-2xl rounded-full border border-white/20 shadow-2xl transition-all duration-300 mb-safe p-1.5 sm:p-2 w-[95%] sm:w-auto max-w-[400px] sm:max-w-none overflow-x-auto hide-scrollbar">
+        <div className="flex items-center justify-center gap-1 min-w-max w-full px-1">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -1074,20 +1068,20 @@ export default function EditorPage() {
                 onClick={() => setActiveTab(tab.id)}
                 data-tour={tab.tourId}
                 className={cn(
-                  "relative flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-500 group",
+                  "relative flex flex-col items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-500 group shrink-0",
                   isActive
-                    ? "bg-zinc-900 text-white shadow-xl scale-110 z-10"
+                    ? "bg-gradient-to-b from-[#ff4d2d] to-orange-600 text-white shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] md:scale-110 z-10"
                     : "text-slate-400 hover:text-slate-900 hover:bg-slate-100",
                 )}
               >
-                <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                <Icon size={18} className="sm:w-5 sm:h-5" strokeWidth={isActive ? 2.5 : 2} />
                 <AnimatePresence>
                   {isActive && (
                     <motion.span
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute -top-10 px-4 py-2 bg-zinc-900 text-slate-50 text-[10px] font-black uppercase tracking-widest rounded-full shadow-xl pointer-events-none whitespace-nowrap"
+                      className="absolute -top-10 px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-b from-[#ff4d2d] to-orange-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] pointer-events-none whitespace-nowrap"
                     >
                       {tab.shortLabel}
                     </motion.span>
@@ -1098,20 +1092,19 @@ export default function EditorPage() {
           })}
 
           {/* Separator */}
-          <div className="w-px h-8 bg-slate-200 mx-1"></div>
+          <div className="w-px h-6 sm:h-8 bg-slate-200 mx-1 shrink-0"></div>
 
           {/* Start / Export Button */}
           <button
             onClick={handleExportClick}
-            className="flex items-center gap-2 bg-[#ff4d2d] hover:bg-[#e63e1d] text-white font-black py-2 px-4 sm:px-6 rounded-full shadow-xl hover:scale-105 active:scale-95 transition-all group shrink-0"
+            className="flex items-center justify-center gap-2 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white font-black w-10 h-10 sm:w-auto sm:h-12 sm:py-2 sm:px-6 rounded-full hover:scale-105 active:scale-95 transition-all group shrink-0"
           >
-            <span className="text-[10px] uppercase tracking-widest">
-              <span className="hidden sm:inline">{t.exportPdf}</span>
-              <span className="sm:hidden">{language === "ar" ? "تصدير" : "Export"}</span>
+            <span className="hidden sm:inline text-[10px] uppercase tracking-widest">
+              {t.exportPdf}
             </span>
-            <ArrowRight
-              size={16}
-              className="group-hover:translate-x-1 transition-transform"
+            <Download
+              size={18}
+              className="sm:w-4 sm:h-4 sm:group-hover:translate-y-0.5 transition-transform"
             />
           </button>
         </div>

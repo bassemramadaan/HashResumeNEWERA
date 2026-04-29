@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, Ticket, ShieldCheck, Loader2, Zap } from "lucide-react";
+import { X, Check, MessageCircle, ShieldCheck, Loader2, Crown, CreditCard, Lock } from "lucide-react";
 import SarIcon from "./SarIcon";
 import AedIcon from "./AedIcon";
 
@@ -117,35 +117,36 @@ export default function PaymentModal({
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden tracking-tight flex flex-col md:flex-row"
+          className="relative w-full max-w-3xl bg-white rounded-[2rem] shadow-2xl overflow-hidden tracking-tight flex flex-col md:flex-row"
         >
           {/* LEFT PANEL: Value Prop */}
-          <div className="bg-slate-900 text-white p-8 md:w-5/12 flex flex-col justify-between relative overflow-hidden hidden md:flex">
+          <div className="bg-slate-900 text-white p-8 lg:p-10 md:w-5/12 flex flex-col relative overflow-hidden hidden md:flex">
              {/* Background glow */}
-             <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 rounded-full bg-indigo-500/20 blur-3xl"></div>
+             <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 rounded-full bg-orange-500/20 blur-3xl pointer-events-none"></div>
+             <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-48 h-48 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none"></div>
              
-             <div className="relative z-10 space-y-6">
-               <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center">
-                 <Zap className="text-yellow-400" size={24} fill="currentColor" />
-               </div>
-               
+             <div className="relative z-10 flex-1 flex flex-col justify-center space-y-8">
                <div>
-                  <h2 className="text-2xl font-black mb-2 text-white font-display">Premium Export</h2>
-                  <p className="text-slate-400 text-sm leading-relaxed">
-                    You're one step away from downloading your professional, ATS-optimized resume.
-                  </p>
+                 <div className="w-16 h-16 bg-gradient-to-b from-[#ff4d2d] to-orange-600 rounded-[1.25rem] flex items-center justify-center shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] mb-6">
+                   <Crown className="text-white drop-shadow-sm" size={32} />
+                 </div>
+                 
+                 <h2 className="text-3xl lg:text-4xl font-black mb-3 text-white font-display tracking-tight leading-tight">Elite <br/>Export</h2>
+                 <p className="text-slate-400 text-sm leading-relaxed">
+                   Get your professional, ATS-optimized resume in minutes.
+                 </p>
                </div>
 
-               <div className="space-y-4">
+               <div className="space-y-4 pt-4 border-t border-white/10">
                  {[
                    "Lifetime access to your data",
-                   "One-time payment",
-                   "ATS-optimized PDF format",
-                   "All premium templates unlocked"
+                   "One-time payment, no subs",
+                   "Perfect ATS PDF format",
+                   "All elite templates included"
                  ].map((feature, i) => (
-                   <div key={i} className="flex items-start gap-3">
+                   <div key={i} className="flex items-start gap-4">
                      <div className="mt-0.5 bg-emerald-500/20 rounded-full p-1 shrink-0">
-                       <Check className="text-emerald-400" size={12} strokeWidth={3} />
+                       <Check className="text-emerald-400" size={14} strokeWidth={3} />
                      </div>
                      <span className="text-sm font-medium text-slate-300">{feature}</span>
                    </div>
@@ -153,114 +154,130 @@ export default function PaymentModal({
                </div>
              </div>
 
-             <div className="mt-8 relative z-10 flex items-start gap-2 text-xs text-slate-500">
-               <ShieldCheck size={16} className="shrink-0 mt-0.5" />
-               <span>Secured by Stripe & WhatsApp End-to-End Encryption</span>
+             <div className="mt-10 relative z-10 flex items-center gap-3 text-xs text-slate-500 bg-white/5 p-4 rounded-2xl border border-white/5">
+               <ShieldCheck size={20} className="shrink-0 text-emerald-500" />
+               <span className="leading-tight">Secured by Stripe & WhatsApp End-to-End Encryption</span>
              </div>
           </div>
 
           {/* RIGHT PANEL: Payment/Action */}
-          <div className="p-6 md:p-8 md:w-7/12 flex flex-col relative w-full">
+          <div className="p-6 md:p-8 lg:p-10 flex-1 flex flex-col relative w-full bg-slate-50/50">
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors z-10"
+              className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-200/50 rounded-full transition-colors z-10"
             >
               <X size={20} />
             </button>
 
-            {/* Mobile Title (hidden on desktop since left panel has it) */}
-            <div className="md:hidden mb-6">
-               <h2 className="text-xl font-black text-slate-900 font-display">Premium Export</h2>
+            {/* Mobile Title */}
+            <div className="md:hidden mb-6 mt-4">
+               <div className="w-12 h-12 bg-gradient-to-b from-[#ff4d2d] to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/20 mb-4">
+                 <Crown className="text-white drop-shadow-sm" size={24} />
+               </div>
+               <h2 className="text-2xl font-black text-slate-900 tracking-tight">Elite Export</h2>
                <p className="text-sm text-slate-500 mt-1">Unlock your ATS-ready resume.</p>
             </div>
 
             {/* Price Box */}
-            <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200 mb-8 relative overflow-hidden">
-               <div className="flex justify-between items-start mb-4">
-                 <div>
-                   <h3 className="text-sm font-bold text-slate-900">Total Price</h3>
-                   <p className="text-xs text-slate-500 font-medium">One-time payment</p>
-                 </div>
-                 
-                 <div className="text-2xl font-black text-slate-900 flex items-center justify-start gap-1 tracking-tight">
-                  {currency === "EGP" || currency === "SAR" || currency === "AED" ? (
-                    <span>{dynamicPrice} {selected.symbol}</span>
-                  ) : (
-                    <span>{selected.symbol}{dynamicPrice}</span>
-                  )}
-                 </div>
+            <div className="bg-gradient-to-br from-indigo-50 to-slate-50 rounded-3xl p-6 border border-indigo-100/50 mb-8 relative overflow-hidden shadow-sm">
+               <div className="absolute top-0 right-0 p-4 opacity-5 text-indigo-500 pointer-events-none">
+                 <CreditCard size={80} />
                </div>
+               <div className="relative z-10">
+                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
+                   <div>
+                     <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Total Price</h3>
+                     <div className="inline-flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-200/50 text-[10px] font-bold text-slate-600 uppercase shadow-sm">
+                        <Lock size={12} className="text-indigo-500" /> One-time payment
+                     </div>
+                   </div>
+                   
+                   <div className="text-4xl sm:text-3xl font-black text-indigo-600 flex items-center justify-start gap-1 tracking-tight">
+                    {currency === "EGP" || currency === "SAR" || currency === "AED" ? (
+                      <span>{dynamicPrice} <span className="text-xl sm:text-base opacity-80">{selected.symbol}</span></span>
+                    ) : (
+                      <span><span className="text-xl sm:text-base opacity-80">{selected.symbol}</span>{dynamicPrice}</span>
+                    )}
+                   </div>
+                 </div>
 
-               <div className="flex flex-wrap gap-2">
-                 {Object.keys(currencies).map((c) => (
-                   <button
-                     key={c}
-                     onClick={() => setCurrency(c as keyof typeof currencies)}
-                     className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                       currency === c 
-                         ? "bg-slate-900 text-white shadow-md shadow-slate-900/20" 
-                         : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100 hover:text-slate-900"
-                     }`}
-                   >
-                     {c}
-                   </button>
-                 ))}
+                 <div className="flex flex-wrap gap-1 p-1 bg-white/60 backdrop-blur-sm rounded-xl border border-slate-200/50">
+                   {Object.keys(currencies).map((c) => (
+                     <button
+                       key={c}
+                       onClick={() => setCurrency(c as keyof typeof currencies)}
+                       className={`flex-1 min-w-[3rem] px-2 py-2 rounded-lg text-xs font-bold transition-all ${
+                         currency === c 
+                           ? "bg-white text-indigo-600 shadow-sm ring-1 ring-indigo-100" 
+                           : "text-slate-500 hover:text-slate-900 hover:bg-slate-50/50"
+                       }`}
+                     >
+                       {c}
+                     </button>
+                   ))}
+                 </div>
                </div>
             </div>
 
-            <div className="flex-1 flex flex-col space-y-8">
+            <div className="flex-1 flex flex-col space-y-8 pb-4">
               {/* WhatsApp Option */}
               <div>
                  <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
-                   1. Get your code
+                   <span className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs">1</span>
+                   Get your unlock code
                  </h4>
                  <a
                     href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-3.5 px-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm shadow-lg shadow-[#25D366]/20 group"
+                    className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-4 px-4 rounded-xl font-bold transition-all flex items-center justify-center gap-3 text-sm shadow-[0_8px_16px_-6px_rgba(37,211,102,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] group hover:-translate-y-0.5 active:translate-y-0"
                   >
-                    <Ticket size={18} className="group-hover:scale-110 transition-transform" />
+                    <MessageCircle size={20} className="group-hover:scale-110 transition-transform" />
                     Buy Code via WhatsApp
                   </a>
               </div>
 
               {/* Code Input */}
-              <div className="relative">
+              <div className="relative pt-2">
                  <div className="absolute inset-0 flex items-center">
                    <div className="w-full border-t border-slate-200"></div>
                  </div>
                  <div className="relative flex justify-center text-xs">
-                   <span className="bg-white px-3 text-slate-400 font-medium">Wait for code, then</span>
+                   <span className="bg-slate-50 px-4 py-1 text-slate-400 font-bold uppercase tracking-widest rounded-full border border-slate-200 bg-white">Wait for code</span>
                  </div>
               </div>
 
               <div>
-                <label className="block text-sm font-bold text-slate-900 mb-3">
-                  2. Unlock download
-                </label>
+                <h4 className="text-sm font-bold text-slate-900 mb-3 flex items-center gap-2">
+                   <span className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs">2</span>
+                   Unlock download
+                </h4>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <input
                     type="text"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
                     placeholder="Enter code (e.g. HASH-A1B2)"
-                    className="flex-1 px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none text-sm transition-all font-mono uppercase tracking-wider"
+                    className="flex-1 px-5 py-3.5 rounded-xl border border-slate-200 bg-white/50 text-slate-900 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white outline-none text-sm transition-all font-mono uppercase tracking-wider shadow-sm"
                   />
                   <button
                     onClick={handleVerify}
                     disabled={verifying || !code.trim()}
-                    className="px-6 py-3 bg-slate-900 hover:bg-slate-800 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm shrink-0"
+                    className="px-8 py-3.5 bg-gradient-to-b from-[#ff4d2d] to-orange-600 hover:from-orange-500 hover:to-[#e63e1d] disabled:from-slate-200 disabled:to-slate-300 disabled:text-slate-400 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 text-sm shrink-0 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] hover:-translate-y-0.5 active:translate-y-0 disabled:shadow-none disabled:transform-none"
                   >
-                    {verifying ? <Loader2 size={16} className="animate-spin" /> : "Unlock"}
+                    {verifying ? <Loader2 size={18} className="animate-spin" /> : (
+                      <>
+                        <Lock size={16} /> Unlock
+                      </>
+                    )}
                   </button>
                 </div>
                 {error && (
                   <motion.p 
                     initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}
-                    className="text-red-500 text-xs mt-3 flex items-center gap-1.5 font-medium"
+                    className="text-red-500 text-xs mt-3 flex items-center gap-1.5 font-medium bg-red-50 px-3 py-2 rounded-lg border border-red-100"
                   >
-                    <X size={14} className="rounded-full bg-red-100 p-0.5" />{error}
+                    <X size={14} className="rounded-full bg-red-100 p-0.5 shrink-0" />{error}
                   </motion.p>
                 )}
               </div>
@@ -272,3 +289,4 @@ export default function PaymentModal({
     </AnimatePresence>
   );
 }
+

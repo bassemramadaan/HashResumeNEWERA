@@ -152,8 +152,8 @@ export default function WelcomeModal({
                     transition={{ duration: 0.3 }}
                     className="flex flex-col items-center"
                   >
-                    <motion.div variants={itemVariants} className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6 border border-indigo-100/50 shadow-sm">
-                      <LayoutTemplate className="text-indigo-600 w-8 h-8" />
+                    <motion.div variants={itemVariants} className="w-16 h-16 rounded-[1.25rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center mb-6 relative overflow-hidden">
+                      <LayoutTemplate className="text-white w-8 h-8 relative z-10 drop-shadow-sm" />
                     </motion.div>
 
                     <motion.h2 variants={itemVariants} className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 font-display tracking-tight">

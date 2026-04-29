@@ -150,11 +150,11 @@ export default function Navbar() {
 
             <Link
               to="/editor"
-              className="flex items-center gap-2 bg-zinc-900 text-white hover:bg-[#ff4d2d] font-bold py-2 px-6 rounded-full shadow-lg hover:scale-105 active:scale-95 transition-all group"
+              className="flex items-center gap-2 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white font-bold py-2 px-6 rounded-full hover:scale-105 active:scale-95 transition-all group"
             >
               <Sparkles
                 size={16}
-                className="text-orange-400 group-hover:text-white transition-colors"
+                className="text-white drop-shadow-sm group-hover:rotate-12 transition-transform"
               />
               <span className="text-sm tracking-tight">
                 {t.landing.buildResume || "Build Resume"}
@@ -248,9 +248,9 @@ export default function Navbar() {
               <Link
                 to="/editor"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-4 bg-zinc-900 text-white font-semibold py-4 px-6 rounded-2xl text-center shadow-xl shadow-slate-900/10 active:scale-95 transition-all"
+                className="flex items-center justify-center gap-3 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white font-bold py-4 px-6 rounded-2xl text-center active:scale-95 transition-all group"
               >
-                <Sparkles size={18} className="text-orange-400" />
+                <Sparkles size={18} className="text-white drop-shadow-sm group-hover:scale-110 transition-transform" />
                 {t.landing.buildResume || "Build Resume"}
               </Link>
             </div>
