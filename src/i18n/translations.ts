@@ -85,7 +85,7 @@ export const translations = {
         "See exactly how your resume looks. Audit it, apply templates, and make sure it's perfect.",
       step3Title: "3. Pay to Download",
       step3Desc:
-        "Only pay a small one-time fee when you are 100% satisfied and ready to download.",
+        "Only pay a small one-time fee when you are 100% satisfied and ready to download your professional PDF.",
       statsText: "1,200+ users joined this month",
       reviews: "Trusted by professionals",
       quantifiableMetrics: "Add more quantifiable metrics to your experience descriptions.",
@@ -179,7 +179,7 @@ export const translations = {
         "The Word (.docx) export is formatted to be a clean, purely text-based ATS powerhouse. It retains your precise content and logical hierarchy, but strips away complex multi-column designs that confuse older ATS systems, ensuring 100% parsing success.",
       faq9Q: "What is the difference between the Free and Paid version?",
       faq9A:
-        "The Free version gives you full access to the builder, unlimited basic PDF downloads (with a watermark), real-time ATS scoring, and AI assistance. The Paid version (one-time fee per download) gives you a crisp, unwatermarked PDF, the clean Word document export, and full access to premium templates.",
+        "You can use all our tools including the AI writer and ATS checker for free. We only charge a small one-time fee when you want to download the high-quality PDF/Word version of your resume. This ensures you only pay for a result you love, with no hidden subscriptions.",
       footerDesc:
         "Professional resumes, simplified. Built with privacy in mind.",
       connect: "Connect with us",
@@ -637,8 +637,8 @@ export const translations = {
       educationMsg: "Include your educational background.",
     },
     welcomeModal: {
-      welcomeTitle: "Welcome to Hash Resume",
-      welcomeDesc: "Let's build your perfect resume in minutes. We'll show you around the editor and help you get started with a professional template.",
+      welcomeTitle: "Build Your Perfect Resume",
+      welcomeDesc: "Create a professional, ATS-optimized resume in 3 simple steps: Fill your data, Audit with AI, and Download. No subscriptions, just results.",
       getStarted: "Get Started",
       skipTour: "Skip the tour",
       pickTemplate: "Pick a Starting Point",
@@ -828,7 +828,7 @@ export const translations = {
         "يتم تصدير ملف الوورد بتنسيق نَصّي نظيف مُعَد لاختراق أنظمة الـ ATS بنسبة 100%. يحتفظ الملف بكافة نصوصك وهيكليتها، ولكنه يزيل التصميمات المعقدة ذات الأعمدة المتعددة التي قد تُربك الأنظمة القديمة.",
       faq9Q: "ما هو الفرق بين النسخة المجانية والمدفوعة؟",
       faq9A:
-        "تمنحك النسخة المجانية وصولاً كاملاً لأدوات البناء، والتحقق الفوري من الـ ATS، والذكاء الاصطناعي، بالإضافة لتحميل PDF (مدمج بعلامة مائية). النسخة المدفوعة تزيل العلامة المائية، وتمنحك ملف PDF فائق الجودة، وملف وورد متوافق مع ATS، بالإضافة لصلاحية القوالب المدفوعة.",
+        "يمكنك استخدام كافة أدواتنا بما في ذلك المحرر الذكي وفاحص الـ ATS مجاناً وبدون قيود. نحن نفرض رسوماً رمزية لمرة واحدة فقط عند رغبتك في تحميل النسخة النهائية (PDF/Word). هذا يضمن أنك لن تدفع إلا عندما تكون راضياً تماماً عن النتيجة، وبدون أي اشتراكات خفية.",
       footerDesc:
         "سير ذاتية احترافية، بكل بساطة. بنيت مع الخصوصية في الاعتبار.",
       connect: "تواصل معنا",
@@ -1281,8 +1281,8 @@ export const translations = {
       educationMsg: "قم بتضمين خلفيتك التعليمية.",
     },
     welcomeModal: {
-      welcomeTitle: "مرحباً بك في Hash Resume",
-      welcomeDesc: "لنقم ببناء سيرتك الذاتية المثالية في دقائق. سنأخذك في جولة حول المحرر ونساعدك على البدء بقالب احترافي.",
+      welcomeTitle: "ابنِ سيرتك الذاتية المثالية",
+      welcomeDesc: "لنقم ببناء سيرتك الذاتية المثالية في 3 خطوات بسيطة: أدخل بياناتك، قم بالمراجعة الذكية، ثم حَمّل الملف. لا اشتراكات، نتائج فقط.",
       getStarted: "ابدأ الآن",
       skipTour: "تخطي الجولة",
       pickTemplate: "اختر نقطة البداية",
@@ -1493,7 +1493,7 @@ export const translations = {
         "L'exportation Word (.docx) est formatée pour être 100 % compatible avec les ATS, basée uniquement sur le texte. Elle conserve l'intégralité de votre contenu et de votre hiérarchie, mais supprime les conceptions multi-colonnes complexes.",
       faq9Q: "Quelle est la différence entre la version gratuite et payante ?",
       faq9A:
-        "La version gratuite vous donne un accès complet au générateur, des téléchargements PDF illimités avec un filigrane, la vérification ATS en temps réel et l'aide de l'IA. La version payante offre un PDF sans filigrane de haute qualité, l'exportation Word, et l'accès à tous les modèles premium.",
+        "Vous pouvez utiliser gratuitement tous nos outils, y compris le rédacteur IA et le vérificateur ATS. Nous ne facturons qu'un petit montant unique lorsque vous souhaitez télécharger une version PDF/Word de haute qualité de votre CV sans aucune restriction ni filigrane. Cela garantit que vous ne payez que pour un résultat qui vous plaît.",
       footerDesc:
         "Des CV professionnels, simplifiés. Construit avec la confidentialité à l'esprit.",
       connect: "Connectez-vous avec nous",
@@ -1939,8 +1939,8 @@ export const translations = {
       educationMsg: "Incluez votre parcours académique.",
     },
     welcomeModal: {
-      welcomeTitle: "Bienvenue sur Hash Resume",
-      welcomeDesc: "Construisons votre CV parfait en quelques minutes. Nous vous ferons découvrir l'éditeur et vous aiderons à démarrer avec un modèle professionnel.",
+      welcomeTitle: "Créez Votre CV Parfait",
+      welcomeDesc: "Construisons votre CV parfait en 3 étapes simples : Remplissez vos données, Auditez avec l'IA, et Téléchargez. Pas d'abonnement, juste des résultats.",
       getStarted: "Commencer",
       skipTour: "Passer la visite",
       pickTemplate: "Choisissez un point de départ",

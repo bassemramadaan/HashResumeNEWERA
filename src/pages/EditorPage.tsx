@@ -26,6 +26,7 @@ import {
   Loader2,
   ArrowUp,
   Settings,
+  ArrowRight,
 } from "lucide-react";
 import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
@@ -162,15 +163,15 @@ const ATSScoreIndicator = ({
   return (
     <button
       onClick={() => setActiveTab("finish")}
-      className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-100 hover:bg-slate-200 transition-all border border-slate-200 group"
+      className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/90 hover:bg-slate-100 transition-all border border-slate-200 group shrink-0"
     >
       <div className="flex flex-col items-start">
-        <span className="text-[8px] sm:text-[9px] font-bold text-slate-500 uppercase tracking-widest leading-none mb-0.5">
+        <span className="text-[7px] sm:text-[9px] font-bold text-slate-500 uppercase tracking-tighter sm:tracking-widest leading-none mb-0.5">
           {language === "ar" ? "النتيجة" : "Score"}
         </span>
         <span
           className={cn(
-            "text-xs sm:text-sm font-bold leading-none",
+            "text-[10px] sm:text-sm font-black leading-none",
             atsScore >= 80
               ? "text-emerald-600"
               : atsScore >= 50
@@ -181,7 +182,7 @@ const ATSScoreIndicator = ({
           {atsScore}%
         </span>
       </div>
-      <div className="w-6 sm:w-12 h-1.5 sm:h-2 bg-slate-200 rounded-full overflow-hidden">
+      <div className="hidden sm:block w-12 h-2 bg-slate-200 rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${atsScore}%` }}
@@ -597,9 +598,9 @@ export default function EditorPage() {
     },
     {
       id: "finish",
-      label: t.review,
-      shortLabel: language === "ar" ? "مراجعة" : "Review",
-      icon: Target,
+      label: language === "ar" ? "التحميل والتدقيق" : "Audit & Download",
+      shortLabel: language === "ar" ? "تحميل" : "Finish",
+      icon: Download,
       tourId: "review-section",
     },
   ];
@@ -627,16 +628,16 @@ export default function EditorPage() {
       <OnboardingTour />
 
       {/* Floating Dock Navbar (Top) */}
-      <div className="fixed top-4 start-1/2 -translate-x-1/2 flex justify-center z-50 px-4 pointer-events-none w-full max-w-5xl">
-        <nav className="pointer-events-auto flex items-center gap-2 p-2 rounded-full bg-slate-50/80 backdrop-blur-xl border border-slate-200/20 shadow-2xl transition-all duration-300 hover:scale-[1.01] w-full justify-between sm:justify-start">
-          <div className="flex items-center gap-2">
+      <div className="fixed top-2 sm:top-4 start-1/2 -translate-x-1/2 flex justify-center z-50 px-2 sm:px-4 pointer-events-none w-full max-w-5xl text-start">
+        <nav className="pointer-events-auto flex items-center gap-1 sm:gap-2 p-1 rounded-full bg-white/95 border border-slate-200/60 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 w-full justify-between sm:justify-start ring-1 ring-black/5">
+          <div className="flex items-center gap-1 sm:gap-2">
             {/* Home / Logo */}
             <Link
               to="/"
-              className="flex items-center justify-center w-10 h-10 bg-slate-50 rounded-full shadow-sm text-[#ff4d2d] hover:scale-105 transition-transform shrink-0"
+              className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-sm text-[#ff4d2d] hover:scale-105 transition-transform shrink-0 border border-slate-100"
               title={t.backToHome}
             >
-              <Logo className="w-6 h-6" />
+              <Logo className="w-5 h-5 sm:w-6 sm:h-6" />
             </Link>
 
             {/* Separator */}
@@ -647,18 +648,18 @@ export default function EditorPage() {
               <button
                 onClick={() => undo()}
                 disabled={pastStates.length === 0}
-                className="p-2 rounded-full text-slate-500 hover:bg-slate-50/50 disabled:opacity-30 transition-colors"
+                className="p-1.5 sm:p-2 rounded-full text-slate-500 hover:bg-slate-100 disabled:opacity-20 transition-colors"
                 title={t.undo}
               >
-                <Undo2 size={16} />
+                <Undo2 size={16} className="sm:w-4 sm:h-4" />
               </button>
               <button
                 onClick={() => redo()}
                 disabled={futureStates.length === 0}
-                className="p-2 rounded-full text-slate-500 hover:bg-slate-50/50 disabled:opacity-30 transition-colors"
+                className="p-1.5 sm:p-2 rounded-full text-slate-500 hover:bg-slate-100 disabled:opacity-20 transition-colors"
                 title={t.redo}
               >
-                <Redo2 size={16} />
+                <Redo2 size={16} className="sm:w-4 sm:h-4" />
               </button>
             </div>
           </div>
@@ -741,38 +742,38 @@ export default function EditorPage() {
       <div className="h-20 shrink-0" />
 
       {/* Real-time Progress Bar */}
-      <div className="bg-white border-b border-slate-200 px-6 py-3 hidden xl:flex items-center gap-4 z-40 relative shadow-sm overflow-x-auto hide-scrollbar">
-        <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2 text-xs font-bold whitespace-nowrap">
-            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-indigo-100 text-indigo-600">1</span>
-            <span className={progressPercent < 100 ? "text-slate-900" : "text-slate-500"}>{language === "ar" ? "أدخل بياناتك" : "Fill Data"}</span>
+      <div className="bg-white border-b border-slate-200 px-4 sm:px-6 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-4 z-40 relative shadow-sm overflow-x-auto hide-scrollbar">
+        <div className="flex items-center gap-3 sm:gap-6 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-black whitespace-nowrap">
+            <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-indigo-100 text-indigo-600">1</span>
+            <span className={progressPercent < 100 ? "text-slate-900" : "text-slate-500"}>{language === "ar" ? "أدخل البيانات" : "Fill Data"}</span>
           </div>
-          <div className="flex items-center gap-2 text-xs font-bold whitespace-nowrap">
-            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-orange-100 text-[#ff4d2d]">2</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-black whitespace-nowrap">
+            <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-orange-100 text-[#ff4d2d]">2</span>
             <span className={progressPercent === 100 ? "text-slate-900" : "text-slate-500"}>{language === "ar" ? "راجع الـ ATS" : "Check ATS"}</span>
           </div>
-          <div className="flex items-center gap-2 text-xs font-bold whitespace-nowrap">
-            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600">3</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-black whitespace-nowrap hidden sm:flex">
+            <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-emerald-100 text-emerald-600">3</span>
             <span className="text-slate-500">{language === "ar" ? "نزّل السيرة" : "Download"}</span>
           </div>
         </div>
 
-        <div className="w-px h-6 bg-slate-200 mx-2 shrink-0"></div>
+        <div className="w-px h-5 sm:h-6 bg-slate-200 mx-1 sm:mx-2 shrink-0"></div>
 
-        <div className="text-xs font-bold text-slate-500 whitespace-nowrap">
-          {language === "ar" ? "نسبة الاكتمال" : "Completion"}
+        <div className="text-[10px] sm:text-xs font-black text-slate-500 whitespace-nowrap">
+          {progressPercent}%
         </div>
-        <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden max-w-xs shrink-0">
+        <div className="flex-1 h-1.5 sm:h-2 bg-slate-100 rounded-full overflow-hidden max-w-[100px] sm:max-w-xs shrink-0">
           <motion.div 
             initial={{ width: 0 }}
             animate={{ width: `${progressPercent}%` }}
             className={`h-full transition-all duration-500 ${progressPercent === 100 ? 'bg-emerald-500' : 'bg-[#ff4d2d]'}`}
           />
         </div>
-        <div className="text-xs font-bold text-slate-500 whitespace-nowrap flex items-center gap-2">
-          {progressPercent}% 
+        
+        <div className="text-[10px] sm:text-xs font-bold text-slate-500 whitespace-nowrap hidden lg:flex items-center gap-2">
           {estimatedTime > 0 && (
-            <span className="text-slate-400 font-medium hidden sm:inline">
+            <span className="text-slate-400 font-medium">
               — {language === "ar" ? `حوالي ${estimatedTime} دقائق لإنهاء المسودة الأولى` : `Est. ${estimatedTime} mins to finish first draft`}
             </span>
           )}
@@ -782,11 +783,12 @@ export default function EditorPage() {
             </span>
           )}
         </div>
+        
         <button 
           onClick={() => setShowProgressTracker(true)}
-          className="text-xs font-bold px-3 py-1.5 ms-auto text-indigo-600 hover:bg-indigo-50 rounded-full transition-colors flex justify-center items-center gap-1 shrink-0 whitespace-nowrap"
+          className="text-[10px] sm:text-xs font-black px-2 sm:px-3 py-1.5 ms-auto text-indigo-600 hover:bg-indigo-50 rounded-full transition-colors flex justify-center items-center gap-1 shrink-0 whitespace-nowrap"
         >
-          {language === "ar" ? "ما التالي؟" : "What's missing?"} <Target size={14} />
+          <span className="hidden sm:inline">{language === "ar" ? "ما التالي؟" : "What's missing?"}</span> <Target size={14} />
         </button>
       </div>
 
@@ -798,7 +800,6 @@ export default function EditorPage() {
           className={cn(showMobilePreview ? "hidden md:block" : "block")}
         >
           <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-slate-50">
-          {/* Stepper Integration */}
           <div className="bg-slate-50/50 border-b border-slate-200 pt-4 pb-2">
             <Stepper
               tabs={tabs.map((t) => ({ id: t.id, label: t.label }))}
@@ -807,31 +808,31 @@ export default function EditorPage() {
             />
           </div>
 
-          <div className="px-6 pt-6 pb-4 shrink-0 max-w-4xl mx-auto w-full">
+          <div className="px-4 sm:px-6 pt-6 pb-4 shrink-0 max-w-4xl mx-auto w-full">
             <motion.div
               key={activeTab}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-indigo-50/50 rounded-2xl border border-indigo-100/50 p-6 flex flex-col sm:flex-row gap-6 items-start sm:items-center relative overflow-hidden shadow-sm"
+              className="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,77,45,0.08)]"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#ff4d2d]/10 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
               
-              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm border border-indigo-100 relative z-10">
-                <Sparkles size={20} className="text-indigo-600" />
+              <div className="w-14 h-14 rounded-[1.25rem] bg-[#ff4d2d] flex items-center justify-center shrink-0 shadow-[0_12px_24px_rgba(255,77,45,0.25)] relative z-10 ring-4 ring-orange-50 border border-white/20 group">
+                <Sparkles size={24} className="text-white animate-pulse" />
               </div>
               
               <div className="flex-1 relative z-10 text-start">
-                <div className="flex flex-wrap items-center gap-2 text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2">
-                  <span>{activeTabIndex} / {tabs.length}</span>
-                  <span className="w-1 h-1 rounded-full bg-indigo-200"></span>
+                <div className="flex flex-wrap items-center gap-2 text-[10px] font-black text-[#ff4d2d] uppercase tracking-widest mb-1.5 opacity-90">
+                  <span className="bg-[#ff4d2d]/10 px-2 py-0.5 rounded-full">{activeTabIndex} / {tabs.length}</span>
+                  <span className="w-1 h-1 rounded-full bg-[#ff4d2d]/30"></span>
                   <span>{tabs.find((t) => t.id === activeTab)?.label}</span>
                 </div>
-                <h1 className="text-lg sm:text-xl font-bold text-slate-800 tracking-tight leading-relaxed">
-                  "{tabDescriptions[activeTab]}"
+                <h1 className="text-base sm:text-xl font-black text-slate-900 tracking-tight leading-snug">
+                  {tabDescriptions[activeTab]}
                 </h1>
               </div>
 
-              <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 z-10 w-full sm:w-auto mt-4 sm:mt-0">
+              <div className="flex items-center gap-2 z-10 w-full sm:w-auto mt-3 sm:mt-0">
                 <button
                   onClick={() =>
                     setConfirmAction({
@@ -839,7 +840,7 @@ export default function EditorPage() {
                       message: t.overwriteConfirm,
                     })
                   }
-                  className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-indigo-600 bg-white hover:bg-slate-50 px-4 py-2.5 rounded-xl transition-all border border-indigo-100 shadow-sm whitespace-nowrap"
+                  className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-[#ff4d2d] bg-white hover:bg-orange-50 px-4 py-3 rounded-2xl transition-all border border-[#ff4d2d]/10 shadow-sm whitespace-nowrap active:scale-95"
                 >
                   {t.loadExample}
                 </button>
@@ -847,7 +848,7 @@ export default function EditorPage() {
                   onClick={() =>
                     setConfirmAction({ type: "clear", message: t.clearConfirm })
                   }
-                  className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-rose-500 hover:text-rose-700 px-4 py-2.5 rounded-xl hover:bg-white transition-all border border-transparent hover:border-rose-100 hover:shadow-sm whitespace-nowrap"
+                  className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-rose-500 px-4 py-3 rounded-2xl hover:bg-rose-50 transition-all border border-transparent whitespace-nowrap active:scale-95"
                 >
                   {t.clearAll}
                 </button>
@@ -870,98 +871,187 @@ export default function EditorPage() {
                   transition={{ duration: 0.2 }}
                 >
                   <Suspense fallback={<FormLoader />}>
-                    {/* ... existing conditions ... */}
                     {activeTab === "basics" && (
                       <div className="space-y-12">
                         <section>
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                          <div className="flex items-center gap-4 mb-6 text-start">
+                            <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
                               <User size={24} className="relative z-10 drop-shadow-sm" />
+                              <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                             </div>
-                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.personalInfo}
-                            </h2>
+                            <div>
+                               <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                                {t.personalInfo}
+                              </h2>
+                              <p className="text-xs text-slate-500 font-medium">{language === "ar" ? "بياناتك الأساسية ومعلومات التواصل" : "Basic details and contact info"}</p>
+                            </div>
                           </div>
                           <PersonalInfoForm />
+                          
+                          <div className="mt-12 pt-8 border-t border-slate-100 flex justify-end">
+                            <button
+                              onClick={() => setActiveTab("experience")}
+                              className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                            >
+                              {language === "ar" ? "الخطوة التالية: الخبرة" : "Next: Experience"}
+                              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1" />
+                            </button>
+                          </div>
                         </section>
                       </div>
                     )}
                     {activeTab === "experience" && (
                       <div className="space-y-12">
                         <section>
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
-                              <Briefcase size={24} className="relative z-10 drop-shadow-sm" />
+                          <div className="flex items-center gap-4 mb-6 text-start px-1">
+                            <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-slate-200/50 flex items-center justify-center text-[#ff4d2d] relative overflow-hidden group border border-slate-100/50 shrink-0">
+                              <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-rose-50 opacity-50" />
+                              <Briefcase size={28} className="relative z-10 drop-shadow-sm" />
                             </div>
-                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.experience.title}
-                            </h2>
+                            <div>
+                              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                                {t.experience.title}
+                              </h2>
+                              <p className="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-wider">{language === "ar" ? "تاريخك المهني وإنجازاتك" : "Work history and achievements"}</p>
+                            </div>
                           </div>
-                          <ExperienceForm />
+                          <div className="px-1">
+                            <ExperienceForm />
+                          </div>
                         </section>
                         <section className="pt-12 border-t border-slate-100">
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-600">
-                              <Target size={18} />
+                          <div className="flex items-center gap-4 mb-6 text-start">
+                            <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-[#ff4d2d] border border-orange-100">
+                              <Target size={20} />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.projects.title}
                             </h2>
                           </div>
                           <ProjectsForm />
+
+                          <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                            <button
+                              onClick={() => setActiveTab("basics")}
+                              className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                            >
+                              {language === "ar" ? "السابق" : "Previous"}
+                            </button>
+                            <button
+                              onClick={() => setActiveTab("education")}
+                              className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                            >
+                              {language === "ar" ? "الخطوة التالية: التعليم" : "Next: Education"}
+                              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1" />
+                            </button>
+                          </div>
                         </section>
                       </div>
                     )}
                     {activeTab === "education" && (
                       <div className="space-y-12">
                         <section>
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
-                              <GraduationCap size={24} className="relative z-10 drop-shadow-sm" />
+                          <div className="flex items-center gap-4 mb-6 text-start px-1">
+                            <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-slate-200/50 flex items-center justify-center text-[#ff4d2d] relative overflow-hidden group border border-slate-100/50 shrink-0">
+                              <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-rose-50 opacity-50" />
+                              <GraduationCap size={28} className="relative z-10 drop-shadow-sm" />
                             </div>
-                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                              {t.education.title}
-                            </h2>
+                            <div>
+                              <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                                {t.education.title}
+                              </h2>
+                              <p className="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-wider">{language === "ar" ? "خلفيتك الأكاديمية والتعليمية" : "Academic background"}</p>
+                            </div>
                           </div>
-                          <EducationForm />
+                          <div className="px-1">
+                            <EducationForm />
+                          </div>
                         </section>
                         <section className="pt-12 border-t border-slate-100">
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-slate-400 to-slate-600 shadow-[0_8px_16px_-6px_rgba(100,116,139,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
-                              <CheckCircle2 size={24} className="relative z-10 drop-shadow-sm" />
+                          <div className="flex items-center gap-4 mb-6 text-start">
+                            <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-[#ff4d2d] border border-orange-100">
+                              <CheckCircle2 size={20} />
                             </div>
                             <h2 className="text-xl font-black text-slate-900 tracking-tight">
                               {t.certifications.title}
                             </h2>
                           </div>
                           <CertificationsForm />
+
+                          <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                            <button
+                              onClick={() => setActiveTab("experience")}
+                              className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                            >
+                              {language === "ar" ? "السابق" : "Previous"}
+                            </button>
+                            <button
+                              onClick={() => setActiveTab("skills")}
+                              className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                            >
+                              {language === "ar" ? "الخطوة التالية: المهارات" : "Next: Skills"}
+                              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1" />
+                            </button>
+                          </div>
                         </section>
                       </div>
                     )}
                     {activeTab === "skills" && (
                       <section>
-                        <div className="flex items-center gap-4 mb-6">
-                          <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                        <div className="flex items-center gap-4 mb-6 text-start">
+                          <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
                             <Wrench size={24} className="relative z-10 drop-shadow-sm" />
                           </div>
-                          <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                            {t.skills.title}
-                          </h2>
+                          <div>
+                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              {t.skills.title}
+                            </h2>
+                            <p className="text-xs text-slate-500 font-medium">{language === "ar" ? "مهاراتك التقنية والشخصية" : "Tech & soft skills"}</p>
+                          </div>
                         </div>
                         <SkillsForm />
+
+                        <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                          <button
+                            onClick={() => setActiveTab("education")}
+                            className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                          >
+                            {language === "ar" ? "السابق" : "Previous"}
+                          </button>
+                          <button
+                            onClick={() => setActiveTab("finish")}
+                            className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                          >
+                            {language === "ar" ? "الخطوة التالية: المراجعة النهائية" : "Next: Review & Finish"}
+                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1" />
+                          </button>
+                        </div>
                       </section>
                     )}
                     {activeTab === "cover-letter" && (
                       <section>
-                        <div className="flex items-center gap-4 mb-6">
-                          <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                        <div className="flex items-center gap-4 mb-6 text-start">
+                          <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
                             <FileText size={24} className="relative z-10 drop-shadow-sm" />
                           </div>
-                          <h2 className="text-xl font-black text-slate-900 tracking-tight">
-                            {t.coverLetter.title}
-                          </h2>
+                          <div>
+                            <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              {t.coverLetter.title}
+                            </h2>
+                            <p className="text-xs text-slate-500 font-medium">{language === "ar" ? "خطاب تقديمي مخصص بالذكاء الاصطناعي" : "AI-powered personalized letter"}</p>
+                          </div>
                         </div>
                         <CoverLetterForm />
+                        
+                        <div className="mt-12 pt-8 border-t border-slate-100 flex justify-end">
+                          <button
+                            onClick={() => setActiveTab("finish")}
+                            className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                          >
+                            {language === "ar" ? "العودة للمراجعة والتحميل" : "Back to Review & Download"}
+                            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1" />
+                          </button>
+                        </div>
                       </section>
                     )}
                     {activeTab === "finish" && (
@@ -1103,8 +1193,8 @@ export default function EditorPage() {
       </PanelGroup>
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 inline-flex items-center bg-slate-50/90 backdrop-blur-2xl rounded-full border border-white/20 shadow-2xl transition-all duration-300 mb-safe p-1.5 sm:p-2 w-[95%] sm:w-auto max-w-[400px] sm:max-w-none overflow-x-auto hide-scrollbar">
-        <div className="flex items-center justify-center gap-1 min-w-max w-full px-1">
+      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 flex items-center bg-white/95 backdrop-blur-xl rounded-full border border-slate-200/60 shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-all duration-300 mb-safe p-1 sm:p-1.5 w-[94%] sm:w-auto max-w-[500px] sm:max-w-none">
+        <div className="flex items-center justify-around sm:justify-center gap-0.5 sm:gap-1.5 w-full sm:w-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -1114,43 +1204,62 @@ export default function EditorPage() {
                 onClick={() => setActiveTab(tab.id)}
                 data-tour={tab.tourId}
                 className={cn(
-                  "relative flex flex-col items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full transition-all duration-500 group shrink-0",
+                  "relative flex flex-col items-center justify-center w-9 h-9 sm:w-12 sm:h-12 rounded-full transition-all duration-300 group shrink-0",
                   isActive
-                    ? "bg-gradient-to-b from-[#ff4d2d] to-orange-600 text-white shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] md:scale-110 z-10"
-                    : "text-slate-400 hover:text-slate-900 hover:bg-slate-100",
+                    ? "bg-slate-900 text-white shadow-lg scale-105 sm:scale-110 z-10"
+                    : "text-slate-400 hover:text-slate-900 hover:bg-slate-100/50",
                 )}
               >
-                <Icon size={18} className="sm:w-5 sm:h-5" strokeWidth={isActive ? 2.5 : 2} />
+                <Icon size={isActive ? 18 : 16} className="sm:w-5 sm:h-5 transition-all" strokeWidth={isActive ? 2.5 : 2} />
                 <AnimatePresence>
                   {isActive && (
                     <motion.span
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute -top-10 px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-b from-[#ff4d2d] to-orange-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] pointer-events-none whitespace-nowrap"
+                      initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.8 }}
+                      className="absolute -top-12 px-3 py-1.5 bg-slate-900 text-white text-[9px] sm:text-[10px] font-black uppercase tracking-widest rounded-xl shadow-xl pointer-events-none whitespace-nowrap border border-white/5"
                     >
-                      {tab.shortLabel}
+                      {tab.shortLabel || tab.label}
                     </motion.span>
                   )}
                 </AnimatePresence>
+                {isActive && (
+                   <motion.div 
+                     layoutId="nav-glow"
+                     className="absolute inset-0 rounded-full bg-[#ff4d2d]/10 blur-md pointer-events-none"
+                   />
+                )}
               </button>
             );
           })}
 
-          {/* Separator */}
-          <div className="w-px h-6 sm:h-8 bg-slate-200 mx-1 shrink-0"></div>
+          <div className="w-px h-6 bg-slate-200 mx-1 shrink-0"></div>
 
-          {/* Start / Export Button */}
+          {/* Mobile Preview Toggle */}
+          <button
+            onClick={() => setShowMobilePreview(!showMobilePreview)}
+            className={cn(
+              "md:hidden flex flex-col items-center justify-center w-9 h-9 rounded-full transition-all duration-300 shrink-0",
+              showMobilePreview
+                ? "bg-indigo-100 text-indigo-600 shadow-sm"
+                : "text-slate-400 hover:text-slate-900"
+            )}
+            title={language === "ar" ? "معاينة" : "Preview"}
+          >
+            <Eye size={showMobilePreview ? 18 : 16} />
+          </button>
+
+          {/* Action Button: Export */}
           <button
             onClick={handleExportClick}
-            className="flex items-center justify-center gap-2 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white font-black w-10 h-10 sm:w-auto sm:h-12 sm:py-2 sm:px-6 rounded-full hover:scale-105 active:scale-95 transition-all group shrink-0"
+            className="flex items-center justify-center gap-2 bg-[#ff4d2d] text-white font-black h-9 sm:h-12 px-3 sm:px-6 rounded-full hover:scale-105 active:scale-95 transition-all group shrink-0 shadow-lg shadow-orange-500/20"
           >
             <span className="hidden sm:inline text-[10px] uppercase tracking-widest">
               {t.exportPdf}
             </span>
             <Download
-              size={18}
-              className="sm:w-4 sm:h-4 sm:group-hover:translate-y-0.5 transition-transform"
+              size={16}
+              className="sm:w-4 sm:h-4 transition-transform group-hover:translate-y-0.5"
             />
           </button>
         </div>

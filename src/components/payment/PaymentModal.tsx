@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Check, MessageCircle, ShieldCheck, Loader2, Crown, CreditCard, Lock } from "lucide-react";
 import SarIcon from "./SarIcon";
 import AedIcon from "./AedIcon";
+import { useLanguageStore } from "../../store/useLanguageStore";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -29,6 +30,8 @@ export default function PaymentModal({
   onClose,
   onSuccess,
 }: PaymentModalProps) {
+  const { language } = useLanguageStore();
+  const isAr = language === "ar";
   const [code, setCode] = useState("");
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState("");
@@ -137,18 +140,20 @@ export default function PaymentModal({
                    <Crown className="text-white drop-shadow-sm" size={32} />
                  </div>
                  
-                 <h2 className="text-3xl lg:text-4xl font-black mb-3 text-white font-display tracking-tight leading-tight">Pay only when <br/>you download</h2>
+                 <h2 className="text-3xl lg:text-4xl font-black mb-3 text-white font-display tracking-tight leading-tight">
+                   {isAr ? "ادفع فقط عند التحميل" : "Pay only when you download"}
+                 </h2>
                  <p className="text-slate-400 text-sm leading-relaxed">
-                   Try everything for free. Only pay when you're 100% ready.
+                   {isAr ? "جرب كل الأدوات مجاناً. ادفع فقط عندما تكون مستعداً للتحميل بنسبة 100%." : "Try everything for free. Only pay when you're 100% ready."}
                  </p>
                </div>
 
                <div className="space-y-4 pt-4 border-t border-white/10">
                  {[
-                   "PDF + Word included",
-                   "No watermark",
-                   "Unlimited edits before payment",
-                   "One-time payment only"
+                   isAr ? "يصلك ملف PDF + Word" : "PDF + Word included",
+                   isAr ? "بدون علامة مائية" : "No watermark",
+                   isAr ? "تعديلات غير محدودة قبل الدفع" : "Unlimited edits before payment",
+                   isAr ? "دفع لمرة واحدة.. لا اشتراكات" : "One-time payment.. No subscriptions"
                  ].map((feature, i) => (
                    <div key={i} className="flex items-start gap-4">
                      <div className="mt-0.5 bg-emerald-500/20 rounded-full p-1 shrink-0">
@@ -191,12 +196,12 @@ export default function PaymentModal({
                 className={`flex-1 p-4 rounded-2xl border-2 text-start transition-all ${plan === "single" ? 'border-indigo-500 bg-indigo-50/50' : 'border-slate-100 hover:border-slate-200'}`}
               >
                 <div className="flex justify-between items-start mb-1">
-                  <span className="font-bold text-slate-900">Resume Only</span>
+                  <span className="font-bold text-slate-900">{isAr ? "سيرة ذاتية فقط" : "Resume Only"}</span>
                   <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${plan === "single" ? 'border-indigo-500' : 'border-slate-300'}`}>
                     {plan === "single" && <div className="w-2 h-2 rounded-full bg-indigo-500"></div>}
                   </div>
                 </div>
-                <span className="text-xs text-slate-500">Get your ATS-ready PDF</span>
+                <span className="text-xs text-slate-500">{isAr ? "احصل على ملف PDF جاهز للـ ATS" : "Get your ATS-ready PDF"}</span>
               </button>
               
               <button 
@@ -205,12 +210,12 @@ export default function PaymentModal({
               >
                 {plan === "bundle" && <div className="absolute top-0 right-0 p-4 opacity-5 text-indigo-500 pointer-events-none"><Crown size={48} /></div>}
                 <div className="flex justify-between items-start mb-1 relative z-10">
-                  <span className="font-bold text-slate-900">Bundle pack</span>
+                  <span className="font-bold text-slate-900">{isAr ? "باقة التوفير" : "Bundle pack"}</span>
                   <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${plan === "bundle" ? 'border-indigo-500' : 'border-slate-300'}`}>
                     {plan === "bundle" && <div className="w-2 h-2 rounded-full bg-indigo-500"></div>}
                   </div>
                 </div>
-                <span className="text-xs text-slate-500 relative z-10">Resume + Cover Letter (+30 EGP)</span>
+                <span className="text-xs text-slate-500 relative z-10">{isAr ? "سيرة ذاتية + خطاب تعيين (+30 ج.م)" : "Resume + Cover Letter (+30 EGP)"}</span>
               </button>
             </div>
 
@@ -222,9 +227,9 @@ export default function PaymentModal({
                <div className="relative z-10">
                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6">
                    <div>
-                     <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Total Price</h3>
+                     <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">{isAr ? "إجمالي السعر" : "Total Price"}</h3>
                      <div className="inline-flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-slate-200/50 text-[10px] font-bold text-slate-600 uppercase shadow-sm">
-                        <Lock size={12} className="text-indigo-500" /> One-time payment
+                        <Lock size={12} className="text-indigo-500" /> {isAr ? "دفع لمرة واحدة فقط" : "One-time payment"}
                      </div>
                    </div>
                    

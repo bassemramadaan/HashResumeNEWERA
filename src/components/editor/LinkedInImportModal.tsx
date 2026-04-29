@@ -15,10 +15,54 @@ interface Props {
   onClose: () => void;
 }
 
+interface TextItem {
+  str: string;
+}
+
+interface ParsedExperience {
+  id?: string;
+  role: string;
+  company: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  location: string;
+}
+
+interface ParsedEducation {
+  id?: string;
+  degree: string;
+  institution: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+interface ParsedResume {
+  personalInfo?: {
+    fullName: string;
+    email: string;
+    phone: string;
+    location: string;
+    jobTitle: string;
+    summary: string;
+  };
+  experience?: ParsedExperience[];
+  education?: ParsedEducation[];
+  skills?: string[];
+}
+
 export default function LinkedInImportModal({ isOpen, onClose }: Props) {
   const { language } = useLanguageStore();
-  const { updatePersonalInfo, addExperience, addEducation, clearExperience, clearEducation, addSkill } = useResumeStore();
-  
+  const {
+    updatePersonalInfo,
+    addExperience,
+    addEducation,
+    clearExperience,
+    clearEducation,
+    addSkill,
+  } = useResumeStore();
+
   const [isDragActive, setIsDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -40,13 +84,15 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
   const handleDrop = async (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
       const file = e.dataTransfer.files[0];
       if (file.type === "application/pdf") {
         setSelectedFile(file);
       } else {
-        setError(language === "ar" ? "الرجاء رفع ملف PDF" : "Please upload a PDF file");
+        setError(
+          language === "ar" ? "الرجاء رفع ملف PDF" : "Please upload a PDF file"
+        );
       }
     }
   };
@@ -54,87 +100,97 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
   const extractTextFromPDF = async (file: File): Promise<string> => {
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-    let fullText = '';
-    
+    let fullText = "";
+
     // Process first 10 pages max to prevent abuse
     const numPages = Math.min(pdf.numPages, 10);
-    
+
     for (let i = 1; i <= numPages; i++) {
       const page = await pdf.getPage(i);
       const textContent = await page.getTextContent();
-      const pageText = textContent.items.map((item: any) => item.str).join(' ');
-      fullText += pageText + '\n';
+      const pageText = textContent.items
+        .map((item) => (item as TextItem).str)
+        .join(" ");
+      fullText += pageText + "\n";
       setProgress(Math.round((i / numPages) * 30)); // 30% progress for PDF parsing
     }
-    
+
     return fullText;
   };
 
   const processFile = async () => {
     if (!selectedFile) return;
-    
+
     try {
       setIsProcessing(true);
       setError(null);
       setProgress(10);
-      
+
       const text = await extractTextFromPDF(selectedFile);
       setProgress(40); // PDF parsing done
-      
+
       // Use Gemini to parse resume text into JSON
       const response = await aiService.importResume(text);
       setProgress(90);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
-      const parsedData = JSON.parse(response.text.replace(/```json/g, '').replace(/```/g, ''));
-      
+      const parsedData: ParsedResume = JSON.parse(
+        response.text.replace(/```json/g, "").replace(/```/g, "")
+      );
+
       // Apply parsed data to store
       if (parsedData.personalInfo) {
         updatePersonalInfo(parsedData.personalInfo);
       }
-      
+
       if (parsedData.experience && parsedData.experience.length > 0) {
         clearExperience();
-        parsedData.experience.forEach((exp: any) => {
+        parsedData.experience.forEach((exp) => {
           addExperience({
             ...exp,
-            id: exp.id || crypto.randomUUID()
+            id: exp.id || crypto.randomUUID(),
           });
         });
       }
-      
+
       if (parsedData.education && parsedData.education.length > 0) {
         clearEducation();
-        parsedData.education.forEach((edu: any) => {
+        parsedData.education.forEach((edu) => {
           addEducation({
             ...edu,
-            id: edu.id || crypto.randomUUID()
+            id: edu.id || crypto.randomUUID(),
           });
         });
       }
-      
+
       if (parsedData.skills && parsedData.skills.length > 0) {
-        parsedData.skills.forEach((skill: string) => {
-          if (typeof skill === 'string') addSkill(skill);
+        parsedData.skills.forEach((skill) => {
+          if (typeof skill === "string") addSkill(skill);
         });
       }
-      
+
       setProgress(100);
       setSuccess(true);
-      
+
       setTimeout(() => {
         onClose();
         setSuccess(false);
         setSelectedFile(null);
         setProgress(0);
       }, 2000);
-      
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(err.message || (language === "ar" ? "فشل تحليل الملف. الرجاء المحاولة مرة أخرى." : "Failed to parse file. Please try again."));
+      const errorMessage =
+        err instanceof Error ? err.message : String(err);
+      setError(
+        errorMessage ||
+          (language === "ar"
+            ? "فشل تحليل الملف. الرجاء المحاولة مرة أخرى."
+            : "Failed to parse file. Please try again.")
+      );
     } finally {
       setIsProcessing(false);
     }

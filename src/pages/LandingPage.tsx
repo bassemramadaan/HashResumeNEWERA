@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useSpring, useMotionValue, useTransform, animate } from "framer-motion";
+import { motion, useScroll, useSpring, useMotionValue, animate } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import {
@@ -108,7 +108,6 @@ export default function LandingPage() {
   });
 
   const countValue = useMotionValue(60);
-  const roundedValue = useTransform(countValue, (latest) => Math.round(latest));
   useEffect(() => {
     const controls = animate(countValue, 95, {
       duration: 2,
@@ -224,14 +223,16 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className={cn("font-display mb-8", language === "ar" ? "leading-relaxed" : "leading-[1.05]")}
               >
-                <span className="text-slate-900 block text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
-                  {t.heroTitle1}{" "}
+                <span className="text-slate-900 block text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight">
+                  {language === "ar" ? "أول Resume Builder عربي حقيقي" : t.heroTitle1}{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600">
-                    {t.heroTitle2}
+                    {language === "ar" ? "بدون اشتراكات" : t.heroTitle2}
                   </span>
                 </span>
-                <p className="text-slate-600 text-lg sm:text-xl font-medium tracking-tight mb-2">
-                  {language === "ar" ? "ادفع فقط عندما تكون جاهزاً — ابتداءً من 49 جنيهاً" : "Pay only when ready — from 49 EGP"}
+                <p className="text-slate-600 text-lg sm:text-xl font-medium tracking-tight mb-2 max-w-xl mx-auto lg:mx-0">
+                  {language === "ar" 
+                    ? "ابنِ سيرتك الذاتية مجاناً بالعربي والإنجليزي، وادفع مرة واحدة فقط عند التحميل. لا اشتراكات، لا رسوم خفية." 
+                    : "Build your professional resume for free in Arabic & English. Pay once only when you love the result. No subscriptions."}
                 </p>
               </motion.h1>
 
@@ -511,22 +512,58 @@ export default function LandingPage() {
             {/* Editor Screenshot */}
             <div className="w-full lg:w-1/2 relative group">
               <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-[2rem] blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
-              <div className="relative rounded-[1.5rem] bg-slate-800 border border-slate-700 shadow-2xl overflow-hidden aspect-[4/3] flex flex-col">
+              <div className="relative rounded-[1.5rem] bg-slate-800 border border-slate-700 shadow-2xl overflow-hidden aspect-[4/3] flex flex-col group-hover:scale-[1.01] transition-transform duration-500">
                 <div className="h-10 border-b border-slate-700 bg-slate-800/80 backdrop-blur-md flex items-center px-4 gap-2 shrink-0">
                   <div className="w-3 h-3 rounded-full bg-rose-500"></div>
                   <div className="w-3 h-3 rounded-full bg-amber-500"></div>
                   <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
                   <div className="mx-auto bg-slate-700/50 rounded-md px-3 py-1 text-[10px] text-slate-400 font-mono hidden sm:block">editor.hashresume.com</div>
                 </div>
-                {/* Fallback screenshot slot */}
-                <div className="flex-1 bg-slate-900 relative">
-                  <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2074&auto=format&fit=crop" alt="Hash Resume Editor Interface" className="w-full h-full object-cover opacity-80 mix-blend-luminosity" />
-                  <div className="absolute inset-0 bg-slate-900/60 flex items-center justify-center">
-                    <p className="text-white font-bold bg-slate-900/80 px-4 py-2 rounded-lg border border-slate-700 backdrop-blur-sm">Replace with /screenshots/editor.png</p>
-                  </div>
+                {/* Visual Editor Mockup */}
+                <div className="flex-1 bg-slate-900 p-4 flex gap-4 overflow-hidden relative">
+                   {/* Editor Sidebar */}
+                   <div className="w-1/3 space-y-4 pt-4">
+                      <div className="h-4 w-1/2 bg-slate-700 rounded-full"></div>
+                      <div className="h-10 w-full bg-slate-800 border border-slate-700 rounded-xl"></div>
+                      <div className="h-10 w-full bg-slate-800 border border-slate-700 rounded-xl"></div>
+                      <div className="h-32 w-full bg-slate-800 border border-slate-700 rounded-xl flex items-center justify-center">
+                         <div className="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center">
+                            <Sparkles size={20} className="text-indigo-400" />
+                         </div>
+                      </div>
+                   </div>
+                   {/* Editor Canvas */}
+                   <div className="flex-1 bg-white rounded-t-xl p-6 shadow-2xl flex flex-col gap-6 scale-95 origin-top translate-y-4">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="h-4 w-2/3 bg-slate-900 rounded-full"></div>
+                        <div className="h-2 w-1/2 bg-slate-300 rounded-full"></div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="h-3 w-1/4 bg-slate-800 rounded-full"></div>
+                        <div className="h-2 w-full bg-slate-200 rounded-full"></div>
+                        <div className="h-2 w-3/4 bg-slate-200 rounded-full"></div>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="h-3 w-1/4 bg-slate-800 rounded-full"></div>
+                        <div className="h-2 w-full bg-slate-200 rounded-full"></div>
+                        <div className="h-2 w-5/6 bg-slate-200 rounded-full"></div>
+                      </div>
+                   </div>
+                   
+                   {/* Floating AI Tooltip */}
+                   <motion.div 
+                     initial={{ x: 20, opacity: 0 }}
+                     whileInView={{ x: 0, opacity: 1 }}
+                     className="absolute bottom-12 right-12 bg-indigo-600 p-3 rounded-2xl shadow-xl shadow-indigo-900/40 flex items-center gap-3 border border-indigo-500"
+                   >
+                     <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                        <Sparkles size={14} className="text-white" />
+                     </div>
+                     <div className="text-xs font-bold text-white pr-2 whitespace-nowrap">Improving Bullet Point...</div>
+                   </motion.div>
                 </div>
               </div>
-              <div className="mt-6 text-center lg:text-start">
+              <div className="mt-6 text-center lg:text-start lg:pl-4">
                 <h3 className="text-xl font-bold text-white mb-2 tracking-tight">Real-time Visual Editor</h3>
                 <p className="text-slate-400 text-sm">See exactly what you'll get. Edit your resume directly on the page without jumping through endless forms.</p>
               </div>
@@ -535,22 +572,46 @@ export default function LandingPage() {
             {/* ATS Audit Screenshot */}
             <div className="w-full lg:w-1/2 relative group lg:mt-24">
               <div className="absolute -inset-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-[2rem] blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
-              <div className="relative rounded-[1.5rem] bg-slate-800 border border-slate-700 shadow-2xl overflow-hidden aspect-[4/3] flex flex-col">
+              <div className="relative rounded-[1.5rem] bg-slate-800 border border-slate-700 shadow-2xl overflow-hidden aspect-[4/3] flex flex-col group-hover:scale-[1.01] transition-transform duration-500">
                 <div className="h-10 border-b border-slate-700 bg-slate-800/80 backdrop-blur-md flex items-center px-4 gap-2 shrink-0">
                   <div className="w-3 h-3 rounded-full bg-rose-500"></div>
                   <div className="w-3 h-3 rounded-full bg-amber-500"></div>
                   <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
                   <div className="mx-auto bg-slate-700/50 rounded-md px-3 py-1 text-[10px] text-slate-400 font-mono hidden sm:block">ats-audit.hashresume.com</div>
                 </div>
-                {/* Fallback screenshot slot */}
-                <div className="flex-1 bg-slate-900 relative">
-                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="ATS Tracking Audit" className="w-full h-full object-cover opacity-80 mix-blend-luminosity" />
-                  <div className="absolute inset-0 bg-slate-900/60 flex items-center justify-center">
-                    <p className="text-white font-bold bg-slate-900/80 px-4 py-2 rounded-lg border border-slate-700 backdrop-blur-sm">Replace with /screenshots/ats-audit.png</p>
-                  </div>
+                {/* ATS Audit Mockup */}
+                <div className="flex-1 bg-[#1a2234] p-8 flex flex-col gap-8">
+                   <div className="flex items-center gap-6">
+                      <div className="w-24 h-24 rounded-full border-[8px] border-emerald-500/30 flex items-center justify-center relative">
+                         <div className="w-24 h-24 rounded-full border-[8px] border-emerald-500 border-t-transparent absolute animate-spin-slow"></div>
+                         <span className="text-2xl font-black text-emerald-400">92</span>
+                      </div>
+                      <div className="space-y-2">
+                         <div className="h-6 w-48 bg-white/10 rounded-full"></div>
+                         <div className="h-4 w-32 bg-white/5 rounded-full"></div>
+                      </div>
+                   </div>
+
+                   <div className="grid grid-cols-2 gap-4">
+                      {[1,2,3,4].map(i => (
+                         <div key={i} className="bg-white/5 border border-white/10 rounded-xl p-4 flex gap-3 items-center">
+                            <div className="w-3 h-3 rounded-full bg-emerald-500 shrink-0"></div>
+                            <div className="h-3 w-full bg-white/10 rounded-full"></div>
+                         </div>
+                      ))}
+                   </div>
+
+                   <div className="mt-auto space-y-4">
+                      <div className="h-4 w-1/3 bg-slate-600 rounded-full"></div>
+                      <div className="flex gap-2 flex-wrap">
+                         {['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'AWS'].map(tag => (
+                            <span key={tag} className="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-bold border border-emerald-500/20">{tag}</span>
+                         ))}
+                      </div>
+                   </div>
                 </div>
               </div>
-              <div className="mt-6 text-center lg:text-end">
+              <div className="mt-6 text-center lg:text-end lg:pr-4">
                 <h3 className="text-xl font-bold text-white mb-2 tracking-tight">Built-in ATS Audit</h3>
                 <p className="text-slate-400 text-sm">Every edit runs a real-time parse simulation. We show you exactly how Applicant Tracking Systems read your resume.</p>
               </div>

@@ -150,13 +150,13 @@ export default function Navbar() {
 
             <Link
               to="/editor"
-              className="flex items-center gap-2 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white font-bold py-2 px-6 rounded-full hover:scale-105 active:scale-95 transition-all group"
+              className="flex items-center gap-2 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white font-bold py-2.5 px-6 rounded-full hover:scale-105 active:scale-95 transition-all group animate-[pulse_2s_infinite]"
             >
               <Sparkles
                 size={16}
                 className="text-white drop-shadow-sm group-hover:rotate-12 transition-transform"
               />
-              <span className="text-sm tracking-tight">
+              <span className="text-sm tracking-tight font-black uppercase">
                 {t.landing.buildResume || "Build Resume"}
               </span>
             </Link>

@@ -1,9 +1,15 @@
-export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
+declare global {
+  interface Window {
+    gtag?: (command: string, eventName: string, properties?: Record<string, unknown>) => void;
+  }
+}
+
+export const trackEvent = (eventName: string, properties?: Record<string, unknown>) => {
   // Replace this with Mixpanel, PostHog, or Google Analytics
   console.log(`[Event Tracked] ${eventName}`, properties || {});
   
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', eventName, properties);
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', eventName, properties);
   }
 };
 
