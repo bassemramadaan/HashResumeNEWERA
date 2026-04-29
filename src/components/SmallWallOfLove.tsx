@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Star, ChevronLeft, ChevronRight, CheckCircle2 } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight, CheckCircle2, Linkedin } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 
 const reviews = [
@@ -49,23 +49,29 @@ export default function SmallWallOfLove() {
   };
 
   return (
-    <section className="py-8 bg-slate-50 border-y border-slate-100 overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6 flex items-center justify-between">
-        <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">
-          {language === "ar" ? "آراء مستخدمينا" : "Wall of Love"}
-        </p>
+    <section className="py-12 bg-slate-50 border-y border-slate-100 overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 flex items-center justify-between">
+        <div className="flex flex-col gap-1">
+          <p className="text-sm font-black text-slate-800 uppercase tracking-widest flex items-center gap-2">
+            <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+            {language === "ar" ? "آراء مستخدمينا" : "Wall of Love"}
+          </p>
+          <p className="text-xs text-slate-500 font-medium">
+            {language === "ar" ? "نفتخر بقصص نجاح عملائنا" : "Real stories from hired professionals"}
+          </p>
+        </div>
         <div className="flex items-center gap-2">
           <button 
             onClick={() => scroll(language === "ar" ? "right" : "left")}
-            className="p-1.5 rounded-full border border-slate-200 text-slate-500 hover:text-slate-600 hover:bg-slate-50 transition-colors"
+            className="p-2 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-white shadow-sm transition-all"
           >
-            <ChevronLeft size={16} className="rtl:rotate-180" />
+            <ChevronLeft size={18} className="rtl:rotate-180" />
           </button>
           <button 
             onClick={() => scroll(language === "ar" ? "left" : "right")}
-            className="p-1.5 rounded-full border border-slate-200 text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-colors"
+            className="p-2 rounded-full border border-slate-200 text-slate-500 hover:text-slate-900 hover:bg-white shadow-sm transition-all"
           >
-            <ChevronRight size={16} className="rtl:rotate-180" />
+            <ChevronRight size={18} className="rtl:rotate-180" />
           </button>
         </div>
       </div>
@@ -73,41 +79,48 @@ export default function SmallWallOfLove() {
       <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div 
           ref={scrollRef}
-          className="flex gap-4 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-4"
+          className="flex gap-4 sm:gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-6"
         >
           {reviews.map((review, index) => (
             <div
               key={index}
-              className="snap-center flex-shrink-0 w-[260px] md:w-[320px] bg-slate-50 p-5 rounded-3xl border border-slate-200 flex flex-col gap-3 shadow-sm hover:shadow-lg hover:shadow-indigo-500/5 hover:border-indigo-200/50 transition-all duration-300"
+              className="snap-center flex-shrink-0 w-[280px] md:w-[340px] bg-white p-6 rounded-[2rem] border border-slate-100 flex flex-col gap-4 shadow-xl shadow-slate-200/50 hover:-translate-y-1 hover:shadow-indigo-500/10 hover:border-indigo-100 transition-all duration-300 relative group"
             >
-              <div className="flex items-center justify-between mb-1">
-                <div className="flex items-center gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      size={14}
-                      className="fill-amber-400 text-amber-400"
-                    />
-                  ))}
-                </div>
+              <div className="absolute top-6 right-6 text-slate-300 group-hover:text-[#0A66C2] transition-colors">
+                <Linkedin size={20} className="opacity-50 group-hover:opacity-100" />
               </div>
-              <p className="text-sm text-slate-700 font-medium italic leading-relaxed">
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star
+                    key={i}
+                    size={16}
+                    className="fill-amber-400 text-amber-400"
+                  />
+                ))}
+              </div>
+              
+              <p className="text-base text-slate-700 font-medium leading-relaxed my-2 relative z-10 text-wrap whitespace-normal break-words">
                 "{review.text}"
               </p>
-              <div className="mt-auto flex items-center gap-3 pt-3">
-                <img
-                  src={review.image}
-                  alt={review.name}
-                  className="w-10 h-10 rounded-full object-cover border border-slate-200 shrink-0"
-                />
-                <div>
-                  <div className="text-sm font-bold text-slate-900 leading-tight">
+              
+              <div className="mt-auto flex items-center gap-4 pt-4 border-t border-slate-50">
+                <div className="relative">
+                  <img
+                    src={review.image}
+                    alt={review.name}
+                    className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm shrink-0"
+                  />
+                  <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-0.5">
+                    <CheckCircle2 size={14} className="text-[#0A66C2] fill-[#0A66C2]/20" />
+                  </div>
+                </div>
+                <div className="flex flex-col flex-1 min-w-0">
+                  <span className="text-sm font-bold text-slate-900 flex items-center gap-1.5 truncate">
                     {review.name}
-                  </div>
-                  <div className="flex items-center gap-1 text-xs text-slate-500 mt-0.5 font-medium">
-                    <CheckCircle2 size={10} className="text-emerald-500" />
+                  </span>
+                  <span className="text-xs text-slate-500 font-medium truncate">
                     {review.role}
-                  </div>
+                  </span>
                 </div>
               </div>
             </div>

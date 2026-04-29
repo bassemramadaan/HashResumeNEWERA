@@ -2,22 +2,21 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useSpring, useMotionValue, useTransform, animate } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import {
-  Zap,
   CheckCircle2,
   ArrowRight,
-  TrendingUp,
   Calendar,
   Clock,
   Target,
   Plus,
-  Search,
   Sparkles,
   Layout,
   ArrowUp,
   PenTool,
   Download,
   ShieldCheck,
+  X,
 } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
@@ -44,6 +43,10 @@ export default function LandingPage() {
     EUR: 0.02,
     USD: 0.02,
   });
+
+  useEffect(() => {
+    trackEvent(FUNNEL_EVENTS.LANDING_VISIT, { language });
+  }, [language]);
 
   useEffect(() => {
     fetch("https://open.er-api.com/v6/latest/EGP")
@@ -483,272 +486,76 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ATS Audit Showcase */}
-      <section className="py-16 bg-white overflow-hidden text-center lg:text-start">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-10">
-            <div className="flex-1 relative order-2 lg:order-1 w-full max-w-md mx-auto lg:mx-0">
-              <div className="absolute -inset-4 bg-indigo-500/10 rounded-[2rem] blur-3xl -z-10"></div>
-              {/* Refined Mockup of ATS Audit - One Clean Card */}
-              <div className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-xl shadow-slate-200/50 relative overflow-hidden flex flex-col gap-6">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    <Target className="text-indigo-500" size={24} />
-                    <span className="font-bold text-slate-900">
-                      {t.atsAuditReport}
-                    </span>
-                  </div>
-                  <motion.div className="flex px-4 py-2 bg-emerald-100/50 text-emerald-600 text-sm font-bold rounded-full">
-                    <motion.span>{roundedValue}</motion.span>/100
-                  </motion.div>
-                </div>
-
-                <div className="space-y-4">
-                  <div className="p-4 bg-slate-50/50 rounded-2xl border border-slate-100">
-                    <div className="flex items-center gap-2 mb-3">
-                      <CheckCircle2 className="text-emerald-500" size={18} />
-                      <span className="text-sm font-bold text-slate-900">
-                        {t.keywordsMatched}
-                      </span>
-                    </div>
-                    <div className="flex flex-wrap gap-2 text-start">
-                      {["React", "Node.js", "TypeScript", "AWS"].map(
-                        (kw) => (
-                          <span
-                            key={kw}
-                            className="px-3 py-1 bg-white text-slate-600 text-xs font-semibold rounded-lg border border-slate-200"
-                          >
-                            {kw}
-                          </span>
-                        ),
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-amber-50/30 rounded-2xl border border-amber-100/50">
-                    <div className="flex items-center gap-2 mb-3">
-                      <TrendingUp className="text-amber-500" size={18} />
-                      <span className="text-sm font-bold text-slate-900">
-                        {t.improvementSuggestions}
-                      </span>
-                    </div>
-                    <div className="space-y-3 text-start">
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 shrink-0" />
-                        <p className="text-xs text-slate-600 font-medium">
-                          {t.quantifiableMetrics}
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 shrink-0" />
-                        <p className="text-xs text-slate-600 text-emerald-600 font-medium line-through opacity-50">
-                          {t.missingLinkedin}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Clarifying info block */}
-                <div className="mt-2 pt-4 border-t border-slate-100 text-center">
-                  <span className="text-xs text-slate-400 font-medium text-center">
-                    {language === "ar" ? "* تقرير حي - يتم حساب هذه النتيجة لحظياً داخل المحرر." : "* Example report — your score is calculated in real-time inside the editor."}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex-1 space-y-8 order-1 lg:order-2">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 text-[#ff4d2d] text-sm font-bold border border-orange-100">
-                <Target size={16} />
-                {t.beatAts}
-              </div>
-              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 font-display leading-tight">
-                {t.resumesHumansLove}
-              </h2>
-              <p className="text-lg text-slate-600 leading-relaxed">
-                {t.atsDescription}
-              </p>
-              <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden shrink-0">
-                    <Search size={24} className="relative z-10 drop-shadow-sm" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-900 mb-2">
-                      {t.keywordAnalysis}
-                    </h4>
-                    <p className="text-sm text-slate-500">
-                      {t.keywordAnalysisDesc}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-emerald-400 to-emerald-600 shadow-[0_8px_16px_-6px_rgba(16,185,129,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center text-white relative overflow-hidden shrink-0">
-                    <Layout size={24} className="relative z-10 drop-shadow-sm" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-900 mb-2">
-                      {t.compliantStructure}
-                    </h4>
-                    <p className="text-sm text-slate-500">
-                      {t.compliantStructureDesc}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-4">
-                <Link
-                  to="/editor"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white rounded-2xl font-bold transition-all hover:-translate-y-1 active:translate-y-0 group"
-                >
-                  {t.startBuildingNow}
-                  <ArrowRight size={20} className="rtl:rotate-180 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform drop-shadow-sm" />
-                </Link>
-              </div>
-            </div>
+      {/* Editor & ATS Screenshot Showcase */}
+      <section className="py-24 bg-slate-900 overflow-hidden relative">
+        <div className="absolute inset-0 top-0 w-full h-full bg-grid-white/[0.02] bg-[length:32px_32px]"></div>
+        <div className="absolute top-1/4 left-1/2 -px-1/2 w-3/4 max-w-4xl h-96 bg-[#ff4d2d]/20 blur-[120px] rounded-full mix-blend-screen pointer-events-none -translate-x-1/2"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-orange-400 text-sm font-bold border border-white/10 backdrop-blur-md mb-6">
+            <Target size={16} />
+            {t.beatAts}
           </div>
+          <h2 className="text-3xl md:text-5xl font-black text-white font-display leading-tight mb-6 tracking-tight">
+            Designed for Humans. <br className="hidden md:block"/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-[#ff4d2d]">Optimized for Robots.</span>
+          </h2>
+          <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
+            {t.atsDescription}
+          </p>
         </div>
-      </section>
 
-      {/* Hash Hunt Integration Section */}
-      <section className="py-24 bg-slate-50 text-slate-900 overflow-hidden relative">
-        {/* Subtle Background Graphics */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-            >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold text-xs uppercase tracking-widest mb-8">
-                <Sparkles className="w-4 h-4" />
-                {t.newHashHunt}
-              </div>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-[1.1] tracking-tight text-slate-900">
-                {t.hashHuntTagline}
-              </h2>
-              <p className="text-xl md:text-2xl text-slate-500 font-medium mb-6">
-                {language === "ar" ? "بعد ما تخلص السيرة الذاتية، ما تضيعهاش — خليها تشتغل لوحدها عن طريق Hash Hunt." : "Once your resume is ready, put it to work automatically through Hash Hunt."}
-              </p>
-              <p className="text-lg text-slate-600 mb-10 leading-relaxed font-medium">
-                {t.hashHuntDesc}
-              </p>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
-                {[
-                  {
-                    title: t.oneClickApply,
-                    desc: t.oneClickApplyDesc,
-                    icon: Target,
-                  },
-                  {
-                    title: t.unifiedProfile,
-                    desc: t.unifiedProfileDesc,
-                    icon: Layout,
-                  },
-                  {
-                    title: t.smartAlerts,
-                    desc: t.smartAlertsDesc,
-                    icon: Zap,
-                  },
-                ].map((item, i) => (
-                  <motion.div 
-                    key={i} 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.2 + i * 0.1, duration: 0.5 }}
-                    className={`p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-100 hover:shadow-lg transition-all duration-300 ${i === 2 ? 'sm:col-span-2' : ''}`}
-                  >
-                    <div className="w-12 h-12 rounded-[1rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center mb-6 relative overflow-hidden">
-                      <item.icon className="w-6 h-6 text-white relative z-10 drop-shadow-sm" />
-                    </div>
-                    <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  to="/editor"
-                  className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold text-base shadow-lg shadow-indigo-500/25 transition-all hover:bg-indigo-700 hover:-translate-y-1 flex items-center justify-center gap-4"
-                >
-                  <PenTool size={20} />
-                  {t.createResumeFirst}
-                </Link>
-                <Link
-                  to="/hash-hunt"
-                  className="px-8 py-4 bg-slate-50 border border-slate-200 text-slate-900 rounded-2xl font-bold text-base transition-all hover:border-indigo-300 hover:-translate-y-1 flex items-center justify-center gap-4"
-                >
-                  <Search size={20} />
-                  {t.exploreHashHunt}
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative lg:h-[600px] flex items-center justify-center p-8"
-            >
-              <div 
-                className="relative w-full max-w-md aspect-[4/5] bg-white border border-slate-200 rounded-[2rem] p-6 shadow-2xl shadow-slate-200/50 flex flex-col"
-              >
-                {/* Mock UI Header */}
-                <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-6 shrink-0">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center border border-indigo-100">
-                      <Target className="w-5 h-5 text-indigo-600" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-bold text-slate-900">{t.hashHuntMatch}</div>
-                      <div className="text-[10px] text-emerald-600 font-bold uppercase tracking-wider mt-1">98% {t.compatibility}</div>
-                    </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 lg:mt-24">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-8 items-center justify-center">
+            
+            {/* Editor Screenshot */}
+            <div className="w-full lg:w-1/2 relative group">
+              <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-[2rem] blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+              <div className="relative rounded-[1.5rem] bg-slate-800 border border-slate-700 shadow-2xl overflow-hidden aspect-[4/3] flex flex-col">
+                <div className="h-10 border-b border-slate-700 bg-slate-800/80 backdrop-blur-md flex items-center px-4 gap-2 shrink-0">
+                  <div className="w-3 h-3 rounded-full bg-rose-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                  <div className="mx-auto bg-slate-700/50 rounded-md px-3 py-1 text-[10px] text-slate-400 font-mono hidden sm:block">editor.hashresume.com</div>
+                </div>
+                {/* Fallback screenshot slot */}
+                <div className="flex-1 bg-slate-900 relative">
+                  <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2074&auto=format&fit=crop" alt="Hash Resume Editor Interface" className="w-full h-full object-cover opacity-80 mix-blend-luminosity" />
+                  <div className="absolute inset-0 bg-slate-900/60 flex items-center justify-center">
+                    <p className="text-white font-bold bg-slate-900/80 px-4 py-2 rounded-lg border border-slate-700 backdrop-blur-sm">Replace with /screenshots/editor.png</p>
                   </div>
                 </div>
-
-                {/* Mock UI Content */}
-                <div className="space-y-3 flex-1 overflow-hidden">
-                  {[1, 2, 3].map((i) => (
-                    <div 
-                      key={i} 
-                      className="bg-slate-50 border border-slate-100 rounded-xl p-4 flex gap-4 items-center group cursor-default"
-                    >
-                      <div className="w-12 h-12 rounded-lg bg-slate-200 flex-shrink-0 group-hover:bg-indigo-50 transition-colors" />
-                      <div className="flex-1 space-y-2">
-                        <div className="h-3 w-3/4 bg-slate-300 rounded-full group-hover:bg-indigo-200 transition-colors" />
-                        <div className="h-1.5 w-1/2 bg-slate-200 rounded-full" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Floating Notification */}
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.6, duration: 0.4 }}
-                  className="absolute -bottom-6 -start-4 -end-4 bg-indigo-600 p-4 rounded-xl shadow-xl shadow-indigo-900/10 border border-indigo-500 flex items-center gap-3 z-20"
-                >
-                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-4 h-4 text-white" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-white text-xs mb-0.5">{t.interviewRequest}</div>
-                    <div className="text-indigo-100 text-[10px]">{t.interviewRequestDesc}</div>
-                  </div>
-                </motion.div>
               </div>
-            </motion.div>
+              <div className="mt-6 text-center lg:text-start">
+                <h3 className="text-xl font-bold text-white mb-2 tracking-tight">Real-time Visual Editor</h3>
+                <p className="text-slate-400 text-sm">See exactly what you'll get. Edit your resume directly on the page without jumping through endless forms.</p>
+              </div>
+            </div>
+
+            {/* ATS Audit Screenshot */}
+            <div className="w-full lg:w-1/2 relative group lg:mt-24">
+              <div className="absolute -inset-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-[2rem] blur-xl opacity-30 group-hover:opacity-50 transition-opacity duration-500"></div>
+              <div className="relative rounded-[1.5rem] bg-slate-800 border border-slate-700 shadow-2xl overflow-hidden aspect-[4/3] flex flex-col">
+                <div className="h-10 border-b border-slate-700 bg-slate-800/80 backdrop-blur-md flex items-center px-4 gap-2 shrink-0">
+                  <div className="w-3 h-3 rounded-full bg-rose-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-amber-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-emerald-500"></div>
+                  <div className="mx-auto bg-slate-700/50 rounded-md px-3 py-1 text-[10px] text-slate-400 font-mono hidden sm:block">ats-audit.hashresume.com</div>
+                </div>
+                {/* Fallback screenshot slot */}
+                <div className="flex-1 bg-slate-900 relative">
+                  <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop" alt="ATS Tracking Audit" className="w-full h-full object-cover opacity-80 mix-blend-luminosity" />
+                  <div className="absolute inset-0 bg-slate-900/60 flex items-center justify-center">
+                    <p className="text-white font-bold bg-slate-900/80 px-4 py-2 rounded-lg border border-slate-700 backdrop-blur-sm">Replace with /screenshots/ats-audit.png</p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6 text-center lg:text-end">
+                <h3 className="text-xl font-bold text-white mb-2 tracking-tight">Built-in ATS Audit</h3>
+                <p className="text-slate-400 text-sm">Every edit runs a real-time parse simulation. We show you exactly how Applicant Tracking Systems read your resume.</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -947,66 +754,123 @@ export default function LandingPage() {
       </section>
 
       {/* Comparison Section */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 bg-white relative overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+        <div className="absolute top-20 left-0 w-72 h-72 bg-indigo-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+        <div className="absolute top-40 right-0 w-72 h-72 bg-orange-50 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4 font-display">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 font-display tracking-tight">
               {t.comparisonTitle}
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            <p className="text-lg text-slate-500 max-w-2xl mx-auto font-medium">
               {t.comparisonSubtitle}
             </p>
           </div>
 
-          <div className="overflow-x-auto pb-4">
-            <table className="w-full border-collapse min-w-[640px] md:min-w-full">
-              <thead>
-                <tr className="border-b border-slate-100">
-                  <th className="py-6 px-4 text-start text-slate-400 font-medium uppercase tracking-wider text-xs w-1/3">Features</th>
-                  <th className="py-6 px-4 text-center bg-orange-50/50 rounded-t-3xl w-1/3 border-x border-orange-100/50">
-                    <div className="flex items-center justify-center gap-2 text-[#ff4d2d] font-bold">
-                      <Logo className="w-5 h-5" />
-                      Hash Resume
-                    </div>
-                  </th>
-                  <th className="py-6 px-4 text-center text-slate-400 font-bold w-1/3">Zety / Canva</th>
-                </tr>
-              </thead>
-              <tbody className="text-sm">
-                {[
-                  { feature: "Privacy", hash: true, others: false, desc: "Data stays on your device" },
-                  { feature: "ATS Optimization", hash: true, others: "Partial", desc: "Built-in audit & scoring" },
-                  { feature: "Account Required?", hash: "None", others: "Mandatory", desc: "Use instantly, no sign-ups ever" },
-                  { feature: "Pricing", hash: "Pay-once", others: "Subscription", desc: "No recurring fees" },
-                  { feature: "AI Content", hash: true, others: true, desc: "Smart bullet points" },
-                ].map((row, i) => (
-                  <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
-                    <td className="py-6 px-4 align-top">
-                      <div className="font-bold text-slate-900">{row.feature}</div>
-                      <div className="text-xs text-slate-500 mt-1">{row.desc}</div>
-                    </td>
-                    <td className="py-6 px-4 text-center bg-orange-50/30 align-middle border-x border-orange-100/30">
-                      {row.hash === true ? (
-                        <CheckCircle2 className="mx-auto text-emerald-500" size={24} />
-                      ) : (
-                        <span className="font-bold text-slate-900">{row.hash}</span>
-                      )}
-                    </td>
-                    <td className="py-6 px-4 text-center text-slate-400 align-middle">
-                      {row.others === false ? (
-                        <div className="w-6 h-6 mx-auto border-2 border-slate-200 rounded-full flex items-center justify-center">
-                          <Plus className="rotate-45 text-slate-400" size={16} />
+          <div className="bg-slate-50 rounded-[2.5rem] p-4 sm:p-8 md:p-12 shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+            <div className="overflow-x-auto pb-4 hide-scrollbar">
+              <table className="w-full border-collapse min-w-[640px] md:min-w-full text-start">
+                <thead>
+                  <tr>
+                    <th className="py-6 px-4 text-start w-1/3"></th>
+                    <th className="py-6 px-4 text-center w-1/3 relative">
+                      <div className="absolute inset-0 bg-white rounded-t-3xl border-t border-x border-orange-100 shadow-[0_-10px_30px_-15px_rgba(255,77,45,0.2)]"></div>
+                      <div className="relative z-10 flex flex-col items-center justify-center gap-2">
+                        <div className="w-12 h-12 bg-gradient-to-b from-[#ff4d2d] to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/20 mb-2">
+                          <Logo className="w-6 h-6 text-white" />
                         </div>
-                      ) : row.others === true ? (
-                        <CheckCircle2 className="mx-auto text-slate-300" size={24} />
-                      ) : (
-                        <span className="font-medium">{row.others}</span>
-                      )}
-                    </td>
+                        <span className="text-[#ff4d2d] font-black text-lg tracking-tight">Hash Resume</span>
+                      </div>
+                    </th>
+                    <th className="py-6 px-4 text-center w-1/3 relative">
+                      <div className="relative z-10 font-bold text-slate-400 text-lg">Others (Zety / Canva)</div>
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="text-sm">
+                  {[
+                    { 
+                      feature: language === "ar" ? "الخصوصية" : "Privacy", 
+                      hash: true, 
+                      others: false, 
+                      desc: language === "ar" ? "تبقى بياناتك على جهازك فقط" : "Data stays on your device" 
+                    },
+                    { 
+                      feature: language === "ar" ? "توافق ATS" : "ATS Optimization", 
+                      hash: true, 
+                      others: language === "ar" ? "جزئي" : "Partial", 
+                      desc: language === "ar" ? "فحص وتقييم مدمج" : "Built-in audit & scoring" 
+                    },
+                    { 
+                      feature: language === "ar" ? "إنشاء حساب؟" : "Account Required?", 
+                      hash: language === "ar" ? "لا يوجد" : "None", 
+                      others: language === "ar" ? "إلزامي" : "Mandatory", 
+                      desc: language === "ar" ? "ابدأ فوراً بدون تسجيل" : "Use instantly, no sign-ups ever" 
+                    },
+                    { 
+                      feature: language === "ar" ? "التسعير" : "Pricing", 
+                      hash: language === "ar" ? "دفع لمرة واحدة" : "Pay-once", 
+                      others: language === "ar" ? "اشتراك شهري" : "Subscription", 
+                      desc: language === "ar" ? "بدون رسوم خفية أو متكررة" : "No recurring fees" 
+                    },
+                    { 
+                      feature: language === "ar" ? "المحتوى الذكي AI" : "AI Content", 
+                      hash: true, 
+                      others: true, 
+                      desc: language === "ar" ? "نقاط احترافية بضغطة زر" : "Smart bullet points" 
+                    },
+                  ].map((row, i) => (
+                    <tr key={i} className="group relative">
+                      {/* Active Row Background */}
+                      <td className="absolute inset-y-0 inset-x-4 bg-white opacity-0 group-hover:opacity-100 rounded-xl transition-opacity pointer-events-none z-0 shadow-sm border border-slate-100"></td>
+                      
+                      <td className="py-6 px-4 align-top relative z-10 border-b border-slate-200/50 group-last:border-0">
+                        <div className="font-bold text-slate-900 text-base">{row.feature}</div>
+                        <div className="text-sm text-slate-500 mt-1">{row.desc}</div>
+                      </td>
+                      <td className="py-6 px-4 text-center align-middle relative z-10 border-b border-orange-100/50 group-last:border-0">
+                        <div className="absolute inset-y-0 inset-x-0 bg-white border-x border-orange-100 z-[-1] transition-colors"></div>
+                        <div className="relative z-10 font-bold text-slate-900 flex justify-center items-center">
+                          {row.hash === true ? (
+                            <div className="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
+                              <CheckCircle2 className="text-emerald-500" size={20} strokeWidth={3} />
+                            </div>
+                          ) : (
+                            <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs tracking-wider uppercase">{row.hash}</span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="py-6 px-4 text-center align-middle relative z-10 border-b border-slate-200/50 group-last:border-0">
+                        <div className="flex justify-center items-center font-medium text-slate-500">
+                          {row.others === false ? (
+                            <div className="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center">
+                              <X className="text-red-400" size={18} strokeWidth={2.5} />
+                            </div>
+                          ) : row.others === true ? (
+                            <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center">
+                              <CheckCircle2 className="text-slate-400" size={18} strokeWidth={2.5} />
+                            </div>
+                          ) : (
+                            <span className="bg-slate-100 text-slate-500 px-3 py-1 rounded-full text-xs tracking-wider uppercase">{row.others}</span>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {/* Bottom rounded cap for the highlighted column */}
+                  <tr>
+                    <td className="p-0 border-0"></td>
+                    <td className="p-0 border-0 relative h-6">
+                      <div className="absolute inset-0 bg-white rounded-b-3xl border-b border-x border-orange-100 shadow-[0_10px_30px_-15px_rgba(255,77,45,0.2)]"></div>
+                    </td>
+                    <td className="p-0 border-0"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </section>

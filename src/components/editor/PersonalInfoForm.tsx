@@ -345,7 +345,7 @@ const PersonalInfoForm = () => {
                           title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
             >
               <Sparkles size={14} />
-              {language === "ar" ? "إصلاح الذكاء الاصطناعي" : "Fix with AI"}
+              {language === "ar" ? "تحسين بالذكاء الاصطناعي" : "Improve with AI"}
             </button>
           </div>
 

@@ -34,6 +34,7 @@ export default function PaymentModal({
   const [error, setError] = useState("");
   const [currency, setCurrency] = useState<keyof typeof currencies>("EGP");
   const [exchangeRates, setExchangeRates] = useState<Record<string, number> | null>(null);
+  const [plan, setPlan] = useState<"single" | "bundle">("single");
 
   useEffect(() => {
     if (isOpen && !exchangeRates) {
@@ -90,13 +91,18 @@ export default function PaymentModal({
   };
 
   const getDynamicPrice = (curr: keyof typeof currencies) => {
-    const defaultPrice = currencies[curr].price;
-    if (curr === "EGP" || !exchangeRates) return defaultPrice;
+    const isBundle = plan === "bundle";
+    const baseEgp = 49;
+    const bundleEgp = 79;
+    const targetEgp = isBundle ? bundleEgp : baseEgp;
+
+    if (curr === "EGP" || !exchangeRates) {
+        if(curr === "EGP") return targetEgp;
+        return isBundle ? Math.ceil(currencies[curr].price * 1.6) : currencies[curr].price; // rough fallback without rates
+    }
     
-    // Base price is 49 EGP
-    const priceInEGP = 49;
     const rate = exchangeRates[curr];
-    return Math.ceil(priceInEGP * rate);
+    return Math.ceil(targetEgp * rate);
   };
 
   const selected = currencies[currency];
@@ -131,18 +137,18 @@ export default function PaymentModal({
                    <Crown className="text-white drop-shadow-sm" size={32} />
                  </div>
                  
-                 <h2 className="text-3xl lg:text-4xl font-black mb-3 text-white font-display tracking-tight leading-tight">Elite <br/>Export</h2>
+                 <h2 className="text-3xl lg:text-4xl font-black mb-3 text-white font-display tracking-tight leading-tight">Pay only when <br/>you download</h2>
                  <p className="text-slate-400 text-sm leading-relaxed">
-                   Get your professional, ATS-optimized resume in minutes.
+                   Try everything for free. Only pay when you're 100% ready.
                  </p>
                </div>
 
                <div className="space-y-4 pt-4 border-t border-white/10">
                  {[
-                   "Lifetime access to your data",
-                   "One-time payment, no subs",
-                   "Perfect ATS PDF format",
-                   "All elite templates included"
+                   "PDF + Word included",
+                   "No watermark",
+                   "Unlimited edits before payment",
+                   "One-time payment only"
                  ].map((feature, i) => (
                    <div key={i} className="flex items-start gap-4">
                      <div className="mt-0.5 bg-emerald-500/20 rounded-full p-1 shrink-0">
@@ -154,9 +160,9 @@ export default function PaymentModal({
                </div>
              </div>
 
-             <div className="mt-10 relative z-10 flex items-center gap-3 text-xs text-slate-500 bg-white/5 p-4 rounded-2xl border border-white/5">
+             <div className="mt-10 relative z-10 flex items-center gap-3 text-xs text-slate-500 bg-white/5 p-4 rounded-2xl border border-white/5 backdrop-blur-sm">
                <ShieldCheck size={20} className="shrink-0 text-emerald-500" />
-               <span className="leading-tight">Secured by Stripe & WhatsApp End-to-End Encryption</span>
+               <span className="leading-tight">Secured by Stripe (Coming Soon) & WhatsApp End-to-End Encryption. We do not store payment details.</span>
              </div>
           </div>
 
@@ -176,6 +182,36 @@ export default function PaymentModal({
                </div>
                <h2 className="text-2xl font-black text-slate-900 tracking-tight">Elite Export</h2>
                <p className="text-sm text-slate-500 mt-1">Unlock your ATS-ready resume.</p>
+            </div>
+
+            {/* Plan Selection */}
+            <div className="flex gap-3 mb-6">
+              <button 
+                onClick={() => setPlan("single")}
+                className={`flex-1 p-4 rounded-2xl border-2 text-start transition-all ${plan === "single" ? 'border-indigo-500 bg-indigo-50/50' : 'border-slate-100 hover:border-slate-200'}`}
+              >
+                <div className="flex justify-between items-start mb-1">
+                  <span className="font-bold text-slate-900">Resume Only</span>
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${plan === "single" ? 'border-indigo-500' : 'border-slate-300'}`}>
+                    {plan === "single" && <div className="w-2 h-2 rounded-full bg-indigo-500"></div>}
+                  </div>
+                </div>
+                <span className="text-xs text-slate-500">Get your ATS-ready PDF</span>
+              </button>
+              
+              <button 
+                onClick={() => setPlan("bundle")}
+                className={`flex-1 p-4 rounded-2xl border-2 text-start transition-all ${plan === "bundle" ? 'border-indigo-500 bg-indigo-50/50 relative overflow-hidden' : 'border-slate-100 hover:border-slate-200'}`}
+              >
+                {plan === "bundle" && <div className="absolute top-0 right-0 p-4 opacity-5 text-indigo-500 pointer-events-none"><Crown size={48} /></div>}
+                <div className="flex justify-between items-start mb-1 relative z-10">
+                  <span className="font-bold text-slate-900">Bundle pack</span>
+                  <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${plan === "bundle" ? 'border-indigo-500' : 'border-slate-300'}`}>
+                    {plan === "bundle" && <div className="w-2 h-2 rounded-full bg-indigo-500"></div>}
+                  </div>
+                </div>
+                <span className="text-xs text-slate-500 relative z-10">Resume + Cover Letter (+30 EGP)</span>
+              </button>
             </div>
 
             {/* Price Box */}
@@ -227,7 +263,7 @@ export default function PaymentModal({
                    Get your unlock code
                  </h4>
                  <a
-                    href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20resume%20download%20code"
+                    href={`https://wa.me/201101007965?text=I%20want%20to%20buy%20${plan === "bundle" ? 'the%20Resume%20+%20Cover%20Letter%20Bundle' : 'a%20Resume%20Code'}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-4 px-4 rounded-xl font-bold transition-all flex items-center justify-center gap-3 text-sm shadow-[0_8px_16px_-6px_rgba(37,211,102,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] group hover:-translate-y-0.5 active:translate-y-0"

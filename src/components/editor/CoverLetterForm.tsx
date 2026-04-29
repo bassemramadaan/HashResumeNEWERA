@@ -27,6 +27,8 @@ export default function CoverLetterForm() {
   const [error, setError] = useState<string | null>(null);
   const [imported, setImported] = useState(false);
 
+  const [selectedStyle, setSelectedStyle] = useState<string>("corporate");
+
   // Auto-populate from resume data if empty
   useEffect(() => {
     // Only run if coverLetter exists in data (to avoid infinite loop if updateCoverLetter triggers re-render with new object)
@@ -84,11 +86,20 @@ export default function CoverLetterForm() {
     setIsGenerating(true);
     setError(null);
 
+    const stylePrompt = {
+      corporate: 'Tone: Highly professional, formal, and direct. Focus on measurable corporate impact.',
+      fresh_graduate: 'Tone: Enthusiastic, eager to learn, and adaptable. Focus on potential, academic background, and relevant projects/internships.',
+      remote: 'Tone: Independent, reliable, and communicative. Focus on being a self-starter, remote collaboration tools, and time management.',
+      gulf: 'Tone: Respectful and professional. Highlight cultural adaptability, language skills (if any), and readiness to relocate or work in a diverse multinational environment in the Gulf.'
+    }[selectedStyle] || '';
+
     const prompt = `
  Write a professional cover letter for a ${coverLetter.jobTitle} position at ${coverLetter.companyName}.
  
  Candidate Name: ${coverLetter.fullName}
  Hiring Manager: ${coverLetter.hiringManager || "Hiring Manager"}
+ 
+ ${stylePrompt}
  
  Job Description:
  ${coverLetter.jobDescription || "Not provided"}
@@ -96,7 +107,7 @@ export default function CoverLetterForm() {
  Key Skills:
  ${coverLetter.skills}
  
- The cover letter should be professional, engaging, and highlight why the candidate is a good fit.
+ The cover letter should be engaging and highlight why the candidate is a good fit based on the requested tone.
  Keep it concise (under 400 words).
  Do not include placeholders like [Your Name] or [Date], use the provided information.
  Format it with proper paragraphs.
@@ -247,6 +258,32 @@ export default function CoverLetterForm() {
             className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-white text-slate-900 placeholder-slate-400"
             placeholder={t.coverLetter.jobDescriptionPlaceholder}
           />
+        </div>
+
+        <div className="space-y-3">
+          <label className="text-sm font-medium text-slate-700">
+            {language === 'ar' ? 'نمط الخطاب' : 'Letter Style'}
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {[
+              { id: "corporate", label: language === 'ar' ? 'رسمي ومهني' : 'Corporate & Formal' },
+              { id: "fresh_graduate", label: language === 'ar' ? 'حديث التخرج (حماس وقابلية للتعلم)' : 'Fresh Graduate (Eager & trainable)' },
+              { id: "remote", label: language === 'ar' ? 'عمل عن بعد (مستقل ومبادر)' : 'Remote (Self-starter)' },
+              { id: "gulf", label: language === 'ar' ? 'دول الخليج' : 'Gulf Region' }
+            ].map((style) => (
+              <button
+                key={style.id}
+                onClick={() => setSelectedStyle(style.id)}
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                  selectedStyle === style.id
+                    ? 'bg-indigo-50 border-indigo-200 text-indigo-700 border-2'
+                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 border-2'
+                }`}
+              >
+                {style.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {error && (

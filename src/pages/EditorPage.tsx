@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import { useReactToPrint } from "react-to-print";
 import { motion, AnimatePresence } from "framer-motion";
 import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from "react-resizable-panels";
@@ -20,7 +21,6 @@ import {
   CheckCircle2,
   Maximize2,
   X,
-  ArrowRight,
   FileText,
   Sparkles,
   Loader2,
@@ -406,6 +406,29 @@ export default function EditorPage() {
   const data = useResumeStore((state) => state.data);
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
   const resetData = useResumeStore((state) => state.resetData);
+  
+  useEffect(() => {
+    trackEvent(FUNNEL_EVENTS.EDITOR_START, { language });
+  }, [language]);
+
+  useEffect(() => {
+    if (showFullPreview) {
+      trackEvent(FUNNEL_EVENTS.PREVIEW_OPENED, { language });
+    }
+  }, [showFullPreview, language]);
+
+  useEffect(() => {
+    if (showPaymentModal) {
+      trackEvent(FUNNEL_EVENTS.PAYMENT_CLICK, { language });
+    }
+  }, [showPaymentModal, language]);
+
+  useEffect(() => {
+    if (data.templateId) {
+      trackEvent(FUNNEL_EVENTS.TEMPLATE_CHOSEN, { templateId: data.templateId });
+    }
+  }, [data.templateId]);
+
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } =
     useOnboardingStore();
 
@@ -718,30 +741,53 @@ export default function EditorPage() {
       <div className="h-20 shrink-0" />
 
       {/* Real-time Progress Bar */}
-      <div className="bg-white border-b border-slate-200 px-6 py-3 hidden md:flex items-center gap-4 z-40 relative shadow-sm">
-        <div className="text-xs font-bold text-slate-700 whitespace-nowrap">
+      <div className="bg-white border-b border-slate-200 px-6 py-3 hidden xl:flex items-center gap-4 z-40 relative shadow-sm overflow-x-auto hide-scrollbar">
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 text-xs font-bold whitespace-nowrap">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-indigo-100 text-indigo-600">1</span>
+            <span className={progressPercent < 100 ? "text-slate-900" : "text-slate-500"}>{language === "ar" ? "أدخل بياناتك" : "Fill Data"}</span>
+          </div>
+          <div className="flex items-center gap-2 text-xs font-bold whitespace-nowrap">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-orange-100 text-[#ff4d2d]">2</span>
+            <span className={progressPercent === 100 ? "text-slate-900" : "text-slate-500"}>{language === "ar" ? "راجع الـ ATS" : "Check ATS"}</span>
+          </div>
+          <div className="flex items-center gap-2 text-xs font-bold whitespace-nowrap">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-600">3</span>
+            <span className="text-slate-500">{language === "ar" ? "نزّل السيرة" : "Download"}</span>
+          </div>
+        </div>
+
+        <div className="w-px h-6 bg-slate-200 mx-2 shrink-0"></div>
+
+        <div className="text-xs font-bold text-slate-500 whitespace-nowrap">
           {language === "ar" ? "نسبة الاكتمال" : "Completion"}
         </div>
-        <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden max-w-xs shrink-0">
           <motion.div 
             initial={{ width: 0 }}
             animate={{ width: `${progressPercent}%` }}
-            className={`h-full ${progressPercent === 100 ? 'bg-emerald-500' : 'bg-[#ff4d2d]'}`}
+            className={`h-full transition-all duration-500 ${progressPercent === 100 ? 'bg-emerald-500' : 'bg-[#ff4d2d]'}`}
           />
         </div>
-        <div className="text-xs font-bold text-slate-500 whitespace-nowrap">
+        <div className="text-xs font-bold text-slate-500 whitespace-nowrap flex items-center gap-2">
           {progressPercent}% 
           {estimatedTime > 0 && (
-            <span className="text-slate-400 ms-2 font-medium">
+            <span className="text-slate-400 font-medium hidden sm:inline">
               — {language === "ar" ? `حوالي ${estimatedTime} دقائق لإنهاء المسودة الأولى` : `Est. ${estimatedTime} mins to finish first draft`}
             </span>
           )}
           {progressPercent === 100 && (
-            <span className="text-emerald-500 ms-2 flex items-center gap-1 inline-flex">
+            <span className="text-emerald-500 flex items-center gap-1 inline-flex">
               <CheckCircle2 size={12} /> {language === "ar" ? "جاهز للمراجعة" : "Ready to review"}
             </span>
           )}
         </div>
+        <button 
+          onClick={() => setShowProgressTracker(true)}
+          className="text-xs font-bold px-3 py-1.5 ms-auto text-indigo-600 hover:bg-indigo-50 rounded-full transition-colors flex justify-center items-center gap-1 shrink-0 whitespace-nowrap"
+        >
+          {language === "ar" ? "ما التالي؟" : "What's missing?"} <Target size={14} />
+        </button>
       </div>
 
       <PanelGroup direction="horizontal" className="flex-1 w-full h-full overflow-hidden relative editor-form">
@@ -1175,6 +1221,7 @@ export default function EditorPage() {
           isOpen={showPaymentModal}
           onClose={() => setShowPaymentModal(false)}
           onSuccess={() => {
+            trackEvent(FUNNEL_EVENTS.PAID_DOWNLOAD, { language });
             setShowPaymentModal(false);
             handlePrint();
           }}

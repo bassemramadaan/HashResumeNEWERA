@@ -1,6 +1,7 @@
-import { useParams, Navigate } from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
+import { Helmet } from "react-helmet-async";
 import {
   Calendar,
   Clock,
@@ -25,8 +26,27 @@ export default function BlogPostPage() {
 
   const shareUrl = window.location.href;
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title[language],
+    "image": post.image,
+    "datePublished": post.date,
+    "author": {
+      "@type": "Person",
+      "name": post.author[language]
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 transition-colors duration-300">
+      <Helmet>
+        <title>{post.title[language]} | Hash Resume</title>
+        <meta name="description" content={post.excerpt[language]} />
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      </Helmet>
       <Navbar />
 
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 mt-32">
@@ -97,10 +117,28 @@ export default function BlogPostPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="prose prose-lg prose-indigo max-w-none prose-headings:font-display prose-img:rounded-xl prose-a:text-indigo-600 hover:prose-a:text-indigo-700 :prose-a:text-indigo-300"
+          className="prose prose-lg prose-indigo max-w-none prose-headings:font-display prose-img:rounded-xl prose-a:text-indigo-600 hover:prose-a:text-indigo-700 mt-8"
         >
           <ReactMarkdown>{post.content[language]}</ReactMarkdown>
         </motion.div>
+
+        {/* Call to Action Editor */}
+        <div className="my-16 bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100 p-8 md:p-12 rounded-3xl flex flex-col items-center text-center shadow-sm">
+          <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 font-display">
+            {language === "ar" ? "جاهز لإنشاء سيرتك الذاتية؟" : "Ready to build your resume?"}
+          </h3>
+          <p className="text-slate-600 mb-8 max-w-xl text-lg">
+            {language === "ar" 
+              ? "استخدم الذكاء الاصطناعي لإنشاء سيرة ذاتية متوافقة مع أنظمة التتبع (ATS) في دقائق قليلة." 
+              : "Use AI to create an ATS-friendly resume in just a few minutes."}
+          </p>
+          <Link 
+            to="/editor" 
+            className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 hover:-translate-y-1 transition-all shadow-lg shadow-indigo-600/20"
+          >
+            {language === "ar" ? "ابدأ الآن مجاناً" : "Start now for free"}
+          </Link>
+        </div>
 
         {/* Share */}
         <div className="mt-16 pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-6">
