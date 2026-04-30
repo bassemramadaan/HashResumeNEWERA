@@ -709,7 +709,7 @@ export default function EditorPage() {
   return (
     <div
       className={cn(
-        "flex flex-col h-screen bg-slate-50 overflow-hidden transition-colors duration-200",
+        "flex flex-col h-[100dvh] bg-slate-50 overflow-hidden transition-colors duration-200",
         language === "ar" ? "font-editor-ar" : "font-editor-en",
       )}
       dir={dir}
@@ -740,22 +740,22 @@ export default function EditorPage() {
             <div className="w-px h-6 bg-slate-200 mx-0.5 hidden sm:block"></div>
 
             {/* Undo/Redo */}
-            <div className="flex items-center gap-0.5">
+            <div className="flex items-center gap-0.5 sm:gap-1">
               <button
                 onClick={() => undo()}
                 disabled={pastStates.length === 0}
-                className="p-1.5 sm:p-2 rounded-full text-slate-500 hover:bg-slate-100 disabled:opacity-20 transition-colors"
+                className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 disabled:opacity-20 transition-colors"
                 title={t.undo}
               >
-                <Undo2 size={16} className="sm:w-4 sm:h-4" />
+                <Undo2 size={18} className="sm:w-4 sm:h-4" />
               </button>
               <button
                 onClick={() => redo()}
                 disabled={futureStates.length === 0}
-                className="p-1.5 sm:p-2 rounded-full text-slate-500 hover:bg-slate-100 disabled:opacity-20 transition-colors"
+                className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 disabled:opacity-20 transition-colors"
                 title={t.redo}
               >
-                <Redo2 size={16} className="sm:w-4 sm:h-4" />
+                <Redo2 size={18} className="sm:w-4 sm:h-4" />
               </button>
             </div>
           </div>
@@ -788,19 +788,19 @@ export default function EditorPage() {
           <div className="flex items-center gap-1 sm:gap-2">
             <button
               onClick={() => setShowProgressTracker(true)}
-              className="p-2 sm:p-2.5 rounded-full text-indigo-500 hover:bg-slate-50/50 hover:text-indigo-600 transition-colors"
+              className="w-11 h-11 sm:w-auto sm:h-auto sm:p-2.5 flex items-center justify-center rounded-full text-indigo-500 hover:bg-slate-50/50 hover:text-indigo-600 transition-colors"
               title={language === "ar" ? "عرض التقدم" : "View Progress"}
             >
-              <Target size={16} />
+              <Target size={18} className="sm:w-4 sm:h-4" />
             </button>
 
             <div className="hidden md:flex items-center gap-1 sm:gap-2">
               <button
                 onClick={() => setShowWelcomeModal(true)}
-                className="p-2 rounded-full text-[#ff4d2d] bg-orange-50 hover:bg-orange-100 transition-colors border border-orange-200"
+                className="w-11 h-11 sm:w-auto sm:h-auto sm:p-2 flex items-center justify-center rounded-full text-[#ff4d2d] bg-orange-50 hover:bg-orange-100 transition-colors border border-orange-200"
                 title={t.showMeAround}
               >
-                <Sparkles size={16} className="animate-pulse" />
+                <Sparkles size={18} className="animate-pulse sm:w-4 sm:h-4" />
               </button>
               <LanguageSwitcher className="[&>span]:hidden lg:[&>span]:inline" />
             </div>
@@ -811,10 +811,10 @@ export default function EditorPage() {
             {/* Persistent Preview Button */}
             <button
               onClick={() => setShowFullPreview(true)}
-              className="flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-slate-100/80 hover:bg-slate-200 text-slate-700 transition-all border border-slate-200/50 active:scale-95 font-bold text-[10px] sm:text-xs uppercase tracking-wider"
+              className="w-11 h-11 sm:w-auto sm:h-auto flex items-center justify-center gap-2 sm:px-4 sm:py-2 rounded-full bg-slate-100/80 hover:bg-slate-200 text-slate-700 transition-all border border-slate-200/50 active:scale-95 font-bold text-[10px] sm:text-xs uppercase tracking-wider"
               title={language === "ar" ? "معاينة كاملة" : "Full Preview"}
             >
-              <Eye size={14} className="text-slate-500" />
+              <Eye size={18} className="text-slate-500 sm:w-3.5 sm:h-3.5" />
               <span className="hidden lg:inline">
                 {language === "ar" ? "معاينة كاملة" : "Full Preview"}
               </span>
@@ -825,7 +825,7 @@ export default function EditorPage() {
               disabled={isExporting}
               data-tour="export-button"
               className={cn(
-                "flex items-center gap-2 px-4 py-2 rounded-full text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest",
+                "flex items-center gap-2 h-11 sm:h-auto px-4 sm:py-2 rounded-full text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest",
                 isExporting
                   ? "bg-slate-400 cursor-not-allowed"
                   : "bg-[#ff4d2d] hover:bg-[#e63e1d]",
@@ -861,7 +861,7 @@ export default function EditorPage() {
       <div className="h-20 shrink-0" />
 
       {/* Real-time Progress Bar */}
-      <div className="bg-white border-b border-slate-200 px-4 sm:px-6 py-2.5 sm:py-3 flex items-center gap-2 sm:gap-4 z-40 relative shadow-sm overflow-x-auto hide-scrollbar">
+      <div className="hidden sm:flex bg-white border-b border-slate-200 px-4 sm:px-6 py-2.5 sm:py-3 items-center gap-2 sm:gap-4 z-40 relative shadow-sm overflow-x-auto hide-scrollbar">
         <div className="flex items-center gap-3 sm:gap-6 shrink-0">
           <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-black whitespace-nowrap">
             <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-indigo-100 text-indigo-600">
@@ -977,79 +977,80 @@ export default function EditorPage() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id as Tab)}
                       className={cn(
-                        "flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-xl text-xs font-bold whitespace-nowrap transition-all",
+                        "flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-xl text-sm font-bold whitespace-nowrap transition-all",
                         isActive
-                          ? "bg-[#ff4d2d] text-white shadow-md"
+                          ? "bg-[#ff4d2d] text-white shadow-md relative z-10"
                           : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50",
                       )}
                     >
-                      <Icon size={14} />
-                      {tab.shortLabel}
+                      <Icon size={16} />
+                      {tab.label}
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            <div className="px-4 sm:px-6 pt-6 pb-4 shrink-0 max-w-4xl mx-auto w-full">
-              <motion.div
-                key={activeTab}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,77,45,0.08)]"
-              >
-                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#ff4d2d]/10 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
-
-                <div className="w-14 h-14 rounded-[1.25rem] bg-[#ff4d2d] flex items-center justify-center shrink-0 shadow-[0_12px_24px_rgba(255,77,45,0.25)] relative z-10 ring-4 ring-orange-50 border border-white/20 group">
-                  <Sparkles size={24} className="text-white animate-pulse" />
-                </div>
-
-                <div className="flex-1 relative z-10 text-start">
-                  <div className="flex flex-wrap items-center gap-2 text-[10px] font-black text-[#ff4d2d] uppercase tracking-widest mb-1.5 opacity-90">
-                    <span className="bg-[#ff4d2d]/10 px-2 py-0.5 rounded-full">
-                      {activeTabIndex} / {tabs.length}
-                    </span>
-                    <span className="w-1 h-1 rounded-full bg-[#ff4d2d]/30"></span>
-                    <span>{tabs.find((t) => t.id === activeTab)?.label}</span>
-                  </div>
-                  <h1 className="text-base sm:text-xl font-black text-slate-900 tracking-tight leading-snug">
-                    {tabDescriptions[activeTab]}
-                  </h1>
-                </div>
-
-                <div className="flex items-center gap-2 z-10 w-full sm:w-auto mt-3 sm:mt-0">
-                  <button
-                    onClick={() =>
-                      setConfirmAction({
-                        type: "load",
-                        message: t.overwriteConfirm,
-                      })
-                    }
-                    className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-[#ff4d2d] bg-white hover:bg-orange-50 px-4 py-3 rounded-2xl transition-all border border-[#ff4d2d]/10 shadow-sm whitespace-nowrap active:scale-95"
-                  >
-                    {t.loadExample}
-                  </button>
-                  <button
-                    onClick={() =>
-                      setConfirmAction({
-                        type: "clear",
-                        message: t.clearConfirm,
-                      })
-                    }
-                    className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-rose-500 px-4 py-3 rounded-2xl hover:bg-rose-50 transition-all border border-transparent whitespace-nowrap active:scale-95"
-                  >
-                    {t.clearAll}
-                  </button>
-                </div>
-              </motion.div>
-            </div>
-
             <main
               ref={formRef}
               onScroll={handleFormScroll}
-              className="flex-1 overflow-y-auto p-4 sm:p-6 pt-4 scroll-smooth relative"
+              className="flex-1 overflow-y-auto p-4 sm:p-6 scroll-smooth relative"
             >
-              <div className="max-w-4xl mx-auto pb-48 sm:pb-32">
+              <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32">
+                {/* Tab instructions header moved inside scroll area */}
+                <div className="pb-6">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,77,45,0.08)]"
+                  >
+                    <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#ff4d2d]/10 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-[#ff4d2d] flex items-center justify-center shrink-0 shadow-[0_12px_24px_rgba(255,77,45,0.25)] relative z-10 ring-4 ring-orange-50 border border-white/20 group">
+                      <Sparkles size={20} className="text-white animate-pulse sm:w-6 sm:h-6" />
+                    </div>
+
+                    <div className="flex-1 relative z-10 text-start">
+                      <div className="flex flex-wrap items-center gap-2 text-[10px] font-black text-[#ff4d2d] uppercase tracking-widest mb-1.5 opacity-90">
+                        <span className="bg-[#ff4d2d]/10 px-2 py-0.5 rounded-full">
+                          {activeTabIndex} / {tabs.length}
+                        </span>
+                        <span className="w-1 h-1 rounded-full bg-[#ff4d2d]/30"></span>
+                        <span>{tabs.find((t) => t.id === activeTab)?.label}</span>
+                      </div>
+                      <h1 className="text-sm sm:text-xl font-black text-slate-900 tracking-tight leading-snug">
+                        {tabDescriptions[activeTab]}
+                      </h1>
+                    </div>
+
+                    <div className="flex items-center gap-2 z-10 w-full sm:w-auto mt-4 sm:mt-0">
+                      <button
+                        onClick={() =>
+                          setConfirmAction({
+                            type: "load",
+                            message: t.overwriteConfirm,
+                          })
+                        }
+                        className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-[#ff4d2d] bg-white hover:bg-orange-50 h-12 px-4 rounded-2xl transition-all border border-[#ff4d2d]/10 shadow-sm whitespace-nowrap active:scale-95"
+                      >
+                        {t.loadExample}
+                      </button>
+                      <button
+                        onClick={() =>
+                          setConfirmAction({
+                            type: "clear",
+                            message: t.clearConfirm,
+                          })
+                        }
+                        className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-rose-500 h-12 px-4 rounded-2xl hover:bg-rose-50 transition-all border border-transparent whitespace-nowrap active:scale-95"
+                      >
+                        {t.clearAll}
+                      </button>
+                    </div>
+                  </motion.div>
+                </div>
+
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
@@ -1436,9 +1437,9 @@ export default function EditorPage() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.5, y: 20 }}
                       onClick={scrollToFormTop}
-                      className="md:hidden fixed bottom-24 end-6 w-10 h-10 bg-slate-50 text-slate-900 rounded-full shadow-xl border border-slate-200 flex items-center justify-center z-40 active:scale-90 transition-transform"
+                      className="md:hidden fixed bottom-[90px] sm:bottom-28 end-6 w-12 h-12 bg-slate-50 text-slate-900 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-200 flex items-center justify-center z-40 active:scale-90 transition-transform"
                     >
-                      <ArrowUp size={20} />
+                      <ArrowUp size={24} />
                     </motion.button>
                   )}
                 </AnimatePresence>
@@ -1595,20 +1596,25 @@ export default function EditorPage() {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-auto p-4 flex justify-center bg-slate-100">
+              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-100">
                 <div
                   className={cn(
                     "origin-top transition-all",
                     previewMode !== "cover-letter"
-                      ? "scale-[0.45] w-[210mm] min-h-[297mm] origin-top h-[calc(297mm*0.45)] shrink-0"
+                      ? "scale-[0.4] sm:scale-[0.45] origin-top opacity-100"
                       : "w-full",
                   )}
+                  style={previewMode !== "cover-letter" ? { 
+                    width: "210mm",
+                    height: "297mm",
+                    marginBottom: "-170mm" // roughly 297 * 0.6
+                  } : undefined}
                 >
                   <div
                     className={cn(
-                      "bg-slate-50 shadow-xl rounded-sm overflow-hidden",
+                      "bg-white shadow-[0_0_40px_rgba(0,0,0,0.1)] rounded-sm overflow-hidden mx-auto",
                       previewMode !== "cover-letter"
-                        ? "w-[210mm] min-h-[297mm] shrink-0"
+                        ? "w-[210mm] min-h-[297mm]"
                         : "w-full",
                     )}
                   >

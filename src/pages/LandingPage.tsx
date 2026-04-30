@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useSpring, useMotionValue, animate } from "framer-motion";
+import { motion, useScroll, useSpring, useMotionValue, animate, AnimatePresence } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import {
@@ -249,7 +249,7 @@ export default function LandingPage() {
                   className="w-full sm:w-auto bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white px-10 py-5 rounded-full text-xl font-bold transition-all hover:shadow-2xl hover:shadow-orange-500/30 flex items-center justify-center gap-3 group hover:-translate-y-1 active:translate-y-0"
                 >
                   <Plus size={24} className="transition-transform duration-300 group-hover:rotate-90 drop-shadow-sm" />
-                  {language === "ar" ? "ابدأ كتابة سيرتك الآن" : "Start Building Now"}
+                  {t.startBuildingNow}
                 </Link>
                 <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
                   <CheckCircle2 size={16} className="text-emerald-500" />
@@ -291,7 +291,7 @@ export default function LandingPage() {
                   />
                 </div>
                 <span className="ms-2">
-                  {language === "ar" ? "أكثر من 12,000 سيرة ذاتية تم إنشاؤها" : "12,000+ resumes created"}
+                  {language === "ar" ? "أكثر من 14,000 سيرة ذاتية تم إنشاؤها" : "14,000+ resumes created"}
                 </span>
               </motion.div>
             </div>
@@ -489,25 +489,25 @@ export default function LandingPage() {
       </section>
 
       {/* Editor & ATS Screenshot Showcase */}
-      <section className="py-24 bg-slate-900 overflow-hidden relative">
+      <section className="py-12 sm:py-24 bg-slate-900 overflow-hidden relative">
         <div className="absolute inset-0 top-0 w-full h-full bg-grid-white/[0.02] bg-[length:32px_32px]"></div>
         <div className="absolute top-1/4 left-1/2 -px-1/2 w-3/4 max-w-4xl h-96 bg-[#ff4d2d]/20 blur-[120px] rounded-full mix-blend-screen pointer-events-none -translate-x-1/2"></div>
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-orange-400 text-sm font-bold border border-white/10 backdrop-blur-md mb-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center mb-10 sm:mb-16">
+          <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/10 text-orange-400 text-xs sm:text-sm font-bold border border-white/10 backdrop-blur-md mb-4 sm:mb-6">
             <Target size={16} />
             {t.beatAts}
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white font-display leading-tight sm:leading-tight mb-4 sm:mb-6 tracking-tight">
-            Designed for Humans. <br className="hidden md:block"/>
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-black text-white font-display leading-[1.15] sm:leading-tight mb-3 sm:mb-6 tracking-tight">
+            Designed for Humans. <br className="hidden sm:block"/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-[#ff4d2d]">Optimized for Robots.</span>
           </h2>
-          <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-slate-400 leading-relaxed max-w-2xl mx-auto px-2">
             {t.atsDescription}
           </p>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 lg:mt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 sm:mt-12 lg:mt-24">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-8 items-center justify-center">
             
             {/* Editor Screenshot */}
@@ -737,8 +737,8 @@ export default function LandingPage() {
               </ul>
 
               <Link
-                to="/templates"
-                className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-slate-900/20 transition-all active:scale-95 text-lg"
+                to="/editor"
+                className="block w-full bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white text-center font-bold py-4 rounded-2xl hover:shadow-xl hover:shadow-orange-500/30 transition-all active:scale-95 text-lg"
               >
                 {t.startBuildingNow}
               </Link>
@@ -802,14 +802,12 @@ export default function LandingPage() {
                 ))}
               </ul>
               
-              <a
-                href="https://wa.me/201101007965?text=I%20want%20to%20buy%20the%20Multi-Download%20Pack"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full bg-slate-900 hover:bg-slate-800 text-slate-50 text-center font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-slate-900/20 transition-all active:scale-95 mt-auto"
+              <Link
+                to="/editor"
+                className="block w-full bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white text-center font-bold py-4 rounded-2xl hover:shadow-xl hover:shadow-orange-500/30 transition-all active:scale-95 mt-auto text-lg"
               >
                 {t.startBuildingNow}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -1081,24 +1079,20 @@ export default function LandingPage() {
       <VideoDemoModal isOpen={showVideoModal} onClose={() => setShowVideoModal(false)} />
 
       {/* Scroll to Top & Floating CTA */}
-      <div className="fixed bottom-8 end-8 z-40 flex flex-col gap-4">
-        {showScrollTop && (
-          <motion.button
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            onClick={scrollToTop}
-            className="w-12 h-12 bg-slate-50 text-slate-900 rounded-full shadow-2xl border border-slate-200 flex items-center justify-center hover:bg-slate-50 transition-all active:scale-90"
-          >
-            <ArrowUp size={24} />
-          </motion.button>
-        )}
-
-        <Link
-          to="/editor"
-          className="md:hidden bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white p-4 rounded-full flex items-center justify-center active:scale-90 transition-all"
-        >
-          <Plus size={24} className="drop-shadow-sm" />
-        </Link>
+      <div className="fixed bottom-24 end-6 z-40">
+        <AnimatePresence>
+          {showScrollTop && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              onClick={scrollToTop}
+              className="w-12 h-12 bg-slate-50 text-slate-900 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-200 flex items-center justify-center hover:bg-white transition-all active:scale-90"
+            >
+              <ArrowUp size={24} />
+            </motion.button>
+          )}
+        </AnimatePresence>
       </div>
 
       <Footer />

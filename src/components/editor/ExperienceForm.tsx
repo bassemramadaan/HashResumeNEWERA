@@ -120,14 +120,14 @@ const ExperienceForm = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-1 sm:gap-4 md:gap-4 lg:gap-4 shrink-0">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       const { id: _id, ...rest } = exp;
                       addExperience(rest);
                     }}
-                    className="p-2 text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
+                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors shrink-0"
                     title={t.experience.duplicate}
                   >
                     <Copy size={18} />
@@ -137,16 +137,18 @@ const ExperienceForm = () => {
                       e.stopPropagation();
                       removeExperience(exp.id);
                     }}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
                     title={t.experience.remove}
                   >
                     <Trash2 size={18} />
                   </button>
-                  {expandedId === exp.id ? (
-                    <ChevronUp size={20} className="text-slate-400" />
-                  ) : (
-                    <ChevronDown size={20} className="text-slate-400" />
-                  )}
+                  <div className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center shrink-0">
+                    {expandedId === exp.id ? (
+                      <ChevronUp size={20} className="text-slate-400" />
+                    ) : (
+                      <ChevronDown size={20} className="text-slate-400" />
+                    )}
+                  </div>
                 </div>
               </div>
 

@@ -157,7 +157,7 @@ export default function Navbar() {
                 className="text-white drop-shadow-sm group-hover:rotate-12 transition-transform"
               />
               <span className="text-sm tracking-tight font-black uppercase">
-                {t.landing.buildResume || "Build Resume"}
+                {t.startBuildingNow}
               </span>
             </Link>
           </div>
@@ -251,7 +251,7 @@ export default function Navbar() {
                 className="flex items-center justify-center gap-3 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white font-bold py-4 px-6 rounded-2xl text-center active:scale-95 transition-all group"
               >
                 <Sparkles size={18} className="text-white drop-shadow-sm group-hover:scale-110 transition-transform" />
-                {t.landing.buildResume || "Build Resume"}
+                {t.startBuildingNow}
               </Link>
             </div>
           </motion.div>
