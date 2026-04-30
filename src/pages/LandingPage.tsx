@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import {
   CheckCircle2,
+  Check,
   ArrowRight,
   Calendar,
   Clock,
@@ -831,9 +832,70 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="bg-slate-50 rounded-[2.5rem] p-4 sm:p-8 md:p-12 shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-            <div className="overflow-x-auto pb-4 hide-scrollbar">
-              <table className="w-full border-collapse min-w-[640px] md:min-w-full text-start">
+          <div className="bg-slate-50 rounded-[2rem] sm:rounded-[2.5rem] p-4 sm:p-8 md:p-12 shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#ff4d2d]/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+            
+            {/* Mobile View: Cards */}
+            <div className="md:hidden space-y-6 relative z-10 w-full overflow-hidden">
+              <div className="bg-white p-6 rounded-3xl shadow-lg border border-orange-100 relative overflow-hidden">
+                <div className="absolute top-0 inset-x-0 h-1 bg-[#ff4d2d]"></div>
+                <div className="flex items-center gap-3 mb-6">
+                   <div className="w-10 h-10 bg-[#ff4d2d] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20">
+                     <Logo className="w-5 h-5 text-white" />
+                   </div>
+                   <span className="text-[#ff4d2d] font-black text-lg tracking-tight">Hash Resume</span>
+                </div>
+                <ul className="space-y-4">
+                  {[
+                    t.compFeature1,
+                    t.compFeature2,
+                    t.compFeature3,
+                    t.compFeature4,
+                    t.compFeature5,
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <div className="mt-0.5">
+                        <Check size={18} className="text-[#ff4d2d]" strokeWidth={3} />
+                      </div>
+                      <span className="text-slate-700 font-medium text-sm leading-snug">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="bg-slate-100/50 p-6 rounded-3xl border border-slate-200/50">
+                <div className="flex items-center gap-3 mb-6">
+                   <div className="w-10 h-10 bg-slate-200 rounded-xl flex items-center justify-center text-slate-400 font-black">?</div>
+                   <span className="text-slate-500 font-bold text-lg">Others</span>
+                </div>
+                <ul className="space-y-4">
+                  <li className="flex items-start gap-3">
+                    <div className="mt-0.5"><X size={18} className="text-slate-400" strokeWidth={3} /></div>
+                    <span className="text-slate-500 font-medium text-sm leading-snug">{t.compOthers1}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="mt-0.5"><X size={18} className="text-slate-400" strokeWidth={3} /></div>
+                    <span className="text-slate-500 font-medium text-sm leading-snug">{t.compOthers2}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="mt-0.5"><X size={18} className="text-slate-400" strokeWidth={3} /></div>
+                    <span className="text-slate-500 font-medium text-sm leading-snug">{t.compOthers3}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="mt-0.5"><X size={18} className="text-slate-400" strokeWidth={3} /></div>
+                    <span className="text-slate-500 font-medium text-sm leading-snug">{t.compOthers4}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="mt-0.5"><X size={18} className="text-slate-400" strokeWidth={3} /></div>
+                    <span className="text-slate-500 font-medium text-sm leading-snug">{t.compOthers5}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Desktop View: Table */}
+            <div className="hidden md:block overflow-x-auto pb-4 hide-scrollbar relative z-10">
+              <table className="w-full border-collapse min-w-full text-start">
                 <thead>
                   <tr>
                     <th className="py-6 px-4 text-start w-1/3"></th>
