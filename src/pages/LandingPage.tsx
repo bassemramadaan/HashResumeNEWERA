@@ -224,13 +224,13 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className={cn("font-display mb-8", language === "ar" ? "leading-relaxed" : "leading-[1.05]")}
               >
-                <span className="text-slate-900 block text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-6 leading-tight">
+                <span className="text-slate-900 block text-3xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-4 sm:mb-6 leading-snug sm:leading-tight">
                   {language === "ar" ? "أول Resume Builder عربي حقيقي" : t.heroTitle1}{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600 block sm:inline mt-1 sm:mt-0">
                     {language === "ar" ? "بدون اشتراكات" : t.heroTitle2}
                   </span>
                 </span>
-                <p className="text-slate-600 text-lg sm:text-xl font-medium tracking-tight mb-2 max-w-xl mx-auto lg:mx-0">
+                <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight mb-2 max-w-xl mx-auto lg:mx-0">
                   {language === "ar" 
                     ? "ابنِ سيرتك الذاتية مجاناً بالعربي والإنجليزي، وادفع مرة واحدة فقط عند التحميل. لا اشتراكات، لا رسوم خفية." 
                     : "Build your professional resume for free in Arabic & English. Pay once only when you love the result. No subscriptions."}
@@ -291,7 +291,7 @@ export default function LandingPage() {
                   />
                 </div>
                 <span className="ms-2">
-                  {language === "ar" ? "يثق بنا آلاف المحترفين" : "Trusted by thousands of professionals"}
+                  {language === "ar" ? "أكثر من 12,000 سيرة ذاتية تم إنشاؤها" : "12,000+ resumes created"}
                 </span>
               </motion.div>
             </div>
@@ -498,7 +498,7 @@ export default function LandingPage() {
             <Target size={16} />
             {t.beatAts}
           </div>
-          <h2 className="text-3xl md:text-5xl font-black text-white font-display leading-tight mb-6 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-white font-display leading-tight sm:leading-tight mb-4 sm:mb-6 tracking-tight">
             Designed for Humans. <br className="hidden md:block"/>
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-[#ff4d2d]">Optimized for Robots.</span>
           </h2>
@@ -740,7 +740,7 @@ export default function LandingPage() {
                 to="/templates"
                 className="block w-full bg-slate-900 hover:bg-slate-800 text-white text-center font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-slate-900/20 transition-all active:scale-95 text-lg"
               >
-                {t.getStartedNow}
+                {t.startBuildingNow}
               </Link>
             </div>
 
@@ -808,7 +808,7 @@ export default function LandingPage() {
                 rel="noopener noreferrer"
                 className="block w-full bg-slate-900 hover:bg-slate-800 text-slate-50 text-center font-bold py-4 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-slate-900/20 transition-all active:scale-95 mt-auto"
               >
-                {t.getStartedNow}
+                {t.startBuildingNow}
               </a>
             </div>
           </div>
