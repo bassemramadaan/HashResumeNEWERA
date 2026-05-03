@@ -1,0 +1,75 @@
+/* ===== BUTTONS ===== */
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl px-6 py-3 transition-colors duration-150 cursor-pointer whitespace-nowrap;
+  min-height: 48px;
+}
+
+/* Primary — brand-500 فقط للـ CTA الرئيسي */
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl px-6 py-3 transition-colors duration-150 cursor-pointer whitespace-nowrap bg-brand-500 hover:bg-brand-600 active:bg-brand-700 text-white focus-visible:ring-2;
+  min-height: 48px;
+}
+
+/* Secondary */
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl px-6 py-3 transition-colors duration-150 cursor-pointer whitespace-nowrap bg-neutral-100 hover:bg-neutral-200 text-neutral-800;
+  min-height: 48px;
+}
+
+/* Ghost */
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl px-6 py-3 transition-colors duration-150 cursor-pointer whitespace-nowrap border border-neutral-300 hover:bg-neutral-50 text-neutral-700;
+  min-height: 48px;
+}
+
+.btn-sm {
+  @apply px-4 py-2;
+  min-height: 36px;
+  font-size: 0.875rem;
+}
+
+/* ===== INPUTS ===== */
+.input, .textarea, .input-base {
+  @apply w-full h-12 px-4 rounded-xl
+         border border-neutral-300
+         bg-white text-neutral-800
+         placeholder:text-neutral-400
+         text-base /* منع iOS zoom */
+         outline-none
+         transition-all duration-150;
+}
+
+.textarea {
+  height: auto;
+  min-height: 96px;
+  @apply py-3 resize-y;
+}
+
+.input:focus, .textarea:focus, .input-base:focus {
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-500) 20%, transparent);
+}
+
+.input:disabled, .textarea:disabled, .input-base:disabled {
+  @apply bg-neutral-50 text-neutral-400 cursor-not-allowed;
+}
+
+/* ===== CARDS ===== */
+.card {
+  @apply bg-neutral-0 border border-neutral-200 rounded-xl p-5;
+}
+.card-hover {
+  @apply bg-neutral-0 border border-neutral-200 rounded-xl p-5 transition-shadow duration-150 hover:shadow-md;
+}
+
+/* ===== LABELS ===== */
+.label {
+  @apply block text-sm font-medium text-neutral-700 mb-1.5;
+}
+
+/* ===== BADGES ===== */
+.badge-success { @apply bg-success-light text-success text-xs font-medium px-2.5 py-0.5 rounded-full; }
+.badge-warning { @apply bg-warning-light text-warning text-xs font-medium px-2.5 py-0.5 rounded-full; }
+.badge-danger  { @apply bg-danger-light  text-danger  text-xs font-medium px-2.5 py-0.5 rounded-full; }
+.badge-brand   { @apply bg-brand-100     text-brand-700 text-xs font-medium px-2.5 py-0.5 rounded-full; }
