@@ -85,7 +85,7 @@ const ResumeCheckerModal = lazy(
 const FormLoader = () => (
   <div className="flex flex-col items-center justify-center py-20 space-y-4">
     <Loader2 className="w-10 h-10 text-[#ff4d2d] animate-spin" />
-    <p className="text-white0 font-medium">Loading section...</p>
+    <p className="text-slate-500 font-medium">Loading section...</p>
   </div>
 );
 

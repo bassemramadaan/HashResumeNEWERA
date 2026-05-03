@@ -81,7 +81,7 @@ const ExperienceForm = () => {
       </div>
 
       {experience.length === 0 ? (
-        <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 border-dashed text-center text-white0">
+        <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
           {t.experience.noExperience}
         </div>
       ) : (

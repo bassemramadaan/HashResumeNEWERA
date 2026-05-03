@@ -59,6 +59,13 @@ const itemVariants: Variants = {
   },
 };
 
+const QUICK_TEMPLATES = [
+  { id: "modern", gradient: "from-indigo-600 to-blue-600", color: "text-indigo-600" },
+  { id: "professional", gradient: "from-slate-700 to-slate-900", color: "text-slate-700" },
+  { id: "creative", gradient: "from-purple-600 to-pink-600", color: "text-purple-600" },
+  { id: "arabic", gradient: "from-emerald-600 to-teal-600", color: "text-emerald-600" },
+];
+
 export default function WelcomeModal({
   isOpen,
   onStartTour,
@@ -136,7 +143,7 @@ export default function WelcomeModal({
 
                       <button
                         onClick={onSkip}
-                        className="w-full bg-slate-50 text-white0 hover:text-slate-700 hover:bg-slate-100 py-4 px-6 rounded-2xl font-semibold transition-colors flex items-center justify-center gap-2"
+                        className="w-full bg-slate-50 text-slate-600 hover:text-slate-700 hover:bg-slate-100 py-4 px-6 rounded-2xl font-semibold transition-colors flex items-center justify-center gap-2"
                       >
                         <SkipForward size={18} />
                         {t.skipTour}
@@ -164,12 +171,13 @@ export default function WelcomeModal({
                     </motion.p>
 
                     <motion.div variants={itemVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full mb-8">
-                      {QUICK_TEMPLATES.map((t) => {
-                        const isSelected = data.settings.template === t.id;
+                      {QUICK_TEMPLATES.map((tpl) => {
+                        const isSelected = data.settings.template === tpl.id;
+                        const templateInfo = t.templates[tpl.id as keyof typeof t.templates];
                         return (
                           <button
-                            key={t.id}
-                            onClick={() => updateSettings({ template: t.id })}
+                            key={tpl.id}
+                            onClick={() => updateSettings({ template: tpl.id })}
                             className={`relative p-5 rounded-2xl border-2 transition-all flex items-center gap-4 group text-start ${
                               isSelected
                                 ? "border-indigo-500 bg-indigo-50/50 shadow-md shadow-indigo-500/10"
@@ -177,16 +185,16 @@ export default function WelcomeModal({
                             }`}
                           >
                             <div
-                              className={`w-12 h-16 rounded-lg shadow-sm flex items-center justify-center shrink-0 bg-gradient-to-br ${t.gradient} border border-slate-200/50`}
+                              className={`w-12 h-16 rounded-lg shadow-sm flex items-center justify-center shrink-0 bg-gradient-to-br ${tpl.gradient} border border-slate-200/50`}
                             >
                               <FileText size={20} className={isSelected ? "text-indigo-600" : "text-slate-500"} />
                             </div>
                             <div className="flex-1 min-w-0">
                               <div className={`font-bold text-base truncate ${isSelected ? "text-indigo-900" : "text-slate-700"}`}>
-                                {t.name}
+                                {templateInfo.name}
                               </div>
                               <div className="text-xs text-slate-500 truncate mt-0.5">
-                                {t.description}
+                                {templateInfo.desc}
                               </div>
                             </div>
                             <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
