@@ -1,44 +1,52 @@
 <!doctype html>
-<html lang="en">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#FF4D2D" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Hash Resume — Free ATS-Optimized CV Builder</title>
-    <meta name="description" content="Create a free, professional, ATS-optimized resume in Arabic, English, and French. The best AI resume builder for the MENA region. No sign-up required." />
-    <meta name="keywords" content="ATS, resume builder, free, Arabic, CV maker, ai resume, ats friendly resume, jobs in egypt, jobs in saudi arabia, mena careers" />
-    <meta name="author" content="Hash Resume" />
+
+    <title>Hash Resume — أفضل موقع لإنشاء السيرة الذاتية بالذكاء الاصطناعي</title>
+    <meta name="description" content="أنشئ سيرتك الذاتية الاحترافية في 5 دقائق بالعربي أو الإنجليزي أو الفرنسي. مجاني ومتوافق مع أنظمة ATS. بدون تسجيل." />
+    <meta name="keywords" content="سيرة ذاتية, CV, resume builder, ATS, عربي, مصر, السعودية, MENA, ذكاء اصطناعي, AI resume" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://hashresume.com/" />
-    
-    <!-- Performance Optimizations -->
+
+    <!-- Fonts preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://images.unsplash.com" />
-    <link rel="dns-prefetch" href="https://picsum.photos" />
 
-    <!-- Open Graph / Facebook -->
+    <!-- Cairo (عربي) + Plus Jakarta Sans (إنجليزي) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://hashresume.com/" />
-    <meta property="og:title" content="Hash Resume — Free ATS-Optimized CV Builder" />
-    <meta property="og:description" content="Create a free, professional, ATS-optimized resume in Arabic, English, and French. No sign-up required, 100% private." />
-    <meta property="og:image" content="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?q=80&w=1200&h=630&auto=format&fit=crop" />
+    <meta property="og:title" content="Hash Resume — سيرتك الاحترافية في 5 دقائق" />
+    <meta property="og:description" content="أنشئ سيرتك الذاتية بالذكاء الاصطناعي. عربي وإنجليزي وفرنسي. مجاني بالكامل." />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://hashresume.com/" />
-    <meta property="twitter:title" content="Hash Resume — Free ATS-Optimized CV Builder" />
-    <meta property="twitter:description" content="Create a free, professional, ATS-optimized resume in Arabic, English, and French. No sign-up required, 100% private." />
-    <meta property="twitter:image" content="https://images.unsplash.com/photo-1586281380117-5a60ae2050cc?q=80&w=1200&h=630&auto=format&fit=crop" />
-    <!-- Plausible Analytics -->
-    <script defer data-domain="hashresume.com" src="https://plausible.io/js/script.js"></script>
-    <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+    <meta property="twitter:title" content="Hash Resume — سيرتك الاحترافية في 5 دقائق" />
+
+    <!-- يمنع FOUC — يقرأ اللغة المحفوظة قبل ما React يشتغل -->
+    <script>
+      (function () {
+        try {
+          var lang = localStorage.getItem('hr_lang') || 'ar';
+          var dir = lang === 'ar' ? 'rtl' : 'ltr';
+          document.documentElement.setAttribute('lang', lang);
+          document.documentElement.setAttribute('dir', dir);
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-
