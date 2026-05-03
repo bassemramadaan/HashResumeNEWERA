@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, MessageCircle, Loader2, Unlock, Lock } from "lucide-react";
+import { X, MessageCircle, Loader2, Unlock, Lock } from "lucide-react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 
 interface PaymentModalProps {

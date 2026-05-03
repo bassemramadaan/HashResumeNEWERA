@@ -6,17 +6,10 @@ import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import {
   CheckCircle2,
   Check,
-  ArrowRight,
-  Calendar,
-  Clock,
   Target,
   Plus,
   Sparkles,
-  Layout,
   ArrowUp,
-  PenTool,
-  Download,
-  ShieldCheck,
   X,
 } from "lucide-react";
 import Footer from "../components/Footer";
