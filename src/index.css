@@ -1,221 +1,261 @@
-@import url("https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700&family=Amiri:wght@400;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap");
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
+/* ============================================================
+   DESIGN TOKENS
+   ============================================================ */
 @theme {
-  --font-sans: "Alexandria", "Outfit", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Outfit", "Alexandria", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-editor-ar: "Tajawal", sans-serif;
-  --font-editor-en: "Inter", sans-serif;
+  /* Brand */
+  --color-brand-50:  #FFF3F0;
+  --color-brand-100: #FFD9D0;
+  --color-brand-200: #FFB3A0;
+  --color-brand-400: #FF7A5C;
+  --color-brand-500: #FF4D2D;
+  --color-brand-600: #E63A1A;
+  --color-brand-700: #C42E12;
 
+  /* Neutrals */
+  --color-neutral-0:   #FFFFFF;
+  --color-neutral-50:  #FAFAFA;
+  --color-neutral-100: #F4F4F3;
+  --color-neutral-200: #E8E8E6;
+  --color-neutral-300: #D1D1CE;
+  --color-neutral-400: #A8A8A4;
+  --color-neutral-500: #737370;
+  --color-neutral-600: #525250;
+  --color-neutral-700: #3A3A38;
+  --color-neutral-800: #242422;
+  --color-neutral-900: #121210;
 
-  /* Primary Orange - More Vibrant & Sophisticated */
-  --color-indigo-50: #fff7f5;
-  --color-indigo-100: #ffedea;
-  --color-indigo-200: #ffdbd4;
-  --color-indigo-300: #ffbab0;
-  --color-indigo-400: #ff8a7a;
-  --color-indigo-500: #ff4d2d; /* Primary Brand Orange */
-  --color-indigo-600: #e63e20;
-  --color-indigo-700: #cc3218;
-  --color-indigo-800: #b32812;
-  --color-indigo-900: #991f0d;
-  --color-indigo-950: #801809;
+  /* Semantic */
+  --color-success-light: #E8F5E9;
+  --color-success:       #2E7D32;
+  --color-success-dark:  #1B5E20;
+  --color-warning-light: #FFF8E1;
+  --color-warning:       #F57C00;
+  --color-warning-dark:  #E65100;
+  --color-danger-light:  #FFEBEE;
+  --color-danger:        #C62828;
+  --color-danger-dark:   #B71C1C;
+  --color-info-light:    #E3F2FD;
+  --color-info:          #1565C0;
 
-  /* Neutral Slate - Clean & Modern (Updated to pure neutral/black) */
-  --color-slate-50: #ffffff;
-  --color-slate-100: #f5f5f5;
-  --color-slate-200: #e5e5e5;
-  --color-slate-300: #d4d4d4;
-  --color-slate-400: #a3a3a3;
-  --color-slate-500: #737373;
-  --color-slate-600: #525252;
-  --color-slate-700: #404040;
-  --color-slate-800: #262626;
-  --color-slate-900: #0a0a0a;
-  --color-slate-950: #000000;
+  /* Typography */
+  --font-sans:   'Plus Jakarta Sans', 'Cairo', sans-serif;
+  --font-arabic: 'Cairo', sans-serif;
 
-  /* Accent Colors */
-  --color-emerald-500: #10b981;
-  --color-amber-500: #f59e0b;
-  --color-rose-500: #f43f5e;
+  /* Border radius */
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-xl:   20px;
+  --radius-full: 9999px;
 }
 
-@layer base {
-  input,
-  textarea {
-    unicode-bidi: plaintext;
-    text-align: start;
-  }
+/* ============================================================
+   GLOBAL BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
 
-  body {
-    @apply bg-slate-50 text-slate-900 transition-colors duration-500 antialiased overflow-x-hidden;
-  }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
-  ::selection {
-    @apply bg-indigo-100 text-indigo-900;
-  }
-
-  /* Typography - Refined */
-  h1 {
-    @apply text-4xl font-bold leading-[1.125] tracking-[-0.02em] font-display;
-  }
-  h2 {
-    @apply text-3xl font-bold leading-[1.25] tracking-[-0.01em] font-display;
-  }
-  h3 {
-    @apply text-2xl font-bold leading-[1.375] tracking-[-0.01em] font-display;
-  }
-  body {
-    @apply text-base leading-[1.5] font-sans;
-  }
-  .caption {
-    @apply text-sm leading-relaxed;
-  }
-
-  @media (min-width: 768px) {
-    h1 {
-      @apply text-[64px] leading-[1.125];
-    }
-    h2 {
-      @apply text-[40px] leading-[1.25];
-    }
-    h3 {
-      @apply text-[24px] leading-[1.375];
-    }
-    body {
-      @apply text-[16px] leading-[1.6];
-    }
-    .caption {
-      @apply text-[14px];
-    }
-  }
-}
-
-@layer components {
-  .glass {
-    @apply bg-slate-50/70 backdrop-blur-xl border border-slate-200/20 shadow-xl;
-  }
-
-  .btn-primary {
-    @apply bg-indigo-500 hover:bg-indigo-600 text-white px-6 py-4 rounded-2xl font-bold transition-all active:scale-95 shadow-lg shadow-indigo-500/25;
-  }
-
-  .card-premium {
-    @apply bg-slate-50 rounded-[32px] border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500;
-  }
-}
-
-/* Mobile Enhancements */
-@layer base {
-  /* Prevent zoom on input focus for iOS */
-  input,
-  select,
-  textarea {
-    @apply text-base;
-  }
-
-  /* Improve mobile tap responsiveness */
-  a,
-  button,
-  input,
-  select,
-  textarea {
-    touch-action: manipulation;
-    @apply min-h-[44px] min-w-[44px];
-  }
-
-  @media (min-width: 640px) {
-    a,
-    button,
-    input,
-    select,
-    textarea {
-      @apply min-h-0 min-w-0;
-    }
-  }
-
-  /* Remove tap highlight color on mobile */
-  * {
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* Smooth scrolling for all elements */
-  * {
-    @apply scroll-smooth;
-  }
-}
-
-/* Safe Area Utilities */
-.pb-safe {
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-.pt-safe {
-  padding-top: env(safe-area-inset-top, 0px);
-}
-.px-safe {
-  padding-left: env(safe-area-inset-left, 0px);
-  padding-right: env(safe-area-inset-right, 0px);
-}
-.mb-safe {
-  margin-bottom: env(safe-area-inset-bottom, 0px);
-}
-.mt-safe {
-  margin-top: env(safe-area-inset-top, 0px);
-}
-
-/* Custom Scrollbar for better mobile/desktop feel */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-slate-400;
-}
-
-/* Global Enhancements */
 body {
-  @apply transition-colors duration-300;
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-800);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Better focus rings for accessibility */
+[dir="rtl"] body,
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  font-family: var(--font-arabic);
+}
+
+/* ============================================================
+   FOCUS RING
+   ============================================================ */
 *:focus-visible {
-  @apply outline-none ring-2 ring-indigo-500 ring-offset-2 ring-offset-white;
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-500) 30%, transparent);
+  border-radius: var(--radius-md);
 }
 
-/* Hide scrollbar for horizontal scroll areas */
-.hide-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(calc(-50% - 0.75rem)); }
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-@keyframes marquee-rtl {
-  from { transform: translateX(0); }
-  to { transform: translateX(calc(50% + 0.75rem)); }
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-neutral-100); }
+::-webkit-scrollbar-thumb { background: var(--color-neutral-300); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-neutral-400); }
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.btn, .btn-primary, .btn-secondary, .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  border-radius: var(--radius-lg);
+  padding: 0.75rem 1.5rem;
+  min-height: 48px;
+  font-size: 0.9375rem;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  white-space: nowrap;
+  text-decoration: none;
 }
 
-.animate-marquee {
-  animation: marquee 40s linear infinite;
+.btn-primary {
+  background-color: var(--color-brand-500);
+  color: #fff;
+  border-color: var(--color-brand-500);
+}
+.btn-primary:hover  { background-color: var(--color-brand-600); border-color: var(--color-brand-600); }
+.btn-primary:active { background-color: var(--color-brand-700); border-color: var(--color-brand-700); }
+
+.btn-secondary {
+  background-color: var(--color-neutral-100);
+  color: var(--color-neutral-800);
+  border-color: var(--color-neutral-200);
+}
+.btn-secondary:hover { background-color: var(--color-neutral-200); }
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-neutral-700);
+  border-color: var(--color-neutral-300);
+}
+.btn-ghost:hover { background-color: var(--color-neutral-50); }
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  min-height: 36px;
+  font-size: 0.875rem;
 }
 
-[dir="rtl"] .animate-marquee {
-  animation: marquee-rtl 40s linear infinite;
+/* ============================================================
+   INPUTS
+   ============================================================ */
+.input, .textarea {
+  width: 100%;
+  height: 48px;
+  padding: 0 1rem;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--color-neutral-300);
+  background-color: #fff;
+  color: var(--color-neutral-800);
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
+.input::placeholder, .textarea::placeholder { color: var(--color-neutral-400); }
+.input:focus, .textarea:focus {
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-500) 20%, transparent);
+}
+.input:disabled, .textarea:disabled {
+  background-color: var(--color-neutral-50);
+  color: var(--color-neutral-400);
+  cursor: not-allowed;
+}
+
+.textarea {
+  height: auto;
+  min-height: 96px;
+  padding: 0.75rem 1rem;
+  resize: vertical;
+}
+
+/* ============================================================
+   LABELS
+   ============================================================ */
+.label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-neutral-700);
+  margin-bottom: 0.375rem;
+}
+
+/* ============================================================
+   CARDS
+   ============================================================ */
+.card, .card-hover {
+  background-color: var(--color-neutral-0);
+  border: 1px solid var(--color-neutral-200);
+  border-radius: var(--radius-xl);
+  padding: 1.25rem;
+}
+.card-hover {
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.card-hover:hover {
+  box-shadow: 0 4px 24px -4px rgb(0 0 0 / 0.08);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.badge, .badge-brand, .badge-success, .badge-warning, .badge-danger, .badge-neutral {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.2rem 0.625rem;
+  border-radius: var(--radius-full);
+}
+.badge-brand   { background: var(--color-brand-100);     color: var(--color-brand-700); }
+.badge-success { background: var(--color-success-light); color: var(--color-success-dark); }
+.badge-warning { background: var(--color-warning-light); color: var(--color-warning-dark); }
+.badge-danger  { background: var(--color-danger-light);  color: var(--color-danger-dark); }
+.badge-neutral { background: var(--color-neutral-100);   color: var(--color-neutral-600); }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.page-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+@media (min-width: 768px) {
+  .page-section { padding-top: 5.5rem; padding-bottom: 5.5rem; }
+}
+
+.container-page {
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+@media (min-width: 768px) {
+  .container-page { padding-left: 2rem; padding-right: 2rem; }
+}
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+.dot-pulse { animation: pulse-dot 1.5s ease-in-out infinite; }
