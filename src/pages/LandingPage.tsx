@@ -21,8 +21,6 @@ import {
 } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
-import SarIcon from "../components/payment/SarIcon";
-import AedIcon from "../components/payment/AedIcon";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { blogPosts } from "../data/blogPosts";
@@ -37,53 +35,9 @@ export default function LandingPage() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
 
-  const [exchangeRates, setExchangeRates] = useState<Record<string, number>>({
-    EGP: 1,
-    SAR: 0.08,
-    AED: 0.08,
-    EUR: 0.02,
-    USD: 0.02,
-  });
-
   useEffect(() => {
     trackEvent(FUNNEL_EVENTS.LANDING_VISIT, { language });
   }, [language]);
-
-  useEffect(() => {
-    fetch("https://open.er-api.com/v6/latest/EGP")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data.rates) {
-          setExchangeRates({
-            EGP: 1,
-            SAR: data.rates.SAR,
-            AED: data.rates.AED,
-            EUR: data.rates.EUR,
-            USD: data.rates.USD,
-          });
-        }
-      })
-      .catch((err) => console.error("Failed to fetch exchange rates", err));
-  }, []);
-
-  const basePriceEGP = 49;
-
-  const currencies = {
-    EGP: { symbol: "EGP", price: basePriceEGP },
-    SAR: {
-      symbol: <SarIcon className="w-[1em] h-[1em] inline-block shrink-0" />,
-      price: Math.ceil(basePriceEGP * exchangeRates.SAR),
-    },
-    AED: {
-      symbol: <AedIcon className="w-[1em] h-[1em] inline-block shrink-0" />,
-      price: Math.ceil(basePriceEGP * exchangeRates.AED),
-    },
-    EUR: { symbol: "€", price: Math.ceil(basePriceEGP * exchangeRates.EUR) },
-    USD: { symbol: "$", price: Math.ceil(basePriceEGP * exchangeRates.USD) },
-  };
-
-  const [currency, setCurrency] = useState<keyof typeof currencies>("EGP");
-  const selectedCurrency = currencies[currency];
 
   const [showVideoModal, setShowVideoModal] = useState(false);
 
@@ -634,7 +588,6 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Currency Switcher & Progress Indicator */}
           <div className="flex flex-col items-center mb-12">
             {/* Progress Indicator */}
             <div className="flex items-center gap-2 sm:gap-4 mb-8 text-xs sm:text-sm font-bold text-slate-400">
@@ -658,31 +611,12 @@ export default function LandingPage() {
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               {t.payOnDownload} — <span className="text-[#ff4d2d]">{t.zeroToStart}</span>
             </p>
-
-            <div className="inline-flex p-2 bg-slate-100 rounded-2xl border border-slate-200 shadow-inner backdrop-blur-sm mb-6">
-              {Object.keys(currencies).map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setCurrency(c as keyof typeof currencies)}
-                  className={`px-6 py-2 rounded-2xl text-sm font-bold transition-all duration-300 ${currency === c ? "bg-slate-50 text-[#ff4d2d] shadow-md ring-1 ring-black/5 " : "text-slate-500 hover:text-slate-700"}`}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
-            
-            {/* Stripe Trust Badge */}
-            <div className="flex items-center justify-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-widest bg-slate-50 px-4 py-2 rounded-full border border-slate-200">
-              <ShieldCheck size={14} className="text-emerald-500" />
-              <span>{language === "ar" ? "مدفوعات آمنة وموثوقة بنسبة 100% عبر Stripe" : "100% Secure Payments via Stripe"}</span>
-            </div>
           </div>
 
-          <div className="flex overflow-x-auto snap-x snap-mandatory lg:overflow-visible lg:flex-row lg:justify-center items-stretch gap-6 pb-8 lg:pb-0 max-w-5xl mx-auto -mx-4 px-4 lg:mx-auto lg:px-0 scrollbar-hide">
-            {/* Single Download Plan */}
-            <div className="snap-center shrink-0 relative bg-white rounded-3xl p-8 shadow-2xl shadow-[#ff4d2d]/10 border-2 border-[#ff4d2d] overflow-hidden group hover:-translate-y-2 transition-transform duration-300 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md">
+          <div className="flex justify-center w-full">
+            <div className="relative bg-white rounded-3xl p-8 shadow-2xl shadow-[#ff4d2d]/10 border-2 border-[#ff4d2d] overflow-hidden w-full max-w-md">
               <div className="absolute top-0 end-0 bg-[#ff4d2d] text-white text-xs font-bold px-4 py-2 rounded-es-2xl uppercase tracking-wider shadow-sm">
-                {t.mostPopular}
+                {t.mostPopular || "Best Choice"}
               </div>
 
               <div className="text-center mb-8">
@@ -691,23 +625,6 @@ export default function LandingPage() {
                 </h3>
 
                 <div className="flex flex-col items-center justify-center gap-2 mb-2">
-                  <span className="text-5xl font-bold text-slate-900 flex items-center gap-2 tracking-tight">
-                    {currency === "EGP" ? (
-                      <div className="flex flex-col items-center">
-                        <div className="flex items-center gap-2">
-                          {selectedCurrency.price} {selectedCurrency.symbol}
-                        </div>
-                        <div className="text-sm font-medium text-slate-400 mt-1">
-                          ≈ ${(selectedCurrency.price * exchangeRates.USD).toFixed(2)} USD
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        {selectedCurrency.symbol}
-                        {selectedCurrency.price}
-                      </>
-                    )}
-                  </span>
                   <div className="mt-4 px-6 py-3 rounded-xl bg-orange-100/50 text-orange-700 text-sm font-bold border border-orange-200/50 shadow-sm shadow-orange-100 flex flex-col items-center gap-1">
                     <span className="block uppercase tracking-wider text-[10px] opacity-80">{language === "ar" ? "نقطة تفوقنا" : "Our Differentiator"}</span>
                     <span className="flex items-center gap-2 text-base"><CheckCircle2 size={18} className="text-emerald-500" /> {t.noSubscriptionPayOnce}</span>
@@ -739,72 +656,6 @@ export default function LandingPage() {
               <Link
                 to="/editor"
                 className="block w-full bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white text-center font-bold py-4 rounded-2xl hover:shadow-xl hover:shadow-orange-500/30 transition-all active:scale-95 text-lg"
-              >
-                {t.startBuildingNow}
-              </Link>
-            </div>
-
-            {/* Multi Download Plan */}
-            <div className="snap-center shrink-0 w-[85vw] sm:w-[400px] lg:w-full lg:max-w-md bg-transparent rounded-3xl p-8 border border-slate-300 flex flex-col justify-between hover:bg-slate-50 transition-colors duration-300">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200/50 text-slate-600 text-xs font-bold uppercase tracking-wider mb-6 border border-slate-200">
-                  <Sparkles size={14} />
-                  {t.bestValue || "Best Value"}
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-6">
-                  {t.multiDownload || "Multi-Download Pack"}
-                </h3>
-                <div className="flex flex-col items-start justify-center gap-2 mb-2">
-                  <span className="text-4xl font-bold text-slate-900 flex items-center gap-2">
-                    {currency === "EGP" ? (
-                      <div className="flex flex-col items-start">
-                        <div className="flex items-center gap-2">
-                          {Math.round(selectedCurrency.price * 2.4)} {selectedCurrency.symbol}
-                        </div>
-                        <div className="text-xs font-medium text-slate-400 mt-1">
-                          ≈ ${(Math.round(selectedCurrency.price * 2.4) * exchangeRates.USD).toFixed(2)} USD
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        {selectedCurrency.symbol}
-                        {(selectedCurrency.price * 2.4).toFixed(2)}
-                      </>
-                    )}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <div className="text-sm text-slate-500 font-medium">
-                      {t.threeDownloads || "3 Downloads"} ({t.savePercentage || "Save 20%"})
-                    </div>
-                    <span className="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase">
-                      {t.saveAmount}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              
-              <ul className="space-y-4 my-8">
-                {[
-                  t.payOncePerResume,
-                  t.includesPdfWord,
-                  t.unlimitedFreeEdits,
-                  t.allPremiumTemplates,
-                ].map((feature, i) => (
-                  <li key={i} className="flex items-start gap-4 text-slate-600">
-                    <CheckCircle2
-                      className="text-indigo-500 shrink-0 mt-0"
-                      size={20}
-                    />
-                    <span className="text-sm leading-tight font-medium">
-                      {feature}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              
-              <Link
-                to="/editor"
-                className="block w-full bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white text-center font-bold py-4 rounded-2xl hover:shadow-xl hover:shadow-orange-500/30 transition-all active:scale-95 mt-auto text-lg"
               >
                 {t.startBuildingNow}
               </Link>
