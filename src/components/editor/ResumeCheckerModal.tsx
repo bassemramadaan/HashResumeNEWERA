@@ -5,7 +5,7 @@ import { X, CheckCircle2, AlertCircle } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
-import { cn } from "../../utils";
+import { cn } from "@/lib/utils";
 
 interface ResumeCheckerModalProps {
   isOpen: boolean;

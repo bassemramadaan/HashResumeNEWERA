@@ -9,7 +9,7 @@ import {
   Target,
   Briefcase,
 } from "lucide-react";
-import { cn } from "../../utils";
+import { cn } from "@/lib/utils";
 import { calculateATSScore, getJobMatchResults } from "../../utils/ats";
 
 export default function ATSAudit() {

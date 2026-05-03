@@ -41,7 +41,8 @@ import { translations } from "../i18n/translations";
 import Logo from "../components/Logo";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import SettingsModal from "../components/SettingsModal";
-import { cn, hapticFeedback } from "../utils";
+import { hapticFeedback } from "../utils";
+import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../utils/ats";
 import { generateWord } from "../utils/generateWord";
 

@@ -2,7 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Globe } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
-import { cn } from "../utils";
+import { cn } from "@/lib/utils";
 
 interface LanguageSwitcherProps {
   className?: string;

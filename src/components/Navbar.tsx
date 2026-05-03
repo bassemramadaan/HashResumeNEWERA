@@ -6,7 +6,7 @@ import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
-import { cn } from "../utils";
+import { cn } from "@/lib/utils";
 import { AnimatePresence } from "framer-motion";
 
 export default function Navbar() {

@@ -3,7 +3,7 @@ import { Star, Quote, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
 
 const reviews = [
   {

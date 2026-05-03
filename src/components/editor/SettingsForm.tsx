@@ -10,7 +10,7 @@ import {
   Save,
   AlertTriangle,
 } from "lucide-react";
-import { cn } from "../../utils";
+import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 

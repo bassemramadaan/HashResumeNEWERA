@@ -1,7 +1,7 @@
 import React, { forwardRef, memo } from "react";
 import { useResumeStore, ResumeData } from "../../store/useResumeStore";
 import { Mail, Phone, MapPin, Linkedin, Calendar } from "lucide-react";
-import { cn } from "../../utils";
+import { cn } from "@/lib/utils";
 
 interface ResumePreviewProps {
   data?: ResumeData;

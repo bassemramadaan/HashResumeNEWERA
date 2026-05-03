@@ -26,7 +26,7 @@ import AedIcon from "../components/payment/AedIcon";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { blogPosts } from "../data/blogPosts";
-import { cn } from "../utils";
+import { cn } from "@/lib/utils";
 
 import Navbar from "../components/Navbar";
 import FAQ from "../components/FAQ";

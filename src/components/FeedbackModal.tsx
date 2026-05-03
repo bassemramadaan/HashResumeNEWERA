@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Star, Loader2 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
-import { cn } from "../utils";
+import { cn } from "@/lib/utils";
 
 // Using the URL provided by the user
 const SHEET_URL =
