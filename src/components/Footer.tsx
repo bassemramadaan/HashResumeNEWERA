@@ -131,6 +131,14 @@ export default function Footer() {
                     {language === "ar" ? "كيف يعمل ATS" : "How ATS Works"}
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/faq"
+                    className="hover:text-white transition-colors"
+                  >
+                    {language === "ar" ? "الأسئلة الشائعة" : "FAQ"}
+                  </Link>
+                </li>
               </ul>
             </div>
 

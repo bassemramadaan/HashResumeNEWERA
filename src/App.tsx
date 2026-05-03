@@ -19,6 +19,7 @@ const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage"));
 const TermsOfServicePage = React.lazy(() => import("./pages/TermsOfServicePage"));
 const HowAtsWorksPage = React.lazy(() => import("./pages/HowAtsWorksPage"));
 const TrustPage = React.lazy(() => import("./pages/TrustPage"));
+const FAQPage = React.lazy(() => import("./pages/FAQPage"));
 
 export default function App() {
   const { language, dir } = useLanguageStore();
@@ -46,6 +47,7 @@ export default function App() {
               <Route path="/terms" element={<TermsOfServicePage />} />
               <Route path="/trust" element={<TrustPage />} />
               <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
+              <Route path="/faq" element={<FAQPage />} />
             </Routes>
             <ExitIntentPopup />
             <Analytics />
