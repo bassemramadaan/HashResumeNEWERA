@@ -81,7 +81,6 @@ const WelcomeModal = lazy(() => import("../components/editor/WelcomeModal"));
 const ResumeCheckerModal = lazy(
   () => import("../components/editor/ResumeCheckerModal"),
 );
-import Sidebar from "../components/editor/Sidebar";
 
 const FormLoader = () => (
   <div className="flex flex-col items-center justify-center py-20 space-y-4">
@@ -861,141 +860,52 @@ export default function EditorPage() {
       {/* Spacer for fixed dock */}
       <div className="h-20 shrink-0" />
 
-      {/* Real-time Progress Bar */}
-      <div className="hidden sm:flex bg-white border-b border-slate-200 px-4 sm:px-6 py-2.5 sm:py-3 items-center gap-2 sm:gap-4 z-40 relative shadow-sm overflow-x-auto hide-scrollbar">
-        <div className="flex items-center gap-3 sm:gap-6 shrink-0">
-          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-black whitespace-nowrap">
-            <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-indigo-100 text-indigo-600">
-              1
-            </span>
-            <span
-              className={
-                progressPercent < 100 ? "text-slate-900" : "text-slate-500"
-              }
-            >
-              {language === "ar" ? "أدخل البيانات" : "Fill Data"}
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-black whitespace-nowrap">
-            <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-orange-100 text-[#ff4d2d]">
-              2
-            </span>
-            <span
-              className={
-                progressPercent === 100 ? "text-slate-900" : "text-slate-500"
-              }
-            >
-              {language === "ar" ? "راجع الـ ATS" : "Check ATS"}
-            </span>
-          </div>
-          <div className="flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-black whitespace-nowrap hidden sm:flex">
-            <span className="flex items-center justify-center w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-emerald-100 text-emerald-600">
-              3
-            </span>
-            <span className="text-slate-500">
-              {language === "ar" ? "نزّل السيرة" : "Download"}
-            </span>
-          </div>
-        </div>
-
-        <div className="w-px h-5 sm:h-6 bg-slate-200 mx-1 sm:mx-2 shrink-0"></div>
-
-        <div className="text-[10px] sm:text-xs font-black text-slate-500 whitespace-nowrap">
-          {progressPercent}%
-        </div>
-        <div className="flex-1 h-1.5 sm:h-2 bg-slate-100 rounded-full overflow-hidden max-w-[100px] sm:max-w-xs shrink-0">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${progressPercent}%` }}
-            className={`h-full transition-all duration-500 ${progressPercent === 100 ? "bg-emerald-500" : "bg-[#ff4d2d]"}`}
-          />
-        </div>
-
-        <div className="text-[10px] sm:text-xs font-bold text-slate-500 whitespace-nowrap hidden lg:flex items-center gap-2">
-          {estimatedTime > 0 && (
-            <span className="text-slate-400 font-medium">
-              —{" "}
-              {language === "ar"
-                ? `حوالي ${estimatedTime} دقائق لإنهاء المسودة الأولى`
-                : `Est. ${estimatedTime} mins to finish first draft`}
-            </span>
-          )}
-          {progressPercent === 100 && (
-            <span className="text-emerald-500 flex items-center gap-1 inline-flex">
-              <CheckCircle2 size={12} />{" "}
-              {language === "ar" ? "جاهز للمراجعة" : "Ready to review"}
-            </span>
-          )}
-        </div>
-
-        <button
-          onClick={() => setShowProgressTracker(true)}
-          className="text-[10px] sm:text-xs font-black px-2 sm:px-3 py-1.5 ms-auto text-indigo-600 hover:bg-indigo-50 rounded-full transition-colors flex justify-center items-center gap-1 shrink-0 whitespace-nowrap"
-        >
-          <span className="hidden sm:inline">
-            {language === "ar" ? "ما التالي؟" : "What's missing?"}
-          </span>{" "}
-          <Target size={14} />
-        </button>
-      </div>
+      {/* Real-time Progress tracker moved to tabs and dock */}
 
       <PanelGroup
         direction="horizontal"
         className="flex-1 w-full h-full overflow-hidden relative editor-form"
       >
-        {/* Sidebar Panel - Desktop Only */}
-        <Panel
-          defaultSize={20}
-          minSize={15}
-          maxSize={30}
-          className="hidden md:block"
-        >
-          <Sidebar
-            tabs={tabs}
-            activeTab={activeTab}
-            onTabChange={(id) => setActiveTab(id)}
-            progressPercent={progressPercent}
-          />
-        </Panel>
-
-        <PanelResizeHandle className="w-1.5 focus:outline-none bg-slate-900/5 hover:bg-[#ff4d2d]/20 transition-colors hidden md:block group z-50">
-          <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="h-12 w-1 bg-[#ff4d2d] rounded-full shadow-[0_0_10px_rgba(255,77,45,0.5)]" />
-          </div>
-        </PanelResizeHandle>
-
         {/* Editor Area */}
-        <Panel defaultSize={40} minSize={30} className="block">
+        <Panel defaultSize={55} minSize={30} className="block">
           <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-slate-50">
-            {/* Header for Mobile only or alternative info */}
-            <div className="md:hidden bg-slate-50 border-b border-slate-200 py-3 overflow-x-auto hide-scrollbar">
-              <div className="flex px-4 gap-2">
-                {tabs.map((tab) => {
-                  const Icon = tab.icon;
-                  const isActive = activeTab === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id as Tab)}
-                      className={cn(
-                        "flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-xl text-sm font-bold whitespace-nowrap transition-all",
-                        isActive
-                          ? "bg-[#ff4d2d] text-white shadow-md relative z-10"
-                          : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50",
-                      )}
-                    >
-                      <Icon size={16} />
-                      {tab.label}
-                    </button>
-                  );
-                })}
+            {/* Horizontal Tabs - Now visible on all screen sizes */}
+            <div className="bg-white border-b border-slate-200 py-4 overflow-x-auto hide-scrollbar z-30 shadow-sm sticky top-0">
+              <div className="max-w-7xl mx-auto px-4 sm:px-8">
+                <div className="flex gap-2 min-w-max">
+                  {tabs.map((tab) => {
+                    const Icon = tab.icon;
+                    const isActive = activeTab === tab.id;
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTab(tab.id as Tab)}
+                        className={cn(
+                          "flex items-center gap-2.5 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all relative",
+                          isActive
+                            ? "bg-slate-900 text-white shadow-lg shadow-slate-900/10 scale-105 z-10"
+                            : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 hover:border-slate-300",
+                        )}
+                      >
+                        <Icon size={18} className={cn(isActive ? "text-[#ff4d2d]" : "text-slate-400")} />
+                        {tab.label}
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeTabUnderline"
+                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#ff4d2d]"
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
             <main
               ref={formRef}
               onScroll={handleFormScroll}
-              className="flex-1 overflow-y-auto p-4 sm:p-6 scroll-smooth relative"
+              className="flex-1 overflow-y-auto p-4 sm:p-8 sm:pt-10 scroll-smooth relative"
             >
               <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32">
                 {/* Tab instructions header moved inside scroll area */}
