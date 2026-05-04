@@ -11,7 +11,7 @@ export function useDirection(lang: AppLang) {
     const html = document.documentElement
     html.setAttribute('dir', isRTL ? 'rtl' : 'ltr')
     html.setAttribute('lang', lang)
-    try { localStorage.setItem(STORAGE_KEY, lang) } catch {}
+    try { localStorage.setItem(STORAGE_KEY, lang) } catch (e) { console.error(e) }
   }, [lang, isRTL])
 
   return { isRTL }
@@ -21,6 +21,8 @@ export function getPersistedLang(): AppLang {
   try {
     const v = localStorage.getItem(STORAGE_KEY)
     if (v === 'ar' || v === 'en' || v === 'fr') return v
-  } catch {}
+  } catch (e) {
+    console.error(e)
+  }
   return 'ar'
 }

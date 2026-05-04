@@ -47,8 +47,8 @@ const COLOR_MAP: Record<string, { bg: string; icon: string }> = {
 }
 
 export function FeaturesSection({ lang }: FeaturesSectionProps) {
-  const features = FEATURES[lang]
-  const heading  = HEADINGS[lang]
+  const features = FEATURES[lang] || FEATURES['en']
+  const heading  = HEADINGS[lang] || HEADINGS['en']
 
   return (
     <PageSection bg="white" id="features">

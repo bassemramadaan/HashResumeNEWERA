@@ -491,9 +491,6 @@ export default function EditorPage() {
   };
 
   const progressPercent = calculateProgress();
-  const estimatedTime =
-    progressPercent === 100 ? 0 : progressPercent > 50 ? 2 : 5;
-
   // Zundo hooks for undo/redo
   const { undo, redo, pastStates, futureStates } = useStore(
     useResumeStore.temporal,

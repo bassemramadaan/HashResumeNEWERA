@@ -72,7 +72,7 @@ const COPY = {
 }
 
 export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
-  const c = COPY[lang]
+  const c = COPY[lang] || COPY['en']
 
   return (
     <PageSection bg="muted" id="pricing">
