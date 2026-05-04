@@ -84,8 +84,8 @@ const ResumeCheckerModal = lazy(
 
 const FormLoader = () => (
   <div className="flex flex-col items-center justify-center py-20 space-y-4">
-    <Loader2 className="w-10 h-10 text-[#ff4d2d] animate-spin" />
-    <p className="text-slate-500 font-medium">Loading section...</p>
+    <Loader2 className="w-10 h-10 text-brand-500 animate-spin" />
+    <p className="text-neutral-500 font-medium">Loading section...</p>
   </div>
 );
 
@@ -139,9 +139,9 @@ const AutoSaveIndicator = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-500"
+            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-neutral-500"
           >
-            <div className="w-4 h-4 border-2 border-slate-300 border-t-[#ff4d2d] rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-neutral-300 border-t-brand-500 rounded-full animate-spin" />
             {t.saving}
           </motion.div>
         ) : (
@@ -150,7 +150,7 @@ const AutoSaveIndicator = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="flex items-center gap-2 text-[10px] font-bold tracking-wider text-slate-500"
+            className="flex items-center gap-2 text-[10px] font-bold tracking-wider text-neutral-500"
           >
             <CheckCircle2 size={12} className="text-emerald-500" />
             <span className="hidden sm:inline">
@@ -175,10 +175,10 @@ const ATSScoreIndicator = ({
   return (
     <button
       onClick={() => setActiveTab("finish")}
-      className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/90 hover:bg-slate-100 transition-all border border-slate-200 group shrink-0"
+      className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/90 hover:bg-neutral-100 transition-all border border-neutral-200 group shrink-0"
     >
       <div className="flex flex-col items-start">
-        <span className="text-[7px] sm:text-[9px] font-bold text-slate-500 uppercase tracking-tighter sm:tracking-widest leading-none mb-0.5">
+        <span className="text-[7px] sm:text-[9px] font-bold text-neutral-500 uppercase tracking-tighter sm:tracking-widest leading-none mb-0.5">
           {language === "ar" ? "النتيجة" : "Score"}
         </span>
         <span
@@ -194,7 +194,7 @@ const ATSScoreIndicator = ({
           {atsScore}%
         </span>
       </div>
-      <div className="hidden sm:block w-12 h-2 bg-slate-200 rounded-full overflow-hidden">
+      <div className="hidden sm:block w-12 h-2 bg-neutral-200 rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${atsScore}%` }}
@@ -275,7 +275,7 @@ const ProgressTrackerModal = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm"
           onClick={onClose}
         />
 
@@ -283,12 +283,12 @@ const ProgressTrackerModal = ({
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-lg bg-slate-50 rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+          className="relative w-full max-w-lg bg-neutral-50 rounded-3xl shadow-2xl overflow-hidden border border-neutral-200"
         >
           <div className="absolute top-0 right-0 p-4">
             <button
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all"
+              className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-full transition-all"
             >
               <X size={20} />
             </button>
@@ -296,17 +296,17 @@ const ProgressTrackerModal = ({
 
           <div className="p-8">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-50 text-brand-600 rounded-2xl mb-4">
                 <Target size={32} />
               </div>
-              <h2 className="text-2xl font-black text-slate-900 mb-2">
+              <h2 className="text-2xl font-black text-neutral-900 mb-2">
                 {t.title}
               </h2>
-              <p className="text-slate-500 text-sm">{t.subtitle}</p>
+              <p className="text-neutral-500 text-sm">{t.subtitle}</p>
             </div>
 
             <div className="space-y-6">
-              <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-slate-400 mb-2 px-1">
+              <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-neutral-400 mb-2 px-1">
                 <span>{progressPercent}% Complete</span>
                 <span>
                   {estimatedTime > 0
@@ -317,11 +317,11 @@ const ProgressTrackerModal = ({
                     : t.ready}
                 </span>
               </div>
-              <div className="h-3 bg-slate-100 rounded-full overflow-hidden mb-8">
+              <div className="h-3 bg-neutral-100 rounded-full overflow-hidden mb-8">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${progressPercent}%` }}
-                  className="h-full bg-[#ff4d2d]"
+                  className="h-full bg-brand-500"
                 />
               </div>
 
@@ -339,8 +339,8 @@ const ProgressTrackerModal = ({
                       className={cn(
                         "flex items-center gap-4 p-4 rounded-2xl border transition-all text-start group",
                         isActive
-                          ? "bg-white border-indigo-200 shadow-md ring-1 ring-indigo-50"
-                          : "bg-transparent border-slate-100 hover:bg-slate-50 hover:border-slate-200",
+                          ? "bg-white border-brand-200 shadow-md ring-1 ring-brand-50"
+                          : "bg-transparent border-neutral-100 hover:bg-neutral-50 hover:border-neutral-200",
                       )}
                     >
                       <div
@@ -349,8 +349,8 @@ const ProgressTrackerModal = ({
                           step.done
                             ? "bg-emerald-50 text-emerald-600"
                             : isActive
-                              ? "bg-indigo-600 text-white"
-                              : "bg-slate-100 text-slate-400 group-hover:bg-slate-200",
+                              ? "bg-brand-600 text-white"
+                              : "bg-neutral-100 text-neutral-400 group-hover:bg-neutral-200",
                         )}
                       >
                         {step.done ? (
@@ -360,13 +360,13 @@ const ProgressTrackerModal = ({
                         )}
                       </div>
                       <div className="flex-1">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-0.5">
+                        <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 mb-0.5">
                           {step.id}
                         </div>
                         <div
                           className={cn(
                             "text-sm font-semibold",
-                            isActive ? "text-slate-900" : "text-slate-600",
+                            isActive ? "text-neutral-900" : "text-neutral-600",
                           )}
                         >
                           {step.label}
@@ -706,7 +706,7 @@ export default function EditorPage() {
   return (
     <div
       className={cn(
-        "flex flex-col h-[100dvh] bg-slate-50 overflow-hidden transition-colors duration-200",
+        "flex flex-col h-[100dvh] bg-neutral-50 overflow-hidden transition-colors duration-200",
         language === "ar" ? "font-editor-ar" : "font-editor-en",
       )}
       dir={dir}
@@ -722,26 +722,26 @@ export default function EditorPage() {
 
       {/* Floating Dock Navbar (Top) */}
       <div className="fixed top-2 sm:top-4 start-1/2 -translate-x-1/2 flex justify-center z-50 px-2 sm:px-4 pointer-events-none w-full max-w-5xl text-start">
-        <nav className="pointer-events-auto flex items-center gap-1 sm:gap-2 p-1 rounded-full bg-white/95 border border-slate-200/60 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 w-full justify-between sm:justify-start ring-1 ring-black/5">
+        <nav className="pointer-events-auto flex items-center gap-1 sm:gap-2 p-1 rounded-full bg-white/95 border border-neutral-200/60 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 w-full justify-between sm:justify-start ring-1 ring-black/5">
           <div className="flex items-center gap-1 sm:gap-2">
             {/* Home / Logo */}
             <Link
               to="/"
-              className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-sm text-[#ff4d2d] hover:scale-105 transition-transform shrink-0 border border-slate-100"
+              className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-sm text-brand-500 hover:scale-105 transition-transform shrink-0 border border-neutral-100"
               title={t.backToHome}
             >
               <Logo className="w-5 h-5 sm:w-6 sm:h-6" />
             </Link>
 
             {/* Separator */}
-            <div className="w-px h-6 bg-slate-200 mx-0.5 hidden sm:block"></div>
+            <div className="w-px h-6 bg-neutral-200 mx-0.5 hidden sm:block"></div>
 
             {/* Undo/Redo */}
             <div className="flex items-center gap-0.5 sm:gap-1">
               <button
                 onClick={() => undo()}
                 disabled={pastStates.length === 0}
-                className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 disabled:opacity-20 transition-colors"
+                className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
                 title={t.undo}
               >
                 <Undo2 size={18} className="sm:w-4 sm:h-4" />
@@ -749,7 +749,7 @@ export default function EditorPage() {
               <button
                 onClick={() => redo()}
                 disabled={futureStates.length === 0}
-                className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 disabled:opacity-20 transition-colors"
+                className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
                 title={t.redo}
               >
                 <Redo2 size={18} className="sm:w-4 sm:h-4" />
@@ -785,7 +785,7 @@ export default function EditorPage() {
           <div className="flex items-center gap-1 sm:gap-2">
             <button
               onClick={() => setShowProgressTracker(true)}
-              className="w-11 h-11 sm:w-auto sm:h-auto sm:p-2.5 flex items-center justify-center rounded-full text-indigo-500 hover:bg-slate-50/50 hover:text-indigo-600 transition-colors"
+              className="w-11 h-11 sm:w-auto sm:h-auto sm:p-2.5 flex items-center justify-center rounded-full text-indigo-500 hover:bg-neutral-50/50 hover:text-indigo-600 transition-colors"
               title={language === "ar" ? "عرض التقدم" : "View Progress"}
             >
               <Target size={18} className="sm:w-4 sm:h-4" />
@@ -794,7 +794,7 @@ export default function EditorPage() {
             <div className="hidden md:flex items-center gap-1 sm:gap-2">
               <button
                 onClick={() => setShowWelcomeModal(true)}
-                className="w-11 h-11 sm:w-auto sm:h-auto sm:p-2 flex items-center justify-center rounded-full text-[#ff4d2d] bg-orange-50 hover:bg-orange-100 transition-colors border border-orange-200"
+                className="w-11 h-11 sm:w-auto sm:h-auto sm:p-2 flex items-center justify-center rounded-full text-brand-500 bg-brand-50 hover:bg-brand-100 transition-colors border border-brand-200"
                 title={t.showMeAround}
               >
                 <Sparkles size={18} className="animate-pulse sm:w-4 sm:h-4" />
@@ -803,15 +803,15 @@ export default function EditorPage() {
             </div>
 
             {/* Separator on Desktop */}
-            <div className="hidden lg:block w-px h-6 bg-slate-200 mx-1"></div>
+            <div className="hidden lg:block w-px h-6 bg-neutral-200 mx-1"></div>
 
             {/* Persistent Preview Button */}
             <button
               onClick={() => setShowFullPreview(true)}
-              className="w-11 h-11 sm:w-auto sm:h-auto flex items-center justify-center gap-2 sm:px-4 sm:py-2 rounded-full bg-slate-100/80 hover:bg-slate-200 text-slate-700 transition-all border border-slate-200/50 active:scale-95 font-bold text-[10px] sm:text-xs uppercase tracking-wider"
+              className="w-11 h-11 sm:w-auto sm:h-auto flex items-center justify-center gap-2 sm:px-4 sm:py-2 rounded-full bg-neutral-100/80 hover:bg-neutral-200 text-neutral-700 transition-all border border-neutral-200/50 active:scale-95 font-bold text-[10px] sm:text-xs uppercase tracking-wider"
               title={language === "ar" ? "معاينة كاملة" : "Full Preview"}
             >
-              <Eye size={18} className="text-slate-500 sm:w-3.5 sm:h-3.5" />
+              <Eye size={18} className="text-neutral-500 sm:w-3.5 sm:h-3.5" />
               <span className="hidden lg:inline">
                 {language === "ar" ? "معاينة كاملة" : "Full Preview"}
               </span>
@@ -822,10 +822,8 @@ export default function EditorPage() {
               disabled={isExporting}
               data-tour="export-button"
               className={cn(
-                "flex items-center gap-2 h-11 sm:h-auto px-4 sm:py-2 rounded-full text-white transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest",
-                isExporting
-                  ? "bg-slate-400 cursor-not-allowed"
-                  : "bg-[#ff4d2d] hover:bg-[#e63e1d]",
+                "btn btn-primary btn-sm flex items-center gap-2 rounded-full font-black text-[10px] sm:text-xs uppercase tracking-widest shadow-md active:scale-95",
+                isExporting && "opacity-50 cursor-not-allowed"
               )}
             >
               {isExporting ? (
@@ -865,9 +863,9 @@ export default function EditorPage() {
       >
         {/* Editor Area */}
         <Panel defaultSize={55} minSize={30} className="block">
-          <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-slate-50">
+          <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-neutral-50">
             {/* Horizontal Tabs - Now visible on all screen sizes */}
-            <div className="bg-white border-b border-slate-200 py-4 overflow-x-auto hide-scrollbar z-30 shadow-sm sticky top-0">
+            <div className="bg-white border-b border-neutral-200 py-4 overflow-x-auto hide-scrollbar z-30 shadow-sm sticky top-0">
               <div className="max-w-7xl mx-auto px-4 sm:px-8">
                 <div className="flex gap-2 min-w-max">
                   {tabs.map((tab) => {
@@ -880,16 +878,16 @@ export default function EditorPage() {
                         className={cn(
                           "flex items-center gap-2.5 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all relative",
                           isActive
-                            ? "bg-slate-900 text-white shadow-lg shadow-slate-900/10 scale-105 z-10"
-                            : "bg-white text-slate-500 border border-slate-200 hover:bg-slate-50 hover:border-slate-300",
+                            ? "bg-neutral-900 text-white shadow-lg shadow-neutral-900/10 scale-105 z-10"
+                            : "bg-white text-neutral-500 border border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300",
                         )}
                       >
-                        <Icon size={18} className={cn(isActive ? "text-[#ff4d2d]" : "text-slate-400")} />
+                        <Icon size={18} className={cn(isActive ? "text-brand-500" : "text-neutral-400")} />
                         {tab.label}
                         {isActive && (
                           <motion.div
                             layoutId="activeTabUnderline"
-                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#ff4d2d]"
+                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-brand-500"
                           />
                         )}
                       </button>
@@ -913,21 +911,21 @@ export default function EditorPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,77,45,0.08)]"
                   >
-                    <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#ff4d2d]/10 to-transparent rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+                    <div className="absolute top-0 end-0 w-40 h-40 rounded-full blur-3xl -me-20 -mt-20 pointer-events-none" style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--color-brand-500) 10%, transparent), transparent)' }}></div>
 
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-[#ff4d2d] flex items-center justify-center shrink-0 shadow-[0_12px_24px_rgba(255,77,45,0.25)] relative z-10 ring-4 ring-orange-50 border border-white/20 group">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-brand-500 flex items-center justify-center shrink-0 shadow-brand-500/25 relative z-10 ring-4 ring-brand-50 border border-white/20 group">
                       <Sparkles size={20} className="text-white animate-pulse sm:w-6 sm:h-6" />
                     </div>
 
                     <div className="flex-1 relative z-10 text-start">
-                      <div className="flex flex-wrap items-center gap-2 text-[10px] font-black text-[#ff4d2d] uppercase tracking-widest mb-1.5 opacity-90">
-                        <span className="bg-[#ff4d2d]/10 px-2 py-0.5 rounded-full">
+                      <div className="flex flex-wrap items-center gap-2 text-[10px] font-black text-brand-500 uppercase tracking-widest mb-1.5 opacity-90">
+                        <span className="bg-brand-500/10 px-2 py-0.5 rounded-full">
                           {activeTabIndex} / {tabs.length}
                         </span>
-                        <span className="w-1 h-1 rounded-full bg-[#ff4d2d]/30"></span>
+                        <span className="w-1 h-1 rounded-full bg-brand-500/30"></span>
                         <span>{tabs.find((t) => t.id === activeTab)?.label}</span>
                       </div>
-                      <h1 className="text-sm sm:text-xl font-black text-slate-900 tracking-tight leading-snug">
+                      <h1 className="text-sm sm:text-xl font-black text-neutral-900 tracking-tight leading-snug">
                         {tabDescriptions[activeTab]}
                       </h1>
                     </div>
@@ -940,7 +938,7 @@ export default function EditorPage() {
                             message: t.overwriteConfirm,
                           })
                         }
-                        className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-[#ff4d2d] bg-white hover:bg-orange-50 h-12 px-4 rounded-2xl transition-all border border-[#ff4d2d]/10 shadow-sm whitespace-nowrap active:scale-95"
+                        className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-brand-500 bg-white hover:bg-brand-50 h-12 px-4 rounded-2xl transition-all border border-brand-500/10 shadow-sm whitespace-nowrap active:scale-95"
                       >
                         {t.loadExample}
                       </button>
@@ -951,7 +949,7 @@ export default function EditorPage() {
                             message: t.clearConfirm,
                           })
                         }
-                        className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-rose-500 h-12 px-4 rounded-2xl hover:bg-rose-50 transition-all border border-transparent whitespace-nowrap active:scale-95"
+                        className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-neutral-400 hover:text-rose-500 h-12 px-4 rounded-2xl hover:bg-rose-50 transition-all border border-transparent whitespace-nowrap active:scale-95"
                       >
                         {t.clearAll}
                       </button>
@@ -973,7 +971,7 @@ export default function EditorPage() {
 
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start">
-                              <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
                                 <User
                                   size={24}
                                   className="relative z-10 drop-shadow-sm"
@@ -981,10 +979,10 @@ export default function EditorPage() {
                                 <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                               </div>
                               <div>
-                                <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                                <h2 className="text-xl font-black text-neutral-900 tracking-tight">
                                   {t.personalInfo}
                                 </h2>
-                                <p className="text-xs text-slate-500 font-medium">
+                                <p className="text-xs text-neutral-500 font-medium">
                                   {language === "ar"
                                     ? "بياناتك الأساسية ومعلومات التواصل"
                                     : "Basic details and contact info"}
@@ -993,10 +991,10 @@ export default function EditorPage() {
                             </div>
                             <PersonalInfoForm />
 
-                            <div className="mt-12 pt-8 border-t border-slate-100 flex justify-end">
+                            <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
                               <button
                                 onClick={() => setActiveTab("experience")}
-                                className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                                className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
                               >
                                 {language === "ar"
                                   ? "الخطوة التالية: الخبرة"
@@ -1014,18 +1012,18 @@ export default function EditorPage() {
                         <div className="space-y-12">
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start px-1">
-                              <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-slate-200/50 flex items-center justify-center text-[#ff4d2d] relative overflow-hidden group border border-slate-100/50 shrink-0">
-                                <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-rose-50 opacity-50" />
+                              <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-neutral-200/50 flex items-center justify-center text-brand-500 relative overflow-hidden group border border-neutral-100/50 shrink-0">
+                                <div className="absolute inset-0 bg-gradient-to-br from-brand-50 to-rose-50 opacity-50" />
                                 <Briefcase
                                   size={28}
                                   className="relative z-10 drop-shadow-sm"
                                 />
                               </div>
                               <div>
-                                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                                <h2 className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">
                                   {t.experience.title}
                                 </h2>
-                                <p className="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-wider">
+                                <p className="text-[10px] sm:text-xs text-neutral-400 font-bold uppercase tracking-wider">
                                   {language === "ar"
                                     ? "تاريخك المهني وإنجازاتك"
                                     : "Work history and achievements"}
@@ -1036,16 +1034,16 @@ export default function EditorPage() {
                               <ExperienceForm />
                             </div>
 
-                            <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                            <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
                               <button
                                 onClick={() => setActiveTab("basics")}
-                                className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                                className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
                               >
                                 {language === "ar" ? "السابق" : "Previous"}
                               </button>
                               <button
                                 onClick={() => setActiveTab("education")}
-                                className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                                className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
                               >
                                 {language === "ar"
                                   ? "الخطوة التالية: التعليم"
@@ -1063,18 +1061,18 @@ export default function EditorPage() {
                         <div className="space-y-12">
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start px-1">
-                              <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-slate-200/50 flex items-center justify-center text-[#ff4d2d] relative overflow-hidden group border border-slate-100/50 shrink-0">
-                                <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-rose-50 opacity-50" />
+                              <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-neutral-200/50 flex items-center justify-center text-brand-500 relative overflow-hidden group border border-neutral-100/50 shrink-0">
+                                <div className="absolute inset-0 bg-gradient-to-br from-brand-50 to-rose-50 opacity-50" />
                                 <GraduationCap
                                   size={28}
                                   className="relative z-10 drop-shadow-sm"
                                 />
                               </div>
                               <div>
-                                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                                <h2 className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">
                                   {t.education.title}
                                 </h2>
-                                <p className="text-[10px] sm:text-xs text-slate-400 font-bold uppercase tracking-wider">
+                                <p className="text-[10px] sm:text-xs text-neutral-400 font-bold uppercase tracking-wider">
                                   {language === "ar"
                                     ? "خلفيتك الأكاديمية والتعليمية"
                                     : "Academic background"}
@@ -1085,16 +1083,16 @@ export default function EditorPage() {
                               <EducationForm />
                             </div>
 
-                            <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                            <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
                               <button
                                 onClick={() => setActiveTab("experience")}
-                                className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                                className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
                               >
                                 {language === "ar" ? "السابق" : "Previous"}
                               </button>
                               <button
                                 onClick={() => setActiveTab("skills")}
-                                className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                                className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
                               >
                                 {language === "ar"
                                   ? "الخطوة التالية: المهارات"
@@ -1111,17 +1109,17 @@ export default function EditorPage() {
                       {activeTab === "skills" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
                               <Wrench
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
                               />
                             </div>
                             <div>
-                              <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
                                 {t.skills.title}
                               </h2>
-                              <p className="text-xs text-slate-500 font-medium">
+                              <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
                                   ? "مهاراتك التقنية والشخصية"
                                   : "Tech & soft skills"}
@@ -1130,16 +1128,16 @@ export default function EditorPage() {
                           </div>
                           <SkillsForm />
 
-                          <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
                             <button
                               onClick={() => setActiveTab("education")}
-                              className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
                             >
                               {language === "ar" ? "السابق" : "Previous"}
                             </button>
                             <button
                               onClick={() => setActiveTab("projects")}
-                              className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: المشاريع"
@@ -1155,17 +1153,17 @@ export default function EditorPage() {
                       {activeTab === "projects" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
                               <LayoutTemplate
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
                               />
                             </div>
                             <div>
-                              <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
                                 {t.projects.title}
                               </h2>
-                              <p className="text-xs text-slate-500 font-medium">
+                              <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
                                   ? "أرنا أفضل أعمالك ومشاريعك"
                                   : "Showcase your best work and projects"}
@@ -1174,16 +1172,16 @@ export default function EditorPage() {
                           </div>
                           <ProjectsForm />
 
-                          <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
                             <button
                               onClick={() => setActiveTab("skills")}
-                              className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
                             >
                               {language === "ar" ? "السابق" : "Previous"}
                             </button>
                             <button
                               onClick={() => setActiveTab("certifications")}
-                              className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: الشهادات"
@@ -1199,17 +1197,17 @@ export default function EditorPage() {
                       {activeTab === "certifications" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
                               <Award
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
                               />
                             </div>
                             <div>
-                              <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
                                 {t.certifications.title}
                               </h2>
-                              <p className="text-xs text-slate-500 font-medium">
+                              <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
                                   ? "الشهادات والإنجازات المهنية"
                                   : "Certifications and professional achievements"}
@@ -1218,16 +1216,16 @@ export default function EditorPage() {
                           </div>
                           <CertificationsForm />
 
-                          <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
                             <button
                               onClick={() => setActiveTab("projects")}
-                              className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
                             >
                               {language === "ar" ? "السابق" : "Previous"}
                             </button>
                             <button
                               onClick={() => setActiveTab("custom")}
-                              className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: أقسام مخصصة"
@@ -1243,17 +1241,17 @@ export default function EditorPage() {
                       {activeTab === "custom" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
                               <PlusIcon
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
                               />
                             </div>
                             <div>
-                              <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
                                 {t.custom.title}
                               </h2>
-                              <p className="text-xs text-slate-500 font-medium">
+                              <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
                                   ? "أضف أي أقسام إضافية تراها مهمة"
                                   : "Add any additional sections you find important"}
@@ -1262,16 +1260,16 @@ export default function EditorPage() {
                           </div>
                           <CustomSectionsForm />
 
-                          <div className="mt-12 pt-8 border-t border-slate-100 flex justify-between gap-4">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
                             <button
                               onClick={() => setActiveTab("certifications")}
-                              className="text-slate-500 font-bold px-6 py-4 rounded-2xl hover:bg-slate-100 transition-colors"
+                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
                             >
                               {language === "ar" ? "السابق" : "Previous"}
                             </button>
                             <button
                               onClick={() => setActiveTab("cover-letter")}
-                              className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: خطاب التقديم"
@@ -1287,17 +1285,17 @@ export default function EditorPage() {
                       {activeTab === "cover-letter" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
                               <FileText
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
                               />
                             </div>
                             <div>
-                              <h2 className="text-xl font-black text-slate-900 tracking-tight">
+                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
                                 {t.coverLetter.title}
                               </h2>
-                              <p className="text-xs text-slate-500 font-medium">
+                              <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
                                   ? "خطاب تقديمي مخصص بالذكاء الاصطناعي"
                                   : "AI-powered personalized letter"}
@@ -1306,10 +1304,10 @@ export default function EditorPage() {
                           </div>
                           <CoverLetterForm />
 
-                          <div className="mt-12 pt-8 border-t border-slate-100 flex justify-end">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
                             <button
                               onClick={() => setActiveTab("finish")}
-                              className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
                             >
                               {language === "ar"
                                 ? "العودة للمراجعة والتحميل"
@@ -1325,7 +1323,7 @@ export default function EditorPage() {
                       {activeTab === "finish" && (
                         <div className="space-y-8">
                           <ATSAudit />
-                          <div className="pt-12 border-t border-slate-100">
+                          <div className="pt-12 border-t border-neutral-100">
                             <FinishStep
                               onPrint={handleProceedToExport}
                               onExportWord={() => setShowPaymentModal(true)}
@@ -1346,7 +1344,7 @@ export default function EditorPage() {
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.5, y: 20 }}
                       onClick={scrollToFormTop}
-                      className="md:hidden fixed bottom-[90px] sm:bottom-28 end-6 w-12 h-12 bg-slate-50 text-slate-900 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-slate-200 flex items-center justify-center z-40 active:scale-90 transition-transform"
+                      className="md:hidden fixed bottom-[90px] sm:bottom-28 end-6 w-12 h-12 bg-neutral-50 text-neutral-900 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-neutral-200 flex items-center justify-center z-40 active:scale-90 transition-transform"
                     >
                       <ArrowUp size={24} />
                     </motion.button>
@@ -1357,7 +1355,7 @@ export default function EditorPage() {
           </div>
         </Panel>
 
-        <PanelResizeHandle className="w-1.5 focus:outline-none bg-slate-200 hover:bg-indigo-500 active:bg-indigo-600 transition-colors hidden md:block group z-50">
+        <PanelResizeHandle className="w-1.5 focus:outline-none bg-neutral-200 hover:bg-brand-500 active:bg-brand-600 transition-colors hidden md:block group z-50">
           <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
             <div className="h-12 w-1 bg-white rounded-full" />
           </div>
@@ -1371,18 +1369,18 @@ export default function EditorPage() {
         >
           <div
             data-tour="preview-pane"
-            className="bg-slate-100 border-s border-slate-200 flex-col flex h-full overflow-hidden relative transition-colors duration-200"
+            className="bg-neutral-100 border-s border-neutral-200 flex-col flex h-full overflow-hidden relative transition-colors duration-200"
           >
-            <div className="h-14 bg-slate-50/80 backdrop-blur-sm border-b border-slate-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200">
+            <div className="h-14 bg-neutral-50/80 backdrop-blur-sm border-b border-neutral-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200">
               <div className="flex items-center gap-2">
-                <div className="flex items-center bg-slate-50 rounded-xl p-1 border border-slate-200">
+                <div className="flex items-center bg-neutral-50 rounded-xl p-1 border border-neutral-200">
                   <button
                     onClick={() => setPreviewMode("resume")}
                     className={cn(
                       "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all",
                       previewMode === "resume"
-                        ? "bg-slate-50 text-slate-900 shadow-sm ring-1 ring-slate-200"
-                        : "text-slate-500 hover:text-slate-700",
+                        ? "bg-neutral-50 text-neutral-900 shadow-sm ring-1 ring-neutral-200"
+                        : "text-neutral-500 hover:text-neutral-700",
                     )}
                   >
                     <LayoutTemplate size={14} />
@@ -1393,8 +1391,8 @@ export default function EditorPage() {
                     className={cn(
                       "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all",
                       previewMode === "cover-letter"
-                        ? "bg-slate-50 text-slate-900 shadow-sm ring-1 ring-slate-200"
-                        : "text-slate-500 hover:text-slate-700",
+                        ? "bg-neutral-50 text-neutral-900 shadow-sm ring-1 ring-neutral-200"
+                        : "text-neutral-500 hover:text-neutral-700",
                     )}
                   >
                     <FileText size={14} />
@@ -1406,14 +1404,14 @@ export default function EditorPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setShowFullPreview(true)}
-                  className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                  className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors"
                   title={t.fullPreview}
                 >
                   <Maximize2 size={18} />
                 </button>
                 <button
                   onClick={() => setIsSettingsModalOpen(true)}
-                  className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors"
+                  className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors"
                   title={t.resumeSettings}
                 >
                   <Settings size={18} />
@@ -1421,7 +1419,7 @@ export default function EditorPage() {
               </div>
             </div>
 
-            <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-slate-100/50">
+            <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-neutral-100/50">
               <div
                 className={cn(
                   "origin-top transition-all duration-500 flex justify-center",
@@ -1432,7 +1430,7 @@ export default function EditorPage() {
               >
                 <div
                   className={cn(
-                    "bg-slate-50 shadow-2xl rounded-sm overflow-hidden ring-1 ring-slate-900/5",
+                    "bg-neutral-50 shadow-2xl rounded-sm overflow-hidden ring-1 ring-neutral-900/5",
                     previewMode !== "cover-letter"
                       ? "w-[210mm] min-h-[297mm] shrink-0"
                       : "w-full",
@@ -1461,24 +1459,24 @@ export default function EditorPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowMobilePreview(false)}
-              className="md:hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[60]"
+              className="md:hidden fixed inset-0 bg-neutral-900/40 backdrop-blur-sm z-[60]"
             />
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="md:hidden fixed inset-x-0 bottom-0 h-[85vh] bg-slate-100 rounded-t-[2rem] shadow-2xl z-[70] flex flex-col overflow-hidden"
+              className="md:hidden fixed inset-x-0 bottom-0 h-[85vh] bg-neutral-100 rounded-t-[2rem] shadow-2xl z-[70] flex flex-col overflow-hidden"
             >
-              <div className="flex items-center justify-between p-4 bg-white border-b border-slate-200 shrink-0">
-                <div className="flex items-center bg-slate-50 rounded-xl p-1 border border-slate-200">
+              <div className="flex items-center justify-between p-4 bg-white border-b border-neutral-200 shrink-0">
+                <div className="flex items-center bg-neutral-50 rounded-xl p-1 border border-neutral-200">
                   <button
                     onClick={() => setPreviewMode("resume")}
                     className={cn(
                       "flex items-center gap-2 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all",
                       previewMode === "resume"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-500 hover:text-slate-700",
+                        ? "bg-white text-neutral-900 shadow-sm"
+                        : "text-neutral-500 hover:text-neutral-700",
                     )}
                   >
                     <LayoutTemplate size={14} />
@@ -1489,8 +1487,8 @@ export default function EditorPage() {
                     className={cn(
                       "flex items-center gap-2 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all",
                       previewMode === "cover-letter"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-500 hover:text-slate-700",
+                        ? "bg-white text-neutral-900 shadow-sm"
+                        : "text-neutral-500 hover:text-neutral-700",
                     )}
                   >
                     <FileText size={14} />
@@ -1499,13 +1497,13 @@ export default function EditorPage() {
                 </div>
                 <button
                   onClick={() => setShowMobilePreview(false)}
-                  className="w-10 h-10 flex items-center justify-center bg-slate-100 text-slate-600 rounded-full"
+                  className="w-10 h-10 flex items-center justify-center bg-neutral-100 text-neutral-600 rounded-full"
                 >
                   <X size={20} />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-100">
+              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-neutral-100">
                 <div
                   className={cn(
                     "origin-top transition-all",
@@ -1543,7 +1541,7 @@ export default function EditorPage() {
       </AnimatePresence>
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 flex items-center bg-white/95 backdrop-blur-xl rounded-[2rem] border border-slate-200/60 shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-all duration-300 mb-safe p-2 w-[94%] sm:w-auto max-w-[500px] sm:max-w-none">
+      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 flex items-center bg-white/95 backdrop-blur-xl rounded-[2rem] border border-neutral-200/60 shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-all duration-300 mb-safe p-2 w-[94%] sm:w-auto max-w-[500px] sm:max-w-none">
         <div className="flex items-center justify-between gap-4 w-full px-2 py-1">
           <div className="flex items-center gap-2">
             <button
@@ -1555,16 +1553,16 @@ export default function EditorPage() {
                 }
               }}
               disabled={activeTab === tabs[0].id}
-              className="w-12 h-12 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full disabled:opacity-30 transition-colors"
+              className="w-12 h-12 flex items-center justify-center text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-full disabled:opacity-30 transition-colors"
             >
               <ChevronLeft size={24} className="rtl:rotate-180" />
             </button>
 
             <div className="flex flex-col min-w-[100px] text-center px-2">
-              <span className="text-[10px] font-black uppercase tracking-widest text-[#ff4d2d]">
+              <span className="text-[10px] font-black uppercase tracking-widest text-brand-500">
                 {activeTabIndex} / {tabs.length}
               </span>
-              <span className="text-sm font-bold text-slate-900 truncate max-w-[120px]">
+              <span className="text-sm font-bold text-neutral-900 truncate max-w-[120px]">
                 {tabs.find((t) => t.id === activeTab)?.label}
               </span>
             </div>
@@ -1578,7 +1576,7 @@ export default function EditorPage() {
                 }
               }}
               disabled={activeTab === tabs[tabs.length - 1].id}
-              className="w-12 h-12 flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-full disabled:opacity-30 transition-colors"
+              className="w-12 h-12 flex items-center justify-center text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-full disabled:opacity-30 transition-colors"
             >
               <ArrowRight size={24} className="rtl:rotate-180" />
             </button>
@@ -1591,7 +1589,7 @@ export default function EditorPage() {
                 hapticFeedback(40);
                 setShowMobilePreview(!showMobilePreview);
               }}
-              className="md:hidden flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 bg-slate-50 text-slate-600 border border-slate-200 hover:bg-slate-100 active:scale-95 shadow-sm"
+              className="md:hidden flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 bg-neutral-50 text-neutral-600 border border-neutral-200 hover:bg-neutral-100 active:scale-95 shadow-sm"
               title={language === "ar" ? "معاينة" : "Preview"}
             >
               <Eye size={20} />
@@ -1600,7 +1598,7 @@ export default function EditorPage() {
             {/* Action Button: Export */}
             <button
               onClick={handleExportClick}
-              className="flex items-center justify-center gap-2 bg-[#ff4d2d] text-white font-black h-12 px-5 sm:px-6 rounded-full hover:bg-orange-600 active:bg-[#e63e1d] active:scale-95 transition-all shadow-lg shadow-orange-500/25 text-xs sm:text-sm uppercase tracking-widest"
+              className="btn btn-primary flex items-center justify-center gap-2 h-12 px-5 sm:px-6 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest shadow-lg active:scale-95"
             >
               <Download size={18} />
               <span className="hidden sm:inline">{t.exportPdf}</span>
@@ -1617,7 +1615,7 @@ export default function EditorPage() {
         {/* Full Page Preview Modal */}
         <AnimatePresence>
           {showFullPreview && (
-            <div className="fixed inset-0 z-[100] flex flex-col bg-slate-950/95 backdrop-blur-md">
+            <div className="fixed inset-0 z-[100] flex flex-col bg-neutral-950/95 backdrop-blur-md">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -1626,14 +1624,14 @@ export default function EditorPage() {
               >
                 <div className="w-full max-w-5xl flex justify-between items-center mb-8 shrink-0">
                   <div className="flex items-center gap-4">
-                    <div className="p-4 bg-slate-50/10 rounded-2xl">
+                    <div className="p-4 bg-neutral-50/10 rounded-2xl">
                       <FileText className="text-white" size={24} />
                     </div>
                     <div>
                       <h2 className="text-white text-2xl font-black tracking-tight">
                         {t.resumePreview}
                       </h2>
-                      <p className="text-slate-400 text-sm font-medium">
+                      <p className="text-neutral-400 text-sm font-medium">
                         Review your masterpiece before exporting
                       </p>
                     </div>
@@ -1641,21 +1639,21 @@ export default function EditorPage() {
                   <div className="flex items-center gap-4">
                     <button
                       onClick={handleExportClick}
-                      className="bg-[#ff4d2d] hover:bg-[#e63e1d] text-white px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-2xl hover:scale-105 active:scale-95 uppercase tracking-widest"
+                      className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-2xl hover:scale-105 active:scale-95 uppercase tracking-widest"
                     >
                       <Download size={18} />
                       {t.exportPdf}
                     </button>
                     <button
                       onClick={() => setShowFullPreview(false)}
-                      className="bg-slate-50/10 hover:bg-slate-50/20 text-white p-4 rounded-full transition-colors border border-white/10"
+                      className="bg-neutral-50/10 hover:bg-neutral-50/20 text-white p-4 rounded-full transition-colors border border-white/10"
                     >
                       <X size={24} />
                     </button>
                   </div>
                 </div>
 
-                <div className="w-full max-w-[210mm] bg-slate-50 shadow-[0_50px_100px_rgba(0,0,0,0.5)] rounded-sm overflow-hidden shrink-0 mb-20 ring-1 ring-white/20">
+                <div className="w-full max-w-[210mm] bg-neutral-50 shadow-[0_50px_100px_rgba(0,0,0,0.5)] rounded-sm overflow-hidden shrink-0 mb-20 ring-1 ring-white/20">
                   <Suspense fallback={<FormLoader />}>
                     <ResumePreview />
                   </Suspense>
@@ -1716,21 +1714,21 @@ export default function EditorPage() {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
+                className="bg-neutral-50 rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
               >
                 <div className="p-6 space-y-4">
-                  <h3 className="text-xl font-bold text-center text-slate-900">
+                  <h3 className="text-xl font-bold text-center text-neutral-900">
                     {confirmAction.type === "load"
                       ? "Load Example Data?"
                       : "Clear All Data?"}
                   </h3>
-                  <p className="text-center text-slate-600">
+                  <p className="text-center text-neutral-600">
                     {confirmAction.message}
                   </p>
                   <div className="flex gap-4 pt-4">
                     <button
                       onClick={() => setConfirmAction(null)}
-                      className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-colors"
+                      className="flex-1 py-2 bg-neutral-100 text-neutral-700 rounded-xl font-bold hover:bg-neutral-200 transition-colors"
                     >
                       Cancel
                     </button>

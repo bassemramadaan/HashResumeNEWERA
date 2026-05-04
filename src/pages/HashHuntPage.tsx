@@ -80,9 +80,7 @@ export default function HashHuntPage() {
                 className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
               >
                 <a
-                  href="https://forms.gle/5kEp1zSjMz3f4HyJ9"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="#join-form"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-indigo-500/25"
                 >
                   {t.joinTalentPool}
@@ -172,6 +170,52 @@ export default function HashHuntPage() {
               </motion.div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Join Form Section */}
+      <section className="py-16 bg-white relative" id="join-form">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-10"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-widest mb-4">
+              <Sparkles size={14} />
+              {language === 'ar' ? 'انضم الآن' : 'Join Now'}
+            </span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
+              {language === 'ar' ? 'ارفع سيرتك الذاتية الآن' : 'Upload Your CV Now'}
+            </h2>
+            <p className="text-slate-500 max-w-xl mx-auto">
+              {language === 'ar'
+                ? 'أكمل النموذج التالي وسيتم عرض ملفك على أفضل أصحاب العمل في المنطقة'
+                : 'Complete the form below and your profile will be visible to top employers in the region'}
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden"
+          >
+            <iframe
+              src="https://docs.google.com/forms/d/1cy6kH59UpTE-VtEWLxTUuD_-8JDRdiejeTGwfDYrx4Y/viewform?embedded=true"
+              width="100%"
+              height="900"
+              frameBorder="0"
+              marginHeight={0}
+              marginWidth={0}
+              className="w-full"
+              title="Hash Hunt CV Upload Form"
+            >
+              Loading…
+            </iframe>
+          </motion.div>
         </div>
       </section>
 
@@ -319,7 +363,7 @@ export default function HashHuntPage() {
                 Join Hash Hunt today and let top employers find you. It's 100% free for candidates.
               </p>
               <a
-                href="https://forms.gle/5kEp1zSjMz3f4HyJ9"
+                href="https://docs.google.com/forms/d/1cy6kH59UpTE-VtEWLxTUuD_-8JDRdiejeTGwfDYrx4Y/viewform?embedded=true"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 px-10 py-5 bg-slate-50 text-indigo-900 rounded-full font-bold text-lg hover:bg-indigo-50 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/10"
