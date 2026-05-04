@@ -97,7 +97,7 @@ const ResumePreview = memo(
               (lang === "ar" ? "الاسم الكامل" : "Your Name")}
           </h1>
           {personalInfo.jobTitle && (
-            <h2 className="text-xl md:text-2xl font-bold text-white0 mb-6 tracking-tight">
+            <h2 className="text-xl md:text-2xl font-bold text-neutral-500 mb-6 tracking-tight">
               {personalInfo.jobTitle}
             </h2>
           )}
@@ -396,7 +396,7 @@ const ResumePreview = memo(
               return (
                 <section key="summary" className="mb-8">
                   <h3 className="text-base font-bold uppercase tracking-widest border-b border-neutral-300 mb-4 pb-1 text-slate-800">
-                    Professional Summary
+                    {labels.summary}
                   </h3>
                   <p className="text-[15px] text-justify whitespace-pre-wrap leading-relaxed text-slate-700">
                     {personalInfo.summary}
@@ -472,7 +472,7 @@ const ResumePreview = memo(
               return (
                 <section key="skills" className="mb-8">
                   <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">
-                    Skills
+                    {labels.skills}
                   </h3>
                   <p className="text-[15px] leading-relaxed text-slate-700">
                     {skills.map((skill, i) => (
@@ -491,7 +491,7 @@ const ResumePreview = memo(
               return (
                 <section key="projects" className="mb-8">
                   <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">
-                    Projects
+                    {labels.projects}
                   </h3>
                   <div className="space-y-5">
                     {projects.map((proj) => (
@@ -519,7 +519,7 @@ const ResumePreview = memo(
               return (
                 <section key="certifications" className="mb-8">
                   <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">
-                    Certifications
+                    {labels.certifications}
                   </h3>
                   <div className="space-y-3">
                     {certifications.map((cert) => (
@@ -624,7 +624,7 @@ const ResumePreview = memo(
                   className="text-lg font-bold uppercase tracking-widest mb-4 border-b-2 border-slate-300 pb-2"
                   style={{ color: themeColor }}
                 >
-                  Skills
+                  {labels.skills}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {skills.map((skill, index) => (
@@ -648,7 +648,7 @@ const ResumePreview = memo(
                   className="text-lg font-bold uppercase tracking-widest mb-4 border-b-2 border-slate-300 pb-2"
                   style={{ color: themeColor }}
                 >
-                  Certifications
+                  {labels.certifications}
                 </h3>
                 <div className="space-y-4">
                   {certifications.map((cert) => (
@@ -676,7 +676,7 @@ const ResumePreview = memo(
                   className="w-8 h-1 rounded-full"
                   style={{ backgroundColor: themeColor }}
                 ></span>
-                Profile
+                {labels.summary}
               </h3>
               <p className="text-[15px] leading-relaxed text-slate-700 whitespace-pre-wrap">
                 {personalInfo.summary}
@@ -778,7 +778,7 @@ const ResumePreview = memo(
                   className="w-8 h-1 rounded-full"
                   style={{ backgroundColor: themeColor }}
                 ></span>
-                Projects
+                {labels.projects}
               </h3>
               <div className="space-y-8">
                 {projects.map((proj) => (

@@ -267,130 +267,130 @@ const ProgressTrackerModal = ({
   const estimatedTime =
     progressPercent === 100 ? 0 : progressPercent > 50 ? 2 : 5;
 
-  if (!isOpen) return null;
-
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm"
-          onClick={onClose}
-        />
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm"
+            onClick={onClose}
+          />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-lg bg-neutral-50 rounded-3xl shadow-2xl overflow-hidden border border-neutral-200"
-        >
-          <div className="absolute top-0 right-0 p-4">
-            <button
-              onClick={onClose}
-              className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-full transition-all"
-            >
-              <X size={20} />
-            </button>
-          </div>
-
-          <div className="p-8">
-            <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-50 text-brand-600 rounded-2xl mb-4">
-                <Target size={32} />
-              </div>
-              <h2 className="text-2xl font-black text-neutral-900 mb-2">
-                {t.title}
-              </h2>
-              <p className="text-neutral-500 text-sm">{t.subtitle}</p>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative w-full max-w-lg bg-neutral-50 rounded-3xl shadow-2xl overflow-hidden border border-neutral-200"
+          >
+            <div className="absolute top-0 right-0 p-4">
+              <button
+                onClick={onClose}
+                className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-full transition-all"
+              >
+                <X size={20} />
+              </button>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-neutral-400 mb-2 px-1">
-                <span>{progressPercent}% Complete</span>
-                <span>
-                  {estimatedTime > 0
-                    ? t.estimatedTime.replace(
-                        "{time}",
-                        estimatedTime.toString(),
-                      )
-                    : t.ready}
-                </span>
-              </div>
-              <div className="h-3 bg-neutral-100 rounded-full overflow-hidden mb-8">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progressPercent}%` }}
-                  className="h-full bg-brand-500"
-                />
+            <div className="p-8">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-50 text-brand-600 rounded-2xl mb-4">
+                  <Target size={32} />
+                </div>
+                <h2 className="text-2xl font-black text-neutral-900 mb-2">
+                  {t.title}
+                </h2>
+                <p className="text-neutral-500 text-sm">{t.subtitle}</p>
               </div>
 
-              <div className="grid gap-3">
-                {steps.map((step) => {
-                  const Icon = step.icon;
-                  const isActive = activeTab === step.id;
-                  return (
-                    <button
-                      key={step.id}
-                      onClick={() => {
-                        onJumpToStep(step.id);
-                        onClose();
-                      }}
-                      className={cn(
-                        "flex items-center gap-4 p-4 rounded-2xl border transition-all text-start group",
-                        isActive
-                          ? "bg-white border-brand-200 shadow-md ring-1 ring-brand-50"
-                          : "bg-transparent border-neutral-100 hover:bg-neutral-50 hover:border-neutral-200",
-                      )}
-                    >
-                      <div
+              <div className="space-y-6">
+                <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-neutral-400 mb-2 px-1">
+                  <span>{progressPercent}% Complete</span>
+                  <span>
+                    {estimatedTime > 0
+                      ? t.estimatedTime.replace(
+                          "{time}",
+                          estimatedTime.toString(),
+                        )
+                      : t.ready}
+                  </span>
+                </div>
+                <div className="h-3 bg-neutral-100 rounded-full overflow-hidden mb-8">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progressPercent}%` }}
+                    className="h-full bg-brand-500"
+                  />
+                </div>
+
+                <div className="grid gap-3">
+                  {steps.map((step) => {
+                    const Icon = step.icon;
+                    const isActive = activeTab === step.id;
+                    return (
+                      <button
+                        key={step.id}
+                        onClick={() => {
+                          onJumpToStep(step.id);
+                          onClose();
+                        }}
                         className={cn(
-                          "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-                          step.done
-                            ? "bg-emerald-50 text-emerald-600"
-                            : isActive
-                              ? "bg-brand-600 text-white"
-                              : "bg-neutral-100 text-neutral-400 group-hover:bg-neutral-200",
+                          "flex items-center gap-4 p-4 rounded-2xl border transition-all text-start group",
+                          isActive
+                            ? "bg-white border-brand-200 shadow-md ring-1 ring-brand-50"
+                            : "bg-transparent border-neutral-100 hover:bg-neutral-50 hover:border-neutral-200",
                         )}
                       >
-                        {step.done ? (
-                          <CheckCircle2 size={20} />
-                        ) : (
-                          <Icon size={20} />
-                        )}
-                      </div>
-                      <div className="flex-1">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 mb-0.5">
-                          {step.id}
-                        </div>
                         <div
                           className={cn(
-                            "text-sm font-semibold",
-                            isActive ? "text-neutral-900" : "text-neutral-600",
+                            "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
+                            step.done
+                              ? "bg-emerald-50 text-emerald-600"
+                              : isActive
+                                ? "bg-brand-600 text-white"
+                                : "bg-neutral-100 text-neutral-400 group-hover:bg-neutral-200",
                           )}
                         >
-                          {step.label}
+                          {step.done ? (
+                            <CheckCircle2 size={20} />
+                          ) : (
+                            <Icon size={20} />
+                          )}
                         </div>
-                      </div>
-                      {isActive && (
-                        <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
-                      )}
-                    </button>
-                  );
-                })}
+                        <div className="flex-1">
+                          <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 mb-0.5">
+                            {step.id}
+                          </div>
+                          <div
+                            className={cn(
+                              "text-sm font-semibold",
+                              isActive ? "text-neutral-900" : "text-neutral-600",
+                            )}
+                          >
+                            {step.label}
+                          </div>
+                        </div>
+                        {isActive && (
+                          <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
 
-            <button
-              onClick={onClose}
-              className="w-full mt-8 bg-zinc-900 text-white py-4 rounded-2xl font-bold hover:bg-zinc-800 transition-all shadow-xl shadow-zinc-900/10 active:scale-95"
-            >
-              Continue Building
-            </button>
-          </div>
-        </motion.div>
-      </div>
+              <button
+                onClick={onClose}
+                className="w-full mt-8 bg-zinc-900 text-white py-4 rounded-2xl font-bold hover:bg-zinc-800 transition-all shadow-xl shadow-zinc-900/10 active:scale-95"
+              >
+                Continue Building
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </AnimatePresence>
   );
 };
@@ -646,21 +646,21 @@ export default function EditorPage() {
     },
     {
       id: "projects",
-      label: t.projects.title,
+      label: t.projects?.title ?? (language === "ar" ? "المشاريع" : "Projects"),
       shortLabel: language === "ar" ? "المشاريع" : "Projects",
       icon: LayoutTemplate,
       tourId: "projects-section",
     },
     {
       id: "certifications",
-      label: t.certifications.title,
+      label: t.certifications?.title ?? (language === "ar" ? "الشهادات" : "Certifications"),
       shortLabel: language === "ar" ? "الشهادات" : "Certs",
       icon: Award,
       tourId: "certifications-section",
     },
     {
       id: "custom",
-      label: t.custom.title,
+      label: t.custom?.title ?? (language === "ar" ? "أقسام إضافية" : "Custom Sections"),
       shortLabel: language === "ar" ? "أقسام إضافية" : "Custom",
       icon: PlusIcon,
       tourId: "custom-section",
@@ -689,9 +689,10 @@ export default function EditorPage() {
     education: t.educationDesc,
     skills: t.skillsDesc,
     projects:
-      language === "ar"
+      t.projects?.title ??
+      (language === "ar"
         ? "أرنا أفضل أعمالك ومشاريعك."
-        : "Showcase your best work and projects.",
+        : "Showcase your best work and projects."),
     certifications:
       language === "ar"
         ? "أضف الشهادات والإنجازات المهنية."
@@ -908,7 +909,7 @@ export default function EditorPage() {
                 {/* Tab instructions header moved inside scroll area */}
                 <div className="pb-6">
                   <motion.div
-                    key={activeTab}
+                    key={String(activeTab)}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,77,45,0.08)]"
@@ -962,7 +963,7 @@ export default function EditorPage() {
                 <Suspense fallback={<FormLoader />}>
                   <AnimatePresence mode="wait">
                     <motion.div
-                      key={activeTab}
+                      key={String(activeTab)}
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
@@ -1452,23 +1453,22 @@ export default function EditorPage() {
         </Panel>
       </PanelGroup>
 
-      {/* Mobile Bottom Sheet Preview */}
       <AnimatePresence>
         {showMobilePreview && (
-          <div key="mobile-preview-container">
+          <div key="mobile-preview-container" className="md:hidden fixed inset-0 z-[60] flex flex-col">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowMobilePreview(false)}
-              className="md:hidden fixed inset-0 bg-neutral-900/40 backdrop-blur-sm z-[60]"
+              className="fixed inset-0 bg-neutral-900/40 backdrop-blur-sm z-[60]"
             />
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="md:hidden fixed inset-x-0 bottom-0 h-[85vh] bg-neutral-100 rounded-t-[2rem] shadow-2xl z-[70] flex flex-col overflow-hidden"
+              className="fixed inset-x-0 bottom-0 h-[85vh] bg-neutral-100 rounded-t-[2rem] shadow-2xl z-[70] flex flex-col overflow-hidden"
             >
               <div className="flex items-center justify-between p-4 bg-white border-b border-neutral-200 shrink-0">
                 <div className="flex items-center bg-neutral-50 rounded-xl p-1 border border-neutral-200">

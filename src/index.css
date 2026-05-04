@@ -133,3 +133,49 @@ body {
   50%       { opacity: 0.4; }
 }
 .dot-pulse { animation: pulse-dot 1.5s ease-in-out infinite; }
+
+/* ============================================================
+   EDITOR OVERRIDES — Brand color replacements
+   ============================================================ */
+
+/* Replace hardcoded orange in editor */
+.bg-\[\#ff4d2d\],
+.hover\:bg-\[\#e63e1d\]:hover {
+  background-color: var(--color-brand-500) !important;
+}
+.hover\:bg-\[\#e63e1d\]:hover {
+  background-color: var(--color-brand-600) !important;
+}
+.text-\[\#ff4d2d\] {
+  color: var(--color-brand-500) !important;
+}
+.border-\[\#ff4d2d\] {
+  border-color: var(--color-brand-500) !important;
+}
+.bg-\[\#ff4d2d\]\/10 {
+  background-color: var(--color-brand-50) !important;
+}
+.ring-\[\#ff4d2d\] {
+  --tw-ring-color: var(--color-brand-500) !important;
+}
+.shadow-orange-500\/25 {
+  --tw-shadow-color: color-mix(in srgb, var(--color-brand-500) 25%, transparent) !important;
+}
+
+/* Tabs active state */
+.editor-form .bg-slate-900.text-white {
+  background-color: var(--color-neutral-900) !important;
+}
+
+/* Input focus ring */
+.editor-form input:focus,
+.editor-form textarea:focus,
+.editor-form select:focus {
+  border-color: var(--color-brand-500) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-500) 20%, transparent) !important;
+}
+
+/* Progress bars */
+.bg-\[\#ff4d2d\].h-full {
+  background-color: var(--color-brand-500) !important;
+}

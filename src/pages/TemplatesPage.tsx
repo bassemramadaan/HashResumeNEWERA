@@ -274,7 +274,7 @@ export default function TemplatesPage() {
           <div className="flex items-center gap-4">
             <Link
               to="/"
-              className="p-2 -ms-2 text-white0 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100"
+              className="p-2 -ms-2 text-slate-400 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100"
             >
               <ArrowLeft size={20} className="rtl:rotate-180" />
             </Link>

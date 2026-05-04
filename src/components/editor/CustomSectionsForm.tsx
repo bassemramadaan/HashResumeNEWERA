@@ -27,8 +27,8 @@ export const CustomSectionsForm: React.FC = () => {
           </p>
         </div>
         <button
-          onClick={addCustomSection}
-          className="flex items-center gap-2 px-4 py-2 bg-[#ff4d2d] text-white rounded-lg hover:bg-[#e63e1d] transition-colors shadow-sm text-sm font-medium"
+          onClick={() => addCustomSection({ title: "", content: "" })}
+          className="flex items-center gap-2 px-4 py-2 bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition-colors shadow-sm text-sm font-medium"
         >
           <Plus size={18} />
           {t.custom.add}

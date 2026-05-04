@@ -1872,6 +1872,17 @@ export const translations = {
         duplicate: "Dupliquer",
         remove: "Supprimer",
       },
+      custom: {
+        title: "Sections personnalisées",
+        add: "Ajouter une section",
+        noSections: "Aucune section personnalisée ajoutée pour le moment.",
+        name: "Titre de la section",
+        content: "Contenu",
+        placeholderTitle: "ex. Langues, Bénévolat, Distinctions",
+        placeholderContent: "Décrivez ce qu'il y a dans cette section...",
+        duplicate: "Dupliquer",
+        remove: "Supprimer",
+      },
       coverLetter: {
         title: "Lettre de motivation",
         importFromResume: "Importer du CV",
