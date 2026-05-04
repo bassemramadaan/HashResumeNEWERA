@@ -962,17 +962,11 @@ export default function EditorPage() {
                   </motion.div>
                 </div>
 
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Suspense fallback={<FormLoader />}>
-                      {activeTab === "basics" && (
-                        <div className="space-y-12">
+                <Suspense fallback={<FormLoader />}>
+                  <div key={activeTab}>
+                    {activeTab === "basics" && (
+                      <div className="space-y-12">
+
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start">
                               <div className="w-12 h-12 rounded-[1.25rem] bg-gradient-to-br from-[#ff4d2d] to-[#e63e1d] shadow-[0_10px_20px_rgba(255,77,45,0.2)] flex items-center justify-center text-white relative overflow-hidden">
@@ -1336,9 +1330,8 @@ export default function EditorPage() {
                           </div>
                         </div>
                       )}
-                    </Suspense>
-                  </motion.div>
-                </AnimatePresence>
+                  </div>
+                </Suspense>
 
                 {/* Mobile Scroll to Top */}
                 <AnimatePresence>

@@ -1,22 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, useScroll, useSpring, useMotionValue, animate, AnimatePresence } from "framer-motion";
+
 import { Helmet } from "react-helmet-async";
-import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
-import {
-  CheckCircle2,
-  Check,
-  Target,
-  Plus,
-  Sparkles,
-  ArrowUp,
-  X,
-} from "lucide-react";
+import { motion, useMotionValue, animate, AnimatePresence } from "framer-motion";
+import { ArrowLeft, Sparkles, Star, Users, FileCheck, FileText, Layout, Download, CheckCircle, ChevronDown, ChevronUp, Target, Zap, Shield, CheckCircle2, Check, Plus, ArrowUp, X } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { cn } from "@/lib/utils";
+import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 
 import Navbar from "../components/Navbar";
 import VideoDemoModal from "../components/VideoDemoModal";
@@ -46,13 +39,6 @@ export default function LandingPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
   const countValue = useMotionValue(60);
   useEffect(() => {
     const controls = animate(countValue, 95, {
@@ -67,10 +53,9 @@ export default function LandingPage() {
   }, [countValue]);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 transition-colors duration-300 overflow-x-hidden">
+    <div className="bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 transition-colors duration-300 overflow-x-hidden">
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-[#ff4d2d] origin-left rtl:origin-right z-[60]"
-        style={{ scaleX }}
       />
       <Helmet>
         <title>{language === "ar" ? "هاش ريزيومي — منشئ سير ذاتية مجاني ومحسن لأنظمة ATS" : language === "fr" ? "Hash Resume — Créateur de CV gratuit et optimisé ATS" : "Hash Resume — Free ATS-Optimized CV Builder"}</title>
@@ -142,7 +127,7 @@ export default function LandingPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-12 md:pt-40 md:pb-24 overflow-hidden bg-gradient-to-b from-orange-50 to-white">
+      <section className="relative pt-20 pb-0 md:pt-24 md:pb-0 overflow-hidden bg-gradient-to-b from-orange-50 to-white">
         {/* Background Graphics */}
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
         <div className="absolute end-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
