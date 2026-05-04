@@ -169,7 +169,7 @@ const SkillsForm = () => {
           <div className="mb-8 text-xs flex items-start gap-2 p-4 bg-slate-50 rounded-xl border border-slate-100">
             <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
             <div className="text-slate-600">
-              <span className="font-semibold text-slate-700">{t.editor.experience.atsHint}: </span>
+              <span className="font-semibold text-slate-700">{t.experience.atsHint}: </span>
               {matchResults.missing.length > 0 ? (
                 <>
                   {t.skills.tryAddingKeywords}{" "}
@@ -179,7 +179,7 @@ const SkillsForm = () => {
                 </>
               ) : (
                 <span className="text-emerald-500 font-medium">
-                  {t.editor.experience.greatMatched}
+                  {t.experience.greatMatched}
                 </span>
               )}
             </div>

@@ -31,20 +31,18 @@ export default function Footer() {
               <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>
               <div className="text-sm text-slate-500 space-y-1">
                 <p>
-                  <span className="font-semibold text-slate-400">{language === "ar" ? "البريد الإلكتروني:" : "Email:"}</span> support@hashresume.com
+                  <span className="font-semibold text-slate-400">{t.emailLabel}</span> support@hashresume.com
                 </p>
                 <p>
-                  <span className="font-semibold text-slate-300">{language === "ar" ? "الهاتف:" : "Phone:"}</span> +20 110 100 7965
+                  <span className="font-semibold text-slate-300">{t.phoneLabel}</span> +20 110 100 7965
                 </p>
               </div>
             </div>
 
             <div className="flex flex-col lg:col-span-2">
-              <h4 className="text-white font-semibold mb-4">{language === "ar" ? "عن الشركة" : "About Us"}</h4>
+              <h4 className="text-white font-semibold mb-4">{t.aboutUs}</h4>
               <p className="text-sm text-slate-400 leading-relaxed">
-                {language === "ar" 
-                  ? "نحن فريق شغوف بمساعدة الباحثين عن عمل في الشرق الأوسط وشمال إفريقيا على بناء سير ذاتية احترافية تتوافق مع أنظمة ATS بسهولة وخصوصية تامة."
-                  : "We are a passionate team dedicated to helping job seekers in the MENA region build professional, ATS-friendly resumes with ease and complete privacy."}
+                {t.aboutUsDesc}
               </p>
             </div>
 
@@ -84,19 +82,22 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <a
-                    href="mailto:support@hashresume.com"
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setShowFeedbackModal(true);
+                    }}
                     className="hover:text-white transition-colors text-start w-full"
                   >
                     {t.feedback}
-                  </a>
+                  </button>
                 </li>
               </ul>
             </div>
 
             <div className="flex flex-col lg:col-span-3">
               <h4 className="text-white font-semibold mb-4">
-                {language === "ar" ? "الثقة والأمان" : "Trust & Safety"}
+                {t.trustAndSafety}
               </h4>
               <ul className="space-y-2 text-sm">
                 <li>
@@ -104,7 +105,7 @@ export default function Footer() {
                     to="/trust"
                     className="hover:text-white transition-colors"
                   >
-                    {language === "ar" ? "الثقة والشفافية" : "Trust & Transparency"}
+                    {t.trustAndTransparency}
                   </Link>
                 </li>
                 <li>
@@ -112,7 +113,7 @@ export default function Footer() {
                     to="/privacy"
                     className="hover:text-white transition-colors"
                   >
-                    {language === "ar" ? "سياسة الخصوصية" : "Privacy Policy"}
+                    {t.privacyPolicy}
                   </Link>
                 </li>
                 <li>
@@ -120,7 +121,7 @@ export default function Footer() {
                     to="/terms"
                     className="hover:text-white transition-colors"
                   >
-                    {language === "ar" ? "شروط الخدمة" : "Terms of Service"}
+                    {t.termsOfService}
                   </Link>
                 </li>
                 <li>
@@ -128,7 +129,7 @@ export default function Footer() {
                     to="/how-ats-works"
                     className="hover:text-white transition-colors"
                   >
-                    {language === "ar" ? "كيف يعمل ATS" : "How ATS Works"}
+                    {t.howAtsWorks}
                   </Link>
                 </li>
                 <li>
@@ -136,7 +137,7 @@ export default function Footer() {
                     to="/faq"
                     className="hover:text-white transition-colors"
                   >
-                    {language === "ar" ? "الأسئلة الشائعة" : "FAQ"}
+                    {t.faq}
                   </Link>
                 </li>
               </ul>
@@ -201,9 +202,6 @@ export default function Footer() {
               <p>
                 © {new Date().getFullYear()} {t.rightsReserved}
               </p>
-              <Link to="/sitemap" className="hover:text-white transition-colors">
-                {t.sitemap}
-              </Link>
             </div>
             <div className="flex items-center gap-6">
               <div className="flex items-center gap-2">
