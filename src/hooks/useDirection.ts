@@ -1,60 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-type Direction = 'rtl' | 'ltr'
+export type AppLang = 'ar' | 'en' | 'fr'
 
-const RTL_LANGUAGES = ['ar', 'he', 'fa', 'ur', 'ps', 'ku']
+const STORAGE_KEY = 'hr_lang'
 
-function detectDirection(): Direction {
-  // 1. من الـ html tag مباشرة
-  const htmlDir = document.documentElement.getAttribute('dir')
-  if (htmlDir === 'rtl' || htmlDir === 'ltr') return htmlDir
-
-  // 2. من الـ lang attribute
-  const htmlLang = document.documentElement.getAttribute('lang')
-  if (htmlLang) {
-    const baseLang = htmlLang.split('-')[0].toLowerCase()
-    if (RTL_LANGUAGES.includes(baseLang)) return 'rtl'
-    return 'ltr'
-  }
-
-  // 3. من الـ browser language
-  const browserLang = navigator.language?.split('-')[0].toLowerCase()
-  if (RTL_LANGUAGES.includes(browserLang)) return 'rtl'
-
-  return 'ltr'
-}
-
-export function useDirection() {
-  const [direction, setDirection] = useState<Direction>(() => detectDirection())
-
-  const isRTL = direction === 'rtl'
-
-  const setDir = (dir: Direction) => {
-    setDirection(dir)
-    document.documentElement.setAttribute('dir', dir)
-    document.documentElement.setAttribute(
-      'lang',
-      dir === 'rtl' ? 'ar' : 'en'
-    )
-  }
+export function useDirection(lang: AppLang) {
+  const isRTL = lang === 'ar'
 
   useEffect(() => {
-    // تأكد إن الـ html tag متزامن مع الـ state
-    document.documentElement.setAttribute('dir', direction)
+    const html = document.documentElement
+    html.setAttribute('dir', isRTL ? 'rtl' : 'ltr')
+    html.setAttribute('lang', lang)
+    try { localStorage.setItem(STORAGE_KEY, lang) } catch {}
+  }, [lang, isRTL])
 
-    // راقب أي تغيير في الـ dir attribute من برا
-    const observer = new MutationObserver(() => {
-      const newDir = detectDirection()
-      setDirection(newDir)
-    })
+  return { isRTL }
+}
 
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['dir', 'lang'],
-    })
-
-    return () => observer.disconnect()
-  }, [direction])
-
-  return { direction, isRTL, setDir }
+export function getPersistedLang(): AppLang {
+  try {
+    const v = localStorage.getItem(STORAGE_KEY)
+    if (v === 'ar' || v === 'en' || v === 'fr') return v
+  } catch {}
+  return 'ar'
 }

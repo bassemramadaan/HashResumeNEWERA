@@ -1,120 +1,174 @@
-import { useState, useEffect } from 'react'
-import { Menu, X, FileText, Sparkles } from 'lucide-react'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Menu, X, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { useAuth } from '@/hooks/useAuth'
+import type { AppLang } from '@/hooks/useDirection'
 
 interface NavbarProps {
-  onOpenAuth: () => void
+  lang: AppLang
+  onLangChange: (lang: AppLang) => void
+  onStartClick?: () => void
 }
 
-export function Navbar({ onOpenAuth }: NavbarProps) {
-  const { user, signOut } = useAuth()
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+const LANG_LABELS: Record<AppLang, string> = {
+  ar: 'العربية',
+  en: 'English',
+  fr: 'Français',
+}
 
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 10)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+const LANGS: AppLang[] = ['ar', 'en', 'fr']
+
+export function Navbar({ lang, onLangChange, onStartClick }: NavbarProps) {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [langOpen, setLangOpen] = useState(false)
+
+  const navLinks = lang === 'ar'
+    ? [
+        { label: 'الميزات', href: '#features' },
+        { label: 'الأسعار', href: '#pricing' },
+        { label: 'Hash Hunt', href: '#hashhunt' },
+      ]
+    : lang === 'fr'
+    ? [
+        { label: 'Fonctionnalités', href: '#features' },
+        { label: 'Tarifs', href: '#pricing' },
+        { label: 'Hash Hunt', href: '#hashhunt' },
+      ]
+    : [
+        { label: 'Features', href: '#features' },
+        { label: 'Pricing', href: '#pricing' },
+        { label: 'Hash Hunt', href: '#hashhunt' },
+      ]
+
+  const ctaLabel = lang === 'ar' ? 'ابدأ مجانًا' : lang === 'fr' ? 'Commencer' : 'Start Free'
 
   return (
-    <header
-      className={cn(
-        'fixed top-0 inset-x-0 z-50 transition-all duration-300',
-        isScrolled
-          ? 'bg-surface/90 backdrop-blur-md border-b border-border shadow-sm'
-          : 'bg-transparent'
-      )}
-    >
-      <div className="container-main">
+    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200">
+      <div className="container-page">
         <div className="flex items-center justify-between h-16">
 
-          {/* Logo */}
-          <a href="/" className="flex items-center gap-2 font-bold text-xl text-text">
-            <div className="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center">
-              <FileText className="w-4 h-4 text-white" />
-            </div>
-            <span>
-              Hash<span className="text-primary-600">Resume</span>
-            </span>
+          <a href="/" className="flex items-center gap-1 flex-shrink-0">
+            <span className="font-semibold text-xl tracking-tight" style={{ color: 'var(--color-brand-500)' }}>Hash</span>
+            <span className="text-neutral-800 font-semibold text-xl">Resume</span>
           </a>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            <a href="#features" className="px-4 py-2 text-sm text-text-secondary hover:text-text rounded-lg hover:bg-surface-3 transition-colors">
-              المميزات
-            </a>
-            <a href="#templates" className="px-4 py-2 text-sm text-text-secondary hover:text-text rounded-lg hover:bg-surface-3 transition-colors">
-              القوالب
-            </a>
-            <a href="#pricing" className="px-4 py-2 text-sm text-text-secondary hover:text-text rounded-lg hover:bg-surface-3 transition-colors">
-              الأسعار
-            </a>
-          </nav>
-
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            {user ? (
-              <>
-                <a href="/editor" className="btn-primary btn-sm flex items-center gap-2">
-                  <Sparkles className="w-4 h-4" />
-                  لوحة التحكم
-                </a>
-                <button onClick={signOut} className="btn-ghost btn-sm">
-                  تسجيل الخروج
-                </button>
-              </>
-            ) : (
-              <>
-                <button onClick={onOpenAuth} className="btn-ghost btn-sm">
-                  تسجيل الدخول
-                </button>
-                <button onClick={onOpenAuth} className="btn-primary btn-sm flex items-center gap-2">
-                  <Sparkles className="w-4 h-4" />
-                  ابدأ مجاناً
-                </button>
-              </>
-            )}
+          <div className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
 
-          {/* Mobile Menu Button */}
+          <div className="hidden md:flex items-center gap-2">
+            <div className="relative">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="btn-ghost btn-sm flex items-center gap-1.5"
+              >
+                <span className="text-sm">{LANG_LABELS[lang]}</span>
+                <svg className={cn('w-3 h-3 transition-transform', langOpen && 'rotate-180')} viewBox="0 0 12 12" fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+
+              <AnimatePresence>
+                {langOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute end-0 top-full mt-1 bg-white border border-neutral-200 rounded-xl shadow-lg overflow-hidden w-36 z-50"
+                  >
+                    {LANGS.map((l) => (
+                      <button
+                        key={l}
+                        onClick={() => { onLangChange(l); setLangOpen(false) }}
+                        className={cn(
+                          'w-full text-start px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors',
+                          lang === l ? 'font-medium' : 'text-neutral-700'
+                        )}
+                        style={lang === l ? { color: 'var(--color-brand-500)' } : {}}
+                      >
+                        {LANG_LABELS[l]}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              onClick={onStartClick}
+              className="btn-primary btn-sm inline-flex items-center gap-1.5"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              {ctaLabel}
+            </motion.button>
+          </div>
+
           <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-surface-3 transition-colors"
-            aria-label="القائمة"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+            aria-label="Toggle menu"
           >
-            {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-surface border-t border-border px-4 py-4 flex flex-col gap-2">
-          <a href="#features" className="px-4 py-3 text-sm text-text-secondary hover:text-text rounded-xl hover:bg-surface-3 transition-colors">
-            المميزات
-          </a>
-          <a href="#templates" className="px-4 py-3 text-sm text-text-secondary hover:text-text rounded-xl hover:bg-surface-3 transition-colors">
-            القوالب
-          </a>
-          <a href="#pricing" className="px-4 py-3 text-sm text-text-secondary hover:text-text rounded-xl hover:bg-surface-3 transition-colors">
-            الأسعار
-          </a>
-          <hr className="border-border my-1" />
-          {user ? (
-            <>
-              <a href="/editor" className="btn-primary text-center">لوحة التحكم</a>
-              <button onClick={signOut} className="btn-ghost">تسجيل الخروج</button>
-            </>
-          ) : (
-            <>
-              <button onClick={onOpenAuth} className="btn-ghost">تسجيل الدخول</button>
-              <button onClick={onOpenAuth} className="btn-primary">ابدأ مجاناً</button>
-            </>
-          )}
-        </div>
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden overflow-hidden border-t border-neutral-100 bg-white"
+          >
+            <div className="container-page py-4 flex flex-col gap-1">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="px-3 py-2.5 text-sm text-neutral-700 hover:text-neutral-900 rounded-lg hover:bg-neutral-50"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <div className="flex gap-2 mt-2 pt-3 border-t border-neutral-100">
+                {LANGS.map((l) => (
+                  <button
+                    key={l}
+                    onClick={() => { onLangChange(l); setMobileOpen(false) }}
+                    className={cn('btn btn-sm flex-1', lang === l ? 'btn-primary' : 'btn-ghost')}
+                  >
+                    {LANG_LABELS[l]}
+                  </button>
+                ))}
+              </div>
+              <button
+                onClick={() => { onStartClick?.(); setMobileOpen(false) }}
+                className="btn-primary mt-2 w-full justify-center inline-flex gap-2"
+              >
+                <Sparkles className="w-4 h-4" />
+                {ctaLabel}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {langOpen && (
+        <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
       )}
-    </header>
+    </nav>
   )
 }

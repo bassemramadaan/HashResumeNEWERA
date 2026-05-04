@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import { Helmet } from "react-helmet-async";
 import { motion, useMotionValue, animate, AnimatePresence } from "framer-motion";
-import { ArrowLeft, Sparkles, Star, Users, FileCheck, FileText, Layout, Download, CheckCircle, ChevronDown, ChevronUp, Target, Zap, Shield, CheckCircle2, Check, Plus, ArrowUp, X } from "lucide-react";
+import { Sparkles, Target, CheckCircle2, Check, Plus, ArrowUp, X } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";
 import { useLanguageStore } from "../store/useLanguageStore";

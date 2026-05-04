@@ -7,7 +7,7 @@ import PageLoader from "./components/PageLoader";
 import ExitIntentPopup from "./components/ExitIntentPopup";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
-const LandingPage = React.lazy(() => import("./pages/LandingPage"));
+const LandingPage = React.lazy(() => import("./pages/Landing"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
 const HashHuntPage = React.lazy(() => import("./pages/HashHuntPage"));
 const CoverLetterPage = React.lazy(() => import("./pages/CoverLetterPage"));

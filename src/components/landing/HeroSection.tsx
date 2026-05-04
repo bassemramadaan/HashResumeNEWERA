@@ -1,4 +1,4 @@
-import { ArrowLeft, Sparkles, Star, Users, FileCheck, FileText, Layout, Download } from 'lucide-react'
+import { ArrowLeft, Sparkles, Star, FileCheck, FileText, Layout, Download } from 'lucide-react'
 
 interface HeroSectionProps {
   onOpenAuth: () => void

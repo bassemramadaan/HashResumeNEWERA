@@ -963,9 +963,16 @@ export default function EditorPage() {
                 </div>
 
                 <Suspense fallback={<FormLoader />}>
-                  <div key={activeTab}>
-                    {activeTab === "basics" && (
-                      <div className="space-y-12">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeTab}
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      {activeTab === "basics" && (
+                        <div className="space-y-12">
 
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start">
@@ -1330,7 +1337,8 @@ export default function EditorPage() {
                           </div>
                         </div>
                       )}
-                  </div>
+                    </motion.div>
+                  </AnimatePresence>
                 </Suspense>
 
                 {/* Mobile Scroll to Top */}
@@ -1605,7 +1613,6 @@ export default function EditorPage() {
       </div>
 
       {/* Modals */}
-      <Suspense fallback={null}>
         <SettingsModal
           isOpen={isSettingsModalOpen}
           onClose={() => setIsSettingsModalOpen(false)}
@@ -1652,7 +1659,9 @@ export default function EditorPage() {
                 </div>
 
                 <div className="w-full max-w-[210mm] bg-slate-50 shadow-[0_50px_100px_rgba(0,0,0,0.5)] rounded-sm overflow-hidden shrink-0 mb-20 ring-1 ring-white/20">
-                  <ResumePreview />
+                  <Suspense fallback={<FormLoader />}>
+                    <ResumePreview />
+                  </Suspense>
                 </div>
               </motion.div>
             </div>
@@ -1754,7 +1763,6 @@ export default function EditorPage() {
             </div>
           )}
         </AnimatePresence>
-      </Suspense>
     </div>
   );
 }
