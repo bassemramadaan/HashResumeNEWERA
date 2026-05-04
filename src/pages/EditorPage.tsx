@@ -98,7 +98,8 @@ type Tab =
   | "certifications"
   | "custom"
   | "cover-letter"
-  | "finish";
+  | "finish"
+  | "review";
 
 interface TabItem {
   id: Tab;
@@ -701,6 +702,7 @@ export default function EditorPage() {
         : "Add any additional sections you find important.",
     "cover-letter": t.coverLetterDesc,
     finish: t.finishDesc,
+    review: t.finishDesc,
   };
 
   return (
@@ -1453,7 +1455,7 @@ export default function EditorPage() {
       {/* Mobile Bottom Sheet Preview */}
       <AnimatePresence>
         {showMobilePreview && (
-          <>
+          <div key="mobile-preview-container">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -1529,14 +1531,14 @@ export default function EditorPage() {
                       {previewMode === "cover-letter" ? (
                         <CoverLetterPreview />
                       ) : (
-                        <ResumePreview />
+                        <ResumePreview ref={componentRef} />
                       )}
                     </Suspense>
                   </div>
                 </div>
               </div>
             </motion.div>
-          </>
+          </div>
         )}
       </AnimatePresence>
 
