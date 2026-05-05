@@ -32,7 +32,7 @@ const Logo: React.FC<LogoProps> = ({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox={iconOnly ? "330 300 480 310" : "0 0 1000 300"}
+      viewBox={iconOnly ? "330 300 480 310" : "50 400 900 400"}
       width={width}
       height={height}
       className={className}
@@ -47,16 +47,16 @@ const Logo: React.FC<LogoProps> = ({
         </linearGradient>
       </defs>
 
-      {/* Slashes Group - Scaled and moved to left */}
-      <g fill={iconColor} transform={iconOnly ? "" : "translate(-160, -100) scale(0.5)"}>
+      {/* Slashes Group - Centered and scaled */}
+      <g fill={iconColor} transform={iconOnly ? "" : "translate(30, 220) scale(0.6)"}>
         <path d="M 437.5 306 L 534.5 306 L 535 308.5 L 436 605 L 337.5 605 L 337 603.5 L 435 309.5 L 437.5 306 Z" />
         <path d="M 584 306 L 682.5 306 L 683 308.5 L 584 605 L 485.5 605 L 485 603.5 L 584 306 Z" />
         <path d="M 728 383 L 802 383.5 L 777 458.5 L 775.5 460 L 759.5 448 L 757.5 448 L 707 483 L 710.5 488 L 756 521.5 L 728 605 L 655.5 605 L 655 602.5 L 728 383 Z" />
       </g>
 
       {!iconOnly && (
-        <g fill={textColor} transform="translate(60, -510)">
-          {/* Brand Text: Hash Resume */}
+        <g fill={textColor} transform="translate(180, 0)">
+          {/* Brand Text: Hash Resume positioned next to icon */}
           <path d="M 226 643 L 211 648 L 209 649 L 209 735 L 228 735 L 228 697 L 260 697 L 260 735 L 280 735 L 280 735 L 280 643 L 262 648 L 260 649 L 260 681 L 234 681 L 229 695 L 228 695 L 228 644 L 226 643 Z" />
           <path d="M 314 675 L 303 677 L 300 680 L 298 692 L 308 689 Q 318 687 325 690 Q 329 693 328 700 L 325 699 Q 306 697 L 298 704 L 293 714 L 293 721 L 298 731 Q 306 738 324 736 L 329 728 L 329 735 L 331 736 L 346 736 L 346 698 L 344 689 L 342 686 Q 338 680 332 678 L 326 676 L 314 675 Z" />
           <path d="M 371 675 L 359 680 L 352 690 Q 350 700 355 705 Q 361 711 371 714 Q 374 715 373 722 L 369 724 L 352 723 L 354 736 L 357 737 Q 374 739 384 733 Q 390 729 391 721 Q 392 713 389 710 Q 382 700 370 696 L 369 690 L 372 689 L 386 689 L 387 690 L 390 690 L 390 677 L 380 675 L 371 675 Z" />

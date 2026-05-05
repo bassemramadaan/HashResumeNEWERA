@@ -133,16 +133,29 @@ export default function LandingPage() {
         <div className="absolute end-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col items-center text-center pt-12">
+          <div className="flex flex-col items-center text-center pt-8 md:pt-16">
             {/* Logo and Name at the middle of starting page */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, type: "spring" }}
-                className="mb-8"
+                className="mb-6"
             >
-                <Logo className="w-64 sm:w-80 lg:w-[450px] h-auto drop-shadow-2xl" variant="gradient" />
+                <div className="relative group">
+                    <div className="absolute -inset-4 bg-[#ff4d2d]/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                    <Logo className="w-56 sm:w-72 lg:w-[480px] h-auto drop-shadow-2xl relative z-10" variant="gradient" />
+                </div>
+            </motion.div>
+
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3 }}
+                className="mb-8 px-4 py-1.5 rounded-2xl bg-orange-50 border border-orange-100 text-orange-600 text-xs font-black uppercase tracking-[0.2em] shadow-sm shadow-orange-100/50"
+            >
+                {language === "ar" ? "عهد جديد في كتابة السيرة الذاتية" : "A New Era in Resume Building"}
             </motion.div>
 
             {/* Left Column: Text & CTA */}
@@ -163,15 +176,15 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.1 }}
-                className={cn("font-display mb-8", language === "ar" ? "leading-relaxed" : "leading-[1.05]")}
+                className={cn("font-display mb-10", language === "ar" ? "leading-relaxed" : "leading-[1.05]")}
               >
-                <span className="text-slate-900 block text-3xl sm:text-6xl lg:text-8xl font-black tracking-tight mb-4 sm:mb-6 leading-snug sm:leading-tight">
+                <span className="text-slate-900 block text-3xl sm:text-6xl lg:text-[5.5rem] font-black tracking-tight mb-4 sm:mb-6 leading-snug sm:leading-tight">
                   {language === "ar" ? "أول Resume Builder عربي حقيقي" : t.heroTitle1}{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600 block sm:inline mt-1 sm:mt-0">
                     {language === "ar" ? "بدون اشتراكات" : t.heroTitle2}
                   </span>
                 </span>
-                <p className="text-slate-600 text-base sm:text-2xl font-medium tracking-tight mb-2 max-w-2xl mx-auto">
+                <p className="text-slate-600 text-base sm:text-2xl font-medium tracking-tight mb-2 max-w-3xl mx-auto leading-relaxed">
                   {language === "ar" 
                     ? "ابنِ سيرتك الذاتية مجاناً بالعربي والإنجليزي، وادفع مرة واحدة فقط عند التحميل. لا اشتراكات، لا رسوم خفية." 
                     : "Build your professional resume for free in Arabic & English. Pay once only when you love the result. No subscriptions."}
