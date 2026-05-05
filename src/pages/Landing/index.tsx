@@ -5,6 +5,7 @@ import { FeaturesSection } from './FeaturesSection'
 import { PricingSection }  from './PricingSection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import type { AppLang } from '@/hooks/useDirection'
+import Logo from '@/components/Logo'
 
 export default function LandingPage() {
   const navigate = useNavigate()
@@ -28,8 +29,7 @@ export default function LandingPage() {
       <footer className="border-t border-neutral-200 py-8" style={{ backgroundColor: 'var(--color-neutral-0)' }}>
         <div className="container-page flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-neutral-400">
           <div className="flex items-center gap-1">
-            <span style={{ color: 'var(--color-brand-500)', fontWeight: 600 }}>Hash</span>
-            <span className="text-neutral-700 font-semibold">Resume</span>
+            <Logo width={110} height={28} variant="gradient" />
             <span className="mx-2">·</span>
             <span>© {new Date().getFullYear()}</span>
           </div>

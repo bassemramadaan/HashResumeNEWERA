@@ -4,6 +4,7 @@ import { Menu, X, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
 import { Link } from 'react-router-dom'
+import Logo from '../Logo'
 
 interface NavbarProps {
   lang: AppLang
@@ -49,8 +50,7 @@ export function Navbar({ lang, onLangChange, onStartClick }: NavbarProps) {
         <div className="flex items-center justify-between h-16">
 
           <a href="/" className="flex items-center gap-1 flex-shrink-0">
-            <span className="font-semibold text-xl tracking-tight" style={{ color: 'var(--color-brand-500)' }}>Hash</span>
-            <span className="text-neutral-800 font-semibold text-xl">Resume</span>
+            <Logo width={120} height={32} variant="gradient" />
           </a>
 
           <div className="hidden md:flex items-center gap-1">
