@@ -279,10 +279,7 @@ export default function TemplatesPage() {
               <ArrowLeft size={20} className="rtl:rotate-180" />
             </Link>
             <Link to="/" className="flex items-center gap-2">
-              <Logo className="w-8 h-8 text-[#ff4d2d]" />
-              <span className="font-display font-bold text-xl hidden sm:block">
-                Hash Resume
-              </span>
+              <Logo className="w-32 sm:w-40 h-auto" variant="gradient" />
             </Link>
           </div>
         </div>

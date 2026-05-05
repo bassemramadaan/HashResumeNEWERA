@@ -20,12 +20,7 @@ export default function Footer() {
             <div className="sm:col-span-2 lg:col-span-4">
               <div className="flex flex-col items-start mb-4">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-[#ff4d2d] rounded-xl shadow-lg shadow-orange-500/20 flex items-center justify-center text-white">
-                    <Logo className="w-6 h-6" />
-                  </div>
-                  <span className="text-2xl font-black tracking-tight text-white font-display">
-                    Hash<span className="text-[#ff4d2d]">Resume</span>
-                  </span>
+                  <Logo className="w-32 sm:w-40 h-auto" variant="white" />
                 </div>
               </div>
               <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>

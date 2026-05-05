@@ -2,6 +2,7 @@ import React from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
+import Logo from "./Logo";
 
 const OnboardingTour = () => {
   const { isActive, skipOnboarding } = useOnboardingStore();
@@ -13,7 +14,12 @@ const OnboardingTour = () => {
     {
       target: "body",
       placement: "center",
-      title: isAr ? "مرحباً بك في Hash Resume!" : "Welcome to Hash Resume!",
+      title: (
+        <div className={`flex items-center gap-2 ${isAr ? 'justify-end md:justify-center' : 'justify-start md:justify-center'}`}>
+          <Logo className="w-8 h-8" variant="gradient" iconOnly />
+          <span>{isAr ? "مرحباً بك في Hash Resume!" : "Welcome to Hash Resume!"}</span>
+        </div>
+      ),
       content: isAr 
         ? "دعنا نأخذك في جولة سريعة في المحرر لمساعدتك في بناء سيرتك الذاتية الاحترافية في دقائق."
         : "Let us show you around the editor to help you build your professional resume in minutes.",

@@ -732,7 +732,7 @@ export default function EditorPage() {
               className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-sm text-brand-500 hover:scale-105 transition-transform shrink-0 border border-neutral-100"
               title={t.backToHome}
             >
-              <Logo className="w-5 h-5 sm:w-6 sm:h-6" />
+              <Logo className="w-5 h-5 sm:w-6 sm:h-6" iconOnly />
             </Link>
 
             {/* Separator */}

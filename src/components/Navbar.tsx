@@ -60,12 +60,7 @@ export default function Navbar() {
         >
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-gradient-to-br from-orange-400 to-[#ff4d2d] rounded-xl shadow-lg shadow-orange-500/20 flex items-center justify-center text-white group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
-              <Logo className="w-6 h-6" />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-slate-900 hidden sm:block">
-              Hash<span className="text-[#ff4d2d]">Resume</span>
-            </span>
+              <Logo className="w-32 sm:w-40 h-auto" variant="gradient" />
           </Link>
 
           {/* Desktop Navigation */}

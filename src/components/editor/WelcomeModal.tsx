@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import {
-  Sparkles,
   Play,
   SkipForward,
   LayoutTemplate,
@@ -10,6 +9,7 @@ import {
   ArrowRight,
   FileText,
 } from "lucide-react";
+import Logo from "../Logo";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -111,11 +111,8 @@ export default function WelcomeModal({
                     transition={{ duration: 0.3 }}
                     className="flex flex-col items-center"
                   >
-                    <motion.div variants={itemVariants} className="relative mb-8">
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#ff4d2d] to-orange-500 blur-2xl opacity-20 rounded-full" />
-                      <div className="relative w-24 h-24 bg-gradient-to-br from-[#ff4d2d] to-orange-500 rounded-3xl flex items-center justify-center shadow-xl shadow-orange-500/20 rotate-3 transform hover:rotate-6 transition-transform duration-300">
-                        <Sparkles className="text-white w-12 h-12" />
-                      </div>
+                    <motion.div variants={itemVariants} className="relative mb-8 flex justify-center">
+                      <Logo className="w-48 h-auto" variant="gradient" />
                     </motion.div>
 
                     <motion.h2

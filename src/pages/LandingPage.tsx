@@ -591,11 +591,9 @@ export default function LandingPage() {
             <div className="md:hidden space-y-6 relative z-10 w-full overflow-hidden">
               <div className="bg-white p-6 rounded-3xl shadow-lg border border-orange-100 relative overflow-hidden">
                 <div className="absolute top-0 inset-x-0 h-1 bg-[#ff4d2d]"></div>
-                <div className="flex items-center gap-3 mb-6">
-                   <div className="w-10 h-10 bg-[#ff4d2d] rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/20">
-                     <Logo className="w-5 h-5 text-white" />
-                   </div>
-                   <span className="text-[#ff4d2d] font-black text-lg tracking-tight">Hash Resume</span>
+                <div className="flex items-center gap-2 mb-6 text-[#ff4d2d]">
+                   <Logo className="w-8 h-8" variant="gradient" iconOnly />
+                   <span className="font-black text-lg tracking-tight">Hash Resume</span>
                 </div>
                 <ul className="space-y-4">
                   {[
@@ -653,11 +651,9 @@ export default function LandingPage() {
                     <th className="py-6 px-4 text-start w-1/3"></th>
                     <th className="py-6 px-4 text-center w-1/3 relative">
                       <div className="absolute inset-0 bg-white rounded-t-3xl border-t border-x border-orange-100 shadow-[0_-10px_30px_-15px_rgba(255,77,45,0.2)]"></div>
-                      <div className="relative z-10 flex flex-col items-center justify-center gap-2">
-                        <div className="w-12 h-12 bg-gradient-to-b from-[#ff4d2d] to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/20 mb-2">
-                          <Logo className="w-6 h-6 text-white" />
-                        </div>
-                        <span className="text-[#ff4d2d] font-black text-lg tracking-tight">Hash Resume</span>
+                      <div className="relative z-10 flex flex-col items-center justify-center gap-2 text-[#ff4d2d]">
+                        <Logo className="w-10 h-10" variant="gradient" iconOnly />
+                        <span className="font-black text-lg tracking-tight">Hash Resume</span>
                       </div>
                     </th>
                     <th className="py-6 px-4 text-center w-1/3 relative">
