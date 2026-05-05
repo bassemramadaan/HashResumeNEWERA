@@ -197,25 +197,6 @@ export default function HashHuntPage() {
                 : 'Complete the form below and your profile will be visible to top employers in the region'}
             </p>
 
-            <div className="flex flex-wrap justify-center gap-4 mt-6 mb-2">
-              {[
-                { icon: '🔒', text: 'بياناتك آمنة تماماً' },
-                { icon: '⚡', text: 'استجابة خلال 48 ساعة' },
-                { icon: '🌍', text: 'شركات من 15 دولة عربية' },
-              ].map((item) => (
-                <div
-                  key={item.text}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
-                  style={{
-                    background: 'var(--color-neutral-100)',
-                    color: 'var(--color-neutral-600)',
-                  }}
-                >
-                  <span>{item.icon}</span>
-                  <span>{item.text}</span>
-                </div>
-              ))}
-            </div>
           </motion.div>
 
           <motion.div
