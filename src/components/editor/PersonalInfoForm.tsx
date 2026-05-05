@@ -89,7 +89,8 @@ const PersonalInfoForm = () => {
         </div>
         <button
           onClick={() => setIsLinkedInModalOpen(true)}
-          className="w-full sm:w-auto bg-[#0A66C2] hover:bg-[#004182] text-white px-5 py-2.5 rounded-xl font-medium transition-colors whitespace-nowrap flex justify-center items-center gap-2"
+          style={{ backgroundColor: 'var(--color-brand-500)', color: '#fff' }}
+          className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-medium transition-colors whitespace-nowrap flex justify-center items-center gap-2 hover:opacity-90"
         >
           <Download size={18} />
           {language === "ar" ? "استيراد من لينكد إن" : "Import from LinkedIn"}

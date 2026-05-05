@@ -718,7 +718,7 @@ export default function EditorPage() {
       <OnboardingTour />
 
       {/* Floating Dock Navbar (Top) */}
-      <div className="fixed top-2 sm:top-4 start-1/2 -translate-x-1/2 flex justify-center z-50 px-2 sm:px-4 pointer-events-none w-full max-w-5xl text-start">
+      <div className="fixed top-2 start-1/2 -translate-x-1/2 flex justify-center z-50 px-2 pointer-events-none w-full max-w-5xl text-start">
         <nav style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
@@ -857,7 +857,7 @@ export default function EditorPage() {
       </div>
 
       {/* Spacer for fixed dock */}
-      <div className="h-20 shrink-0" />
+      <div className="h-16 shrink-0" />
 
       {/* Real-time Progress tracker moved to tabs and dock */}
 
@@ -869,7 +869,10 @@ export default function EditorPage() {
         <Panel defaultSize={55} minSize={30} className="block">
           <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-neutral-50">
             {/* Horizontal Tabs - Now visible on all screen sizes */}
-            <div className="bg-white border-b border-neutral-200 py-4 overflow-x-auto hide-scrollbar z-30 shadow-sm sticky top-0">
+            <div 
+              className="bg-white border-b overflow-x-auto hide-scrollbar z-30 sticky top-0"
+              style={{ borderColor: 'var(--color-neutral-200)', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}
+            >
               <div className="max-w-7xl mx-auto px-4 sm:px-8">
                 <div className="flex gap-2 min-w-max">
                   {tabs.map((tab) => {
@@ -879,23 +882,23 @@ export default function EditorPage() {
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as Tab)}
-                        style={isActive ? {
-                          backgroundColor: 'var(--color-neutral-900)',
-                          color: '#fff',
-                        } : {}}
                         className={cn(
-                          "flex items-center gap-2.5 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all relative",
-                          isActive
-                            ? "shadow-lg scale-105 z-10"
-                            : "bg-white border border-neutral-200 hover:bg-neutral-50"
+                          "flex items-center gap-2 px-4 py-2 rounded-xl font-bold md:text-sm text-xs transition-all relative whitespace-nowrap",
+                          isActive ? "text-white shadow-md scale-105" : "text-neutral-500 border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 bg-white"
                         )}
+                        style={isActive ? { backgroundColor: 'var(--color-neutral-900)' } : {}}
                       >
-                        <Icon size={18} className={cn(isActive ? "text-brand-500" : "text-neutral-400")} />
+                        <Icon
+                          size={16}
+                          style={{ color: isActive ? 'var(--color-brand-500)' : undefined }}
+                          className={!isActive ? 'text-neutral-400' : ''}
+                        />
                         {tab.label}
                         {isActive && (
                           <motion.div
-                            layoutId="activeTabUnderline"
-                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-brand-500"
+                            layoutId="activeTabDot"
+                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
+                            style={{ backgroundColor: 'var(--color-brand-500)' }}
                           />
                         )}
                       </button>
@@ -1475,38 +1478,46 @@ export default function EditorPage() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed inset-x-0 bottom-0 h-[85vh] bg-neutral-100 rounded-t-[2rem] shadow-2xl z-[70] flex flex-col overflow-hidden"
             >
-              <div className="flex items-center justify-between p-4 bg-white border-b border-neutral-200 shrink-0">
-                <div className="flex items-center bg-neutral-50 rounded-xl p-1 border border-neutral-200">
+              <div
+                className="flex items-center justify-between p-3 shrink-0"
+                style={{ background: '#fff', borderBottom: '1px solid var(--color-neutral-100)' }}
+              >
+                <div
+                  className="flex items-center rounded-xl p-1"
+                  style={{ background: 'var(--color-neutral-100)' }}
+                >
                   <button
                     onClick={() => setPreviewMode("resume")}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all",
-                      previewMode === "resume"
-                        ? "bg-white text-neutral-900 shadow-sm"
-                        : "text-neutral-500 hover:text-neutral-700",
-                    )}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all"
+                    style={previewMode === "resume" ? {
+                      background: '#fff',
+                      color: 'var(--color-neutral-900)',
+                      boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+                    } : { color: 'var(--color-neutral-500)' }}
                   >
-                    <LayoutTemplate size={14} />
-                    Resume
+                    <LayoutTemplate size={13} />
+                    {language === 'ar' ? 'السيرة' : 'Resume'}
                   </button>
                   <button
                     onClick={() => setPreviewMode("cover-letter")}
-                    className={cn(
-                      "flex items-center gap-2 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all",
-                      previewMode === "cover-letter"
-                        ? "bg-white text-neutral-900 shadow-sm"
-                        : "text-neutral-500 hover:text-neutral-700",
-                    )}
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all"
+                    style={previewMode === "cover-letter" ? {
+                      background: '#fff',
+                      color: 'var(--color-neutral-900)',
+                      boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+                    } : { color: 'var(--color-neutral-500)' }}
                   >
-                    <FileText size={14} />
-                    Letter
+                    <FileText size={13} />
+                    {language === 'ar' ? 'الخطاب' : 'Letter'}
                   </button>
                 </div>
+              
                 <button
                   onClick={() => setShowMobilePreview(false)}
-                  className="w-10 h-10 flex items-center justify-center bg-neutral-100 text-neutral-600 rounded-full"
+                  className="w-9 h-9 flex items-center justify-center rounded-xl transition-colors"
+                  style={{ background: 'var(--color-neutral-100)', color: 'var(--color-neutral-600)' }}
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </button>
               </div>
 
@@ -1548,9 +1559,17 @@ export default function EditorPage() {
       </AnimatePresence>
 
       {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 flex items-center bg-white/95 backdrop-blur-xl rounded-[2rem] border border-neutral-200/60 shadow-[0_20px_50px_rgba(0,0,0,0.12)] transition-all duration-300 mb-safe p-2 w-[94%] sm:w-auto max-w-[500px] sm:max-w-none">
-        <div className="flex items-center justify-between gap-4 w-full px-2 py-1">
-          <div className="flex items-center gap-2">
+      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 mb-safe w-[94%] sm:w-auto max-w-[480px]">
+        <div
+          className="flex items-center justify-between gap-2 w-full px-3 py-2 rounded-2xl"
+          style={{
+            background: 'rgba(255,255,255,0.97)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid var(--color-neutral-200)',
+            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+          }}
+        >
+          <div className="flex items-center gap-1">
             <button
               onClick={() => {
                 const currentIndex = tabs.findIndex((t) => t.id === activeTab);
@@ -1560,17 +1579,18 @@ export default function EditorPage() {
                 }
               }}
               disabled={activeTab === tabs[0].id}
-              className="w-12 h-12 flex items-center justify-center text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-full disabled:opacity-30 transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-xl transition-colors disabled:opacity-30"
+              style={{ color: 'var(--color-neutral-500)' }}
             >
-              <ChevronLeft size={24} className="rtl:rotate-180" />
+              <ChevronLeft size={20} className="rtl:rotate-180" />
             </button>
 
-            <div className="flex flex-col min-w-[100px] text-center px-2">
-              <span className="text-[10px] font-black uppercase tracking-widest text-brand-500">
+            <div className="flex flex-col min-w-[90px] text-center px-1">
+              <span className="text-[9px] font-black uppercase tracking-widest" style={{ color: 'var(--color-brand-500)' }}>
                 {activeTabIndex} / {tabs.length}
               </span>
-              <span className="text-sm font-bold text-neutral-900 truncate max-w-[120px]">
-                {tabs.find((t) => t.id === activeTab)?.label}
+              <span className="text-xs font-bold truncate max-w-[110px]" style={{ color: 'var(--color-neutral-900)' }}>
+                {tabs.find((t) => t.id === activeTab)?.shortLabel}
               </span>
             </div>
 
@@ -1583,33 +1603,31 @@ export default function EditorPage() {
                 }
               }}
               disabled={activeTab === tabs[tabs.length - 1].id}
-              className="w-12 h-12 flex items-center justify-center text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-full disabled:opacity-30 transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-xl transition-colors disabled:opacity-30"
+              style={{ color: 'var(--color-neutral-500)' }}
             >
-              <ArrowRight size={24} className="rtl:rotate-180" />
+              <ArrowRight size={20} className="rtl:rotate-180" />
             </button>
           </div>
 
-          <div className="flex items-center gap-2 ms-auto">
-            {/* Mobile Preview Toggle */}
+          <div className="flex items-center gap-2">
             <button
-              onClick={() => {
-                hapticFeedback(40);
-                setShowMobilePreview(!showMobilePreview);
-              }}
-              className="md:hidden flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 bg-neutral-50 text-neutral-600 border border-neutral-200 hover:bg-neutral-100 active:scale-95 shadow-sm"
-              title={language === "ar" ? "معاينة" : "Preview"}
+              onClick={() => { hapticFeedback(40); setShowMobilePreview(!showMobilePreview); }}
+              className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl transition-all active:scale-95"
+              style={{ background: 'var(--color-neutral-100)', color: 'var(--color-neutral-600)' }}
+              title={language === 'ar' ? 'معاينة' : 'Preview'}
             >
-              <Eye size={20} />
+              <Eye size={18} />
             </button>
 
-            {/* Action Button: Export */}
             <button
               onClick={handleExportClick}
-              style={{ backgroundColor: 'var(--color-brand-500)', color: '#fff' }}
-              className="flex items-center justify-center gap-2 font-black h-12 px-5 sm:px-6 rounded-full active:scale-95 transition-all shadow-lg text-xs sm:text-sm uppercase tracking-widest"
+              className="flex items-center justify-center gap-2 font-black h-10 px-4 rounded-xl active:scale-95 transition-all text-white text-xs uppercase tracking-widest"
+              style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 4px 12px color-mix(in srgb, var(--color-brand-500) 35%, transparent)' }}
             >
-              <Download size={18} />
+              <Download size={16} />
               <span className="hidden sm:inline">{t.exportPdf}</span>
+              <span className="sm:hidden">{language === 'ar' ? 'تحميل' : 'Export'}</span>
             </button>
           </div>
         </div>

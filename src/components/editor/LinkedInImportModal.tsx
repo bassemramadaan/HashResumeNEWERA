@@ -346,7 +346,8 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
                   <button
                     onClick={processFile}
                     disabled={!selectedFile || isProcessing}
-                    className="w-full bg-[#0A66C2] hover:bg-[#004182] disabled:bg-slate-300 disabled:text-slate-500 text-white font-bold py-4 px-6 rounded-xl shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+                    style={{ backgroundColor: 'var(--color-brand-500)', color: '#fff' }}
+                    className="w-full disabled:bg-slate-300 disabled:text-slate-500 font-bold py-4 px-6 rounded-xl shadow-lg transition-all hover:opacity-90 active:scale-95 flex items-center justify-center gap-2"
                   >
                     {isProcessing ? (
                       <>
