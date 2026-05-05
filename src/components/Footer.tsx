@@ -20,7 +20,7 @@ export default function Footer() {
             <div className="sm:col-span-2 lg:col-span-4">
               <div className="flex flex-col items-start mb-4">
                 <div className="flex items-center gap-3 mb-2">
-                  <Logo className="w-32 sm:w-40 h-auto" variant="white" />
+                  <Logo className="w-40 sm:w-56 h-auto" variant="white" />
                 </div>
               </div>
               <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>

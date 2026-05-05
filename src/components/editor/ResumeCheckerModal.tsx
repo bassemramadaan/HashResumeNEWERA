@@ -141,112 +141,106 @@ export default function ResumeCheckerModal({
             className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]"
           >
             {/* Header */}
-            <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+            <div className="p-8 border-b border-slate-100 flex justify-between items-center bg-white">
               <div>
-                <h2 className="text-xl font-bold text-slate-900">
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">
                   {t.title}
                 </h2>
-                <p className="text-sm text-white0">
+                <p className="text-sm text-slate-500 font-medium">
                   {t.subtitle}
                 </p>
               </div>
               <button
                 onClick={onClose}
-                className="text-slate-500 hover:text-slate-600 transition-colors"
+                className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all"
               >
-                <X size={24} />
+                <X size={20} />
               </button>
             </div>
 
-            {/* Content */}
-            <div className="p-6 overflow-y-auto flex-1">
-              <div className="flex items-center justify-center mb-10 mt-4">
+            <div className="p-8 overflow-y-auto flex-1 custom-scrollbar">
+              <div className="flex items-center justify-center mb-12 mt-4">
                 <div className="relative flex items-center justify-center">
                   {/* Glow Effect */}
                   <div
                     className={cn(
-                      "absolute inset-0 rounded-full blur-3xl opacity-20 transform scale-75 transition-colors duration-500",
+                      "absolute inset-0 rounded-full blur-3xl opacity-25 transform scale-90 transition-colors duration-700",
                       score >= 80
-                        ? "bg-gradient-to-r from-slate-500 to-cyan-500"
+                        ? "bg-emerald-400"
                         : score >= 50
-                          ? "bg-amber-500"
-                          : "bg-rose-500",
+                          ? "bg-orange-400"
+                          : "bg-rose-400",
                     )}
                   />
 
                   <div className="relative">
-                    <svg className="w-48 h-48 transform -rotate-90 drop-shadow-sm">
+                    <svg className="w-56 h-56 transform -rotate-90 drop-shadow-xl overflow-visible">
                       <defs>
                         <linearGradient
                           id="modal-score-gradient"
                           x1="0%"
                           y1="0%"
                           x2="100%"
-                          y2="0%"
+                          y2="100%"
                         >
-                          <stop
-                            offset="0%"
-                            className="text-slate-600"
-                            stopColor="currentColor"
-                          />
-                          <stop
-                            offset="100%"
-                            className="text-cyan-600"
-                            stopColor="currentColor"
-                          />
+                          <stop offset="0%" stopColor="#ff4d2d" />
+                          <stop offset="100%" stopColor="#f97316" />
                         </linearGradient>
                       </defs>
                       {/* Background Track */}
                       <circle
-                        cx="96"
-                        cy="96"
-                        r="88"
+                        cx="112"
+                        cy="112"
+                        r="100"
                         stroke="currentColor"
-                        strokeWidth="16"
-                        fill="currentColor"
-                        className="text-slate-100 fill-white"
+                        strokeWidth="14"
+                        fill="white"
+                        className="text-slate-100 shadow-inner"
                       />
                       {/* Progress Circle */}
                       <circle
-                        cx="96"
-                        cy="96"
-                        r="88"
+                        cx="112"
+                        cy="112"
+                        r="100"
                         stroke={
                           score >= 80
-                            ? "url(#modal-score-gradient)"
-                            : "currentColor"
+                            ? "#10b981"
+                            : "url(#modal-score-gradient)"
                         }
-                        strokeWidth="16"
+                        strokeWidth="14"
                         fill="transparent"
-                        strokeDasharray={553} // 2 * pi * 88
-                        strokeDashoffset={553 - (553 * score) / 100}
+                        strokeDasharray={628} // 2 * pi * 100
+                        strokeDashoffset={628 - (628 * score) / 100}
                         strokeLinecap="round"
                         className={cn(
                           "transition-all duration-1000 ease-out",
                           score < 80
                             ? score >= 50
-                              ? "text-amber-500"
+                              ? "text-orange-500"
                               : "text-rose-500"
-                            : "",
+                            : "text-emerald-500",
                         )}
                       />
                     </svg>
 
                     {/* Center Text */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                      <span
+                      <motion.span
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.5, type: "spring" }}
                         className={cn(
-                          "text-5xl font-black tracking-tighter transition-colors duration-500",
+                          "text-6xl font-black tracking-tighter transition-colors duration-500",
                           score >= 80
-                            ? "bg-gradient-to-r from-slate-600 to-cyan-600 bg-clip-text text-transparent"
+                            ? "text-emerald-600"
                             : score >= 50
-                              ? "text-amber-600"
+                              ? "text-orange-600"
                               : "text-rose-600",
                         )}
                       >
                         {score}%
-                      </span>
-                      <span className="text-xs font-bold text-slate-500 uppercase tracking-widest mt-2">
+                      </motion.span>
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">
                         {t.scoreLabel}
                       </span>
                     </div>
@@ -254,85 +248,88 @@ export default function ResumeCheckerModal({
                 </div>
               </div>
 
-              <div className="space-y-4">
-                {checks.map((check) => (
-                  <div
+              <div className="grid gap-3">
+                {checks.map((check, index) => (
+                  <motion.div
                     key={check.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
                     className={cn(
-                      "flex items-start gap-4 p-4 rounded-xl border transition-colors",
+                      "flex items-center gap-4 p-5 rounded-2xl border-2 transition-all group",
                       check.passed
-                        ? "bg-emerald-50/50 border-emerald-100"
-                        : "bg-rose-50/50 border-rose-100",
+                        ? "bg-white border-slate-100 hover:border-emerald-100 shadow-sm"
+                        : "bg-rose-50/30 border-rose-100/50 hover:border-rose-200",
                     )}
                   >
                     <div
                       className={cn(
-                        "mt-0.5 shrink-0",
-                        check.passed ? "text-emerald-500" : "text-rose-500",
+                        "h-12 w-12 rounded-xl flex items-center justify-center transition-all shadow-sm",
+                        check.passed 
+                          ? "bg-emerald-50 text-emerald-500 group-hover:scale-110" 
+                          : "bg-rose-50 text-rose-500 group-hover:shake",
                       )}
                     >
                       {check.passed ? (
-                        <CheckCircle2 size={18} />
+                        <CheckCircle2 size={24} strokeWidth={2.5} />
                       ) : (
-                        <AlertCircle size={18} />
+                        <AlertCircle size={24} strokeWidth={2.5} />
                       )}
                     </div>
-                    <div>
+                    <div className="flex-1">
                       <h4
                         className={cn(
-                          "text-sm font-semibold",
-                          check.passed ? "text-emerald-900" : "text-rose-900",
+                          "text-base font-bold tracking-tight",
+                          check.passed ? "text-slate-900" : "text-rose-900",
                         )}
                       >
                         {check.title}
                       </h4>
                       {!check.passed && (
-                        <p className="text-xs text-rose-700 mt-1">
+                        <p className="text-xs text-rose-600/80 font-medium mt-0.5 leading-relaxed">
                           {check.message}
                         </p>
                       )}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
 
             {/* Footer */}
-            <div className="p-6 border-t border-slate-100 bg-slate-50 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div className="p-8 border-t border-slate-100 bg-white grid grid-cols-1 sm:grid-cols-2 items-center gap-6">
               <button
                 onClick={onClose}
-                className="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+                className="px-6 py-3 text-sm font-bold text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-2xl transition-all w-fit"
               >
                 {t.keepEditing}
               </button>
 
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-slate-500 me-2">
+              <div className="flex items-center justify-end gap-2">
+                <span className="text-xs font-black text-slate-400 uppercase tracking-widest me-2 hidden lg:block">
                   {t.exportAs}
                 </span>
-                <button
-                  onClick={() => onProceed("pdf")}
-                  className={cn(
-                    "px-4 py-2 rounded-lg text-sm font-bold text-white flex items-center gap-2 transition-all shadow-sm",
-                    criticalFailures.length > 0
-                      ? "bg-rose-600 hover:bg-rose-700"
-                      : "bg-slate-600 hover:bg-slate-700",
-                  )}
-                >
-                  PDF
-                </button>
-                <button
-                  onClick={() => onProceed("docx")}
-                  className="px-4 py-2 rounded-lg text-sm font-bold bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-50 transition-all shadow-sm"
-                >
-                  DOCX
-                </button>
-                <button
-                  onClick={() => onProceed("txt")}
-                  className="px-4 py-2 rounded-lg text-sm font-bold bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-50 transition-all shadow-sm"
-                >
-                  TXT
-                </button>
+                
+                <div className="flex bg-slate-100/50 p-1.5 rounded-2xl border border-slate-200/50">
+                    <button
+                        onClick={() => onProceed("pdf")}
+                        className="px-5 py-2 rounded-xl text-xs font-black bg-gradient-to-b from-[#ff4d2d] to-orange-600 text-white shadow-lg shadow-orange-200 active:scale-95 transition-all"
+                    >
+                        PDF
+                    </button>
+                    <button
+                        onClick={() => onProceed("docx")}
+                        className="px-5 py-2 rounded-xl text-xs font-black text-slate-600 hover:text-slate-900 hover:bg-white active:scale-95 transition-all"
+                    >
+                        DOCX
+                    </button>
+                    <button
+                        onClick={() => onProceed("txt")}
+                        className="px-5 py-2 rounded-xl text-xs font-black text-slate-600 hover:text-slate-900 hover:bg-white active:scale-95 transition-all"
+                    >
+                        TXT
+                    </button>
+                </div>
               </div>
             </div>
           </motion.div>

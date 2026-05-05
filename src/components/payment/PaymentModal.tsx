@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, MessageCircle, Loader2, Unlock, Lock, CheckCircle2 } from "lucide-react";
+import { X, MessageCircle, Loader2, Lock, CheckCircle2 } from "lucide-react";
 import { useLanguageStore } from "../../store/useLanguageStore";
+import Logo from "../Logo";
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -83,16 +84,12 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               <X size={18} />
             </button>
 
-            <div
-              className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4"
-              style={{ backgroundColor: 'var(--color-brand-50)' }}
-            >
-              <Unlock size={26} style={{ color: 'var(--color-brand-500)' }} />
+            <div className="flex items-center gap-2 mb-2">
+              <Logo className="w-8 h-8" variant="gradient" iconOnly />
+              <h2 className="text-xl font-bold" style={{ color: 'var(--color-neutral-900)' }}>
+                {isAr ? "حمّل سيرتك الذاتية" : "Download Your Resume"}
+              </h2>
             </div>
-
-            <h2 className="text-xl font-bold mb-1" style={{ color: 'var(--color-neutral-900)' }}>
-              {isAr ? "حمّل سيرتك الذاتية" : "Download Your Resume"}
-            </h2>
             <p className="text-sm" style={{ color: 'var(--color-neutral-500)' }}>
               {isAr ? "ادفع مرة واحدة فقط — بدون اشتراك" : "One-time payment — no subscription"}
             </p>

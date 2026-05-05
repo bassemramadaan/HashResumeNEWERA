@@ -112,7 +112,7 @@ export default function WelcomeModal({
                     className="flex flex-col items-center"
                   >
                     <motion.div variants={itemVariants} className="relative mb-8 flex justify-center">
-                      <Logo className="w-48 h-auto" variant="gradient" />
+                      <Logo className="w-64 sm:w-80 h-auto" variant="gradient" />
                     </motion.div>
 
                     <motion.h2

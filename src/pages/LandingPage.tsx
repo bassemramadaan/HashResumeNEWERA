@@ -133,9 +133,20 @@ export default function LandingPage() {
         <div className="absolute end-0 bottom-0 -z-10 h-[400px] w-[400px] rounded-full bg-indigo-500 opacity-10 blur-[120px]"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-12">
+          <div className="flex flex-col items-center text-center pt-12">
+            {/* Logo and Name at the middle of starting page */}
+            <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, type: "spring" }}
+                className="mb-8"
+            >
+                <Logo className="w-64 sm:w-80 lg:w-[450px] h-auto drop-shadow-2xl" variant="gradient" />
+            </motion.div>
+
             {/* Left Column: Text & CTA */}
-            <div className="flex-1 text-center lg:text-start rtl:lg:text-end mt-12 lg:mt-0">
+            <div className="max-w-4xl mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -154,13 +165,13 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.1 }}
                 className={cn("font-display mb-8", language === "ar" ? "leading-relaxed" : "leading-[1.05]")}
               >
-                <span className="text-slate-900 block text-3xl sm:text-6xl lg:text-7xl font-black tracking-tight mb-4 sm:mb-6 leading-snug sm:leading-tight">
+                <span className="text-slate-900 block text-3xl sm:text-6xl lg:text-8xl font-black tracking-tight mb-4 sm:mb-6 leading-snug sm:leading-tight">
                   {language === "ar" ? "أول Resume Builder عربي حقيقي" : t.heroTitle1}{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600 block sm:inline mt-1 sm:mt-0">
                     {language === "ar" ? "بدون اشتراكات" : t.heroTitle2}
                   </span>
                 </span>
-                <p className="text-slate-600 text-base sm:text-xl font-medium tracking-tight mb-2 max-w-xl mx-auto lg:mx-0">
+                <p className="text-slate-600 text-base sm:text-2xl font-medium tracking-tight mb-2 max-w-2xl mx-auto">
                   {language === "ar" 
                     ? "ابنِ سيرتك الذاتية مجاناً بالعربي والإنجليزي، وادفع مرة واحدة فقط عند التحميل. لا اشتراكات، لا رسوم خفية." 
                     : "Build your professional resume for free in Arabic & English. Pay once only when you love the result. No subscriptions."}
@@ -172,21 +183,25 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="flex flex-col items-center lg:items-start gap-4 mb-10"
+                className="flex flex-col items-center gap-4 mb-10"
               >
                 <Link
                   to="/editor"
-                  className="w-full sm:w-auto bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white px-10 py-5 rounded-full text-xl font-bold transition-all hover:shadow-2xl hover:shadow-orange-500/30 flex items-center justify-center gap-3 group hover:-translate-y-1 active:translate-y-0"
+                  className="w-full sm:w-auto bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_24px_-8px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white px-12 py-6 rounded-3xl text-2xl font-black transition-all hover:shadow-2xl hover:shadow-orange-500/30 flex items-center justify-center gap-3 group hover:-translate-y-1 active:translate-y-0"
                 >
-                  <Plus size={24} className="transition-transform duration-300 group-hover:rotate-90 drop-shadow-sm" />
+                  <Plus size={28} className="transition-transform duration-300 group-hover:rotate-90 drop-shadow-sm" strokeWidth={3} />
                   {t.startBuildingNow}
                 </Link>
-                <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                  <CheckCircle2 size={16} className="text-emerald-500" />
-                  <span>{language === "ar" ? "أنشئ سيرتك مجاناً" : "Build for free"}</span>
-                  <span className="w-1 h-1 rounded-full bg-slate-300 mx-1"></span>
-                  <CheckCircle2 size={16} className="text-emerald-500" />
-                  <span>{language === "ar" ? "بدون اشتراكات" : "No subscriptions"}</span>
+                <div className="flex items-center gap-4 text-sm text-slate-500 font-bold uppercase tracking-widest">
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 size={16} className="text-emerald-500" />
+                    <span>{language === "ar" ? "أنشئ سيرتك مجاناً" : "Build for free"}</span>
+                  </div>
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-200"></span>
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 size={16} className="text-emerald-500" />
+                    <span>{language === "ar" ? "بدون اشتراكات" : "No subscriptions"}</span>
+                  </div>
                 </div>
               </motion.div>
 
@@ -196,35 +211,25 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="flex items-center justify-center lg:justify-start gap-2 mb-8 text-sm font-medium text-slate-500"
+                className="flex flex-col items-center gap-4 mb-16 text-sm font-bold text-slate-400"
               >
-                <div className="flex -space-x-2 relative z-10">
-                  <img
-                    src={`https://i.pravatar.cc/100?img=61`}
-                    alt="Professional User 1"
-                    className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
-                  />
-                  <img
-                    src={`https://i.pravatar.cc/100?img=62`}
-                    alt="Professional User 2"
-                    className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
-                  />
-                  <img
-                    src={`https://i.pravatar.cc/100?img=63`}
-                    alt="Professional User 3"
-                    className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
-                  />
-                  <img
-                    src={`https://i.pravatar.cc/100?img=64`}
-                    alt="Professional User 4"
-                    className="w-8 h-8 rounded-full border-2 border-white shadow-sm"
-                  />
+                <div className="flex -space-x-3 relative z-10 scale-110">
+                  {[61, 62, 63, 64, 65].map((imgId) => (
+                      <img
+                        key={imgId}
+                        src={`https://i.pravatar.cc/100?img=${imgId}`}
+                        alt={`Professional User ${imgId}`}
+                        className="w-10 h-10 rounded-full border-2 border-white shadow-lg shadow-slate-200/50"
+                      />
+                  ))}
                 </div>
-                <span className="ms-2">
+                <span className="uppercase tracking-[0.2em] text-[10px]">
                   {language === "ar" ? "أكثر من 14,000 سيرة ذاتية تم إنشاؤها" : "14,000+ resumes created"}
                 </span>
               </motion.div>
             </div>
+          </div>
+        </div>
 
             {/* Right Column: Dynamic Resume Graphic */}
             <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-center mt-12 lg:mt-0 perspective-1000">
@@ -591,9 +596,8 @@ export default function LandingPage() {
             <div className="md:hidden space-y-6 relative z-10 w-full overflow-hidden">
               <div className="bg-white p-6 rounded-3xl shadow-lg border border-orange-100 relative overflow-hidden">
                 <div className="absolute top-0 inset-x-0 h-1 bg-[#ff4d2d]"></div>
-                <div className="flex items-center gap-2 mb-6 text-[#ff4d2d]">
-                   <Logo className="w-8 h-8" variant="gradient" iconOnly />
-                   <span className="font-black text-lg tracking-tight">Hash Resume</span>
+                <div className="flex items-center mb-6">
+                   <Logo className="w-32 h-auto" variant="gradient" />
                 </div>
                 <ul className="space-y-4">
                   {[
@@ -651,9 +655,8 @@ export default function LandingPage() {
                     <th className="py-6 px-4 text-start w-1/3"></th>
                     <th className="py-6 px-4 text-center w-1/3 relative">
                       <div className="absolute inset-0 bg-white rounded-t-3xl border-t border-x border-orange-100 shadow-[0_-10px_30px_-15px_rgba(255,77,45,0.2)]"></div>
-                      <div className="relative z-10 flex flex-col items-center justify-center gap-2 text-[#ff4d2d]">
-                        <Logo className="w-10 h-10" variant="gradient" iconOnly />
-                        <span className="font-black text-lg tracking-tight">Hash Resume</span>
+                      <div className="relative z-10 flex flex-col items-center justify-center gap-2">
+                        <Logo className="w-40 h-auto" variant="gradient" />
                       </div>
                     </th>
                     <th className="py-6 px-4 text-center w-1/3 relative">

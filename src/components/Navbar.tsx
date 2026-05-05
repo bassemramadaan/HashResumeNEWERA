@@ -52,122 +52,114 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           className={cn(
-            "flex items-center justify-between px-4 py-2 rounded-2xl transition-all duration-500",
+            "grid grid-cols-3 items-center px-4 py-2 rounded-2xl transition-all duration-500",
             isScrolled
               ? "bg-slate-50/80 backdrop-blur-xl shadow-lg shadow-slate-200/20 border border-slate-200/20"
               : "bg-transparent",
           )}
         >
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-              <Logo className="w-32 sm:w-40 h-auto" variant="gradient" />
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-2 bg-slate-100/50 p-2 rounded-full border border-slate-200/50">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={cn(
-                  "px-4 py-2 text-sm font-semibold rounded-full transition-all flex items-center gap-2 relative group",
-                  location.pathname === link.path
-                    ? "text-white bg-[#ff4d2d] shadow-md"
-                    : link.highlight
-                      ? "text-[#ff4d2d] hover:bg-orange-50"
+          {/* Left Navigation (Desktop) */}
+          <div className="flex items-center">
+            <nav className="hidden lg:flex items-center gap-2 bg-slate-100/50 p-1.5 rounded-full border border-slate-200/50 w-fit">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={cn(
+                    "px-4 py-1.5 text-sm font-semibold rounded-full transition-all flex items-center gap-2 relative group",
+                    location.pathname === link.path
+                      ? "text-white bg-[#ff4d2d] shadow-md"
                       : "text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm shadow-transparent hover:shadow-slate-200/50",
-                )}
-              >
-                {link.icon}
-                {link.name}
-                {link.highlight && !location.pathname.includes(link.path) && (
-                  <span className="absolute -top-1 -end-1 flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                  </span>
-                )}
-              </Link>
-            ))}
-
-            {/* More Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setIsMoreOpen(true)}
-              onMouseLeave={() => setIsMoreOpen(false)}
-            >
-              <button
-                className={cn(
-                  "px-4 py-2 text-sm font-semibold rounded-full transition-all flex items-center gap-1 relative group text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm shadow-transparent hover:shadow-slate-200/50",
-                  moreLinks.some(link => location.pathname === link.path) && "text-slate-900 bg-slate-50 shadow-slate-200/50"
-                )}
-              >
-                {t.landing.more || "More"}
-                <ChevronDown size={14} className={cn("transition-transform duration-200", isMoreOpen && "rotate-180")} />
-              </button>
+                  )}
+                >
+                  {link.name}
+                </Link>
+              ))}
               
-              <AnimatePresence>
-                {isMoreOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className="absolute top-full start-0 mt-2 w-48 bg-slate-50 rounded-2xl shadow-xl border border-slate-100 overflow-hidden py-2 z-50"
-                  >
-                    {moreLinks.map((link) => (
-                      <Link
-                        key={link.path}
-                        to={link.path}
-                        className={cn(
-                          "px-4 py-3 text-sm font-bold transition-all flex items-center gap-3 hover:bg-slate-50",
-                          location.pathname === link.path ? "text-[#ff4d2d] bg-orange-50/50" : "text-slate-600"
-                        )}
-                      >
-                        {link.icon && <span className="text-slate-500">{link.icon}</span>}
-                        {link.name}
-                      </Link>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </nav>
-
-          {/* Actions */}
-          <div className="hidden lg:flex items-center gap-4">
+              {/* More Dropdown */}
+              <div 
+                className="relative"
+                onMouseEnter={() => setIsMoreOpen(true)}
+                onMouseLeave={() => setIsMoreOpen(false)}
+              >
+                <button
+                  className={cn(
+                    "px-4 py-1.5 text-sm font-semibold rounded-full transition-all flex items-center gap-1 relative group text-slate-600 hover:text-slate-900 hover:bg-slate-50 shadow-sm shadow-transparent hover:shadow-slate-200/50",
+                    moreLinks.some(link => location.pathname === link.path) && "text-slate-900 bg-slate-50 shadow-slate-200/50"
+                  )}
+                >
+                  {t.landing.more || "More"}
+                  <ChevronDown size={14} className={cn("transition-transform duration-200", isMoreOpen && "rotate-180")} />
+                </button>
+                
+                <AnimatePresence>
+                  {isMoreOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full start-0 mt-2 w-48 bg-slate-50 rounded-2xl shadow-xl border border-slate-100 overflow-hidden py-2 z-50"
+                    >
+                      {moreLinks.map((link) => (
+                        <Link
+                          key={link.path}
+                          to={link.path}
+                          className={cn(
+                            "px-4 py-3 text-sm font-bold transition-all flex items-center gap-3 hover:bg-slate-50",
+                            location.pathname === link.path ? "text-[#ff4d2d] bg-orange-50/50" : "text-slate-600"
+                          )}
+                        >
+                          {link.icon && <span className="text-slate-500">{link.icon}</span>}
+                          {link.name}
+                        </Link>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </nav>
             
-            <div className="flex items-center gap-2 bg-slate-100/50  p-2 rounded-full border border-slate-200/50 ">
+            {/* Mobile Menu Toggle (Left side for balance when logo is centered) */}
+            <div className="lg:hidden text-slate-900">
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="p-2 text-slate-900 bg-slate-100 rounded-xl transition-all active:scale-90 flex items-center justify-center min-w-[40px] min-h-[40px]"
+                  aria-label="Toggle Menu"
+                >
+                  {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                </button>
+            </div>
+          </div>
+
+          {/* Logo (Centered) */}
+          <div className="flex justify-center">
+            <Link to="/" className="flex items-center group">
+                <Logo className="w-40 sm:w-56 h-auto" variant="gradient" />
+            </Link>
+          </div>
+
+          {/* Actions (Right) */}
+          <div className="flex items-center justify-end gap-2 sm:gap-4">
+            <div className="hidden sm:flex items-center gap-2 bg-slate-100/50 p-1.5 rounded-full border border-slate-200/50 ">
               <LanguageSwitcher
                 size={18}
-                className="text-xs px-4 py-2 hover:bg-slate-100 rounded-full transition-colors"
+                className="text-xs px-4 py-1.5 hover:bg-slate-100 rounded-full transition-colors"
               />
             </div>
 
             <Link
               to="/editor"
-              className="flex items-center gap-2 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white font-bold py-2.5 px-6 rounded-full hover:scale-105 active:scale-95 transition-all group animate-[pulse_2s_infinite]"
+              className="flex items-center gap-2 bg-gradient-to-b from-[#ff4d2d] to-orange-600 shadow-[0_8px_16px_-6px_rgba(255,77,45,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] text-white font-bold py-2 px-4 sm:px-6 rounded-full hover:scale-105 active:scale-95 transition-all group animate-[pulse_3s_infinite]"
             >
               <Sparkles
                 size={16}
-                className="text-white drop-shadow-sm group-hover:rotate-12 transition-transform"
+                className="text-white drop-shadow-sm group-hover:rotate-12 transition-transform hidden xs:block"
               />
-              <span className="text-sm tracking-tight font-black uppercase">
+              <span className="text-xs sm:text-sm tracking-tight font-black uppercase whitespace-nowrap">
                 {t.startBuildingNow}
               </span>
             </Link>
-          </div>
-
-
-
-          {/* Mobile Menu Toggle */}
-          <div className="lg:hidden flex items-center gap-2">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-3 text-slate-900 bg-slate-100 rounded-xl transition-all active:scale-90 flex items-center justify-center min-w-[48px] min-h-[48px]"
-              aria-label="Toggle Menu"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
         </div>
       </div>
