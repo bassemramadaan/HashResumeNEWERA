@@ -77,13 +77,22 @@ export default function PostDownloadModal({
                 </Link>
               </div>
 
-              <div className="bg-info-light rounded-[var(--radius-lg)] p-5 border border-info-light flex flex-col justify-between text-start text-neutral-900 group">
+              <div 
+                className="rounded-[var(--radius-lg)] p-5 flex flex-col justify-between text-start text-neutral-900 group"
+                style={{
+                  background: 'var(--color-neutral-900)',
+                  border: '1px solid var(--color-neutral-800)',
+                }}
+              >
                 <div>
-                  <h3 className="font-bold flex items-center gap-2 mb-2">
-                    <Target size={16} className="text-info" />
+                  <h3 className="font-bold flex items-center gap-2 mb-2 text-white">
+                    <Target size={16} style={{ color: 'var(--color-brand-500)' }} />
                     {isRtl ? "وظائف Hash Hunt" : "Hash Hunt Jobs"}
                   </h3>
-                  <p className="text-xs text-neutral-600 mb-4 font-semibold">
+                  <p 
+                    className="text-xs mb-4 font-semibold"
+                    style={{ color: 'var(--color-neutral-400)' }}
+                  >
                     {isRtl
                       ? "انضم وضع سيرتك الذاتية أمام مديري التوظيف مباشرة."
                       : "Join our talent pool to let partner companies reach out to you."}
@@ -91,7 +100,8 @@ export default function PostDownloadModal({
                 </div>
                 <Link
                   to="/hash-hunt"
-                  className="inline-flex items-center gap-2 w-full bg-white text-info px-4 py-2 rounded-[var(--radius-md)] font-bold transition-all border border-info-light justify-center shadow-sm group-hover:bg-info group-hover:text-white"
+                  className="inline-flex items-center gap-2 w-full px-4 py-2 rounded-[var(--radius-md)] font-bold transition-all justify-center"
+                  style={{ backgroundColor: 'var(--color-brand-500)', color: '#fff' }}
                 >
                   {isRtl ? "انضم للمنصة" : "Get Matched"}
                   <ArrowRight size={14} className={isRtl ? "rotate-180" : ""} />

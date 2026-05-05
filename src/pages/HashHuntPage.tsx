@@ -36,7 +36,7 @@ export default function HashHuntPage() {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-50">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="absolute start-1/2 top-0 -translate-x-1/2 -z-10 h-[800px] w-[800px] rounded-full bg-indigo-500/10 blur-[120px]"></div>
+        <div className="absolute start-1/2 top-0 -translate-x-1/2 -z-10 h-[800px] w-[800px] rounded-full blur-[120px]" style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-500) 10%, transparent)' }}></div>
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-16">
@@ -46,9 +46,10 @@ export default function HashHuntPage() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-widest mb-8 shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-8 shadow-sm"
+                style={{ backgroundColor: 'var(--color-brand-50)', borderColor: 'var(--color-brand-100)', color: 'var(--color-brand-700)' }}
               >
-                <Sparkles size={14} className="text-indigo-500" />
+                <Sparkles size={14} style={{ color: 'var(--color-brand-500)' }} />
                 {t.heroBadge}
               </motion.div>
 
@@ -59,7 +60,7 @@ export default function HashHuntPage() {
                 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]"
               >
                 {t.heroTitlePart1} <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">
+                <span style={{ color: 'var(--color-brand-500)' }}>
                   {t.heroTitlePart2}
                 </span>
               </motion.h1>
@@ -81,7 +82,8 @@ export default function HashHuntPage() {
               >
                 <a
                   href="#join-form"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-indigo-500/25"
+                  style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 4px 12px color-mix(in srgb, var(--color-brand-500) 25%, transparent)' }}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-white rounded-2xl font-bold hover:opacity-90 hover:scale-105 active:scale-95 transition-all shadow-lg"
                 >
                   {t.joinTalentPool}
                   <ArrowRight size={20} className="rtl:rotate-180" />
@@ -97,14 +99,14 @@ export default function HashHuntPage() {
                 transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
                 className="relative z-10 w-full transform-style-3d"
               >
-                <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500/20 to-violet-500/20 rounded-[2rem] blur-2xl -z-10 animate-pulse"></div>
+                <div className="absolute -inset-4 rounded-[2rem] blur-2xl -z-10 animate-pulse" style={{ background: 'linear-gradient(to top right, color-mix(in srgb, var(--color-brand-500) 20%, transparent), color-mix(in srgb, var(--color-brand-400) 20%, transparent))' }}></div>
                 
                 {/* Main Card */}
                 <div className="bg-slate-50 rounded-3xl shadow-2xl border border-slate-100 p-6 relative overflow-hidden">
-                  <div className="absolute top-0 end-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                  <div className="absolute top-0 end-0 w-32 h-32 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-500) 10%, transparent)' }}></div>
                   
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white font-bold text-2xl shadow-lg">
+                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg" style={{ background: 'linear-gradient(to bottom right, var(--color-brand-500), var(--color-brand-400))' }}>
                       JD
                     </div>
                     <div>
@@ -142,9 +144,9 @@ export default function HashHuntPage() {
                     ))}
                   </div>
 
-                  <div className="p-4 bg-indigo-50 rounded-2xl border border-indigo-100 flex items-start gap-4">
+                  <div className="p-4 rounded-2xl border flex items-start gap-4" style={{ backgroundColor: 'var(--color-brand-50)', borderColor: 'var(--color-brand-100)' }}>
                     <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0 shadow-sm">
-                      <Building2 size={18} className="text-indigo-600" />
+                      <Building2 size={18} style={{ color: 'var(--color-brand-500)' }} />
                     </div>
                     <div>
                       <h4 className="text-sm font-bold text-slate-900 mb-1">Interview Request</h4>
@@ -182,8 +184,8 @@ export default function HashHuntPage() {
             viewport={{ once: true }}
             className="text-center mb-10"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-widest mb-4">
-              <Sparkles size={14} />
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-bold uppercase tracking-widest mb-4" style={{ backgroundColor: 'var(--color-brand-50)', borderColor: 'var(--color-brand-100)', color: 'var(--color-brand-700)' }}>
+              <Sparkles size={14} style={{ color: 'var(--color-brand-500)' }} />
               {language === 'ar' ? 'انضم الآن' : 'Join Now'}
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
@@ -194,6 +196,26 @@ export default function HashHuntPage() {
                 ? 'أكمل النموذج التالي وسيتم عرض ملفك على أفضل أصحاب العمل في المنطقة'
                 : 'Complete the form below and your profile will be visible to top employers in the region'}
             </p>
+
+            <div className="flex flex-wrap justify-center gap-4 mt-6 mb-2">
+              {[
+                { icon: '🔒', text: 'بياناتك آمنة تماماً' },
+                { icon: '⚡', text: 'استجابة خلال 48 ساعة' },
+                { icon: '🌍', text: 'شركات من 15 دولة عربية' },
+              ].map((item) => (
+                <div
+                  key={item.text}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
+                  style={{
+                    background: 'var(--color-neutral-100)',
+                    color: 'var(--color-neutral-600)',
+                  }}
+                >
+                  <span>{item.icon}</span>
+                  <span>{item.text}</span>
+                </div>
+              ))}
+            </div>
           </motion.div>
 
           <motion.div
@@ -201,20 +223,62 @@ export default function HashHuntPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden"
+            className="flex flex-col items-center gap-6"
           >
-            <iframe
-              src="https://docs.google.com/forms/d/1cy6kH59UpTE-VtEWLxTUuD_-8JDRdiejeTGwfDYrx4Y/viewform?embedded=true"
-              width="100%"
-              height="900"
-              frameBorder="0"
-              marginHeight={0}
-              marginWidth={0}
-              className="w-full"
-              title="Hash Hunt CV Upload Form"
+            <div
+              className="w-full max-w-xl rounded-2xl p-8 text-center"
+              style={{
+                background: '#fff',
+                border: '1px solid var(--color-neutral-200)',
+                boxShadow: '0 20px 60px rgba(0,0,0,0.06)',
+              }}
             >
-              Loading…
-            </iframe>
+              <div
+                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5"
+                style={{ backgroundColor: 'var(--color-brand-50)' }}
+              >
+                <Sparkles className="w-8 h-8" style={{ color: 'var(--color-brand-500)' }} />
+              </div>
+
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--color-neutral-900)' }}>
+                {language === 'ar' ? 'ارفع سيرتك في دقيقة واحدة' : 'Upload your CV in one minute'}
+              </h3>
+
+              <p className="text-sm mb-6" style={{ color: 'var(--color-neutral-500)' }}>
+                {language === 'ar'
+                  ? 'اضغط على الزرار وأكمل النموذج — سيرتك ستظهر لأفضل أصحاب العمل في المنطقة'
+                  : 'Click the button and complete the form — your profile will be visible to top employers in the region'}
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <a
+                  href="https://docs.google.com/forms/d/1cy6kH59UpTE-VtEWLxTUuD_-8JDRdiejeTGwfDYrx4Y/viewform"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary inline-flex items-center justify-center gap-2 text-base"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  {language === 'ar' ? 'ارفع سيرتك الآن' : 'Upload Your CV Now'}
+                </a>
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-4 mt-6">
+                {[
+                  { icon: '🔒', text: language === 'ar' ? 'بياناتك آمنة' : 'Your data is safe' },
+                  { icon: '⚡', text: language === 'ar' ? 'رد خلال 48 ساعة' : 'Reply within 48hrs' },
+                  { icon: '🌍', text: language === 'ar' ? '15 دولة عربية' : '15 Arab countries' },
+                ].map((item) => (
+                  <div
+                    key={item.text}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
+                    style={{ background: 'var(--color-neutral-100)', color: 'var(--color-neutral-600)' }}
+                  >
+                    <span>{item.icon}</span>
+                    <span>{item.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -239,7 +303,7 @@ export default function HashHuntPage() {
               {
                 icon: Zap,
                 title: t.benefit2,
-                color: "bg-indigo-50 text-indigo-600 border-indigo-100",
+                style: { backgroundColor: 'var(--color-brand-50)', color: 'var(--color-brand-500)', borderColor: 'var(--color-brand-100)' },
                 span: "md:col-span-1 lg:col-span-1",
               },
               {
@@ -263,7 +327,7 @@ export default function HashHuntPage() {
                 transition={{ delay: i * 0.1, duration: 0.5 }}
                 className={`bg-slate-50 rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${benefit.span} flex flex-col justify-center items-start group`}
               >
-                <div className={`w-14 h-14 rounded-2xl ${benefit.color} border flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                <div className={`w-14 h-14 rounded-2xl ${benefit.color || ''} border flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`} style={benefit.style}>
                   <benefit.icon size={28} />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 leading-relaxed">
@@ -301,14 +365,14 @@ export default function HashHuntPage() {
 
           <div className="grid md:grid-cols-3 gap-12 relative">
             {/* Connecting line for desktop */}
-            <div className="hidden md:block absolute top-12 start-[15%] end-[15%] h-0.5 bg-gradient-to-r from-indigo-100 via-indigo-200 to-indigo-100 -z-10"></div>
+            <div className="hidden md:block absolute top-12 start-[15%] end-[15%] h-0.5 -z-10" style={{ background: 'linear-gradient(to right, var(--color-brand-100), var(--color-brand-200), var(--color-brand-100))' }}></div>
 
             {[
               {
                 icon: Briefcase,
                 title: t.step1Title,
                 desc: t.step1Desc,
-                color: "text-indigo-600 bg-indigo-50",
+                style: { color: 'var(--color-brand-500)', backgroundColor: 'var(--color-brand-50)' },
               },
               {
                 icon: Search,
@@ -329,11 +393,11 @@ export default function HashHuntPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
-                className="bg-slate-50 p-8 sm:p-10 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center shadow-xl shadow-slate-200/20 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 group hover:-translate-y-2 relative"
+                className="bg-slate-50 p-8 sm:p-10 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center shadow-xl shadow-slate-200/20 hover:shadow-2xl transition-all duration-300 group hover:-translate-y-2 relative"
               >
-                <div className="absolute -top-4 -start-4 w-24 h-24 bg-indigo-50 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+                <div className="absolute -top-4 -start-4 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" style={{ backgroundColor: 'var(--color-brand-50)' }}></div>
                 
-                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-slate-100 ${item.color} group-hover:scale-110 transition-all duration-500`}>
+                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-slate-100 ${item.color || ''} group-hover:scale-110 transition-all duration-500`} style={item.style}>
                   <item.icon size={32} strokeWidth={1.5} />
                 </div>
                 <h3 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">
@@ -351,22 +415,23 @@ export default function HashHuntPage() {
       {/* CTA Section */}
       <section className="py-24 bg-slate-50 relative overflow-hidden">
         <div className="max-w-5xl mx-auto px-6">
-          <div className="bg-gradient-to-br from-indigo-900 via-slate-900 to-violet-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
-            <div className="absolute top-0 end-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-screen filter blur-[80px] opacity-40 -translate-y-1/2 translate-x-1/2"></div>
+          <div className="rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl" style={{ background: 'linear-gradient(135deg, var(--color-neutral-900), #1a0a06)' }}>
+            <div className="absolute top-0 end-0 w-64 h-64 rounded-full mix-blend-screen filter blur-[80px] opacity-40 -translate-y-1/2 translate-x-1/2" style={{ backgroundColor: 'var(--color-brand-500)' }}></div>
             <div className="absolute bottom-0 start-0 w-64 h-64 bg-violet-500 rounded-full mix-blend-screen filter blur-[80px] opacity-40 translate-y-1/2 -translate-x-1/2"></div>
             
             <div className="relative z-10">
               <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
                 Ready to get discovered?
               </h2>
-              <p className="text-lg text-indigo-100 max-w-2xl mx-auto mb-10">
+              <p className="text-lg max-w-2xl mx-auto mb-10" style={{ color: 'var(--color-brand-100)' }}>
                 Join Hash Hunt today and let top employers find you. It's 100% free for candidates.
               </p>
               <a
                 href="https://docs.google.com/forms/d/1cy6kH59UpTE-VtEWLxTUuD_-8JDRdiejeTGwfDYrx4Y/viewform?embedded=true"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-10 py-5 bg-slate-50 text-indigo-900 rounded-full font-bold text-lg hover:bg-indigo-50 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/10"
+                className="inline-flex items-center gap-3 px-10 py-5 bg-slate-50 rounded-full font-bold text-lg hover:bg-neutral-50 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/10"
+                style={{ color: 'var(--color-neutral-900)' }}
               >
                 {t.joinTalentPool}
                 <ArrowRight size={24} className="rtl:rotate-180" />
