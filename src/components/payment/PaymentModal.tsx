@@ -70,7 +70,7 @@ export default function PaymentModal({
           initial={{ opacity: 0, scale: 0.95, y: 10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
-          className="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden p-6 sm:p-8 flex flex-col items-center text-center"
+          className="relative w-full max-w-lg bg-neutral-0 rounded-[var(--radius-xl)] shadow-2xl p-6 sm:p-8 flex flex-col items-center text-center"
         >
           <button
             onClick={onClose}
@@ -86,7 +86,7 @@ export default function PaymentModal({
           <h2 className="text-2xl font-bold text-neutral-900 mb-2">
             {isAr ? "احصل على السيرة الذاتية الآن" : "Unlock Your Resume Now"}
           </h2>
-          <p className="text-sm text-neutral-500 mb-8 max-w-sm">
+          <p className="text-sm text-neutral-600 mb-8 max-w-sm">
             {isAr ? "ادفع فقط عندما تكون جاهزاً للتحميل بنسبة 100%." : "Try everything for free. Only pay when you're 100% ready to download."}
           </p>
 
@@ -99,7 +99,7 @@ export default function PaymentModal({
                 href="https://wa.me/201101007965?text=I%20want%20to%20buy%20a%20Resume%20Code"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-3.5 px-4 rounded-xl font-medium transition-all flex items-center justify-center gap-2 shadow-sm"
+                className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-3.5 px-4 rounded-[var(--radius-md)] font-medium transition-all flex items-center justify-center gap-2 shadow-sm"
               >
                 <MessageCircle size={20} />
                 {isAr ? "احصل على الكود عبر واتساب" : "Buy Code via WhatsApp"}
@@ -116,12 +116,12 @@ export default function PaymentModal({
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   placeholder={isAr ? "أدخل الكود (مثال: HASH-A1B2)" : "Enter code (e.g. HASH-A1B2)"}
-                  className="flex-1 input font-mono uppercase tracking-wider h-[48px]"
+                  className="flex-1 px-4 py-3 rounded-[var(--radius-md)] border border-neutral-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 font-mono uppercase tracking-wider h-[48px]"
                 />
                 <button
                   onClick={handleVerify}
                   disabled={verifying || !code.trim()}
-                  className="btn-primary"
+                  className="bg-brand-500 text-white hover:bg-brand-600 px-6 py-3 rounded-[var(--radius-md)] font-medium transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {verifying ? <Loader2 size={18} className="animate-spin" /> : (
                     <>
@@ -133,7 +133,7 @@ export default function PaymentModal({
               {error && (
                 <motion.p 
                   initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}
-                  className="text-red-500 text-xs text-start mt-1"
+                  className="text-danger text-xs text-start mt-1"
                 >
                   {error}
                 </motion.p>

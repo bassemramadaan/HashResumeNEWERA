@@ -199,14 +199,8 @@ const ATSScoreIndicator = ({
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${atsScore}%` }}
-          className={cn(
-            "h-full",
-            atsScore >= 80
-              ? "bg-emerald-500"
-              : atsScore >= 50
-                ? "bg-amber-500"
-                : "bg-rose-500",
-          )}
+          style={{ backgroundColor: atsScore >= 80 ? 'var(--color-success)' : atsScore >= 50 ? 'var(--color-warning)' : 'var(--color-danger)' }}
+          className="h-full"
         />
       </div>
     </button>
@@ -725,7 +719,12 @@ export default function EditorPage() {
 
       {/* Floating Dock Navbar (Top) */}
       <div className="fixed top-2 sm:top-4 start-1/2 -translate-x-1/2 flex justify-center z-50 px-2 sm:px-4 pointer-events-none w-full max-w-5xl text-start">
-        <nav className="pointer-events-auto flex items-center gap-1 sm:gap-2 p-1 rounded-full bg-white/95 border border-neutral-200/60 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-md transition-all duration-300 w-full justify-between sm:justify-start ring-1 ring-black/5">
+        <nav style={{
+          background: 'rgba(255,255,255,0.95)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid var(--color-neutral-200)',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
+        }} className="pointer-events-auto flex items-center gap-1 sm:gap-2 p-1 rounded-full transition-all duration-300 w-full justify-between sm:justify-start">
           <div className="flex items-center gap-1 sm:gap-2">
             {/* Home / Logo */}
             <Link
@@ -824,10 +823,12 @@ export default function EditorPage() {
               onClick={handleExportClick}
               disabled={isExporting}
               data-tour="export-button"
-              className={cn(
-                "btn btn-primary btn-sm flex items-center gap-2 rounded-full font-black text-[10px] sm:text-xs uppercase tracking-widest shadow-md active:scale-95",
-                isExporting && "opacity-50 cursor-not-allowed"
-              )}
+              style={{
+                backgroundColor: isExporting ? 'var(--color-neutral-400)' : 'var(--color-brand-500)',
+                color: '#fff',
+                cursor: isExporting ? 'not-allowed' : 'pointer',
+              }}
+              className="flex items-center gap-2 h-11 sm:h-auto px-4 sm:py-2 rounded-full transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest"
             >
               {isExporting ? (
                 <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -878,11 +879,15 @@ export default function EditorPage() {
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id as Tab)}
+                        style={isActive ? {
+                          backgroundColor: 'var(--color-neutral-900)',
+                          color: '#fff',
+                        } : {}}
                         className={cn(
                           "flex items-center gap-2.5 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all relative",
                           isActive
-                            ? "bg-neutral-900 text-white shadow-lg shadow-neutral-900/10 scale-105 z-10"
-                            : "bg-white text-neutral-500 border border-neutral-200 hover:bg-neutral-50 hover:border-neutral-300",
+                            ? "shadow-lg scale-105 z-10"
+                            : "bg-white border border-neutral-200 hover:bg-neutral-50"
                         )}
                       >
                         <Icon size={18} className={cn(isActive ? "text-brand-500" : "text-neutral-400")} />
@@ -1600,7 +1605,8 @@ export default function EditorPage() {
             {/* Action Button: Export */}
             <button
               onClick={handleExportClick}
-              className="btn btn-primary flex items-center justify-center gap-2 h-12 px-5 sm:px-6 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest shadow-lg active:scale-95"
+              style={{ backgroundColor: 'var(--color-brand-500)', color: '#fff' }}
+              className="flex items-center justify-center gap-2 font-black h-12 px-5 sm:px-6 rounded-full active:scale-95 transition-all shadow-lg text-xs sm:text-sm uppercase tracking-widest"
             >
               <Download size={18} />
               <span className="hidden sm:inline">{t.exportPdf}</span>
