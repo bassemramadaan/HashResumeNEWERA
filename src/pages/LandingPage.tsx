@@ -241,8 +241,6 @@ export default function LandingPage() {
                 </span>
               </motion.div>
             </div>
-          </div>
-        </div>
 
             {/* Right Column: Dynamic Resume Graphic */}
             <div className="flex-1 relative w-full max-w-lg lg:max-w-none flex justify-center lg:justify-center mt-12 lg:mt-0 perspective-1000">
@@ -357,6 +355,7 @@ export default function LandingPage() {
                 </motion.div>
               </motion.div>
             </div>
+
           </div>
         </div>
       </section>
