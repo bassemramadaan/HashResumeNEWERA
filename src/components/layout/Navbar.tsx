@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
+import { Link } from 'react-router-dom'
 
 interface NavbarProps {
   lang: AppLang
@@ -26,18 +27,18 @@ export function Navbar({ lang, onLangChange, onStartClick }: NavbarProps) {
     ? [
         { label: 'الميزات', href: '#features' },
         { label: 'الأسعار', href: '#pricing' },
-        { label: 'Hash Hunt', href: '#hashhunt' },
+        { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
     : lang === 'fr'
     ? [
         { label: 'Fonctionnalités', href: '#features' },
         { label: 'Tarifs', href: '#pricing' },
-        { label: 'Hash Hunt', href: '#hashhunt' },
+        { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
     : [
         { label: 'Features', href: '#features' },
         { label: 'Pricing', href: '#pricing' },
-        { label: 'Hash Hunt', href: '#hashhunt' },
+        { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
 
   const ctaLabel = lang === 'ar' ? 'ابدأ مجانًا' : lang === 'fr' ? 'Commencer' : 'Start Free'
@@ -54,13 +55,23 @@ export function Navbar({ lang, onLangChange, onStartClick }: NavbarProps) {
 
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors"
-              >
-                {link.label}
-              </a>
+              link.href.startsWith('/') ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors"
+                >
+                  {link.label}
+                </a>
+              )
             ))}
           </div>
 
