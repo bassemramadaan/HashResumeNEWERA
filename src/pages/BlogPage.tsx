@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { blogPosts } from "../data/blogPosts";
-import Navbar from "../components/Navbar";
+import { Navbar } from "@/components/layout/Navbar";
 
 export default function BlogPage() {
   const { language } = useLanguageStore();

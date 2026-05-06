@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { blogPosts } from "../data/blogPosts";
-import Navbar from "../components/Navbar";
+import { Navbar } from "@/components/layout/Navbar";
 
 export default function BlogPostPage() {
   const { id } = useParams();

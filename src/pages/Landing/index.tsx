@@ -9,21 +9,17 @@ import Logo from '@/components/Logo'
 
 export default function LandingPage() {
   const navigate = useNavigate()
-  const { language, setLanguage } = useLanguageStore()
+  const { language: lang } = useLanguageStore()
   const goToEditor = () => navigate('/editor')
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar
-        lang={language as AppLang}
-        onLangChange={(l) => setLanguage(l)}
-        onStartClick={goToEditor}
-      />
+      <Navbar onStartClick={goToEditor} />
 
       <main id="main-content" className="flex-1">
-        <HeroSection lang={language as AppLang} onStart={goToEditor} />
-        <FeaturesSection lang={language as AppLang} />
-        <PricingSection lang={language as AppLang} onPaidClick={goToEditor} />
+        <HeroSection lang={lang as AppLang} onStart={goToEditor} />
+        <FeaturesSection lang={lang as AppLang} />
+        <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
       </main>
 
       <footer className="border-t border-neutral-200 py-8" style={{ backgroundColor: 'var(--color-neutral-0)' }}>

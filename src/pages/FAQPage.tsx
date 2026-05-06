@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import Navbar from "../components/Navbar";
+import { Navbar } from "@/components/layout/Navbar";
 import Footer from "../components/Footer";
 import FAQ from "../components/FAQ";
 import { useLanguageStore } from "../store/useLanguageStore";

@@ -1,6 +1,6 @@
 import React from "react";
 import { Scale, FileText, AlertCircle, CheckCircle2 } from "lucide-react";
-import Navbar from "../components/Navbar";
+import { Navbar } from "@/components/layout/Navbar";
 import Footer from "../components/Footer";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { Helmet } from "react-helmet-async";

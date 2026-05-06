@@ -1,6 +1,6 @@
 import React from "react";
 import { Shield, Lock, EyeOff, Server, FileText } from "lucide-react";
-import Navbar from "../components/Navbar";
+import { Navbar } from "@/components/layout/Navbar";
 import { useLanguageStore } from "../store/useLanguageStore";
 
 export default function PrivacyPage() {

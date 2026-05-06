@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useEffect, Suspense } from "react";
+import React, { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from "react-helmet-async";
-import { useLanguageStore } from "./store/useLanguageStore";
 import PageLoader from "./components/PageLoader";
 import ExitIntentPopup from "./components/ExitIntentPopup";
 import { ErrorBoundary } from "./components/ErrorBoundary";
@@ -22,13 +21,6 @@ const TrustPage = React.lazy(() => import("./pages/TrustPage"));
 const FAQPage = React.lazy(() => import("./pages/FAQPage"));
 
 export default function App() {
-  const { language, dir } = useLanguageStore();
-
-  useEffect(() => {
-    document.documentElement.dir = dir;
-    document.documentElement.lang = language;
-  }, [dir, language]);
-
   return (
     <HelmetProvider>
       <BrowserRouter>

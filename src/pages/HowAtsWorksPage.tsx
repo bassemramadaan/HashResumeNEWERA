@@ -6,7 +6,7 @@ import {
   AlertTriangle,
   FileSearch,
 } from "lucide-react";
-import Navbar from "../components/Navbar";
+import { Navbar } from "@/components/layout/Navbar";
 import { useLanguageStore } from "../store/useLanguageStore";
 
 export default function HowAtsWorksPage() {

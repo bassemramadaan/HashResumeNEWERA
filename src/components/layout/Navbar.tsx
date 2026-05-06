@@ -3,24 +3,21 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
-import { Link } from 'react-router-dom'
+import { useLanguageStore } from '@/store/useLanguageStore'
+import { useNavigate, Link } from 'react-router-dom'
 import Logo from '../Logo'
 
+const LANG_LABELS = { ar: 'العربية', en: 'English', fr: 'Français' }
+const LANGS: AppLang[] = ['ar', 'en', 'fr']
+
 interface NavbarProps {
-  lang: AppLang
-  onLangChange: (lang: AppLang) => void
   onStartClick?: () => void
 }
 
-const LANG_LABELS: Record<AppLang, string> = {
-  ar: 'العربية',
-  en: 'English',
-  fr: 'Français',
-}
-
-const LANGS: AppLang[] = ['ar', 'en', 'fr']
-
-export function Navbar({ lang, onLangChange, onStartClick }: NavbarProps) {
+export function Navbar({ onStartClick }: NavbarProps = {}) {
+  const { language: lang, setLanguage: onLangChange } = useLanguageStore()
+  const navigate = useNavigate()
+  const handleStart = onStartClick || (() => navigate('/editor'))
   const [mobileOpen, setMobileOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
 
@@ -116,7 +113,7 @@ export function Navbar({ lang, onLangChange, onStartClick }: NavbarProps) {
 
             <motion.button
               whileTap={{ scale: 0.97 }}
-              onClick={onStartClick}
+              onClick={handleStart}
               className="btn-primary btn-sm inline-flex items-center gap-1.5"
             >
               <Sparkles className="w-3.5 h-3.5" />
@@ -166,7 +163,7 @@ export function Navbar({ lang, onLangChange, onStartClick }: NavbarProps) {
                 ))}
               </div>
               <button
-                onClick={() => { onStartClick?.(); setMobileOpen(false) }}
+                onClick={() => { handleStart(); setMobileOpen(false) }}
                 className="btn-primary mt-2 w-full justify-center inline-flex gap-2"
               >
                 <Sparkles className="w-4 h-4" />

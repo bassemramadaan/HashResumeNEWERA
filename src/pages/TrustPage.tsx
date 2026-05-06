@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { ArrowLeft, ShieldCheck, Database, Award, BrainCircuit } from "lucide-react";
-import Navbar from "../components/Navbar";
+import { Navbar } from "@/components/layout/Navbar";
 import Footer from "../components/Footer";
 import { useLanguageStore } from "../store/useLanguageStore";
 

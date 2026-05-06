@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
-import Navbar from "../components/Navbar";
+import { Navbar } from "@/components/layout/Navbar";
 import Footer from "../components/Footer";
 
 export default function HashHuntPage() {
