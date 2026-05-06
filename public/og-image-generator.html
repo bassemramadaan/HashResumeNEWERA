@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  width: 1200px; height: 630px;
+  background: #FAFAFA;
+  font-family: 'Cairo', sans-serif;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(to right, #e8e8e620 1px, transparent 1px),
+    linear-gradient(to bottom, #e8e8e620 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.glow {
+  position: absolute; top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 400px;
+  background: radial-gradient(ellipse, rgba(255,77,45,0.12), transparent);
+  border-radius: 50%;
+}
+.content {
+  position: relative; z-index: 10;
+  text-align: center; padding: 60px;
+}
+.logo { font-size: 32px; font-weight: 700; margin-bottom: 32px; }
+.logo span:first-child { color: #FF4D2D; }
+.logo span:last-child { color: #242422; }
+.title { font-size: 64px; font-weight: 700; color: #121210; line-height: 1.1; margin-bottom: 20px; }
+.title em { color: #FF4D2D; font-style: normal; }
+.sub { font-size: 28px; color: #737370; margin-bottom: 40px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: white; border: 1px solid #E8E8E6;
+  border-radius: 999px; padding: 12px 28px;
+  font-size: 20px; color: #525250;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #2E7D32; }
+</style>
+</head>
+<body>
+<div class="grid"></div>
+<div class="glow"></div>
+<div class="content">
+  <div class="logo"><span>Hash</span><span>Resume</span></div>
+  <div class="title">سيرتك الاحترافية<br><em>في 5 دقائق</em></div>
+  <div class="sub">عربي • إنجليزي • فرنسي</div>
+  <div class="badge">
+    <div class="dot"></div>
+    +2,400 سيرة هذا الشهر
+  </div>
+</div>
+</body>
+</html>

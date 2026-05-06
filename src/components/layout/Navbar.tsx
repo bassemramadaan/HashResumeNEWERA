@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import { useNavigate, Link } from 'react-router-dom'
-import Logo from '../Logo'
 
 const LANG_LABELS = { ar: 'العربية', en: 'English', fr: 'Français' }
 const LANGS: AppLang[] = ['ar', 'en', 'fr']
@@ -42,12 +41,13 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   const ctaLabel = lang === 'ar' ? 'ابدأ مجانًا' : lang === 'fr' ? 'Commencer' : 'Start Free'
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200">
+    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200" dir="ltr">
       <div className="container-page">
         <div className="flex items-center justify-between h-16">
 
           <a href="/" className="flex items-center gap-1 flex-shrink-0">
-            <Logo width={120} height={32} variant="gradient" />
+            <span className="font-semibold text-xl tracking-tight" style={{ color: 'var(--color-brand-500)' }}>Hash</span>
+            <span className="text-neutral-800 font-semibold text-xl">Resume</span>
           </a>
 
           <div className="hidden md:flex items-center gap-1">
