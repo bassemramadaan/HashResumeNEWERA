@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#FAFAFA"/>
+  
+  <!-- Grid background -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#E8E8E6" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  
+  <!-- Glow -->
+  <ellipse cx="600" cy="0" rx="500" ry="300" fill="#FF4D2D" opacity="0.08"/>
+  
+  <!-- Logo -->
+  <text x="600" y="180" font-family="Arial, sans-serif" font-size="36" font-weight="700" text-anchor="middle">
+    <tspan fill="#FF4D2D">Hash</tspan><tspan fill="#242422">Resume</tspan>
+  </text>
+  
+  <!-- Main headline -->
+  <text x="600" y="280" font-family="Arial, sans-serif" font-size="72" font-weight="700" fill="#121210" text-anchor="middle">سيرتك الاحترافية</text>
+  <text x="600" y="370" font-family="Arial, sans-serif" font-size="72" font-weight="700" fill="#FF4D2D" text-anchor="middle">في 5 دقائق</text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="440" font-family="Arial, sans-serif" font-size="32" fill="#737370" text-anchor="middle">عربي • إنجليزي • فرنسي</text>
+  
+  <!-- Badge -->
+  <rect x="400" y="480" width="400" height="60" rx="30" fill="white" stroke="#E8E8E6" stroke-width="1"/>
+  <circle cx="450" cy="510" r="8" fill="#2E7D32"/>
+  <text x="600" y="518" font-family="Arial, sans-serif" font-size="24" fill="#525250" text-anchor="middle">+2,400 سيرة هذا الشهر</text>
+</svg>
