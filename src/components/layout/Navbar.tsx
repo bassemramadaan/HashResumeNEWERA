@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import { useNavigate, Link } from 'react-router-dom'
+import { HashResumeLogo } from '@/components/ui/HashResumeLogo'
 
 const LANG_LABELS = { ar: 'العربية', en: 'English', fr: 'Français' }
 const LANGS: AppLang[] = ['ar', 'en', 'fr']
@@ -45,9 +46,8 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
       <div className="container-page">
         <div className="flex items-center justify-between h-16">
 
-          <a href="/" className="flex items-center gap-1 flex-shrink-0">
-            <span className="font-semibold text-xl tracking-tight" style={{ color: 'var(--color-brand-500)' }}>Hash</span>
-            <span className="text-neutral-800 font-semibold text-xl">Resume</span>
+          <a href="/">
+            <HashResumeLogo height={32} showText={true} />
           </a>
 
           <div className="hidden md:flex items-center gap-1">

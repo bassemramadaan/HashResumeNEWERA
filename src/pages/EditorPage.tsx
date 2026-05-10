@@ -38,6 +38,7 @@ import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
+import { HashResumeLogo } from '@/components/ui/HashResumeLogo';
 import Logo from "../components/Logo";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import SettingsModal from "../components/SettingsModal";
@@ -727,12 +728,8 @@ export default function EditorPage() {
         }} className="pointer-events-auto flex items-center gap-1 sm:gap-2 p-1 rounded-full transition-all duration-300 w-full justify-between sm:justify-start">
           <div className="flex items-center gap-1 sm:gap-2">
             {/* Home / Logo */}
-            <Link
-              to="/"
-              className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-full shadow-sm text-brand-500 hover:scale-105 transition-transform shrink-0 border border-neutral-100"
-              title={t.backToHome}
-            >
-              <Logo className="w-5 h-5 sm:w-6 sm:h-6" iconOnly />
+            <Link to="/">
+              <HashResumeLogo height={28} showText={false} />
             </Link>
 
             {/* Separator */}
@@ -968,7 +965,6 @@ export default function EditorPage() {
                   </motion.div>
                 </div>
 
-                <Suspense fallback={<FormLoader />}>
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={String(activeTab)}
@@ -977,7 +973,8 @@ export default function EditorPage() {
                       exit={{ opacity: 0, x: -10 }}
                       transition={{ duration: 0.2 }}
                     >
-                      {activeTab === "basics" && (
+                      <Suspense fallback={<FormLoader />}>
+                        {activeTab === "basics" && (
                         <div className="space-y-12">
 
                           <section>
@@ -1343,9 +1340,9 @@ export default function EditorPage() {
                           </div>
                         </div>
                       )}
+                      </Suspense>
                     </motion.div>
                   </AnimatePresence>
-                </Suspense>
 
                 {/* Mobile Scroll to Top */}
                 <AnimatePresence>
