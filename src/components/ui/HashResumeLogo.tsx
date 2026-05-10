@@ -4,13 +4,24 @@ interface HashResumeLogoProps {
   showText?: boolean
   height?: number
   dark?: boolean
+  className?: string
+  style?: React.CSSProperties
 }
 
-export function HashResumeLogo({ showText = true, height = 36, dark = false }: HashResumeLogoProps) {
+export function HashResumeLogo({ 
+  showText = true, 
+  height = 36, 
+  dark = false,
+  className,
+  style
+}: HashResumeLogoProps) {
   const dark292 = dark ? '#FFFFFF' : '#292828'
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+    <div 
+      className={className}
+      style={{ display: 'flex', alignItems: 'center', gap: 8, ...style }}
+    >
       <img
         src={LOGO_URL}
         alt="Hash Resume"

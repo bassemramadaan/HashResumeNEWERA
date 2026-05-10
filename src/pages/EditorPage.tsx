@@ -682,21 +682,21 @@ export default function EditorPage() {
     },
     {
       id: "projects",
-      label: language === "ar" ? "المشاريع" : (t.projects?.title ?? "Projects"),
+      label: language === "ar" ? "المشاريع" : (typeof t.projects === 'string' ? t.projects : (t.projects?.title ?? "Projects")),
       shortLabel: language === "ar" ? "المشاريع" : "Projects",
       icon: LayoutTemplate,
       tourId: "projects-section",
     },
     {
       id: "certifications",
-      label: language === "ar" ? "الشهادات" : (t.certifications?.title ?? "Certifications"),
+      label: language === "ar" ? "الشهادات" : (typeof t.certifications === 'string' ? t.certifications : (t.certifications?.title ?? "Certifications")),
       shortLabel: language === "ar" ? "الشهادات" : "Certs",
       icon: Award,
       tourId: "certifications-section",
     },
     {
       id: "custom",
-      label: language === "ar" ? "أقسام إضافية" : (t.custom?.title ?? "Custom Sections"),
+      label: language === "ar" ? "أقسام إضافية" : (typeof t.custom === 'string' ? t.custom : (t.custom?.title ?? "Custom Sections")),
       shortLabel: language === "ar" ? "أقسام" : "Custom",
       icon: PlusIcon,
       tourId: "custom-section",
@@ -710,8 +710,8 @@ export default function EditorPage() {
     },
     {
       id: "finish",
-      label: language === "ar" ? "التحميل والتدقيق" : "Audit & Download",
-      shortLabel: language === "ar" ? "تحميل" : "Finish",
+      label: language === "ar" ? "التحميل والتدقيق" : (t.finishTab || "Audit & Download"),
+      shortLabel: language === "ar" ? "تحميل" : (t.finishShort || "Finish"),
       icon: Download,
       tourId: "review-section",
     },
@@ -720,26 +720,26 @@ export default function EditorPage() {
   const activeTabIndex = tabs.findIndex((t) => t.id === activeTab) + 1;
 
   const tabDescriptions: Record<Tab, string> = {
-    basics: t.basicsDesc,
-    experience: t.experienceDesc,
-    education: t.educationDesc,
-    skills: t.skillsDesc,
+    basics: String(t.basicsDesc || "Basic info"),
+    experience: String(t.experienceDesc || "Experience info"),
+    education: String(t.educationDesc || "Education info"),
+    skills: String(t.skillsDesc || "Skills info"),
     projects:
-      t.projects?.title ??
+      String(t.projects?.title ??
       (language === "ar"
         ? "أرنا أفضل أعمالك ومشاريعك."
-        : "Showcase your best work and projects."),
+        : "Showcase your best work and projects.")),
     certifications:
-      language === "ar"
+      String(language === "ar"
         ? "أضف الشهادات والإنجازات المهنية."
-        : "Add professional certifications and achievements.",
+        : "Add professional certifications and achievements."),
     custom:
-      language === "ar"
+      String(language === "ar"
         ? "أضف أي أقسام إضافية تراها مهمة."
-        : "Add any additional sections you find important.",
-    "cover-letter": t.coverLetterDesc,
-    finish: t.finishDesc,
-    review: t.finishDesc,
+        : "Add any additional sections you find important."),
+    "cover-letter": String(t.coverLetterDesc || "Cover letter info"),
+    finish: String(t.finishDesc || "Finish info"),
+    review: String(t.finishDesc || "Finish info"),
   };
 
   return (
@@ -751,7 +751,7 @@ export default function EditorPage() {
       dir={dir}
     >
       <Helmet>
-        <title>{t.editor?.title || "Resume Editor"} | Hash Resume</title>
+        <title>{language === "ar" ? "محرر السيرة الذاتية" : "Resume Editor"} | Hash Resume</title>
         <meta
           name="description"
           content="Build your professional resume with our AI-powered editor."
@@ -764,13 +764,13 @@ export default function EditorPage() {
         <nav style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
-          border: '1px solid var(--color-neutral-200)',
+          border: '1px solid #e5e5e5',
           boxShadow: '0 12px 40px rgba(0,0,0,0.1)',
-        }} className="pointer-events-auto flex items-center gap-2 sm:gap-6 px-4 py-2 sm:py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[72px]">
-          <div className="flex items-center gap-2 sm:gap-4">
+        }} className="pointer-events-auto flex items-center gap-6 px-6 py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[80px]">
+          <div className="flex items-center gap-4">
             {/* Home / Logo */}
-            <Link to="/" className="shrink-0">
-              <HashResumeLogo height={50} showText={false} className="sm:h-[60px]" />
+            <Link to="/" className="shrink-0 mx-2">
+              <HashResumeLogo height={60} showText={false} style={{ height: 60 }} />
             </Link>
 
             {/* Separator */}
@@ -822,7 +822,7 @@ export default function EditorPage() {
           </div>
 
           {/* Right Section: Actions */}
-          <div className="flex items-center gap-1 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <button
               onClick={() => setShowProgressTracker(true)}
               className="w-10 h-10 flex items-center justify-center rounded-full text-indigo-500 hover:bg-neutral-50 hover:text-indigo-600 transition-colors"
@@ -910,10 +910,7 @@ export default function EditorPage() {
               style={{ borderColor: 'var(--color-neutral-200)', paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
             >
               <div className="max-w-7xl mx-auto px-4 sm:px-8">
-                <div className={cn(
-                  "flex gap-4 sm:gap-6 min-w-max",
-                  language === "ar" ? "flex-row-reverse" : "flex-row"
-                )}>
+                <div className="flex gap-6 min-w-max">
                   {tabs.map((tab) => {
                     const Icon = tab.icon;
                     const isActive = activeTab === tab.id;
@@ -961,7 +958,7 @@ export default function EditorPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,77,45,0.08)]"
                   >
-                    <div className="absolute top-0 end-0 w-40 h-40 rounded-full blur-3xl -me-20 -mt-20 pointer-events-none" style={{ background: 'radial-gradient(circle, color-mix(in srgb, var(--color-brand-500) 10%, transparent), transparent)' }}></div>
+                    <div className="absolute top-0 end-0 w-40 h-40 rounded-full blur-3xl -me-20 -mt-20 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(255,77,45,0.1), transparent)' }}></div>
 
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-brand-500 flex items-center justify-center shrink-0 shadow-brand-500/25 relative z-10 ring-4 ring-brand-50 border border-white/20 group">
                       <Sparkles size={20} className="text-white animate-pulse sm:w-6 sm:h-6" />
@@ -973,10 +970,10 @@ export default function EditorPage() {
                           {activeTabIndex} / {tabs.length}
                         </span>
                         <span className="w-1 h-1 rounded-full bg-brand-500/30"></span>
-                        <span>{tabs.find((t) => t.id === activeTab)?.label}</span>
+                        <span>{String(tabs.find((t) => t.id === activeTab)?.label || "")}</span>
                       </div>
                       <h1 className="text-sm sm:text-xl font-black text-neutral-900 tracking-tight leading-snug">
-                        {tabDescriptions[activeTab]}
+                        {String(tabDescriptions[activeTab] || "")}
                       </h1>
                     </div>
 
@@ -1021,7 +1018,7 @@ export default function EditorPage() {
 
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start">
-                              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
+                              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
                                 <User
                                   size={24}
                                   className="relative z-10 drop-shadow-sm"
@@ -1071,7 +1068,7 @@ export default function EditorPage() {
                               </div>
                               <div>
                                 <h2 className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">
-                                  {t.experience.title}
+                                  {String(t.experience?.title || "Experience")}
                                 </h2>
                                 <p className="text-[10px] sm:text-xs text-neutral-400 font-bold uppercase tracking-wider">
                                   {language === "ar"
@@ -1120,7 +1117,7 @@ export default function EditorPage() {
                               </div>
                               <div>
                                 <h2 className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">
-                                  {t.education.title}
+                                  {String(t.education?.title || "Education")}
                                 </h2>
                                 <p className="text-[10px] sm:text-xs text-neutral-400 font-bold uppercase tracking-wider">
                                   {language === "ar"
@@ -1159,7 +1156,7 @@ export default function EditorPage() {
                       {activeTab === "skills" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
                               <Wrench
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1203,7 +1200,7 @@ export default function EditorPage() {
                       {activeTab === "projects" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
                               <LayoutTemplate
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1211,7 +1208,7 @@ export default function EditorPage() {
                             </div>
                             <div>
                               <h2 className="text-xl font-black text-neutral-900 tracking-tight">
-                                {t.projects.title}
+                                {String(t.projects?.title || "Projects")}
                               </h2>
                               <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
@@ -1247,7 +1244,7 @@ export default function EditorPage() {
                       {activeTab === "certifications" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
                               <Award
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1255,7 +1252,7 @@ export default function EditorPage() {
                             </div>
                             <div>
                               <h2 className="text-xl font-black text-neutral-900 tracking-tight">
-                                {t.certifications.title}
+                                {String(t.certifications?.title || "Certifications")}
                               </h2>
                               <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
@@ -1291,7 +1288,7 @@ export default function EditorPage() {
                       {activeTab === "custom" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
                               <PlusIcon
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1299,7 +1296,7 @@ export default function EditorPage() {
                             </div>
                             <div>
                               <h2 className="text-xl font-black text-neutral-900 tracking-tight">
-                                {t.custom.title}
+                                {String(t.custom?.title || "Custom Sections")}
                               </h2>
                               <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
@@ -1335,7 +1332,7 @@ export default function EditorPage() {
                       {activeTab === "cover-letter" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 8px 20px color-mix(in srgb, var(--color-brand-500) 30%, transparent)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
                               <FileText
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1343,7 +1340,7 @@ export default function EditorPage() {
                             </div>
                             <div>
                               <h2 className="text-xl font-black text-neutral-900 tracking-tight">
-                                {t.coverLetter.title}
+                                {String(t.coverLetter?.title || "Cover Letter")}
                               </h2>
                               <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
@@ -1766,17 +1763,12 @@ export default function EditorPage() {
           onSkip={handleSkipTour}
         />
 
-        <SettingsModal
-          isOpen={isSettingsModalOpen}
-          onClose={() => setIsSettingsModalOpen(false)}
-        />
-
         <ProgressTrackerModal
           isOpen={showProgressTracker}
           onClose={() => setShowProgressTracker(false)}
           data={data}
           activeTab={activeTab}
-          onJumpToStep={(id) => setActiveTab(id)}
+          onJumpToStep={(id) => setActiveTab(id as Tab)}
         />
 
         {/* Action Confirmation Modal */}

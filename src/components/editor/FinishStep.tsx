@@ -90,7 +90,7 @@ export default function FinishStep({
       title: t.checkAts,
       desc: t.checkAtsDesc,
       icon: <Target className="w-6 h-6 text-indigo-500" />,
-      action: () => onJumpToStep("review"),
+      action: () => onJumpToStep("finish"),
       type: "button",
     },
     {
