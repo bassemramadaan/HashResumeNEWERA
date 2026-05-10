@@ -1698,6 +1698,8 @@ export const translations = {
       atsScore: "Score ATS",
       undo: "Annuler (Ctrl+Z)",
       redo: "Rétablir (Ctrl+Y)",
+      resumeTab: "Curriculum vitæ",
+      coverLetterTab: "Lettre de motivation",
       progressTracker: {
         title: "Votre parcours de CV",
         subtitle: "Découvrez à quel point vous êtes proche de décrocher votre prochain emploi.",

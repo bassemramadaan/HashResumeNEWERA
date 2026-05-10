@@ -103,6 +103,8 @@ export interface ATSResult {
     goodPoints: string[];
     improvements: string[];
   }[];
+  tips: string[];
+  criticalFailures: string[];
 }
 
 const ACTION_VERBS = new Set([
@@ -533,8 +535,18 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   // Calculate overall score
   const totalScore = sections.reduce((acc, s) => acc + s.score, 0);
 
+  // Extract all improvements as tips
+  const tips = sections.flatMap((s) => s.improvements);
+  
+  // Critical failures (e.g. score < 5 in important sections)
+  const criticalFailures = sections
+    .filter(s => s.score < (s.maxScore * 0.4) && (s.title === "Contact Info" || s.title === "Experience Formatting"))
+    .map(s => s.title);
+
   return {
-    score: Math.min(100, totalScore),
-    sections,
+    score: Math.round(Math.min(100, Math.max(0, totalScore))),
+    sections: sections || [],
+    tips: (tips || []).filter(t => typeof t === 'string'),
+    criticalFailures: (criticalFailures || []).filter(cf => typeof cf === 'string'),
   };
 }

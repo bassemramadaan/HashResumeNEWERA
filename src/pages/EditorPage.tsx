@@ -175,7 +175,14 @@ const ATSScoreIndicator = ({
 }) => {
   const { language } = useLanguageStore();
   const data = useResumeStore((state) => state.data);
-  const { score: atsScore, criticalFailures, tips } = React.useMemo(() => calculateATSScore(data), [data]);
+  const { score: atsScore, criticalFailures, tips } = React.useMemo(() => {
+    try {
+      return calculateATSScore(data);
+    } catch (e) {
+      console.error("ATS Audit failed", e);
+      return { score: 0, criticalFailures: [], tips: [] };
+    }
+  }, [data]);
   const [showTips, setShowTips] = useState(false);
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
 
@@ -753,47 +760,47 @@ export default function EditorPage() {
       <OnboardingTour />
 
       {/* Floating Dock Navbar (Top) */}
-      <div className="fixed top-2 start-1/2 -translate-x-1/2 flex justify-center z-50 px-2 pointer-events-none w-full max-w-5xl text-start">
+      <div className="fixed top-2 start-1/2 -translate-x-1/2 flex justify-center z-50 px-2 pointer-events-none w-full max-w-6xl text-start">
         <nav style={{
           background: 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(12px)',
           border: '1px solid var(--color-neutral-200)',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.08)',
-        }} className="pointer-events-auto flex items-center gap-1 sm:gap-2 p-1 rounded-full transition-all duration-300 w-full justify-between sm:justify-start">
-          <div className="flex items-center gap-1 sm:gap-2">
+          boxShadow: '0 12px 40px rgba(0,0,0,0.1)',
+        }} className="pointer-events-auto flex items-center gap-2 sm:gap-6 px-4 py-2 sm:py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[72px]">
+          <div className="flex items-center gap-2 sm:gap-4">
             {/* Home / Logo */}
-            <Link to="/">
-              <HashResumeLogo height={60} showText={false} />
+            <Link to="/" className="shrink-0">
+              <HashResumeLogo height={50} showText={false} className="sm:h-[60px]" />
             </Link>
 
             {/* Separator */}
-            <div className="w-px h-6 bg-neutral-200 mx-0.5 hidden sm:block"></div>
+            <div className="w-px h-8 bg-neutral-200 mx-1 hidden min-[400px]:block"></div>
 
             {/* Undo/Redo */}
-            <div className="flex items-center gap-0.5 sm:gap-1">
+            <div className="flex items-center gap-1">
               <button
                 onClick={() => undo()}
                 disabled={pastStates.length === 0}
-                className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
+                className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
                 title={t.undo}
               >
-                <Undo2 size={18} className="sm:w-4 sm:h-4" />
+                <Undo2 size={18} />
               </button>
               <button
                 onClick={() => redo()}
                 disabled={futureStates.length === 0}
-                className="w-11 h-11 sm:w-10 sm:h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
+                className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
                 title={t.redo}
               >
-                <Redo2 size={18} className="sm:w-4 sm:h-4" />
+                <Redo2 size={18} />
               </button>
             </div>
           </div>
 
           {/* Center Section: Saving & ATS */}
-          <div className="flex items-center gap-2 sm:gap-4 flex-1 justify-center">
+          <div className="hidden sm:flex items-center gap-4 flex-1 justify-center">
             {/* Saving Indicator */}
-            <div>
+            <div className="min-w-max">
               <AutoSaveIndicator />
             </div>
 
@@ -804,7 +811,7 @@ export default function EditorPage() {
                 title="Offline mode - changes will be saved locally"
               >
                 <div className="w-2 h-2 bg-rose-500 rounded-full" />
-                <span className="hidden sm:inline">
+                <span>
                   {language === "ar" ? "غير متصل" : "Offline"}
                 </span>
               </div>
@@ -815,36 +822,43 @@ export default function EditorPage() {
           </div>
 
           {/* Right Section: Actions */}
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-1 sm:gap-3">
             <button
               onClick={() => setShowProgressTracker(true)}
-              className="w-11 h-11 sm:w-auto sm:h-auto sm:p-2.5 flex items-center justify-center rounded-full text-indigo-500 hover:bg-neutral-50/50 hover:text-indigo-600 transition-colors"
+              className="w-10 h-10 flex items-center justify-center rounded-full text-indigo-500 hover:bg-neutral-50 hover:text-indigo-600 transition-colors"
               title={language === "ar" ? "عرض التقدم" : "View Progress"}
             >
-              <Target size={18} className="sm:w-4 sm:h-4" />
+              <Target size={18} />
             </button>
 
-            <div className="hidden md:flex items-center gap-1 sm:gap-2">
+            <div className="hidden min-[500px]:flex items-center gap-2">
               <button
                 onClick={() => setShowWelcomeModal(true)}
-                className="w-11 h-11 sm:w-auto sm:h-auto sm:p-2 flex items-center justify-center rounded-full text-brand-500 bg-brand-50 hover:bg-brand-100 transition-colors border border-brand-200"
+                className="w-10 h-10 flex items-center justify-center rounded-full text-brand-500 bg-brand-50 hover:bg-brand-100 transition-colors border border-brand-200"
                 title={t.showMeAround}
               >
-                <Sparkles size={18} className="animate-pulse sm:w-4 sm:h-4" />
+                <Sparkles size={18} className="animate-pulse" />
               </button>
               <LanguageSwitcher className="[&>span]:hidden lg:[&>span]:inline" />
+              <button
+                onClick={() => setIsSettingsModalOpen(true)}
+                className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 transition-colors"
+                title={t.resumeSettings}
+              >
+                <Settings size={18} />
+              </button>
             </div>
 
             {/* Separator on Desktop */}
-            <div className="hidden lg:block w-px h-6 bg-neutral-200 mx-1"></div>
+            <div className="hidden lg:block w-px h-8 bg-neutral-200 mx-1"></div>
 
             {/* Persistent Preview Button */}
             <button
               onClick={() => setShowFullPreview(true)}
-              className="w-11 h-11 sm:w-auto sm:h-auto flex items-center justify-center gap-2 sm:px-4 sm:py-2 rounded-full bg-neutral-100/80 hover:bg-neutral-200 text-neutral-700 transition-all border border-neutral-200/50 active:scale-95 font-bold text-[10px] sm:text-xs uppercase tracking-wider"
+              className="w-10 h-10 lg:w-auto lg:px-4 lg:py-2 flex items-center justify-center gap-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-all border border-neutral-200 active:scale-95 font-bold text-[10px] sm:text-xs uppercase tracking-wider"
               title={language === "ar" ? "معاينة كاملة" : "Full Preview"}
             >
-              <Eye size={18} className="text-neutral-500 sm:w-3.5 sm:h-3.5" />
+              <Eye size={18} className="text-neutral-500" />
               <span className="hidden lg:inline">
                 {language === "ar" ? "معاينة كاملة" : "Full Preview"}
               </span>
@@ -859,7 +873,7 @@ export default function EditorPage() {
                 color: '#fff',
                 cursor: isExporting ? 'not-allowed' : 'pointer',
               }}
-              className="flex items-center gap-2 h-11 sm:h-auto px-4 sm:py-2 rounded-full transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest"
+              className="flex items-center gap-2 h-10 sm:h-auto px-4 sm:py-2.5 rounded-full transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest shrink-0"
             >
               {isExporting ? (
                 <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -873,22 +887,13 @@ export default function EditorPage() {
                     : "Exporting..."
                   : t.exportPdf}
               </span>
-              <span className="sm:hidden">
-                {isExporting
-                  ? language === "ar"
-                    ? "الرجاء الانتظار"
-                    : "Wait"
-                  : language === "ar"
-                    ? "تحميل"
-                    : "Export"}
-              </span>
             </button>
           </div>
         </nav>
       </div>
 
       {/* Spacer for fixed dock */}
-      <div className="h-16 shrink-0" />
+      <div className="h-24 sm:h-28 shrink-0" />
 
       {/* Real-time Progress tracker moved to tabs and dock */}
 
@@ -902,10 +907,13 @@ export default function EditorPage() {
             {/* Horizontal Tabs - Now visible on all screen sizes */}
             <div 
               className="bg-white border-b overflow-x-auto hide-scrollbar z-30 sticky top-0"
-              style={{ borderColor: 'var(--color-neutral-200)', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}
+              style={{ borderColor: 'var(--color-neutral-200)', paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
             >
               <div className="max-w-7xl mx-auto px-4 sm:px-8">
-                <div className="flex gap-2 min-w-max">
+                <div className={cn(
+                  "flex gap-4 sm:gap-6 min-w-max",
+                  language === "ar" ? "flex-row-reverse" : "flex-row"
+                )}>
                   {tabs.map((tab) => {
                     const Icon = tab.icon;
                     const isActive = activeTab === tab.id;
@@ -1416,30 +1424,32 @@ export default function EditorPage() {
             <div className="h-14 bg-neutral-50/80 backdrop-blur-sm border-b border-neutral-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200">
               <div className="flex items-center gap-2">
                 <div className="flex items-center bg-neutral-50 rounded-xl p-1 border border-neutral-200">
-                  <button
-                    onClick={() => setPreviewMode("resume")}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all",
-                      previewMode === "resume"
-                        ? "bg-neutral-50 text-neutral-900 shadow-sm ring-1 ring-neutral-200"
-                        : "text-neutral-500 hover:text-neutral-700",
-                    )}
-                  >
-                    <LayoutTemplate size={14} />
-                    {t.resumeTab}
-                  </button>
-                  <button
-                    onClick={() => setPreviewMode("cover-letter")}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider transition-all",
-                      previewMode === "cover-letter"
-                        ? "bg-neutral-50 text-neutral-900 shadow-sm ring-1 ring-neutral-200"
-                        : "text-neutral-500 hover:text-neutral-700",
-                    )}
-                  >
-                    <FileText size={14} />
-                    {t.coverLetterTab}
-                  </button>
+                    <button
+                      onClick={() => setPreviewMode("resume")}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black tracking-wider transition-all",
+                        previewMode === "resume"
+                          ? "bg-neutral-50 text-neutral-900 shadow-sm ring-1 ring-neutral-200"
+                          : "text-neutral-500 hover:text-neutral-700",
+                        language !== "ar" && "uppercase"
+                      )}
+                    >
+                      <LayoutTemplate size={14} />
+                      {language === "ar" ? "السيرة الذاتية" : t.resumeTab}
+                    </button>
+                    <button
+                      onClick={() => setPreviewMode("cover-letter")}
+                      className={cn(
+                        "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black tracking-wider transition-all",
+                        previewMode === "cover-letter"
+                          ? "bg-neutral-50 text-neutral-900 shadow-sm ring-1 ring-neutral-200"
+                          : "text-neutral-500 hover:text-neutral-700",
+                        language !== "ar" && "uppercase"
+                      )}
+                    >
+                      <FileText size={14} />
+                      {language === "ar" ? "خطاب التغطية" : t.coverLetterTab}
+                    </button>
                 </div>
               </div>
 
@@ -1519,7 +1529,10 @@ export default function EditorPage() {
                 >
                   <button
                     onClick={() => setPreviewMode("resume")}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all"
+                    className={cn(
+                      "flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black tracking-wider transition-all",
+                      language !== "ar" && "uppercase"
+                    )}
                     style={previewMode === "resume" ? {
                       background: '#fff',
                       color: 'var(--color-neutral-900)',
@@ -1527,11 +1540,14 @@ export default function EditorPage() {
                     } : { color: 'var(--color-neutral-500)' }}
                   >
                     <LayoutTemplate size={13} />
-                    {t.resumeTab}
+                    {language === "ar" ? "السيرة الذاتية" : t.resumeTab}
                   </button>
                   <button
                     onClick={() => setPreviewMode("cover-letter")}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all"
+                    className={cn(
+                      "flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black tracking-wider transition-all",
+                      language !== "ar" && "uppercase"
+                    )}
                     style={previewMode === "cover-letter" ? {
                       background: '#fff',
                       color: 'var(--color-neutral-900)',
@@ -1539,7 +1555,7 @@ export default function EditorPage() {
                     } : { color: 'var(--color-neutral-500)' }}
                   >
                     <FileText size={13} />
-                    {t.coverLetterTab}
+                    {language === "ar" ? "خطاب التغطية" : t.coverLetterTab}
                   </button>
                 </div>
               
