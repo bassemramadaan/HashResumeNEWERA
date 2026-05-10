@@ -34,6 +34,7 @@ import {
   Award,
   Plus as PlusIcon,
   HelpCircle,
+  Keyboard,
 } from "lucide-react";
 import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
@@ -42,6 +43,8 @@ import { translations } from "../i18n/translations";
 import { HashResumeLogo } from '@/components/ui/HashResumeLogo';
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import SettingsModal from "../components/SettingsModal";
+import ATSTipsModal from "../components/ATSTipsModal";
+import KeyboardShortcutsModal from "../components/KeyboardShortcutsModal";
 import { hapticFeedback } from "../utils";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../utils/ats";
@@ -174,9 +177,18 @@ const ATSScoreIndicator = ({
   const data = useResumeStore((state) => state.data);
   const { score: atsScore, criticalFailures, tips } = React.useMemo(() => calculateATSScore(data), [data]);
   const [showTips, setShowTips] = useState(false);
+  const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
 
   return (
     <div className="flex items-center gap-2">
+      <button
+        onClick={() => setShowKeyboardShortcuts(true)}
+        className="hidden lg:flex items-center justify-center w-8 h-8 rounded-full bg-slate-50 text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition-all border border-slate-200"
+        title={language === "ar" ? "اختصارات الكيبورد" : "Keyboard shortcuts"}
+      >
+        <Keyboard size={14} />
+      </button>
+
       <button
         onClick={() => setActiveTab("finish")}
         className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/90 hover:bg-neutral-100 transition-all border border-neutral-200 group shrink-0"
@@ -216,54 +228,16 @@ const ATSScoreIndicator = ({
         <HelpCircle size={14} />
       </button>
 
-      <AnimatePresence>
-        {showTips && (
-          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowTips(false)}
-              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden p-6 border border-slate-200 text-start"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-black text-slate-900">
-                  {language === "ar" ? "كيف ترفع نتيجتك؟" : "How to improve score?"}
-                </h3>
-                <button onClick={() => setShowTips(false)} className="p-1 text-slate-400 hover:bg-slate-100 rounded-full">
-                  <X size={18} />
-                </button>
-              </div>
-              <div className="space-y-3">
-                {tips.length > 0 ? (
-                  tips.map((tip, i) => (
-                    <div key={i} className="flex gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-100">
-                      <div className="w-5 h-5 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center shrink-0 text-[10px] font-black">
-                        {i + 1}
-                      </div>
-                      <p className="text-sm text-slate-600 font-medium leading-relaxed">{tip}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-sm text-slate-500">{language === "ar" ? "سيرتك ممتازة! لا توجد ملاحظات حالياً." : "Excellent resume! No tips currently."}</p>
-                )}
-              </div>
-              <button
-                onClick={() => setShowTips(false)}
-                className="w-full mt-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm shadow-lg shadow-slate-200 active:scale-95 transition-all"
-              >
-                {language === "ar" ? "فهمت" : "Got it"}
-              </button>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+      <ATSTipsModal 
+        isOpen={showTips} 
+        onClose={() => setShowTips(false)} 
+        tips={tips} 
+      />
+
+      <KeyboardShortcutsModal 
+        isOpen={showKeyboardShortcuts} 
+        onClose={() => setShowKeyboardShortcuts(false)} 
+      />
     </div>
   );
 };
@@ -673,56 +647,56 @@ export default function EditorPage() {
   const tabs: TabItem[] = [
     {
       id: "basics",
-      label: t.personalInfo,
+      label: language === "ar" ? "المعلومات الشخصية" : t.personalInfo,
       shortLabel: language === "ar" ? "البيانات" : "Basics",
       icon: User,
       tourId: "personal-info",
     },
     {
       id: "experience",
-      label: t.experience.title,
+      label: language === "ar" ? "الخبرة العملية" : t.experience.title,
       shortLabel: language === "ar" ? "الخبرة" : "Exp",
       icon: Briefcase,
       tourId: "experience-section",
     },
     {
       id: "education",
-      label: t.education.title,
+      label: language === "ar" ? "التعليم" : t.education.title,
       shortLabel: language === "ar" ? "التعليم" : "Edu",
       icon: GraduationCap,
       tourId: "education-section",
     },
     {
       id: "skills",
-      label: t.skills.title,
+      label: language === "ar" ? "المهارات" : t.skills.title,
       shortLabel: language === "ar" ? "المهارات" : "Skills",
       icon: Wrench,
       tourId: "skills-section",
     },
     {
       id: "projects",
-      label: t.projects?.title ?? (language === "ar" ? "المشاريع" : "Projects"),
+      label: language === "ar" ? "المشاريع" : (t.projects?.title ?? "Projects"),
       shortLabel: language === "ar" ? "المشاريع" : "Projects",
       icon: LayoutTemplate,
       tourId: "projects-section",
     },
     {
       id: "certifications",
-      label: t.certifications?.title ?? (language === "ar" ? "الشهادات" : "Certifications"),
+      label: language === "ar" ? "الشهادات" : (t.certifications?.title ?? "Certifications"),
       shortLabel: language === "ar" ? "الشهادات" : "Certs",
       icon: Award,
       tourId: "certifications-section",
     },
     {
       id: "custom",
-      label: t.custom?.title ?? (language === "ar" ? "أقسام إضافية" : "Custom Sections"),
-      shortLabel: language === "ar" ? "أقسام إضافية" : "Custom",
+      label: language === "ar" ? "أقسام إضافية" : (t.custom?.title ?? "Custom Sections"),
+      shortLabel: language === "ar" ? "أقسام" : "Custom",
       icon: PlusIcon,
       tourId: "custom-section",
     },
     {
       id: "cover-letter",
-      label: t.coverLetter.title,
+      label: language === "ar" ? "خطاب التقديم" : t.coverLetter.title,
       shortLabel: language === "ar" ? "الخطاب" : "Cover",
       icon: FileText,
       tourId: "cover-letter-section",

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import { Sparkles, Check, ArrowLeft, Play } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
 import { LOGO_URL } from '@/constants'
+import { trackEvent } from '@/services/analytics'
 
 interface HeroSectionProps {
   lang: AppLang
@@ -90,7 +91,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           </motion.div>
 
           <motion.div variants={item} className="flex flex-col items-center gap-4 my-10">
-            <img src={LOGO_URL} alt="Hash Resume" className="h-[120px] w-auto mx-auto" />
+            <img src={LOGO_URL} alt="Hash Resume Logo" className="h-[120px] w-auto mx-auto" loading="lazy" />
             <h2 className="text-3xl md:text-5xl font-black text-neutral-900 tracking-tight">
               Hash Resume
             </h2>
@@ -118,8 +119,12 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           <motion.div variants={item} className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
             <motion.button
               whileTap={{ scale: 0.97 }}
-              onClick={onStart}
+              onClick={() => {
+                trackEvent('resume_started', { source: 'hero_cta' });
+                onStart();
+              }}
               className="btn-primary inline-flex items-center justify-center gap-2 sm:w-auto w-full"
+              aria-label={copy.cta}
             >
               <Sparkles className="w-4 h-4" />
               {copy.cta}

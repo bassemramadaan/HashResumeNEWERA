@@ -16,6 +16,8 @@ import Navbar from "../components/Navbar";
 import VideoDemoModal from "../components/VideoDemoModal";
 import Logo from "../components/Logo";
 
+import { trackEvent } from "../services/analytics";
+
 export default function LandingPage() {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
@@ -143,8 +145,8 @@ export default function LandingPage() {
                 transition={{ duration: 0.8, type: "spring" }}
                 className="mb-6"
             >
-                <div className="flex justify-center">
-                    <Logo height={200} width="auto" className="relative z-10" />
+                <div className="flex justify-center" aria-label="Hash Resume Logo">
+                    <Logo height={200} width="auto" className="relative z-10" loading="lazy" />
                 </div>
             </motion.div>
 
@@ -178,7 +180,12 @@ export default function LandingPage() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex flex-col items-center gap-4 my-8"
               >
-                <img src={LOGO_URL} alt="Hash Resume" className="h-[120px] w-auto mx-auto" />
+                <img 
+              src={LOGO_URL} 
+              alt="Hash Resume Logo" 
+              className="h-[120px] w-auto mx-auto" 
+              loading="lazy"
+            />
                 <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">
                   Hash Resume
                 </h2>

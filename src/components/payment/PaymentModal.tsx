@@ -80,7 +80,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             {/* Header */}
             <div className="flex flex-col items-center text-center mb-8">
               <div className="flex items-center gap-3 mb-4">
-                <img src={LOGO_URL} alt="Hash Resume" className="h-10 w-auto" />
+                <img src={LOGO_URL} alt="Hash Resume Logo" className="h-10 w-auto" loading="lazy" />
                 <h2 className="text-2xl font-black text-slate-900 tracking-tight">
                   {isAr ? "حمّل سيرتك الذاتية" : "Download Your Resume"}
                 </h2>
