@@ -1,6 +1,9 @@
+import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Sparkles, BarChart2, FileText, Users, Undo2, Globe } from 'lucide-react'
+import { Sparkles, BarChart2, FileText, Users, Undo2, Globe, HelpCircle } from 'lucide-react'
 import { PageSection, SectionHeading } from '@/components/layout/PageSection'
+import HashHuntModal from '@/components/HashHuntModal'
+import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
 
 interface FeaturesSectionProps { lang: AppLang }
@@ -47,6 +50,7 @@ const COLOR_MAP: Record<string, { bg: string; icon: string }> = {
 }
 
 export function FeaturesSection({ lang }: FeaturesSectionProps) {
+  const [isHashHuntOpen, setIsHashHuntOpen] = useState(false)
   const features = FEATURES[lang] || FEATURES['en']
   const heading  = HEADINGS[lang] || HEADINGS['en']
 
@@ -57,6 +61,8 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
         {features.map((f, i) => {
           const colors    = COLOR_MAP[f.color]
           const IconComp  = f.icon
+          const isHashHunt = f.title.includes('Hash Hunt')
+          
           return (
             <motion.div
               key={f.title}
@@ -64,16 +70,28 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.07, duration: 0.35 }}
-              className="card-hover flex flex-col gap-3"
+              onClick={() => isHashHunt && setIsHashHuntOpen(true)}
+              className={cn(
+                "card-hover flex flex-col gap-3 group/card p-6",
+                isHashHunt && "cursor-pointer border-brand-200 hover:border-brand-500"
+              )}
             >
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                style={{ backgroundColor: colors.bg }}
-              >
-                <IconComp className="w-5 h-5" style={{ color: colors.icon }} />
+              <div className="flex items-center justify-between">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{ backgroundColor: colors.bg }}
+                >
+                  <IconComp className="w-5 h-5" style={{ color: colors.icon }} />
+                </div>
+                {isHashHunt && (
+                  <div className="text-[10px] font-black p-1 text-brand-600 bg-brand-50 rounded-md flex items-center gap-1 group-hover/card:bg-brand-600 group-hover/card:text-white transition-colors">
+                    <HelpCircle size={10} />
+                    {lang === 'ar' ? 'تعرف أكثر' : 'How it works?'}
+                  </div>
+                )}
               </div>
               <div className="flex items-start justify-between gap-2">
-                <h3 className="font-medium text-neutral-800">{f.title}</h3>
+                <h3 className="font-bold text-neutral-800">{f.title}</h3>
                 {f.badge && <span className="badge badge-brand flex-shrink-0">{f.badge}</span>}
               </div>
               <p className="text-sm text-neutral-500 leading-relaxed">{f.desc}</p>
@@ -81,6 +99,8 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
           )
         })}
       </div>
+      
+      <HashHuntModal isOpen={isHashHuntOpen} onClose={() => setIsHashHuntOpen(false)} />
     </PageSection>
   )
 }

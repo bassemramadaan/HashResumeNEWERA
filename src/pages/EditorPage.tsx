@@ -33,6 +33,7 @@ import {
   ArrowRight,
   Award,
   Plus as PlusIcon,
+  HelpCircle,
 } from "lucide-react";
 import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
@@ -171,39 +172,99 @@ const ATSScoreIndicator = ({
 }) => {
   const { language } = useLanguageStore();
   const data = useResumeStore((state) => state.data);
-  const atsScore = React.useMemo(() => calculateATSScore(data).score, [data]);
+  const { score: atsScore, criticalFailures, tips } = React.useMemo(() => calculateATSScore(data), [data]);
+  const [showTips, setShowTips] = useState(false);
 
   return (
-    <button
-      onClick={() => setActiveTab("finish")}
-      className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/90 hover:bg-neutral-100 transition-all border border-neutral-200 group shrink-0"
-    >
-      <div className="flex flex-col items-start">
-        <span className="text-[7px] sm:text-[9px] font-bold text-neutral-500 uppercase tracking-tighter sm:tracking-widest leading-none mb-0.5">
-          {language === "ar" ? "النتيجة" : "Score"}
-        </span>
-        <span
-          className={cn(
-            "text-[10px] sm:text-sm font-black leading-none",
-            atsScore >= 80
-              ? "text-emerald-600"
-              : atsScore >= 50
-                ? "text-amber-500"
-                : "text-rose-500",
-          )}
-        >
-          {atsScore}%
-        </span>
-      </div>
-      <div className="hidden sm:block w-12 h-2 bg-neutral-200 rounded-full overflow-hidden">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${atsScore}%` }}
-          style={{ backgroundColor: atsScore >= 80 ? 'var(--color-success)' : atsScore >= 50 ? 'var(--color-warning)' : 'var(--color-danger)' }}
-          className="h-full"
-        />
-      </div>
-    </button>
+    <div className="flex items-center gap-2">
+      <button
+        onClick={() => setActiveTab("finish")}
+        className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/90 hover:bg-neutral-100 transition-all border border-neutral-200 group shrink-0"
+      >
+        <div className="flex flex-col items-start">
+          <span className="text-[7px] sm:text-[9px] font-bold text-neutral-500 uppercase tracking-tighter sm:tracking-widest leading-none mb-0.5">
+            {language === "ar" ? "النتيجة" : "Score"}
+          </span>
+          <span
+            className={cn(
+              "text-[10px] sm:text-sm font-black leading-none",
+              atsScore >= 80
+                ? "text-emerald-600"
+                : atsScore >= 50
+                  ? "text-amber-500"
+                  : "text-rose-500",
+            )}
+          >
+            {atsScore}%
+          </span>
+        </div>
+        <div className="hidden sm:block w-12 h-2 bg-neutral-200 rounded-full overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${atsScore}%` }}
+            className="h-full"
+            style={{ backgroundColor: atsScore >= 80 ? '#10b981' : atsScore >= 50 ? '#f59e0b' : '#ef4444' }}
+          />
+        </div>
+      </button>
+      
+      <button
+        onClick={() => setShowTips(true)}
+        className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-brand-50 text-brand-600 hover:bg-brand-600 hover:text-white transition-all border border-brand-100"
+        title={language === "ar" ? "نصائح للتحسين" : "Tips to improve"}
+      >
+        <HelpCircle size={14} />
+      </button>
+
+      <AnimatePresence>
+        {showTips && (
+          <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowTips(false)}
+              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden p-6 border border-slate-200 text-start"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-black text-slate-900">
+                  {language === "ar" ? "كيف ترفع نتيجتك؟" : "How to improve score?"}
+                </h3>
+                <button onClick={() => setShowTips(false)} className="p-1 text-slate-400 hover:bg-slate-100 rounded-full">
+                  <X size={18} />
+                </button>
+              </div>
+              <div className="space-y-3">
+                {tips.length > 0 ? (
+                  tips.map((tip, i) => (
+                    <div key={i} className="flex gap-3 p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                      <div className="w-5 h-5 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center shrink-0 text-[10px] font-black">
+                        {i + 1}
+                      </div>
+                      <p className="text-sm text-slate-600 font-medium leading-relaxed">{tip}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-slate-500">{language === "ar" ? "سيرتك ممتازة! لا توجد ملاحظات حالياً." : "Excellent resume! No tips currently."}</p>
+                )}
+              </div>
+              <button
+                onClick={() => setShowTips(false)}
+                className="w-full mt-6 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm shadow-lg shadow-slate-200 active:scale-95 transition-all"
+              >
+                {language === "ar" ? "فهمت" : "Got it"}
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 };
 
@@ -728,7 +789,7 @@ export default function EditorPage() {
           <div className="flex items-center gap-1 sm:gap-2">
             {/* Home / Logo */}
             <Link to="/">
-              <HashResumeLogo height={28} showText={false} />
+              <HashResumeLogo height={60} showText={false} />
             </Link>
 
             {/* Separator */}
