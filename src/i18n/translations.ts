@@ -350,6 +350,8 @@ export const translations = {
       atsScore: "ATS Score",
       undo: "Undo (Ctrl+Z)",
       redo: "Redo (Ctrl+Y)",
+      resumeTab: "Resume",
+      coverLetterTab: "Cover Letter",
       progressTracker: {
         title: "Your Resume Journey",
         subtitle: "See how close you are to landing your next job.",
@@ -1016,6 +1018,8 @@ export const translations = {
       atsScore: "درجة ATS",
       undo: "تراجع (Ctrl+Z)",
       redo: "إعادة (Ctrl+Y)",
+      resumeTab: "السيرة الذاتية",
+      coverLetterTab: "خطاب التغطية",
       progressTracker: {
         title: "رحلة سيرتك الذاتية",
         subtitle: "تعرف على مدى قربك من الحصول على وظيفتك القادمة.",

@@ -1426,7 +1426,7 @@ export default function EditorPage() {
                     )}
                   >
                     <LayoutTemplate size={14} />
-                    Resume
+                    {t.resumeTab}
                   </button>
                   <button
                     onClick={() => setPreviewMode("cover-letter")}
@@ -1438,7 +1438,7 @@ export default function EditorPage() {
                     )}
                   >
                     <FileText size={14} />
-                    Cover Letter
+                    {t.coverLetterTab}
                   </button>
                 </div>
               </div>
@@ -1527,7 +1527,7 @@ export default function EditorPage() {
                     } : { color: 'var(--color-neutral-500)' }}
                   >
                     <LayoutTemplate size={13} />
-                    {language === 'ar' ? 'السيرة' : 'Resume'}
+                    {t.resumeTab}
                   </button>
                   <button
                     onClick={() => setPreviewMode("cover-letter")}
@@ -1539,7 +1539,7 @@ export default function EditorPage() {
                     } : { color: 'var(--color-neutral-500)' }}
                   >
                     <FileText size={13} />
-                    {language === 'ar' ? 'الخطاب' : 'Letter'}
+                    {t.coverLetterTab}
                   </button>
                 </div>
               
