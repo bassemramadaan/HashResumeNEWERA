@@ -46,8 +46,21 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
       <div className="container-page">
         <div className="flex items-center justify-between h-16">
 
-          <a href="/">
-            <HashResumeLogo height={32} showText={true} />
+          <a href="/" className="flex-shrink-0 flex items-center gap-2">
+            <img
+              src="/logo.png"
+              alt="Hash Resume"
+              style={{ height: 36, width: 'auto' }}
+            />
+            <span style={{
+              fontWeight: 700,
+              fontSize: 17,
+              color: '#292828',
+              letterSpacing: '-0.02em',
+              fontFamily: 'Plus Jakarta Sans, sans-serif'
+            }}>
+              Hash<span style={{ color: '#FF4D2D' }}>Resume</span>
+            </span>
           </a>
 
           <div className="hidden md:flex items-center gap-1">
