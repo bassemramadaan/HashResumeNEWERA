@@ -142,9 +142,9 @@ export default function LandingPage() {
                 transition={{ duration: 0.8, type: "spring" }}
                 className="mb-6"
             >
-                <div className="relative group">
+                <div className="relative group flex justify-center">
                     <div className="absolute -inset-4 bg-[#ff4d2d]/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    <Logo className="w-56 sm:w-72 lg:w-[480px] h-auto drop-shadow-2xl relative z-10" variant="gradient" />
+                    <Logo height={200} width="auto" className="drop-shadow-2xl relative z-10" variant="gradient" />
                 </div>
             </motion.div>
 
