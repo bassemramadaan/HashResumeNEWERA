@@ -10,6 +10,7 @@ import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { cn } from "@/lib/utils";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
+import { LOGO_URL } from "../constants";
 
 import Navbar from "../components/Navbar";
 import VideoDemoModal from "../components/VideoDemoModal";
@@ -142,9 +143,8 @@ export default function LandingPage() {
                 transition={{ duration: 0.8, type: "spring" }}
                 className="mb-6"
             >
-                <div className="relative group flex justify-center">
-                    <div className="absolute -inset-4 bg-[#ff4d2d]/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-                    <Logo height={200} width="auto" className="drop-shadow-2xl relative z-10" variant="gradient" />
+                <div className="flex justify-center">
+                    <Logo height={200} width="auto" className="relative z-10" />
                 </div>
             </motion.div>
 
@@ -171,6 +171,19 @@ export default function LandingPage() {
                 <span>{language === "ar" ? "مدعوم بـ Gemini AI" : "Powered by Gemini AI"}</span>
               </motion.div>
 
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="flex flex-col items-center gap-4 my-8"
+              >
+                <img src={LOGO_URL} alt="Hash Resume" className="h-[120px] w-auto mx-auto" />
+                <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">
+                  Hash Resume
+                </h2>
+              </motion.div>
+
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -184,12 +197,20 @@ export default function LandingPage() {
                     {language === "ar" ? "بدون اشتراكات" : t.heroTitle2}
                   </span>
                 </span>
+              </motion.h1>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
                 <p className="text-slate-600 text-base sm:text-2xl font-medium tracking-tight mb-2 max-w-3xl mx-auto leading-relaxed">
                   {language === "ar" 
                     ? "ابنِ سيرتك الذاتية مجاناً بالعربي والإنجليزي، وادفع مرة واحدة فقط عند التحميل. لا اشتراكات، لا رسوم خفية." 
                     : "Build your professional resume for free in Arabic & English. Pay once only when you love the result. No subscriptions."}
                 </p>
-              </motion.h1>
+              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}

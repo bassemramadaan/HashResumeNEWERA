@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { Sparkles, Check, ArrowLeft, Play } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
+import { LOGO_URL } from '@/constants'
 
 interface HeroSectionProps {
   lang: AppLang
@@ -86,6 +87,13 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
               <span className="w-2 h-2 rounded-full dot-pulse" style={{ backgroundColor: 'var(--color-success)' }} />
               {copy.badge}
             </div>
+          </motion.div>
+
+          <motion.div variants={item} className="flex flex-col items-center gap-4 my-10">
+            <img src={LOGO_URL} alt="Hash Resume" className="h-[120px] w-auto mx-auto" />
+            <h2 className="text-3xl md:text-5xl font-black text-neutral-900 tracking-tight">
+              Hash Resume
+            </h2>
           </motion.div>
 
           <motion.h1

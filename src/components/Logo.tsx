@@ -12,24 +12,8 @@ interface LogoProps {
 const Logo: React.FC<LogoProps> = ({
   width = "100%",
   height = "100%",
-  variant = "gradient",
   className = "",
-  iconOnly = false,
 }) => {
-  const iconColor =
-    variant === "white"
-      ? "#ffffff"
-      : variant === "solid"
-      ? "#FF4D1C"
-      : "url(#iconGrad)";
-
-  const textColor =
-    variant === "white"
-      ? "#ffffff"
-      : variant === "solid"
-      ? "#FF4D1C"
-      : "url(#textGrad)";
-
   return (
     <img
       src={LOGO_URL}

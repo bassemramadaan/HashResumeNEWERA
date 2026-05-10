@@ -39,7 +39,6 @@ import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { HashResumeLogo } from '@/components/ui/HashResumeLogo';
-import Logo from "../components/Logo";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import SettingsModal from "../components/SettingsModal";
 import { hapticFeedback } from "../utils";
