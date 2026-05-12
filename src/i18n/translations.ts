@@ -1,3 +1,7 @@
+export const getTranslations = (language: string) => {
+  return translations[language as keyof typeof translations] || translations.en;
+};
+
 export const translations = {
   en: {
     landing: {

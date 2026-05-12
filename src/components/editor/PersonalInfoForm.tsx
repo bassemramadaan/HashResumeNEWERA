@@ -24,7 +24,7 @@ const AISuggestion = lazy(() => import("./AISuggestion"));
 
 const PersonalInfoForm = () => {
   const { language } = useLanguageStore();
-  const t = translations[language].editor;
+  const t = (translations[language as keyof typeof translations] || translations.en).editor;
   const { data, updatePersonalInfo } = useResumeStore();
   const { personalInfo, settings } = data;
   const [showAISuggestions, setShowAISuggestions] = useState(false);

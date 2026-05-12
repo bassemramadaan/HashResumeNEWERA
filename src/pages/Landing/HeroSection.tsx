@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion } from "motion/react"
 import { Sparkles, Check, ArrowLeft, Play } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
 import { LOGO_URL } from '@/constants'

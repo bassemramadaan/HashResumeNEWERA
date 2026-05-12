@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { ResumeData, useResumeStore } from "../store/useResumeStore";
 import ResumePreview from "../components/preview/ResumePreview";
 import { Loader2, Copy, Check, Edit, AlertTriangle } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 export default function SharePage() {
   const { id } = useParams<{ id: string }>();

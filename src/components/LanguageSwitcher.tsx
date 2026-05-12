@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Check, ChevronDown } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { cn } from "@/lib/utils";
@@ -18,7 +18,7 @@ const LANGUAGES = [
 
 export default function LanguageSwitcher({
   className,
-  size = 16,
+  _size = 16,
   variant = "default",
 }: LanguageSwitcherProps) {
   const { language, setLanguage } = useLanguageStore();

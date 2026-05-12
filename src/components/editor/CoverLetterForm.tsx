@@ -134,18 +134,18 @@ export default function CoverLetterForm() {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <SectionTooltip
-            title={t.coverLetter.title}
-            content={t.coverLetter.tooltipDesc || "Generate a tailored cover letter using AI based on your resume and the job description."}
-            example={t.coverLetter.tooltipExample || "Fill in the details below and click Generate."}
+            title={String(t.coverLetter?.title || "")}
+            content={String(t.coverLetter?.tooltipDesc || "Generate a tailored cover letter using AI based on your resume and the job description.")}
+            example={String(t.coverLetter?.tooltipExample || "Fill in the details below and click Generate.")}
           />
         </div>
         <button
           onClick={handleImportFromResume}
           className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-lg transition-colors"
-          title={t.coverLetter.importTooltip}
+          title={String(t.coverLetter?.importTooltip || "")}
         >
           {imported ? <Check size={16} /> : <Import size={16} />}
-          {imported ? t.coverLetter.imported : t.coverLetter.importFromResume}
+          {imported ? String(t.coverLetter?.imported || "") : String(t.coverLetter?.importFromResume || "")}
         </button>
       </div>
 
@@ -156,7 +156,7 @@ export default function CoverLetterForm() {
               htmlFor="fullName"
               className="text-sm font-medium text-slate-700"
             >
-              {t.coverLetter.fullName}
+              {String(t.coverLetter?.fullName || "")}
             </label>
             <input
               type="text"
@@ -165,7 +165,7 @@ export default function CoverLetterForm() {
               value={coverLetter.fullName}
               onChange={handleChange}
               className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
-              placeholder={t.coverLetter.fullNamePlaceholder}
+              placeholder={String(t.coverLetter?.fullNamePlaceholder || "")}
             />
           </div>
 
@@ -174,7 +174,7 @@ export default function CoverLetterForm() {
               htmlFor="jobTitle"
               className="text-sm font-medium text-slate-700"
             >
-              {t.coverLetter.jobTitle}
+              {String(t.coverLetter?.jobTitle || "")}
             </label>
             <input
               type="text"
@@ -183,7 +183,7 @@ export default function CoverLetterForm() {
               value={coverLetter.jobTitle}
               onChange={handleChange}
               className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
-              placeholder={t.coverLetter.jobTitlePlaceholder}
+              placeholder={String(t.coverLetter?.jobTitlePlaceholder || "")}
             />
           </div>
 
@@ -192,7 +192,7 @@ export default function CoverLetterForm() {
               htmlFor="companyName"
               className="text-sm font-medium text-slate-700"
             >
-              {t.coverLetter.companyName}
+              {String(t.coverLetter?.companyName || "")}
             </label>
             <input
               type="text"
@@ -201,7 +201,7 @@ export default function CoverLetterForm() {
               value={coverLetter.companyName}
               onChange={handleChange}
               className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-white text-slate-900 placeholder-slate-400"
-              placeholder={t.coverLetter.companyNamePlaceholder}
+              placeholder={String(t.coverLetter?.companyNamePlaceholder || "")}
             />
           </div>
 
@@ -210,7 +210,7 @@ export default function CoverLetterForm() {
               htmlFor="hiringManager"
               className="text-sm font-medium text-slate-700"
             >
-              {t.coverLetter.hiringManager}
+              {String(t.coverLetter?.hiringManager || "")}
             </label>
             <input
               type="text"
@@ -219,7 +219,7 @@ export default function CoverLetterForm() {
               value={coverLetter.hiringManager}
               onChange={handleChange}
               className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-white text-slate-900 placeholder-slate-400"
-              placeholder={t.coverLetter.hiringManagerPlaceholder}
+              placeholder={String(t.coverLetter?.hiringManagerPlaceholder || "")}
             />
           </div>
         </div>
@@ -229,7 +229,7 @@ export default function CoverLetterForm() {
             htmlFor="skills"
             className="text-sm font-medium text-slate-700"
           >
-            {t.coverLetter.skills}
+            {String(t.coverLetter?.skills || "")}
           </label>
           <textarea
             id="skills"
@@ -238,7 +238,7 @@ export default function CoverLetterForm() {
             value={coverLetter.skills}
             onChange={handleChange}
             className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-white text-slate-900 placeholder-slate-400"
-            placeholder={t.coverLetter.skillsPlaceholder}
+            placeholder={String(t.coverLetter?.skillsPlaceholder || "")}
           />
         </div>
 
@@ -247,7 +247,7 @@ export default function CoverLetterForm() {
             htmlFor="jobDescription"
             className="text-sm font-medium text-slate-700"
           >
-            {t.coverLetter.jobDescription}
+            {String(t.coverLetter?.jobDescription || "")}
           </label>
           <textarea
             id="jobDescription"
@@ -256,7 +256,7 @@ export default function CoverLetterForm() {
             value={coverLetter.jobDescription}
             onChange={handleChange}
             className="block w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-slate-400 focus:border-slate-400 sm:text-sm bg-white text-slate-900 placeholder-slate-400"
-            placeholder={t.coverLetter.jobDescriptionPlaceholder}
+            placeholder={String(t.coverLetter?.jobDescriptionPlaceholder || "")}
           />
         </div>
 
@@ -302,15 +302,16 @@ export default function CoverLetterForm() {
             {isGenerating ? (
               <>
                 <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                {t.coverLetter.generating}
+                {String(t.coverLetter?.generating || "Generating...")}
               </>
             ) : (
               <>
                 <Sparkles size={18} />
-                {t.coverLetter.generateWithAI}
+                {String(t.coverLetter?.generateWithAI || "Generate with AI")}
               </>
             )}
           </button>
+
           
           <div className="text-[10px] text-slate-400 flex items-center justify-center gap-1 opacity-70 px-2 leading-tight">
                <Sparkles size={10} className="text-indigo-400 shrink-0" />

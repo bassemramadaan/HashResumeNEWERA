@@ -1,6 +1,6 @@
 import React from "react";
 import { X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 
 interface VideoDemoModalProps {
   isOpen: boolean;

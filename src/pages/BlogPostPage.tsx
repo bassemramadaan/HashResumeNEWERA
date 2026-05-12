@@ -1,5 +1,5 @@
 import { Link, useParams, Navigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import ReactMarkdown from "react-markdown";
 import { Helmet } from "react-helmet-async";
 import {

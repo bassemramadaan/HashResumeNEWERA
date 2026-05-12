@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { X, Star, Loader2 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";

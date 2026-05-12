@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Helmet } from "react-helmet-async";
-import { motion, useMotionValue, animate, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, animate, AnimatePresence } from "motion/react";
 import { Sparkles, Target, CheckCircle2, Check, Plus, ArrowUp, X } from "lucide-react";
 import Footer from "../components/Footer";
 import SmallWallOfLove from "../components/SmallWallOfLove";

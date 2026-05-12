@@ -11,7 +11,7 @@ import {
   Copy,
   GripVertical,
 } from "lucide-react";
-import { Reorder } from "framer-motion";
+import { Reorder } from "motion/react";
 import FormSkeleton from "./FormSkeleton";
 import SectionTooltip from "./SectionTooltip";
 
@@ -57,9 +57,9 @@ const EducationForm = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <SectionTooltip
-            title={t.education.title}
-            content={t.education.tooltipDesc || "Add your educational background, starting with the most recent."}
-            example={t.education.tooltipExample || "e.g., Bachelor of Science in Computer Science, Cairo University"}
+            title={String(t.education?.title || "")}
+            content={String(t.education?.tooltipDesc || "Add your educational background, starting with the most recent.")}
+            example={String(t.education?.tooltipExample || "e.g., Bachelor of Science in Computer Science, Cairo University")}
           />
         </div>
         <button
@@ -67,13 +67,13 @@ const EducationForm = () => {
           className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
         >
           <Plus size={16} />
-          {t.education.add}
+          {String(t.education?.add || "")}
         </button>
       </div>
 
       {education.length === 0 ? (
         <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
-          {t.education.noEducation}
+          {String(t.education?.noEducation || "")}
         </div>
       ) : (
         <Reorder.Group
@@ -103,11 +103,11 @@ const EducationForm = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900">
-                      {edu.degree || t.education.notSpecified}
+                      {edu.degree || String(t.education?.notSpecified || "")}
                     </h3>
                     <p className="text-sm text-slate-500">
-                      {edu.institution || t.education.institution} •{" "}
-                      {edu.startDate || t.education.startDate} - {edu.endDate || t.education.endDate}
+                      {edu.institution || String(t.education?.institution || "")} •{" "}
+                      {edu.startDate || String(t.education?.startDate || "")} - {edu.endDate || String(t.education?.endDate || "")}
                     </p>
                   </div>
                 </div>
@@ -119,7 +119,7 @@ const EducationForm = () => {
                       addEducation(rest);
                     }}
                     className="p-2 text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors"
-                    title={t.education.duplicate}
+                    title={String(t.education?.duplicate || "")}
                   >
                     <Copy size={18} />
                   </button>
@@ -129,7 +129,7 @@ const EducationForm = () => {
                       removeEducation(edu.id);
                     }}
                     className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                    title={t.education.remove}
+                    title={String(t.education?.remove || "")}
                   >
                     <Trash2 size={18} />
                   </button>
@@ -184,7 +184,7 @@ const EducationForm = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        {t.education.startDate}
+                        {String(t.education?.startDate || "")}
                       </label>
                       <input
                         type="month"
@@ -197,7 +197,7 @@ const EducationForm = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        {t.education.endDate}
+                        {String(t.education?.endDate || "")}
                       </label>
                       <input
                         type="text"
@@ -206,13 +206,13 @@ const EducationForm = () => {
                           updateEducation(edu.id, { endDate: e.target.value })
                         }
                         className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
-                        placeholder={t.education.endDate}
+                        placeholder={String(t.education?.endDate || "")}
                       />
                     </div>
                     <div className="col-span-1 md:col-span-2 space-y-1.5">
                       <div className="flex justify-between items-center">
                         <label className="text-xs font-medium text-slate-700">
-                          {t.education.description}
+                          {String(t.education?.description || "")}
                         </label>
                         <button
                           type="button"
@@ -285,7 +285,7 @@ const EducationForm = () => {
                             })
                           }
                           className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 font-mono leading-relaxed"
-                          placeholder={t.education.descriptionPlaceholder}
+                          placeholder={String(t.education?.descriptionPlaceholder || "")}
                         />
                         <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
                             <Sparkles size={10} className="text-indigo-400 shrink-0" />

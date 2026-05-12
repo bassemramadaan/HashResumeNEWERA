@@ -3,13 +3,12 @@ import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import { useReactToPrint } from "react-to-print";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Panel,
   Group as PanelGroup,
   Separator as PanelResizeHandle,
 } from "react-resizable-panels";
-import { useStore } from "zustand";
 import {
   User,
   Briefcase,
@@ -60,9 +59,7 @@ const ExperienceForm = lazy(
 const EducationForm = lazy(() => import("../components/editor/EducationForm"));
 const SkillsForm = lazy(() => import("../components/editor/SkillsForm"));
 const ProjectsForm = lazy(() => import("../components/editor/ProjectsForm"));
-const CertificationsForm = lazy(
-  () => import("../components/editor/CertificationsForm"),
-);
+const CertificationsForm = lazy(() => import("../components/editor/CertificationsForm"));
 const CustomSectionsForm = lazy(
   () => import("../components/editor/CustomSectionsForm"),
 );
@@ -147,7 +144,7 @@ const AutoSaveIndicator = () => {
             className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-neutral-500"
           >
             <div className="w-4 h-4 border-2 border-neutral-300 border-t-brand-500 rounded-full animate-spin" />
-            {t.saving}
+            {String(t.saving || "")}
           </motion.div>
         ) : (
           <motion.div
@@ -159,7 +156,7 @@ const AutoSaveIndicator = () => {
           >
             <CheckCircle2 size={12} className="text-emerald-500" />
             <span className="hidden sm:inline">
-              {t.savedLocally} {lastSavedTime && `${t.at} ${lastSavedTime}`}
+              {String(t.savedLocally || "")} {lastSavedTime && `${String(t.at || "")} ${lastSavedTime}`}
             </span>
           </motion.div>
         )}
@@ -175,7 +172,7 @@ const ATSScoreIndicator = ({
 }) => {
   const { language } = useLanguageStore();
   const data = useResumeStore((state) => state.data);
-  const { score: atsScore, criticalFailures, tips } = React.useMemo(() => {
+  const { score: atsScore, tips } = React.useMemo(() => {
     try {
       return calculateATSScore(data);
     } catch (e) {
@@ -268,31 +265,31 @@ const ProgressTrackerModal = ({
   const steps = [
     {
       id: "basics",
-      label: t.steps.basics,
+      label: String(t.steps.basics || "Basic Info"),
       icon: User,
       done: !!(data.personalInfo.fullName && data.personalInfo.email),
     },
     {
       id: "experience",
-      label: t.steps.experience,
+      label: String(t.steps.experience || "Experience"),
       icon: Briefcase,
       done: data.experience.length > 0,
     },
     {
       id: "education",
-      label: t.steps.education,
+      label: String(t.steps.education || "Education"),
       icon: GraduationCap,
       done: data.education.length > 0,
     },
     {
       id: "skills",
-      label: t.steps.skills,
+      label: String(t.steps.skills || "Skills"),
       icon: Wrench,
       done: data.skills.length > 0,
     },
     {
       id: "finish",
-      label: t.steps.polish,
+      label: String(t.steps.polish || "Review & Polish"),
       icon: Target,
       done: false,
     },
@@ -336,9 +333,9 @@ const ProgressTrackerModal = ({
                   <Target size={32} />
                 </div>
                 <h2 className="text-2xl font-black text-neutral-900 mb-2">
-                  {t.title}
+                  {String(t.title || "")}
                 </h2>
-                <p className="text-neutral-500 text-sm">{t.subtitle}</p>
+                <p className="text-neutral-500 text-sm">{String(t.subtitle || "")}</p>
               </div>
 
               <div className="space-y-6">
@@ -346,11 +343,11 @@ const ProgressTrackerModal = ({
                   <span>{progressPercent}% Complete</span>
                   <span>
                     {estimatedTime > 0
-                      ? t.estimatedTime.replace(
+                      ? String(t.estimatedTime || "").replace(
                           "{time}",
                           estimatedTime.toString(),
                         )
-                      : t.ready}
+                      : String(t.ready || "")}
                   </span>
                 </div>
                 <div className="h-3 bg-neutral-100 rounded-full overflow-hidden mb-8">
@@ -433,7 +430,7 @@ const ProgressTrackerModal = ({
 
 export default function EditorPage() {
   const { language, dir } = useLanguageStore();
-  const t = translations[language].editor;
+  const t = (translations[language as keyof typeof translations] || translations.en).editor;
 
   const [activeTab, setActiveTab] = useState<Tab>("basics");
   const [showMobilePreview, setShowMobilePreview] = useState(false);
@@ -527,11 +524,36 @@ export default function EditorPage() {
     return Math.round((filled / total) * 100);
   };
 
-  const progressPercent = calculateProgress();
-  // Zundo hooks for undo/redo
-  const { undo, redo, pastStates, futureStates } = useStore(
-    useResumeStore.temporal,
-  );
+  // const progressPercent = calculateProgress();
+  
+  // Safe temporal subscription
+  const [temporalState, setTemporalState] = useState({
+    canUndo: false,
+    canRedo: false,
+  });
+
+  useEffect(() => {
+    // Check if temporal exists before subscribing
+    if (!useResumeStore.temporal) return;
+    
+    // Initial state
+    const updateTemporalState = () => {
+      const state = useResumeStore.temporal.getState();
+      setTemporalState({
+        canUndo: state.pastStates.length > 0,
+        canRedo: state.futureStates.length > 0,
+      });
+    };
+    
+    updateTemporalState();
+    
+    // Subscribe to changes
+    const unsubscribe = useResumeStore.temporal.subscribe(updateTemporalState);
+    return () => unsubscribe();
+  }, [data]);
+
+  const handleUndo = () => useResumeStore.temporal?.getState().undo();
+  const handleRedo = () => useResumeStore.temporal?.getState().redo();
 
   // Show welcome modal if not seen
   useEffect(() => {
@@ -557,19 +579,19 @@ export default function EditorPage() {
       if ((e.ctrlKey || e.metaKey) && e.key === "z") {
         e.preventDefault();
         if (e.shiftKey) {
-          if (futureStates.length > 0) redo();
+          if (temporalState.canRedo) handleRedo();
         } else {
-          if (pastStates.length > 0) undo();
+          if (temporalState.canUndo) handleUndo();
         }
       } else if ((e.ctrlKey || e.metaKey) && e.key === "y") {
         e.preventDefault();
-        if (futureStates.length > 0) redo();
+        if (temporalState.canRedo) handleRedo();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [undo, redo, pastStates.length, futureStates.length]);
+  }, [temporalState.canUndo, temporalState.canRedo]);
 
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
@@ -654,64 +676,57 @@ export default function EditorPage() {
   const tabs: TabItem[] = [
     {
       id: "basics",
-      label: language === "ar" ? "المعلومات الشخصية" : t.personalInfo,
-      shortLabel: language === "ar" ? "البيانات" : "Basics",
+      label: String(language === "ar" ? "المعلومات الشخصية" : "Personal Information"),
+      shortLabel: String(language === "ar" ? "البيانات" : "Basics"),
       icon: User,
       tourId: "personal-info",
     },
     {
       id: "experience",
-      label: language === "ar" ? "الخبرة العملية" : t.experience.title,
-      shortLabel: language === "ar" ? "الخبرة" : "Exp",
+      label: String(language === "ar" ? "الخبرة العملية" : "Experience"),
+      shortLabel: String(language === "ar" ? "الخبرة" : "Exp"),
       icon: Briefcase,
       tourId: "experience-section",
     },
     {
       id: "education",
-      label: language === "ar" ? "التعليم" : t.education.title,
-      shortLabel: language === "ar" ? "التعليم" : "Edu",
+      label: String(language === "ar" ? "التعليم" : "Education"),
+      shortLabel: String(language === "ar" ? "التعليم" : "Edu"),
       icon: GraduationCap,
       tourId: "education-section",
     },
     {
       id: "skills",
-      label: language === "ar" ? "المهارات" : t.skills.title,
-      shortLabel: language === "ar" ? "المهارات" : "Skills",
+      label: String(language === "ar" ? "المهارات" : "Skills"),
+      shortLabel: String(language === "ar" ? "المهارات" : "Skills"),
       icon: Wrench,
       tourId: "skills-section",
     },
     {
-      id: "projects",
-      label: language === "ar" ? "المشاريع" : (typeof t.projects === 'string' ? t.projects : (t.projects?.title ?? "Projects")),
-      shortLabel: language === "ar" ? "المشاريع" : "Projects",
-      icon: LayoutTemplate,
-      tourId: "projects-section",
-    },
-    {
       id: "certifications",
-      label: language === "ar" ? "الشهادات" : (typeof t.certifications === 'string' ? t.certifications : (t.certifications?.title ?? "Certifications")),
-      shortLabel: language === "ar" ? "الشهادات" : "Certs",
+      label: String(language === "ar" ? "الشهادات" : "Certifications"),
+      shortLabel: String(language === "ar" ? "الشهادات" : "Certs"),
       icon: Award,
       tourId: "certifications-section",
     },
     {
       id: "custom",
-      label: language === "ar" ? "أقسام إضافية" : (typeof t.custom === 'string' ? t.custom : (t.custom?.title ?? "Custom Sections")),
-      shortLabel: language === "ar" ? "أقسام" : "Custom",
+      label: String(language === "ar" ? "أقسام إضافية" : "Custom Sections"),
+      shortLabel: String(language === "ar" ? "أقسام" : "Custom"),
       icon: PlusIcon,
       tourId: "custom-section",
     },
     {
       id: "cover-letter",
-      label: language === "ar" ? "خطاب التقديم" : t.coverLetter.title,
-      shortLabel: language === "ar" ? "الخطاب" : "Cover",
+      label: String(language === "ar" ? "خطاب التقديم" : "Cover Letter"),
+      shortLabel: String(language === "ar" ? "الخطاب" : "Cover"),
       icon: FileText,
       tourId: "cover-letter-section",
     },
     {
       id: "finish",
-      label: language === "ar" ? "التحميل والتدقيق" : (t.finishTab || "Audit & Download"),
-      shortLabel: language === "ar" ? "تحميل" : (t.finishShort || "Finish"),
+      label: String(language === "ar" ? "التحميل والتدقيق" : "Audit & Download"),
+      shortLabel: String(language === "ar" ? "تحميل" : "Finish"),
       icon: Download,
       tourId: "review-section",
     },
@@ -724,11 +739,6 @@ export default function EditorPage() {
     experience: String(t.experienceDesc || "Experience info"),
     education: String(t.educationDesc || "Education info"),
     skills: String(t.skillsDesc || "Skills info"),
-    projects:
-      String(t.projects?.title ??
-      (language === "ar"
-        ? "أرنا أفضل أعمالك ومشاريعك."
-        : "Showcase your best work and projects.")),
     certifications:
       String(language === "ar"
         ? "أضف الشهادات والإنجازات المهنية."
@@ -779,18 +789,18 @@ export default function EditorPage() {
             {/* Undo/Redo */}
             <div className="flex items-center gap-1">
               <button
-                onClick={() => undo()}
-                disabled={pastStates.length === 0}
+                onClick={handleUndo}
+                disabled={!temporalState.canUndo}
                 className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
-                title={t.undo}
+                title={String(t.undo || "")}
               >
                 <Undo2 size={18} />
               </button>
               <button
-                onClick={() => redo()}
-                disabled={futureStates.length === 0}
+                onClick={handleRedo}
+                disabled={!temporalState.canRedo}
                 className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
-                title={t.redo}
+                title={String(t.redo || "")}
               >
                 <Redo2 size={18} />
               </button>
@@ -835,7 +845,7 @@ export default function EditorPage() {
               <button
                 onClick={() => setShowWelcomeModal(true)}
                 className="w-10 h-10 flex items-center justify-center rounded-full text-brand-500 bg-brand-50 hover:bg-brand-100 transition-colors border border-brand-200"
-                title={t.showMeAround}
+                title={String(t.showMeAround || "")}
               >
                 <Sparkles size={18} className="animate-pulse" />
               </button>
@@ -843,7 +853,7 @@ export default function EditorPage() {
               <button
                 onClick={() => setIsSettingsModalOpen(true)}
                 className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 transition-colors"
-                title={t.resumeSettings}
+                title={String(t.resumeSettings || "")}
               >
                 <Settings size={18} />
               </button>
@@ -953,7 +963,7 @@ export default function EditorPage() {
                 {/* Tab instructions header moved inside scroll area */}
                 <div className="pb-6">
                   <motion.div
-                    key={String(activeTab)}
+                    key={"tab-" + activeTab}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,77,45,0.08)]"
@@ -987,7 +997,7 @@ export default function EditorPage() {
                         }
                         className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-brand-500 bg-white hover:bg-brand-50 h-12 px-4 rounded-2xl transition-all border border-brand-500/10 shadow-sm whitespace-nowrap active:scale-95"
                       >
-                        {t.loadExample}
+                        {String(t.loadExample || "")}
                       </button>
                       <button
                         onClick={() =>
@@ -998,7 +1008,7 @@ export default function EditorPage() {
                         }
                         className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-neutral-400 hover:text-rose-500 h-12 px-4 rounded-2xl hover:bg-rose-50 transition-all border border-transparent whitespace-nowrap active:scale-95"
                       >
-                        {t.clearAll}
+                        {String(t.clearAll || "")}
                       </button>
                     </div>
                   </motion.div>
@@ -1006,7 +1016,7 @@ export default function EditorPage() {
 
                   <AnimatePresence mode="wait">
                     <motion.div
-                      key={String(activeTab)}
+                      key={"tab-" + activeTab}
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
@@ -1027,7 +1037,7 @@ export default function EditorPage() {
                               </div>
                               <div>
                                 <h2 className="text-xl font-black text-neutral-900 tracking-tight">
-                                  {t.personalInfo}
+                                  {String(typeof t.personalInfo === 'string' ? t.personalInfo : "Personal Information")}
                                 </h2>
                                 <p className="text-xs text-neutral-500 font-medium">
                                   {language === "ar"
@@ -1164,7 +1174,7 @@ export default function EditorPage() {
                             </div>
                             <div>
                               <h2 className="text-xl font-black text-neutral-900 tracking-tight">
-                                {t.skills.title}
+                                {String(typeof t.skills?.title === 'string' ? t.skills.title : "Skills")}
                               </h2>
                               <p className="text-xs text-neutral-500 font-medium">
                                 {language === "ar"
@@ -1454,14 +1464,14 @@ export default function EditorPage() {
                 <button
                   onClick={() => setShowFullPreview(true)}
                   className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors"
-                  title={t.fullPreview}
+                  title={String(t.fullPreview || "")}
                 >
                   <Maximize2 size={18} />
                 </button>
                 <button
                   onClick={() => setIsSettingsModalOpen(true)}
                   className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors"
-                  title={t.resumeSettings}
+                  title={String(t.resumeSettings || "")}
                 >
                   <Settings size={18} />
                 </button>
@@ -1670,7 +1680,7 @@ export default function EditorPage() {
               style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 4px 12px color-mix(in srgb, var(--color-brand-500) 35%, transparent)' }}
             >
               <Download size={16} />
-              <span className="hidden sm:inline">{t.exportPdf}</span>
+              <span className="hidden sm:inline">{String(t.exportPdf || "")}</span>
               <span className="sm:hidden">{language === 'ar' ? 'تحميل' : 'Export'}</span>
             </button>
           </div>
@@ -1699,7 +1709,7 @@ export default function EditorPage() {
                     </div>
                     <div>
                       <h2 className="text-white text-2xl font-black tracking-tight">
-                        {t.resumePreview}
+                        {String(t.resumePreview || "")}
                       </h2>
                       <p className="text-neutral-400 text-sm font-medium">
                         Review your masterpiece before exporting
@@ -1712,7 +1722,7 @@ export default function EditorPage() {
                       className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-2xl hover:scale-105 active:scale-95 uppercase tracking-widest"
                     >
                       <Download size={18} />
-                      {t.exportPdf}
+                      {String(t.exportPdf || "")}
                     </button>
                     <button
                       onClick={() => setShowFullPreview(false)}

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X, Linkedin, Upload, FileText, Loader2, Sparkles, CheckCircle2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { useResumeStore } from "../../store/useResumeStore";
 import { aiService } from "../../services/aiService";

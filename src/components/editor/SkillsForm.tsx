@@ -62,12 +62,12 @@ const SkillsForm = () => {
                 htmlFor="skillInput"
                 className="block text-sm font-medium text-slate-700"
               >
-                {t.skills.title}
+                {String(t.skills?.title || "")}
               </label>
               <SectionTooltip
-                title={t.skills.tips}
-                content={t.skills.tipsContent}
-                example={t.skills.tipsExample}
+                title={String(t.skills?.tips || "")}
+                content={String(t.skills?.tipsContent || "")}
+                example={String(t.skills?.tipsExample || "")}
               />
             </div>
             <button
@@ -122,7 +122,7 @@ const SkillsForm = () => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className="flex-1 px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
-              placeholder={t.skills.placeholder}
+              placeholder={String(t.skills?.placeholder || "")}
             />
             <button
               type="submit"
@@ -130,18 +130,18 @@ const SkillsForm = () => {
               className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 disabled:text-white0 text-white px-4 py-2 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm shadow-indigo-500/20"
             >
               <Plus size={18} />
-              <span className="hidden sm:inline">{t.skills.add}</span>
+              <span className="hidden sm:inline">{String(t.skills?.add || "")}</span>
             </button>
           </div>
         </form>
 
         <div className="mb-8">
           <h3 className="text-sm font-medium text-slate-500 mb-4">
-            {t.skills.yourSkills}
+            {String(t.skills?.yourSkills || "")}
           </h3>
           {skills.length === 0 ? (
             <p className="text-sm text-slate-500 italic">
-              {t.skills.noSkills}
+              {String(t.skills?.noSkills || "")}
             </p>
           ) : (
             <div className="flex flex-wrap gap-2">
@@ -169,17 +169,17 @@ const SkillsForm = () => {
           <div className="mb-8 text-xs flex items-start gap-2 p-4 bg-slate-50 rounded-xl border border-slate-100">
             <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
             <div className="text-slate-600">
-              <span className="font-semibold text-slate-700">{t.experience.atsHint}: </span>
+              <span className="font-semibold text-slate-700">{String(t.experience?.atsHint || "")}: </span>
               {matchResults.missing.length > 0 ? (
                 <>
-                  {t.skills.tryAddingKeywords}{" "}
+                  {String(t.skills?.tryAddingKeywords || "")}{" "}
                   <span className="text-red-500 font-medium">
                     {matchResults.missing.slice(0, 5).join(", ")}
                   </span>
                 </>
               ) : (
                 <span className="text-emerald-500 font-medium">
-                  {t.experience.greatMatched}
+                  {String(t.experience?.greatMatched || "")}
                 </span>
               )}
             </div>
@@ -190,7 +190,7 @@ const SkillsForm = () => {
           <div>
             <h3 className="text-sm font-medium text-slate-500 mb-4 flex items-center gap-2">
               <Sparkles size={14} className="text-indigo-500" />
-              {t.skills.aiSuggestionsFree}
+              {String(t.skills?.aiSuggestionsFree || "")}
             </h3>
             <div className="flex flex-wrap gap-2">
               {unaddedSuggestions.map((skill) => (
@@ -205,7 +205,8 @@ const SkillsForm = () => {
               ))}
             </div>
           </div>
-        )}
+        )
+}
       </div>
     </div>
   );

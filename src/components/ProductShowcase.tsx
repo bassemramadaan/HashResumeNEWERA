@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useLanguageStore } from "../store/useLanguageStore";
-import { translations } from "../i18n/translations";
+import { getTranslations } from "../i18n/translations";
 import { Sparkles, Target, CheckCircle2 } from "lucide-react";
 
 export default function ProductShowcase() {
   const { language } = useLanguageStore();
-  const t = translations[language].landing;
+  const t = getTranslations(language).landing;
 
   const [step, setStep] = useState(0);
 

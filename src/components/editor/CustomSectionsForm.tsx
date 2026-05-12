@@ -3,7 +3,7 @@ import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronUp, Copy, BookOpen } from "lucide-react";
-import { motion, Reorder, AnimatePresence } from "framer-motion";
+import { motion, Reorder, AnimatePresence } from "motion/react";
 
 export const CustomSectionsForm: React.FC = () => {
   const { language } = useLanguageStore();
@@ -20,10 +20,10 @@ export const CustomSectionsForm: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold text-gray-900 leading-none">
-            {t.custom.title}
+            {String(t.custom?.title || "")}
           </h3>
           <p className="text-sm text-gray-500 mt-2">
-            {t.custom.placeholderContent}
+            {String(t.custom?.placeholderContent || "")}
           </p>
         </div>
         <button
@@ -31,7 +31,7 @@ export const CustomSectionsForm: React.FC = () => {
           className="flex items-center gap-2 px-4 py-2 bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition-colors shadow-sm text-sm font-medium"
         >
           <Plus size={18} />
-          {t.custom.add}
+          {String(t.custom?.add || "")}
         </button>
       </div>
 
@@ -39,7 +39,7 @@ export const CustomSectionsForm: React.FC = () => {
         <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
           <BookOpen className="mx-auto h-12 w-12 text-gray-300" />
           <h3 className="mt-4 text-sm font-medium text-gray-900">
-            {t.custom.noSections}
+            {String(t.custom?.noSections || "")}
           </h3>
         </div>
       ) : (
@@ -61,20 +61,20 @@ export const CustomSectionsForm: React.FC = () => {
                   onClick={() => toggleExpand(section.id)}
                   className="flex-1 text-left font-medium text-gray-900 truncate"
                 >
-                  {section.title || t.custom.placeholderTitle}
+                  {section.title || String(t.custom?.placeholderTitle || "")}
                 </button>
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => duplicateCustomSection(section.id)}
                     className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                    title={t.experience.duplicate}
+                    title={String(t.experience?.duplicate || "")}
                   >
                     <Copy size={18} />
                   </button>
                   <button
                     onClick={() => removeCustomSection(section.id)}
                     className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                    title={t.experience.remove}
+                    title={String(t.experience?.remove || "")}
                   >
                     <Trash2 size={18} />
                   </button>
@@ -98,25 +98,25 @@ export const CustomSectionsForm: React.FC = () => {
                     <div className="p-5 space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                          {t.custom.name}
+                          {String(t.custom?.name || "")}
                         </label>
                         <input
                           type="text"
                           value={section.title}
                           onChange={(e) => updateCustomSection(section.id, { title: e.target.value })}
-                          placeholder={t.custom.placeholderTitle}
+                          placeholder={String(t.custom?.placeholderTitle || "")}
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder:text-gray-400"
                         />
                       </div>
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                          {t.custom.content}
+                          {String(t.custom?.content || "")}
                         </label>
                         <textarea
                           value={section.content}
                           onChange={(e) => updateCustomSection(section.id, { content: e.target.value })}
-                          placeholder={t.custom.placeholderContent}
+                          placeholder={String(t.custom?.placeholderContent || "")}
                           rows={6}
                           className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all placeholder:text-gray-400 font-mono text-sm leading-relaxed"
                         />

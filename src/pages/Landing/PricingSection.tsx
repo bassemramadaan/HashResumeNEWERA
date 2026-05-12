@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion } from "motion/react"
 import { Check, Sparkles } from 'lucide-react'
 import { PageSection, SectionHeading } from '@/components/layout/PageSection'
 import type { AppLang } from '@/hooks/useDirection'

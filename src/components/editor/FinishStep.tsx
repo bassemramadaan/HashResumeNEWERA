@@ -15,7 +15,7 @@ import {
   Search,
 } from "lucide-react";
 import { generateWord } from "../../utils/generateWord";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
 
 interface FinishStepProps {

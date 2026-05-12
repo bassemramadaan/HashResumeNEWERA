@@ -3,7 +3,7 @@ import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronUp, Copy, Award } from "lucide-react";
-import { motion, Reorder, AnimatePresence } from "framer-motion";
+import { motion, Reorder, AnimatePresence } from "motion/react";
 
 export const CertificationsForm: React.FC = () => {
   const { language } = useLanguageStore();
@@ -20,7 +20,7 @@ export const CertificationsForm: React.FC = () => {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold text-gray-900 leading-none">
-            {t.certifications.title}
+            {String(t.certifications.title || "")}
           </h3>
           <p className="text-sm text-gray-500 mt-2">
             {language === 'ar' ? 'أضف الشهادات والإنجازات المهنية ذات الصلة.' : 'Add relevant certifications and professional achievements.'}
@@ -31,7 +31,7 @@ export const CertificationsForm: React.FC = () => {
           className="flex items-center gap-2 px-4 py-2 bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition-colors shadow-sm text-sm font-medium"
         >
           <Plus size={18} />
-          {t.certifications.add}
+          {String(t.certifications.add || "")}
         </button>
       </div>
 
@@ -39,7 +39,7 @@ export const CertificationsForm: React.FC = () => {
         <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
           <Award className="mx-auto h-12 w-12 text-gray-300" />
           <h3 className="mt-4 text-sm font-medium text-gray-900">
-            {t.certifications.noCertifications}
+            {String(t.certifications.noCertifications || "")}
           </h3>
         </div>
       ) : (
@@ -61,20 +61,20 @@ export const CertificationsForm: React.FC = () => {
                   onClick={() => toggleExpand(cert.id)}
                   className="flex-1 text-left font-medium text-gray-900 truncate"
                 >
-                  {cert.name || t.certifications.notSpecified}
+                  {cert.name || String(t.certifications.notSpecified || "")}
                 </button>
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => duplicateCertification(cert.id)}
                     className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
-                    title={t.experience.duplicate}
+                    title={String(t.experience.duplicate || "")}
                   >
                     <Copy size={18} />
                   </button>
                   <button
                     onClick={() => removeCertification(cert.id)}
                     className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors"
-                    title={t.experience.remove}
+                    title={String(t.experience.remove || "")}
                   >
                     <Trash2 size={18} />
                   </button>
@@ -99,7 +99,7 @@ export const CertificationsForm: React.FC = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="md:col-span-2">
                           <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            {t.certifications.name}
+                            {String(t.certifications.name || "")}
                           </label>
                           <input
                             type="text"
@@ -111,7 +111,7 @@ export const CertificationsForm: React.FC = () => {
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            {t.certifications.issuer}
+                            {String(t.certifications.issuer || "")}
                           </label>
                           <input
                             type="text"
@@ -123,7 +123,7 @@ export const CertificationsForm: React.FC = () => {
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                            {t.certifications.date}
+                            {String(t.certifications.date || "")}
                           </label>
                           <input
                             type="text"

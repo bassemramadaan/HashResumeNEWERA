@@ -12,7 +12,7 @@ import {
   AlertCircle,
   GripVertical,
 } from "lucide-react";
-import { Reorder } from "framer-motion";
+import { Reorder } from "motion/react";
 import SectionTooltip from "./SectionTooltip";
 import { getJobMatchResults } from "../../utils/ats";
 
@@ -66,9 +66,9 @@ const ExperienceForm = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <SectionTooltip
-            title={t.experience.title}
-            content={t.experience.tooltipDesc || "Add your work experience, starting with the most recent."}
-            example={t.experience.tooltipExample || "e.g., Senior Software Engineer at Google"}
+            title={String(t.experience?.title || "")}
+            content={String(t.experience?.tooltipDesc || "Add your work experience, starting with the most recent.")}
+            example={String(t.experience?.tooltipExample || "e.g., Senior Software Engineer at Google")}
           />
         </div>
         <button
@@ -76,13 +76,13 @@ const ExperienceForm = () => {
           className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
         >
           <Plus size={16} />
-          {t.experience.add}
+          {String(t.experience?.add || "")}
         </button>
       </div>
 
       {experience.length === 0 ? (
         <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
-          {t.experience.noExperience}
+          {String(t.experience?.noExperience || "")}
         </div>
       ) : (
         <Reorder.Group
@@ -112,11 +112,11 @@ const ExperienceForm = () => {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900">
-                      {exp.position || t.experience.notSpecified}
+                      {exp.position || String(t.experience?.notSpecified || "")}
                     </h3>
                     <p className="text-sm text-slate-500">
-                      {exp.company || t.experience.company} •{" "}
-                      {exp.startDate || t.experience.startDate} - {exp.endDate || t.experience.endDate}
+                      {exp.company || String(t.experience?.company || "")} •{" "}
+                      {exp.startDate || String(t.experience?.startDate || "")} - {exp.endDate || String(t.experience?.endDate || "")}
                     </p>
                   </div>
                 </div>
@@ -128,7 +128,7 @@ const ExperienceForm = () => {
                       addExperience(rest);
                     }}
                     className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors shrink-0"
-                    title={t.experience.duplicate}
+                    title={String(t.experience?.duplicate || "")}
                   >
                     <Copy size={18} />
                   </button>
@@ -138,7 +138,7 @@ const ExperienceForm = () => {
                       removeExperience(exp.id);
                     }}
                     className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
-                    title={t.experience.remove}
+                    title={String(t.experience?.remove || "")}
                   >
                     <Trash2 size={18} />
                   </button>
@@ -157,7 +157,7 @@ const ExperienceForm = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        {t.experience.position}
+                        {String(t.experience?.position || "")}
                       </label>
                       <input
                         type="text"
@@ -166,12 +166,12 @@ const ExperienceForm = () => {
                           updateExperience(exp.id, { position: e.target.value })
                         }
                         className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
-                        placeholder={t.experience.position}
+                        placeholder={String(t.experience?.position || "")}
                       />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        {t.experience.company}
+                        {String(t.experience?.company || "")}
                       </label>
                       <input
                         type="text"
@@ -180,12 +180,12 @@ const ExperienceForm = () => {
                           updateExperience(exp.id, { company: e.target.value })
                         }
                         className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
-                        placeholder={t.experience.company}
+                        placeholder={String(t.experience?.company || "")}
                       />
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        {t.experience.startDate}
+                        {String(t.experience?.startDate || "")}
                       </label>
                       <input
                         type="month"
@@ -200,7 +200,7 @@ const ExperienceForm = () => {
                     </div>
                     <div className="space-y-1.5">
                       <label className="text-xs font-medium text-slate-700">
-                        {t.experience.endDate}
+                        {String(t.experience?.endDate || "")}
                       </label>
                       <input
                         type="text"
@@ -209,19 +209,19 @@ const ExperienceForm = () => {
                           updateExperience(exp.id, { endDate: e.target.value })
                         }
                         className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
-                        placeholder={t.experience.endDate}
+                        placeholder={String(t.experience?.endDate || "")}
                       />
                     </div>
                     <div className="col-span-1 md:col-span-2 space-y-1.5">
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
                           <label className="text-xs font-medium text-slate-700">
-                            {t.experience.description}
+                            {String(t.experience?.description || "")}
                           </label>
                           <SectionTooltip
-                            title={t.experience.experienceTips}
-                            content={t.experience.experienceDescTips}
-                            example={t.experience.experienceExample}
+                            title={String(t.experience?.experienceTips || "")}
+                            content={String(t.experience?.experienceDescTips || "")}
+                            example={String(t.experience?.experienceExample || "")}
                           />
                         </div>
                         <button
@@ -270,7 +270,7 @@ const ExperienceForm = () => {
                             })
                           }
                           className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 font-mono leading-relaxed"
-                          placeholder={t.experience.descriptionPlaceholder}
+                          placeholder={String(t.experience?.descriptionPlaceholder || "")}
                         />
                         <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
                             <Sparkles size={10} className="text-indigo-400 shrink-0" />
@@ -289,18 +289,18 @@ const ExperienceForm = () => {
                           />
                           <div className="text-slate-600">
                             <span className="font-semibold text-slate-700">
-                              {t.experience.atsHint}:{" "}
+                              {String(t.experience?.atsHint || "")}:{" "}
                             </span>
                             {matchResults.missing.length > 0 ? (
                               <>
-                                {t.experience.tryIncorporating}{" "}
+                                {String(t.experience?.tryIncorporating || "")}{" "}
                                 <span className="text-red-500 font-medium">
                                   {matchResults.missing.slice(0, 3).join(", ")}
                                 </span>
                               </>
                             ) : (
                               <span className="text-emerald-500 font-medium">
-                                {t.experience.greatMatched}
+                                {String(t.experience?.greatMatched || "")}
                               </span>
                             )}
                           </div>

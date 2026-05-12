@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { X, Sparkles, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useLanguageStore } from "../store/useLanguageStore";
 
 export default function ExitIntentPopup() {

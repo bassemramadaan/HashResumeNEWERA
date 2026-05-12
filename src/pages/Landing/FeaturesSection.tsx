@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { motion } from 'framer-motion'
+import { motion } from "motion/react"
 import { Sparkles, BarChart2, FileText, Users, Undo2, Globe, HelpCircle } from 'lucide-react'
 import { PageSection, SectionHeading } from '@/components/layout/PageSection'
 import HashHuntModal from '@/components/HashHuntModal'

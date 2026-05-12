@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useLanguageStore } from "../store/useLanguageStore";
 
 export default function ResumeShowcase() {

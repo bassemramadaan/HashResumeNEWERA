@@ -1,6 +1,6 @@
 import React from "react";
 import { createPortal } from "react-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { X, CheckCircle2, AlertCircle } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
@@ -123,7 +123,6 @@ export default function ResumeCheckerModal({
   ];
 
   const failedChecks = checks.filter((c) => !c.passed);
-  const criticalFailures = failedChecks.filter((c) => c.severity === "high");
   const score = Math.round(
     ((checks.length - failedChecks.length) / checks.length) * 100,
   );
