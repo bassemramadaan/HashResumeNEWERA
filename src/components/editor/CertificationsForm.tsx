@@ -145,3 +145,5 @@ export const CertificationsForm: React.FC = () => {
     </div>
   );
 };
+
+export default CertificationsForm;

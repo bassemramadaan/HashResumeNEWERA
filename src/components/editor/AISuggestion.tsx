@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Sparkles, Loader2, Check, RefreshCw } from "lucide-react";
+import { motion } from "motion/react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { aiService } from "../../services/aiService";
 

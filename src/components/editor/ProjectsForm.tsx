@@ -146,3 +146,5 @@ export const ProjectsForm: React.FC = () => {
     </div>
   );
 };
+
+export default ProjectsForm;

@@ -132,3 +132,5 @@ export const CustomSectionsForm: React.FC = () => {
     </div>
   );
 };
+
+export default CustomSectionsForm;
