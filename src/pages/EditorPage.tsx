@@ -786,14 +786,14 @@ export default function EditorPage() {
           backdropFilter: 'blur(12px)',
           border: '1px solid #e5e5e5',
           boxShadow: '0 12px 40px rgba(0,0,0,0.1)',
-        }} className="pointer-events-auto flex items-center gap-6 px-6 py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[80px]">
+        }} className="pointer-events-auto flex items-center gap-6 px-6 py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[90px]">
           <div className="flex items-center gap-4">
             {/* Home / Logo */}
             <Link to="/" title={t.backToHome}>
               <img
                 src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png"
                 alt="Hash Resume"
-                style={{ height: 28, width: 'auto', objectFit: 'contain' }}
+                style={{ height: 60, width: 'auto', objectFit: 'contain' }}
               />
             </Link>
 

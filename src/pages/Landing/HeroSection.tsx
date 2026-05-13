@@ -55,7 +55,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
   const copy = COPY[lang] || COPY['en']
 
   return (
-    <section className="relative overflow-hidden bg-neutral-50 pt-16 pb-16 md:pt-24 md:pb-24">
+    <section className="relative overflow-hidden bg-neutral-50 pt-20 pb-20 md:pt-32 md:pb-32">
 
       <div
         aria-hidden="true"
