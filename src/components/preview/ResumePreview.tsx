@@ -10,7 +10,66 @@ interface ResumePreviewProps {
 const ResumePreview = memo(
   forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref) => {
     const storeData = useResumeStore((state) => state.data);
-    const data = props.data || storeData;
+    let data = props.data || storeData;
+    
+    // Check if the resume is entirely empty
+    const isEmpty = 
+      !data.personalInfo?.fullName && 
+      !data.personalInfo?.jobTitle && 
+      data.experience?.length === 0 && 
+      data.education?.length === 0 &&
+      data.skills?.length === 0;
+
+    // Use dummy ghost data if empty
+    if (isEmpty) {
+      const isAr = data.settings?.language === "ar";
+      data = {
+        ...data,
+        personalInfo: {
+          ...data.personalInfo,
+          fullName: isAr ? "أحمد سمير" : "John Doe",
+          jobTitle: isAr ? "مهندس برمجيات أول" : "Senior Software Engineer",
+          email: "john.doe@example.com",
+          phone: "+20 123 456 7890",
+          address: isAr ? "القاهرة، مصر" : "Cairo, Egypt",
+          summary: isAr 
+            ? "مهندس برمجيات ذو خبرة عالية مكرس لبناء وتطوير تطبيقات ويب حديثة وفعالة. متخصص في تقنيات الواجهة الأمامية."
+            : "Experienced software engineer dedicated to building and optimizing modern scalable web applications.",
+        },
+        experience: [
+          {
+            id: "1",
+            title: isAr ? "مهندس برمجيات أول" : "Senior Software Engineer",
+            company: isAr ? "شركة التقنية" : "Tech Solutions Inc.",
+            location: isAr ? "القاهرة" : "Cairo",
+            startDate: "2020-01",
+            endDate: "",
+            current: true,
+            description: isAr 
+              ? "• تصميم وتطوير تطبيقات الويب\n• تحسين أداء الواجهة الأمامية بنسبة ٤٠٪"
+              : "• Architected web applications\n• Improved frontend performance by 40%",
+          }
+        ],
+        education: [
+          {
+            id: "1",
+            degree: isAr ? "بكالوريوس هندسة الحاسبات" : "Bachelor of Computer Science",
+            school: isAr ? "جامعة القاهرة" : "Cairo University",
+            location: isAr ? "القاهرة" : "Cairo",
+            startDate: "2015-09",
+            endDate: "2019-06",
+            gpa: "3.8/4.0",
+            description: "",
+          }
+        ],
+        skills: [
+          { id: "1", name: "JavaScript", level: "Expert" },
+          { id: "2", name: "React", level: "Expert" },
+          { id: "3", name: "TypeScript", level: "Advanced" },
+        ]
+      };
+    }
+
     const {
       personalInfo,
       experience,
@@ -94,7 +153,7 @@ const ResumePreview = memo(
             style={{ color: themeColor }}
           >
             {personalInfo.fullName ||
-              (lang === "ar" ? "الاسم الكامل" : "Your Name")}
+              ((lang === "ar" ? "الاسم الكامل" : "YOUR NAME"))}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-xl md:text-2xl font-bold text-neutral-500 mb-6 tracking-tight">
@@ -253,7 +312,7 @@ const ResumePreview = memo(
                         key={index}
                         className="text-sm font-medium text-slate-700"
                       >
-                        {skill}
+                        {skill.name}
                         {index < skills.length - 1 && (
                           <span className="mx-2 text-slate-400">•</span>
                         )}
@@ -361,7 +420,7 @@ const ResumePreview = memo(
         {/* Header */}
         <header className="mb-8 text-center border-b-2 border-neutral-800 pb-6">
           <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-4 text-slate-900">
-            {personalInfo.fullName || "Your Name"}
+            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-lg md:text-xl italic text-slate-700 mb-4">
@@ -477,7 +536,7 @@ const ResumePreview = memo(
                   <p className="text-[15px] leading-relaxed text-slate-700">
                     {skills.map((skill, i) => (
                       <span key={i}>
-                        <span className="font-medium">{skill}</span>
+                        <span className="font-medium">{skill.name}</span>
                         {i < skills.length - 1 && (
                           <span className="mx-2 text-neutral-300">•</span>
                         )}
@@ -581,7 +640,7 @@ const ResumePreview = memo(
               className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-2 leading-none"
               style={{ color: themeColor }}
             >
-              {personalInfo.fullName || "Your Name"}
+              {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
             </h1>
             {personalInfo.jobTitle && (
               <h2 className="text-lg md:text-xl font-medium text-slate-600">
@@ -632,7 +691,7 @@ const ResumePreview = memo(
                       key={index}
                       className="text-sm font-medium text-slate-700"
                     >
-                      {skill}
+                      {skill.name}
                       {index < skills.length - 1 && (
                         <span className="mx-2 opacity-50">•</span>
                       )}
@@ -836,7 +895,7 @@ const ResumePreview = memo(
         <FreshGradBadge />
         <header className="mb-12 text-center">
           <h1 className="text-3xl md:text-4xl font-light tracking-[0.15em] text-slate-900 mb-4 uppercase">
-            {personalInfo.fullName || "Your Name"}
+            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-lg md:text-xl font-medium text-slate-500 mb-6 tracking-widest uppercase">
@@ -947,7 +1006,7 @@ const ResumePreview = memo(
                         key={index}
                         className="text-[15px] text-slate-600 font-medium"
                       >
-                        {skill}
+                        {skill.name}
                         {index < skills.length - 1 && (
                           <span className="mx-2 text-slate-300">/</span>
                         )}
@@ -1048,7 +1107,7 @@ const ResumePreview = memo(
             className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight"
             style={{ color: themeColor }}
           >
-            &gt; {personalInfo.fullName || "Your Name"}
+            &gt; {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-lg md:text-xl text-slate-600 mb-6">
@@ -1119,7 +1178,7 @@ const ResumePreview = memo(
                   key={index}
                   className="text-[15px] text-slate-800 font-medium"
                 >
-                  {skill}
+                  {skill.name}
                   {index < skills.length - 1 && (
                     <span className="mx-2 text-slate-400">;</span>
                   )}
@@ -1268,7 +1327,7 @@ const ResumePreview = memo(
           style={{ borderColor: themeColor }}
         >
           <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-4 text-center">
-            {personalInfo.fullName || "Your Name"}
+            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-lg md:text-xl font-medium text-slate-600 mb-6 text-center uppercase tracking-wider">
@@ -1425,7 +1484,7 @@ const ResumePreview = memo(
                 </h3>
                 <ul className="list-disc list-inside space-y-2.5 text-[15px] text-slate-800 font-sans">
                   {skills.map((skill, index) => (
-                    <li key={index}>{skill}</li>
+                    <li key={index}>{skill.name}</li>
                   ))}
                 </ul>
               </section>
@@ -1497,7 +1556,7 @@ const ResumePreview = memo(
         <FreshGradBadge />
         <header className="mb-8 border-b-4 border-emerald-600 pb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-emerald-800 mb-2">
-            {personalInfo.fullName || "Your Name"}
+            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-xl font-medium text-slate-600 mb-4">
@@ -1632,7 +1691,7 @@ const ResumePreview = memo(
       <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-[#fdfbf7]">
         <header className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2 uppercase tracking-widest">
-            {personalInfo.fullName || "Your Name"}
+            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
           </h1>
           <div className="w-24 h-1 bg-neutral-900 mx-auto mb-4"></div>
           {personalInfo.jobTitle && (
@@ -1735,7 +1794,7 @@ const ResumePreview = memo(
       <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-white">
         <header className="mb-8 border-b border-slate-300 pb-6">
           <h1 className="text-3xl font-bold text-slate-900 mb-1">
-            {personalInfo.fullName || "Your Name"}
+            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
           </h1>
           <div className="text-slate-600 mb-4">{personalInfo.jobTitle}</div>
           <div className="text-sm text-slate-600 space-y-1">
@@ -1860,7 +1919,7 @@ const ResumePreview = memo(
         >
           <div>
             <h1 className="text-4xl font-black text-slate-900 mb-2">
-              {personalInfo.fullName || "Your Name"}
+              {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
             </h1>
             <h2 className="text-xl font-bold text-slate-500 uppercase tracking-wider">
               {personalInfo.jobTitle}
@@ -1936,7 +1995,7 @@ const ResumePreview = memo(
                       key={i}
                       className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded"
                     >
-                      {skill}
+                      {typeof skill === 'string' ? skill : skill.name}
                     </span>
                   ))}
                 </div>
@@ -2021,7 +2080,7 @@ const ResumePreview = memo(
       <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-16 max-w-[850px] mx-auto bg-white">
         <header className="text-center mb-12">
           <h1 className="text-5xl font-light tracking-tighter text-slate-900 mb-4">
-            {personalInfo.fullName || "Your Name"}
+            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
           </h1>
           <div className="flex justify-center items-center gap-4 text-xs uppercase tracking-[0.2em] text-slate-400 font-sans">
             {personalInfo.email && <span>{personalInfo.email}</span>}
@@ -2099,7 +2158,7 @@ const ResumePreview = memo(
                 <div className="flex flex-wrap gap-x-4 gap-y-2">
                   {skills.map((skill, i) => (
                     <span key={i} className="text-sm text-slate-600 italic">
-                      {skill}
+                      {typeof skill === 'string' ? skill : skill.name}
                     </span>
                   ))}
                 </div>
@@ -2280,7 +2339,7 @@ const ResumePreview = memo(
                       key={i}
                       className="px-3 py-1 bg-slate-100 text-slate-700 text-sm rounded-md border border-slate-200"
                     >
-                      {skill}
+                      {typeof skill === 'string' ? skill : skill.name}
                     </span>
                   ))}
                 </div>
@@ -2372,7 +2431,7 @@ const ResumePreview = memo(
         <header className="mb-8 flex justify-between items-end border-b-2 border-slate-200 pb-6">
           <div>
             <h1 className="text-4xl font-black tracking-tight text-slate-900 mb-2 uppercase">
-              {personalInfo.fullName || "Your Name"}
+              {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
             </h1>
             {personalInfo.jobTitle && (
               <h2 className="text-xl font-bold text-slate-500 uppercase tracking-widest">
@@ -2478,7 +2537,7 @@ const ResumePreview = memo(
                   </h3>
                   <ul className="list-square ps-4 text-sm space-y-1">
                     {skills.map((skill, i) => (
-                      <li key={i}>{skill}</li>
+                      <li key={i}>{typeof skill === 'string' ? skill : skill.name}</li>
                     ))}
                   </ul>
                 </section>
@@ -2560,7 +2619,7 @@ const ResumePreview = memo(
       <div className="font-serif text-slate-900 p-8 md:p-12 max-w-[850px] mx-auto bg-white">
         <header className="text-center border-b-2 border-neutral-900 pb-6 mb-8">
           <h1 className="text-3xl font-bold uppercase tracking-widest mb-2">
-            {personalInfo.fullName || "Your Name"}
+            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
           </h1>
           <div className="text-sm font-sans flex flex-wrap justify-center gap-x-4 gap-y-1 text-slate-700">
             {personalInfo.address && <span>{personalInfo.address}</span>}
@@ -2702,7 +2761,11 @@ const ResumePreview = memo(
     return (
       <div
         ref={ref}
-        className={cn("w-full h-full bg-white box-border", settings.language === "ar" ? "font-editor-ar" : "font-editor-en")}
+        className={cn(
+          "w-full h-full bg-white box-border transition-all duration-500", 
+          settings.language === "ar" ? "font-editor-ar" : "font-editor-en",
+          isEmpty && "opacity-[0.35] blur-[1px] pointer-events-none select-none grayscale-[0.5]"
+        )}
         style={{ minHeight: "297mm" }}
         dir={settings.language === "ar" ? "rtl" : "ltr"}
       >

@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import { useNavigate, Link } from 'react-router-dom'
-import { HashResumeLogo } from '@/components/ui/HashResumeLogo'
+import { LOGO_URL } from '@/constants'
 
 const LANG_LABELS = { ar: 'العربية', en: 'English', fr: 'Français' }
 const LANGS: AppLang[] = ['ar', 'en', 'fr']
@@ -44,11 +44,20 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200" dir="ltr">
       <div className="container-page">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between min-h-[90px] py-2">
 
-          <Link to="/" className="flex-shrink-0 flex items-center gap-2 pl-4 md:pl-6">
-            <HashResumeLogo height={60} showText={false} />
-          </Link>
+          <a href="/" className="flex-shrink-0">
+            <img
+              src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+              alt="Hash Resume"
+              style={{
+                height: 70,
+                width: 'auto',
+                objectFit: 'contain',
+                maxWidth: 220,
+              }}
+            />
+          </a>
 
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (

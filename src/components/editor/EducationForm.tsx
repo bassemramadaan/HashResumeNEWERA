@@ -15,7 +15,7 @@ import { Reorder } from "motion/react";
 import FormSkeleton from "./FormSkeleton";
 import SectionTooltip from "./SectionTooltip";
 
-const AISuggestion = lazy(() => import("./AISuggestion"));
+import AISuggestion from "./AISuggestion";
 
 const EducationForm = () => {
   const { language } = useLanguageStore();
@@ -231,12 +231,7 @@ const EducationForm = () => {
 
                       {showSuggestionsFor === edu.id && (
                         <div className="mb-2">
-                          <Suspense
-                            fallback={
-                              <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
-                            }
-                          >
-                            <AISuggestion
+                          <AISuggestion
                               currentValue={edu.description}
                               onApply={(newText) => {
                                 updateEducation(edu.id, {
@@ -246,7 +241,7 @@ const EducationForm = () => {
                               }}
                               context={`Institution: ${edu.institution}, Degree: ${edu.degree}`}
                             />
-                          </Suspense>
+                          
                           
                           {/* Static Suggestions Fallback/Alternative */}
                           <div className="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-100">

@@ -6,7 +6,7 @@ import { Plus, X, Sparkles, AlertCircle } from "lucide-react";
 import SectionTooltip from "./SectionTooltip";
 import { getJobMatchResults } from "../../utils/ats";
 
-const AISuggestion = lazy(() => import("./AISuggestion"));
+import AISuggestion from "./AISuggestion";
 
 const SUGGESTED_SKILLS = [
   "JavaScript",
@@ -83,12 +83,7 @@ const SkillsForm = () => {
 
           {showAISuggestions && (
             <div className="mb-4">
-              <Suspense
-                fallback={
-                  <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
-                }
-              >
-                <AISuggestion
+              <AISuggestion
                   currentValue={skills.join(", ")}
                   onApply={(newText) => {
                     const newSkills = newText
@@ -105,7 +100,7 @@ const SkillsForm = () => {
                   context={`Job Title: ${data.personalInfo.jobTitle}, Job Description: ${data.jobDescription}`}
                   promptOverride="Based on the job title and description, suggest a comma-separated list of 5-10 relevant skills. Only return the comma-separated list, no other text."
                 />
-              </Suspense>
+              
               <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
                    <Sparkles size={10} className="text-indigo-400 shrink-0" />
                    {language === "ar" 
@@ -145,21 +140,24 @@ const SkillsForm = () => {
             </p>
           ) : (
             <div className="flex flex-wrap gap-2">
-              {skills.map((skill) => (
+              {skills.map((skill) => {
+                const skillName = typeof skill === 'string' ? skill : skill.name;
+                return (
                 <span
-                  key={skill}
+                  key={skillName}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 text-slate-800 text-sm font-medium group transition-colors"
                 >
-                  {skill}
+                  {skillName}
                   <button
                     onClick={() => removeSkill(skill)}
                     className="text-slate-500 hover:text-red-500 focus:outline-none transition-colors"
-                    aria-label={`Remove ${skill}`}
+                    aria-label={`Remove ${skillName}`}
                   >
                     <X size={14} />
                   </button>
                 </span>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -193,16 +191,19 @@ const SkillsForm = () => {
               {String(t.skills?.aiSuggestionsFree || "")}
             </h3>
             <div className="flex flex-wrap gap-2">
-              {unaddedSuggestions.map((skill) => (
+              {unaddedSuggestions.map((skill) => {
+                const skillName = typeof skill === 'string' ? skill : skill.name;
+                return (
                 <button
-                  key={skill}
+                  key={skillName}
                   onClick={() => addSkill(skill)}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 text-sm font-medium transition-colors"
                 >
                   <Plus size={14} />
-                  {skill}
+                  {skillName}
                 </button>
-              ))}
+                );
+              })}
             </div>
           </div>
         )

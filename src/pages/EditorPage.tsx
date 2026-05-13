@@ -39,7 +39,8 @@ import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
-import { HashResumeLogo } from '@/components/ui/HashResumeLogo';
+import { LOGO_URL } from "../constants";
+import { Tooltip } from "../components/ui/Tooltip";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import SettingsModal from "../components/SettingsModal";
 import ATSTipsModal from "../components/ATSTipsModal";
@@ -172,16 +173,25 @@ const ATSScoreIndicator = ({
 }) => {
   const { language } = useLanguageStore();
   const data = useResumeStore((state) => state.data);
+  const isEmpty = 
+    !data.personalInfo?.fullName && 
+    data.experience?.length === 0 && 
+    data.education?.length === 0 && 
+    data.skills?.length === 0;
+
   const { score: atsScore, tips } = React.useMemo(() => {
+    if (isEmpty) return { score: 0, criticalFailures: [], tips: [] };
     try {
       return calculateATSScore(data);
     } catch (e) {
       console.error("ATS Audit failed", e);
       return { score: 0, criticalFailures: [], tips: [] };
     }
-  }, [data]);
+  }, [data, isEmpty]);
   const [showTips, setShowTips] = useState(false);
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
+
+  if (isEmpty) return null;
 
   return (
     <div className="flex items-center gap-2">
@@ -517,14 +527,14 @@ export default function EditorPage() {
       data.personalInfo.jobTitle
     )
       filled++;
-    if (data.experience.length > 0) filled++;
-    if (data.education.length > 0) filled++;
-    if (data.skills.length > 0) filled++;
+    if (data.experience && data.experience.length > 0) filled++;
+    if (data.education && data.education.length > 0) filled++;
+    if (data.skills && data.skills.length > 0) filled++;
 
     return Math.round((filled / total) * 100);
   };
 
-  // const progressPercent = calculateProgress();
+  const overallProgress = calculateProgress();
   
   // Safe temporal subscription
   const [temporalState, setTemporalState] = useState({
@@ -779,8 +789,12 @@ export default function EditorPage() {
         }} className="pointer-events-auto flex items-center gap-6 px-6 py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[80px]">
           <div className="flex items-center gap-4">
             {/* Home / Logo */}
-            <Link to="/" className="shrink-0 mx-2">
-              <HashResumeLogo height={60} showText={false} style={{ height: 60 }} />
+            <Link to="/" title={t.backToHome}>
+              <img
+                src="https://i.ibb.co/1GfhXyF1/IN-LOGO-icon-1.png"
+                alt="Hash Resume"
+                style={{ height: 28, width: 'auto', objectFit: 'contain' }}
+              />
             </Link>
 
             {/* Separator */}
@@ -788,22 +802,26 @@ export default function EditorPage() {
 
             {/* Undo/Redo */}
             <div className="flex items-center gap-1">
-              <button
-                onClick={handleUndo}
-                disabled={!temporalState.canUndo}
-                className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
-                title={String(t.undo || "")}
-              >
-                <Undo2 size={18} />
-              </button>
-              <button
-                onClick={handleRedo}
-                disabled={!temporalState.canRedo}
-                className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
-                title={String(t.redo || "")}
-              >
-                <Redo2 size={18} />
-              </button>
+              <Tooltip content={String(t.undo || "")}>
+                <button
+                  onClick={handleUndo}
+                  disabled={!temporalState.canUndo}
+                  className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
+                  aria-label={String(t.undo || "")}
+                >
+                  <Undo2 size={18} />
+                </button>
+              </Tooltip>
+              <Tooltip content={String(t.redo || "")}>
+                <button
+                  onClick={handleRedo}
+                  disabled={!temporalState.canRedo}
+                  className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
+                  aria-label={String(t.redo || "")}
+                >
+                  <Redo2 size={18} />
+                </button>
+              </Tooltip>
             </div>
           </div>
 
@@ -833,30 +851,36 @@ export default function EditorPage() {
 
           {/* Right Section: Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <button
-              onClick={() => setShowProgressTracker(true)}
-              className="w-10 h-10 flex items-center justify-center rounded-full text-indigo-500 hover:bg-neutral-50 hover:text-indigo-600 transition-colors"
-              title={language === "ar" ? "عرض التقدم" : "View Progress"}
-            >
-              <Target size={18} />
-            </button>
+            <Tooltip content={language === "ar" ? "عرض التقدم" : "View Progress"}>
+              <button
+                onClick={() => setShowProgressTracker(true)}
+                className="w-10 h-10 flex items-center justify-center rounded-full text-indigo-500 hover:bg-neutral-50 hover:text-indigo-600 transition-colors"
+                aria-label={language === "ar" ? "عرض التقدم" : "View Progress"}
+              >
+                <Target size={18} />
+              </button>
+            </Tooltip>
 
             <div className="hidden min-[500px]:flex items-center gap-2">
-              <button
-                onClick={() => setShowWelcomeModal(true)}
-                className="w-10 h-10 flex items-center justify-center rounded-full text-brand-500 bg-brand-50 hover:bg-brand-100 transition-colors border border-brand-200"
-                title={String(t.showMeAround || "")}
-              >
-                <Sparkles size={18} className="animate-pulse" />
-              </button>
+              <Tooltip content={String(t.showMeAround || "")}>
+                <button
+                  onClick={() => setShowWelcomeModal(true)}
+                  className="w-10 h-10 flex items-center justify-center rounded-full text-brand-500 bg-brand-50 hover:bg-brand-100 transition-colors border border-brand-200"
+                  aria-label={String(t.showMeAround || "")}
+                >
+                  <Sparkles size={18} className="animate-pulse" />
+                </button>
+              </Tooltip>
               <LanguageSwitcher className="[&>span]:hidden lg:[&>span]:inline" />
-              <button
-                onClick={() => setIsSettingsModalOpen(true)}
-                className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 transition-colors"
-                title={String(t.resumeSettings || "")}
-              >
-                <Settings size={18} />
-              </button>
+              <Tooltip content={String(t.resumeSettings || "")}>
+                <button
+                  onClick={() => setIsSettingsModalOpen(true)}
+                  className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 transition-colors"
+                  aria-label={String(t.resumeSettings || "")}
+                >
+                  <Settings size={18} />
+                </button>
+              </Tooltip>
             </div>
 
             {/* Separator on Desktop */}
@@ -916,9 +940,13 @@ export default function EditorPage() {
           <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-neutral-50">
             {/* Horizontal Tabs - Now visible on all screen sizes */}
             <div 
-              className="bg-white border-b overflow-x-auto hide-scrollbar z-30 sticky top-0"
+              className="bg-white border-b overflow-x-auto hide-scrollbar z-30 sticky top-0 relative relative-tabs-container"
               style={{ borderColor: 'var(--color-neutral-200)', paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
             >
+              <div 
+                className="absolute bottom-0 left-0 h-[3px] bg-brand-500 transition-all duration-500 z-50 pointer-events-none"
+                style={{ width: `${overallProgress}%` }}
+              />
               <div className="max-w-7xl mx-auto px-4 sm:px-8">
                 <div className="flex gap-6 min-w-max">
                   {tabs.map((tab) => {

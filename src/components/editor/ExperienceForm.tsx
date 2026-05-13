@@ -1,4 +1,4 @@
-import React, { useState, useMemo, Suspense, lazy } from "react";
+import React, { useState, useMemo } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -16,8 +16,7 @@ import { Reorder } from "motion/react";
 import SectionTooltip from "./SectionTooltip";
 import { getJobMatchResults } from "../../utils/ats";
 
-const AISuggestion = lazy(() => import("./AISuggestion"));
-
+import AISuggestion from "./AISuggestion";
 import FormSkeleton from "./FormSkeleton";
 
 const ExperienceForm = () => {
@@ -241,22 +240,16 @@ const ExperienceForm = () => {
 
                       {showAISuggestionFor === exp.id && (
                         <div className="mb-2">
-                          <Suspense
-                            fallback={
-                              <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
-                            }
-                          >
-                            <AISuggestion
-                              currentValue={exp.description}
-                              onApply={(newText) => {
-                                updateExperience(exp.id, {
-                                  description: newText,
-                                });
-                                setShowAISuggestionFor(null);
-                              }}
-                              context={`Job Title: ${exp.position}, Company: ${exp.company}`}
-                            />
-                          </Suspense>
+                          <AISuggestion
+                            currentValue={exp.description}
+                            onApply={(newText) => {
+                              updateExperience(exp.id, {
+                                description: newText,
+                              });
+                              setShowAISuggestionFor(null);
+                            }}
+                            context={`Job Title: ${exp.position}, Company: ${exp.company}`}
+                          />
                         </div>
                       )}
                       

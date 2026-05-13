@@ -20,7 +20,7 @@ import {
 import SectionTooltip from "./SectionTooltip";
 import { personalInfoSchema } from "../../lib/validation";
 
-const AISuggestion = lazy(() => import("./AISuggestion"));
+import AISuggestion from "./AISuggestion";
 
 const PersonalInfoForm = () => {
   const { language } = useLanguageStore();
@@ -62,10 +62,9 @@ const PersonalInfoForm = () => {
     const { name, value } = e.target;
     updatePersonalInfo({ [name]: value });
 
-    if (touched[name]) {
-      const error = validate(name, value);
-      setErrors((prev) => ({ ...prev, [name]: error }));
-    }
+    // Real-time validation
+    const error = validate(name, value);
+    setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
   const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
@@ -73,27 +72,26 @@ const PersonalInfoForm = () => {
   return (
     <div className="space-y-6">
       {/* LinkedIn Import Banner */}
-      <div className="bg-[#0A66C2]/5 border border-[#0A66C2]/20 rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-4 text-[#0A66C2]">
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0">
-            <Linkedin size={24} />
+      <div className="bg-[#0A66C2]/5 border border-[#0A66C2]/10 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm hover:shadow-md transition-shadow">
+        <div className="flex items-center gap-3 text-[#0A66C2]">
+          <div className="w-8 h-8 bg-[#0A66C2]/10 text-[#0A66C2] rounded-lg flex items-center justify-center shrink-0">
+            <Linkedin size={18} />
           </div>
           <div>
-            <h3 className="font-bold text-slate-900 mb-1">
-              {language === "ar" ? "وفر وقتك واستورد حسابك" : "Save time & import profile"}
+            <h3 className="font-bold text-slate-800 text-sm">
+              {language === "ar" ? "استورد بياناتك من لينكد إن" : "Import from LinkedIn"}
             </h3>
-            <p className="text-sm text-slate-600">
-              {language === "ar" ? "يمكنك استيراد بياناتك من ملف PDF الخاص بـ لينكد إن مباشرة." : "Extract all your details instantly from your LinkedIn PDF."}
+            <p className="text-xs text-slate-500">
+              {language === "ar" ? "ابنِ سيرتك الذاتية في ثوانٍ لاستيراد ملفك الشخصي كـ PDF." : "Build your resume in seconds by importing your profile PDF."}
             </p>
           </div>
         </div>
         <button
           onClick={() => setIsLinkedInModalOpen(true)}
-          style={{ backgroundColor: 'var(--color-brand-500)', color: '#fff' }}
-          className="w-full sm:w-auto px-5 py-2.5 rounded-xl font-medium transition-colors whitespace-nowrap flex justify-center items-center gap-2 hover:opacity-90"
+          className="w-full sm:w-auto px-4 py-1.5 rounded-lg text-sm font-bold transition-all whitespace-nowrap flex justify-center items-center gap-2 bg-[#0A66C2] text-white hover:bg-[#084e96] shadow-sm hover:shadow active:scale-95"
         >
-          <Download size={18} />
-          {language === "ar" ? "استيراد من لينكد إن" : "Import from LinkedIn"}
+          <Download size={14} />
+          {language === "ar" ? "استيراد السيرة الذاتية" : "Import Resume"}
         </button>
       </div>
 
@@ -352,11 +350,6 @@ const PersonalInfoForm = () => {
 
           {showAISuggestions && (
             <div className="mb-2">
-            <Suspense
-              fallback={
-                <div className="h-20 animate-pulse bg-slate-100 rounded-xl mb-4" />
-              }
-            >
               <AISuggestion
                 currentValue={personalInfo.summary}
                 onApply={(newText) => {
@@ -365,7 +358,7 @@ const PersonalInfoForm = () => {
                 }}
                 context={`Job Title: ${personalInfo.jobTitle}`}
               />
-            </Suspense>
+            
             </div>
           )}
 

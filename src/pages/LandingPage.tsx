@@ -10,7 +10,7 @@ import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { cn } from "@/lib/utils";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
-import { LOGO_URL } from "../constants";
+import { HERO_LOGO_URL } from "../constants";
 
 import Navbar from "../components/Navbar";
 import VideoDemoModal from "../components/VideoDemoModal";
@@ -181,14 +181,11 @@ export default function LandingPage() {
                 className="flex flex-col items-center gap-4 my-8"
               >
                 <img 
-              src={LOGO_URL} 
+              src={HERO_LOGO_URL} 
               alt="Hash Resume Logo" 
-              className="h-[120px] w-auto mx-auto" 
+              className="w-[180px] md:w-[220px] h-auto mx-auto" 
               loading="lazy"
             />
-                <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">
-                  Hash Resume
-                </h2>
               </motion.div>
 
               <motion.h1
@@ -199,7 +196,11 @@ export default function LandingPage() {
                 className={cn("font-display mb-10", language === "ar" ? "leading-relaxed" : "leading-[1.05]")}
               >
                 <span className="text-slate-900 block text-3xl sm:text-6xl lg:text-[5.5rem] font-black tracking-tight mb-4 sm:mb-6 leading-snug sm:leading-tight">
-                  {language === "ar" ? "أول Resume Builder عربي حقيقي" : t.heroTitle1}{" "}
+                  {language === "ar" ? (
+                    <>أول <span dir="ltr" className="inline-block mx-1">Resume Builder</span> عربي حقيقي</>
+                  ) : (
+                    t.heroTitle1
+                  )}{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff4d2d] to-orange-600 block sm:inline mt-1 sm:mt-0">
                     {language === "ar" ? "بدون اشتراكات" : t.heroTitle2}
                   </span>

@@ -46,7 +46,7 @@ export const translations = {
       tryCoverLetterBuilder: "Try Cover Letter Builder",
       startWritingNow: "Start Writing Now",
       noSubscriptionPayOnce: "No Login, No Subscription, Pay once",
-      payOncePerResume: "Pay once per resume download",
+      payOncePerResume: "Pay 50 EGP once per resume download",
       includesPdfWord: "Includes both PDF & Word formats",
       unlimitedFreeEdits: "Unlimited free edits before paying",
       allPremiumTemplates: "All premium templates included",
@@ -172,7 +172,7 @@ export const translations = {
         "We prioritize absolute privacy. We store your entire resume completely locally on your device. We do not use databases to collect your personal information.",
       faq2Q: "How much does it cost?",
       faq2A:
-        "You can build and preview your resume for free. We charge a one-time fee of 49 EGP (or equivalent in your local currency) for a single professional PDF download. No subscriptions, no hidden fees.",
+        "You can build and preview your resume for free. We charge a one-time fee of 50 EGP (or equivalent in your local currency) for a single professional PDF download. No subscriptions, no hidden fees.",
       faq3Q: "What is an ATS-friendly resume?",
       faq3A:
         "ATS (Applicant Tracking System) software is used by recruiters to filter resumes. Our templates are designed with clean formatting and standard sections to ensure these systems can easily read and rank your application.",
@@ -723,7 +723,7 @@ export const translations = {
       tryCoverLetterBuilder: "جرب منشئ خطاب التغطية",
       startWritingNow: "ابدأ الكتابة الآن",
       noSubscriptionPayOnce: "بدون تسجيل، بدون اشتراك، ادفع مرة واحدة",
-      payOncePerResume: "ادفع مرة واحدة لكل تحميل سيرة ذاتية",
+      payOncePerResume: "ادفع 50 ج.م مرة واحدة لكل تحميل سيرة ذاتية",
       includesPdfWord: "يشمل صيغتي PDF و Word معاً",
       unlimitedFreeEdits: "تعديلات مجانية غير محدودة قبل الدفع",
       allPremiumTemplates: "جميع القوالب المميزة مشمولة",
@@ -844,7 +844,7 @@ export const translations = {
         "نحن نضع خصوصيتك في المقام الأول. نخزن سيرتك الذاتية بالكامل وعمليات التعديل محلياً على جهازك، ولا نستخدم أي قواعد بيانات لجمع معلوماتك الشخصية أو تتبعها.",
       faq2Q: "كم تبلغ التكلفة؟",
       faq2A:
-        "يمكنك إنشاء ومعاينة سيرتك الذاتية مجانًا. نحن نفرض رسومًا لمرة واحدة قدرها 49 جنيه مصري (أو ما يعادلها بعملتك المحلية) لتحميل ملف PDF احترافي واحد. لا توجد اشتراكات أو رسوم خفية.",
+        "يمكنك إنشاء ومعاينة سيرتك الذاتية مجانًا. نحن نفرض رسومًا لمرة واحدة قدرها 50 جنيه مصري (أو ما يعادلها بعملتك المحلية) لتحميل ملف PDF احترافي واحد. لا توجد اشتراكات أو رسوم خفية.",
       faq3Q: "ما هي السيرة الذاتية المتوافقة مع ATS؟",
       faq3A:
         "برنامج ATS (نظام تتبع المتقدمين) هو برنامج يستخدمه مسؤولو التوظيف لتصفية السير الذاتية. تم تصميم قوالبنا بتنسيق نظيف وأقسام قياسية لضمان قدرة هذه الأنظمة على قراءة وتصنيف طلبك بسهولة.",
@@ -1393,7 +1393,7 @@ export const translations = {
       startWritingNow: "Commencer à écrire maintenant",
       noSubscriptionPayOnce:
         "Sans inscription, sans abonnement, payez une fois",
-      payOncePerResume: "Payez une fois par téléchargement de CV",
+      payOncePerResume: "Payez 50 EGP une fois par téléchargement de CV",
       includesPdfWord: "Inclut les formats PDF et Word",
       unlimitedFreeEdits: "Modifications gratuites illimitées avant de payer",
       allPremiumTemplates: "Tous les modèles premium inclus",
@@ -1532,7 +1532,7 @@ export const translations = {
         "Oui, absolument. Hash Resume s'exécute entièrement dans votre navigateur. Vos données personnelles sont stockées localement sur votre appareil et ne sont jamais envoyées à nos serveurs.",
       faq2Q: "Combien ça coûte ?",
       faq2A:
-        "Vous pouvez créer et prévisualiser votre CV gratuitement. Nous facturons des frais uniques de 49 EGP (ou l'équivalent dans votre devise locale) pour un seul téléchargement PDF professionnel. Pas d'abonnements, pas de frais cachés.",
+        "Vous pouvez créer et prévisualiser votre CV gratuitement. Nous facturons des frais uniques de 50 EGP (ou l'équivalent dans votre devise locale) pour un seul téléchargement PDF professionnel. Pas d'abonnements, pas de frais cachés.",
       faq3Q: "Qu'est-ce qu'un CV compatible ATS ?",
       faq3A:
         "Les logiciels ATS sont utilisés par les recruteurs pour filtrer les CV. Nos modèles sont conçus avec un formatage propre pour garantir que ces systèmes peuvent facilement lire votre candidature.",

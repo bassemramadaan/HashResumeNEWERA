@@ -20,12 +20,12 @@ export function HashResumeLogo({
   return (
     <div 
       className={className}
-      style={{ display: 'flex', alignItems: 'center', gap: 8, ...style }}
+      style={{ display: 'flex', alignItems: 'center', gap: 8, height, ...style }}
     >
       <img
         src={LOGO_URL}
         alt="Hash Resume"
-        style={{ height, width: 'auto' }}
+        className="h-full w-auto"
       />
 
       {showText && (

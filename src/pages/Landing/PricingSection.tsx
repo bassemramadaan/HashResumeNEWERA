@@ -21,7 +21,7 @@ const COPY = {
     },
     paid: {
       name: 'تحميل',
-      price: '$4',
+      price: '50 ج.م',
       period: '/ مرة واحدة فقط',
       popular: 'الأكثر طلبًا',
       cta: 'حمّل الآن',
@@ -41,7 +41,7 @@ const COPY = {
     },
     paid: {
       name: 'Download',
-      price: '$4',
+      price: '50 EGP',
       period: '/ one-time',
       popular: 'Most popular',
       cta: 'Unlock Now',
@@ -61,7 +61,7 @@ const COPY = {
     },
     paid: {
       name: 'Téléchargement',
-      price: '4 $',
+      price: '50 EGP',
       period: '/ paiement unique',
       popular: 'Plus populaire',
       cta: 'Débloquer',

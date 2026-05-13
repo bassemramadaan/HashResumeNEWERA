@@ -1,7 +1,7 @@
 import { motion } from "motion/react"
 import { Sparkles, Check, ArrowLeft, Play } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
-import { LOGO_URL } from '@/constants'
+import { HERO_LOGO_URL } from '@/constants'
 import { trackEvent } from '@/services/analytics'
 
 interface HeroSectionProps {
@@ -91,10 +91,6 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           </motion.div>
 
           <motion.div variants={item} className="flex flex-col items-center gap-4 my-10">
-            <img src={LOGO_URL} alt="Hash Resume Logo" className="h-[120px] w-auto mx-auto" loading="lazy" />
-            <h2 className="text-3xl md:text-5xl font-black text-neutral-900 tracking-tight">
-              Hash Resume
-            </h2>
           </motion.div>
 
           <motion.h1

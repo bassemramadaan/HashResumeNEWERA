@@ -1,5 +1,5 @@
 import React from "react";
-import { LOGO_URL } from "../constants";
+import { HERO_LOGO_URL } from "../constants";
 
 interface LogoProps {
   width?: number | string;
@@ -18,7 +18,7 @@ const Logo: React.FC<LogoProps> = ({
 }) => {
   return (
     <img
-      src={LOGO_URL}
+      src={HERO_LOGO_URL}
       alt="Hash Resume Logo"
       style={{ width, height, objectFit: 'contain' }}
       className={className}
