@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Facebook, Instagram, MessageCircle, Linkedin, Twitter } from "lucide-react";
-import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import FeedbackModal from "./FeedbackModal";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -20,7 +19,7 @@ export default function Footer() {
             <div className="sm:col-span-2 lg:col-span-4">
               <div className="flex flex-col items-start mb-4">
                 <div className="flex items-center relative h-[60px] w-[200px] rtl:origin-right ltr:origin-left -ms-4">
-                  <Logo className="absolute top-1/2 -translate-y-1/2 w-[180px] sm:w-[220px] max-w-none h-auto object-contain pointer-events-none rtl:right-0 ltr:left-0" variant="white" />
+                  <img src="https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png" alt="Hash Resume" className="absolute top-1/2 -translate-y-1/2 w-[180px] sm:w-[220px] max-w-none h-auto object-contain pointer-events-none rtl:right-0 ltr:left-0" />
                 </div>
               </div>
               <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>
