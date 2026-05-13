@@ -39,7 +39,6 @@ import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
-import { LOGO_URL } from "../constants";
 import { Tooltip } from "../components/ui/Tooltip";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import SettingsModal from "../components/SettingsModal";
@@ -536,6 +535,14 @@ export default function EditorPage() {
 
   const overallProgress = calculateProgress();
   
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Safe temporal subscription
   const [temporalState, setTemporalState] = useState({
     canUndo: false,
@@ -789,11 +796,12 @@ export default function EditorPage() {
         }} className="pointer-events-auto flex items-center gap-6 px-6 py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[90px]">
           <div className="flex items-center gap-4">
             {/* Home / Logo */}
-            <Link to="/" title={t.backToHome}>
+            <Link to="/" title={t.backToHome} className="block shrink-0 ms-1 mr-4 relative h-[40px] w-[150px]">
               <img
-                src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png"
+                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
                 alt="Hash Resume"
-                style={{ height: 60, width: 'auto', objectFit: 'contain' }}
+                className="absolute top-1/2 -translate-y-1/2 rtl:translate-x-4 ltr:-translate-x-4 h-[100px] w-auto max-w-none object-contain pointer-events-none"
+                style={{ [language === 'ar' ? 'right' : 'left']: '-20px' }}
               />
             </Link>
 
@@ -851,13 +859,32 @@ export default function EditorPage() {
 
           {/* Right Section: Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-            <Tooltip content={language === "ar" ? "عرض التقدم" : "View Progress"}>
+            <Tooltip content={language === "ar" ? "عرض التقدم (اضغط للتفاصيل)" : "View Progress (Click for details)"}>
               <button
                 onClick={() => setShowProgressTracker(true)}
-                className="w-10 h-10 flex items-center justify-center rounded-full text-indigo-500 hover:bg-neutral-50 hover:text-indigo-600 transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full text-indigo-600 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 transition-colors"
                 aria-label={language === "ar" ? "عرض التقدم" : "View Progress"}
               >
-                <Target size={18} />
+                <div className="w-5 h-5 relative flex items-center justify-center">
+                  <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90">
+                    <path
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeOpacity="0.2"
+                      strokeWidth="4"
+                    />
+                    <path
+                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      strokeDasharray={`${overallProgress}, 100`}
+                      className="transition-all duration-500 ease-in-out"
+                    />
+                  </svg>
+                </div>
+                <span className="text-xs font-bold">{overallProgress}%</span>
               </button>
             </Tooltip>
 
@@ -872,13 +899,16 @@ export default function EditorPage() {
                 </button>
               </Tooltip>
               <LanguageSwitcher className="[&>span]:hidden lg:[&>span]:inline" />
-              <Tooltip content={String(t.resumeSettings || "")}>
+              <Tooltip content={String(t.resumeSettings || "Templates & Settings")}>
                 <button
                   onClick={() => setIsSettingsModalOpen(true)}
-                  className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 transition-colors"
-                  aria-label={String(t.resumeSettings || "")}
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-full text-neutral-600 border border-neutral-200 hover:bg-neutral-100 transition-colors"
+                  aria-label={String(t.resumeSettings || "Templates & Settings")}
                 >
-                  <Settings size={18} />
+                  <LayoutTemplate size={18} />
+                  <span className="text-xs font-bold hidden sm:inline">
+                    {language === "ar" ? "القوالب" : "Templates"}
+                  </span>
                 </button>
               </Tooltip>
             </div>
@@ -932,7 +962,7 @@ export default function EditorPage() {
       {/* Real-time Progress tracker moved to tabs and dock */}
 
       <PanelGroup
-        direction="horizontal"
+        direction={isMobile ? "vertical" : "horizontal"}
         className="flex-1 w-full h-full overflow-hidden relative editor-form"
       >
         {/* Editor Area */}
@@ -1511,7 +1541,7 @@ export default function EditorPage() {
                 className={cn(
                   "origin-top transition-all duration-500 flex justify-center",
                   previewMode !== "cover-letter"
-                    ? "scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-[0.9] xl:scale-100 h-[calc(297mm*0.45)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.8)] lg:h-[calc(297mm*0.9)] xl:h-auto"
+                    ? "scale-[0.5] sm:scale-[0.75] md:scale-[0.95] lg:scale-[1.1] xl:scale-[1.2] h-[calc(297mm*0.5)] sm:h-[calc(297mm*0.75)] md:h-[calc(297mm*0.95)] lg:h-[calc(297mm*1.1)] xl:h-[calc(297mm*1.2)]"
                     : "w-full max-w-3xl",
                 )}
               >

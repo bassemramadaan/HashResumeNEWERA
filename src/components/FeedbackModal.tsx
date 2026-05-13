@@ -5,10 +5,6 @@ import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import { cn } from "@/lib/utils";
 
-// Using the URL provided by the user
-const SHEET_URL =
-  "https://script.google.com/macros/library/d/1ux4DtfoYKsXzQwAX08evzn5JlCwuDuQFmEWKaBRGs5HgVWqF0gDOx0hX/1";
-
 interface FeedbackModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -46,10 +42,8 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
     setLoading(true);
 
     try {
-      // Note: Google Apps Script Web App usually requires 'no-cors' for simple POST requests from client-side
-      await fetch(SHEET_URL, {
+      await fetch("/api/feedback/submit", {
         method: "POST",
-        mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,

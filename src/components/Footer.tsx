@@ -19,8 +19,8 @@ export default function Footer() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-10">
             <div className="sm:col-span-2 lg:col-span-4">
               <div className="flex flex-col items-start mb-4">
-                <div className="flex items-center gap-3 mb-2">
-                  <Logo className="w-40 sm:w-56 h-auto" variant="white" />
+                <div className="flex items-center relative h-[60px] w-[200px] rtl:origin-right ltr:origin-left -ms-4">
+                  <Logo className="absolute top-1/2 -translate-y-1/2 w-[180px] sm:w-[220px] max-w-none h-auto object-contain pointer-events-none rtl:right-0 ltr:left-0" variant="white" />
                 </div>
               </div>
               <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>

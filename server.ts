@@ -67,7 +67,80 @@ async function startServer() {
     }
   });
 
-  // PDF Generation Endpoint
+  // Payment Verification Endpoint
+  app.post("/api/payment/verify", async (req, res) => {
+    try {
+      const { code } = req.body;
+      if (!code) {
+        return res.status(400).json({ success: false, message: "Code is required" });
+      }
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+
+      // Proxy the verification to the actual Google Apps Script privately
+      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL;
+      if (!scriptUrl) {
+          throw new Error("Payment script URL not configured");
+      }
+      const url = `${scriptUrl}?code=${encodeURIComponent(code)}&t=${Date.now()}`;
+      
+      try {
+        const response = await fetch(url, { 
+          method: "GET",
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        
+        if (!response.ok) {
+          throw new Error("HTTP error from payment provider");
+        }
+        
+        const result = await response.json();
+        
+        res.json({ 
+          success: result.success === true, 
+          message: result.message || (result.success ? "Successfully verified" : "Invalid code")
+        });
+      } catch (fetchError: any) {
+        clearTimeout(timeoutId);
+        if (fetchError.name === 'AbortError') {
+          return res.status(504).json({ success: false, message: "Verification request timed out. Please try again." });
+        }
+        throw fetchError;
+      }
+    } catch (error: unknown) {
+      console.error("Payment Verification Error:", error);
+      res.status(500).json({ success: false, message: "Verification failed due to server error" });
+    }
+  });
+
+  // Feedback Submission Endpoint
+  app.post("/api/feedback/submit", async (req, res) => {
+    try {
+      const feedbackData = req.body;
+      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_FEEDBACK_URL;
+      if (!scriptUrl) {
+          throw new Error("Feedback script URL not configured");
+      }
+      
+      const response = await fetch(scriptUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(feedbackData),
+      });
+
+      if (!response.ok) {
+        throw new Error("HTTP error from feedback provider");
+      }
+      
+      res.json({ success: true });
+    } catch (error: unknown) {
+      console.error("Feedback Submission Error:", error);
+      res.status(500).json({ success: false, message: "Submission failed due to server error" });
+    }
+  });
+  
   app.post('/api/pdf/generate', async (req, res) => {
     try {
       const { html, css } = req.body;

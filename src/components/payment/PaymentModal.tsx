@@ -31,17 +31,36 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
     setVerifying(true);
     setError("");
     try {
-      const url = `https://script.google.com/macros/s/AKfycbxzY_w_K7mzU-AYqds3vvLARGwAQjvbWi88v0c8U0FXKE8KfFQ4XxlhZc3ExkRM8XLMVg/exec?code=${encodeURIComponent(code)}&t=${Date.now()}`;
-      const response = await fetch(url, { method: "GET", mode: "cors" });
-      if (!response.ok) throw new Error("HTTP error");
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s client timeout
+      
+      const response = await fetch("/api/payment/verify", { 
+        method: "POST", 
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code }),
+        signal: controller.signal
+      });
+      
+      clearTimeout(timeoutId);
+      if (!response.ok) {
+        if (response.status === 504) {
+           throw new Error(isAr ? "انتهى وقت الطلب، حاول مرة أخرى" : "Request timed out, try again");
+        }
+        throw new Error("HTTP error");
+      }
+      
       const result = await response.json();
       if (result.success === true) {
         onSuccess();
       } else {
         setError(result.message || (isAr ? "كود غير صالح أو مستخدم من قبل" : "Invalid or already used code"));
       }
-    } catch {
-      setError(isAr ? "فشل التحقق، حاول مرة أخرى" : "Verification failed, please try again");
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        setError(isAr ? "انتهى وقت الطلب، تأكد من اتصالك وحاول مرة أخرى" : "Request timed out, check your connection and try again");
+      } else {
+        setError(err.message || (isAr ? "فشل التحقق، حاول مرة أخرى" : "Verification failed, please try again"));
+      }
     } finally {
       setVerifying(false);
     }

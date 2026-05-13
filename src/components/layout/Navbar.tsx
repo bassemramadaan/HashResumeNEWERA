@@ -1,11 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from "motion/react"
 import { Menu, X, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import { useNavigate, Link } from 'react-router-dom'
-import { LOGO_URL } from '@/constants'
 
 const LANG_LABELS = { ar: 'العربية', en: 'English', fr: 'Français' }
 const LANGS: AppLang[] = ['ar', 'en', 'fr']
@@ -20,40 +19,63 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   const handleStart = onStartClick || (() => navigate('/editor'))
   const [mobileOpen, setMobileOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const navLinks = lang === 'ar'
     ? [
         { label: 'الميزات', href: '#features' },
         { label: 'الأسعار', href: '#pricing' },
+        { label: 'كيف يعمل؟', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
     : lang === 'fr'
     ? [
         { label: 'Fonctionnalités', href: '#features' },
         { label: 'Tarifs', href: '#pricing' },
+        { label: 'Comment ça marche', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
     : [
         { label: 'Features', href: '#features' },
         { label: 'Pricing', href: '#pricing' },
+        { label: 'How it Works', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
 
   const ctaLabel = lang === 'ar' ? 'ابدأ مجانًا' : lang === 'fr' ? 'Commencer' : 'Start Free'
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200" dir="ltr">
+    <nav className={cn("sticky top-0 z-50 bg-white/90 backdrop-blur-md transition-all duration-200 border-b", scrolled ? "shadow-md border-neutral-200/50" : "shadow-none border-neutral-200")}>
       <div className="container-page">
-        <div className="flex items-center justify-between min-h-[120px] md:min-h-[160px] py-2 relative">
+        <div className="flex items-center justify-between min-h-[90px] py-2 relative">
 
-          {/* Left: Nav Links */}
-          <div className="hidden md:flex items-center gap-1 flex-1">
+          {/* Left: Logo */}
+          <div className="flex items-center flex-shrink-0 h-[50px] relative w-[200px]">
+            <a href="/" className="absolute inset-y-0 flex items-center rtl:right-0 ltr:left-0" style={{ [lang === 'ar' ? 'right' : 'left']: '-20px' }}>
+              <img
+                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                alt="Hash Resume"
+                className="h-[120px] md:h-[130px] w-auto max-w-none object-contain pointer-events-none"
+              />
+            </a>
+          </div>
+
+          {/* Center: Nav Links */}
+          <div className="hidden md:flex items-center justify-center gap-1 flex-1 px-8">
             {navLinks.map((link) => (
               link.href.startsWith('/') ? (
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors"
+                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors whitespace-nowrap"
                 >
                   {link.label}
                 </Link>
@@ -61,7 +83,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors"
+                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors whitespace-nowrap"
                 >
                   {link.label}
                 </a>
@@ -69,30 +91,9 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             ))}
           </div>
 
-          {/* Mobile: Hamburger Button (Left side) */}
-          <div className="flex-1 md:hidden flex justify-start">
-            <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="p-2 -ml-2 rounded-lg hover:bg-neutral-100 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? <X className="w-6 h-6 text-neutral-700" /> : <Menu className="w-6 h-6 text-neutral-700" />}
-            </button>
-          </div>
-
-          {/* Center: Logo */}
-          <div className="flex justify-center flex-shrink-0">
-            <a href="/" className="flex-shrink-0">
-              <img
-                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
-                alt="Hash Resume"
-                className="h-[100px] md:h-[150px] w-auto max-w-[320px] md:max-w-[480px] object-contain"
-              />
-            </a>
-          </div>
-
-          {/* Right: Lang & CTA */}
-          <div className="flex-1 flex items-center justify-end gap-2">
+          {/* Mobile: Hamburger Button (Left side -> move to Right side before CTA in mobile maybe? Actually let's keep it tight on right) */}
+          <div className="flex items-center justify-end gap-2 flex-shrink-0">
+            
             <div className="hidden md:block relative">
               <button
                 onClick={() => setLangOpen(!langOpen)}
@@ -134,11 +135,18 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             <motion.button
               whileTap={{ scale: 0.97 }}
               onClick={handleStart}
-              className="btn-primary btn-sm inline-flex items-center gap-1.5"
+              className="btn-primary btn-sm hidden md:inline-flex items-center gap-1.5"
             >
               <Sparkles className="w-3.5 h-3.5" />
               {ctaLabel}
             </motion.button>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="w-6 h-6 text-neutral-700" /> : <Menu className="w-6 h-6 text-neutral-700" />}
+            </button>
           </div>
         </div>
       </div>
