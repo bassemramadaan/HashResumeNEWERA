@@ -44,17 +44,17 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200" dir="ltr">
       <div className="container-page">
-        <div className="flex items-center justify-between min-h-[90px] py-2">
+        <div className="flex items-center justify-between min-h-[100px] py-2">
 
           <a href="/" className="flex-shrink-0">
             <img
               src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
               alt="Hash Resume"
               style={{
-                height: 70,
+                height: 95,
                 width: 'auto',
                 objectFit: 'contain',
-                maxWidth: 220,
+                maxWidth: 280,
               }}
             />
           </a>

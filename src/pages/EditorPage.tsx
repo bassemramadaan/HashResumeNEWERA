@@ -791,7 +791,7 @@ export default function EditorPage() {
             {/* Home / Logo */}
             <Link to="/" title={t.backToHome}>
               <img
-                src="https://i.ibb.co/1GfhXyF1/IN-LOGO-icon-1.png"
+                src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png"
                 alt="Hash Resume"
                 style={{ height: 28, width: 'auto', objectFit: 'contain' }}
               />
