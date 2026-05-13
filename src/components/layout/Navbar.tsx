@@ -55,7 +55,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   return (
     <nav className={cn("sticky top-0 z-50 bg-white/90 backdrop-blur-md transition-all duration-200 border-b", scrolled ? "shadow-md border-neutral-200/50" : "shadow-none border-neutral-200")}>
       <div className="container-page">
-        <div className="flex items-center justify-between min-h-[90px] py-2 relative">
+        <div className="flex items-center justify-between min-h-[80px] py-2 relative">
 
           {/* Left: Logo */}
           <div className="flex items-center flex-shrink-0 h-[50px] relative w-[200px]">

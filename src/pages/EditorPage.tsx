@@ -788,12 +788,7 @@ export default function EditorPage() {
 
       {/* Floating Dock Navbar (Top) */}
       <div className="fixed top-2 start-1/2 -translate-x-1/2 flex justify-center z-50 px-2 pointer-events-none w-full max-w-6xl text-start">
-        <nav style={{
-          background: 'rgba(255,255,255,0.95)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid #e5e5e5',
-          boxShadow: '0 12px 40px rgba(0,0,0,0.1)',
-        }} className="pointer-events-auto flex items-center gap-6 px-6 py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[90px]">
+        <nav className="pointer-events-auto flex items-center gap-4 px-6 py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[80px] bg-white/90 backdrop-blur-md border border-neutral-200 shadow-xl">
           <div className="flex items-center gap-4">
             {/* Home / Logo */}
             <Link to="/" title={t.backToHome} className="block shrink-0 ms-1 mr-4 relative h-[40px] w-[150px]">
