@@ -81,33 +81,30 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           variants={container}
           initial="hidden"
           animate="show"
-          className="flex flex-col items-center text-center max-w-3xl mx-auto"
+          className="flex flex-col items-center text-center max-w-4xl mx-auto"
         >
           <motion.div variants={item}>
-            <div className="inline-flex items-center gap-2 bg-white border border-neutral-200 rounded-full px-4 py-1.5 text-sm text-neutral-600 mb-8 shadow-sm">
+            <div className="inline-flex items-center gap-2 bg-white border border-neutral-200 rounded-full px-4 py-1.5 text-sm text-neutral-600 mb-6 shadow-sm">
               <span className="w-2 h-2 rounded-full dot-pulse" style={{ backgroundColor: 'var(--color-success)' }} />
               {copy.badge}
             </div>
           </motion.div>
 
-          <motion.div variants={item} className="flex flex-col items-center gap-4 my-10">
-          </motion.div>
-
           <motion.h1
             variants={item}
-            className="text-4xl md:text-5xl lg:text-6xl font-semibold text-neutral-900 leading-tight mb-4"
+            className="text-4xl md:text-6xl lg:text-7xl font-semibold text-neutral-900 leading-[1.15] mb-6 tracking-tight"
           >
             {copy.title1}{' '}
             <span style={{ color: 'var(--color-brand-500)' }}>
               {copy.titleAccent}
             </span>
             <br />
-            <span className="text-neutral-500 text-3xl md:text-4xl">{copy.title2}</span>
+            <span className="text-neutral-500 text-3xl md:text-5xl lg:text-6xl leading-[1.15]">{copy.title2}</span>
           </motion.h1>
 
           <motion.p
             variants={item}
-            className="text-base md:text-lg text-neutral-500 max-w-lg mx-auto mb-8 leading-relaxed whitespace-pre-line"
+            className="text-base md:text-xl text-neutral-500 max-w-2xl mx-auto mb-10 leading-relaxed whitespace-pre-line"
           >
             {copy.subtitle}
           </motion.p>
@@ -119,29 +116,29 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                 trackEvent('resume_started', { source: 'hero_cta' });
                 onStart();
               }}
-              className="btn-primary inline-flex items-center justify-center gap-2 sm:w-auto w-full"
+              className="btn-primary inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-3 text-lg"
               aria-label={copy.cta}
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-5 h-5" />
               {copy.cta}
             </motion.button>
 
             <motion.button
               whileTap={{ scale: 0.97 }}
-              className="btn-ghost inline-flex items-center justify-center gap-2 sm:w-auto w-full"
+              className="btn-ghost inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-3 text-lg"
             >
-              <Play className="w-4 h-4" />
+              <Play className="w-5 h-5" />
               {copy.ctaSec}
-              <ArrowLeft className="w-4 h-4 rtl:rotate-180" />
+              <ArrowLeft className="w-5 h-5 rtl:rotate-180" />
             </motion.button>
           </motion.div>
 
           <motion.div
             variants={item}
-            className="flex flex-wrap justify-center gap-x-6 gap-y-2 mt-10"
+            className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-8"
           >
             {copy.trust.map((t) => (
-              <span key={t} className="flex items-center gap-1.5 text-sm text-neutral-400">
+              <span key={t} className="flex items-center gap-1.5 text-sm md:text-base text-neutral-500">
                 <Check className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-success)' }} />
                 {t}
               </span>

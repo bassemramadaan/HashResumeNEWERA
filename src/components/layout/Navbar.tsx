@@ -44,22 +44,10 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   return (
     <nav className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-neutral-200" dir="ltr">
       <div className="container-page">
-        <div className="flex items-center justify-between min-h-[100px] py-2">
+        <div className="flex items-center justify-between min-h-[100px] py-2 relative">
 
-          <a href="/" className="flex-shrink-0">
-            <img
-              src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
-              alt="Hash Resume"
-              style={{
-                height: 95,
-                width: 'auto',
-                objectFit: 'contain',
-                maxWidth: 280,
-              }}
-            />
-          </a>
-
-          <div className="hidden md:flex items-center gap-1">
+          {/* Left: Nav Links */}
+          <div className="hidden md:flex items-center gap-1 flex-1">
             {navLinks.map((link) => (
               link.href.startsWith('/') ? (
                 <Link
@@ -81,8 +69,31 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-2">
-            <div className="relative">
+          {/* Mobile: Hamburger Button (Left side) */}
+          <div className="flex-1 md:hidden flex justify-start">
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="p-2 -ml-2 rounded-lg hover:bg-neutral-100 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="w-6 h-6 text-neutral-700" /> : <Menu className="w-6 h-6 text-neutral-700" />}
+            </button>
+          </div>
+
+          {/* Center: Logo */}
+          <div className="flex justify-center flex-shrink-0">
+            <a href="/" className="flex-shrink-0">
+              <img
+                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                alt="Hash Resume"
+                className="h-[80px] md:h-[120px] w-auto max-w-[280px] md:max-w-[360px] object-contain"
+              />
+            </a>
+          </div>
+
+          {/* Right: Lang & CTA */}
+          <div className="flex-1 flex items-center justify-end gap-2">
+            <div className="hidden md:block relative">
               <button
                 onClick={() => setLangOpen(!langOpen)}
                 className="btn-ghost btn-sm flex items-center gap-1.5"
@@ -129,14 +140,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               {ctaLabel}
             </motion.button>
           </div>
-
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors"
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
         </div>
       </div>
 
