@@ -34,13 +34,9 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s client timeout
       
-      const response = await fetch("/api/payment/verify", { 
-        method: "POST", 
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
-        signal: controller.signal
-      });
-      
+                      const scriptUrl = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_PAYMENT_URL;
+                const url = `${scriptUrl}?action=verify&code=${encodeURIComponent(code.trim().toUpperCase())}`;
+                const response = await fetch(url, { signal: controller.signal });
       clearTimeout(timeoutId);
       if (!response.ok) {
         if (response.status === 504) {
