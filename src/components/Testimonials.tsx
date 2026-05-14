@@ -7,50 +7,50 @@ import { cn } from "@/lib/utils";
 
 const reviews = [
   {
-    name: "Sarah Jenkins",
+    name: "Youssef Ahmed",
     text: "Hash Resume helped me land my dream job in just 2 weeks! The ATS optimization is real.",
     role: "Software Engineer",
     lang: "en",
   },
   {
     name: "محمد إبراهيم",
-    text: "يا باشا الأداة دي جامدة جداً، وفرت عليا وقت ومجهود كبير في تنسيق الـ CV، بجد تسلم إيديكو!",
+    text: "الأداة دي جامدة جداً، وفرت عليا وقت ومجهود كبير في تنسيق الـ CV، بجد تسلم إيديكو!",
     role: "مهندس مدني",
     lang: "ar",
   },
   {
-    name: "Mark Thompson",
+    name: "Laila H.",
     text: "The interface is so clean and intuitive. I love that it's 100% private.",
     role: "Product Manager",
     lang: "en",
   },
   {
     name: "محمود حسن",
-    text: "بصراحة يا جماعة الموقع ده غير حياتي، الـ CV طلع شكله بروفيشنال أوي والـ ATS قبله من أول مرة.",
-    role: "محاسب",
+    text: "الموقع ده غير حياتي، الـ CV طلع شكله بروفيشنال والـ ATS قبله من أول مرة.",
+    role: "محلل مالي",
     lang: "ar",
   },
   {
-    name: "Emily Rodriguez",
+    name: "Amina K.",
     text: "Finally, a resume builder that actually cares about privacy and design quality.",
     role: "UX Designer",
     lang: "en",
   },
   {
     name: "خالد العتيبي",
-    text: "ما شاء الله، الموقع جداً ممتاز وسهل الاستخدام، القوالب احترافية وتناسب سوق العمل عندنا في السعودية.",
+    text: "الموقع جداً ممتاز وسهل الاستخدام، القوالب احترافية وتناسب سوق العمل عندنا في السعودية.",
     role: "مدير تسويق",
     lang: "ar",
   },
   {
-    name: "سارة محمود",
-    text: "أحلى حاجة إن الموقع سهل ومفهوم، والـ CV طلع شكله يفتح النفس، شكراً ليكم بجد على المجهود ده.",
+    name: "أسماء محمود",
+    text: "أحلى حاجة إن الموقع سهل ومفهوم، والـ CV طلع شكله يفتح النفس، شكراً ليكم بجد.",
     role: "مصممة جرافيك",
     lang: "ar",
   },
   {
     name: "عبد العزيز القحطاني",
-    text: "تجربة ممتازة، الموقع يوفر قوالب احترافية جداً ومناسبة لمتطلبات الشركات الكبرى في المملكة.",
+    text: "تجربة ممتازة، قوالب احترافية جداً ومناسبة لمتطلبات الشركات الكبرى في المملكة.",
     role: "محلل بيانات",
     lang: "ar",
   },
@@ -103,7 +103,7 @@ export default function Testimonials() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 auto-rows-max items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
           {reviews.map((review, index) => {
             const avatarColor = colors[index % colors.length];
             return (
@@ -153,7 +153,7 @@ export default function Testimonials() {
                         ))}
                         <span className="ms-2 px-1.5 py-0.5 bg-emerald-50 text-emerald-600 rounded text-[10px] font-bold flex items-center gap-1 border border-emerald-100">
                            <CheckCircle2 size={10} />
-                           {language === "ar" ? "سيرة محملة" : "Downloaded CV"}
+                           {language === "ar" ? "مستخدم موثق" : "Verified User"}
                         </span>
                       </div>
                     </div>

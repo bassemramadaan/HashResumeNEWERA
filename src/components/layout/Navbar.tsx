@@ -58,14 +58,14 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         <div className="flex items-center justify-between min-h-[80px] py-2 relative">
 
           {/* Left: Logo */}
-          <div className="flex items-center flex-shrink-0 h-[50px] relative w-[200px]">
-            <a href="/" className="absolute inset-y-0 flex items-center rtl:right-0 ltr:left-0" style={{ [lang === 'ar' ? 'right' : 'left']: '-20px' }}>
+          <div className="flex items-center flex-shrink-0">
+            <Link to="/" className="flex items-center transform origin-left rtl:origin-right hover:scale-105 transition-transform">
               <img
-                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                src="https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png"
                 alt="Hash Resume"
-                className="h-[120px] md:h-[130px] w-auto max-w-none object-contain pointer-events-none"
+                className="h-[40px] md:h-[52px] w-auto object-contain"
               />
-            </a>
+            </Link>
           </div>
 
           {/* Center: Nav Links */}
@@ -75,17 +75,27 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors whitespace-nowrap"
+                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors whitespace-nowrap flex items-center gap-1.5"
                 >
                   {link.label}
+                  {link.label.includes('Hash Hunt') && (
+                    <span className="bg-brand-500 text-white text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-brand-500/20">
+                      {lang === 'ar' ? 'جديد' : 'NEW'}
+                    </span>
+                  )}
                 </Link>
               ) : (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors whitespace-nowrap"
+                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors whitespace-nowrap flex items-center gap-1.5"
                 >
                   {link.label}
+                  {link.label.includes('Hash Hunt') && (
+                    <span className="bg-brand-500 text-white text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-brand-500/20">
+                      {lang === 'ar' ? 'جديد' : 'NEW'}
+                    </span>
+                  )}
                 </a>
               )
             ))}

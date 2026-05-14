@@ -1,7 +1,8 @@
 import { motion } from "motion/react"
-import { Sparkles, Check, ArrowLeft, Play } from 'lucide-react'
+import { Sparkles, Check, ArrowLeft, LayoutTemplate } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
 import { trackEvent } from '@/services/analytics'
+import { useNavigate } from 'react-router-dom'
 
 interface HeroSectionProps {
   lang: AppLang
@@ -16,7 +17,7 @@ const COPY = {
     title2:      'بالعربي أو الإنجليزي',
     subtitle:    'الذكاء الاصطناعي يكتب، أنت تراجع وتحمّل.\nبدون تسجيل. بدون اشتراك.',
     cta:         'ابدأ مجانًا',
-    ctaSec:      'شاهد مثال',
+    ctaSec:      'تصفح القوالب',
     trust: ['بدون بطاقة ائتمان', 'عربي وإنجليزي وفرنسي', 'متوافق مع أنظمة ATS'],
   },
   en: {
@@ -26,7 +27,7 @@ const COPY = {
     title2:      'in Arabic or English',
     subtitle:    'AI writes it, you review and download.\nNo sign-up. No subscription.',
     cta:         'Start Free',
-    ctaSec:      'See Example',
+    ctaSec:      'View Templates',
     trust: ['No credit card', 'Arabic, English & French', 'ATS-optimized'],
   },
   fr: {
@@ -36,7 +37,7 @@ const COPY = {
     title2:      'en arabe ou en anglais',
     subtitle:    "L'IA rédige, vous révisez et téléchargez.\nSans inscription. Sans abonnement.",
     cta:         'Commencer',
-    ctaSec:      'Voir un exemple',
+    ctaSec:      'Voir les modèles',
     trust: ['Sans carte bancaire', 'Arabe, anglais et français', 'Optimisé ATS'],
   },
 }
@@ -50,11 +51,12 @@ const item = {
   show:   { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
 }
 
-export function HeroSection({ lang, onStart }: HeroSectionProps) {
+  export function HeroSection({ lang, onStart }: HeroSectionProps) {
   const copy = COPY[lang] || COPY['en']
+  const navigate = useNavigate()
 
   return (
-    <section className="relative overflow-hidden bg-neutral-50 pt-10 pb-16 md:pt-16 md:pb-16">
+    <section className="relative overflow-hidden bg-neutral-50 pt-10 pb-20 md:pt-16 md:pb-28">
 
       <div
         aria-hidden="true"
@@ -126,9 +128,10 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
             <motion.button
               whileTap={{ scale: 0.97 }}
+              onClick={() => navigate('/templates')}
               className="btn-ghost inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-3 text-lg"
             >
-              <Play className="w-5 h-5" />
+              <LayoutTemplate className="w-5 h-5" />
               {copy.ctaSec}
               <ArrowLeft className="w-5 h-5 rtl:rotate-180" />
             </motion.button>
@@ -193,52 +196,69 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
               <div className="flex-1 p-6 md:p-10 flex items-center justify-center overflow-hidden">
                 <div className="w-full max-w-[500px] aspect-[1/1.414] bg-white shadow-lg border border-neutral-200/30 p-8 flex flex-col relative transform md:scale-95 transition-transform hover:scale-100">
                   {/* Fake Resume Content */}
-                  <div className="text-center border-b border-neutral-200 pb-6 mb-6">
-                    <div className="h-8 w-48 bg-neutral-800 rounded-md mx-auto mb-3" />
-                    <div className="h-3 w-64 bg-neutral-300 rounded mx-auto" />
+                  <div className="text-center border-b border-neutral-200 pb-4 mb-4">
+                    <h2 className="text-lg font-bold text-neutral-800 uppercase tracking-widest mb-1">Youssef Ahmed</h2>
+                    <p className="text-[10px] text-neutral-500">Software Engineer | youssef@example.com | Cairo, Egypt</p>
                   </div>
 
-                  <div className="flex gap-8">
+                  <div className="flex gap-6 flex-1 text-[8px] leading-relaxed text-neutral-700">
                     {/* Left Column */}
-                    <div className="w-2/3 space-y-6">
+                    <div className="w-2/3 space-y-4">
                       <div>
-                        <div className="h-4 w-24 bg-neutral-800 rounded mb-4" />
+                        <h3 className="text-[10px] font-bold text-neutral-800 border-b border-neutral-200 pb-1 mb-2 uppercase">Experience</h3>
                         <div className="space-y-3">
-                          <div className="h-3 w-full bg-neutral-200 rounded" />
-                          <div className="h-3 w-5/6 bg-neutral-200 rounded" />
-                          <div className="h-3 w-4/6 bg-neutral-200 rounded" />
+                          <div>
+                            <div className="flex justify-between font-bold text-neutral-800">
+                              <span>Senior Frontend Engineer — TechCorp</span>
+                              <span>2021 - Present</span>
+                            </div>
+                            <ul className="list-disc ps-3 mt-1 space-y-0.5 text-neutral-600">
+                              <li>Led the migration of a legacy dashboard to React, improving load time by 40%.</li>
+                              <li>Mentored a team of 4 junior developers and established code review guidelines.</li>
+                              <li>Implemented complex UI components using Tailwind CSS and Framer Motion.</li>
+                            </ul>
+                          </div>
+                          <div>
+                            <div className="flex justify-between font-bold text-neutral-800">
+                              <span>Frontend Developer — StartupX</span>
+                              <span>2018 - 2021</span>
+                            </div>
+                            <ul className="list-disc ps-3 mt-1 space-y-0.5 text-neutral-600">
+                              <li>Developed responsive landing pages processing 10k+ daily visitors.</li>
+                              <li>Integrated RESTful APIs and optimized state management with Redux.</li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
                       <div>
-                        <div className="h-4 w-32 bg-neutral-800 rounded mb-4" />
-                        <div className="space-y-4">
-                          {[1,2].map(i => (
-                            <div key={i} className="space-y-2">
-                              <div className="h-3 w-3/4 bg-neutral-400 rounded" />
-                              <div className="h-3 w-full bg-neutral-200 rounded" />
-                              <div className="h-3 w-5/6 bg-neutral-200 rounded" />
-                            </div>
-                          ))}
+                        <h3 className="text-[10px] font-bold text-neutral-800 border-b border-neutral-200 pb-1 mb-2 uppercase">Education</h3>
+                        <div>
+                          <div className="flex justify-between font-bold text-neutral-800">
+                            <span>B.Sc. in Computer Science</span>
+                            <span>2014 - 2018</span>
+                          </div>
+                          <div className="text-neutral-600">Cairo University — Graduated with Honors</div>
                         </div>
                       </div>
                     </div>
 
                     {/* Right Column */}
-                    <div className="w-1/3 space-y-6">
+                    <div className="w-1/3 space-y-4">
                       <div>
-                        <div className="h-4 w-16 bg-neutral-800 rounded mb-4" />
-                        <div className="space-y-2">
-                          <div className="h-3 w-full bg-neutral-200 rounded" />
-                          <div className="h-3 w-full bg-neutral-200 rounded" />
-                          <div className="h-3 w-3/4 bg-neutral-200 rounded" />
+                        <h3 className="text-[10px] font-bold text-neutral-800 border-b border-neutral-200 pb-1 mb-2 uppercase">Skills</h3>
+                        <div className="flex flex-wrap gap-1">
+                          {['React', 'TypeScript', 'Node.js', 'Tailwind CSS', 'Next.js', 'GraphQL', 'Git'].map(skill => (
+                            <span key={skill} className="bg-neutral-100 text-neutral-600 px-1.5 py-0.5 rounded text-[7px] border border-neutral-200 whitespace-nowrap">
+                              {skill}
+                            </span>
+                          ))}
                         </div>
                       </div>
                       <div>
-                        <div className="h-4 w-20 bg-neutral-800 rounded mb-4" />
-                        <div className="flex flex-wrap gap-2">
-                          {[1,2,3,4,5].map(i => (
-                            <div key={i} className="h-5 w-12 bg-neutral-100 rounded border border-neutral-200" />
-                          ))}
+                        <h3 className="text-[10px] font-bold text-neutral-800 border-b border-neutral-200 pb-1 mb-2 uppercase">Languages</h3>
+                        <div className="space-y-1 text-neutral-600">
+                          <div className="flex justify-between"><span>Arabic</span><span className="text-neutral-400">Native</span></div>
+                          <div className="flex justify-between"><span>English</span><span className="text-neutral-400">Fluent</span></div>
                         </div>
                       </div>
                     </div>

@@ -257,12 +257,28 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
               </motion.div>
             ) : (
               <>
+                <div className="mb-6 space-y-4 text-sm text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                  <div className="flex items-start gap-2 mb-2">
+                    <Linkedin size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                    <p className="font-medium text-slate-700">
+                      {language === "ar" 
+                        ? "لماذا ملف PDF وليس ربط الحساب؟" 
+                        : "Why PDF instead of direct connect?"}
+                    </p>
+                  </div>
+                  <p className="text-slate-500 text-xs ms-6 leading-relaxed">
+                    {language === "ar"
+                      ? "اعدادات الخصوصية في LinkedIn لا تسمح للتطبيقات باستخراج السيرة الذاتية للحفاظ على خصوصيتك. استخراج البيانات من ملف الـ PDF هو البديل الآمن."
+                      : "To protect your privacy, LinkedIn does not allow external apps to extract full resume details via direct connect. Scanning your profile PDF securely bypasses this limitation."}
+                  </p>
+                </div>
+
                 <div className="mb-6 space-y-4 text-sm text-slate-600">
                   <p className="font-medium">
-                    {language === "ar" ? "كيفية الحصول على ملف PDF:" : "How to get your PDF:"}
+                    {language === "ar" ? "كيفية الحصول على ملف PDF من لينكد إن:" : "How to get your profile PDF:"}
                   </p>
                   <ol className="list-decimal list-inside space-y-2 text-slate-500 ms-2">
-                    <li>{language === "ar" ? "اذهب إلى حسابك على LinkedIn" : "Go to your LinkedIn profile"}</li>
+                    <li>{language === "ar" ? "اذهب إلى حسابك الشخصي على LinkedIn" : "Go to your LinkedIn profile"}</li>
                     <li>{language === "ar" ? "اضغط على زر (المزيد / More)" : "Click the (More) button"}</li>
                     <li>{language === "ar" ? "اختر (حفظ بتنسيق PDF / Save to PDF)" : "Select (Save to PDF)"}</li>
                   </ol>

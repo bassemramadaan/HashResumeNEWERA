@@ -18,9 +18,9 @@ export default function Footer() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-10">
             <div className="sm:col-span-2 lg:col-span-4">
               <div className="flex flex-col items-start mb-4">
-                <div className="flex items-center relative h-[60px] w-[200px] rtl:origin-right ltr:origin-left -ms-4">
-                  <img src="https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png" alt="Hash Resume" className="absolute top-1/2 -translate-y-1/2 w-[180px] sm:w-[220px] max-w-none h-auto object-contain pointer-events-none rtl:right-0 ltr:left-0" />
-                </div>
+                <Link to="/" className="inline-block transform origin-left rtl:origin-right hover:scale-105 transition-transform mb-2">
+                  <img src="https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png" alt="Hash Resume" className="h-[46px] md:h-[58px] w-auto object-contain pointer-events-none" />
+                </Link>
               </div>
               <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>
               <div className="text-sm text-slate-500 space-y-1">
@@ -35,7 +35,7 @@ export default function Footer() {
 
             <div className="flex flex-col lg:col-span-2">
               <h4 className="text-white font-semibold mb-4">{t.aboutUs}</h4>
-              <p className="text-sm text-slate-400 leading-relaxed">
+              <p dir="auto" className="text-sm text-slate-400 leading-relaxed">
                 {t.aboutUsDesc}
               </p>
             </div>

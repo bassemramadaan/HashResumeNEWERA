@@ -372,11 +372,16 @@ const PersonalInfoForm = () => {
             className="block w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y bg-slate-50 text-slate-900 placeholder-slate-400 font-mono leading-relaxed"
             placeholder={t.summaryPlaceholder}
           />
-          <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
-               <Sparkles size={10} className="text-indigo-400 shrink-0" />
-               {language === "ar" 
-                 ? "يتم إرسال النص أعلاه فقط (بدون أي هويات أو معلومات تواصل) بشكل مشفر لتخصيص محتواك."
-                 : "Only the text snippet above is sent anonymously to generate tailored content."}
+          <div className="mt-2 text-[10px] text-slate-400 flex items-start sm:items-center justify-between gap-4 px-2 leading-tight flex-col sm:flex-row">
+            <div className="flex items-center gap-1 opacity-70">
+              <Sparkles size={10} className="text-indigo-400 shrink-0" />
+              {language === "ar" 
+                ? "يتم إرسال النص أعلاه فقط بشكل مشفر لتخصيص محتواك."
+                : "Only the text snippet above is sent anonymously to generate tailored content."}
+            </div>
+            <div className={`font-mono font-medium ${(personalInfo.summary?.length || 0) > 500 ? "text-amber-500" : "text-slate-400"}`}>
+              {personalInfo.summary?.length || 0} / 500
+            </div>
           </div>
           <p className="text-xs text-slate-500 mt-2 px-2">{t.summaryFooter}</p>
           </div>

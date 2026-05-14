@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type Language = "en" | "ar" | "fr";
 
@@ -8,13 +9,38 @@ interface LanguageState {
   dir: "ltr" | "rtl";
 }
 
-export const useLanguageStore = create<LanguageState>((set) => ({
-  language: "en",
-  dir: "ltr",
-  setLanguage: (lang) => {
-    const dir = lang === "ar" ? "rtl" : "ltr";
-    document.documentElement.dir = dir;
-    document.documentElement.lang = lang;
-    set({ language: lang, dir });
-  },
-}));
+const getInitialLang = (): Language => {
+  try {
+    const stored = localStorage.getItem("language-storage");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return parsed?.state?.language || "en";
+    }
+  } catch(e) {}
+  return "en";
+};
+
+const initialLang = getInitialLang();
+const initialDir = initialLang === "ar" ? "rtl" : "ltr";
+if (typeof document !== "undefined") {
+  document.documentElement.dir = initialDir;
+  document.documentElement.lang = initialLang;
+}
+
+export const useLanguageStore = create<LanguageState>()(
+  persist(
+    (set) => ({
+      language: initialLang,
+      dir: initialDir,
+      setLanguage: (lang) => {
+        const dir = lang === "ar" ? "rtl" : "ltr";
+        document.documentElement.dir = dir;
+        document.documentElement.lang = lang;
+        set({ language: lang, dir });
+      },
+    }),
+    {
+      name: "language-storage",
+    }
+  )
+);

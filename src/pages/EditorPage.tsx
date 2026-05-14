@@ -174,9 +174,13 @@ const ATSScoreIndicator = ({
   const data = useResumeStore((state) => state.data);
   const isEmpty = 
     !data.personalInfo?.fullName && 
-    data.experience?.length === 0 && 
-    data.education?.length === 0 && 
-    data.skills?.length === 0;
+    !data.personalInfo?.email &&
+    !data.personalInfo?.phone &&
+    !data.personalInfo?.professionalSummary &&
+    (!data.experience || data.experience.length === 0) && 
+    (!data.education || data.education.length === 0) && 
+    (!data.skills || data.skills.length === 0);
+
 
   const { score: atsScore, tips } = React.useMemo(() => {
     if (isEmpty) return { score: 0, criticalFailures: [], tips: [] };
@@ -213,6 +217,7 @@ const ATSScoreIndicator = ({
           <span
             className={cn(
               "text-[10px] sm:text-sm font-black leading-none",
+              isEmpty ? "text-neutral-400" :
               atsScore >= 80
                 ? "text-emerald-600"
                 : atsScore >= 50
@@ -220,15 +225,15 @@ const ATSScoreIndicator = ({
                   : "text-rose-500",
             )}
           >
-            {atsScore}%
+            {isEmpty ? "—" : `${atsScore}%`}
           </span>
         </div>
         <div className="hidden sm:block w-12 h-2 bg-neutral-200 rounded-full overflow-hidden">
           <motion.div
             initial={{ width: 0 }}
-            animate={{ width: `${atsScore}%` }}
+            animate={{ width: isEmpty ? '0%' : `${atsScore}%` }}
             className="h-full"
-            style={{ backgroundColor: atsScore >= 80 ? '#10b981' : atsScore >= 50 ? '#f59e0b' : '#ef4444' }}
+            style={{ backgroundColor: isEmpty ? '#d4d4d8' : atsScore >= 80 ? '#10b981' : atsScore >= 50 ? '#f59e0b' : '#ef4444' }}
           />
         </div>
       </button>
@@ -574,9 +579,8 @@ export default function EditorPage() {
 
   // Show welcome modal if not seen
   useEffect(() => {
-    if (!hasSeenOnboarding) {
-      const timer = setTimeout(() => setShowWelcomeModal(true), 1000);
-      return () => clearTimeout(timer);
+    if (!hasSeenOnboarding && !showWelcomeModal) {
+      setShowWelcomeModal(true);
     }
   }, [hasSeenOnboarding]);
 
@@ -791,12 +795,11 @@ export default function EditorPage() {
         <nav className="pointer-events-auto flex items-center gap-4 px-6 py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[80px] bg-white/90 backdrop-blur-md border border-neutral-200 shadow-xl">
           <div className="flex items-center gap-4">
             {/* Home / Logo */}
-            <Link to="/" title={t.backToHome} className="block shrink-0 ms-1 mr-4 relative h-[40px] w-[150px]">
+            <Link to="/" title={t.backToHome} className="flex items-center transform origin-left rtl:origin-right hover:scale-105 transition-transform shrink-0">
               <img
-                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                src="https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png"
                 alt="Hash Resume"
-                className="absolute top-1/2 -translate-y-1/2 rtl:translate-x-4 ltr:-translate-x-4 h-[100px] w-auto max-w-none object-contain pointer-events-none"
-                style={{ [language === 'ar' ? 'right' : 'left']: '-20px' }}
+                className="h-[36px] sm:h-[42px] w-auto object-contain pointer-events-none"
               />
             </Link>
 
@@ -1027,15 +1030,20 @@ export default function EditorPage() {
                       <Sparkles size={20} className="text-white animate-pulse sm:w-6 sm:h-6" />
                     </div>
 
-                    <div className="flex-1 relative z-10 text-start">
-                      <div className="flex flex-wrap items-center gap-2 text-[10px] font-black text-brand-500 uppercase tracking-widest mb-1.5 opacity-90">
-                        <span className="bg-brand-500/10 px-2 py-0.5 rounded-full">
-                          {activeTabIndex} / {tabs.length}
-                        </span>
-                        <span className="w-1 h-1 rounded-full bg-brand-500/30"></span>
-                        <span>{String(tabs.find((t) => t.id === activeTab)?.label || "")}</span>
+                    <div className="flex-1 relative z-10 text-start w-full">
+                      <div className="flex flex-col gap-1.5 sm:gap-2 w-full max-w-[200px] sm:max-w-xs mb-2">
+                        <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold text-brand-600 uppercase tracking-wider">
+                          <span>{String(tabs.find((t) => t.id === activeTab)?.label || "")}</span>
+                          <span>{activeTabIndex} / {tabs.length}</span>
+                        </div>
+                        <div className="w-full bg-brand-100 h-1.5 sm:h-2 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-brand-500 rounded-full transition-all duration-500"
+                            style={{ width: `${(activeTabIndex / tabs.length) * 100}%` }}
+                          />
+                        </div>
                       </div>
-                      <h1 className="text-sm sm:text-xl font-black text-neutral-900 tracking-tight leading-snug">
+                      <h1 className="text-sm sm:text-lg font-black text-neutral-900 tracking-tight leading-snug">
                         {String(tabDescriptions[activeTab] || "")}
                       </h1>
                     </div>
@@ -1465,18 +1473,20 @@ export default function EditorPage() {
           </div>
         </Panel>
 
-        <PanelResizeHandle className="w-1.5 focus:outline-none bg-neutral-200 hover:bg-brand-500 active:bg-brand-600 transition-colors hidden md:block group z-50">
-          <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <div className="h-12 w-1 bg-white rounded-full" />
-          </div>
-        </PanelResizeHandle>
+        {!isMobile && (
+          <>
+            <PanelResizeHandle className="w-1.5 focus:outline-none bg-neutral-200 hover:bg-brand-500 active:bg-brand-600 transition-colors group z-50">
+              <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="h-12 w-1 bg-white rounded-full" />
+              </div>
+            </PanelResizeHandle>
 
-        {/* Preview Area / Bottom Sheet for Mobile */}
-        <Panel
-          defaultSize={45}
-          minSize={30}
-          className="hidden md:block w-full h-full"
-        >
+            {/* Preview Area / Bottom Sheet for Mobile */}
+            <Panel
+              defaultSize={45}
+              minSize={30}
+              className="w-full h-full"
+            >
           <div
             data-tour="preview-pane"
             className="bg-neutral-100 border-s border-neutral-200 flex-col flex h-full overflow-hidden relative transition-colors duration-200"
@@ -1560,6 +1570,8 @@ export default function EditorPage() {
             </div>
           </div>
         </Panel>
+        </>
+        )}
       </PanelGroup>
 
       <AnimatePresence>
@@ -1720,21 +1732,12 @@ export default function EditorPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => { hapticFeedback(40); setShowMobilePreview(!showMobilePreview); }}
-              className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl transition-all active:scale-95"
-              style={{ background: 'var(--color-neutral-100)', color: 'var(--color-neutral-600)' }}
+              className="md:hidden flex items-center justify-center gap-2 font-black h-10 px-4 rounded-xl transition-all active:scale-95 text-white text-xs uppercase tracking-widest"
+              style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 4px 12px color-mix(in srgb, var(--color-brand-500) 35%, transparent)' }}
               title={language === 'ar' ? 'معاينة' : 'Preview'}
             >
-              <Eye size={18} />
-            </button>
-
-            <button
-              onClick={handleExportClick}
-              className="flex items-center justify-center gap-2 font-black h-10 px-4 rounded-xl active:scale-95 transition-all text-white text-xs uppercase tracking-widest"
-              style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 4px 12px color-mix(in srgb, var(--color-brand-500) 35%, transparent)' }}
-            >
-              <Download size={16} />
-              <span className="hidden sm:inline">{String(t.exportPdf || "")}</span>
-              <span className="sm:hidden">{language === 'ar' ? 'تحميل' : 'Export'}</span>
+              <Eye size={16} />
+              <span>{language === 'ar' ? 'معاينة' : 'Preview'}</span>
             </button>
           </div>
         </div>

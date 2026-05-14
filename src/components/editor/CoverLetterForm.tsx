@@ -131,6 +131,21 @@ export default function CoverLetterForm() {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="bg-brand-50 border border-brand-100 p-4 rounded-xl flex items-start gap-3 mb-2">
+        <Sparkles className="w-5 h-5 text-brand-500 mt-0.5 shrink-0" />
+        <div className="text-sm text-brand-900 leading-relaxed">
+          {language === "ar" ? (
+            <>
+              <strong>لمحة سريعة:</strong> هذا القسم يضيف خطاب التقديم كصفحة إضافية داخل <strong>نفس ملف السيرة الذاتية (PDF)</strong>. إذا كنت تريد إنشاء خطاب تقييم <strong>لملف منفصل</strong> بالكامل، يمكنك استخدام <a href="/cover-letter" target="_blank" className="underline font-bold text-brand-600 hover:text-brand-800">صانع الخطابات المستقل</a>.
+            </>
+          ) : (
+            <>
+              <strong>Note:</strong> This section generates a cover letter that is integrated directly into your resume PDF as an <strong>extra page</strong>. For a completely <strong>standalone document</strong>, you can use our <a href="/cover-letter" target="_blank" className="underline font-bold text-brand-600 hover:text-brand-800">Standalone Cover Letter Builder</a>.
+            </>
+          )}
+        </div>
+      </div>
+
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <SectionTooltip

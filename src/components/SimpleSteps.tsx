@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "motion/react";
 import { FileText, Sparkles, Download } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -88,33 +89,33 @@ export default function SimpleSteps() {
       icon: FileText,
       title: t.simpleStep1Title,
       desc: t.simpleStep1Desc,
-      color: "text-blue-500",
-      bg: "bg-blue-50 ",
-      border: "border-blue-200 ",
+      color: "text-brand-500",
+      bg: "bg-brand-50 ",
+      border: "border-brand-200 ",
       mockup: <EditorMockup />,
     },
     {
       icon: Sparkles,
       title: t.simpleStep2Title,
       desc: t.simpleStep2Desc,
-      color: "text-purple-500",
-      bg: "bg-purple-50 ",
-      border: "border-purple-200 ",
+      color: "text-brand-500",
+      bg: "bg-brand-50 ",
+      border: "border-brand-200 ",
       mockup: <AIMockup />,
     },
     {
       icon: Download,
       title: t.simpleStep3Title,
       desc: t.simpleStep3Desc,
-      color: "text-emerald-500",
-      bg: "bg-emerald-50 ",
-      border: "border-emerald-200 ",
+      color: "text-brand-500",
+      bg: "bg-brand-50 ",
+      border: "border-brand-200 ",
       mockup: <DownloadMockup />,
     },
   ];
 
   return (
-    <section className="py-20 bg-slate-50 border-b border-slate-200">
+    <section className="py-20 bg-white border-t border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold text-slate-900 font-display">
@@ -122,36 +123,51 @@ export default function SimpleSteps() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative">
-          {/* Connecting Line */}
-          <div className="hidden md:block absolute top-[180px] left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-blue-200 via-purple-200 to-emerald-200 z-0"></div>
+        <div className="flex flex-col md:flex-row gap-8 md:gap-4 lg:gap-12 relative justify-center items-center md:items-stretch">
+          {/* Connecting Line is removed because we will use arrows instead for clearer direction */}
 
           {steps.map((step, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              className="relative z-10 flex flex-col items-center text-center group"
-            >
-              <div className="w-full mb-8 transform transition-transform duration-500 group-hover:-translate-y-2">
-                {step.mockup}
-              </div>
-              <div
-                className={`w-16 h-16 rounded-[1.5rem] ${step.bg} ${step.border} border border-slate-200/50 flex items-center justify-center mb-6 shadow-xl shadow-slate-200/40 relative overflow-hidden group-hover:-translate-y-1 transition-all`}
+            <React.Fragment key={index}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+                className="relative z-10 flex flex-col items-center text-center group flex-1"
               >
-                <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-transparent" />
-                <div className="absolute -top-2 -end-2 w-7 h-7 rounded-full bg-slate-900 border-2 border-white text-white flex items-center justify-center font-bold text-[10px] shadow-md z-20">
-                  {index + 1}
+                <div className="w-full mb-8 transform transition-transform duration-500 group-hover:-translate-y-2">
+                  {step.mockup}
                 </div>
-                <step.icon size={26} className={`${step.color} relative z-10`} strokeWidth={2.5} />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
-                {step.title}
-              </h3>
-              <p className="text-slate-600 max-w-[250px] leading-relaxed text-sm">{step.desc}</p>
-            </motion.div>
+                <div
+                  className={`w-16 h-16 rounded-[1.5rem] ${step.bg} ${step.border} border border-slate-200/50 flex items-center justify-center mb-6 shadow-xl shadow-slate-200/40 relative overflow-hidden group-hover:-translate-y-1 transition-all`}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-transparent" />
+                  <div className="absolute -top-2 -end-2 w-7 h-7 rounded-full bg-slate-900 border-2 border-white text-white flex items-center justify-center font-bold text-[10px] shadow-md z-20">
+                    {index + 1}
+                  </div>
+                  <step.icon size={26} className={`${step.color} relative z-10`} strokeWidth={2.5} />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                  {step.title}
+                </h3>
+                <p className="text-slate-600 max-w-[250px] leading-relaxed text-sm">{step.desc}</p>
+              </motion.div>
+
+              {/* Directional Arrow between steps (only on Desktop) */}
+              {index < steps.length - 1 && (
+                <div className="hidden md:flex items-center justify-center text-brand-300 px-2 lg:px-4 mt-[110px]">
+                  {language === 'ar' ? (
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
+                      <path d="M19 12H5M5 12L12 19M5 12L12 5" />
+                    </svg>
+                  ) : (
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
+                      <path d="M5 12h14M19 12l-7-7M19 12l-7 7" />
+                    </svg>
+                  )}
+                </div>
+              )}
+            </React.Fragment>
           ))}
         </div>
       </div>

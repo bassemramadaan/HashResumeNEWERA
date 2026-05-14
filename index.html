@@ -39,7 +39,12 @@
     <script>
       (function () {
         try {
-          var lang = localStorage.getItem('hr_lang') || 'ar';
+          var stored = localStorage.getItem('language-storage');
+          var lang = 'ar';
+          if (stored) {
+             var parsed = JSON.parse(stored);
+             lang = parsed.state.language || 'en';
+          }
           var dir = lang === 'ar' ? 'rtl' : 'ltr';
           document.documentElement.setAttribute('lang', lang);
           document.documentElement.setAttribute('dir', dir);

@@ -55,13 +55,19 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
   const heading  = HEADINGS[lang] || HEADINGS['en']
 
   return (
-    <PageSection bg="white" id="features">
+    <PageSection bg="neutral-50" id="features">
       <SectionHeading label={heading.label} title={heading.title} subtitle={heading.subtitle} />
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {features.map((f, i) => {
           const colors    = COLOR_MAP[f.color]
           const IconComp  = f.icon
           const isHashHunt = f.title.includes('Hash Hunt')
+          
+          // Pattern for bento grid layouts
+          const spanClass = 
+            i === 0 ? "sm:col-span-2 lg:col-span-2" :
+            i === 3 ? "sm:col-span-2 lg:col-span-2" :
+            "col-span-1";
           
           return (
             <motion.div
@@ -73,7 +79,8 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
               onClick={() => isHashHunt && setIsHashHuntOpen(true)}
               className={cn(
                 "card-hover flex flex-col gap-3 group/card p-6",
-                isHashHunt && "cursor-pointer border-brand-200 hover:border-brand-500"
+                isHashHunt && "cursor-pointer border-brand-200 hover:border-brand-500",
+                spanClass
               )}
             >
               <div className="flex items-center justify-between">
@@ -91,10 +98,10 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
                 )}
               </div>
               <div className="flex items-start justify-between gap-2">
-                <h3 className="font-bold text-neutral-800">{f.title}</h3>
+                <h3 className="font-bold text-neutral-800 text-start">{f.title}</h3>
                 {f.badge && <span className="badge badge-brand flex-shrink-0">{f.badge}</span>}
               </div>
-              <p className="text-sm text-neutral-500 leading-relaxed">{f.desc}</p>
+              <p className="text-sm text-neutral-500 leading-relaxed text-start">{f.desc}</p>
             </motion.div>
           )
         })}
