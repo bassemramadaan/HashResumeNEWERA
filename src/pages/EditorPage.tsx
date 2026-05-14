@@ -797,9 +797,9 @@ export default function EditorPage() {
             {/* Home / Logo */}
             <Link to="/" title={t.backToHome} className="flex items-center transform origin-left rtl:origin-right hover:scale-105 transition-transform shrink-0">
               <img
-                src="https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png"
+                src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png"
                 alt="Hash Resume"
-                className="h-[36px] sm:h-[42px] w-auto object-contain pointer-events-none"
+                className="h-[56px] sm:h-[68px] w-auto object-contain pointer-events-none"
               />
             </Link>
 
