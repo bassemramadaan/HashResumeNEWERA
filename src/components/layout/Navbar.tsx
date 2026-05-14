@@ -55,7 +55,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   return (
     <nav className={cn("sticky top-0 z-50 bg-white/90 backdrop-blur-md transition-all duration-200 border-b", scrolled ? "shadow-md border-neutral-200/50" : "shadow-none border-neutral-200")}>
       <div className="container-page">
-        <div className="flex items-center justify-between min-h-[120px] py-2 relative">
+        <div className="flex items-center justify-between min-h-[140px] py-2 relative">
 
           {/* Left: Logo */}
           <div className="flex items-center flex-shrink-0">
@@ -63,7 +63,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <img
                 src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
                 alt="Hash Resume"
-                className="h-[100px] md:h-[120px] w-auto object-contain"
+                className="h-[110px] md:h-[140px] w-auto object-contain"
               />
             </Link>
           </div>
