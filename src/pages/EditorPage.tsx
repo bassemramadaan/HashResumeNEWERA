@@ -42,6 +42,8 @@ import { calculateATSScore } from "../utils/ats";
 import { generateWord } from "../utils/generateWord";
 import { DEFAULT_BREAKDOWN } from "../components/ATSScoreWidget";
 import EditorNavbar from "../components/editor/EditorNavbar";
+import EditorSidebar from "../components/editor/EditorSidebar";
+import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -641,104 +643,19 @@ export default function EditorPage() {
     review: String(t.finishDesc || "Finish info"),
   };
 
-  return (
-    <div
-      className={cn(
-        "flex flex-col h-[100dvh] bg-neutral-50 overflow-hidden transition-colors duration-200",
-        language === "ar" ? "font-editor-ar" : "font-editor-en",
-      )}
-      dir={dir}
-    >
-      <Helmet>
-        <title>{language === "ar" ? "محرر السيرة الذاتية" : "Resume Editor"} | Hash Resume</title>
-        <meta
-          name="description"
-          content="Build your professional resume with our AI-powered editor."
-        />
-      </Helmet>
-      <OnboardingTour />
+  const sidebarCompletionMap: Record<string, number> = {
+    basics: data.personalInfo.fullName && data.personalInfo.email && data.personalInfo.jobTitle ? 100 : (data.personalInfo.fullName || data.personalInfo.email ? 50 : 0),
+    experience: data.experience && data.experience.length > 0 ? 100 : 0,
+    education: data.education && data.education.length > 0 ? 100 : 0,
+    skills: data.skills && data.skills.length > 0 ? 100 : 0,
+    certifications: data.certifications && data.certifications.length > 0 ? 100 : 0,
+    custom: data.customSections && data.customSections.length > 0 ? 100 : 0,
+    finish: atsScore,
+  };
 
-      <EditorNavbar
-        lang={language as "ar" | "en" | "fr"}
-        onLangChange={setLanguage}
-        atsScore={atsScore}
-        atsBreakdown={breakdown}
-        isSaved={!isSaving}
-        onUndo={handleUndo}
-        onExportPDF={handleExportClick}
-        onExportWord={async () => {
-          try {
-            await generateWord(data);
-          } catch (e) {
-            console.error("Export word failed", e);
-          }
-        }}
-        onTogglePreview={() => setShowFullPreview(!showFullPreview)}
-        previewOpen={showFullPreview}
-        onBackToHome={() => { window.location.href = "/"; }}
-        onShowSettings={() => setIsSettingsModalOpen(true)}
-        onShowShortcuts={() => setShowKeyboardShortcuts(true)}
-      />
-
-      {/* Real-time Progress tracker moved to tabs and dock */}
-
-      <PanelGroup
-        direction={isMobile ? "vertical" : "horizontal"}
-        className="flex-1 w-full h-full overflow-hidden relative editor-form"
-      >
-        {/* Editor Area */}
-        <Panel defaultSize={55} minSize={30} className="block">
-          <div className="flex flex-col h-full overflow-hidden transition-all duration-300 bg-neutral-50">
-            {/* Horizontal Tabs - Now visible on all screen sizes */}
-            <div 
-              className="bg-white border-b overflow-x-auto hide-scrollbar z-30 sticky top-0 relative relative-tabs-container"
-              style={{ borderColor: 'var(--color-neutral-200)', paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
-            >
-              <div 
-                className="absolute bottom-0 left-0 h-[3px] bg-brand-500 transition-all duration-500 z-50 pointer-events-none"
-                style={{ width: `${overallProgress}%` }}
-              />
-              <div className="max-w-7xl mx-auto px-4 sm:px-8">
-                <div className="flex gap-6 min-w-max">
-                  {tabs.map((tab) => {
-                    const Icon = tab.icon;
-                    const isActive = activeTab === tab.id;
-                    return (
-                      <button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id as Tab)}
-                        className={cn(
-                          "flex items-center gap-2 px-4 py-2 rounded-xl font-bold md:text-sm text-xs transition-all relative whitespace-nowrap",
-                          isActive ? "text-white shadow-md scale-105" : "text-neutral-500 border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 bg-white"
-                        )}
-                        style={isActive ? { backgroundColor: 'var(--color-neutral-900)' } : {}}
-                      >
-                        <Icon
-                          size={16}
-                          style={{ color: isActive ? 'var(--color-brand-500)' : undefined }}
-                          className={!isActive ? 'text-neutral-400' : ''}
-                        />
-                        {tab.label}
-                        {isActive && (
-                          <motion.div
-                            layoutId="activeTabDot"
-                            className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-                            style={{ backgroundColor: 'var(--color-brand-500)' }}
-                          />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            <main
-              ref={formRef}
-              onScroll={handleFormScroll}
-              className="flex-1 overflow-y-auto p-4 sm:p-8 sm:pt-10 scroll-smooth relative"
-            >
-              <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32">
+  const formContent = (
+    <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32">
+      
                 {/* Tab instructions header moved inside scroll area */}
                 <div className="pb-6">
                   <motion.div
@@ -1176,8 +1093,98 @@ export default function EditorPage() {
                       </Suspense>
                     </motion.div>
                   </AnimatePresence>
+                </div>
+  );
 
-                {/* Mobile Scroll to Top */}
+  return (
+    <div
+      className={cn(
+        "flex flex-col h-[100dvh] bg-neutral-50 overflow-hidden transition-colors duration-200",
+        language === "ar" ? "font-editor-ar" : "font-editor-en",
+      )}
+      dir={dir}
+    >
+      <Helmet>
+        <title>{language === "ar" ? "محرر السيرة الذاتية" : "Resume Editor"} | Hash Resume</title>
+        <meta
+          name="description"
+          content="Build your professional resume with our AI-powered editor."
+        />
+      </Helmet>
+      <OnboardingTour />
+
+      {isMobile ? (
+        <MobileEditorLayout
+          lang={language as "ar" | "en" | "fr"}
+          atsScore={atsScore}
+          activeSection={activeTab}
+          onSectionChange={(id: string) => setActiveTab(id as any)}
+          completionMap={sidebarCompletionMap}
+          onExportPDF={handleExportClick}
+          onExportWord={async () => {
+            try {
+              await generateWord(data);
+            } catch (e) {
+              console.error("Export word failed", e);
+            }
+          }}
+          previewContent={
+            <div className="bg-white shadow-[0_0_40px_rgba(0,0,0,0.1)] rounded-[0.5rem] overflow-hidden mx-auto w-full relative h-[calc(100vh-140px)]" style={{ minHeight: "297mm", transform: 'scale(0.55)', transformOrigin: 'top center' }}>
+              <Suspense fallback={<FormLoader />}>
+                {previewMode === "cover-letter" ? <CoverLetterPreview /> : <ResumePreview ref={componentRef} />}
+              </Suspense>
+            </div>
+          }
+        >
+          <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full relative">
+            {formContent}
+          </main>
+        </MobileEditorLayout>
+      ) : (
+        <>
+          <EditorNavbar
+        lang={language as "ar" | "en" | "fr"}
+        onLangChange={setLanguage}
+        atsScore={atsScore}
+        atsBreakdown={breakdown}
+        isSaved={!isSaving}
+        onUndo={handleUndo}
+        onExportPDF={handleExportClick}
+        onExportWord={async () => {
+          try {
+            await generateWord(data);
+          } catch (e) {
+            console.error("Export word failed", e);
+          }
+        }}
+        onTogglePreview={() => setShowFullPreview(!showFullPreview)}
+        previewOpen={showFullPreview}
+        onBackToHome={() => { window.location.href = "/"; }}
+        onShowSettings={() => setIsSettingsModalOpen(true)}
+        onShowShortcuts={() => setShowKeyboardShortcuts(true)}
+      />
+
+      {/* Real-time Progress tracker moved to tabs and dock */}
+
+      <PanelGroup
+        direction={isMobile ? "vertical" : "horizontal"}
+        className="flex-1 w-full h-full overflow-hidden relative editor-form"
+      >
+        {/* Editor Area */}
+        <Panel defaultSize={55} minSize={30} className="block">
+          <div className="flex flex-row h-full overflow-hidden transition-all duration-300 bg-neutral-50">
+            <EditorSidebar
+              activeTab={activeTab}
+              onTabChange={(id) => setActiveTab(id as Tab)}
+              lang={language as "ar" | "en" | "fr"}
+              completionMap={sidebarCompletionMap}
+            />
+            <main
+              ref={formRef}
+              onScroll={handleFormScroll}
+              className="flex-1 overflow-y-auto p-4 sm:p-8 sm:pt-10 scroll-smooth relative"
+            >
+              {formContent}{/* Mobile Scroll to Top */}
                 <AnimatePresence>
                   {showScrollTop && (
                     <motion.button
@@ -1191,7 +1198,6 @@ export default function EditorPage() {
                     </motion.button>
                   )}
                 </AnimatePresence>
-              </div>
             </main>
           </div>
         </Panel>
@@ -1465,6 +1471,10 @@ export default function EditorPage() {
           </div>
         </div>
       </div>
+
+
+        </>
+      )}
 
       {/* Modals */}
         <SettingsModal
