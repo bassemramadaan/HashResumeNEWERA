@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link } from "react-router-dom";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import { useReactToPrint } from "react-to-print";
 import { motion, AnimatePresence } from "motion/react";
@@ -19,8 +18,6 @@ import {
   Eye,
   LayoutTemplate,
   Target,
-  Undo2,
-  Redo2,
   CheckCircle2,
   Maximize2,
   X,
@@ -32,22 +29,19 @@ import {
   ArrowRight,
   Award,
   Plus as PlusIcon,
-  HelpCircle,
-  Keyboard,
 } from "lucide-react";
 import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
-import { Tooltip } from "../components/ui/Tooltip";
-import LanguageSwitcher from "../components/LanguageSwitcher";
 import SettingsModal from "../components/SettingsModal";
-import ATSTipsModal from "../components/ATSTipsModal";
 import KeyboardShortcutsModal from "../components/KeyboardShortcutsModal";
 import { hapticFeedback } from "../utils";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../utils/ats";
 import { generateWord } from "../utils/generateWord";
+import { DEFAULT_BREAKDOWN } from "../components/ATSScoreWidget";
+import EditorNavbar from "../components/editor/EditorNavbar";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -109,156 +103,6 @@ interface TabItem {
   icon: React.ElementType;
   tourId?: string;
 }
-
-const AutoSaveIndicator = () => {
-  const { language } = useLanguageStore();
-  const t = translations[language].editor;
-  const data = useResumeStore((state) => state.data);
-  const [isSaving, setIsSaving] = useState(false);
-  const [lastSavedTime, setLastSavedTime] = useState<string>("");
-
-  useEffect(() => {
-    const startTimer = setTimeout(() => setIsSaving(true), 0);
-    const endTimer = setTimeout(() => {
-      setIsSaving(false);
-      const now = new Date();
-      setLastSavedTime(
-        now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      );
-    }, 800);
-    return () => {
-      clearTimeout(startTimer);
-      clearTimeout(endTimer);
-    };
-  }, [data]);
-
-  return (
-    <div className="flex items-center px-2 min-w-[120px] justify-center">
-      <AnimatePresence mode="wait">
-        {isSaving ? (
-          <motion.div
-            key="saving"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-neutral-500"
-          >
-            <div className="w-4 h-4 border-2 border-neutral-300 border-t-brand-500 rounded-full animate-spin" />
-            {String(t.saving || "")}
-          </motion.div>
-        ) : (
-          <motion.div
-            key="saved"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex items-center gap-2 text-[10px] font-bold tracking-wider text-neutral-500"
-          >
-            <CheckCircle2 size={12} className="text-emerald-500" />
-            <span className="hidden sm:inline">
-              {String(t.savedLocally || "")} {lastSavedTime && `${String(t.at || "")} ${lastSavedTime}`}
-            </span>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-};
-
-const ATSScoreIndicator = ({
-  setActiveTab,
-}: {
-  setActiveTab: (tab: Tab) => void;
-}) => {
-  const { language } = useLanguageStore();
-  const data = useResumeStore((state) => state.data);
-  const isEmpty = 
-    !data.personalInfo?.fullName && 
-    !data.personalInfo?.email &&
-    !data.personalInfo?.phone &&
-    !data.personalInfo?.professionalSummary &&
-    (!data.experience || data.experience.length === 0) && 
-    (!data.education || data.education.length === 0) && 
-    (!data.skills || data.skills.length === 0);
-
-
-  const { score: atsScore, tips } = React.useMemo(() => {
-    if (isEmpty) return { score: 0, criticalFailures: [], tips: [] };
-    try {
-      return calculateATSScore(data);
-    } catch (e) {
-      console.error("ATS Audit failed", e);
-      return { score: 0, criticalFailures: [], tips: [] };
-    }
-  }, [data, isEmpty]);
-  const [showTips, setShowTips] = useState(false);
-  const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
-
-  if (isEmpty) return null;
-
-  return (
-    <div className="flex items-center gap-2">
-      <button
-        onClick={() => setShowKeyboardShortcuts(true)}
-        className="hidden lg:flex items-center justify-center w-8 h-8 rounded-full bg-slate-50 text-slate-500 hover:bg-slate-200 hover:text-slate-900 transition-all border border-slate-200"
-        title={language === "ar" ? "اختصارات الكيبورد" : "Keyboard shortcuts"}
-      >
-        <Keyboard size={14} />
-      </button>
-
-      <button
-        onClick={() => setActiveTab("finish")}
-        className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-1 sm:py-2 rounded-full bg-white/90 hover:bg-neutral-100 transition-all border border-neutral-200 group shrink-0"
-      >
-        <div className="flex flex-col items-start">
-          <span className="text-[7px] sm:text-[9px] font-bold text-neutral-500 uppercase tracking-tighter sm:tracking-widest leading-none mb-0.5">
-            {language === "ar" ? "النتيجة" : "Score"}
-          </span>
-          <span
-            className={cn(
-              "text-[10px] sm:text-sm font-black leading-none",
-              isEmpty ? "text-neutral-400" :
-              atsScore >= 80
-                ? "text-emerald-600"
-                : atsScore >= 50
-                  ? "text-amber-500"
-                  : "text-rose-500",
-            )}
-          >
-            {isEmpty ? "—" : `${atsScore}%`}
-          </span>
-        </div>
-        <div className="hidden sm:block w-12 h-2 bg-neutral-200 rounded-full overflow-hidden">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: isEmpty ? '0%' : `${atsScore}%` }}
-            className="h-full"
-            style={{ backgroundColor: isEmpty ? '#d4d4d8' : atsScore >= 80 ? '#10b981' : atsScore >= 50 ? '#f59e0b' : '#ef4444' }}
-          />
-        </div>
-      </button>
-      
-      <button
-        onClick={() => setShowTips(true)}
-        className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full bg-brand-50 text-brand-600 hover:bg-brand-600 hover:text-white transition-all border border-brand-100"
-        title={language === "ar" ? "نصائح للتحسين" : "Tips to improve"}
-      >
-        <HelpCircle size={14} />
-      </button>
-
-      <ATSTipsModal 
-        isOpen={showTips} 
-        onClose={() => setShowTips(false)} 
-        tips={tips} 
-      />
-
-      <KeyboardShortcutsModal 
-        isOpen={showKeyboardShortcuts} 
-        onClose={() => setShowKeyboardShortcuts(false)} 
-      />
-    </div>
-  );
-};
 
 const ProgressTrackerModal = ({
   isOpen,
@@ -443,7 +287,7 @@ const ProgressTrackerModal = ({
 };
 
 export default function EditorPage() {
-  const { language, dir } = useLanguageStore();
+  const { language, dir, setLanguage } = useLanguageStore();
   const t = (translations[language as keyof typeof translations] || translations.en).editor;
 
   const [activeTab, setActiveTab] = useState<Tab>("basics");
@@ -473,27 +317,45 @@ export default function EditorPage() {
   const [previewMode, setPreviewMode] = useState<"resume" | "cover-letter">(
     "resume",
   );
-  const [isExporting, setIsExporting] = useState(false);
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
-
-  useEffect(() => {
-    const handleOnline = () => setIsOnline(true);
-    const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
-
-    return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-    };
-  }, []);
+  const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
 
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
   const isPremium = useResumeStore((state) => state.data.isPremium);
   const data = useResumeStore((state) => state.data);
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
   const resetData = useResumeStore((state) => state.resetData);
+
+  const isEmpty = 
+    !data.personalInfo?.fullName && 
+    !data.personalInfo?.email &&
+    !data.personalInfo?.phone &&
+    !data.personalInfo?.professionalSummary &&
+    (!data.experience || data.experience.length === 0) && 
+    (!data.education || data.education.length === 0) && 
+    (!data.skills || data.skills.length === 0);
+
+  const { score: atsScore } = React.useMemo(() => {
+    if (isEmpty) return { score: 0, criticalFailures: [], tips: [] };
+    try {
+      return calculateATSScore(data);
+    } catch (e) {
+      console.error("ATS Audit failed", e);
+      return { score: 0, criticalFailures: [], tips: [] };
+    }
+  }, [data, isEmpty]);
+
+  const breakdown = React.useMemo(() => {
+    return DEFAULT_BREAKDOWN.map((b, i) => {
+      let done = false;
+      if (i === 0) done = !!(data.personalInfo?.email && data.personalInfo?.phone);
+      else if (i === 1) done = !!(data.personalInfo?.professionalSummary && data.personalInfo.professionalSummary.length > 20);
+      else if (i === 2) done = !!(data.experience && data.experience.length > 0);
+      else if (i === 3) done = !!(data.skills && data.skills.length >= 3);
+      else if (i === 4) done = !!(data.education && data.education.length > 0);
+      else if (i === 5) done = !!(data.skills && data.skills.length >= 3 && data.experience && data.experience.length > 0);
+      return { ...b, done };
+    });
+  }, [data]);
 
   useEffect(() => {
     trackEvent(FUNNEL_EVENTS.EDITOR_START, { language });
@@ -540,6 +402,15 @@ export default function EditorPage() {
 
   const overallProgress = calculateProgress();
   
+  const [isSaving, setIsSaving] = useState(false);
+  useEffect(() => {
+    setIsSaving(true);
+    const endTimer = setTimeout(() => {
+      setIsSaving(false);
+    }, 800);
+    return () => clearTimeout(endTimer);
+  }, [data]);
+  
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
@@ -582,7 +453,7 @@ export default function EditorPage() {
     if (!hasSeenOnboarding && !showWelcomeModal) {
       setShowWelcomeModal(true);
     }
-  }, [hasSeenOnboarding]);
+  }, [hasSeenOnboarding, showWelcomeModal]);
 
   const handleStartTour = () => {
     setShowWelcomeModal(false);
@@ -638,14 +509,13 @@ export default function EditorPage() {
     }
 
     if (format === "pdf") {
-      setIsExporting(true);
       try {
         const htmlContent = componentRef.current?.innerHTML;
         const styles = Array.from(
           document.head.querySelectorAll('style, link[rel="stylesheet"]'),
         )
           .map((el) => el.outerHTML)
-          .join("\\n");
+          .join("\n");
 
         const response = await fetch("/api/pdf/generate", {
           method: "POST",
@@ -675,8 +545,6 @@ export default function EditorPage() {
           err,
         );
         handlePrint();
-      } finally {
-        setIsExporting(false);
       }
     } else if (format === "docx") {
       generateWord(useResumeStore.getState().data);
@@ -790,172 +658,27 @@ export default function EditorPage() {
       </Helmet>
       <OnboardingTour />
 
-      {/* Floating Dock Navbar (Top) */}
-      <div className="fixed top-2 start-1/2 -translate-x-1/2 flex justify-center z-50 px-2 pointer-events-none w-full max-w-6xl text-start">
-        <nav className="pointer-events-auto flex items-center gap-4 px-6 py-3 rounded-full transition-all duration-300 w-full justify-between min-h-[80px] bg-white/90 backdrop-blur-md border border-neutral-200 shadow-xl">
-          <div className="flex items-center gap-4">
-            {/* Home / Logo */}
-            <Link to="/" title={t.backToHome} className="flex items-center transform origin-left rtl:origin-right hover:scale-105 transition-transform shrink-0">
-              <img
-                src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png"
-                alt="Hash Resume"
-                className="h-[56px] sm:h-[68px] w-auto object-contain pointer-events-none"
-              />
-            </Link>
-
-            {/* Separator */}
-            <div className="w-px h-8 bg-neutral-200 mx-1 hidden min-[400px]:block"></div>
-
-            {/* Undo/Redo */}
-            <div className="flex items-center gap-1">
-              <Tooltip content={String(t.undo || "")}>
-                <button
-                  onClick={handleUndo}
-                  disabled={!temporalState.canUndo}
-                  className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
-                  aria-label={String(t.undo || "")}
-                >
-                  <Undo2 size={18} />
-                </button>
-              </Tooltip>
-              <Tooltip content={String(t.redo || "")}>
-                <button
-                  onClick={handleRedo}
-                  disabled={!temporalState.canRedo}
-                  className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-neutral-100 disabled:opacity-20 transition-colors"
-                  aria-label={String(t.redo || "")}
-                >
-                  <Redo2 size={18} />
-                </button>
-              </Tooltip>
-            </div>
-          </div>
-
-          {/* Center Section: Saving & ATS */}
-          <div className="hidden sm:flex items-center gap-4 flex-1 justify-center">
-            {/* Saving Indicator */}
-            <div className="min-w-max">
-              <AutoSaveIndicator />
-            </div>
-
-            {/* Offline Indicator */}
-            {!isOnline && (
-              <div
-                className="flex items-center gap-1.5 px-3 py-1 bg-rose-100 text-rose-600 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse border border-rose-200"
-                title="Offline mode - changes will be saved locally"
-              >
-                <div className="w-2 h-2 bg-rose-500 rounded-full" />
-                <span>
-                  {language === "ar" ? "غير متصل" : "Offline"}
-                </span>
-              </div>
-            )}
-
-            {/* ATS Score */}
-            <ATSScoreIndicator setActiveTab={setActiveTab} />
-          </div>
-
-          {/* Right Section: Actions */}
-          <div className="flex items-center gap-2 sm:gap-3">
-            <Tooltip content={language === "ar" ? "عرض التقدم (اضغط للتفاصيل)" : "View Progress (Click for details)"}>
-              <button
-                onClick={() => setShowProgressTracker(true)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full text-indigo-600 bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 transition-colors"
-                aria-label={language === "ar" ? "عرض التقدم" : "View Progress"}
-              >
-                <div className="w-5 h-5 relative flex items-center justify-center">
-                  <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90">
-                    <path
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeOpacity="0.2"
-                      strokeWidth="4"
-                    />
-                    <path
-                      d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                      strokeDasharray={`${overallProgress}, 100`}
-                      className="transition-all duration-500 ease-in-out"
-                    />
-                  </svg>
-                </div>
-                <span className="text-xs font-bold">{overallProgress}%</span>
-              </button>
-            </Tooltip>
-
-            <div className="hidden min-[500px]:flex items-center gap-2">
-              <Tooltip content={String(t.showMeAround || "")}>
-                <button
-                  onClick={() => setShowWelcomeModal(true)}
-                  className="w-10 h-10 flex items-center justify-center rounded-full text-brand-500 bg-brand-50 hover:bg-brand-100 transition-colors border border-brand-200"
-                  aria-label={String(t.showMeAround || "")}
-                >
-                  <Sparkles size={18} className="animate-pulse" />
-                </button>
-              </Tooltip>
-              <LanguageSwitcher className="[&>span]:hidden lg:[&>span]:inline" />
-              <Tooltip content={String(t.resumeSettings || "Templates & Settings")}>
-                <button
-                  onClick={() => setIsSettingsModalOpen(true)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full text-neutral-600 border border-neutral-200 hover:bg-neutral-100 transition-colors"
-                  aria-label={String(t.resumeSettings || "Templates & Settings")}
-                >
-                  <LayoutTemplate size={18} />
-                  <span className="text-xs font-bold hidden sm:inline">
-                    {language === "ar" ? "القوالب" : "Templates"}
-                  </span>
-                </button>
-              </Tooltip>
-            </div>
-
-            {/* Separator on Desktop */}
-            <div className="hidden lg:block w-px h-8 bg-neutral-200 mx-1"></div>
-
-            {/* Persistent Preview Button */}
-            <button
-              onClick={() => setShowFullPreview(true)}
-              className="w-10 h-10 lg:w-auto lg:px-4 lg:py-2 flex items-center justify-center gap-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-all border border-neutral-200 active:scale-95 font-bold text-[10px] sm:text-xs uppercase tracking-wider"
-              title={language === "ar" ? "معاينة كاملة" : "Full Preview"}
-            >
-              <Eye size={18} className="text-neutral-500" />
-              <span className="hidden lg:inline">
-                {language === "ar" ? "معاينة كاملة" : "Full Preview"}
-              </span>
-            </button>
-
-            <button
-              onClick={handleExportClick}
-              disabled={isExporting}
-              data-tour="export-button"
-              style={{
-                backgroundColor: isExporting ? 'var(--color-neutral-400)' : 'var(--color-brand-500)',
-                color: '#fff',
-                cursor: isExporting ? 'not-allowed' : 'pointer',
-              }}
-              className="flex items-center gap-2 h-10 sm:h-auto px-4 sm:py-2.5 rounded-full transition-all shadow-md hover:shadow-lg active:scale-95 font-black text-[10px] sm:text-xs uppercase tracking-widest shrink-0"
-            >
-              {isExporting ? (
-                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              ) : (
-                <Download size={14} />
-              )}
-              <span className="hidden sm:inline">
-                {isExporting
-                  ? language === "ar"
-                    ? "جاري التصدير..."
-                    : "Exporting..."
-                  : t.exportPdf}
-              </span>
-            </button>
-          </div>
-        </nav>
-      </div>
-
-      {/* Spacer for fixed dock */}
-      <div className="h-24 sm:h-28 shrink-0" />
+      <EditorNavbar
+        lang={language as "ar" | "en" | "fr"}
+        onLangChange={setLanguage}
+        atsScore={atsScore}
+        atsBreakdown={breakdown}
+        isSaved={!isSaving}
+        onUndo={handleUndo}
+        onExportPDF={handleExportClick}
+        onExportWord={async () => {
+          try {
+            await generateWord(data);
+          } catch (e) {
+            console.error("Export word failed", e);
+          }
+        }}
+        onTogglePreview={() => setShowFullPreview(!showFullPreview)}
+        previewOpen={showFullPreview}
+        onBackToHome={() => { window.location.href = "/"; }}
+        onShowSettings={() => setIsSettingsModalOpen(true)}
+        onShowShortcuts={() => setShowKeyboardShortcuts(true)}
+      />
 
       {/* Real-time Progress tracker moved to tabs and dock */}
 
@@ -1889,6 +1612,11 @@ export default function EditorPage() {
             </div>
           )}
         </AnimatePresence>
+
+        <KeyboardShortcutsModal 
+          isOpen={showKeyboardShortcuts} 
+          onClose={() => setShowKeyboardShortcuts(false)} 
+        />
     </div>
   );
 }
