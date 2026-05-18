@@ -263,6 +263,8 @@ function SectionsScreen({ lang, sections, activeSection, onSectionChange, comple
   );
 }
 
+import ProgressStepper from "./ProgressStepper";
+
 // ── main MobileEditorLayout ───────────────────────────────
 export default function MobileEditorLayout({
   lang            = "ar",
@@ -276,9 +278,26 @@ export default function MobileEditorLayout({
   children,                       // ← الـ form بتاع الـ section الحالية
 }: any) {
   const [activeTab, setActiveTab] = useState("edit");
-  const t                         = T[lang] ?? T.en;
   const sections                  = SECTIONS[lang] ?? SECTIONS.en;
   const isRtl                     = lang === "ar";
+  
+  const stepIds = [
+    "basics", "experience", "education", "skills", "projects", 
+    "certifications", "custom", "cover-letter", "finish"
+  ];
+  const currentIndex = stepIds.indexOf(activeSection);
+
+  const handleNext = () => {
+    if (currentIndex < stepIds.length - 1) {
+      onSectionChange(stepIds[currentIndex + 1]);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      onSectionChange(stepIds[currentIndex - 1]);
+    }
+  };
 
   // لما المستخدم يختار section من الـ sections screen → روح للـ edit screen
   const handleSectionChange = (id: string) => {
@@ -345,7 +364,18 @@ export default function MobileEditorLayout({
 
       {/* ── Main content area ── */}
       <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
-        {activeTab === "edit"     && <div style={{ paddingBottom: 80 }}>{children}</div>}
+        {activeTab === "edit"     && (
+          <>
+            <div style={{ paddingBottom: 120 }}>{children}</div>
+            <ProgressStepper
+              variant="mini"
+              current={currentIndex}
+              onNext={handleNext}
+              onPrev={handlePrev}
+              lang={lang as any}
+            />
+          </>
+        )}
         {activeTab === "preview"  && <div style={{ padding: "16px", paddingBottom: 80, height: "100%" }}>{previewContent}</div>}
         {activeTab === "sections" && (
           <SectionsScreen

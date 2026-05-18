@@ -288,11 +288,20 @@ const ProgressTrackerModal = ({
   );
 };
 
+import ProgressStepper from "../components/editor/ProgressStepper";
+
 export default function EditorPage() {
   const { language, dir, setLanguage } = useLanguageStore();
   const t = (translations[language as keyof typeof translations] || translations.en).editor;
 
   const [activeTab, setActiveTab] = useState<Tab>("basics");
+  
+  const stepIds: Tab[] = [
+    "basics", "experience", "education", "skills", "projects", 
+    "certifications", "custom", "cover-letter", "finish"
+  ];
+  const currentIndex = stepIds.indexOf(activeTab);
+
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
@@ -655,6 +664,18 @@ export default function EditorPage() {
 
   const formContent = (
     <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32">
+      {/* Horizontal Stepper for Desktop */}
+      {!isMobile && (
+        <div className="mb-6 rounded-[2rem] overflow-hidden border border-[#E8E6DF] shadow-sm">
+          <ProgressStepper
+            variant="horizontal"
+            current={currentIndex}
+            onStepClick={(i) => setActiveTab(stepIds[i])}
+            lang={language as any}
+            completionMap={sidebarCompletionMap}
+          />
+        </div>
+      )}
       
                 {/* Tab instructions header moved inside scroll area */}
                 <div className="pb-6">
