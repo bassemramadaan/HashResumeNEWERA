@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // ── i18n ──────────────────────────────────────────────────
 const T: Record<string, Record<string, string>> = {
@@ -76,19 +76,6 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> =
   ],
 };
 
-// ── hook: detect mobile ───────────────────────────────────
-export function useIsMobile(breakpoint = 768) {
-  const [isMobile, setIsMobile] = useState(
-    typeof window !== "undefined" ? window.innerWidth < breakpoint : false
-  );
-  useEffect(() => {
-    const h = () => setIsMobile(window.innerWidth < breakpoint);
-    window.addEventListener("resize", h);
-    return () => window.removeEventListener("resize", h);
-  }, [breakpoint]);
-  return isMobile;
-}
-
 // ── SVG icons ─────────────────────────────────────────────
 const Icons = {
   edit: (c: string) => (
@@ -139,7 +126,7 @@ function MiniRing({ pct }: { pct: number }) {
 }
 
 // ── ExportScreen ──────────────────────────────────────────
-function ExportScreen({ lang, onPDF, onWord }: any) {
+function ExportScreen({ lang, onPDF, onWord }: { lang: string; onPDF: () => void; onWord: () => void }) {
   const t = T[lang] ?? T.en;
   const [copied, setCopied] = useState(false);
 
@@ -198,13 +185,19 @@ function ExportScreen({ lang, onPDF, onWord }: any) {
 }
 
 // ── SectionsScreen ────────────────────────────────────────
-function SectionsScreen({ lang, sections, activeSection, onSectionChange, completionMap }: any) {
-  const mainSections = sections.filter((s: any) => s.id !== "finish");
-  const auditSection = sections.find((s: any) => s.id === "finish");
+function SectionsScreen({ lang, sections, activeSection, onSectionChange, completionMap }: {
+  lang: string;
+  sections: { id: string; label: string; emoji: string }[];
+  activeSection: string;
+  onSectionChange: (id: string) => void;
+  completionMap: Record<string, number>;
+}) {
+  const mainSections = sections.filter((s) => s.id !== "finish");
+  const auditSection = sections.find((s) => s.id === "finish");
 
   return (
     <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: 8 }}>
-      {mainSections.map((s: any) => {
+      {mainSections.map((s) => {
         const pct      = completionMap[s.id] ?? 0;
         const isActive = activeSection === s.id;
         return (
@@ -275,8 +268,19 @@ export default function MobileEditorLayout({
   onExportPDF     = () => {},
   onExportWord    = () => {},
   previewContent  = null,
-  children,                       // ← الـ form بتاع الـ section الحالية
-}: any) {
+  children,
+}: {
+  lang?: string;
+  atsScore?: number;
+  activeSection?: string;
+  onSectionChange?: (id: string) => void;
+  completionMap?: Record<string, number>;
+  onExportPDF?: () => void;
+  onExportWord?: () => void;
+  previewContent?: React.ReactNode;
+  children?: React.ReactNode;
+}) {
+  const t                         = T[lang] ?? T.en;
   const [activeTab, setActiveTab] = useState("edit");
   const sections                  = SECTIONS[lang] ?? SECTIONS.en;
   const isRtl                     = lang === "ar";
@@ -372,7 +376,7 @@ export default function MobileEditorLayout({
               current={currentIndex}
               onNext={handleNext}
               onPrev={handlePrev}
-              lang={lang as any}
+              lang={lang as "ar" | "en" | "fr"}
             />
           </>
         )}
