@@ -1,428 +1,462 @@
 import React from "react";
 import { Helmet } from "react-helmet-async";
 import { motion } from "motion/react";
-import {
-  Briefcase,
-  Building2,
-  Search,
-  ArrowRight,
-  CheckCircle2,
-  Sparkles,
-  Target,
-  Zap,
-  ShieldCheck,
-  Users,
-} from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
-import { translations } from "../i18n/translations";
 import { Navbar } from "@/components/layout/Navbar";
 import Footer from "../components/Footer";
 
 export default function HashHuntPage() {
   const { language, dir } = useLanguageStore();
-  const t = translations[language].hashHunt;
+  const isRtl = language === "ar";
+
+  // Data for sections
+  const companies = [
+    "Noon", "Careem", "Talabat", "Breadfast", "Paymob", "Instabug"
+  ];
+
+  const steps = isRtl ? [
+    { num: "01", icon: "📄", title: "ارفع سيرتك الذاتية", desc: "قم برفع سيرتك الذاتية الحالية أو ابدأ واحدة جديدة في 5 دقائق. يقوم الذكاء الاصطناعي باستخراج مهاراتك وخبراتك تلقائياً." },
+    { num: "02", icon: "🎯", title: "تطابق بالذكاء الاصطناعي", desc: "يقوم محرك التطابق لدينا بتحليل ملفك الشخصي مقابل آلاف الفرص المتاحة في أكثر من 85 شركة شريكة." },
+    { num: "03", icon: "🤝", title: "استقبل الفرص", desc: "تتواصل معك الشركات مباشرة. لا مزيد من الانتظار أو التقديم اليدوي الممل. متوسط الرد خلال 48 ساعة." }
+  ] : [
+    { num: "01", icon: "📄", title: "Upload Your Resume", desc: "Upload your existing CV or build one with HashResume in 5 minutes. Our AI extracts your skills and experience automatically." },
+    { num: "02", icon: "🎯", title: "Get Matched by AI", desc: "Our matching engine analyzes your profile against 85+ companies' open roles and ranks you based on fit — not just keywords." },
+    { num: "03", icon: "🤝", title: "Receive Opportunities", desc: "Companies reach out directly to you. No ghosting, no black holes. Average first response within 48 hours." }
+  ];
+
+  const benefits = isRtl ? [
+    { icon: "🎯", title: "تطابق ذكي", desc: "يقوم محركنا بربط ملفك بالوظائف بناءً على مهاراتك، مستوى خبرتك، وموقعك المفضل." },
+    { icon: "🔒", title: "أنت في تحكم كامل", desc: "اختر الشركات التي يمكنها رؤية ملفك. يمكنك إخفاء ملفك عن صاحب العمل الحالي." },
+    { icon: "⚡", title: "وصول سريع", desc: "يتم إرسال أفضل المطابقات مباشرة إلى مديري التوظيف — وليس لمستنقع الـ ATS." }
+  ] : [
+    { icon: "🎯", title: "AI Matching", desc: "Our engine matches your profile to roles based on skills, experience level, and location preference." },
+    { icon: "🔒", title: "You stay in control", desc: "Choose which companies can see your profile. Hide from your current employer. Remove anytime." },
+    { icon: "⚡", title: "Fast Track access", desc: "Top matches get sent directly to the hiring manager — not the ATS black hole." }
+  ];
+
+  const testimonials = [
+    {
+      stars: "★★★★★",
+      text: isRtl ? "\"رفعت سيرتي الذاتية يوم الثلاثاء. بحلول الخميس كان لدي طلبا مقابلة. لم يحدث لي هذا من قبل مع مواقع التوظيف التقليدية.\"" : "\"I uploaded my resume on a Tuesday. By Thursday I had two interview requests. Never happened to me before with traditional job boards.\"",
+      author: isRtl ? "أحمد حسين" : "Ahmed Hassan",
+      role: isRtl ? "مطور واجهات · القاهرة" : "Frontend Developer · Cairo",
+      av: "أح",
+      avBg: "#FFDDD6",
+      avCol: "#993C1D"
+    },
+    {
+      stars: "★★★★★",
+      text: isRtl ? "\"بصفتي مديرة موارد بشرية، وفرت لنا هاش هانت أسابيع من الفحص. المرشحون الذين نستقبلهم مطابقون مسبقاً وسيرهم الذاتية محسنة بالفعل.\"" : "\"As an HR manager, Hash Hunt saved us weeks of screening. The candidates we receive are pre-matched and their CVs are already ATS-optimized.\"",
+      author: isRtl ? "سارة رمضان" : "Sara Ramadan",
+      role: "HR Lead · Noon.com",
+      av: "SR",
+      avBg: "#D6E8FF",
+      avCol: "#185FA5"
+    },
+    {
+      stars: "★★★★★",
+      text: isRtl ? "\"مش صدقت إن شركة في دبي بعتتلي عرض شغل بعد يومين بس من رفع السيرة. الحمدلله على الفرصة دي.\"" : "\"I couldn't believe a company in Dubai sent me a job offer just two days after uploading my resume. Thank God for this opportunity.\"",
+      author: isRtl ? "محمد العمري" : "Mohamed El-Omari",
+      role: isRtl ? "محلل بيانات · الرياض" : "Data Analyst · Riyadh",
+      av: "مع",
+      avBg: "#D6F5E8",
+      avCol: "#0F6E56"
+    }
+  ];
+
+  const stats = [
+    { num: "2,400+", label: isRtl ? "مرشح تم توظيفه" : "Candidates placed" },
+    { num: "85+", label: isRtl ? "شركة شريكة" : "Partner companies" },
+    { num: "48h", label: isRtl ? "متوسط أول رد" : "Avg. first response" },
+    { num: "15", label: isRtl ? "دولة عربية مغطاة" : "Arab countries covered" }
+  ];
 
   return (
-    <div
-      className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-indigo-200 selection:text-indigo-900 transition-colors duration-300"
-      dir={dir}
-    >
+    <div className="min-h-screen bg-[#FAFAF6] text-[#0D0D0B] font-sans overflow-x-hidden" dir={dir}>
       <Helmet>
-        <title>{t.heroTitlePart1} {t.heroTitlePart2} | Hash Hunt</title>
-        <meta name="description" content={t.heroSubtitle} />
+        <title>{isRtl ? "هاش هانت — دع الوظائف تجدك" : "Hash Hunt — Let the Jobs Find You"}</title>
       </Helmet>
+      
+      <style dangerouslySetInnerHTML={{ __html: `
+        :root {
+          --brand:     #FF4D2D;
+          --brand-dk:  #CC3A1F;
+          --brand-lt:  rgba(255,77,45,0.08);
+          --ink:       #0D0D0B;
+          --ink2:      #3D3D38;
+          --ink3:      #7A7A72;
+          --paper:     #FAFAF6;
+          --card:      #FFFFFF;
+          --border:    rgba(0,0,0,0.08);
+          --green:     #0F6E56;
+          --green-lt:  rgba(15,110,86,0.1);
+        }
+
+        .hero-eyebrow::before {
+          content: '';
+          width: 6px;
+          height: 6px;
+          background: #FF4D2D;
+          border-radius: 50%;
+          animation: pulse 2s ease-in-out infinite;
+          display: inline-block;
+          margin-inline-end: 8px;
+        }
+
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: .4; transform: scale(.7); }
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-8px); }
+        }
+
+        .floating-card {
+          animation: float 5s ease-in-out infinite;
+        }
+
+        .ats-fill-anim {
+          width: 0;
+          animation: fillBar 1.5s ease-out forwards delay-500;
+        }
+
+        @keyframes fillBar {
+          from { width: 0; }
+          to { width: 95%; }
+        }
+      `}} />
+
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-50">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-        <div className="absolute start-1/2 top-0 -translate-x-1/2 -z-10 h-[800px] w-[800px] rounded-full blur-[120px]" style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-500) 10%, transparent)' }}></div>
+      {/* ── HERO SECTION ── */}
+      <section className="max-w-7xl mx-auto px-6 py-16 md:py-24 grid lg:grid-cols-2 gap-16 items-center">
+        <motion.div
+          initial={{ opacity: 0, x: isRtl ? 40 : -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="hero-eyebrow inline-flex items-center bg-[#FF4D2D]/8 border border-[#FF4D2D]/18 text-[#FF4D2D] text-xs font-bold px-3 py-1.5 rounded-full mb-6 tracking-wide">
+            {isRtl ? "فرص وظيفية حصرية" : "🎯 Exclusive Job Opportunities"}
+          </div>
+          <h1 className="font-syne text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6">
+            {isRtl ? (
+              <>اجعل الوظائف<br /><span className="text-[#FF4D2D]">تبحث عنك.</span></>
+            ) : (
+              <>Let the jobs<br /><em className="not-italic text-[#FF4D2D]">find you.</em></>
+            )}
+          </h1>
+          <p className="text-lg text-[#3D3D38] max-w-md mb-10 leading-relaxed">
+            {isRtl 
+              ? "ارفع سيرتك الذاتية مرة واحدة. احصل على تطابقات لوظائف في كبرى الشركات في مصر، السعودية، والإمارات — دون إرسال طلب واحد."
+              : "Upload your resume once. Get matched to roles at top companies across Egypt, Saudi Arabia, and the UAE — without sending a single cold application."}
+          </p>
+          
+          <div className="flex flex-wrap gap-4 mb-10">
+            <a href="#upload" className="bg-[#FF4D2D] hover:bg-[#CC3A1F] text-white font-bold py-4 px-8 rounded-xl transition-all hover:-translate-y-0.5 flex items-center gap-2">
+              {isRtl ? "انضم إلى قاعدة المواهب ←" : "Join the Talent Pool →"}
+            </a>
+            <a href="#how" className="border border-[#000]/8 hover:border-[#FF4D2D] hover:text-[#FF4D2D] text-[#3D3D38] font-bold py-4 px-8 rounded-xl transition-all">
+              {isRtl ? "كيف يعمل النظام؟" : "See how it works"}
+            </a>
+          </div>
 
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-16">
-            {/* Hero Text */}
-            <div className="flex-1 text-center lg:text-start">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest mb-8 shadow-sm"
-                style={{ backgroundColor: 'var(--color-brand-50)', borderColor: 'var(--color-brand-100)', color: 'var(--color-brand-700)' }}
-              >
-                <Sparkles size={14} style={{ color: 'var(--color-brand-500)' }} />
-                {t.heroBadge}
-              </motion.div>
+          <div className="flex gap-8 flex-wrap">
+            {stats.slice(0, 3).map((s, i) => (
+              <div key={i} className="flex flex-col">
+                <span className="font-syne text-2xl font-extrabold whitespace-nowrap">{s.num}</span>
+                <span className="text-xs text-[#7A7A72] uppercase tracking-wider">{s.label}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]"
-              >
-                {t.heroTitlePart1} <br />
-                <span style={{ color: 'var(--color-brand-500)' }}>
-                  {t.heroTitlePart2}
-                </span>
-              </motion.h1>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="relative lg:block"
+        >
+          {/* Float Card Top */}
+          <div className="absolute -top-6 -right-6 z-20 bg-white rounded-2xl p-4 shadow-xl flex items-center gap-3 border border-[#000]/5 floating-card" style={{ animationDelay: '1s' }}>
+            <span className="text-2xl">🏢</span>
+            <div>
+              <div className="text-sm font-bold">{isRtl ? "85 شركة" : "85 companies"}</div>
+              <div className="text-xs text-[#7A7A72]">{isRtl ? "توظف حالياً" : "actively hiring"}</div>
+            </div>
+          </div>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-                className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0 mb-10 leading-relaxed"
-              >
-                {t.heroSubtitle}
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
-              >
-                <a
-                  href="#join-form"
-                  style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 4px 12px color-mix(in srgb, var(--color-brand-500) 25%, transparent)' }}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 text-white rounded-2xl font-bold hover:opacity-90 hover:scale-105 active:scale-95 transition-all shadow-lg"
-                >
-                  {t.joinTalentPool}
-                  <ArrowRight size={20} className="rtl:rotate-180" />
-                </a>
-              </motion.div>
+          <div className="bg-white rounded-3xl p-8 shadow-2xl relative z-10 border border-[#000]/5 floating-card">
+            <div className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-12 bg-[#FF4D2D] rounded-xl flex items-center justify-center font-syne font-bold text-white">JD</div>
+              <div>
+                <div className="text-base font-bold">{isRtl ? "أحمد محمد" : "John Doe"}</div>
+                <div className="text-sm text-[#7A7A72]">{isRtl ? "مطور واجهات أول" : "Senior Frontend Developer"}</div>
+              </div>
+              <div className="ms-auto bg-[#0F6E56]/10 text-[#0F6E56] text-[11px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                ✓ {isRtl ? "أفضل 5% تطابق" : "Top 5% Match"}
+              </div>
             </div>
 
-            {/* Hero Mockup */}
-            <div className="flex-1 w-full max-w-lg lg:max-w-none relative perspective-1000">
-              <motion.div
-                initial={{ opacity: 0, rotateY: 20, rotateX: 10, scale: 0.9 }}
-                animate={{ opacity: 1, rotateY: -5, rotateX: 5, scale: 1 }}
-                transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-                className="relative z-10 w-full transform-style-3d"
-              >
-                <div className="absolute -inset-4 rounded-[2rem] blur-2xl -z-10 animate-pulse" style={{ background: 'linear-gradient(to top right, color-mix(in srgb, var(--color-brand-500) 20%, transparent), color-mix(in srgb, var(--color-brand-400) 20%, transparent))' }}></div>
-                
-                {/* Main Card */}
-                <div className="bg-slate-50 rounded-3xl shadow-2xl border border-slate-100 p-6 relative overflow-hidden">
-                  <div className="absolute top-0 end-0 w-32 h-32 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" style={{ backgroundColor: 'color-mix(in srgb, var(--color-brand-500) 10%, transparent)' }}></div>
-                  
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-lg" style={{ background: 'linear-gradient(to bottom right, var(--color-brand-500), var(--color-brand-400))' }}>
-                      JD
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-900">John Doe</h3>
-                      <p className="text-sm text-white0">Senior Frontend Developer</p>
-                    </div>
-                    <div className="ms-auto">
-                      <div className="px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-bold rounded-full border border-emerald-100 flex items-center gap-1">
-                        <CheckCircle2 size={12} />
-                        Top 5% Match
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4 mb-6">
-                    <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: "95%" }}
-                        transition={{ duration: 1.5, delay: 1 }}
-                        className="h-full bg-gradient-to-r from-emerald-400 to-emerald-500"
-                      />
-                    </div>
-                    <div className="flex justify-between text-xs font-bold text-slate-500 uppercase tracking-wider">
-                      <span>ATS Score</span>
-                      <span className="text-emerald-600">95/100</span>
-                    </div>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {["React", "TypeScript", "Next.js", "Tailwind CSS"].map((skill) => (
-                      <span key={skill} className="px-3 py-1.5 bg-slate-50 border border-slate-100 text-slate-600 text-xs font-bold rounded-lg">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="p-4 rounded-2xl border flex items-start gap-4" style={{ backgroundColor: 'var(--color-brand-50)', borderColor: 'var(--color-brand-100)' }}>
-                    <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center shrink-0 shadow-sm">
-                      <Building2 size={18} style={{ color: 'var(--color-brand-500)' }} />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-slate-900 mb-1">Interview Request</h4>
-                      <p className="text-xs text-slate-600 leading-relaxed">TechCorp is interested in your profile for a Senior Developer role.</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Floating Element */}
-                <motion.div
-                  animate={{ y: [0, -15, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute -bottom-6 -start-6 bg-slate-50 p-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-3 z-20"
-                >
-                  <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                    <Zap size={20} />
-                  </div>
-                  <div>
-                    <p className="text-xs text-slate-500 font-medium">Fast Track</p>
-                    <p className="text-sm font-bold text-slate-900">Direct to Hiring Manager</p>
-                  </div>
-                </motion.div>
-              </motion.div>
+            <div className="mb-6">
+              <div className="flex justify-between text-xs text-[#7A7A72] font-bold mb-2">
+                <span>ATS Score</span>
+                <span className="text-[#0F6E56]">95 / 100</span>
+              </div>
+              <div className="h-2 bg-[#F0EDE8] rounded-full overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-[#22c55e] to-[#0F6E56] rounded-full" style={{ width: '95%' }}></div>
+              </div>
             </div>
+
+            <div className="flex flex-wrap gap-2 mb-6">
+              {["React", "TypeScript", "Next.js", "Tailwind"].map(s => (
+                <span key={s} className="bg-[#F5F4F0] text-[#3D3D38] text-xs font-semibold px-3 py-1 rounded-md">{s}</span>
+              ))}
+            </div>
+
+            <div className="bg-[#FAFAF6] border border-[#000]/8 rounded-2xl p-4 flex items-center gap-4">
+              <div className="w-10 h-10 bg-[#0F6E56]/10 rounded-lg flex items-center justify-center text-xl">✉️</div>
+              <div className="flex-1">
+                <div className="text-sm font-bold">{isRtl ? "طلب مقابلة" : "Interview Request"}</div>
+                <div className="text-[11px] text-[#7A7A72]">Noon.com · {isRtl ? "وظيفة مطور أول" : "Senior Developer role"}</div>
+              </div>
+              <div className="bg-[#FF4D2D] text-white text-[10px] font-bold px-2 py-0.5 rounded-md">New</div>
+            </div>
+          </div>
+
+          {/* Float Card Bottom */}
+          <div className="absolute -bottom-6 -left-6 z-20 bg-white rounded-2xl p-4 shadow-xl flex items-center gap-3 border border-[#000]/5 floating-card" style={{ animationDelay: '2s' }}>
+            <span className="text-2xl">⚡</span>
+            <div>
+              <div className="text-sm font-bold">{isRtl ? "مسار سريع" : "Fast Track"}</div>
+              <div className="text-xs text-[#7A7A72]">{isRtl ? "مباشرة لمدير التوظيف" : "Direct to Hiring Manager"}</div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ── COMPANIES ── */}
+      <section className="py-16 border-y border-[#000]/8 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <div className="text-xs font-bold text-[#7A7A72] uppercase tracking-[0.2em] mb-10">
+            {isRtl ? "موثوق من فرق التوظيف في" : "Trusted by hiring teams at"}
+          </div>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all">
+            {companies.map(c => (
+              <span key={c} className="font-syne text-xl font-bold text-[#3D3D38]">{c}</span>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Join Form Section */}
-      <section className="py-16 bg-white relative" id="join-form">
-        <div className="max-w-4xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-10"
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-bold uppercase tracking-widest mb-4" style={{ backgroundColor: 'var(--color-brand-50)', borderColor: 'var(--color-brand-100)', color: 'var(--color-brand-700)' }}>
-              <Sparkles size={14} style={{ color: 'var(--color-brand-500)' }} />
-              {language === 'ar' ? 'انضم الآن' : 'Join Now'}
-            </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
-              {language === 'ar' ? 'ارفع سيرتك الذاتية الآن' : 'Upload Your CV Now'}
-            </h2>
-            <p className="text-slate-500 max-w-xl mx-auto">
-              {language === 'ar'
-                ? 'أكمل النموذج التالي وسيتم عرض ملفك على أفضل أصحاب العمل في المنطقة'
-                : 'Complete the form below and your profile will be visible to top employers in the region'}
-            </p>
-
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="flex flex-col items-center gap-6"
-          >
-            <div
-              className="w-full max-w-xl rounded-2xl p-8 text-center"
-              style={{
-                background: '#fff',
-                border: '1px solid var(--color-neutral-200)',
-                boxShadow: '0 20px 60px rgba(0,0,0,0.06)',
-              }}
-            >
-              <div
-                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-5"
-                style={{ backgroundColor: 'var(--color-brand-50)' }}
-              >
-                <Sparkles className="w-8 h-8" style={{ color: 'var(--color-brand-500)' }} />
-              </div>
-
-              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--color-neutral-900)' }}>
-                {language === 'ar' ? 'ارفع سيرتك في دقيقة واحدة' : 'Upload your CV in one minute'}
-              </h3>
-
-              <p className="text-sm mb-6" style={{ color: 'var(--color-neutral-500)' }}>
-                {language === 'ar'
-                  ? 'اضغط على الزرار وأكمل النموذج — سيرتك ستظهر لأفضل أصحاب العمل في المنطقة'
-                  : 'Click the button and complete the form — your profile will be visible to top employers in the region'}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <a
-                  href="https://docs.google.com/forms/d/1cy6kH59UpTE-VtEWLxTUuD_-8JDRdiejeTGwfDYrx4Y/viewform"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary inline-flex items-center justify-center gap-2 text-base"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  {language === 'ar' ? 'ارفع سيرتك الآن' : 'Upload Your CV Now'}
-                </a>
-              </div>
-
-              <div className="flex flex-wrap justify-center gap-4 mt-6">
-                {[
-                  { icon: '🔒', text: language === 'ar' ? 'بياناتك آمنة' : 'Your data is safe' },
-                  { icon: '⚡', text: language === 'ar' ? 'رد خلال 48 ساعة' : 'Reply within 48hrs' },
-                  { icon: '🌍', text: language === 'ar' ? '15 دولة عربية' : '15 Arab countries' },
-                ].map((item) => (
-                  <div
-                    key={item.text}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium"
-                    style={{ background: 'var(--color-neutral-100)', color: 'var(--color-neutral-600)' }}
-                  >
-                    <span>{item.icon}</span>
-                    <span>{item.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Benefits Bento Grid */}
-      <section className="py-24 bg-slate-50 relative overflow-hidden">
+      {/* ── HOW IT WORKS ── */}
+      <section id="how" className="py-24 bg-white border-b border-[#000]/8">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight">
-              {t.whyJoinTitle}
+          <div className="mb-16">
+            <div className="inline-flex bg-[#FF4D2D]/8 border border-[#FF4D2D]/15 text-[#FF4D2D] text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">
+              {isRtl ? "كيف يعمل؟" : "How it works"}
+            </div>
+            <h2 className="font-syne text-4xl md:text-5xl font-extrabold leading-tight tracking-tight mb-4">
+              {isRtl ? "3 خطوات لوظيفتك" : "3 steps to your"} <br /> {isRtl ? "القادمة" : "next opportunity"}
             </h2>
+            <p className="text-[#3D3D38] max-w-lg leading-relaxed">
+              {isRtl 
+                ? "لا خطابات تقديم. لا لوحات وظائف مملة. فقط ارفع سيرتك واترك للذكاء الاصطناعي مهمة مطابقتك."
+                : "No cover letters. No job boards. Just upload your resume and let our AI match you to the right roles."}
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: Target,
-                title: t.benefit1,
-                color: "bg-orange-50 text-orange-600 border-orange-100",
-                span: "md:col-span-2 lg:col-span-2",
-              },
-              {
-                icon: Zap,
-                title: t.benefit2,
-                style: { backgroundColor: 'var(--color-brand-50)', color: 'var(--color-brand-500)', borderColor: 'var(--color-brand-100)' },
-                span: "md:col-span-1 lg:col-span-1",
-              },
-              {
-                icon: ShieldCheck,
-                title: t.benefit3,
-                color: "bg-emerald-50 text-emerald-600 border-emerald-100",
-                span: "md:col-span-1 lg:col-span-1",
-              },
-              {
-                icon: Users,
-                title: t.benefit4,
-                color: "bg-violet-50 text-violet-600 border-violet-100",
-                span: "md:col-span-2 lg:col-span-4",
-              },
-            ].map((benefit, i) => (
+          <div className="grid md:grid-cols-3 gap-8">
+            {steps.map((s, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className={`bg-slate-50 rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${benefit.span} flex flex-col justify-center items-start group`}
+                transition={{ delay: i * 0.1 }}
+                className="group relative bg-[#FAFAF6] border border-[#000]/8 rounded-3xl p-8 hover:border-[#FF4D2D]/30 hover:-translate-y-1 transition-all"
               >
-                <div className={`w-14 h-14 rounded-2xl ${benefit.color || ''} border flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`} style={benefit.style}>
-                  <benefit.icon size={28} />
-                </div>
-                <h3 className="text-xl font-bold text-slate-900 leading-relaxed">
-                  {benefit.title}
-                </h3>
+                <div className="font-syne text-5xl font-extrabold text-[#FF4D2D]/12 leading-none mb-6 group-hover:text-[#FF4D2D]/20 transition-colors">{s.num}</div>
+                <div className="w-12 h-12 bg-[#FF4D2D]/8 rounded-xl flex items-center justify-center text-2xl mb-6">{s.icon}</div>
+                <h3 className="font-syne text-xl font-bold mb-2">{s.title}</h3>
+                <p className="text-sm text-[#3D3D38] leading-relaxed opacity-80">{s.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How it works Section */}
-      <section className="py-24 bg-slate-50 relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+      {/* ── SOCIAL PROOF ── */}
+      <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-6 tracking-tight"
-            >
-              {t.howItWorksTitle}
-            </motion.h2>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed"
-            >
-              {t.howItWorksSubtitle}
-            </motion.p>
+          <div className="text-center mb-16">
+            <div className="inline-flex bg-[#FF4D2D]/8 border border-[#FF4D2D]/15 text-[#FF4D2D] text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">
+              {isRtl ? "نتائج حقيقية" : "Results that speak"}
+            </div>
+            <h2 className="font-syne text-4xl font-extrabold tracking-tight">{isRtl ? "قصص نجاح من قلب السوق" : "Real people, real jobs"}</h2>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-12 relative">
-            {/* Connecting line for desktop */}
-            <div className="hidden md:block absolute top-12 start-[15%] end-[15%] h-0.5 -z-10" style={{ background: 'linear-gradient(to right, var(--color-brand-100), var(--color-brand-200), var(--color-brand-100))' }}></div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
+            {stats.map((s, i) => (
+              <div key={i} className="bg-white border border-[#000]/8 rounded-3xl p-8 text-center shadow-sm">
+                <div className="font-syne text-4xl font-extrabold text-[#FF4D2D] mb-2">{s.num}</div>
+                <div className="text-xs text-[#7A7A72] font-semibold uppercase">{s.label}</div>
+              </div>
+            ))}
+          </div>
 
-            {[
-              {
-                icon: Briefcase,
-                title: t.step1Title,
-                desc: t.step1Desc,
-                style: { color: 'var(--color-brand-500)', backgroundColor: 'var(--color-brand-50)' },
-              },
-              {
-                icon: Search,
-                title: t.step2Title,
-                desc: t.step2Desc,
-                color: "text-violet-600 bg-violet-50",
-              },
-              {
-                icon: Building2,
-                title: t.step3Title,
-                desc: t.step3Desc,
-                color: "text-emerald-600 bg-emerald-50",
-              },
-            ].map((item, i) => (
-              <motion.div 
-                key={i} 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
-                className="bg-slate-50 p-8 sm:p-10 rounded-[2rem] border border-slate-100 flex flex-col items-center text-center shadow-xl shadow-slate-200/20 hover:shadow-2xl transition-all duration-300 group hover:-translate-y-2 relative"
-              >
-                <div className="absolute -top-4 -start-4 w-24 h-24 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10" style={{ backgroundColor: 'var(--color-brand-50)' }}></div>
-                
-                <div className={`w-20 h-20 rounded-2xl flex items-center justify-center mb-8 shadow-sm border border-slate-100 ${item.color || ''} group-hover:scale-110 transition-all duration-500`} style={item.style}>
-                  <item.icon size={32} strokeWidth={1.5} />
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((t, i) => (
+              <div key={i} className="bg-white border border-[#000]/8 rounded-3xl p-8 flex flex-col gap-6 shadow-sm">
+                <div className="text-[#F59E0B] text-sm tracking-widest">{t.stars}</div>
+                <p className="text-sm text-[#3D3D38] leading-relaxed flex-1 italic">{t.text}</p>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0" style={{ backgroundColor: t.avBg, color: t.avCol }}>
+                    {t.av}
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold">{t.author}</div>
+                    <div className="text-[11px] text-[#7A7A72]">{t.role}</div>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">
-                  {item.title}
-                </h3>
-                <p className="text-base text-slate-600 leading-relaxed">
-                  {item.desc}
-                </p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-slate-50 relative overflow-hidden">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl" style={{ background: 'linear-gradient(135deg, var(--color-neutral-900), #1a0a06)' }}>
-            <div className="absolute top-0 end-0 w-64 h-64 rounded-full mix-blend-screen filter blur-[80px] opacity-40 -translate-y-1/2 translate-x-1/2" style={{ backgroundColor: 'var(--color-brand-500)' }}></div>
-            <div className="absolute bottom-0 start-0 w-64 h-64 bg-violet-500 rounded-full mix-blend-screen filter blur-[80px] opacity-40 translate-y-1/2 -translate-x-1/2"></div>
-            
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
-                Ready to get discovered?
-              </h2>
-              <p className="text-lg max-w-2xl mx-auto mb-10" style={{ color: 'var(--color-brand-100)' }}>
-                Join Hash Hunt today and let top employers find you. It's 100% free for candidates.
-              </p>
-              <a
-                href="https://docs.google.com/forms/d/1cy6kH59UpTE-VtEWLxTUuD_-8JDRdiejeTGwfDYrx4Y/viewform?embedded=true"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-3 px-10 py-5 bg-slate-50 rounded-full font-bold text-lg hover:bg-neutral-50 hover:scale-105 active:scale-95 transition-all shadow-xl shadow-white/10"
-                style={{ color: 'var(--color-neutral-900)' }}
-              >
-                {t.joinTalentPool}
-                <ArrowRight size={24} className="rtl:rotate-180" />
-              </a>
+      {/* ── UPLOAD FORM ── */}
+      <section id="upload" className="py-24 bg-white border-t border-[#000]/8">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
+          <div>
+            <div className="inline-flex bg-[#FF4D2D]/8 border border-[#FF4D2D]/15 text-[#FF4D2D] text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">
+              {isRtl ? "انضم الآن" : "Join Now"}
+            </div>
+            <h2 className="font-syne text-4xl md:text-5xl font-extrabold leading-tight tracking-tight mb-6">
+              {isRtl ? "وظيفتك القادمة" : "Your next job is"} <br /> {isRtl ? "على بُعد خطوة" : "one upload away"}
+            </h2>
+            <p className="text-[#3D3D38] text-lg leading-relaxed mb-10 opacity-80">
+              {isRtl 
+                ? "أكمل ملفك الآن وكن مرئياً لمديري التوظيف في أكثر من 85 شركة رائدة في العالم العربي."
+                : "Complete your profile and become visible to hiring managers at 85+ companies across the Arab world."}
+            </p>
+
+            <div className="space-y-6">
+              {benefits.map((b, i) => (
+                <div key={i} className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-[#FF4D2D]/8 rounded-xl flex items-center justify-center text-xl shrink-0">{b.icon}</div>
+                  <div>
+                    <div className="text-base font-bold mb-0.5">{b.title}</div>
+                    <div className="text-sm text-[#7A7A72] leading-relaxed">{b.desc}</div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="bg-[#FAFAF6] border border-[#000]/8 rounded-3xl p-8 md:p-10"
+          >
+            <div className="font-syne text-2xl font-extrabold mb-2">{isRtl ? "أنشئ ملفك الشخصي" : "Create your profile"}</div>
+            <div className="text-xs text-[#7A7A72] mb-8">{isRtl ? "يستغرق أقل من دقيقتين · لا حاجة للتسجيل" : "Takes less than 2 minutes · No registration required"}</div>
+
+            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-[#3D3D38] uppercase tracking-wider">{isRtl ? "الاسم بالكامل *" : "Full Name *"}</label>
+                  <input type="text" className="w-full bg-white border border-[#000]/10 rounded-lg px-4 py-3 text-sm focus:border-[#FF4D2D] outline-none transition-colors" placeholder="Ahmed Hassan" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-[#3D3D38] uppercase tracking-wider">{isRtl ? "البريد الإلكتروني *" : "Email *"}</label>
+                  <input type="email" className="w-full bg-white border border-[#000]/10 rounded-lg px-4 py-3 text-sm focus:border-[#FF4D2D] outline-none transition-colors" placeholder="ahmed@email.com" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-[#3D3D38] uppercase tracking-wider">{isRtl ? "المسمى الوظيفي *" : "Job Title *"}</label>
+                  <input type="text" className="w-full bg-white border border-[#000]/10 rounded-lg px-4 py-3 text-sm focus:border-[#FF4D2D] outline-none transition-colors" placeholder="Senior Frontend Developer" />
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-[#3D3D38] uppercase tracking-wider">{isRtl ? "سنوات الخبرة" : "Years of Experience"}</label>
+                  <select 
+                    defaultValue={`3–5 ${isRtl ? "سنة" : "years"}`}
+                    className="w-full bg-white border border-[#000]/10 rounded-lg px-4 py-3 text-sm focus:border-[#FF4D2D] outline-none transition-colors appearance-none"
+                  >
+                    <option>0–1 {isRtl ? "سنة" : "years"}</option>
+                    <option>1–3 {isRtl ? "سنة" : "years"}</option>
+                    <option>3–5 {isRtl ? "سنة" : "years"}</option>
+                    <option>5–10 {isRtl ? "سنة" : "years"}</option>
+                    <option>10+ {isRtl ? "سنة" : "years"}</option>
+                  </select>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-[#3D3D38] uppercase tracking-wider">{isRtl ? "الموقع" : "Location"}</label>
+                  <select className="w-full bg-white border border-[#000]/10 rounded-lg px-4 py-3 text-sm focus:border-[#FF4D2D] outline-none transition-colors appearance-none">
+                    <option>{isRtl ? "مصر" : "Egypt"}</option>
+                    <option>{isRtl ? "السعودية" : "Saudi Arabia"}</option>
+                    <option>{isRtl ? "الإمارات" : "UAE"}</option>
+                    <option>{isRtl ? "الكويت" : "Kuwait"}</option>
+                    <option>{isRtl ? "آخرى" : "Other"}</option>
+                  </select>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-bold text-[#3D3D38] uppercase tracking-wider">{isRtl ? "نوع العمل" : "Open To"}</label>
+                  <select 
+                    defaultValue={isRtl ? "عن بعد أو من المكتب" : "Remote or On-site"}
+                    className="w-full bg-white border border-[#000]/10 rounded-lg px-4 py-3 text-sm focus:border-[#FF4D2D] outline-none transition-colors appearance-none"
+                  >
+                    <option>{isRtl ? "عن بعد فقط" : "Remote only"}</option>
+                    <option>{isRtl ? "عن بعد أو من المكتب" : "Remote or On-site"}</option>
+                    <option>{isRtl ? "من المكتب فقط" : "On-site only"}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[11px] font-bold text-[#3D3D38] uppercase tracking-wider">{isRtl ? "سيرتك الذاتية" : "Your Resume"}</label>
+                <div className="border-2 border-dashed border-[#000]/8 bg-white rounded-xl py-10 px-6 text-center cursor-pointer hover:border-[#FF4D2D]/30 hover:bg-[#FF4D2D]/5 transition-all group">
+                  <div className="text-3xl mb-2 group-hover:scale-110 transition-transform duration-300">📎</div>
+                  <div className="text-sm font-bold text-[#3D3D38] mb-1">
+                    {isRtl ? "اسحب سيرتك هنا أو" : "Drop your CV here or"} <span className="text-[#FF4D2D]">{isRtl ? "تصفح" : "browse"}</span>
+                  </div>
+                  <div className="text-xs text-[#7A7A72]">PDF or Word · Max 5MB</div>
+                </div>
+              </div>
+
+              <button className="w-full bg-[#FF4D2D] hover:bg-[#CC3A1F] text-white font-bold py-4 rounded-xl transition-all shadow-xl shadow-[#FF4D2D]/20 flex items-center justify-center gap-2">
+                🚀 {isRtl ? "انضم لقاعدة المواهب" : "Join the Talent Pool"}
+              </button>
+
+              <div className="flex flex-wrap justify-center gap-6 pt-4">
+                <div className="flex items-center gap-2 text-[10px] font-bold text-[#7A7A72] uppercase tracking-wider">🔒 {isRtl ? "بياناتك آمنة" : "Data is secure"}</div>
+                <div className="flex items-center gap-2 text-[10px] font-bold text-[#7A7A72] uppercase tracking-wider">⚡ {isRtl ? "رد سريع" : "Fast response"}</div>
+                <div className="flex items-center gap-2 text-[10px] font-bold text-[#7A7A72] uppercase tracking-wider">🌍 {isRtl ? "تغطية كاملة" : "Full coverage"}</div>
+              </div>
+            </form>
+          </motion.div>
         </div>
       </section>
 
-      {/* Footer */}
+      {/* ── CTA BANNER ── */}
+      <section className="py-24 bg-[#0D0D0B] text-center px-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF4D2D]/20 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#FF4D2D]/20 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        
+        <div className="relative z-10">
+          <h2 className="font-syne text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6 tracking-tight">
+            {isRtl ? "توقف عن البحث." : "Stop applying."} <br /> {isRtl ? "اجعلهم يجدونك." : "Start getting found."}
+          </h2>
+          <p className="text-white/60 text-lg mb-12 max-w-xl mx-auto">
+            {isRtl ? "انضم لأكثر من 2,400 محترف تركوا للفرص مهمة الوصول إليهم." : "Join 2,400+ professionals who let the jobs come to them."}
+          </p>
+          <a href="#upload" className="inline-block bg-white text-[#FF4D2D] font-syne font-bold text-lg px-12 py-5 rounded-2xl hover:scale-105 transition-all">
+            {isRtl ? "انضم الآن مجاناً ←" : "Join the Talent Pool →"}
+          </a>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
