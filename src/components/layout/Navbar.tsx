@@ -34,7 +34,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         { label: 'الميزات', href: '#features' },
         { label: 'الأسعار', href: '#pricing' },
         { label: 'كيف يعمل؟', href: '/how-ats-works' },
-        { label: 'محلل ATS', href: '/ats-scorer' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
     : lang === 'fr'
@@ -42,14 +41,12 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         { label: 'Fonctionnalités', href: '#features' },
         { label: 'Tarifs', href: '#pricing' },
         { label: 'Comment ça marche', href: '/how-ats-works' },
-        { label: 'ATS Scorer', href: '/ats-scorer' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
     : [
         { label: 'Features', href: '#features' },
         { label: 'Pricing', href: '#pricing' },
         { label: 'How it Works', href: '/how-ats-works' },
-        { label: 'ATS Scorer', href: '/ats-scorer' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
 

@@ -12,28 +12,36 @@ export const aiService: IResumeService = {
     systemInstruction?: string,
   ): Promise<AIResponse> => {
     try {
-      const response = await fetch("/api/ai/generate", {
+      const requestBody: any = {
+        contents: [{ parts: [{ text: prompt }] }],
+      };
+      
+      if (systemInstruction) {
+        requestBody.systemInstruction = {
+          parts: [{ text: systemInstruction }]
+        };
+      }
+
+      const response = await fetch("/api/gemini", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          prompt,
-          systemInstruction,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to generate content");
+        throw new Error(data.error?.message || "Failed to generate content");
       }
 
-      if (!data.text) {
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) {
         throw new Error("Empty response from AI");
       }
 
-      return { text: data.text };
+      return { text };
     } catch (err: unknown) {
       console.error("AI Generation failed:", err);
       return {
@@ -97,29 +105,32 @@ export const aiService: IResumeService = {
 
       const prompt = `Parse this resume text:\n\n${rawText}`;
 
-      const response = await fetch("/api/ai/generate", {
+      const requestBody: any = {
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] },
+        generationConfig: { responseMimeType: "application/json" }
+      };
+
+      const response = await fetch("/api/gemini", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          prompt,
-          systemInstruction,
-          responseMimeType: "application/json",
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to parse resume");
+        throw new Error(data.error?.message || "Failed to parse resume");
       }
 
-      if (!data.text) {
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) {
         throw new Error("Empty response from AI");
       }
 
-      return { text: data.text };
+      return { text };
     } catch (err: unknown) {
       console.error("Resume parsing failed:", err);
       return {
@@ -147,29 +158,32 @@ export const aiService: IResumeService = {
 
       const prompt = `Resume: ${resume}\n\nJob Description: ${jobDescription}`;
 
-      const response = await fetch("/api/ai/generate", {
+      const requestBody: any = {
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] },
+        generationConfig: { responseMimeType: "application/json" }
+      };
+
+      const response = await fetch("/api/gemini", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          prompt,
-          systemInstruction,
-          responseMimeType: "application/json",
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to analyze resume");
+        throw new Error(data.error?.message || "Failed to analyze resume");
       }
 
-      if (!data.text) {
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!text) {
         throw new Error("Empty response from AI");
       }
 
-      return { text: data.text };
+      return { text };
     } catch (err: unknown) {
       console.error("ATS Matching failed:", err);
       return {

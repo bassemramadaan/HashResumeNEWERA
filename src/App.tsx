@@ -19,7 +19,6 @@ const TermsOfServicePage = React.lazy(() => import("./pages/TermsOfServicePage")
 const HowAtsWorksPage = React.lazy(() => import("./pages/HowAtsWorksPage"));
 const TrustPage = React.lazy(() => import("./pages/TrustPage"));
 const FAQPage = React.lazy(() => import("./pages/FAQPage"));
-const ATSScorer = React.lazy(() => import("./pages/ATSScorer"));
 const NotFoundPage = React.lazy(() => import("./pages/NotFoundPage"));
 
 export default function App() {
@@ -42,7 +41,6 @@ export default function App() {
               <Route path="/trust" element={<TrustPage />} />
               <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
               <Route path="/faq" element={<FAQPage />} />
-              <Route path="/ats-scorer" element={<ATSScorer />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <ExitIntentPopup />

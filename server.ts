@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { createServer as createViteServer } from "vite";
 import rateLimit from "express-rate-limit";
-import { GoogleGenAI } from "@google/genai";
+
 import path from "path";
 import dotenv from "dotenv";
 import puppeteer from "puppeteer";
@@ -33,39 +33,7 @@ async function startServer() {
     legacyHeaders: false,
   });
 
-  // AI Endpoint
-  app.post("/api/ai/generate", aiLimiter, async (req, res) => {
-    try {
-      const { prompt, systemInstruction, responseMimeType } = req.body;
-      
-      if (!prompt) {
-        return res.status(400).json({ error: "Prompt is required" });
-      }
-
-      const apiKey = process.env.GEMINI_API_KEY;
-      if (!apiKey) {
-        console.error("GEMINI_API_KEY is missing");
-        return res.status(500).json({ error: "AI service configuration error" });
-      }
-
-      const ai = new GoogleGenAI({ apiKey });
-      
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt,
-        config: {
-          systemInstruction: systemInstruction || "You are a helpful assistant.",
-          temperature: 0.7,
-          responseMimeType: responseMimeType || "text/plain",
-        }
-      });
-
-      res.json({ text: response.text });
-    } catch (error: unknown) {
-      console.error("AI Generation Error:", error);
-      res.status(500).json({ error: error instanceof Error ? error.message : "Failed to generate content" });
-    }
-  });
+  // AI Endpoint has been moved to /api/gemini.js edge function
 
   // Payment Verification Endpoint
   app.post("/api/payment/verify", async (req, res) => {
