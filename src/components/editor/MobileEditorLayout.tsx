@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ProgressStepper from "./ProgressStepper";
 
 // ── i18n ──────────────────────────────────────────────────
 const T: Record<string, Record<string, string>> = {
@@ -255,8 +256,6 @@ function SectionsScreen({ lang, sections, activeSection, onSectionChange, comple
     </div>
   );
 }
-
-import ProgressStepper from "./ProgressStepper";
 
 // ── main MobileEditorLayout ───────────────────────────────
 export default function MobileEditorLayout({

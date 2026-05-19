@@ -226,10 +226,11 @@ function VerticalStepper({ steps, current, onStepClick, completionMap, isRtl }: 
 
 // ── MINI variant (mobile bottom bar) ─────────────────────
 function MiniStepper({ steps, current, onNext, onPrev, isRtl, navLabels }: { steps: Step[]; current: number; onNext: () => void; onPrev: () => void; isRtl: boolean; navLabels: { next: string; prev: string } }) {
-  const step     = steps[current];
-  const progress = ((current + 1) / steps.length) * 100;
-  const canNext  = current < steps.length - 1;
-  const canPrev  = current > 0;
+  const safeCurrent = Math.max(0, Math.min(current, steps.length - 1));
+  const step     = steps[safeCurrent];
+  const progress = ((safeCurrent + 1) / steps.length) * 100;
+  const canNext  = safeCurrent < steps.length - 1;
+  const canPrev  = safeCurrent > 0;
 
   return (
     <div style={{
@@ -336,12 +337,14 @@ export default function ProgressStepper({
   const isRtl     = lang === "ar";
   const navLabels = NAV_LABELS[lang] ?? NAV_LABELS.en;
 
+  const safeCurrent = Math.max(0, Math.min(current, steps.length - 1));
+
   switch (variant) {
     case "vertical":
       return (
         <VerticalStepper
           steps={steps}
-          current={current}
+          current={safeCurrent}
           onStepClick={onStepClick}
           completionMap={completionMap}
           isRtl={isRtl}
@@ -351,7 +354,7 @@ export default function ProgressStepper({
       return (
         <MiniStepper
           steps={steps}
-          current={current}
+          current={safeCurrent}
           onNext={onNext}
           onPrev={onPrev}
           isRtl={isRtl}
@@ -362,7 +365,7 @@ export default function ProgressStepper({
       return (
         <HorizontalStepper
           steps={steps}
-          current={current}
+          current={safeCurrent}
           onStepClick={onStepClick}
           completionMap={completionMap}
           isRtl={isRtl}
