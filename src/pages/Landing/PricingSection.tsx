@@ -75,7 +75,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
   const c = COPY[lang] || COPY['en']
 
   return (
-    <PageSection bg="muted" id="pricing">
+    <PageSection bg="white" id="pricing">
       <SectionHeading label={c.label} title={c.title} subtitle={c.subtitle} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">

@@ -72,7 +72,7 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-16 sm:py-24 bg-slate-50 relative overflow-x-hidden"
+      className="py-24 sm:py-32 bg-slate-50 relative overflow-x-hidden"
     >
       {/* Decorative elements */}
       <div className="absolute top-0 start-0 w-full h-full overflow-hidden pointer-events-none opacity-30">
@@ -113,7 +113,7 @@ export default function Testimonials() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 hover:border-[#ff4d2d]/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#ff4d2d]/10 relative overflow-x-hidden group h-full flex flex-col"
+                className="bg-white p-6 sm:p-8 rounded-3xl border border-slate-100 hover:border-[#ff4d2d]/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-[#ff4d2d]/10 relative overflow-x-hidden group h-full flex flex-col"
               >
                 <div className="absolute top-0 end-0 p-6 opacity-5 group-hover:opacity-10 transition-all duration-500 transform group-hover:scale-110 group-hover:-rotate-12">
                   <Quote size={80} className="text-[#ff4d2d] rtl:-scale-x-100" />
