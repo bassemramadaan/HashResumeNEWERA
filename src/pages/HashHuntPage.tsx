@@ -26,6 +26,7 @@ export default function HashHuntPage() {
 
   // Form states
   const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [jobTitle, setJobTitle] = useState("");
   const [experience, setExperience] = useState(isRtl ? "3–5 سنوات" : "3–5 years");
@@ -87,14 +88,15 @@ function doPost(e) {
     
     var sheet = SpreadsheetApp.openById(sheetId).getSheets()[0];
     sheet.appendRow([
-      new Date(),
-      data.fullName || "",
-      data.email || "",
-      data.jobTitle || "",
-      data.experience || "",
-      data.location || "",
-      data.openTo || "",
-      fileUrl
+      new Date(),                             // A: Timestamp
+      data.fullName || "",                    // B: Name
+      data.phoneNumber || "",                 // C: Phone number
+      data.email || "",                       // D: Email
+      data.jobTitle || "",                    // E: Job/Career
+      fileUrl || "",                          // F: Submit Your CV – Hash Resume
+      data.email || "",                       // G: Email Address
+      data.experience || "",                  // H: Job Code / Experience
+      (data.location + " - " + data.openTo) || "" // I: Column 7 / Additional Details
     ]);
     
     return ContentService.createTextOutput(JSON.stringify({
@@ -225,7 +227,7 @@ function doPost(e) {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!fullName || !email || !jobTitle) {
+    if (!fullName || !email || !jobTitle || !phoneNumber) {
       setErrorMessage(isRtl ? "يرجى ملء جميع الحقول الإلزامية التي تحتوي علامة (*)" : "Please fill in all required fields marked with (*)");
       return;
     }
@@ -241,6 +243,7 @@ function doPost(e) {
     try {
       const payload = {
         fullName,
+        phoneNumber,
         email,
         jobTitle,
         experience,
@@ -281,7 +284,7 @@ function doPost(e) {
       // We use text/plain;charset=utf-8 to bypass CORS preflight OPTIONS blockages by browsers (simple request rule)
       if (!hasSucceeded) {
         console.log("Using direct Apps Script client-side fallback...");
-        const fallbackUrl = "https://script.google.com/macros/s/AKfycbzuViPQd8dgGJ7MEprD972A1Henp55Q_ypyzoMbwIA5H_lpFnq2Ed3EnOwH4Gc12HvD/exec";
+        const fallbackUrl = "https://script.google.com/macros/s/AKfycbxJESRR_cobA9II5E2MgBi4Iov7Imw0TlUt7N1PLCVof7Gsq8BfXQCsecgIiOZfh3XF/exec";
         
         const directResp = await fetch(fallbackUrl, {
           method: "POST",
@@ -730,6 +733,18 @@ function doPost(e) {
                     onChange={(e) => setFullName(e.target.value)}
                     className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-semibold focus:border-[#FF4D2D] focus:ring-1 focus:ring-[#FF4D2D] outline-none transition-all placeholder-slate-400" 
                     placeholder={isRtl ? "احمد كمال" : "Ahmed Kamal"} 
+                    required
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-black text-slate-600 uppercase tracking-wider block">{isRtl ? "رقم الهاتف أو المحمول *" : "Phone Number *"}</label>
+                  <input 
+                    type="tel" 
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-semibold focus:border-[#FF4D2D] focus:ring-1 focus:ring-[#FF4D2D] outline-none transition-all placeholder-slate-400" 
+                    placeholder={isRtl ? "01000791165" : "+201000791165"} 
                     required
                   />
                 </div>

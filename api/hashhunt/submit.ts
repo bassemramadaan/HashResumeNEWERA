@@ -20,7 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const submissionData = req.body;
-    const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbzuViPQd8dgGJ7MEprD972A1Henp55Q_ypyzoMbwIA5H_lpFnq2Ed3EnOwH4Gc12HvD/exec";
+    const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbxJESRR_cobA9II5E2MgBi4Iov7Imw0TlUt7N1PLCVof7Gsq8BfXQCsecgIiOZfh3XF/exec";
     
     console.log("[Vercel Serverless] Sending submission to Google Apps Script Web App url:", scriptUrl);
 
