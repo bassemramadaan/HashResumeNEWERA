@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { ArrowLeft, LayoutTemplate, CheckCircle2, Eye, X } from "lucide-react";
+import { ArrowLeft, LayoutTemplate, CheckCircle2, Eye, X, Sparkles, Search } from "lucide-react";
 import Logo from "../components/Logo";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import ResumePreview from "../components/preview/ResumePreview";
 import { cn } from "@/lib/utils";
 
+// ── dummy data (نفس اللي كان موجود) ──────────────────────
 const dummyData: ResumeData = {
   personalInfo: {
     fullName: "Alex Morgan",
@@ -48,19 +49,10 @@ const dummyData: ResumeData = {
       degree: "BFA in Interaction Design",
       startDate: "Sep 2012",
       endDate: "May 2016",
-      description:
-        "Graduated with Honors. Senior thesis focused on accessible design patterns.",
+      description: "Graduated with Honors.",
     },
   ],
-  skills: [
-    "UI/UX Design",
-    "Figma",
-    "Design Systems",
-    "User Research",
-    "Prototyping",
-    "HTML/CSS",
-    "Agile Methodology",
-  ],
+  skills: ["UI/UX Design", "Figma", "Design Systems", "User Research", "Prototyping", "HTML/CSS", "Agile"],
   projects: [],
   certifications: [],
   customSections: [],
@@ -69,490 +61,528 @@ const dummyData: ResumeData = {
     themeColor: "#2563EB",
     language: "en",
     isFreshGrad: false,
-    sectionOrder: [
-      "summary",
-      "experience",
-      "education",
-      "skills",
-      "projects",
-      "certifications",
-    ],
+    sectionOrder: ["summary", "experience", "education", "skills", "projects", "certifications"],
     hiddenSections: [],
   },
   jobDescription: "",
   isPremium: false,
   coverLetter: {
-    fullName: "",
-    jobTitle: "",
-    companyName: "",
-    hiringManager: "",
-    jobDescription: "",
-    skills: "",
-    generatedContent: "",
+    fullName: "", jobTitle: "", companyName: "",
+    hiringManager: "", jobDescription: "", skills: "", generatedContent: "",
   },
 };
 
+// ── types ─────────────────────────────────────────────────
 type Template = {
   id: ResumeData["settings"]["template"];
   name: string;
+  nameAr: string;
+  nameFr: string;
   description: string;
-  image: string;
+  descriptionAr: string;
+  descriptionFr: string;
   color: string;
   categories: string[];
+  isNew?: boolean;
+  isPopular?: boolean;
 };
 
+// ── templates data ────────────────────────────────────────
 const templates: Template[] = [
   {
     id: "modern",
-    name: "Modern",
+    name: "Modern", nameAr: "عصري", nameFr: "Moderne",
     description: "Clean and contemporary design with a focus on readability.",
-    image:
-      "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=600&auto=format&fit=crop",
-    color: "#2563EB",
-    categories: ["Technology", "Business"],
+    descriptionAr: "تصميم عصري ونظيف مع التركيز على سهولة القراءة.",
+    descriptionFr: "Design épuré et contemporain axé sur la lisibilité.",
+    color: "#2563EB", categories: ["Technology", "Business"], isPopular: true,
   },
   {
     id: "classic",
-    name: "Classic",
+    name: "Classic", nameAr: "كلاسيك", nameFr: "Classique",
     description: "Traditional format perfect for corporate and formal roles.",
-    image:
-      "https://images.unsplash.com/photo-1612441804231-77a36b284856?q=80&w=600&auto=format&fit=crop",
-    color: "#1E293B",
-    categories: ["Business", "Healthcare", "Academic"],
+    descriptionAr: "تنسيق تقليدي مثالي للأدوار المؤسسية والرسمية.",
+    descriptionFr: "Format traditionnel parfait pour les rôles corporate.",
+    color: "#1E293B", categories: ["Business", "Healthcare", "Academic"],
   },
   {
     id: "creative",
-    name: "Creative",
+    name: "Creative", nameAr: "إبداعي", nameFr: "Créatif",
     description: "Stand out with a unique layout designed for creative fields.",
-    image:
-      "https://images.unsplash.com/photo-1626785774573-4b799315345d?q=80&w=600&auto=format&fit=crop",
-    color: "#F97316",
-    categories: ["Creative"],
+    descriptionAr: "تميّز بتخطيط فريد مصمم للمجالات الإبداعية.",
+    descriptionFr: "Démarquez-vous avec une mise en page unique.",
+    color: "#F97316", categories: ["Creative"],
   },
   {
     id: "minimal",
-    name: "Minimal",
+    name: "Minimal", nameAr: "بسيط", nameFr: "Minimaliste",
     description: "Simple, elegant, and straight to the point.",
-    image:
-      "https://images.unsplash.com/photo-1586282391129-76a6df230234?q=80&w=600&auto=format&fit=crop",
-    color: "#475569",
-    categories: ["Business", "Academic"],
+    descriptionAr: "بسيط وأنيق ومباشر.",
+    descriptionFr: "Simple, élégant et direct.",
+    color: "#475569", categories: ["Business", "Academic"],
   },
   {
     id: "tech",
-    name: "Tech",
+    name: "Tech", nameAr: "تقني", nameFr: "Tech",
     description: "Optimized for software engineers and IT professionals.",
-    image:
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop",
-    color: "#10B981",
-    categories: ["Technology"],
+    descriptionAr: "مُحسَّن لمهندسي البرمجيات ومتخصصي تكنولوجيا المعلومات.",
+    descriptionFr: "Optimisé pour les ingénieurs logiciels.",
+    color: "#10B981", categories: ["Technology"], isPopular: true,
   },
   {
     id: "executive",
-    name: "Executive",
+    name: "Executive", nameAr: "تنفيذي", nameFr: "Exécutif",
     description: "Premium layout for senior management and leadership roles.",
-    image:
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=600&auto=format&fit=crop",
-    color: "#8B5CF6",
-    categories: ["Business"],
+    descriptionAr: "تخطيط متميز للإدارة العليا وأدوار القيادة.",
+    descriptionFr: "Mise en page premium pour la direction.",
+    color: "#8B5CF6", categories: ["Business"],
   },
   {
     id: "medical",
-    name: "Medical",
-    description: "Specialized format for healthcare professionals and doctors.",
-    image:
-      "https://images.unsplash.com/photo-1505751172107-5739a00723a5?q=80&w=600&auto=format&fit=crop",
-    color: "#0EA5E9",
-    categories: ["Healthcare"],
+    name: "Medical", nameAr: "طبي", nameFr: "Médical",
+    description: "Specialized format for healthcare professionals.",
+    descriptionAr: "تنسيق متخصص للمهنيين الصحيين والأطباء.",
+    descriptionFr: "Format spécialisé pour les professionnels de santé.",
+    color: "#0EA5E9", categories: ["Healthcare"],
   },
   {
     id: "academic",
-    name: "Academic",
+    name: "Academic", nameAr: "أكاديمي", nameFr: "Académique",
     description: "Multi-page optimized CV for researchers and educators.",
-    image:
-      "https://images.unsplash.com/photo-1523050335392-93851179ae22?q=80&w=600&auto=format&fit=crop",
-    color: "#64748B",
-    categories: ["Academic"],
-  },
-  {
-    id: "legal",
-    name: "Legal",
-    description: "Formal and authoritative design for legal professionals.",
-    image:
-      "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=600&auto=format&fit=crop",
-    color: "#0F172A",
-    categories: ["Business"],
-  },
-  {
-    id: "professional",
-    name: "Professional",
-    description: "Versatile and polished layout for any industry.",
-    image:
-      "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=600&auto=format&fit=crop",
-    color: "#334155",
-    categories: ["Business", "Technology"],
-  },
-  {
-    id: "elegant",
-    name: "Elegant",
-    description: "Sophisticated design with refined typography.",
-    image:
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=600&auto=format&fit=crop",
-    color: "#BE185D",
-    categories: ["Creative", "Business"],
+    descriptionAr: "سيرة ذاتية متعددة الصفحات للباحثين والمعلمين.",
+    descriptionFr: "CV multi-pages pour chercheurs et enseignants.",
+    color: "#64748B", categories: ["Academic"],
   },
   {
     id: "arabic",
-    name: "Arabic (RTL)",
+    name: "Arabic (RTL)", nameAr: "عربي (RTL)", nameFr: "Arabe (RTL)",
     description: "Optimized for Arabic language with full RTL support.",
-    image:
-      "https://images.unsplash.com/photo-1542810634-71277d95dc8c?q=80&w=600&auto=format&fit=crop",
-    color: "#059669",
-    categories: ["Business", "Technology"],
+    descriptionAr: "مُحسَّن للغة العربية مع دعم كامل للكتابة من اليمين لليسار.",
+    descriptionFr: "Optimisé pour l'arabe avec support RTL complet.",
+    color: "#059669", categories: ["Business", "Technology"], isNew: true,
   },
   {
     id: "engineering",
-    name: "Engineering",
+    name: "Engineering", nameAr: "هندسي", nameFr: "Ingénierie",
     description: "Technical and structured layout for engineers.",
-    image:
-      "https://images.unsplash.com/photo-1581092160562-40aa08e78837?q=80&w=600&auto=format&fit=crop",
-    color: "#0284C7",
-    categories: ["Engineering", "Technology"],
+    descriptionAr: "تخطيط تقني ومنظم للمهندسين.",
+    descriptionFr: "Mise en page technique et structurée pour ingénieurs.",
+    color: "#0284C7", categories: ["Engineering", "Technology"],
   },
   {
     id: "finance",
-    name: "Finance",
+    name: "Finance", nameAr: "مالي", nameFr: "Finance",
     description: "Professional and data-focused layout for finance roles.",
-    image:
-      "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=600&auto=format&fit=crop",
-    color: "#0F766E",
-    categories: ["Finance", "Business"],
+    descriptionAr: "تخطيط احترافي ومرتكز على البيانات للأدوار المالية.",
+    descriptionFr: "Mise en page axée sur les données pour la finance.",
+    color: "#0F766E", categories: ["Finance", "Business"],
+  },
+  {
+    id: "elegant",
+    name: "Elegant", nameAr: "أنيق", nameFr: "Élégant",
+    description: "Sophisticated design with refined typography.",
+    descriptionAr: "تصميم راقٍ مع طباعة مصقولة.",
+    descriptionFr: "Design sophistiqué avec une typographie raffinée.",
+    color: "#BE185D", categories: ["Creative", "Business"],
+  },
+  {
+    id: "legal",
+    name: "Legal", nameAr: "قانوني", nameFr: "Juridique",
+    description: "Formal and authoritative design for legal professionals.",
+    descriptionAr: "تصميم رسمي وموثوق لمتخصصي القانون.",
+    descriptionFr: "Design formel et autoritaire pour les juristes.",
+    color: "#0F172A", categories: ["Business"],
+  },
+  {
+    id: "professional",
+    name: "Professional", nameAr: "احترافي", nameFr: "Professionnel",
+    description: "Versatile and polished layout for any industry.",
+    descriptionAr: "تخطيط متعدد الاستخدامات ومصقول لأي صناعة.",
+    descriptionFr: "Mise en page polyvalente pour tous les secteurs.",
+    color: "#334155", categories: ["Business", "Technology"],
   },
 ];
 
-const categories = [
-  "All",
-  "Technology",
-  "Business",
-  "Creative",
-  "Healthcare",
-  "Academic",
-  "Engineering",
-  "Finance",
-] as const;
+const categories = ["All", "Technology", "Business", "Creative", "Healthcare", "Academic", "Engineering", "Finance"] as const;
 type Category = (typeof categories)[number];
 
+// ── i18n helpers ──────────────────────────────────────────
+function getTemplateName(t: Template, lang: string) {
+  if (lang === "ar") return t.nameAr;
+  if (lang === "fr") return t.nameFr;
+  return t.name;
+}
+function getTemplateDesc(t: Template, lang: string) {
+  if (lang === "ar") return t.descriptionAr;
+  if (lang === "fr") return t.descriptionFr;
+  return t.description;
+}
+
+// ── Color swatch ──────────────────────────────────────────
+const THEME_COLORS = ["#2563EB", "#FF4D2D", "#10B981", "#8B5CF6", "#F97316", "#0EA5E9", "#BE185D", "#0F766E"];
+
+// ── main component ────────────────────────────────────────
 export default function TemplatesPage() {
   const { language } = useLanguageStore();
   const { data, updateSettings, resetData } = useResumeStore();
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState<Category>("All");
-  const [previewTemplate, setPreviewTemplate] = useState<
-    (typeof templates)[number] | null
-  >(null);
+  const isRtl = language === "ar";
 
-  const handleSelectTemplate = (
-    templateId: ResumeData["settings"]["template"],
-  ) => {
+  const [activeCategory, setActiveCategory]   = useState<Category>("All");
+  const [search, setSearch]                   = useState("");
+  const [previewTemplate, setPreviewTemplate] = useState<Template | null>(null);
+  const [previewColor, setPreviewColor]       = useState<string>("");
+  const [hoveredId, setHoveredId]             = useState<string | null>(null);
+
+  const handleSelectTemplate = (templateId: ResumeData["settings"]["template"], color?: string) => {
     resetData();
-    updateSettings({ template: templateId });
+    updateSettings({ template: templateId, themeColor: color ?? templates.find(t => t.id === templateId)?.color ?? "#2563EB" });
     navigate("/editor");
   };
 
-  const filteredTemplates =
-    activeCategory === "All"
-      ? templates
-      : templates.filter((t) =>
-          (t.categories as string[]).includes(activeCategory),
-        );
+  const filtered = templates.filter(t => {
+    const matchCat  = activeCategory === "All" || t.categories.includes(activeCategory);
+    const matchSearch = search === "" ||
+      t.name.toLowerCase().includes(search.toLowerCase()) ||
+      t.nameAr.includes(search) ||
+      t.categories.some(c => c.toLowerCase().includes(search.toLowerCase()));
+    return matchCat && matchSearch;
+  });
+
+  const labels = {
+    libraryBadge: language === "ar" ? "مكتبة القوالب" : language === "fr" ? "Bibliothèque" : "Template Library",
+    title:        language === "ar" ? "اختر قالب سيرتك" : language === "fr" ? "Choisissez votre modèle" : "Choose Your Template",
+    sub:          language === "ar" ? "١٤ قالب احترافي ومتوافق مع ATS — مجاني بالكامل" : language === "fr" ? "14 modèles professionnels et compatibles ATS — 100% gratuits" : "14 professional ATS-optimized templates — all free",
+    searchPlaceholder: language === "ar" ? "ابحث عن قالب..." : language === "fr" ? "Rechercher..." : "Search templates...",
+    useTemplate:  language === "ar" ? "استخدم القالب" : language === "fr" ? "Utiliser" : "Use Template",
+    preview:      language === "ar" ? "معاينة" : language === "fr" ? "Aperçu" : "Preview",
+    selected:     language === "ar" ? "محدد" : language === "fr" ? "Sélectionné" : "Selected",
+    new_:         language === "ar" ? "جديد" : language === "fr" ? "Nouveau" : "New",
+    popular:      language === "ar" ? "الأشهر" : language === "fr" ? "Populaire" : "Popular",
+    bestFor:      language === "ar" ? "الأنسب لـ" : language === "fr" ? "Idéal pour" : "Best For",
+    features:     language === "ar" ? "المميزات" : language === "fr" ? "Caractéristiques" : "Features",
+    colorLabel:   language === "ar" ? "لون القالب" : language === "fr" ? "Couleur" : "Theme Color",
+    closePreview: language === "ar" ? "إغلاق" : language === "fr" ? "Fermer" : "Close Preview",
+    noResults:    language === "ar" ? "مفيش قوالب بالفلتر ده" : language === "fr" ? "Aucun modèle trouvé" : "No templates found",
+    templatesCount: (n: number) => language === "ar" ? `${n} قالب` : language === "fr" ? `${n} modèles` : `${n} templates`,
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans transition-colors duration-300">
-      {/* Header */}
-      <header className="bg-slate-50 border-b border-slate-200 sticky top-0 z-40 transition-all duration-500 ease-in-out">
+    <div className={cn("min-h-screen bg-[#FAFAF8] text-slate-900 font-sans", isRtl && "rtl")}>
+
+      {/* ── Header ── */}
+      <header className="bg-[#FAFAF8]/90 border-b border-slate-200/80 sticky top-0 z-40 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link
-              to="/"
-              className="p-2 -ms-2 text-slate-400 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100"
-            >
-              <ArrowLeft size={20} className="rtl:rotate-180" />
+          <div className="flex items-center gap-3">
+            <Link to="/" className="p-2 text-slate-400 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100">
+              <ArrowLeft size={18} className="rtl:rotate-180" />
             </Link>
             <Link to="/" className="flex items-center gap-2">
-              <Logo className="w-32 sm:w-40 h-auto" variant="gradient" />
+              <Logo className="w-32 sm:w-36 h-auto" variant="gradient" />
             </Link>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-slate-500">
+            <span className="hidden sm:block">{labels.templatesCount(templates.length)}</span>
+            <span className="hidden sm:block">·</span>
+            <span className="hidden sm:block text-[#FF4D2D] font-medium">100% Free</span>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20">
-        <div className="text-center max-w-3xl mx-auto mb-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+
+        {/* ── Hero ── */}
+        <div className="text-center max-w-2xl mx-auto mb-12">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 text-[#ff4d2d] font-medium text-sm mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 text-[#FF4D2D] font-semibold text-xs mb-5 uppercase tracking-wider"
           >
-            <LayoutTemplate size={16} />
-            {language === "ar"
-              ? "مكتبة القوالب"
-              : language === "fr"
-                ? "Bibliothèque de modèles"
-                : "Template Library"}
+            <LayoutTemplate size={14} />
+            {labels.libraryBadge}
           </motion.div>
+
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl font-black font-display mb-6 tracking-tight"
+            transition={{ delay: 0.08 }}
+            className="text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight"
           >
-            {language === "ar"
-              ? "اختر قالب سيرتك الذاتية"
-              : language === "fr"
-                ? "Choisissez votre modèle de CV"
-                : "Choose Your Resume Template"}
+            {labels.title}
           </motion.h1>
+
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-slate-600"
+            transition={{ delay: 0.14 }}
+            className="text-slate-500 text-lg"
           >
-            {language === "ar"
-              ? "جميع قوالبنا مصممة باحترافية ومتوافقة مع أنظمة تتبع المتقدمين (ATS) لضمان وصول سيرتك الذاتية للمدراء."
-              : language === "fr"
-                ? "Tous nos modèles sont conçus par des professionnels et optimisés pour les ATS afin de garantir que votre CV parvienne aux recruteurs."
-                : "All our templates are professionally designed and ATS-optimized to ensure your resume gets past the bots and into the hands of hiring managers."}
+            {labels.sub}
           </motion.p>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-all",
-                activeCategory === category
-                  ? "bg-zinc-900 text-white shadow-lg"
-                  : "bg-slate-50 text-slate-600 hover:bg-slate-100",
-              )}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+        {/* ── Search + Filters ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18 }}
+          className="flex flex-col sm:flex-row gap-4 items-center mb-10"
+        >
+          {/* Search */}
+          <div className="relative w-full sm:w-64">
+            <Search size={15} className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder={labels.searchPlaceholder}
+              className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white outline-none focus:border-[#FF4D2D] transition-colors"
+            />
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredTemplates.map((template) => {
-              const isSelected = data.settings.template === template.id;
+          {/* Category filters */}
+          <div className="flex flex-wrap justify-center sm:justify-start gap-2 flex-1">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  "px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all border",
+                  activeCategory === cat
+                    ? "bg-[#0D0D0B] text-white border-[#0D0D0B] shadow-sm"
+                    : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
+                )}
+              >
+                {cat}
+                {cat !== "All" && (
+                  <span className="ms-1 opacity-50">
+                    {templates.filter(t => t.categories.includes(cat)).length}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
 
-              return (
-                <motion.div
-                  layout
-                  key={template.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                  className={`group relative bg-slate-50 rounded-3xl overflow-hidden border-2 transition-all duration-300 hover:shadow-xl flex flex-col ${
-                    isSelected
-                      ? "border-[#ff4d2d] shadow-lg shadow-orange-500/10"
-                      : "border-slate-200 hover:border-slate-300"
-                  }`}
-                >
-                  {isSelected && (
-                    <div className="absolute top-4 end-4 z-20 bg-[#ff4d2d] text-white p-2 rounded-full shadow-md">
-                      <CheckCircle2 size={20} />
-                    </div>
-                  )}
+          {/* Count */}
+          <span className="text-xs text-slate-400 whitespace-nowrap">
+            {labels.templatesCount(filtered.length)}
+          </span>
+        </motion.div>
 
-                  <div
-                    className="aspect-[1/1.414] relative overflow-hidden bg-slate-100 @container group cursor-pointer"
-                    onClick={() => setPreviewTemplate(template)}
+        {/* ── Grid ── */}
+        {filtered.length === 0 ? (
+          <div className="text-center py-20 text-slate-400">{labels.noResults}</div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <AnimatePresence mode="popLayout">
+              {filtered.map((template, idx) => {
+                const isSelected = data.settings.template === template.id;
+                const isHovered  = hoveredId === template.id;
+
+                return (
+                  <motion.div
+                    layout
+                    key={template.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.25, delay: Math.min(idx * 0.04, 0.3) }}
+                    onMouseEnter={() => setHoveredId(template.id)}
+                    onMouseLeave={() => setHoveredId(null)}
+                    className={cn(
+                      "group relative bg-white rounded-2xl overflow-hidden border-2 transition-all duration-300 flex flex-col cursor-pointer",
+                      isSelected
+                        ? "border-[#FF4D2D] shadow-lg shadow-orange-500/10"
+                        : "border-slate-200 hover:border-slate-300 hover:shadow-lg"
+                    )}
                   >
-                    <div className="absolute inset-0 bg-zinc-900/0 group-hover:bg-slate-900/10 transition-colors z-10"></div>
+                    {/* Badges */}
+                    <div className="absolute top-3 start-3 z-20 flex gap-1.5">
+                      {template.isNew && (
+                        <span className="bg-[#FF4D2D] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{labels.new_}</span>
+                      )}
+                      {template.isPopular && (
+                        <span className="bg-amber-400 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full">⭐ {labels.popular}</span>
+                      )}
+                    </div>
 
-                    {/* Real Resume Preview - Scaled to fit */}
+                    {/* Selected badge */}
+                    {isSelected && (
+                      <div className="absolute top-3 end-3 z-20 bg-[#FF4D2D] text-white p-1.5 rounded-full shadow">
+                        <CheckCircle2 size={14} />
+                      </div>
+                    )}
+
+                    {/* Preview area */}
                     <div
-                      className="absolute top-0 start-0 w-[800px] origin-top-left transition-transform duration-500"
-                      style={{ transform: "scale(calc(100cqi / 800))" }}
+                      className="aspect-[1/1.3] relative overflow-hidden bg-slate-100 @container"
+                      onClick={() => { setPreviewTemplate(template); setPreviewColor(template.color); }}
                     >
-                      <ResumePreview
-                        data={{
-                          ...dummyData,
-                          settings: {
-                            ...dummyData.settings,
-                            template: template.id,
-                            themeColor: template.color,
-                          },
-                        }}
-                      />
+                      {/* Resume scaled preview */}
+                      <div
+                        className="absolute top-0 start-0 w-[800px] origin-top-left"
+                        style={{ transform: "scale(calc(100cqi / 800))" }}
+                      >
+                        <ResumePreview
+                          data={{
+                            ...dummyData,
+                            settings: { ...dummyData.settings, template: template.id, themeColor: template.color },
+                          }}
+                        />
+                      </div>
+
+                      {/* Bottom fade */}
+                      <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-white/80 to-transparent z-10" />
+
+                      {/* Hover overlay */}
+                      <div className={cn(
+                        "absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 transition-all duration-300",
+                        isHovered ? "opacity-100 bg-slate-900/25 backdrop-blur-[2px]" : "opacity-0"
+                      )}>
+                        <button
+                          onClick={e => { e.stopPropagation(); handleSelectTemplate(template.id); }}
+                          className="bg-[#FF4D2D] text-white px-5 py-2.5 rounded-full font-bold shadow-lg text-sm hover:bg-[#e63e1d] transition-colors"
+                        >
+                          {isSelected ? labels.selected : labels.useTemplate}
+                        </button>
+                        <button
+                          onClick={e => { e.stopPropagation(); setPreviewTemplate(template); setPreviewColor(template.color); }}
+                          className="bg-white text-slate-800 px-5 py-2.5 rounded-full font-semibold text-sm shadow hover:bg-slate-50 transition-colors flex items-center gap-2"
+                        >
+                          <Eye size={14} /> {labels.preview}
+                        </button>
+                      </div>
                     </div>
 
-                    {/* Bottom Fade */}
-                    <div className="absolute bottom-0 start-0 end-0 h-24 bg-gradient-to-t from-white to-transparent z-10 opacity-60"></div>
-
-                    {/* Hover Actions */}
-                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-slate-900/20 md:bg-slate-900/20 backdrop-blur-[2px] md:backdrop-blur-[2px]">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSelectTemplate(template.id);
-                        }}
-                        className="bg-[#ff4d2d] text-white px-6 py-4 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 hover:bg-[#e63e1d] hover:scale-105 min-w-[160px] active:scale-95"
-                      >
-                        {isSelected
-                          ? language === "ar"
-                            ? "محدد حالياً"
-                            : language === "fr"
-                              ? "Sélectionné"
-                              : "Currently Selected"
-                          : language === "ar"
-                            ? "استخدم هذا القالب"
-                            : language === "fr"
-                              ? "Utiliser ce modèle"
-                              : "Use This Template"}
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setPreviewTemplate(template);
-                        }}
-                        className="bg-slate-50 text-slate-900 px-6 py-4 rounded-full font-bold shadow-lg transform translate-y-0 md:translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 hover:bg-slate-100 hover:scale-105 min-w-[160px] flex items-center justify-center gap-2 active:scale-95"
-                      >
-                        <Eye size={18} />
-                        {language === "ar" ? "معاينة" : "Preview"}
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="p-6 border-t border-slate-100">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-xl font-bold text-slate-900">
-                        {template.name}
-                      </h3>
-                      <div className="flex gap-1">
-                        {template.categories.slice(0, 2).map((cat) => (
-                          <span
-                            key={cat}
-                            className="text-[10px] uppercase font-bold px-2 py-1 bg-slate-100 text-slate-500 rounded-full"
-                          >
+                    {/* Card footer */}
+                    <div className="p-4 border-t border-slate-100 flex-1">
+                      <div className="flex items-start justify-between gap-2 mb-1">
+                        <h3 className="font-bold text-slate-900 text-sm">{getTemplateName(template, language)}</h3>
+                        <div
+                          className="w-4 h-4 rounded-full flex-shrink-0 mt-0.5 ring-2 ring-white shadow"
+                          style={{ background: template.color }}
+                        />
+                      </div>
+                      <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                        {getTemplateDesc(template, language)}
+                      </p>
+                      <div className="flex gap-1 flex-wrap mt-2">
+                        {template.categories.slice(0, 2).map(cat => (
+                          <span key={cat} className="text-[10px] font-semibold px-1.5 py-0.5 bg-slate-100 text-slate-500 rounded">
                             {cat}
                           </span>
                         ))}
                       </div>
                     </div>
-                    <p className="text-sm text-slate-600">
-                      {template.description}
-                    </p>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </div>
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </div>
+        )}
       </main>
 
-      {/* Full Screen Preview Modal */}
+      {/* ── Full Preview Modal ── */}
       <AnimatePresence>
         {previewTemplate && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-slate-100 w-full max-w-6xl h-[90vh] rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
+              exit={{ opacity: 0, scale: 0.96 }}
+              transition={{ duration: 0.2 }}
+              className="bg-white w-full max-w-5xl h-[92vh] rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row"
             >
-              {/* Sidebar Info */}
-              <div className="w-full md:w-80 bg-slate-50 p-8 border-e border-slate-200 flex flex-col shrink-0 overflow-y-auto">
-                <div className="flex justify-between items-center mb-8 md:hidden">
-                  <h2 className="text-2xl font-bold text-slate-900">
-                    {previewTemplate.name}
-                  </h2>
-                  <button
-                    onClick={() => setPreviewTemplate(null)}
-                    className="p-2 hover:bg-slate-100 rounded-full transition-colors"
-                  >
-                    <X size={24} />
+              {/* Sidebar */}
+              <div className="w-full md:w-72 bg-[#FAFAF8] border-e border-slate-200 p-6 flex flex-col shrink-0 overflow-y-auto">
+
+                {/* Close mobile */}
+                <div className="flex items-center justify-between mb-6 md:hidden">
+                  <h2 className="text-xl font-bold">{getTemplateName(previewTemplate, language)}</h2>
+                  <button onClick={() => setPreviewTemplate(null)} className="p-1.5 hover:bg-slate-100 rounded-lg">
+                    <X size={20} />
                   </button>
                 </div>
 
-                <h2 className="text-3xl font-bold text-slate-900 mb-4 hidden md:block">
-                  {previewTemplate.name}
+                {/* Close desktop */}
+                <button
+                  onClick={() => setPreviewTemplate(null)}
+                  className="hidden md:flex items-center gap-2 text-sm text-slate-400 hover:text-slate-700 mb-6 transition-colors"
+                >
+                  <ArrowLeft size={14} className="rtl:rotate-180" /> {labels.closePreview}
+                </button>
+
+                <h2 className="text-2xl font-black mb-2 hidden md:block">
+                  {getTemplateName(previewTemplate, language)}
                 </h2>
-                <p className="text-slate-600 mb-8 leading-relaxed">
-                  {previewTemplate.description}
+                <p className="text-sm text-slate-500 leading-relaxed mb-6">
+                  {getTemplateDesc(previewTemplate, language)}
                 </p>
 
-                <div className="space-y-6 mb-8">
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">
-                      Best For
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {previewTemplate.categories.map((cat) => (
-                        <span
-                          key={cat}
-                          className="px-4 py-1 bg-indigo-50 text-indigo-600 rounded-full text-sm font-medium"
-                        >
-                          {cat}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">
-                      Features
-                    </h3>
-                    <ul className="space-y-2">
-                      <li className="flex items-center gap-2 text-sm text-slate-600">
-                        <CheckCircle2 size={16} className="text-emerald-500" />
-                        ATS-Friendly Layout
-                      </li>
-                      <li className="flex items-center gap-2 text-sm text-slate-600">
-                        <CheckCircle2 size={16} className="text-emerald-500" />
-                        Professional Typography
-                      </li>
-                      <li className="flex items-center gap-2 text-sm text-slate-600">
-                        <CheckCircle2 size={16} className="text-emerald-500" />
-                        Optimized Spacing
-                      </li>
-                    </ul>
+                {/* Best for */}
+                <div className="mb-5">
+                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">{labels.bestFor}</div>
+                  <div className="flex flex-wrap gap-1.5">
+                    {previewTemplate.categories.map(cat => (
+                      <span key={cat} className="px-3 py-1 bg-orange-50 text-[#FF4D2D] rounded-full text-xs font-semibold border border-orange-100">
+                        {cat}
+                      </span>
+                    ))}
                   </div>
                 </div>
 
-                <div className="mt-auto space-y-3">
+                {/* Features */}
+                <div className="mb-6">
+                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">{labels.features}</div>
+                  <ul className="space-y-1.5">
+                    {["ATS-Friendly Layout", "Professional Typography", "Optimized Spacing", "PDF & Word Export"].map(f => (
+                      <li key={f} className="flex items-center gap-2 text-xs text-slate-600">
+                        <CheckCircle2 size={13} className="text-emerald-500 flex-shrink-0" /> {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Color picker */}
+                <div className="mb-6">
+                  <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">{labels.colorLabel}</div>
+                  <div className="flex gap-2 flex-wrap">
+                    {THEME_COLORS.map(c => (
+                      <button
+                        key={c}
+                        onClick={() => setPreviewColor(c)}
+                        className={cn(
+                          "w-7 h-7 rounded-full transition-all border-2",
+                          previewColor === c ? "border-slate-900 scale-110 shadow" : "border-transparent hover:scale-105"
+                        )}
+                        style={{ background: c }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="mt-auto space-y-2">
                   <button
-                    onClick={() => handleSelectTemplate(previewTemplate.id)}
-                    className="w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white py-4 rounded-xl font-bold shadow-lg shadow-orange-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    onClick={() => { handleSelectTemplate(previewTemplate.id, previewColor || previewTemplate.color); setPreviewTemplate(null); }}
+                    className="w-full bg-[#FF4D2D] hover:bg-[#e63e1d] text-white py-3 rounded-xl font-bold shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
                   >
-                    {language === "ar"
-                      ? "استخدم هذا القالب"
-                      : "Use This Template"}
-                  </button>
-                  <button
-                    onClick={() => setPreviewTemplate(null)}
-                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 py-4 rounded-xl font-bold hover:bg-slate-50 transition-colors hidden md:block"
-                  >
-                    Close Preview
+                    <Sparkles size={16} />
+                    {labels.useTemplate}
                   </button>
                 </div>
               </div>
 
-              {/* Preview Area */}
-              <div className="flex-1 bg-slate-200/50 overflow-x-hidden overflow-y-auto p-4 md:p-8 flex justify-center items-start">
-                <div className="origin-top transition-transform duration-500 scale-[0.45] sm:scale-[0.6] md:scale-[0.8] lg:scale-[0.9] xl:scale-100 h-[calc(297mm*0.45)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.8)] lg:h-[calc(297mm*0.9)] xl:h-auto">
-                  <div className="w-[210mm] shrink-0 bg-slate-50 shadow-2xl min-h-[297mm]">
+              {/* Preview */}
+              <div className="flex-1 bg-slate-100 overflow-auto p-6 flex justify-center items-start">
+                <div className="origin-top scale-[0.5] sm:scale-[0.65] md:scale-[0.75] lg:scale-90 xl:scale-100 h-[calc(297mm*0.5)] sm:h-[calc(297mm*0.65)] md:h-[calc(297mm*0.75)] lg:h-[calc(297mm*0.9)] xl:h-auto">
+                  <div className="w-[210mm] bg-white shadow-2xl min-h-[297mm]">
                     <ResumePreview
                       data={{
                         ...dummyData,
                         settings: {
                           ...dummyData.settings,
                           template: previewTemplate.id,
-                          themeColor: previewTemplate.color,
+                          themeColor: previewColor || previewTemplate.color,
                         },
                       }}
                     />
