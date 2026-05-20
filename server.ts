@@ -139,29 +139,46 @@ async function startServer() {
       const submissionData = req.body;
       const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbzuViPQd8dgGJ7MEprD972A1Henp55Q_ypyzoMbwIA5H_lpFnq2Ed3EnOwH4Gc12HvD/exec";
       
-      if (!scriptUrl) {
-        return res.json({ 
-          success: true, 
-          isSimulated: true,
-          message: "Profile submitted successfully (Simulated Mode - Google Apps Script URL not configured in .env)"
-        });
-      }
-      
+      console.log("Sending submission to Google Apps Script Web App url:", scriptUrl);
+
       const response = await fetch(scriptUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(submissionData),
       });
 
+      const responseText = await response.text();
+      console.log(`Apps Script response status: ${response.status}. Length: ${responseText.length}`);
+
       if (!response.ok) {
-        throw new Error(`HTTP error from Hash Hunt provider: ${response.statusText}`);
+        throw new Error(`HTTP error from Google Apps Script provider: ${response.status} ${response.statusText}`);
       }
-      
-      const result = await response.json();
+
+      // Try parsing the returned text as JSON
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch (jsonError) {
+        console.error("Failed to parse Google Apps Script response as JSON. Original response text preview:", responseText.slice(0, 1000));
+        
+        if (responseText.includes("accounts.google.com") || responseText.includes("Sign in") || responseText.includes("login")) {
+          throw new Error("Google Apps Script returned a Google Login page. Please verify that you selected 'Who has access: Anyone' under the deployment settings inside Google Apps Script (and not 'Only myself' or 'Anyone with a Google account').");
+        }
+        
+        if (responseText.includes("ScriptError") || responseText.includes("Exception") || responseText.includes("not found")) {
+          throw new Error("Google Apps Script returned an execution exception. Check if you authorized the script to access Drive & Sheets, and that your Sheet ID and Folder ID are 100% correct in the script code.");
+        }
+
+        throw new Error("The Google Apps Script did not respond with a valid JSON. Please check your Google Apps Script logs and ensure the Web App is active and updated.");
+      }
+
       res.json({ success: true, ...result });
     } catch (error: unknown) {
-      console.error("Hash Hunt Submission Error:", error);
-      res.status(500).json({ success: false, message: error instanceof Error ? error.message : "Submission failed due to server error" });
+      console.error("Hash Hunt Submission Error Details:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: error instanceof Error ? error.message : "Submission failed due to server error" 
+      });
     }
   });
   
