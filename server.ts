@@ -59,29 +59,43 @@ async function startServer() {
     }
   });
 
-  // Payment Verification Endpoint
+  // Payment Verification & Manual InstaPay Flow Proxy
   app.post("/api/payment/verify", async (req, res) => {
     try {
-      const { code } = req.body;
-      if (!code) {
-        return res.status(400).json({ success: false, message: "Code is required" });
-      }
+      const { code, action, reference, senderInfo, email, amount } = req.body;
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
       // Proxy the verification to the actual Google Apps Script privately
-      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL;
+      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "https://script.google.com/macros/s/AKfycbxHS9p4CSpBFyEO2DQYiv-_jkE6zIEcjJ4AL2r-fFhJn5XIogvPmdsddCAFQ1hQhkImAw/exec";
       if (!scriptUrl) {
           throw new Error("Payment script URL not configured");
       }
-      const url = `${scriptUrl}?code=${encodeURIComponent(code)}&t=${Date.now()}`;
+
+      let url = `${scriptUrl}?t=${Date.now()}`;
+      let fetchOptions: RequestInit = {
+        method: "GET",
+        signal: controller.signal,
+      };
+
+      if (action === "submitPayment") {
+        url = scriptUrl;
+        fetchOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action, reference, senderInfo, email, amount }),
+          signal: controller.signal,
+        };
+      } else if (action === "checkStatus") {
+        url = `${scriptUrl}?action=checkStatus&reference=${encodeURIComponent(reference)}&t=${Date.now()}`;
+      } else {
+        const verifyCode = code || reference;
+        url = `${scriptUrl}?action=verify&code=${encodeURIComponent(verifyCode || "")}&t=${Date.now()}`;
+      }
       
       try {
-        const response = await fetch(url, { 
-          method: "GET",
-          signal: controller.signal
-        });
+        const response = await fetch(url, fetchOptions);
         clearTimeout(timeoutId);
         
         if (!response.ok) {
@@ -89,11 +103,7 @@ async function startServer() {
         }
         
         const result = await response.json();
-        
-        res.json({ 
-          success: result.success === true, 
-          message: result.message || (result.success ? "Successfully verified" : "Invalid code")
-        });
+        res.json(result);
       } catch (fetchError: any) {
         clearTimeout(timeoutId);
         if (fetchError.name === 'AbortError') {

@@ -13,7 +13,6 @@ interface HeroSectionProps {
 
 const COPY = {
   ar: {
-    badge:       '+2,400 سيرة ذاتية هذا الشهر',
     title1:      'سيرتك الاحترافية',
     titleAccent: 'في 5 دقائق',
     title2:      'بالعربي أو الإنجليزي',
@@ -23,7 +22,6 @@ const COPY = {
     trust: ['بدون بطاقة ائتمان', 'عربي وإنجليزي وفرنسي', 'متوافق مع أنظمة ATS'],
   },
   en: {
-    badge:       '+2,400 resumes created this month',
     title1:      'Your professional resume',
     titleAccent: 'in 5 minutes',
     title2:      'in Arabic or English',
@@ -33,7 +31,6 @@ const COPY = {
     trust: ['No credit card', 'Arabic, English & French', 'ATS-optimized'],
   },
   fr: {
-    badge:       '+2 400 CV créés ce mois-ci',
     title1:      'Votre CV professionnel',
     titleAccent: 'en 5 minutes',
     title2:      'en arabe ou en anglais',
@@ -90,12 +87,6 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           animate="show"
           className="flex flex-col items-center text-center max-w-4xl mx-auto"
         >
-          <motion.div variants={item}>
-            <div className="inline-flex items-center gap-2 bg-white border border-rose-100 rounded-full px-4 py-1.5 text-sm text-slate-600 mb-8 shadow-sm hover:shadow transition-shadow">
-              <span className="w-2 h-2 rounded-full dot-pulse bg-emerald-500" />
-              {copy.badge}
-            </div>
-          </motion.div>
 
           <motion.h1
             variants={item}
