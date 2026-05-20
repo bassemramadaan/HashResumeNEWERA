@@ -68,7 +68,7 @@ async function startServer() {
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
       // Proxy the verification to the actual Google Apps Script privately
-      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "https://script.google.com/macros/s/AKfycbxJ_UpQtIfvkQ6mNS-bxfcSMcWD9848bAuSFH-pGyRJTZpTV8p173nJXXsJcYTH0WMwRg/exec";
+      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "https://script.google.com/macros/s/AKfycbwZLlBLOBslWUVna1-MMOHTUqhfuUEZBP95H3NHohqQBDzNzRNNtrIvc1ycB5Sfta14gw/exec";
       if (!scriptUrl) {
           throw new Error("Payment script URL not configured");
       }
@@ -89,17 +89,29 @@ async function startServer() {
       }
       
       try {
+        console.log(`[PaymentProxy] Sending request to URL: ${url}`);
         const response = await fetch(url, fetchOptions);
         clearTimeout(timeoutId);
         
+        console.log(`[PaymentProxy] Received status: ${response.status}`);
+        const responseText = await response.text();
+        console.log(`[PaymentProxy] Raw response: ${responseText}`);
+
         if (!response.ok) {
-          throw new Error("HTTP error from payment provider");
+          throw new Error(`HTTP error ${response.status} from payment provider: ${responseText}`);
         }
         
-        const result = await response.json();
+        let result;
+        try {
+          result = JSON.parse(responseText);
+        } catch (parseErr) {
+          throw new Error(`Failed to parse JSON response: ${responseText}`);
+        }
+        
         res.json(result);
       } catch (fetchError: any) {
         clearTimeout(timeoutId);
+        console.error("[PaymentProxy] Error in fetch:", fetchError);
         if (fetchError.name === 'AbortError') {
           return res.status(504).json({ success: false, message: "Verification request timed out. Please try again." });
         }
