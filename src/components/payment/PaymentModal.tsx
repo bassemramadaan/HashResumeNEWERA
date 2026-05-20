@@ -44,7 +44,27 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
   useEffect(() => {
     if (userFullEmail && !userEmailInput) setUserEmailInput(userFullEmail);
     if (userFullName && !senderNameOrPhone) setSenderNameOrPhone(userFullName);
-  }, [userFullEmail, userFullName]);
+  }, [userFullEmail, userFullName, userEmailInput, senderNameOrPhone]);
+
+  // Auto-polling for pending transaction status
+  useEffect(() => {
+    let intervalId: NodeJS.Timeout;
+
+    if (pendingRef) {
+      // Start polling every 5 seconds
+      intervalId = setInterval(() => {
+        if (!checkingApproval) {
+          handleCheckApproval(pendingRef);
+        }
+      }, 5000); 
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [pendingRef, checkingApproval]);
 
   if (!isOpen) return null;
 
@@ -88,10 +108,19 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
 
   // 2. New Mode: Submit Manual Payment Transaction
   const handleSubmitManualPayment = async () => {
-    if (!refNum.trim()) {
+    const trimmedRef = refNum.trim();
+    if (!trimmedRef) {
       setError(isAr ? "يرجى كتابة الرقم المرجعي للمعاملة أولاً" : "Please enter the transaction reference first");
       return;
     }
+    
+    // Local duplicate check
+    const usedRefs = JSON.parse(localStorage.getItem("used_payment_refs") || "[]");
+    if (usedRefs.includes(trimmedRef)) {
+      setError(isAr ? "عذراً، لقد استخدمت هذا الرقم المرجعي مسبقاً. يرجى إدخال رقم مرجعي جديد وصحيح." : "You have already used this reference number. Please provide a new, valid transaction reference.");
+      return;
+    }
+
     setSubmittingManual(true);
     setError("");
     try {
@@ -100,7 +129,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           action: "submitPayment",
-          reference: refNum.trim(),
+          reference: trimmedRef,
           senderInfo: senderNameOrPhone.trim() || userFullName || "Anonymous",
           email: userEmailInput.trim() || userFullEmail || "anonymous@hashresume.com",
           amount: "50 EGP"
@@ -113,11 +142,15 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
 
       const result = await response.json();
       if (result.success === true) {
-        localStorage.setItem("pending_payment_ref", refNum.trim());
-        setPendingRef(refNum.trim());
+        // Automatically save to local history so we don't spam the same one
+        const updatedRefs = [...usedRefs, trimmedRef];
+        localStorage.setItem("used_payment_refs", JSON.stringify(updatedRefs));
+        
+        localStorage.setItem("pending_payment_ref", trimmedRef);
+        setPendingRef(trimmedRef);
         setError("");
         // Instantly poll to see if it triggers
-        handleCheckApproval(refNum.trim());
+        handleCheckApproval(trimmedRef);
       } else {
         setError(result.message || (isAr ? "فشل تسجيل التحويل الرقمي، تأكد من التفاصيل." : "Failed to record payment reference. Please check connection."));
       }
@@ -242,27 +275,27 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             </div>
 
             {/* Payment Method Selector Grid */}
-            <div className="grid grid-cols-3 gap-2.5 mb-6">
+            <div className="grid grid-cols-3 gap-3 mb-8">
               {[
                 { 
                   id: "instapay", 
                   label: "InstaPay", 
                   icon: Zap, 
-                  activeBg: "bg-purple-50/50 border-purple-500 ring-purple-100 text-purple-600", 
+                  activeBg: "bg-purple-50/50 border-purple-500 ring-purple-100 text-purple-600 shadow-purple-100/50", 
                   labelAr: "انستاباي"
                 },
                 { 
                   id: "vodafone", 
                   label: "Vodafone", 
                   icon: Smartphone, 
-                  activeBg: "bg-red-50/50 border-red-500 ring-red-100 text-red-600", 
+                  activeBg: "bg-red-50/50 border-red-500 ring-red-100 text-red-600 shadow-red-100/50", 
                   labelAr: "فودافون كاش"
                 },
                 { 
                   id: "card", 
                   label: "Activation Code", 
                   icon: CreditCard, 
-                  activeBg: "bg-neutral-50/50 border-neutral-700 ring-neutral-100 text-neutral-800", 
+                  activeBg: "bg-neutral-50/50 border-neutral-700 ring-neutral-100 text-neutral-800 shadow-neutral-200/50", 
                   labelAr: "كود التفعيل"
                 },
               ].map((method) => {
@@ -273,19 +306,19 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                     key={method.id}
                     onClick={() => { setSelectedMethod(method.id as PaymentMethod); setError(""); }}
                     className={cn(
-                      "flex flex-col items-center justify-center p-3 rounded-2xl border transition-all duration-300 relative group cursor-pointer",
+                      "flex flex-col items-center justify-center p-3.5 rounded-2xl border transition-all duration-300 relative group cursor-pointer",
                       isSelected 
-                        ? cn("border-2 shadow-sm ring-4", method.activeBg)
-                        : "border-neutral-150/80 hover:border-neutral-250 hover:bg-neutral-50 bg-neutral-50/25"
+                        ? cn("border-2 shadow-md ring-4 transform -translate-y-1", method.activeBg)
+                        : "border-neutral-150/80 hover:border-neutral-300 hover:bg-neutral-50 bg-neutral-50/30 hover:-translate-y-0.5 hover:shadow-sm"
                     )}
                   >
                     <div className={cn(
-                      "w-8 h-8 rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-sm",
-                      isSelected ? "bg-white border-0" : "bg-white border border-neutral-150/60 text-neutral-500"
+                      "w-9 h-9 rounded-xl flex items-center justify-center transition-transform duration-300 shadow-sm",
+                      isSelected ? "bg-white border-0 scale-110" : "bg-white border border-neutral-150/60 text-neutral-500 group-hover:text-neutral-700"
                     )}>
-                      <Icon size={16} />
+                      <Icon size={18} />
                     </div>
-                    <span className="text-[9px] sm:text-[10px] font-black tracking-wide text-neutral-800 text-center leading-tight mt-2.5">
+                    <span className="text-[10px] sm:text-[11px] font-black tracking-wide text-neutral-800 text-center leading-tight mt-3">
                       {isAr ? method.labelAr : method.label}
                     </span>
                     {isSelected && (
