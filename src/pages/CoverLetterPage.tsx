@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
-  FileText, Sparkles, Copy, Check, Download,
+  FileText, Copy, Check, Download,
   ArrowLeft, RefreshCw, Wand2, ChevronDown,
 } from "lucide-react";
 import { Link } from "react-router-dom";

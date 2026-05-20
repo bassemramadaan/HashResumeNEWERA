@@ -152,7 +152,7 @@ export default function Navbar() {
             {/* Logo (Centered) */}
             <div className="flex justify-center">
               <Link to="/" className="flex items-center gap-1 flex-shrink-0 group">
-                <Logo width="auto" height={80} variant="gradient" className="transform scale-125" />
+                <Logo width="auto" height={160} variant="gradient" className="transition-all duration-300 hover:scale-105 h-16 sm:h-24 md:h-28 lg:h-32" />
               </Link>
             </div>
 

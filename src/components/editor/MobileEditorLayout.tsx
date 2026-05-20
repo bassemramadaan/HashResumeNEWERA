@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { 
+  Edit3, Eye, Grid, Download, 
+  FileText, ChevronRight, Share2 
+} from "lucide-react";
 import ProgressStepper from "./ProgressStepper";
 
 // ── i18n ──────────────────────────────────────────────────
@@ -11,11 +16,11 @@ const T: Record<string, Record<string, string>> = {
     exportPDF:  "تصدير PDF",
     exportWord: "تصدير Word",
     shareLink:  "نسخ رابط",
-    exportTitle: "السيرة جاهزة!",
-    exportSub:   "اختار صيغة التحميل",
-    pdfNote:  "الأنسب لأغلب الشركات",
-    wordNote: "ملف Word قابل للتعديل",
-    linkNote: "شارك مع أي حد",
+    exportTitle: "سيرتك جاهزة!",
+    exportSub:   "اختر صيغة التحميل المهنية",
+    pdfNote:  "الأنسب لأغلب أنظمة التقديم (ATS)",
+    wordNote: "ملف Word قابل للتعديل بالكامل",
+    linkNote: "شارك سيرتك برابط مباشر وبسيط",
   },
   en: {
     edit:     "Edit",
@@ -24,12 +29,12 @@ const T: Record<string, Record<string, string>> = {
     export:   "Export",
     exportPDF:  "Export as PDF",
     exportWord: "Export as Word",
-    shareLink:  "Copy link",
+    shareLink:  "Copy Link",
     exportTitle: "Resume Ready!",
-    exportSub:   "Choose your download format",
-    pdfNote:  "Best for most companies",
-    wordNote: "Editable .docx file",
-    linkNote: "Share with anyone",
+    exportSub:   "Choose your professional format",
+    pdfNote:  "Best for most ATS filters",
+    wordNote: "Fully editable .docx format",
+    linkNote: "Share with a direct, simple link",
   },
   fr: {
     edit:     "Modifier",
@@ -41,9 +46,9 @@ const T: Record<string, Record<string, string>> = {
     shareLink:  "Copier le lien",
     exportTitle: "CV Prêt !",
     exportSub:   "Choisissez votre format",
-    pdfNote:  "Idéal pour la plupart des entreprises",
-    wordNote: "Fichier .docx modifiable",
-    linkNote: "Partager avec n'importe qui",
+    pdfNote:  "Recommandé pour les filtres ATS",
+    wordNote: "Fichier .docx entièrement modifiable",
+    linkNote: "Partager avec un lien direct",
   },
 };
 
@@ -51,20 +56,20 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> =
   ar: [
     { id: "basics",         label: "المعلومات الشخصية", emoji: "👤" },
     { id: "experience",     label: "الخبرات العملية",   emoji: "💼" },
-    { id: "education",      label: "التعليم",           emoji: "🎓" },
-    { id: "skills",         label: "المهارات",          emoji: "⭐" },
-    { id: "certifications", label: "الشهادات",          emoji: "🏅" },
-    { id: "custom",         label: "أقسام مخصصة",       emoji: "➕" },
-    { id: "finish",          label: "مراجعة وتحميل",     emoji: "📄" }, // Changed audit -> finish to match EditorPage Tabs
+    { id: "education",      label: "التعليم والشهادات",   emoji: "🎓" },
+    { id: "skills",         label: "المهارات المهنية",  emoji: "⭐" },
+    { id: "certifications", label: "الشهادات والاعتمادات", emoji: "🏅" },
+    { id: "custom",         label: "أقسام مخصصة إضافية", emoji: "➕" },
+    { id: "finish",         label: "مراجعة وتحميل",     emoji: "📄" },
   ],
   en: [
     { id: "basics",         label: "Personal Info",    emoji: "👤" },
     { id: "experience",     label: "Experience",       emoji: "💼" },
     { id: "education",      label: "Education",        emoji: "🎓" },
-    { id: "skills",         label: "Skills",           emoji: "⭐" },
+    { id: "skills",         label: "Skills & Expertise",emoji: "⭐" },
     { id: "certifications", label: "Certifications",   emoji: "🏅" },
     { id: "custom",         label: "Custom Sections",  emoji: "➕" },
-    { id: "finish",          label: "Audit & Download", emoji: "📄" },
+    { id: "finish",         label: "Audit & Download", emoji: "📄" },
   ],
   fr: [
     { id: "basics",         label: "Informations",     emoji: "👤" },
@@ -73,53 +78,19 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> =
     { id: "skills",         label: "Compétences",      emoji: "⭐" },
     { id: "certifications", label: "Certifications",   emoji: "🏅" },
     { id: "custom",         label: "Sections custom",  emoji: "➕" },
-    { id: "finish",          label: "Vérifier & Téléch",emoji: "📄" },
+    { id: "finish",         label: "Vérifier & Télécharger", emoji: "📄" },
   ],
 };
 
-// ── SVG icons ─────────────────────────────────────────────
-const Icons = {
-  edit: (c: string) => (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-      <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-    </svg>
-  ),
-  preview: (c: string) => (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-      <circle cx="12" cy="12" r="3"/>
-    </svg>
-  ),
-  sections: (c: string) => (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round">
-      <line x1="8" y1="6"  x2="21" y2="6"/>
-      <line x1="8" y1="12" x2="21" y2="12"/>
-      <line x1="8" y1="18" x2="21" y2="18"/>
-      <line x1="3" y1="6"  x2="3.01" y2="6"/>
-      <line x1="3" y1="12" x2="3.01" y2="12"/>
-      <line x1="3" y1="18" x2="3.01" y2="18"/>
-    </svg>
-  ),
-  download: (c: string) => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-      <polyline points="7 10 12 15 17 10"/>
-      <line x1="12" y1="15" x2="12" y2="3"/>
-    </svg>
-  ),
-};
-
-// ── MiniRing ──────────────────────────────────────────────
+// ── Mini Completion Rating Ring ──────────────────────────
 function MiniRing({ pct }: { pct: number }) {
-  if (pct == null) return null;
+  if (pct == null || pct === 0) return null;
   const size = 18, R = 7, C = 2 * Math.PI * R, dash = (pct / 100) * C;
-  const col  = pct === 100 ? "#0F6E56" : "#BA7517";
-  if (pct === 0) return null;
+  const col  = pct === 100 ? "#10b981" : "#f59e0b";
   return (
-    <svg width={size} height={size} style={{ transform: "rotate(-90deg)", flexShrink: 0 }}>
-      <circle cx={9} cy={9} r={R} fill="none" stroke="#F1EFE8" strokeWidth={2.5}/>
-      <circle cx={9} cy={9} r={R} fill="none" stroke={col}
+    <svg width={size} height={size} className="-rotate-90 shrink-0">
+      <circle cx={size/2} cy={size/2} r={R} fill="none" stroke="#f1f5f9" strokeWidth={2.5}/>
+      <circle cx={size/2} cy={size/2} r={R} fill="none" stroke={col}
         strokeWidth={2.5} strokeLinecap="round"
         strokeDasharray={`${dash} ${C}`}/>
     </svg>
@@ -138,56 +109,66 @@ function ExportScreen({ lang, onPDF, onWord }: { lang: string; onPDF: () => void
   };
 
   const items = [
-    { emoji: "📕", label: t.exportPDF,  note: t.pdfNote,  color: "#FF4D2D", bg: "rgba(255,77,45,0.1)",  action: onPDF },
-    { emoji: "📘", label: t.exportWord, note: t.wordNote, color: "#185FA5", bg: "rgba(24,95,165,0.1)",  action: onWord },
-    { emoji: "🔗", label: copied ? "✓ " + t.shareLink : t.shareLink, note: t.linkNote, color: "#534AB7", bg: "rgba(83,74,183,0.1)", action: handleCopy },
+    { 
+      icon: <FileText className="w-5 h-5 text-rose-600" />, 
+      label: t.exportPDF,  
+      note: t.pdfNote,  
+      bg: "bg-rose-50 border-rose-100",  
+      action: onPDF 
+    },
+    { 
+      icon: <Download className="w-5 h-5 text-blue-600" />, 
+      label: t.exportWord, 
+      note: t.wordNote, 
+      bg: "bg-blue-50 border-blue-100",  
+      action: onWord 
+    },
+    { 
+      icon: <Share2 className="w-5 h-5 text-indigo-600" />, 
+      label: copied ? "✓ " + t.shareLink : t.shareLink, 
+      note: t.linkNote, 
+      bg: "bg-indigo-50 border-indigo-100", 
+      action: handleCopy 
+    },
   ];
 
   return (
-    <div style={{ padding: "24px 16px", display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ textAlign: "center", paddingBottom: 8 }}>
-        <div style={{ fontSize: 40, marginBottom: 8 }}>🎉</div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: "#111", marginBottom: 4 }}>{t.exportTitle}</div>
-        <div style={{ fontSize: 13, color: "#888" }}>{t.exportSub}</div>
+    <div className="px-4 py-8 space-y-4 max-w-md mx-auto">
+      <div className="text-center pb-4">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-50 mb-3 text-3xl animate-bounce">
+          🎉
+        </div>
+        <h3 className="text-lg font-black text-slate-800">{t.exportTitle}</h3>
+        <p className="text-xs text-slate-400 mt-1">{t.exportSub}</p>
       </div>
 
-      {items.map((item, i) => (
-        <button
-          key={i}
-          onClick={item.action}
-          style={{
-            display:       "flex",
-            alignItems:    "center",
-            gap:           14,
-            padding:       "16px",
-            background:    "#fff",
-            border:        "1px solid #E8E6DF",
-            borderRadius:  14,
-            cursor:        "pointer",
-            width:         "100%",
-            textAlign:     lang === "ar" ? "right" : "left",
-          }}
-        >
-          <div style={{
-            width: 44, height: 44, background: item.bg,
-            borderRadius: 12, display: "flex",
-            alignItems: "center", justifyContent: "center", fontSize: 22, flexShrink: 0,
-          }}>
-            {item.emoji}
-          </div>
-          <div>
-            <div style={{ fontSize: 15, fontWeight: 600, color: "#111" }}>{item.label}</div>
-            <div style={{ fontSize: 12, color: "#888", marginTop: 2 }}>{item.note}</div>
-          </div>
-        </button>
-      ))}
+      <div className="space-y-3">
+        {items.map((item, i) => (
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            key={i}
+            onClick={item.action}
+            className="w-full flex items-center gap-4 p-4 bg-white border border-slate-200/80 rounded-2xl cursor-pointer text-right ltr:text-left transition-all hover:bg-slate-50 shadow-xs"
+          >
+            <div className={`w-11 h-11 ${item.bg} border rounded-xl flex items-center justify-center shrink-0`}>
+              {item.icon}
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="text-sm font-bold text-slate-800">{item.label}</h4>
+              <p className="text-[11px] text-slate-400 mt-0.5 font-medium truncate">{item.note}</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-slate-300 rtl:rotate-180 shrink-0" />
+          </motion.button>
+        ))}
+      </div>
     </div>
   );
 }
 
 // ── SectionsScreen ────────────────────────────────────────
-function SectionsScreen({ lang, sections, activeSection, onSectionChange, completionMap }: {
-  lang: string;
+function SectionsScreen({ _lang, sections, activeSection, onSectionChange, completionMap }: {
+  _lang: string;
   sections: { id: string; label: string; emoji: string }[];
   activeSection: string;
   onSectionChange: (id: string) => void;
@@ -197,61 +178,51 @@ function SectionsScreen({ lang, sections, activeSection, onSectionChange, comple
   const auditSection = sections.find((s) => s.id === "finish");
 
   return (
-    <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: 8 }}>
+    <div className="p-4 space-y-2 max-w-md mx-auto">
       {mainSections.map((s) => {
         const pct      = completionMap[s.id] ?? 0;
         const isActive = activeSection === s.id;
         return (
-          <button
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
             key={s.id}
             onClick={() => onSectionChange(s.id)}
-            style={{
-              display:      "flex",
-              alignItems:   "center",
-              gap:          12,
-              padding:      "14px",
-              background:   isActive ? "rgba(255,77,45,0.06)" : "#fff",
-              border:       `1px solid ${isActive ? "rgba(255,77,45,0.2)" : "#E8E6DF"}`,
-              borderRadius: 14,
-              cursor:       "pointer",
-              width:        "100%",
-              textAlign:    lang === "ar" ? "right" : "left",
-            }}
+            className={`w-full flex items-center gap-3.5 p-4 rounded-2xl border cursor-pointer transition-all ${
+              isActive 
+                ? "bg-rose-500/5 border-rose-500/20 text-[#FF4D2D]" 
+                : "bg-white border-slate-200/80 hover:bg-slate-50 text-slate-700"
+            }`}
           >
-            <span style={{ fontSize: 22 }}>{s.emoji}</span>
-            <span style={{ flex: 1, fontSize: 15, fontWeight: isActive ? 600 : 400, color: isActive ? "#FF4D2D" : "#333" }}>
+            <span className="text-2xl filter drop-shadow-xs shrink-0 select-none">{s.emoji}</span>
+            <span className={`flex-1 text-sm text-right ltr:text-left ${isActive ? "font-bold" : "font-semibold"}`}>
               {s.label}
             </span>
-            {pct === 100
-              ? <span style={{ color: "#0F6E56", fontSize: 16 }}>✓</span>
-              : <MiniRing pct={pct} />
-            }
-          </button>
+            {pct === 100 ? (
+              <span className="text-emerald-500 font-bold text-sm">✓</span>
+            ) : (
+              <MiniRing pct={pct} />
+            )}
+          </motion.button>
         );
       })}
 
       {auditSection && (
-        <>
-          <div style={{ height: 1, background: "#E8E6DF", margin: "4px 0" }} />
-          <button
+        <div className="pt-2">
+          <div className="h-px bg-slate-200/60 my-3" />
+          <motion.button
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
             onClick={() => onSectionChange("finish")}
-            style={{
-              display: "flex", alignItems: "center", gap: 12,
-              padding: "14px", background: "#fff",
-              border: "1px solid #E8E6DF", borderRadius: 14,
-              cursor: "pointer", width: "100%",
-              textAlign: lang === "ar" ? "right" : "left",
-            }}
+            className="w-full flex items-center gap-3.5 p-4 bg-gradient-to-r from-rose-500/10 to-[#FF4D2D]/5 hover:from-rose-500/15 hover:to-[#FF4D2D]/10 border border-[#FF4D2D]/20 rounded-2xl cursor-pointer transition-all text-slate-800"
           >
-            <span style={{ fontSize: 22 }}>{auditSection.emoji}</span>
-            <span style={{ flex: 1, fontSize: 15, color: "#333" }}>{auditSection.label}</span>
-            <span style={{
-              background: "#FF4D2D", color: "#fff",
-              fontSize: 11, fontWeight: 700,
-              padding: "3px 8px", borderRadius: 99,
-            }}>PDF</span>
-          </button>
-        </>
+            <span className="text-2xl shrink-0 select-none">{auditSection.emoji}</span>
+            <span className="flex-1 text-sm font-bold text-right ltr:text-left">{auditSection.label}</span>
+            <span className="bg-[#FF4D2D] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-xs leading-none">
+              PDF
+            </span>
+          </motion.button>
+        </div>
       )}
     </div>
   );
@@ -302,171 +273,141 @@ export default function MobileEditorLayout({
     }
   };
 
-  // لما المستخدم يختار section من الـ sections screen → روح للـ edit screen
   const handleSectionChange = (id: string) => {
     onSectionChange(id);
     setActiveTab("edit");
   };
 
   const TABS = [
-    { id: "edit",     label: t.edit,     icon: Icons.edit },
-    { id: "preview",  label: t.preview,  icon: Icons.preview },
-    { id: "sections", label: t.sections, icon: Icons.sections },
-    { id: "export",   label: t.export,   icon: null, isExport: true },
+    { id: "edit",     label: t.edit,     icon: Edit3 },
+    { id: "preview",  label: t.preview,  icon: Eye },
+    { id: "sections", label: t.sections, icon: Grid },
+    { id: "export",   label: t.export,   icon: Download, isExport: true },
   ];
 
   const currentSection = sections.find(s => s.id === activeSection);
 
   return (
-    <div style={{
-      display:       "flex",
-      flexDirection: "column",
-      height:        "100dvh",
-      background:    "#FAFAF8",
-      direction:     isRtl ? "rtl" : "ltr",
-      overflow:      "hidden",
-    }}>
+    <div className="flex flex-col h-[100dvh] bg-slate-50 text-slate-800 select-none overflow-hidden" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
-      {/* ── Top bar ── */}
-      <header style={{
-        background:     "rgba(250,250,248,0.95)",
-        backdropFilter: "blur(12px)",
-        borderBottom:   "1px solid #E8E6DF",
-        padding:        "10px 16px",
-        display:        "flex",
-        alignItems:     "center",
-        justifyContent: "space-between",
-        flexShrink:     0,
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 38, height: 38, borderRadius: 8,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexShrink: 0,
-          }}>
-            <img src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" alt="IN LOGO icon(3)" style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: 8 }} />
+      {/* ── Visual Mobile Header ── */}
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-sans border-slate-200/80 px-4 py-3 flex items-center justify-between shrink-0">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 shadow-xs">
+            <img 
+              src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
+              alt="HashResume Logo" 
+              className="w-full h-full object-contain" 
+            />
           </div>
-          <span style={{ fontSize: 15, fontWeight: 600, color: "#111" }}>
+          <span className="text-sm font-black text-slate-800">
             {currentSection?.emoji} {currentSection?.label}
           </span>
         </div>
 
-        {/* ATS pill */}
-        <div style={{
-          background:   "rgba(255,77,45,0.1)",
-          border:       "1px solid rgba(255,77,45,0.2)",
-          borderRadius: 99,
-          padding:      "3px 10px",
-          fontSize:     12,
-          fontWeight:   700,
-          color:        "#993C1D",
-        }}>
-          ATS {atsScore}%
+        {/* Floating live badge with state colors */}
+        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full font-bold text-xs bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 shadow-2xs">
+          <span className="relative flex h-1.5 w-1.5 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
+          </span>
+          <span>ATS {atsScore}%</span>
         </div>
       </header>
 
-      {/* ── Main content area ── */}
-      <main style={{ flex: 1, overflowY: "auto", WebkitOverflowScrolling: "touch" }}>
-        {activeTab === "edit"     && (
-          <>
-            <div style={{ paddingBottom: 120 }}>{children}</div>
-            <ProgressStepper
-              variant="mini"
-              current={currentIndex}
-              onNext={handleNext}
-              onPrev={handlePrev}
-              lang={lang as "ar" | "en" | "fr"}
-            />
-          </>
-        )}
-        {activeTab === "preview"  && <div style={{ padding: "16px", paddingBottom: 80, height: "100%" }}>{previewContent}</div>}
-        {activeTab === "sections" && (
-          <SectionsScreen
-            lang={lang}
-            sections={sections}
-            activeSection={activeSection}
-            onSectionChange={handleSectionChange}
-            completionMap={completionMap}
-          />
-        )}
-        {activeTab === "export"   && (
-          <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} />
-        )}
+      {/* ── Main content area with fade animations ── */}
+      <main className="flex-1 overflow-y-auto w-full max-w-lg mx-auto scrollbar-none pb-28">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.2 }}
+            className="h-full"
+          >
+            {activeTab === "edit" && (
+              <div className="h-full flex flex-col">
+                <div className="flex-1">{children}</div>
+                <div className="p-4 bg-white/80 backdrop-blur-md border-t border-slate-100 sticky bottom-0 z-10">
+                  <ProgressStepper
+                    variant="mini"
+                    current={currentIndex}
+                    onNext={handleNext}
+                    onPrev={handlePrev}
+                    lang={lang as "ar" | "en" | "fr"}
+                  />
+                </div>
+              </div>
+            )}
+            {activeTab === "preview" && (
+              <div className="p-4 h-full">
+                {previewContent}
+              </div>
+            )}
+            {activeTab === "sections" && (
+              <SectionsScreen
+                _lang={lang}
+                sections={sections}
+                activeSection={activeSection}
+                onSectionChange={handleSectionChange}
+                completionMap={completionMap}
+              />
+            )}
+            {activeTab === "export" && (
+              <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} />
+            )}
+          </motion.div>
+        </AnimatePresence>
       </main>
 
-      {/* ── Bottom Tab Bar ── */}
-      <nav style={{
-        background:   "rgba(250,250,248,0.97)",
-        borderTop:    "1px solid #E8E6DF",
-        display:      "flex",
-        alignItems:   "center",
-        padding:      "8px 4px 16px",  // 16px bottom for home indicator
-        flexShrink:   0,
-        backdropFilter: "blur(12px)",
-      }}>
+      {/* ── Tactfully Designed Premium Bottom Navigation Bar ── */}
+      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-t border-sans border-slate-200/80 px-4 py-2 pb-6 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)]">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
-          const color    = isActive ? "#FF4D2D" : "#888";
+          const IconComponent = tab.icon;
 
           if (tab.isExport) {
             return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab("export")}
-                style={{
-                  flex:           1,
-                  display:        "flex",
-                  flexDirection:  "column",
-                  alignItems:     "center",
-                  gap:            3,
-                  border:         "none",
-                  background:     "transparent",
-                  cursor:         "pointer",
-                  padding:        "4px",
-                }}
-              >
-                <div style={{
-                  width:        40,
-                  height:       40,
-                  background:   "#FF4D2D",
-                  borderRadius: 14,
-                  display:      "flex",
-                  alignItems:   "center",
-                  justifyContent: "center",
-                  boxShadow:    "0 4px 12px rgba(255,77,45,0.35)",
-                  transform:    activeTab === "export" ? "scale(0.92)" : "scale(1)",
-                  transition:   "transform .15s",
-                }}>
-                  {Icons.download("#fff")}
-                </div>
-                <span style={{ fontSize: 10, fontWeight: 700, color: "#FF4D2D" }}>
+              <div key={tab.id} className="relative flex flex-col items-center">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setActiveTab("export")}
+                  className="w-12 h-12 bg-gradient-to-r from-rose-600 to-[#FF4D2D] text-white rounded-2xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(255,77,45,0.4)] border border-rose-400/20"
+                >
+                  <Download className="w-5 h-5 shrink-0" />
+                </motion.button>
+                <span className="text-[10px] font-black mt-1 text-[#FF4D2D]">
                   {tab.label}
                 </span>
-              </button>
+              </div>
             );
           }
 
           return (
-            <button
+            <motion.button
+              whileTap={{ scale: 0.95 }}
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              style={{
-                flex:           1,
-                display:        "flex",
-                flexDirection:  "column",
-                alignItems:     "center",
-                gap:            3,
-                border:         "none",
-                background:     "transparent",
-                cursor:         "pointer",
-                padding:        "6px 4px",
-              }}
+              className="flex flex-col items-center justify-center p-2.5 rounded-2xl cursor-pointer relative"
             >
-              {tab.icon && tab.icon(color)}
-              <span style={{ fontSize: 10, fontWeight: isActive ? 700 : 500, color }}>
+              <div className="relative z-10">
+                {IconComponent && (
+                  <IconComponent className={`w-5 h-5 transition-colors duration-200 ${isActive ? "text-[#FF4D2D]" : "text-slate-400"}`} />
+                )}
+              </div>
+              <span className={`text-[10px] font-bold mt-1 relative z-10 transition-colors duration-200 ${isActive ? "text-[#FF4D2D]" : "text-slate-400"}`}>
                 {tab.label}
               </span>
-            </button>
+              {isActive && (
+                <motion.div 
+                  layoutId="activeTabIndicator"
+                  className="absolute inset-0 bg-rose-500/5 border border-rose-500/10 rounded-2xl"
+                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                />
+              )}
+            </motion.button>
           );
         })}
       </nav>

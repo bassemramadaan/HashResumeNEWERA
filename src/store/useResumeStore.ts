@@ -54,6 +54,12 @@ export type PersonalInfo = {
   email: string;
   phone: string;
   address: string;
+  nationality?: string;
+  maritalStatus?: string;
+  militaryStatus?: string;
+  visaStatus?: string;
+  drivingLicense?: string;
+  birthDate?: string;
   linkedin: string;
   github: string;
   portfolio: string;
@@ -137,6 +143,12 @@ const initialData: ResumeData = {
     email: "",
     phone: "",
     address: "",
+    nationality: "",
+    maritalStatus: "",
+    militaryStatus: "",
+    visaStatus: "",
+    drivingLicense: "",
+    birthDate: "",
     linkedin: "",
     github: "",
     portfolio: "",

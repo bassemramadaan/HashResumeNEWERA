@@ -15,7 +15,14 @@ import {
   FileText,
   Sparkles,
   AlertCircle,
-  Download
+  Download,
+  Calendar,
+  Flag,
+  Heart,
+  Shield,
+  CreditCard,
+  Car,
+  ChevronDown
 } from "lucide-react";
 import SectionTooltip from "./SectionTooltip";
 import { personalInfoSchema } from "../../lib/validation";
@@ -28,6 +35,7 @@ const PersonalInfoForm = () => {
   const { data, updatePersonalInfo } = useResumeStore();
   const { personalInfo, settings } = data;
   const [showAISuggestions, setShowAISuggestions] = useState(false);
+  const [showGCCFields, setShowGCCFields] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [touched, setTouched] = useState<Record<string, boolean>>({});
 
@@ -320,6 +328,154 @@ const PersonalInfoForm = () => {
               placeholder={t.website}
             />
           </div>
+        </div>
+
+        {/* Middle East & GCC Recruitment Fields Collapsible */}
+        <div className="col-span-1 md:col-span-2 border border-dashed border-slate-200 hover:border-[#FF4D2D]/30 rounded-2xl p-4 transition-all bg-white/50">
+          <button
+            type="button"
+            onClick={() => setShowGCCFields(!showGCCFields)}
+            className="flex items-center justify-between w-full text-start text-slate-700 font-bold text-sm"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-xl">🌍</span>
+              <div>
+                <span>{language === "ar" ? "بيانات التوظيف لدول الخليج والشرق الأوسط (اختياري)" : "MENA & GCC Premium Recruiting Fields (Optional)"}</span>
+                <p className="text-[11px] text-slate-400 font-normal">
+                  {language === "ar" ? "تاريخ الميلاد، الجنسية، الحالة الاجتماعية، التأشيرة والخدمة العسكرية" : "Date of Birth, Nationality, Marital, Visa & Military status"}
+                </p>
+              </div>
+            </div>
+            <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${showGCCFields ? "rotate-180 text-[#FF4D2D]" : "text-slate-400"}`} />
+          </button>
+
+          {showGCCFields && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              transition={{ duration: 0.2 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 pt-4 border-t border-slate-100"
+            >
+              <div className="space-y-2">
+                <label htmlFor="birthDate" className="text-xs font-medium text-slate-600">
+                  {t.birthDate}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
+                    <Calendar className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    type="date"
+                    id="birthDate"
+                    name="birthDate"
+                    value={personalInfo.birthDate || ""}
+                    onChange={handleChange}
+                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="nationality" className="text-xs font-medium text-slate-600">
+                  {t.nationality}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
+                    <Flag className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    type="text"
+                    id="nationality"
+                    name="nationality"
+                    value={personalInfo.nationality || ""}
+                    onChange={handleChange}
+                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    placeholder={language === "ar" ? "مثال: مصري، سعودي" : "e.g. Saudi, Egyptian"}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="maritalStatus" className="text-xs font-medium text-slate-600">
+                  {t.maritalStatus}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
+                    <Heart className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    type="text"
+                    id="maritalStatus"
+                    name="maritalStatus"
+                    value={personalInfo.maritalStatus || ""}
+                    onChange={handleChange}
+                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    placeholder={language === "ar" ? "مثال: أعزل، متزوج" : "e.g. Single, Married"}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="visaStatus" className="text-xs font-medium text-slate-600">
+                  {t.visaStatus}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
+                    <CreditCard className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    type="text"
+                    id="visaStatus"
+                    name="visaStatus"
+                    value={personalInfo.visaStatus || ""}
+                    onChange={handleChange}
+                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    placeholder={language === "ar" ? "مثال: إقامة قابلة للنقل، مواطن" : "e.g. Transferable Iqama, Citizen"}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="militaryStatus" className="text-xs font-medium text-slate-600">
+                  {t.militaryStatus}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
+                    <Shield className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    type="text"
+                    id="militaryStatus"
+                    name="militaryStatus"
+                    value={personalInfo.militaryStatus || ""}
+                    onChange={handleChange}
+                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    placeholder={language === "ar" ? "مثال: معفى، قدّم الخدمة" : "e.g. Exempted, Completed"}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="drivingLicense" className="text-xs font-medium text-slate-600">
+                  {t.drivingLicense}
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
+                    <Car className="h-4 w-4 text-slate-400" />
+                  </div>
+                  <input
+                    type="text"
+                    id="drivingLicense"
+                    name="drivingLicense"
+                    value={personalInfo.drivingLicense || ""}
+                    onChange={handleChange}
+                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    placeholder={language === "ar" ? "مثال: رخصة قيادة سعودية خاصة" : "e.g. Valid GCC Driving License"}
+                  />
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
 
         <div className="col-span-1 md:col-span-2 space-y-2">

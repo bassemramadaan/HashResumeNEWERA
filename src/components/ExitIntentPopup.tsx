@@ -87,10 +87,10 @@ export default function ExitIntentPopup() {
 
               <p className="text-slate-600 mb-8 leading-relaxed">
                 {language === "ar"
-                  ? "قم بتجربة المحرر الخاص بنا مجاناً. لا يطلب منك أي تسجيل ويمكنك تحميل سيرتك لاحقاً."
+                  ? "قم بتجربة محرّر السير الذاتية التفاعلي المتميز الآن. لا يُطلب منك أي تسجيل ويمكنك التحميل لاحقاً."
                   : language === "fr"
-                  ? "Essayez notre éditeur gratuitement. Aucune inscription requise et vous pouvez télécharger plus tard."
-                  : "Try our editor for free. No sign-up required, and you can download it later."}
+                  ? "Essayez notre éditeur de CV dynamique maintenant. Aucune inscription requise et vous pouvez télécharger plus tard."
+                  : "Try our dynamic resume builder now. No sign-up required, and you can download it later."}
               </p>
 
               <div className="flex flex-col gap-3">
@@ -99,7 +99,7 @@ export default function ExitIntentPopup() {
                   onClick={() => handleClose(true)}
                   className="w-full bg-[#ff4d2d] hover:bg-[#e63e1d] text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-orange-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 group"
                 >
-                  {language === "ar" ? "ابدأ مجاناً الآن" : language === "fr" ? "Commencer gratuitement" : "Start for free now"}
+                  {language === "ar" ? "ابدأ تصميم سيرتك الذاتية الآن" : language === "fr" ? "Commencer maintenant" : "Start designing now"}
                   <ArrowRight size={18} className="group-hover:translate-x-1 rtl:group-hover:-translate-x-1 transition-transform rtl:rotate-180" />
                 </Link>
                 <button

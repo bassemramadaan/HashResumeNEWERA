@@ -136,7 +136,7 @@ export default function BlogPostPage() {
             to="/editor" 
             className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 hover:-translate-y-1 transition-all shadow-lg shadow-indigo-600/20"
           >
-            {language === "ar" ? "ابدأ الآن مجاناً" : "Start now for free"}
+            {language === "ar" ? "ابدأ الآن" : "Start now"}
           </Link>
         </div>
 

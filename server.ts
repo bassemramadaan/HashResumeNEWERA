@@ -33,7 +33,31 @@ async function startServer() {
     legacyHeaders: false,
   });
 
-  // AI Endpoint has been moved to /api/gemini.js edge function
+  // AI Endpoint has been moved to /api/gemini.js edge function in production, handled here in dev/preview
+  app.post("/api/gemini", aiLimiter, async (req, res) => {
+    try {
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        return res.status(500).json({ error: { message: "GEMINI_API_KEY is not defined" } });
+      }
+
+      // Proxy request to official Gemini API using the exact same body
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(req.body),
+        }
+      );
+
+      const data = await response.json();
+      res.status(response.status).json(data);
+    } catch (error: any) {
+      console.error("Gemini Proxy Error:", error);
+      res.status(500).json({ error: { message: error.message || "Failed to contact Gemini API" } });
+    }
+  });
 
   // Payment Verification Endpoint
   app.post("/api/payment/verify", async (req, res) => {

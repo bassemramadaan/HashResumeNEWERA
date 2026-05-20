@@ -133,6 +133,50 @@ const ResumePreview = memo(
         </div>
       ) : null;
 
+    const GCCRecruitmentData = () => {
+      const hasGCCData = 
+        personalInfo.nationality || 
+        personalInfo.maritalStatus || 
+        personalInfo.militaryStatus || 
+        personalInfo.visaStatus || 
+        personalInfo.drivingLicense || 
+        personalInfo.birthDate;
+
+      if (!hasGCCData) return null;
+
+      const items = [
+        { label: lang === 'ar' ? 'الجنسية' : 'Nationality', value: personalInfo.nationality },
+        { label: lang === 'ar' ? 'الحالة الاجتماعية' : 'Marital Status', value: personalInfo.maritalStatus },
+        { label: lang === 'ar' ? 'الموقف من التجنيد' : 'Military Status', value: personalInfo.militaryStatus },
+        { label: lang === 'ar' ? 'الإقامة/التأشيرة' : 'Visa Status', value: personalInfo.visaStatus },
+        { label: lang === 'ar' ? 'رخصة القيادة' : 'Driving License', value: personalInfo.drivingLicense },
+        { label: lang === 'ar' ? 'تاريخ الميلاد' : 'Date of Birth', value: personalInfo.birthDate },
+      ].filter(item => item.value && item.value.trim() !== "");
+
+      if (items.length === 0) return null;
+
+      return (
+        <div 
+          className="flex flex-wrap gap-2 mt-4 pb-2 text-xs font-sans print:my-2 justify-center md:justify-start"
+          dir={lang === "ar" ? "rtl" : "ltr"}
+        >
+          {items.map((item, idx) => (
+            <div 
+              key={idx} 
+              className="flex items-center gap-1.5 px-3 py-1 bg-neutral-100 text-neutral-700 rounded-full border border-neutral-200/50 print:bg-neutral-50 print:border-neutral-200"
+            >
+              <span className="font-bold text-[10px] text-neutral-400 uppercase tracking-wider">
+                {item.label}:
+              </span>
+              <span className="font-semibold text-neutral-800">
+                {item.value}
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    };
+
     const renderModern = () => (
       <div
         className={cn(
@@ -186,6 +230,7 @@ const ResumePreview = memo(
               </div>
             )}
           </div>
+          <GCCRecruitmentData />
         </header>
 
         {/* Dynamic Content based on sectionOrder */}
@@ -443,6 +488,7 @@ const ResumePreview = memo(
             )}
             {personalInfo.linkedin && <span>{personalInfo.linkedin}</span>}
           </div>
+          <GCCRecruitmentData />
         </header>
 
         {/* Dynamic Content based on sectionOrder */}
@@ -908,6 +954,7 @@ const ResumePreview = memo(
             {personalInfo.address && <span>{personalInfo.address}</span>}
             {personalInfo.linkedin && <span>{personalInfo.linkedin}</span>}
           </div>
+          <GCCRecruitmentData />
         </header>
 
         {sectionOrder.map((sectionId) => {
@@ -2223,6 +2270,7 @@ const ResumePreview = memo(
               </span>
             )}
           </div>
+          <GCCRecruitmentData />
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

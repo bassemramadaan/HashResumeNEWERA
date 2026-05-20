@@ -33,7 +33,7 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
 
           {/* Subheadline */}
           <p className="text-lg sm:text-xl text-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed">
-            ابنِ سيرتك الذاتية الاحترافية مجاناً باللغة العربية والإنجليزية. ادفع مرة واحدة فقط عند تنزيل الملف بصيغة PDF. بدون اشتراكات.
+            ابنِ سيرتك الذاتية الاحترافية باللغة العربية والإنجليزية. ادفع لكل سيرة ذاتية شاملة باقة الخدمات المتكاملة (ATS + AI) فقط عند تنزيل الملف بصيغة PDF. بدون اشتراكات.
           </p>
 
           {/* CTA Buttons */}
@@ -43,7 +43,7 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
               className="btn-primary btn-lg flex items-center gap-2 w-full sm:w-auto shadow-[0_0_20px_rgba(234,88,12,0.4),0_4px_15px_rgba(234,88,12,0.3)] hover:scale-105 transition-all duration-200"
             >
               <Sparkles className="w-5 h-5" />
-              ابدأ مجاناً الآن
+              ابدأ تصميم سيرتك الآن
               <ArrowLeft className="w-5 h-5 rtl:rotate-0 ltr:rotate-180" />
             </button>
             <a
@@ -60,7 +60,7 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
               <span className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
                 <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
               </span>
-              <span>ابنِ مجاناً</span>
+              <span>تصميم احترافي</span>
             </div>
             <span className="text-border">•</span>
             <div className="flex items-center gap-1.5">
@@ -177,7 +177,7 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 { icon: FileText, step: '01', title: 'أدخل بياناتك', desc: 'أضف معلوماتك المهنية بسهولة في النموذج الذكي' },
-                { icon: Layout, step: '02', title: 'اختر القالب', desc: 'تصفح عشرات القوالب الاحترافية وجرب ما تشاء مجاناً' },
+                { icon: Layout, step: '02', title: 'اختر القالب', desc: 'تصفح العديد من القوالب الاحترافية وجرب التوافق المباشر' },
                 { icon: Download, step: '03', title: 'نزّل ملفك', desc: 'ادفع مرة واحدة فقط وحمّل ملف PDF أو Word عالي الجودة' },
               ].map(({ icon: Icon, step, title, desc }) => (
                 <div key={step} className="flex flex-col items-center text-center gap-4 relative">
