@@ -13,6 +13,9 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  // Trust proxy for reverse proxies (like Cloud Run / Nginx) so rate-limiting captures real client IPs correctly
+  app.set('trust proxy', 1);
+
   app.use(cors());
   app.use(express.json({ limit: "50mb" }));
 
