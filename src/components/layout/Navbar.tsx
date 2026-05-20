@@ -53,61 +53,71 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   const ctaLabel = lang === 'ar' ? 'ابدأ مجانًا' : lang === 'fr' ? 'Commencer' : 'Start Free'
 
   return (
-    <nav className={cn("sticky top-0 z-50 bg-white/90 backdrop-blur-md transition-all duration-200 border-b", scrolled ? "shadow-md border-neutral-200/50" : "shadow-none border-neutral-200")}>
+    <nav className={cn("sticky top-0 z-50 bg-white/70 backdrop-blur-xl transition-all duration-300 border-b", scrolled ? "shadow-[0_4px_30px_rgba(0,0,0,0.05)] border-neutral-200/50" : "shadow-none border-transparent")}>
       <div className="container-page">
-        <div className="flex items-center justify-between min-h-[160px] py-2 relative">
+        <div className="flex items-center justify-between py-4 relative">
 
           {/* Left: Logo */}
           <div className="flex items-center flex-shrink-0">
-            <Link to="/" className="flex items-center transform origin-left rtl:origin-right hover:scale-105 transition-transform">
+            <Link to="/" className="flex items-center transform origin-left rtl:origin-right hover:scale-105 transition-all duration-300">
               <img
                 src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
                 alt="Hash Resume"
-                className="h-[130px] md:h-[160px] w-auto object-contain"
+                className="h-[120px] md:h-[150px] w-auto object-contain"
               />
             </Link>
           </div>
 
           {/* Center: Nav Links */}
-          <div className="hidden md:flex items-center justify-center gap-1 flex-1 px-8">
+          <div className="hidden md:flex items-center justify-center gap-2 flex-1 px-8">
             {navLinks.map((link) => (
               link.href.startsWith('/') ? (
                 <Link
                   key={link.href}
                   to={link.href}
-                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors whitespace-nowrap flex items-center gap-1.5"
+                  className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100/50 transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 relative group"
                 >
                   {link.label}
                   {link.label.includes('Hash Hunt') && (
-                    <span className="bg-brand-500 text-white text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-brand-500/20">
+                    <motion.span 
+                      animate={{ scale: [1, 1.1, 1] }} 
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="bg-[#FF4D2D] text-white text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-[#FF4D2D]/20"
+                    >
                       {lang === 'ar' ? 'جديد' : 'NEW'}
-                    </span>
+                    </motion.span>
                   )}
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF4D2D] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-center duration-300" />
                 </Link>
               ) : (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="px-3 py-2 text-sm text-neutral-600 hover:text-neutral-900 rounded-lg hover:bg-neutral-50 transition-colors whitespace-nowrap flex items-center gap-1.5"
+                  className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100/50 transition-all duration-300 whitespace-nowrap flex items-center gap-1.5 relative group"
                 >
                   {link.label}
                   {link.label.includes('Hash Hunt') && (
-                    <span className="bg-brand-500 text-white text-[10px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-brand-500/20">
+                    <motion.span 
+                      animate={{ scale: [1, 1.1, 1] }} 
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="bg-[#FF4D2D] text-white text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-[#FF4D2D]/20"
+                    >
                       {lang === 'ar' ? 'جديد' : 'NEW'}
-                    </span>
+                    </motion.span>
                   )}
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF4D2D] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-center duration-300" />
                 </a>
               )
             ))}
           </div>
 
           {/* Mobile: Hamburger Button (Left side -> move to Right side before CTA in mobile maybe? Actually let's keep it tight on right) */}
-          <div className="flex items-center justify-end gap-2 flex-shrink-0">
+          <div className="flex items-center justify-end gap-3 flex-shrink-0">
             
             <div className="hidden md:block relative">
               <button
                 onClick={() => setLangOpen(!langOpen)}
-                className="btn-ghost btn-sm flex items-center gap-1.5"
+                className="hover:bg-slate-100/50 px-3 py-2 rounded-lg font-semibold text-slate-600 hover:text-slate-900 transition-colors flex items-center gap-1.5"
               >
                 <span className="text-sm">{LANG_LABELS[lang]}</span>
                 <svg className={cn('w-3 h-3 transition-transform', langOpen && 'rotate-180')} viewBox="0 0 12 12" fill="none">
@@ -118,21 +128,20 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <AnimatePresence>
                 {langOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: 4 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 4 }}
-                    transition={{ duration: 0.15 }}
-                    className="absolute end-0 top-full mt-1 bg-white border border-neutral-200 rounded-xl shadow-lg overflow-hidden w-36 z-50"
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="absolute end-0 top-full mt-2 bg-white border border-slate-100 rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] overflow-hidden w-40 z-50 p-1"
                   >
                     {LANGS.map((l) => (
                       <button
                         key={l}
                         onClick={() => { onLangChange(l); setLangOpen(false) }}
                         className={cn(
-                          'w-full text-start px-4 py-2.5 text-sm hover:bg-neutral-50 transition-colors',
-                          lang === l ? 'font-medium' : 'text-neutral-700'
+                          'w-full text-start px-4 py-2.5 text-sm rounded-lg hover:bg-slate-50 transition-colors font-medium',
+                          lang === l ? 'text-[#FF4D2D] bg-[#FF4D2D]/5' : 'text-slate-600'
                         )}
-                        style={lang === l ? { color: 'var(--color-brand-500)' } : {}}
                       >
                         {LANG_LABELS[l]}
                       </button>
@@ -143,19 +152,21 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             </div>
 
             <motion.button
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={handleStart}
-              className="btn-primary btn-sm hidden md:inline-flex items-center gap-1.5"
+              className="bg-[#FF4D2D] hover:bg-[#E64528] text-white shadow-lg shadow-orange-500/20 px-5 py-2.5 rounded-full font-bold text-sm hidden md:inline-flex items-center gap-2 transition-colors relative overflow-hidden group"
             >
-              <Sparkles className="w-3.5 h-3.5" />
-              {ctaLabel}
+              <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out rounded-full" />
+              <Sparkles className="w-4 h-4 relative z-10" />
+              <span className="relative z-10">{ctaLabel}</span>
             </motion.button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-neutral-100 transition-colors"
+              className="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors"
               aria-label="Toggle menu"
             >
-              {mobileOpen ? <X className="w-6 h-6 text-neutral-700" /> : <Menu className="w-6 h-6 text-neutral-700" />}
+              {mobileOpen ? <X className="w-6 h-6 text-slate-700" /> : <Menu className="w-6 h-6 text-slate-700" />}
             </button>
           </div>
         </div>

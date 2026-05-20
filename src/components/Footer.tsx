@@ -46,7 +46,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/templates"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.resumeBuilder || "Resume Builder"}
                   </Link>
@@ -54,7 +54,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/cover-letter"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.coverLetter || "Cover Letter"}
                   </Link>
@@ -62,7 +62,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/blog"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.blog || "Blog"}
                   </Link>
@@ -70,7 +70,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/hash-hunt"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.hashHuntJobs || "Hash Hunt"}
                   </Link>
@@ -81,7 +81,7 @@ export default function Footer() {
                       e.preventDefault();
                       setShowFeedbackModal(true);
                     }}
-                    className="hover:text-white transition-colors text-start w-full"
+                    className="hover:text-[#FF4D2D] transition-colors text-start w-full"
                   >
                     {t.feedback}
                   </button>
@@ -97,7 +97,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/trust"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.trustAndTransparency}
                   </Link>
@@ -105,7 +105,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/privacy"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.privacyPolicy}
                   </Link>
@@ -113,7 +113,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/terms"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.termsOfService}
                   </Link>
@@ -121,7 +121,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/how-ats-works"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.howAtsWorks}
                   </Link>
@@ -129,7 +129,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/faq"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.faq}
                   </Link>

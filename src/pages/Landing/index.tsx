@@ -1,3 +1,4 @@
+import { motion } from 'motion/react'
 import { useNavigate } from 'react-router-dom'
 import { Navbar }          from '@/components/layout/Navbar'
 import { HeroSection }     from './HeroSection'
@@ -26,27 +27,54 @@ export default function LandingPage() {
         <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
         
         {/* Final CTA */}
-        <section className="py-24 relative overflow-hidden" style={{ backgroundColor: 'var(--color-brand-500)' }} dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 60%)' }} />
-          <div className="container-page relative z-10 flex flex-col items-center text-center">
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
+        <section className="py-32 relative overflow-hidden bg-[#FF4D2D]" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%)' }} />
+          
+          {/* Animated decorative shapes */}
+          <motion.div 
+             animate={{ rotate: 360 }}
+             transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
+             className="absolute -top-[20%] -end-[10%] w-[50%] h-[150%] rounded-full bg-white opacity-5 pointer-events-none blur-3xl" 
+          />
+          <motion.div 
+             animate={{ rotate: -360 }}
+             transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+             className="absolute -bottom-[20%] -start-[10%] w-[40%] h-[120%] rounded-full bg-white opacity-5 pointer-events-none blur-3xl" 
+          />
+
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="container-page relative z-10 flex flex-col items-center text-center"
+          >
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-sm">
               {lang === 'ar' ? 'مستعد تبدأ مسيرتك المهنية؟' : lang === 'fr' ? 'Prêt à lancer votre carrière ?' : 'Ready to start your career journey?'}
             </h2>
-            <p className="text-white/80 text-lg md:text-xl mb-10 max-w-2xl mx-auto font-medium">
+            <p className="text-white/90 text-lg md:text-2xl mb-12 max-w-2xl mx-auto font-medium">
               {lang === 'ar' 
                 ? 'انضم لآلاف المستخدمين اللي بنوا سيرتهم الذاتية في دقايق.'
                 : lang === 'fr'
                 ? 'Rejoignez des milliers d\'utilisateurs qui ont créé leur CV en quelques minutes.'
                 : 'Join thousands of users who built their resumes in minutes.'}
             </p>
-            <button 
+            <motion.button 
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)" }}
+              whileTap={{ scale: 0.95 }}
               onClick={goToEditor}
-              className="bg-white px-8 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
-              style={{ color: 'var(--color-brand-500)' }}
+              className="bg-white text-[#FF4D2D] px-10 py-5 rounded-full font-black text-xl shadow-xl transition-all flex items-center gap-3 group"
             >
               {lang === 'ar' ? 'أنشئ سيرتك الآن' : lang === 'fr' ? 'Créer mon CV maintenant' : 'Create My Resume Now'}
-            </button>
-          </div>
+              <motion.span 
+                 animate={{ x: lang === 'ar' ? [-3, 0, -3] : [3, 0, 3] }}
+                 transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                 className="group-hover:opacity-80"
+              >
+                {lang === 'ar' ? '←' : '→'}
+              </motion.span>
+            </motion.button>
+          </motion.div>
         </section>
       </main>
 

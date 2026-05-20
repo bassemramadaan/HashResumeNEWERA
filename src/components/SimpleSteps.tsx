@@ -89,27 +89,27 @@ export default function SimpleSteps() {
       icon: FileText,
       title: t.simpleStep1Title,
       desc: t.simpleStep1Desc,
-      color: "text-brand-500",
-      bg: "bg-brand-50 ",
-      border: "border-brand-200 ",
+      color: "text-[#FF4D2D]",
+      bg: "bg-white",
+      border: "border-slate-100",
       mockup: <EditorMockup />,
     },
     {
       icon: Sparkles,
       title: t.simpleStep2Title,
       desc: t.simpleStep2Desc,
-      color: "text-brand-500",
-      bg: "bg-brand-50 ",
-      border: "border-brand-200 ",
+      color: "text-[#FF4D2D]",
+      bg: "bg-white",
+      border: "border-slate-100",
       mockup: <AIMockup />,
     },
     {
       icon: Download,
       title: t.simpleStep3Title,
       desc: t.simpleStep3Desc,
-      color: "text-brand-500",
-      bg: "bg-brand-50 ",
-      border: "border-brand-200 ",
+      color: "text-[#FF4D2D]",
+      bg: "bg-white",
+      border: "border-slate-100",
       mockup: <DownloadMockup />,
     },
   ];
@@ -139,15 +139,14 @@ export default function SimpleSteps() {
                   {step.mockup}
                 </div>
                 <div
-                  className={`w-16 h-16 rounded-[1.5rem] ${step.bg} ${step.border} border border-slate-200/50 flex items-center justify-center mb-6 shadow-xl shadow-slate-200/40 relative overflow-hidden group-hover:-translate-y-1 transition-all`}
+                  className={`w-16 h-16 rounded-[1.5rem] ${step.bg} ${step.border} border-2 flex items-center justify-center mb-6 shadow-xl shadow-slate-200/50 relative overflow-hidden transition-all group-hover:scale-110`}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/80 to-transparent" />
-                  <div className="absolute -top-2 -end-2 w-7 h-7 rounded-full bg-slate-900 border-2 border-white text-white flex items-center justify-center font-bold text-[10px] shadow-md z-20">
+                  <div className="absolute -top-1 -end-1 w-6 h-6 rounded-full bg-slate-900 border-2 border-white text-white flex items-center justify-center font-black text-[10px] shadow-sm z-20">
                     {index + 1}
                   </div>
                   <step.icon size={26} className={`${step.color} relative z-10`} strokeWidth={2.5} />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">
+                <h3 className="text-xl font-black text-slate-900 mb-3">
                   {step.title}
                 </h3>
                 <p className="text-slate-600 max-w-[250px] leading-relaxed text-sm">{step.desc}</p>
@@ -155,16 +154,21 @@ export default function SimpleSteps() {
 
               {/* Directional Arrow between steps (only on Desktop) */}
               {index < steps.length - 1 && (
-                <div className="hidden md:flex items-center justify-center text-brand-300 px-2 lg:px-4 mt-[110px]">
-                  {language === 'ar' ? (
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
-                      <path d="M19 12H5M5 12L12 19M5 12L12 5" />
-                    </svg>
-                  ) : (
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-50">
-                      <path d="M5 12h14M19 12l-7-7M19 12l-7 7" />
-                    </svg>
-                  )}
+                <div className="hidden md:flex flex-col items-center justify-center text-slate-300 px-2 lg:px-4 mt-[100px] gap-2">
+                  <motion.div
+                    animate={{ x: language === 'ar' ? [-5, 0, -5] : [5, 0, 5] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  >
+                    {language === 'ar' ? (
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 text-[#FF4D2D]">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" />
+                      </svg>
+                    ) : (
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 text-[#FF4D2D]">
+                        <path d="M5 12h14M19 12l-7-7M19 12l-7 7" />
+                      </svg>
+                    )}
+                  </motion.div>
                 </div>
               )}
             </React.Fragment>
