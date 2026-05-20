@@ -132,6 +132,38 @@ async function startServer() {
       res.status(500).json({ success: false, message: "Submission failed due to server error" });
     }
   });
+
+  // Hash Hunt Profile Submission Endpoint
+  app.post("/api/hashhunt/submit", async (req, res) => {
+    try {
+      const submissionData = req.body;
+      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbzuViPQd8dgGJ7MEprD972A1Henp55Q_ypyzoMbwIA5H_lpFnq2Ed3EnOwH4Gc12HvD/exec";
+      
+      if (!scriptUrl) {
+        return res.json({ 
+          success: true, 
+          isSimulated: true,
+          message: "Profile submitted successfully (Simulated Mode - Google Apps Script URL not configured in .env)"
+        });
+      }
+      
+      const response = await fetch(scriptUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error from Hash Hunt provider: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      res.json({ success: true, ...result });
+    } catch (error: unknown) {
+      console.error("Hash Hunt Submission Error:", error);
+      res.status(500).json({ success: false, message: error instanceof Error ? error.message : "Submission failed due to server error" });
+    }
+  });
   
   app.post('/api/pdf/generate', async (req, res) => {
     try {
