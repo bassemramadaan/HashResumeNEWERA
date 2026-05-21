@@ -50,7 +50,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
 
-  const ctaLabel = lang === 'ar' ? 'ابدأ مجانًا' : lang === 'fr' ? 'Commencer' : 'Start Free'
+  const ctaLabel = lang === 'ar' ? 'ابدأ الآن' : lang === 'fr' ? 'Créer maintenant' : 'Start Now'
 
   return (
     <nav className={cn("sticky top-0 z-50 bg-white/70 backdrop-blur-xl transition-all duration-300 border-b", scrolled ? "shadow-[0_4px_30px_rgba(0,0,0,0.05)] border-neutral-200/50" : "shadow-none border-transparent")}>

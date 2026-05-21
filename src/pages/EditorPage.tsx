@@ -1142,13 +1142,7 @@ export default function EditorPage() {
           onSectionChange={(id: string) => setActiveTab(id as any)}
           completionMap={sidebarCompletionMap}
           onExportPDF={handleExportClick}
-          onExportWord={async () => {
-            try {
-              await generateWord(data);
-            } catch (e) {
-              console.error("Export word failed", e);
-            }
-          }}
+          onExportWord={() => handleProceedToExport("docx")}
           previewContent={
             <div className="bg-white shadow-[0_0_40px_rgba(0,0,0,0.1)] rounded-[0.5rem] overflow-hidden mx-auto w-full relative h-[calc(100vh-140px)]" style={{ minHeight: "297mm", transform: 'scale(0.55)', transformOrigin: 'top center' }}>
               <Suspense fallback={<FormLoader />}>
@@ -1171,13 +1165,7 @@ export default function EditorPage() {
         isSaved={!isSaving}
         onUndo={handleUndo}
         onExportPDF={handleExportClick}
-        onExportWord={async () => {
-          try {
-            await generateWord(data);
-          } catch (e) {
-            console.error("Export word failed", e);
-          }
-        }}
+        onExportWord={() => handleProceedToExport("docx")}
         onTogglePreview={() => setShowFullPreview(!showFullPreview)}
         previewOpen={showFullPreview}
         onBackToHome={() => { window.location.href = "/"; }}
