@@ -89,6 +89,9 @@ export const resumeSchema = z.object({
   }),
   jobDescription: z.string().optional(),
   isPremium: z.boolean().optional(),
+  unlockedName: z.string().optional(),
+  unlockedEmail: z.string().optional(),
+  unlockedSignature: z.string().optional(),
 });
 
 export type ResumeData = z.infer<typeof resumeSchema>;

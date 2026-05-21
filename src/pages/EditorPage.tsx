@@ -30,7 +30,7 @@ import {
   Award,
   Plus as PlusIcon,
 } from "lucide-react";
-import { useResumeStore, ResumeData } from "../store/useResumeStore";
+import { useResumeStore, ResumeData, getResumeSignature } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
@@ -331,8 +331,23 @@ export default function EditorPage() {
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
 
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
-  const isPremium = useResumeStore((state) => state.data.isPremium);
   const data = useResumeStore((state) => state.data);
+  const isPremium = React.useMemo(() => {
+    if (!data.isPremium) return false;
+    
+    // Check if we have an unlocked signature stored. If we do, do a total data matching.
+    if (data.unlockedSignature) {
+      return getResumeSignature(data) === data.unlockedSignature;
+    }
+    
+    // Fallback comparison for name & email
+    const nameMatch = !data.unlockedName || 
+      data.unlockedName.trim().toLowerCase() === (data.personalInfo.fullName || "").trim().toLowerCase();
+    const emailMatch = !data.unlockedEmail || 
+      data.unlockedEmail.trim().toLowerCase() === (data.personalInfo.email || "").trim().toLowerCase();
+      
+    return nameMatch && emailMatch;
+  }, [data]);
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
   const resetData = useResumeStore((state) => state.resetData);
 

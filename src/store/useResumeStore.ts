@@ -124,7 +124,31 @@ export type ResumeData = {
   };
   jobDescription: string;
   isPremium: boolean;
+  unlockedName?: string;
+  unlockedEmail?: string;
+  unlockedSignature?: string;
 };
+
+export function getResumeSignature(data: any): string {
+  if (!data) return "";
+  const parts = {
+    fullName: data.personalInfo?.fullName || "",
+    email: data.personalInfo?.email || "",
+    phone: data.personalInfo?.phone || "",
+    address: data.personalInfo?.address || "",
+    jobTitle: data.personalInfo?.jobTitle || "",
+    summary: data.personalInfo?.summary || "",
+    experience: (data.experience || []).map((e: any) => `${e.company}-${e.position}-${e.startDate}-${e.endDate}-${e.description}`),
+    education: (data.education || []).map((e: any) => `${e.institution}-${e.degree}-${e.startDate}-${e.endDate}-${e.description}`),
+    skills: data.skills || [],
+    projects: (data.projects || []).map((p: any) => `${p.name}-${p.description}-${p.link}`),
+    certifications: (data.certifications || []).map((c: any) => `${c.name}-${c.issuer}-${c.date}`),
+    customSections: (data.customSections || []).map((s: any) => `${s.title}-${s.content}`),
+    template: data.settings?.template || "",
+    themeColor: data.settings?.themeColor || "",
+  };
+  return JSON.stringify(parts);
+}
 
 const defaultSectionOrder: SectionId[] = [
   "summary",
@@ -179,6 +203,9 @@ const initialData: ResumeData = {
   },
   jobDescription: "",
   isPremium: false,
+  unlockedName: "",
+  unlockedEmail: "",
+  unlockedSignature: "",
 };
 
 type ResumeStore = {
@@ -420,7 +447,13 @@ export const useResumeStore = create<ResumeStore>()(
           })),
         unlockPremium: () =>
           set((state) => ({
-            data: { ...state.data, isPremium: true },
+            data: { 
+              ...state.data, 
+              isPremium: true,
+              unlockedName: state.data.personalInfo.fullName,
+              unlockedEmail: state.data.personalInfo.email,
+              unlockedSignature: getResumeSignature(state.data),
+            },
           })),
         resetData: () => set({ data: initialData }),
         loadData: (data) => set({ data }),
@@ -515,6 +548,9 @@ export const useResumeStore = create<ResumeStore>()(
               },
               jobDescription: "",
               isPremium: false,
+              unlockedName: "",
+              unlockedEmail: "",
+              unlockedSignature: "",
             },
           }),
       }),
