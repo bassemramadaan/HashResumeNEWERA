@@ -10,8 +10,11 @@ import {
   Search,
   MessageCircle,
   Share2,
+  Download,
+  FileText,
+  X,
 } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router-dom";
 
 interface FinishStepProps {
@@ -21,177 +24,90 @@ interface FinishStepProps {
 }
 
 export default function FinishStep({
+  onPrint,
+  onExportWord,
   onJumpToStep,
 }: FinishStepProps) {
   const { data } = useResumeStore();
   const { language } = useLanguageStore();
   const t = translations[language].landing.finish;
-  const [whatsappTone, setWhatsappTone] = useState<"professional" | "creative" | "short">("professional");
-  const [recruiterPhone, setRecruiterPhone] = useState("");
-  const [copiedPitch, setCopiedPitch] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [showWhatsAppModal, setShowWhatsAppModal] = useState(false);
+  const [userPhone, setUserPhone] = useState(data.personalInfo.phone || "");
 
   const isAr = language === "ar";
 
-  const getPitchText = () => {
-    const fullName = data.personalInfo.fullName || (isAr ? "فلان الفلاني" : "John Doe");
-    const jobTitle = data.personalInfo.jobTitle || (isAr ? "مطور برمجيات" : "Software Developer");
-    const summary = data.personalInfo.summary || "";
-    const phone = data.personalInfo.phone || (isAr ? "رقم الهاتف" : "Phone number");
-    const email = data.personalInfo.email || (isAr ? "البريد الإلكتروني" : "Email address");
-    
-    const skillsList = data.skills && data.skills.length > 0
-      ? data.skills.slice(0, 5).map(s => `• ${s}`).join("\n")
-      : (isAr ? "• مهارات تخصصية أولى\n• مهارات تخصصية ثانية" : "• Core Skill A\n• Core Skill B");
+  const getWhatsAppMessage = () => {
+    const fullName = data.personalInfo.fullName || (isAr ? "فلان الفلاني" : "User");
+    const jobTitle = data.personalInfo.jobTitle || (isAr ? "مطور برمجيات" : "Professional");
+    const phone = data.personalInfo.phone || "";
+    const email = data.personalInfo.email || "";
 
-    const latestJob = data.experience && data.experience.length > 0 ? data.experience[0] : null;
-    const lastJobStr = latestJob
-      ? (isAr 
-          ? `• ${latestJob.position} في ${latestJob.company} (${latestJob.startDate || ""} - ${latestJob.endDate || ""})`
-          : `• ${latestJob.position} at ${latestJob.company} (${latestJob.startDate || ""} - ${latestJob.endDate || ""})`
-        )
-      : (isAr ? "• خبرة عملية أولى في المجال" : "• Professional Experience Role");
-
-    const linksList = [];
-    if (data.personalInfo.linkedin) linksList.push(`• LinkedIn: ${data.personalInfo.linkedin}`);
-    if (data.personalInfo.github) linksList.push(`• GitHub: ${data.personalInfo.github}`);
-    if (data.personalInfo.portfolio) linksList.push(`• Portfolio: ${data.personalInfo.portfolio}`);
-    const linksText = linksList.length > 0 ? "\n" + linksList.join("\n") : "";
+    const expText = data.experience && data.experience.length > 0
+      ? data.experience.map(e => `• ${e.position} - ${e.company}`).join("\n")
+      : "";
 
     if (isAr) {
-      if (whatsappTone === "short") {
-        return `*👋 مرحباً، معكم ${fullName} (${jobTitle})*
+      return `*📝 نسخة من بيانات سيرتي الذاتية كـ (${jobTitle})*
 
-أبحث عن فرصة مهنية جديدة ومميزة كـ *${jobTitle}*.
+مرحباً، إليك ملف سيرتي المحدث والجاهز للتقديم والمشاركة:
 
-*🎯 المهارات الأبرز:*
-${skillsList}
+*👤 الاسم الكريم:* ${fullName}
+*💼 المسمى الوظيفي المستهدف:* ${jobTitle}
 
-*💡 ملخص سريع:*
-${summary ? (summary.length > 120 ? summary.substring(0, 120) + "..." : summary) : "شغوف بالعمل الاحترافي والسعي المستمر لتقديم أفضل الحلول وتطوير المهارات المتكاملة."}
-
-*📞 للتواصل الفوري والواتساب:* ${phone} | ${email}${linksText}
-
-سأكون سعيداً جداً بمشاركة ملف سيرتي الذاتية (PDF) كاملاً ومناقشة الفرص المتاحة لديكم. دمتم بخير!`;
-      }
-
-      if (whatsappTone === "creative") {
-        return `*🚀 الابتكار والشغف المهني!*
-
-معكم *${fullName}*، شغوف بالمهام والتحديات الكبرى كـ *${jobTitle}*! 🌟
-
-أهتم جداً بالعمل مع شركات رائدة تسعى للتميز والابتكار المستمر. يسعدني استعراض ملف خبراتي معكم:
-
-*✨ المهارات ونقاط القوة:*
-${skillsList}
-
-*🎯 رؤيتي وأهدافي:*
-${summary ? (summary.length > 150 ? summary.substring(0, 150) + "..." : summary) : "أطمح لتوظيف الشغف والخبرة في تسريع نمو الأعمال وتوفير تجارب مستخدم ومنتجات على أعلى مستوى."}
-
-*💼 آخر وظيفة:*
-${lastJobStr}
-
-*💬 لنتواصل فوراً:*
-• هاتف: ${phone}
-• إيميل: ${email}${linksText}
-
-يسرني إرسال النسخة الكاملة والمحدثة من سيرتي الذاتية ومشاركة رؤيتي وكيف يمكنني قيادة وتطوير الأعمال لديكم!`;
-      }
-
-      // Default to "professional"
-      return `*📌 طلب انضمام لوظيفة: ${jobTitle}*
-
-السلام عليكم ورحمة الله وبركاته،
-أهلاً بحضرتك، أتمنى أن تكونوا بكامل الصحة والعافية.
-
-أنا *${fullName}*، وأعمل كـ *${jobTitle}*. يسعدني ويشرفني تقديم سيرتي الذاتية لفرص العمل المتاحة لديكم.
-
-*💡 نبذة موثوقة:*
-${summary || "يسعدني العمل جاهداً وتطبيق المعرفة المتكاملة والخبرات المتراكمة لابتكار حلول ذات أثر وتحقيق غايات الفريق بجودة وكفاءة تامة."}
-
-*🛠️ المهارات الرئيسية:*
-${skillsList}
-
-*💼 آخر الخبرات المهنية:*
-${lastJobStr}
-
-*📞 معلومات التواصل السريع:*
+${expText ? `*💼 من آخر الخبرات المهنية:*\n${expText}\n` : ""}
+*📞 للتواصل السريع والمباشر:*
 • الهاتف: ${phone}
-• البريد الإلكتروني: ${email}${linksText}
+• البريد الإلكتروني: ${email}
+• رابط السيرة الذاتية: ${window.location.href}
 
-مرفق مع هذه الرسالة سيرتي الذاتية بكافة التفاصيل. يسعدني جداً التباحث حول إمكانية التعاون معكم. شكراً جزيلاً لوقتكم الثمين.`;
+_تم الإنشاء بنجاح وبأعلى معايير التوافق والذكاء الاصطناعي_`;
     } else {
-      // English templates
-      if (whatsappTone === "short") {
-        return `*👋 Hi there, I'm ${fullName} (${jobTitle})*
+      return `*📝 My Professional Resume Details: (${jobTitle})*
 
-I am actively open to new career challenges as a *${jobTitle}*.
+Hello, here is my updated resume details card for quick access and instant sharing:
 
-*🎯 Key Strengths:*
-${skillsList}
+*👤 Name:* ${fullName}
+*💼 Target Career Title:* ${jobTitle}
 
-*💡 Quick Pitch:*
-${summary ? (summary.length > 120 ? summary.substring(0, 120) + "..." : summary) : "Highly-motivated developer focusing on pixel-perfect implementations, clean coding systems, and productive collaboration."}
+${expText ? `*💼 Recent Experience Highlight:*\n${expText}\n` : ""}
+*📞 Quick Contact Links:*
+• Mobile/Phone: ${phone}
+• Email: ${email}
+• Edit/View Live Link: ${window.location.href}
 
-*📞 Get in Touch:* ${phone} | ${email}${linksText}
-
-I would be delighted to send over my complete PDF Resume and discuss potential fits! Have a wonderful day!`;
-      }
-
-      if (whatsappTone === "creative") {
-        return `*🚀 Elevating Value with Relentless Passion:*
-
-Hello! My name is *${fullName}*, and I am a dedicated professional in the realm of *${jobTitle}*! 🌟
-
-I help transform processes, scale technical solutions, and inject fresh energy into every challenge. Here is a snapshot of my value offer:
-
-*✨ Core Strengths:*
-${skillsList}
-
-*🎯 Personal Statement:*
-${summary ? (summary.length > 150 ? summary.substring(0, 150) + "..." : summary) : "Dedicated to unlocking digital potentials and delivering scalable products that elevate standards."}
-
-*💼 Recent Milestone:*
-${lastJobStr}
-
-*💬 Let's co-create results:*
-• Call/WhatsApp: ${phone}
-• Email: ${email}${linksText}
-
-I'd love to share my complete PDF Resume and chat about our shared goals! Let's build together!`;
-      }
-
-      // Default: professional
-      return `*📌 Job Application: ${jobTitle}*
-
-Dear Hiring Team / Recruiter,
-
-I hope this message finds you well.
-
-My name is *${fullName}*, and I am a *${jobTitle}*. I am very interested in exploring suitable career opportunities with your organization.
-
-*💡 Professional Summary:*
-${summary || "A results-oriented professional with strong focus on strategic execution, high-grade development, and collaborative problem-solving."}
-
-*🛠️ Core Expertise & Skills:*
-${skillsList}
-
-*💼 Recent Professional Experience:*
-${lastJobStr}
-
-*📞 Quick Contact Information:*
-• Phone: ${phone}
-• Email: ${email}${linksText}
-
-Attached is my full Resume. I look forward to the possibility of discussing how my skills and experience align with your requirements.
-
-Thank you for your time and consideration.`;
+_Designed and optimized with professional ATS-compatible structure_`;
     }
   };
 
-  const handleCopyPitch = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedPitch(true);
-    setTimeout(() => setCopiedPitch(false), 2000);
+  const handleSendWhatsApp = () => {
+    // Basic formatting: remove spaces / non-numbers, prepare wa.me link
+    const cleanPhone = userPhone.replace(/[^\d]/g, "");
+    const message = encodeURIComponent(getWhatsAppMessage());
+
+    if (cleanPhone) {
+      window.open(`https://wa.me/${cleanPhone}?text=${message}`, "_blank");
+    } else {
+      window.open(`https://wa.me/?text=${message}`, "_blank");
+    }
+    setShowWhatsAppModal(false);
+  };
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2000);
+    });
+  };
+
+  const handlePdfDownloadClick = () => {
+    if (onPrint) {
+      onPrint();
+    }
+    // After download starts, show the WhatsApp popup helper after 1.5 seconds so it feels natural!
+    setTimeout(() => {
+      setShowWhatsAppModal(true);
+    }, 1500);
   };
 
   const nextSteps = [
@@ -220,6 +136,7 @@ Thank you for your time and consideration.`;
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500 p-4 max-w-4xl mx-auto relative">
+      
       {/* Celebratory Header */}
       <div className="text-center space-y-4">
         <motion.div
@@ -236,225 +153,174 @@ Thank you for your time and consideration.`;
         <p className="text-slate-500 text-lg">{t.readySubtitle}</p>
       </div>
 
-      {/* WhatsApp Pitch and Share Panel */}
-      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] space-y-6 text-start">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-rose-500/10">
-          <div className="flex items-start gap-4">
-            <div className="p-3 bg-emerald-50 rounded-2xl shrink-0 text-emerald-600">
-              <MessageCircle className="w-6 h-6" />
-            </div>
-            <div>
-              <h3 className="text-xl font-black text-slate-800 tracking-tight">
-                {isAr ? "التقديم السريع المطور عبر الواتساب" : "Advanced WhatsApp Recruiter Pitch"}
+      {/* Unified Download & Share Dashboard Card */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-[0_4px_30px_-4px_rgba(0,0,0,0.03)] text-start relative overflow-hidden group">
+        <div className="absolute top-0 end-0 w-32 h-32 bg-emerald-500/[0.02] rounded-full -me-16 -mt-16 transition-transform group-hover:scale-110 duration-500" />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 divide-y md:divide-y-0 md:divide-x md:divide-slate-100 rtl:divide-x-reverse">
+          {/* Left Block: Traditional Downloads */}
+          <div className="space-y-5 pb-6 md:pb-0">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-rose-50 rounded-2xl text-rose-600">
+                <FileText className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-black text-slate-800 tracking-tight">
+                {isAr ? "تحميل وحفظ السيرة الذاتية" : "Download & Local Save"}
               </h3>
-              <p className="text-slate-500 text-sm font-semibold mt-0.5">
-                {isAr 
-                  ? "حوّل بيانات سيرتك الذاتية لرسالة تقديم احترافية جذابة مصممة للإرسال الفوري للشركات والمدراء." 
-                  : "Convert your resume data into a polished presentation pitch ready to be sent directly to recruitment managers."}
-              </p>
+            </div>
+            
+            <p className="text-xs text-slate-500 font-semibold leading-relaxed">
+              {isAr 
+                ? "احصل على نسختك الجاهزة للتقديم الآن. ننصح بصيغة الـ PDF للحفاظ على التصميم والخطوط المنسقة لتجاوز مرشحات التوظيف."
+                : "Get your finished resume immediately. We highly recommend exporting in PDF format to maintain formatting, styling, and ATS parsing readiness."}
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <button
+                onClick={handlePdfDownloadClick}
+                className="flex items-center justify-center gap-2 h-13 px-5 text-white bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:from-rose-700 hover:to-[#E64528] active:scale-95 transition-all rounded-2xl text-xs font-black shadow-md cursor-pointer select-none"
+              >
+                <Download size={16} />
+                <span>{t.exportPdf || (isAr ? "تحميل ملف PDF" : "Download PDF")}</span>
+              </button>
+
+              <button
+                onClick={onExportWord}
+                className="flex items-center justify-center gap-2 h-13 px-5 border border-slate-200 bg-white hover:bg-slate-50 active:scale-95 transition-all rounded-2xl text-xs font-bold text-slate-800 shadow-sm cursor-pointer select-none"
+              >
+                <FileText size={16} className="text-blue-500" />
+                <span>{isAr ? "تصدير بصيغة Word" : "Export to Word"}</span>
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* Configurations grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Controls - Left side */}
-          <div className="lg:col-span-5 space-y-5">
-            {/* Tone Selector */}
-            <div className="space-y-2">
-              <label className="text-xs font-black text-slate-500 uppercase tracking-wider block">
-                {isAr ? "أسلوب وكتابة الرسالة" : "Tone Style"}
-              </label>
-              <div className="grid grid-cols-3 gap-1.5 p-1 bg-slate-50 rounded-2xl border border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setWhatsappTone("professional")}
-                  className={`py-2 px-1 text-[11px] sm:text-xs font-black rounded-xl transition-all ${
-                    whatsappTone === "professional"
-                      ? "bg-white text-emerald-600 shadow-sm border border-slate-200/50"
-                      : "text-slate-500 hover:text-slate-800"
-                  }`}
-                >
-                  {isAr ? "رسمي ومفصل" : "Professional"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setWhatsappTone("short")}
-                  className={`py-2 px-1 text-[11px] sm:text-xs font-black rounded-xl transition-all ${
-                    whatsappTone === "short"
-                      ? "bg-white text-emerald-600 shadow-sm border border-slate-200/50"
-                      : "text-slate-500 hover:text-slate-800"
-                  }`}
-                >
-                  {isAr ? "موجز وسريع" : "Short & Direct"}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setWhatsappTone("creative")}
-                  className={`py-2 px-1 text-[11px] sm:text-xs font-black rounded-xl transition-all ${
-                    whatsappTone === "creative"
-                      ? "bg-white text-emerald-600 shadow-sm border border-slate-200/50"
-                      : "text-slate-500 hover:text-slate-800"
-                  }`}
-                >
-                  {isAr ? "حماسي مبتكر" : "Enthusiastic"}
-                </button>
+          {/* Right Block: Instant Share with WhatsApp & Email options */}
+          <div className="space-y-5 pt-6 md:pt-0 md:ps-8">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 bg-emerald-50 rounded-2xl text-emerald-600">
+                <MessageCircle className="w-5 h-5" />
               </div>
+              <h3 className="text-lg font-black text-slate-800 tracking-tight">
+                {isAr ? "إرسال السيرة الذاتية لنفسك" : "Send Resume To Yourself"}
+              </h3>
             </div>
 
-            {/* Optional Phone Number Entry */}
-            <div className="space-y-2">
-              <label className="text-xs font-black text-slate-500 uppercase tracking-wider block">
-                {isAr ? "رقم واتساب المستلم (اختياري)" : "Recruiter's WhatsApp (Optional)"}
-              </label>
+            <p className="text-xs text-slate-500 font-semibold leading-relaxed">
+              {isAr
+                ? "أرسل تفاصيل وبيانات السيرة مباشرة ومجاناً لدردشة الواتساب لتكون محفوظة في هاتفك دائماً وجاهزة للمشاركة والإرسال العاجل."
+                : "Send a perfectly structured copy of your resume data and quick link directly to your WhatsApp. Perfectly saved on your phone for easy access!"}
+            </p>
+
+            <div className="space-y-2 pt-1">
               <div className="relative">
                 <input
                   type="text"
-                  value={recruiterPhone}
-                  onChange={(e) => setRecruiterPhone(e.target.value.replace(/[^\d+]/g, ""))}
-                  placeholder={isAr ? "مثال: 01011112222" : "e.g. +201011112222"}
-                  className="w-full bg-slate-50 border border-slate-200 focus:border-[#FF4D2D] focus:ring-4 focus:ring-[#FF4D2D]/10 outline-none rounded-xl px-3.5 py-2.5 text-xs font-black transition-all placeholder:text-slate-400"
+                  value={userPhone}
+                  onChange={(e) => setUserPhone(e.target.value.replace(/[^\d+]/g, ""))}
+                  placeholder={isAr ? "رقم الواتساب الخاص بك: مثلاً 01011112222" : "Your WhatsApp number: e.g. +201011112222"}
+                  className="w-full bg-slate-50 border border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none rounded-2xl px-4 py-3.5 text-xs font-black transition-all placeholder:text-slate-400"
                 />
-                <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-black tracking-tighter text-[#FF4D2D] select-none pointer-events-none">
-                  {isAr ? "مباشر" : "Direct"}
-                </span>
+                <button
+                  onClick={handleSendWhatsApp}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center gap-1.5 h-10 px-4 text-white bg-[#128C7E] hover:bg-[#0e7065] active:scale-95 transition-all rounded-xl text-[11px] font-black cursor-pointer shadow-3xs"
+                >
+                  <MessageCircle size={14} />
+                  <span>{isAr ? "إرسال" : "Send"}</span>
+                </button>
               </div>
-              <p className="text-[10px] text-slate-400 font-bold leading-normal">
-                {isAr 
-                  ? "كتابة رقم المستلم تتيح لك قفز حفظ جهة الاتصال والدردشة معهم فوراً بنقرة زر!" 
-                  : "Entering a number opens a direct chat instantly without needing to save them in your contacts first!"}
-              </p>
-            </div>
 
-            {/* Interactive Actions Grid */}
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                type="button"
-                onClick={() => handleCopyPitch(getPitchText())}
-                className="flex items-center justify-center gap-1.5 h-11 border border-slate-200 bg-white hover:bg-slate-50 active:scale-95 transition-all rounded-xl text-xs font-bold text-slate-800 shadow-3xs cursor-pointer"
-              >
-                {copiedPitch ? (
-                  <>
-                    <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
-                    <span className="text-emerald-600">{isAr ? "تم النسخ!" : "Copied!"}</span>
-                  </>
-                ) : (
-                  <>
-                    <Share2 size={14} className="text-slate-500 shrink-0" />
-                    <span>{isAr ? "نسخ الرسالة" : "Copy Message"}</span>
-                  </>
-                )}
-              </button>
+              <div className="flex items-center justify-between gap-4 pt-1">
+                <p className="text-[10px] text-slate-400 font-bold leading-normal">
+                  {isAr 
+                    ? "يتيح لك هذا الخيار إرسال تفاصيل السيرة المنسقة بوضوح لدردشتك الخاصة بسهولة." 
+                    : "This creates a beautiful text package and opens a chat window directly on your device."}
+                </p>
 
-              <a
-                href={
-                  recruiterPhone 
-                    ? `https://wa.me/${recruiterPhone.replace(/\+/g, "")}?text=${encodeURIComponent(getPitchText())}`
-                    : `https://wa.me/?text=${encodeURIComponent(getPitchText())}`
-                }
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-1.5 h-11 text-white bg-[#128C7E] hover:bg-[#0e7065] active:scale-95 transition-all rounded-xl text-xs font-black shadow-sm cursor-pointer"
-              >
-                <MessageCircle size={14} className="shrink-0" />
-                <span>{isAr ? "فتح الإرسال" : "Send on Chat"}</span>
-              </a>
-            </div>
-          </div>
-
-          {/* Interactive Chat Bubble Representation - Right side */}
-          <div className="lg:col-span-7 flex flex-col h-[320px] bg-[#E5DDD5] rounded-3xl border border-slate-200 overflow-hidden relative shadow-inner">
-            {/* Simulated WhatsApp Header */}
-            <div className="bg-[#075E54] px-4 py-3 flex items-center justify-between shadow-sm shrink-0">
-              <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-cover bg-center flex items-center justify-center font-bold text-xs bg-emerald-100 text-[#075E54] border border-emerald-50 relative shrink-0">
-                  HR
-                  <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border border-[#075E54] rounded-full animate-pulse" />
-                </div>
-                <div className="text-left">
-                  <h4 className="text-xs font-black text-white leading-tight">
-                    {isAr ? "مدير التوظيف المستهدف" : "Target Recruiter / HR"}
-                  </h4>
-                  <span className="text-[10px] text-slate-200 font-semibold opacity-90 block">
-                    {isAr ? "نشط الآن" : "Active now"}
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-1.5 text-slate-200/80">
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-black/15 text-slate-100 font-mono">
-                  {whatsappTone.toUpperCase()}
-                </span>
-              </div>
-            </div>
-
-            {/* Simulated WhatsApp Body with Scroll */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-3 flex flex-col justify-end relative">
-              {/* Wallpaper overlay texture look */}
-              <div className="absolute inset-0 bg-[radial-gradient(#128c7e0c_1.5px,transparent_1.5px)] [background-size:16px_16px] pointer-events-none opacity-40" />
-
-              <div className="relative self-start max-w-[90%] sm:max-w-[85%] bg-white rounded-2xl rounded-tl-none p-3.5 shadow-xs border border-slate-200/40 text-left z-10">
-                <div className="absolute top-0 -left-2.5 w-3 h-3.5 bg-white [clip-path:polygon(100%_0,0_0,100%_100%)]" />
-                
-                <div className="max-h-[200px] overflow-y-auto text-[11px] font-semibold text-slate-800 leading-relaxed font-mono whitespace-pre-wrap tracking-wide pr-1">
-                  {getPitchText()}
-                </div>
-                
-                <div className="text-right text-[9px] font-bold text-slate-400 mt-1.5 block">
-                  {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-                </div>
+                <button
+                  onClick={handleCopyLink}
+                  className="flex items-center gap-1.5 text-xs font-black text-slate-600 hover:text-slate-900 border border-slate-200/60 bg-white hover:bg-slate-50 px-3 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap shadow-3xs"
+                >
+                  <Share2 size={12} className="text-slate-500" />
+                  <span>{copiedLink ? (isAr ? "تم نسخ الرابط!" : "Link Copied!") : (isAr ? "نسخ رابط السيرة" : "Copy Live Link")}</span>
+                </button>
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Dynamic ideas list for recruitment guide */}
-        <div className="bg-slate-50 border border-slate-150/80 rounded-2xl p-4 sm:p-5 space-y-3.5">
-          <h4 className="text-xs font-black text-slate-700 uppercase tracking-wider flex items-center gap-2">
-            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 text-emerald-800 font-black text-[10px]">
-              ★
-            </span>
-            {isAr ? "أفكار وحيل ذكية لإرسال السيرة على الواتساب للمنافسة العالمية:" : "Smart WhatsApp Sharing Practices for Global Impact:"}
-          </h4>
-          <ul className="text-xs text-slate-600 font-bold leading-relaxed space-y-2.5 list-none pl-0">
-            <li className="flex items-start gap-2">
-              <span className="text-emerald-500 mt-0.5 shrink-0 font-bold">✓</span>
-              <span>
-                <strong>{isAr ? "أرسل ملف الـ PDF كملف أصلي أولاً:" : "Send as Native PDF documents, never images:"}</strong>{" "}
-                {isAr 
-                  ? "تجنب تصوير الشاشة أو إرسال السيرة كصورة. إرسالها كـ PDF منظم يحافظ على جودتها ويسهّل قراءتها للطباعة والـ ATS." 
-                  : "Screenshots fail parsing filters and look highly unprofessional. Keep your resume in PDF format for direct reading."}
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-emerald-500 mt-0.5 shrink-0 font-bold">✓</span>
-              <span>
-                <strong>{isAr ? "استخدم عنوان ملف واضح واحترافي لشخصك وثوبك:" : "Name files using professional naming conventions:"}</strong>{" "}
-                {isAr 
-                  ? "سمّ الملف بالصيغة التالية لتسهيل البحث (مثال: CV_Bassem_Ramadan_Software_Engineer.pdf)." 
-                  : "Rename file exactly like: CV_YourName_JobTitle.pdf to simplify parsing and tracking."}
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-emerald-500 mt-0.5 shrink-0 font-bold">✓</span>
-              <span>
-                <strong>{isAr ? "احترم التوقيت المثالي لمراجعة الرسائل الصباحية:" : "Respect timings to capture best attention:"}</strong>{" "}
-                {isAr 
-                  ? "أفضل توقيت هو بين التاسعة والعاشرة صباحاً في أيام العمل الرسمية لضمان قراءة رسالتك في واجهة اليوم." 
-                  : "Aim to send messages between 9:00 AM and 10:30 AM in the recruiter's local timezone to stay in fresh morning feeds."}
-              </span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-emerald-500 mt-0.5 shrink-0 font-bold">✓</span>
-              <span>
-                <strong>{isAr ? "المتابعة الاحترافية اللطيفة بعد ٣ أيام عمل:" : "Polite status follow-up after 3 business days:"}</strong>{" "}
-                {isAr 
-                  ? "تفقد رد المستلم إذا لم تتلق رداً بعد ٣ أيام عمل برسالة دافئة وموجزة تسأل فيها عن حالة طلبك بشكل مهذب." 
-                  : "If they read but didn't write back, a gentle follow-up like 'Hi, hope you are well. Just checking if you had a chance to check my resume' works wonders."}
-              </span>
-            </li>
-          </ul>
         </div>
       </div>
+
+      {/* Stunning Interactive WhatsApp Prompt Modal (Shows after PDF Export) */}
+      <AnimatePresence>
+        {showWhatsAppModal && (
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 overflow-hidden">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-100 relative text-start transition-colors"
+            >
+              {/* Green Header */}
+              <div className="bg-[#075E54] p-6 text-white relative">
+                <button
+                  onClick={() => setShowWhatsAppModal(false)}
+                  className="absolute top-4 right-4 p-1.5 bg-black/15 hover:bg-black/25 text-white/95 rounded-full transition-all cursor-pointer"
+                >
+                  <X size={16} />
+                </button>
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-white/10 rounded-2xl shrink-0">
+                    <MessageCircle className="w-6 h-6 text-emerald-300" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-black tracking-tight select-none">
+                      {isAr ? "📥 بدأ تحميل سيرة PDF بنجاح!" : "📥 PDF Download Started!"}
+                    </h3>
+                    <p className="text-xs text-slate-200 font-bold mt-0.5 opacity-90 select-none">
+                      {isAr ? "هل تود الاحتفاظ بنسخة ومشاركتها في الواتس اب؟" : "Want to save a handy copy to your WhatsApp?"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Body */}
+              <div className="p-6 space-y-4">
+                <p className="text-xs text-slate-500 font-semibold leading-relaxed">
+                  {isAr 
+                    ? "لحفظ السيرة على هاتفك ومنع فقدانها بالكامل، أرسل نسخة منسقة ببيانات العمل وموقعك الإلكتروني لدردشة الواتساب لتكون دائماً جاهزة للمدراء!"
+                    : "Make sure you never lose your data. Send a summary and direct access links directly to your personal WhatsApp chat so they remain right at your fingertips."}
+                </p>
+
+                <div className="space-y-2">
+                  <input
+                    type="text"
+                    value={userPhone}
+                    onChange={(e) => setUserPhone(e.target.value.replace(/[^\d+]/g, ""))}
+                    placeholder={isAr ? "رقم الواتساب: مثلاً 01011112222" : "e.g. +201011112222"}
+                    className="w-full bg-slate-50 border border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none rounded-2xl px-4 py-3.5 text-xs font-black transition-all placeholder:text-slate-400"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  <button
+                    onClick={() => setShowWhatsAppModal(false)}
+                    className="h-12 border border-slate-200 bg-white hover:bg-slate-50 active:scale-95 transition-all rounded-2xl text-xs font-bold text-slate-700 cursor-pointer text-center"
+                  >
+                    {isAr ? "إغلاق نافذة" : "Close Window"}
+                  </button>
+
+                  <button
+                    onClick={handleSendWhatsApp}
+                    className="flex items-center justify-center gap-1.5 h-12 text-white bg-[#128C7E] hover:bg-[#0e7065] active:scale-95 transition-all rounded-2xl text-xs font-black cursor-pointer shadow-sm"
+                  >
+                    <MessageCircle size={15} />
+                    <span>{isAr ? "إرسال الآن" : "Send Now"}</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Next Steps Section */}
       <div className="space-y-6">
@@ -487,7 +353,7 @@ Thank you for your time and consideration.`;
               <button
                 key={idx}
                 onClick={step.action}
-                className="group p-6 bg-slate-50 border border-slate-200 rounded-3xl hover:bg-slate-50 hover:shadow-xl hover:shadow-slate-500/5 transition-all duration-300 text-start"
+                className="group p-6 bg-slate-50 border border-slate-200 rounded-3xl hover:bg-slate-50 hover:shadow-xl hover:shadow-slate-500/5 transition-all duration-300 text-start cursor-pointer w-full"
               >
                 <div className="mb-4 p-4 bg-slate-50 rounded-2xl w-fit shadow-sm group-hover:scale-110 transition-transform duration-300">
                   {step.icon}
