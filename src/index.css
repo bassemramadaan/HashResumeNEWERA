@@ -188,16 +188,59 @@ body {
   background-color: var(--color-brand-500) !important;
 }
 
-/* Editor slate → neutral override */
-.bg-slate-50  { background-color: var(--color-neutral-50)  !important; }
-.bg-slate-100 { background-color: var(--color-neutral-100) !important; }
-.bg-slate-200 { background-color: var(--color-neutral-200) !important; }
-.bg-slate-900 { background-color: var(--color-neutral-900) !important; }
-.text-slate-900 { color: var(--color-neutral-900) !important; }
-.text-slate-700 { color: var(--color-neutral-700) !important; }
-.text-slate-500 { color: var(--color-neutral-500) !important; }
-.text-slate-400 { color: var(--color-neutral-400) !important; }
-.border-slate-200 { border-color: var(--color-neutral-200) !important; }
-.border-slate-100 { border-color: var(--color-neutral-100) !important; }
-.hover\:bg-slate-100:hover { background-color: var(--color-neutral-100) !important; }
-.hover\:bg-slate-50:hover  { background-color: var(--color-neutral-50)  !important; }
+/* ============================================================
+   RESUME PREVIEW (STYLING & SPACING OVERRIDES)
+   ============================================================ */
+
+/* Spacing Overrides */
+[data-spacing="compact"] .mb-10 { margin-bottom: 1.25rem !important; }
+[data-spacing="compact"] .mb-8 { margin-bottom: 1rem !important; }
+[data-spacing="compact"] .mb-6 { margin-bottom: 0.75rem !important; }
+[data-spacing="compact"] .mb-4 { margin-bottom: 0.5rem !important; }
+[data-spacing="compact"] .mb-2 { margin-bottom: 0.25rem !important; }
+[data-spacing="compact"] .mt-8 { margin-top: 1rem !important; }
+[data-spacing="compact"] .mt-6 { margin-top: 0.75rem !important; }
+[data-spacing="compact"] .mt-4 { margin-top: 0.5rem !important; }
+[data-spacing="compact"] .mt-2 { margin-top: 0.25rem !important; }
+[data-spacing="compact"] .gap-8 { gap: 1rem !important; }
+[data-spacing="compact"] .gap-6 { gap: 0.75rem !important; }
+[data-spacing="compact"] .gap-4 { gap: 0.5rem !important; }
+[data-spacing="compact"] .py-6 { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+[data-spacing="compact"] .py-4 { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+[data-spacing="compact"] .pb-8 { padding-bottom: 1rem !important; }
+[data-spacing="compact"] .pt-8 { padding-top: 1rem !important; }
+[data-spacing="compact"] .p-6 { padding: 1rem !important; }
+[data-spacing="compact"] .p-8 { padding: 1.25rem !important; }
+[data-spacing="compact"] .p-10 { padding: 1.5rem !important; }
+
+[data-spacing="relaxed"] .mb-10 { margin-bottom: 3.5rem !important; }
+[data-spacing="relaxed"] .mb-8 { margin-bottom: 2.5rem !important; }
+[data-spacing="relaxed"] .mb-6 { margin-bottom: 2rem !important; }
+[data-spacing="relaxed"] .mb-4 { margin-bottom: 1.5rem !important; }
+[data-spacing="relaxed"] .mb-2 { margin-bottom: 0.75rem !important; }
+[data-spacing="relaxed"] .mt-8 { margin-top: 2.5rem !important; }
+[data-spacing="relaxed"] .mt-6 { margin-top: 2rem !important; }
+[data-spacing="relaxed"] .mt-4 { margin-top: 1.5rem !important; }
+[data-spacing="relaxed"] .mt-2 { margin-top: 0.75rem !important; }
+[data-spacing="relaxed"] .gap-8 { gap: 2.5rem !important; }
+[data-spacing="relaxed"] .gap-6 { gap: 2rem !important; }
+[data-spacing="relaxed"] .gap-4 { gap: 1.5rem !important; }
+[data-spacing="relaxed"] .py-6 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+[data-spacing="relaxed"] .py-4 { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+[data-spacing="relaxed"] .pb-8 { padding-bottom: 2.5rem !important; }
+[data-spacing="relaxed"] .pt-8 { padding-top: 2.5rem !important; }
+[data-spacing="relaxed"] .p-6 { padding: 2rem !important; }
+[data-spacing="relaxed"] .p-8 { padding: 2.5rem !important; }
+[data-spacing="relaxed"] .p-10 { padding: 3rem !important; }
+
+/* Font Setup Override */
+[data-font-size="small"] { zoom: 0.9; }
+[data-font-size="large"] { zoom: 1.1; }
+[data-line-height="tight"] * { line-height: 1.25 !important; }
+[data-line-height="relaxed"] * { line-height: 1.75 !important; }
+
+/* Font Family Overrides */
+[data-font-family="inter"] * { font-family: 'DM Sans', sans-serif !important; }
+[data-font-family="serif"] * { font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif !important; }
+[data-font-family="mono"] * { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important; }
+

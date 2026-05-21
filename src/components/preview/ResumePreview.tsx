@@ -2817,6 +2817,10 @@ const ResumePreview = memo(
         )}
         style={{ minHeight: "297mm" }}
         dir={settings.language === "ar" ? "rtl" : "ltr"}
+        data-spacing={settings.sectionSpacing || "normal"}
+        data-font-size={settings.fontSize || "medium"}
+        data-line-height={settings.lineHeight || "normal"}
+        data-font-family={settings.fontFamily || "inter"}
       >
         {settings.template === "modern" && renderModern()}
         {settings.template === "classic" && renderClassic()}

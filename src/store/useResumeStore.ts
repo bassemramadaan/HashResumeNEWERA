@@ -121,6 +121,11 @@ export type ResumeData = {
     isFreshGrad: boolean;
     sectionOrder: SectionId[];
     hiddenSections: SectionId[];
+    fontSize?: "small" | "medium" | "large" | string;
+    fontFamily?: string;
+    marginSize?: "compact" | "normal" | "relaxed";
+    sectionSpacing?: "compact" | "normal" | "relaxed";
+    lineHeight?: "tight" | "normal" | "relaxed";
   };
   jobDescription: string;
   isPremium: boolean;
@@ -200,6 +205,11 @@ const initialData: ResumeData = {
     isFreshGrad: false,
     sectionOrder: defaultSectionOrder,
     hiddenSections: [],
+    fontSize: "medium",
+    fontFamily: "inter",
+    marginSize: "normal",
+    sectionSpacing: "normal",
+    lineHeight: "normal",
   },
   jobDescription: "",
   isPremium: false,

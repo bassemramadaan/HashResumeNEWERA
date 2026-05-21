@@ -9,6 +9,9 @@ import {
   Upload,
   Save,
   AlertTriangle,
+  Settings2,
+  Wand2,
+  Type
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";
@@ -346,6 +349,102 @@ export default React.memo(function SettingsForm() {
               </div>
             </div>
           </label>
+        </div>
+
+        {/* Styling & Spacing Panel */}
+        <div className="space-y-4 pt-6 border-t border-slate-200">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <Settings2 size={20} className="text-slate-500" />
+              {settings.language === "ar" ? "تنسيق المسافات والخطوط" : "Styling & Spacing"}
+            </h3>
+            
+            <button
+              onClick={() => {
+                // "Fit to One Page" Optimizer
+                updateSettings({
+                  fontSize: "small",
+                  sectionSpacing: "compact",
+                  lineHeight: "tight",
+                  marginSize: "compact"
+                });
+              }}
+              className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 text-orange-700 hover:bg-orange-200 rounded-lg text-sm font-bold transition-all shadow-sm"
+            >
+              <Wand2 size={14} />
+              {settings.language === "ar" ? "احتواء في صفحة واحدة" : "Fit to One Page"}
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Font Size */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-slate-700 block">
+                {settings.language === "ar" ? "حجم الخط" : "Font Size"}
+              </label>
+              <select
+                value={settings.fontSize || "medium"}
+                onChange={(e) => updateSettings({ fontSize: e.target.value as any })}
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                dir={settings.language === "ar" ? "rtl" : "ltr"}
+              >
+                <option value="small">{settings.language === "ar" ? "صغير" : "Small"}</option>
+                <option value="medium">{settings.language === "ar" ? "متوسط" : "Medium"}</option>
+                <option value="large">{settings.language === "ar" ? "كبير" : "Large"}</option>
+              </select>
+            </div>
+
+            {/* Line Height */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-slate-700 block">
+                {settings.language === "ar" ? "تباعد الأسطر" : "Line Height"}
+              </label>
+              <select
+                value={settings.lineHeight || "normal"}
+                onChange={(e) => updateSettings({ lineHeight: e.target.value as any })}
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                dir={settings.language === "ar" ? "rtl" : "ltr"}
+              >
+                <option value="tight">{settings.language === "ar" ? "ضيق" : "Tight"}</option>
+                <option value="normal">{settings.language === "ar" ? "طبيعي" : "Normal"}</option>
+                <option value="relaxed">{settings.language === "ar" ? "مريح" : "Relaxed"}</option>
+              </select>
+            </div>
+
+            {/* Section Spacing */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-slate-700 block">
+                {settings.language === "ar" ? "المسافات بين الأقسام" : "Section Spacing"}
+              </label>
+              <select
+                value={settings.sectionSpacing || "normal"}
+                onChange={(e) => updateSettings({ sectionSpacing: e.target.value as any })}
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                dir={settings.language === "ar" ? "rtl" : "ltr"}
+              >
+                <option value="compact">{settings.language === "ar" ? "مضغوط" : "Compact"}</option>
+                <option value="normal">{settings.language === "ar" ? "طبيعي" : "Normal"}</option>
+                <option value="relaxed">{settings.language === "ar" ? "واسع" : "Relaxed"}</option>
+              </select>
+            </div>
+
+            {/* Font Family */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-slate-700 block">
+                {settings.language === "ar" ? "نوع الخط الفاخر" : "Premium Font"}
+              </label>
+              <select
+                value={settings.fontFamily || "inter"}
+                onChange={(e) => updateSettings({ fontFamily: e.target.value as any })}
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                dir={settings.language === "ar" ? "rtl" : "ltr"}
+              >
+                <option value="inter">{settings.language === "ar" ? "الحداثة (Sans)" : "Modern (Sans)"}</option>
+                <option value="serif">{settings.language === "ar" ? "الكلاسيكي (Serif)" : "Classic (Serif)"}</option>
+                <option value="mono">{settings.language === "ar" ? "التقني (Mono)" : "Technical (Mono)"}</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Data Backup & Restore */}

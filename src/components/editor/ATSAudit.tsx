@@ -7,12 +7,14 @@ import {
   AlertCircle,
   Activity,
   Target,
+  Wand2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../../utils/ats";
+import { ATSAnalyzer } from "../ATSAnalyzer";
 
 export default function ATSAudit() {
-  const { data } = useResumeStore();
+  const { data, updateJobDescription } = useResumeStore();
   const { language } = useLanguageStore();
   const t = translations[language].atsAudit;
   const { personalInfo } = data;
@@ -183,6 +185,32 @@ export default function ATSAudit() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* AI Job Description Tailoring */}
+        <div className="mb-12 space-y-4">
+          <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <Wand2 className="text-indigo-500" size={20} />
+            {language === 'ar' ? "مطابقة الوصف الوظيفي (بالذكاء الاصطناعي)" : "AI Job Description Tailoring"}
+          </h3>
+          <p className="text-sm text-slate-600 mb-4">
+            {language === 'ar' 
+              ? "الصق الوصف الوظيفي هنا وسيقوم الذكاء الاصطناعي بتحليل مدى ملاءمة سيرتك الذاتية واستخراج الكلمات المفتاحية الناقصة."
+              : "Paste the job description here and AI will analyze how well your resume fits and extract missing keywords."}
+          </p>
+          <textarea
+            value={data.jobDescription}
+            onChange={(e) => updateJobDescription(e.target.value)}
+            placeholder={language === 'ar' ? "الصق الوصف الوظيفي هنا..." : "Paste job description here..."}
+            className="w-full h-32 p-4 border border-slate-200 bg-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm resize-none"
+            dir={language === 'ar' ? "rtl" : "ltr"}
+          />
+          {data.jobDescription && data.jobDescription.trim().length > 10 && (
+            <ATSAnalyzer
+              resume={JSON.stringify(data)}
+              jobDescription={data.jobDescription}
+            />
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
