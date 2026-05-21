@@ -68,7 +68,7 @@ async function startServer() {
       const { code, action, reference, senderInfo, email, amount } = req.body;
 
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout for slow Google Apps Script runs
 
       // Proxy the verification to the actual Google Apps Script privately
       const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "https://script.google.com/macros/s/AKfycbwZLlBLOBslWUVna1-MMOHTUqhfuUEZBP95H3NHohqQBDzNzRNNtrIvc1ycB5Sfta14gw/exec";
@@ -114,10 +114,11 @@ async function startServer() {
         res.json(result);
       } catch (fetchError: any) {
         clearTimeout(timeoutId);
-        console.error("[PaymentProxy] Error in fetch:", fetchError);
         if (fetchError.name === 'AbortError') {
+          console.warn("[PaymentProxy] Request aborted due to 45-second timeout limit.");
           return res.status(504).json({ success: false, message: "Verification request timed out. Please try again." });
         }
+        console.error("[PaymentProxy] Error in fetch:", fetchError);
         throw fetchError;
       }
     } catch (error: unknown) {

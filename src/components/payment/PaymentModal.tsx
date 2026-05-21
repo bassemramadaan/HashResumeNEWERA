@@ -56,12 +56,10 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
     let intervalId: NodeJS.Timeout;
 
     if (pendingRef) {
-      // Start polling every 5 seconds
+      // Start polling every 10 seconds silently
       intervalId = setInterval(() => {
-        if (!checkingApproval) {
-          handleCheckApproval(pendingRef);
-        }
-      }, 5000); 
+        handleCheckApproval(pendingRef, true);
+      }, 10000); 
     }
 
     return () => {
@@ -70,7 +68,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pendingRef, checkingApproval]);
+  }, [pendingRef]);
 
   if (!isOpen) return null;
 
@@ -225,12 +223,14 @@ _Designed and optimized with professional ATS-compatible structure_`;
   };
 
   // 3. Check if Admin marked Transaction as Approved
-  const handleCheckApproval = async (refToCheck?: string) => {
+  const handleCheckApproval = async (refToCheck?: string, isSilent = false) => {
     const targetRef = refToCheck || pendingRef;
     if (!targetRef) return;
 
-    setCheckingApproval(true);
-    setError("");
+    if (!isSilent) {
+      setCheckingApproval(true);
+      setError("");
+    }
     try {
       const response = await fetch("/api/payment/verify", {
         method: "POST",
@@ -252,16 +252,22 @@ _Designed and optimized with professional ATS-compatible structure_`;
         useResumeStore.getState().unlockPremium();
         setIsApproved(true);
       } else {
-        const defaultMsg = isAr
-          ? "المعاملة قيد المراجعة حالياً من الإدارة. يرجى الانتظار دقيقة وجرب مرة أخرى."
-          : "Your transaction is still under review. Please allow 1-5 minutes and click update again.";
-        setError(result.message || defaultMsg);
+        if (!isSilent) {
+          const defaultMsg = isAr
+            ? "المعاملة قيد المراجعة حالياً من الإدارة. يرجى الانتظار دقيقة وجرب مرة أخرى."
+            : "Your transaction is still under review. Please allow 1-5 minutes and click update again.";
+          setError(result.message || defaultMsg);
+        }
       }
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Error polling Status";
-      setError(isAr ? `فشل الحصول على الحالة: ${msg}` : `Failed to poll status: ${msg}`);
+      if (!isSilent) {
+        const msg = err instanceof Error ? err.message : "Error polling Status";
+        setError(isAr ? `فشل الحصول على الحالة: ${msg}` : `Failed to poll status: ${msg}`);
+      }
     } finally {
-      setCheckingApproval(false);
+      if (!isSilent) {
+        setCheckingApproval(false);
+      }
     }
   };
 
