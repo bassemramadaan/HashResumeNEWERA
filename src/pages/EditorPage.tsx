@@ -29,6 +29,7 @@ import {
   ArrowRight,
   Award,
   Plus as PlusIcon,
+  Lock,
 } from "lucide-react";
 import { useResumeStore, ResumeData, getResumeSignature } from "../store/useResumeStore";
 import { useOnboardingStore } from "../store/useOnboardingStore";
@@ -562,6 +563,8 @@ export default function EditorPage() {
         link.href = url;
         link.download = `${fullName || "Resume"}_CV.pdf`;
         link.click();
+        
+        useResumeStore.getState().lockResume();
 
         setShowPostDownloadModal(true);
         setTimeout(() => setShowFeedbackModal(true), 2000);
@@ -571,9 +574,11 @@ export default function EditorPage() {
           err,
         );
         handlePrint();
+        useResumeStore.getState().lockResume();
       }
     } else if (format === "docx") {
       generateWord(useResumeStore.getState().data);
+      useResumeStore.getState().lockResume();
     } else if (format === "txt") {
       const data = useResumeStore.getState().data;
       const text = `${data.personalInfo.fullName}\\n${data.personalInfo.email}\\n${data.personalInfo.phone}\\n\\nEXPERIENCE\\n${data.experience
@@ -585,6 +590,7 @@ export default function EditorPage() {
       link.href = url;
       link.download = `${data.personalInfo.fullName || "resume"}.txt`;
       link.click();
+      useResumeStore.getState().lockResume();
     }
   };
 
@@ -678,7 +684,31 @@ export default function EditorPage() {
   };
 
   const formContent = (
-    <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32">
+    <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32 relative">
+      {data.isLocked && (
+        <div className="absolute inset-0 z-[100] bg-white/70 backdrop-blur-md flex items-center justify-center rounded-[2rem] mx-[-1rem] px-4" style={{ height: 'max-content', minHeight: '100%' }}>
+          <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] max-w-md w-full text-center border border-rose-100 relative overflow-hidden mt-20">
+             <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 to-[#FF4D2D] overflow-hidden" />
+             <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-5 border border-rose-100">
+               <Lock className="w-10 h-10 text-rose-500" />
+             </div>
+             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 tracking-tight">
+               {language === 'ar' ? 'تم تأمين السيرة الذاتية' : 'Resume Locked'}
+             </h2>
+             <p className="text-sm text-slate-500 mb-8 font-semibold leading-relaxed">
+               {language === 'ar' 
+                 ? 'لقد قمت بتصدير وتحميل هذه السيرة الذاتية بنجاح. لضمان الموثوقية ولاستخدام لمرة واحدة، تم تأمين هذا الملف ولا يمكن العودة لتعديله مرة أخرى. إذا كنت بحاجة لإنشاء ملف جديد والمزيد من التعديلات، يرجى مسح البيانات والبدء من جديد.' 
+                 : 'You have successfully exported this resume. To ensure integrity for a one-time export, this file is permanently locked and cannot be edited. If you need to make new edits or create another resume, please reset your data and start fresh.'}
+             </p>
+             <button 
+               onClick={() => setConfirmAction({ type: "clear", message: t.clearConfirm })} 
+               className="bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:from-rose-700 hover:to-[#E64528] text-white font-black text-sm px-6 py-3.5 rounded-xl w-full transition-all active:scale-95 shadow-md shadow-orange-500/20"
+             >
+               {language === 'ar' ? 'مسح البيانات والبدء من جديد (Reset)' : 'Reset Data and Start Fresh'}
+             </button>
+          </div>
+        </div>
+      )}
       {/* Horizontal Stepper for Desktop */}
       {!isMobile && (
         <div className="mb-6 rounded-[2rem] overflow-hidden border border-[#E8E6DF] shadow-sm">
@@ -1183,6 +1213,7 @@ export default function EditorPage() {
         onExportWord={() => handleProceedToExport("docx")}
         onTogglePreview={() => setShowFullPreview(!showFullPreview)}
         previewOpen={showFullPreview}
+        isLocked={data.isLocked}
         onBackToHome={() => { window.location.href = "/"; }}
         onShowSettings={() => setIsSettingsModalOpen(true)}
         onShowShortcuts={() => setShowKeyboardShortcuts(true)}
@@ -1284,13 +1315,15 @@ export default function EditorPage() {
                 >
                   <Maximize2 size={18} />
                 </button>
-                <button
-                  onClick={() => setIsSettingsModalOpen(true)}
-                  className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors"
-                  title={String(t.resumeSettings || "")}
-                >
-                  <Settings size={18} />
-                </button>
+                {!data.isLocked && (
+                  <button
+                    onClick={() => setIsSettingsModalOpen(true)}
+                    className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors"
+                    title={String(t.resumeSettings || "")}
+                  >
+                    <Settings size={18} />
+                  </button>
+                )}
               </div>
             </div>
 

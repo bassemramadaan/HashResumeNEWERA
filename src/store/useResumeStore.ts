@@ -137,12 +137,7 @@ export type ResumeData = {
 export function getResumeSignature(data: any): string {
   if (!data) return "";
   const parts = {
-    fullName: data.personalInfo?.fullName || "",
-    email: data.personalInfo?.email || "",
-    phone: data.personalInfo?.phone || "",
-    address: data.personalInfo?.address || "",
-    jobTitle: data.personalInfo?.jobTitle || "",
-    summary: data.personalInfo?.summary || "",
+    personalInfo: JSON.stringify(data.personalInfo || {}),
     experience: (data.experience || []).map((e: any) => `${e.company}-${e.position}-${e.startDate}-${e.endDate}-${e.description}`),
     education: (data.education || []).map((e: any) => `${e.institution}-${e.degree}-${e.startDate}-${e.endDate}-${e.description}`),
     skills: data.skills || [],
@@ -244,6 +239,7 @@ type ResumeStore = {
   updateJobDescription: (jd: string) => void;
   updateCoverLetter: (cl: Partial<CoverLetter>) => void;
   unlockPremium: () => void;
+  lockResume: () => void;
   resetData: () => void;
   loadExampleData: () => void;
   loadData: (data: ResumeData) => void;
@@ -463,6 +459,13 @@ export const useResumeStore = create<ResumeStore>()(
               unlockedName: state.data.personalInfo.fullName,
               unlockedEmail: state.data.personalInfo.email,
               unlockedSignature: getResumeSignature(state.data),
+            },
+          })),
+        lockResume: () =>
+          set((state) => ({
+            data: {
+              ...state.data,
+              isLocked: true,
             },
           })),
         resetData: () => set({ data: initialData }),
