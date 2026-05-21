@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, MessageCircle, Loader2, Lock, CheckCircle2, CreditCard, Smartphone, ShieldCheck, Zap, Copy, Check, RefreshCw, Sparkles, ArrowRightLeft, AlertCircle } from "lucide-react";
+import { X, MessageCircle, Loader2, Lock, CheckCircle2, CreditCard, Smartphone, ShieldCheck, Zap, Copy, Check, RefreshCw, Sparkles, AlertCircle } from "lucide-react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { useResumeStore } from "../../store/useResumeStore";
 import { LOGO_URL } from "../../constants";
@@ -12,7 +12,7 @@ interface PaymentModalProps {
   onSuccess: () => void;
 }
 
-type PaymentMethod = "instapay" | "vodafone" | "card";
+type PaymentMethod = "instapay" | "vodafone" | "code";
 
 export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModalProps) {
   const { language } = useLanguageStore();
@@ -157,13 +157,14 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
         setError(result.message || (isAr ? "فشل تسجيل التحويل الرقمي، تأكد من التفاصيل." : "Failed to record payment reference. Please check connection."));
       }
     } catch (err: unknown) {
-      setError(isAr ? "فشل التوصيل، يرجى إعادة المحاولة" : "Failed to connect to spreadsheet payments.");
+      const msg = err instanceof Error ? err.message : "Connection failed";
+      setError(isAr ? `فشل التوصيل: ${msg}` : `Failed to connect to payments: ${msg}`);
     } finally {
       setSubmittingManual(false);
     }
   };
 
-  // 3. New Mode: Check if Admin marked Transaction as Approved
+  // 3. Check if Admin marked Transaction as Approved
   const handleCheckApproval = async (refToCheck?: string) => {
     const targetRef = refToCheck || pendingRef;
     if (!targetRef) return;
@@ -190,14 +191,14 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
         setPendingRef("");
         onSuccess();
       } else {
-        // If pending or other
         const defaultMsg = isAr
           ? "المعاملة قيد المراجعة حالياً من الإدارة. يرجى الانتظار دقيقة وجرب مرة أخرى."
           : "Your transaction is still under review. Please allow 1-5 minutes and click update again.";
         setError(result.message || defaultMsg);
       }
     } catch (err: unknown) {
-      setError(isAr ? "فشل الحصول على الحالة، جرب مرة أخرى" : "Failed to poll status. Check connection.");
+      const msg = err instanceof Error ? err.message : "Error polling Status";
+      setError(isAr ? `فشل الحصول على الحالة: ${msg}` : `Failed to poll status: ${msg}`);
     } finally {
       setCheckingApproval(false);
     }
@@ -212,188 +213,149 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
   };
 
   const whatsappMsg = isAr
-    ? `السلام عليكم، أرغب في الدفع عبر ${selectedMethod === "instapay" ? "InstaPay" : selectedMethod === "vodafone" ? "Vodafone Cash" : "البطاقة البنكية"} للحصول على كود Hash Resume`
+    ? `السلام عليكم، أرغب في الدفع عبر ${selectedMethod === "instapay" ? "InstaPay" : selectedMethod === "vodafone" ? "Vodafone Cash" : "كود تفعيل"} للحصول على كود Hash Resume`
     : `Hi, I want to pay via ${selectedMethod} to get my Hash Resume code.`;
 
   return (
     <AnimatePresence>
       {isOpen && (
         <div 
-          className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
           dir={isAr ? "rtl" : "ltr"}
         >
-          {/* Backdrop overlay */}
+          {/* Backdrop overlay with modern blur */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-md"
+            className="fixed inset-0 bg-slate-900/45 backdrop-blur-md"
             onClick={onClose}
           />
 
           {/* Modal wrapper */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+            initial={{ opacity: 0, scale: 0.96, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 30 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="relative w-full max-w-lg bg-white rounded-[2rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] overflow-hidden border border-slate-100 my-8"
+            exit={{ opacity: 0, scale: 0.96, y: 15 }}
+            transition={{ type: "spring", stiffness: 350, damping: 28 }}
+            className="relative w-full max-w-md bg-white rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] overflow-hidden border border-slate-100 my-8 z-10"
           >
-            {/* Top Brand Stripe Accent with subtle pulsing */}
-            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-emerald-400 via-emerald-600 to-teal-500 relative overflow-hidden">
-              <div className="absolute inset-0 bg-white/30 skew-x-12 translate-x-[-100%] animate-[shimmer_2s_infinite]" />
-            </div>
+            {/* Elegant Brand Color Strip at the very top */}
+            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 to-[#FF4D2D] overflow-hidden" />
             
-            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-[80px] -z-10 translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-50 rounded-full blur-[80px] -z-10 -translate-x-1/2 translate-y-1/2" />
+            {/* Glowing background details, minimal and refined */}
+            <div className="absolute top-0 right-0 w-48 h-48 bg-orange-50 rounded-full blur-[64px] -z-10 translate-x-1/3 -translate-y-1/3 opacity-80" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-50/50 rounded-full blur-[64px] -z-10 -translate-x-1/3 translate-y-1/3 opacity-80" />
 
             {/* Close Button */}
             <button
               onClick={onClose}
               className={cn(
-                "absolute top-5 p-2.5 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-all z-10",
+                "absolute top-5 p-2.5 text-slate-400 hover:text-slate-800 hover:bg-slate-100/80 rounded-full transition-all duration-200 z-20",
                 isAr ? "left-5" : "right-5"
               )}
             >
-              <X size={18} />
+              <X size={16} />
             </button>
 
-            <div className="px-6 py-8 sm:px-10 sm:py-10 max-h-[85vh] overflow-y-auto custom-scrollbar relative z-0">
-              {/* Header / Brand visual block */}
-              <div className="flex flex-col items-center text-center mt-2 mb-8">
-                <div className="flex flex-col items-center gap-4 mb-3">
-                  <div className="relative p-2.5 bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100">
-                    <img src={LOGO_URL} alt="Hash Resume Logo" className="h-10 w-auto" loading="lazy" />
-                  </div>
-                  <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight font-syne">
-                    {isAr ? "تصدير السيرة الذاتية" : "Unlock Your Resume"}
-                  </h2>
+            <div className="px-5 py-7 sm:px-8 sm:py-8 max-h-[85vh] overflow-y-auto custom-scrollbar">
+              
+              {/* Top Header Block */}
+              <div className="flex flex-col items-center text-center mt-2 mb-6">
+                <div className="relative p-2 bg-white rounded-2xl shadow-sm border border-slate-100 mb-3.5">
+                  <img src={LOGO_URL} alt="Hash Resume Logo" className="h-9 w-auto" loading="lazy" />
                 </div>
-                <p className="text-slate-500 font-medium text-xs sm:text-sm max-w-sm leading-relaxed px-4">
-                  {isAr ? "تفعيل سريع وتنزيل غير محدود (PDF/DOCX) بدون أي علامة مائية" : "Instant activation. Download infinitely (PDF/DOCX) with no watermark"}
+                
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+                  {isAr ? "تحميل السيرة الذاتية المهنية" : "Unlock Professional Export"}
+                </h2>
+                <p className="text-slate-500 font-semibold text-xs mt-1 px-4 leading-relaxed">
+                  {isAr 
+                    ? "تفعيل فوري لتنزيل وتحميل غير محدود (PDF / DOCX) بأعلى جودة وبدون أي علامة مائية" 
+                    : "Instant activation for unlimited downloads (PDF / DOCX) in high quality with no watermark"}
                 </p>
                 
-                {/* Receipt-style Pricing Badge */}
-                <div className="mt-6 flex items-center justify-center">
-                  <div className="relative inline-flex items-center gap-3 bg-emerald-50 border border-emerald-100/80 px-6 py-2.5 rounded-2xl shadow-sm overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-100/0 via-emerald-100/60 to-emerald-100/0 translate-x-[-100%] animate-[shimmer_2s_infinite]" />
-                    <Sparkles size={16} className="text-emerald-500 relative z-10" />
-                    <div className="flex items-baseline gap-1.5 relative z-10">
-                      <span className="text-2xl font-black text-emerald-700" style={{ fontFamily: isAr ? 'Cairo' : 'inherit' }}>50</span>
-                      <span className="text-xs font-bold text-emerald-600 uppercase tracking-widest">{isAr ? "جنية مصري" : "EGP"}</span>
-                    </div>
-                  </div>
+                {/* Simplified Price Tag */}
+                <div className="mt-4 inline-flex items-center gap-2 px-5 py-2 bg-orange-50 text-[#FF4D2D] rounded-2xl border border-orange-100 shadow-sm">
+                  <Sparkles size={14} className="text-[#FF4D2D] shrink-0" />
+                  <span className="text-lg font-black tracking-tight flex items-baseline gap-1">
+                    50 <span className="text-xs font-bold">{isAr ? "ج.م فقط" : "EGP"}</span>
+                  </span>
                 </div>
               </div>
 
-              {/* Payment Method Selector Grid */}
-              <div className="grid grid-cols-3 gap-3 mb-8">
+              {/* Redesigned Payment Method Tabs (Extremely Cohesive & Simplified) */}
+              <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1 rounded-2xl border border-slate-200/50 mb-6">
                 {[
-                  { 
-                    id: "instapay", 
-                    label: "InstaPay", 
-                    icon: Zap, 
-                    activeBg: "bg-emerald-50/50 border-emerald-500 ring-emerald-100 text-emerald-600 shadow-emerald-100/50", 
-                    labelAr: "انستاباي"
-                  },
-                  { 
-                    id: "vodafone", 
-                    label: "Vodafone", 
-                    icon: Smartphone, 
-                    activeBg: "bg-emerald-50/50 border-emerald-500 ring-emerald-100 text-emerald-600 shadow-emerald-100/50", 
-                    labelAr: "فودافون كاش"
-                  },
-                  { 
-                    id: "card", 
-                    label: "Voucher Code", 
-                    icon: CreditCard, 
-                    activeBg: "bg-slate-50 border-slate-700 ring-slate-200 text-slate-800 shadow-slate-200/50", 
-                    labelAr: "كود التفعيل"
-                  },
-                ].map((method) => {
-                  const Icon = method.icon;
-                  const isSelected = selectedMethod === method.id;
+                  { id: "instapay", label: isAr ? "انستاباي" : "InstaPay", icon: Zap },
+                  { id: "vodafone", label: isAr ? "فودافون كاش" : "Vodafone", icon: Smartphone },
+                  { id: "code", label: isAr ? "كود تفعيل" : "Verification Code", icon: CreditCard },
+                ].map((item) => {
+                  const Icon = item.icon;
+                  const isSelected = selectedMethod === item.id;
                   return (
                     <button
-                      key={method.id}
-                      onClick={() => { setSelectedMethod(method.id as PaymentMethod); setError(""); }}
+                      key={item.id}
+                      onClick={() => { setSelectedMethod(item.id as PaymentMethod); setError(""); }}
                       className={cn(
-                        "flex flex-col items-center justify-center p-3.5 rounded-2xl border transition-all duration-300 relative group cursor-pointer",
+                        "flex flex-col items-center justify-center py-2.5 px-1.5 rounded-xl text-center transition-all duration-200 cursor-pointer relative",
                         isSelected 
-                          ? cn("border-2 shadow-md ring-4 transform -translate-y-1", method.activeBg)
-                          : "border-slate-100 hover:border-slate-300 hover:bg-slate-50 bg-white hover:-translate-y-0.5 hover:shadow-sm"
+                          ? "bg-white text-[#FF4D2D] shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-slate-200/40" 
+                          : "text-slate-500 hover:text-slate-800"
                       )}
                     >
-                      <div className={cn(
-                        "w-9 h-9 rounded-xl flex items-center justify-center transition-transform duration-300 shadow-sm",
-                        isSelected ? "bg-white border-0 scale-110" : "bg-white border border-slate-100 text-slate-400 group-hover:text-slate-600"
-                      )}>
-                        <Icon size={18} />
-                      </div>
-                      <span className="text-[10px] sm:text-[11px] font-black tracking-wide text-slate-700 text-center leading-tight mt-3">
-                        {isAr ? method.labelAr : method.label}
+                      <Icon size={15} className={cn("mb-1 transition-transform duration-200", isSelected ? "text-[#FF4D2D] scale-110" : "text-slate-400")} />
+                      <span className="text-[10px] sm:text-[11px] font-black tracking-tight leading-none">
+                        {item.label}
                       </span>
-                      {isSelected && (
-                        <motion.div 
-                          layoutId="payment-active-indicator" 
-                          className={cn(
-                            "w-1.5 h-1.5 rounded-full absolute bottom-1.5",
-                            method.id === "card" ? "bg-slate-800" : "bg-emerald-600"
-                          )} 
-                        />
-                      )}
                     </button>
-                  )
+                  );
                 })}
               </div>
 
-              {/* Content area based on states */}
+              {/* Dynamic Content Panels */}
               <div className="relative">
                 {pendingRef ? (
-                  // ── SCREEN: PENDING TRANSACTION REVIEW (POLLED REDIRECT) ──
+                  // SCREEN: Pending state with automatic approval check
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="space-y-4 bg-amber-50 p-6 rounded-2xl border border-amber-200/80 text-center relative overflow-hidden shadow-inner"
+                    className="space-y-4 bg-orange-50/50 p-5 rounded-2xl border border-orange-100 text-center relative overflow-hidden shadow-sm"
                   >
-                    <div className="absolute top-0 right-0 p-2 text-amber-600">
-                      <ArrowRightLeft size={16} className="animate-pulse opacity-20" />
-                    </div>
-                    
-                    <div className="relative inline-flex mb-2">
-                      <span className="absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-30 animate-ping duration-700" />
-                      <div className="relative w-14 h-14 rounded-full bg-white flex items-center justify-center text-amber-600 shadow-sm border border-amber-100">
-                        <Loader2 size={24} className="animate-spin text-amber-500" />
+                    <div className="relative inline-flex">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-orange-400/20 opacity-75 animate-ping" />
+                      <div className="relative w-11 h-11 rounded-full bg-white flex items-center justify-center text-[#FF4D2D] shadow-sm border border-orange-100">
+                        <Loader2 size={18} className="animate-spin text-[#FF4D2D]" />
                       </div>
                     </div>
                     
-                    <h3 className="text-base font-black text-amber-900">
-                      {isAr ? "تحويلك الرقمي قيد المطابقة الآن" : "Verifying Your Transaction"}
-                    </h3>
-                    
-                    <div className="space-y-2 max-w-sm mx-auto">
-                      <div className="bg-white/80 border border-amber-200/60 p-2.5 rounded-xl font-mono text-xs font-bold text-amber-800/80 shadow-sm isolate">
-                        {isAr ? "الرقم المرجعي: " : "Ref #: "}{pendingRef}
-                      </div>
-                      <p className="text-amber-700/70 text-xs leading-relaxed font-semibold">
+                    <div>
+                      <h3 className="text-sm font-black text-orange-950">
+                        {isAr ? "جاري مطابقة المعاملة تلقائياً" : "Verifying Transaction State"}
+                      </h3>
+                      <p className="text-[#FF4D2D]/85 text-[11px] font-semibold leading-normal mt-1 max-w-xs mx-auto">
                         {isAr 
-                          ? "لقد سجلنا المعاملة بنجاح، ونقوم بمطابقتها تفصيلياً مع إشعارات البنك لتفعيل ميزة تنزيل سيرتك فوراً." 
-                          : "We registered the reference and are actively matching it against standard bank inputs."}
+                          ? "نسجل ونطابق الرقم المرجعي للمعاملة حالياً مع النظام، سيتم تفعيل حسابك مباشرة فور الاعتماد." 
+                          : "We are actively tracing your submitted reference. High-quality exports will unlock shortly."}
                       </p>
                     </div>
 
-                    <div className="pt-4 space-y-3">
+                    <div className="bg-white/80 border border-orange-100/60 py-2 px-3 rounded-xl inline-block font-mono text-xs font-bold text-[#FF4D2D] shadow-sm select-all">
+                      {isAr ? "معاملة رقم: " : "Ref #: "}{pendingRef}
+                    </div>
+
+                    <div className="space-y-2 pt-2">
                       <button
                         onClick={() => handleCheckApproval()}
                         disabled={checkingApproval}
-                        className="w-full flex items-center justify-center gap-2 py-3.5 px-5 rounded-xl font-black text-xs bg-amber-500 hover:bg-amber-600 text-white transition-all shadow-md shadow-amber-500/20 active:scale-[0.98] disabled:opacity-40"
+                        className="w-full h-11 flex items-center justify-center gap-2 rounded-xl font-black text-xs bg-[#FF4D2D] hover:bg-[#E64528] text-white transition-all shadow-md shadow-orange-500/20 active:scale-95 disabled:opacity-40"
                       >
                         {checkingApproval ? (
-                          <Loader2 size={16} className="animate-spin text-white" />
+                          <Loader2 size={15} className="animate-spin text-white" />
                         ) : (
                           <>
-                            <RefreshCw size={14} className="animate-spin-slow" />
-                            {isAr ? "تحديث حالة التفعيل الفوري" : "Check Approval Status"}
+                            <RefreshCw size={12} className="animate-spin-slow" />
+                            {isAr ? "تحقق من حالة الدفع فوراً" : "Re-Check Status Now"}
                           </>
                         )}
                       </button>
@@ -401,70 +363,102 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                       <button
                         type="button"
                         onClick={handleClearPending}
-                        className="text-[10px] font-bold text-amber-600/60 hover:text-amber-800 hover:underline block mx-auto py-1"
+                        className="text-[10px] font-bold text-slate-400 hover:text-slate-600 block mx-auto py-1"
                       >
-                        {isAr ? "إلغاء المعاملة الحالية وإدخال تفاصيل أخرى" : "Cancel & submit another reference"}
+                        {isAr ? "إلغاء المطابقة وإدخال معاملة جديدة" : "Cancel and enter another transfer"}
                       </button>
                     </div>
                   </motion.div>
                 ) : selectedMethod === "instapay" || selectedMethod === "vodafone" ? (
-                  // ── SCREEN: INSTAPAY or VODAFONE CASH MANUAL TRANSFER ──
+                  // SCREEN: Manual Mobile Wallet Transfers
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    key={selectedMethod}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="space-y-6"
+                    className="space-y-4"
                   >
-                    {/* Step 1: Transfer Details Box */}
-                    <div className="bg-slate-50/50 rounded-2xl border border-slate-100 p-5 space-y-4">
+                    {/* Transfer Guideline Card */}
+                    <div className="bg-slate-50/70 rounded-2xl border border-slate-100 p-4 space-y-3">
                       <div className="flex items-center gap-2">
-                        <span className="inline-flex text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm border bg-emerald-100/60 text-emerald-700 border-emerald-200">
-                          {isAr ? "الخطوة الأولى" : "Step 1"}
+                        <span className="inline-flex text-[9px] font-black px-2 py-0.5 rounded-full uppercase bg-orange-100 text-[#FF4D2D] border border-orange-200">
+                          {isAr ? "الخطوة 1" : "STEP 1"}
                         </span>
-                        <span className="text-xs font-bold text-slate-500">
-                          {isAr ? "تحويل محفظة رقمية" : "Send Digital Transfer"}
+                        <span className="text-xs font-bold text-slate-600">
+                          {isAr ? "أرسل مبلغ الدفع" : "Transfer Request"}
                         </span>
                       </div>
                       
                       {selectedMethod === "instapay" ? (
-                        <div className="space-y-2.5">
-                          <p className="text-xs text-slate-600 font-semibold leading-relaxed">
-                            {isAr ? "افتح تطبيق انستاباي الخاص بك وأرسل 50 جنيه لعنوان الدفع التالي:" : "Send exactly 50 EGP to this InstaPay Address:"}
+                        <div className="space-y-3.5">
+                          <p className="text-xs text-slate-500 font-semibold leading-relaxed">
+                            {isAr 
+                              ? "اضغط على الرابط بالأسفل للتحويل السريع، أو امسح كود الـ QR بالتليفون للدفع الفوري:" 
+                              : "Tap the button below to pay, or scan the QR code to transfer instantly:"}
                           </p>
-                          <div className="flex items-center justify-between gap-3 bg-white border border-slate-200 p-3.5 rounded-xl shadow-sm hover:border-emerald-300 transition-colors group">
-                            <span className="font-mono font-black text-xs sm:text-sm text-emerald-700 flex-1 select-all tracking-wide">bassemramadaan@instapay</span>
-                            <button
-                              onClick={() => handleCopy("bassemramadaan@instapay", "ipa")}
-                              className="p-1.5 bg-slate-50 hover:bg-emerald-50 hover:text-emerald-600 border border-slate-100 rounded-lg transition-all text-slate-400"
-                              title={isAr ? "نسخ العنوان" : "Copy Address"}
-                            >
-                              {copiedText === "ipa" ? (
-                                <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 px-1">
-                                  <Check size={14} /> {isAr ? "تم!" : "Copied"}
-                                </span>
-                              ) : (
-                                <Copy size={15} />
-                              )}
-                            </button>
+
+                          {/* Beautiful QR Code Framing */}
+                          <div className="flex flex-col items-center justify-center p-3 bg-white border border-slate-150/80 rounded-2xl shadow-xs max-w-[190px] mx-auto group hover:border-[#FF4D2D]/35 transition-colors">
+                            <img 
+                              src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fipn.eg%2FS%2Fbassemramadaaaaan%2Finstapay%2F1LWlmU" 
+                              alt="InstaPay QR Code" 
+                              className="w-36 h-36 rounded-xl border border-slate-50 p-0.5 object-cover"
+                              referrerPolicy="no-referrer"
+                            />
+                            <span className="text-[10px] font-black tracking-wider text-slate-400 uppercase mt-2">
+                              {isAr ? "كود دفع انستاباي" : "InstaPay QR Code"}
+                            </span>
+                          </div>
+
+                          {/* Quick Launch Action Button */}
+                          <a 
+                            href="https://ipn.eg/S/bassemramadaaaaan/instapay/1LWlmU"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-1.5 px-4 h-11 bg-orange-50 hover:bg-orange-100/90 text-[#FF4D2D] border border-orange-200/50 rounded-xl text-xs font-black transition-all shadow-2xs w-full text-center"
+                          >
+                            <Sparkles size={13} className="text-[#FF4D2D] shrink-0 animate-pulse" />
+                            {isAr ? "اضغط لفتح تطبيق انستاباي والدفع" : "Tap Here to Open InstaPay App"}
+                          </a>
+
+                          {/* Backup Manual IPA Copy Option */}
+                          <div className="space-y-1.5 pt-1 border-t border-slate-100/60">
+                            <p className="text-[11px] text-slate-400 font-bold">
+                              {isAr ? "أو التحويل اليدوي لعنوان InstaPay التالي:" : "Or copy the InstaPay address manually:"}
+                            </p>
+                            <div className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm hover:border-[#FF4D2D]/40 transition-colors group">
+                              <span className="font-mono font-black text-xs sm:text-sm text-slate-800 select-all flex-1 tracking-wide">bassemramadaaaaan@instapay</span>
+                              <button
+                                onClick={() => handleCopy("bassemramadaaaaan@instapay", "ipa")}
+                                className="p-1.5 bg-slate-50 text-slate-400 hover:text-[#FF4D2D] border border-slate-100 rounded-lg transition-all"
+                              >
+                                {copiedText === "ipa" ? (
+                                  <span className="flex items-center gap-0.5 text-[9px] font-bold text-[#FF4D2D] px-1">
+                                    <Check size={12} /> {isAr ? "تم" : "Done"}
+                                  </span>
+                                ) : (
+                                  <Copy size={13} />
+                                )}
+                              </button>
+                            </div>
                           </div>
                         </div>
                       ) : (
-                        <div className="space-y-2.5">
-                          <p className="text-xs text-slate-600 font-semibold leading-relaxed">
-                            {isAr ? "قم بتحويل 50 جنيه كاش لمحفظة فودافون كاش التالية:" : "Transfer exactly 50 EGP to this Vodafone Cash wallet:"}
+                        <div className="space-y-2">
+                          <p className="text-xs text-slate-500 font-semibold leading-relaxed">
+                            {isAr ? "قم بتحويل 50 جنيه كاش إلى رقم محفظة فودافون كاش التالي:" : "Transfer exactly 50 EGP to this Vodafone Cash wallet:"}
                           </p>
-                          <div className="flex items-center justify-between gap-3 bg-white border border-slate-200 p-3.5 rounded-xl shadow-sm hover:border-emerald-300 transition-colors group">
-                            <span className="font-mono font-black text-sm text-slate-800 flex-1 select-all tracking-wider">01101007965</span>
+                          <div className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm hover:border-[#FF4D2D]/40 transition-colors group">
+                            <span className="font-mono font-black text-sm text-slate-800 select-all flex-1 tracking-wider">01101007965</span>
                             <button
                               onClick={() => handleCopy("01101007965", "phone")}
-                              className="p-1.5 bg-slate-50 hover:bg-emerald-50 hover:text-emerald-600 border border-slate-100 rounded-lg transition-all text-slate-400"
-                              title={isAr ? "نسخ الرقم" : "Copy Wallet Number"}
+                              className="p-1.5 bg-slate-50 text-slate-400 hover:text-[#FF4D2D] border border-slate-100 rounded-lg transition-all"
                             >
                               {copiedText === "phone" ? (
-                                <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 px-1">
-                                  <Check size={14} /> {isAr ? "تم!" : "Copied"}
+                                <span className="flex items-center gap-0.5 text-[9px] font-bold text-[#FF4D2D] px-1">
+                                  <Check size={12} /> {isAr ? "تم" : "Done"}
                                 </span>
                               ) : (
-                                <Copy size={15} />
+                                <Copy size={13} />
                               )}
                             </button>
                           </div>
@@ -472,71 +466,73 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                       )}
                     </div>
 
-                    {/* Step 2: Form submission */}
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-2">
-                        <span className="w-1.5 h-3.5 rounded-full bg-emerald-500 block" />
-                        <h4 className="text-xs sm:text-sm font-black text-slate-800">
-                          {isAr ? "الخطوة الثانية: كتابة تفاصيل المعاملة للتأكيد الفوري" : "Step 2: Confirm Reference for Immediate Verification"}
+                    {/* Step 2 Form details */}
+                    <div className="space-y-3.5">
+                      <div className="flex items-center gap-1.5">
+                        <span className="inline-flex text-[9px] font-black px-2 py-0.5 rounded-full uppercase bg-orange-100 text-[#FF4D2D] border border-orange-200">
+                          {isAr ? "الخطوة 2" : "STEP 2"}
+                        </span>
+                        <h4 className="text-xs font-black text-slate-700">
+                          {isAr ? "أدخل تفاصيل المعاملة للتأكيد الفوري والمطابقة" : "Confirm reference for verification"}
                         </h4>
                       </div>
 
-                      <div className="space-y-4">
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1 block">
-                            {isAr ? "الرقم المرجعي للمعاملة (Ref ID) *" : "Transaction Reference ID / Operation Number *"}
+                      <div className="space-y-3">
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">
+                            {isAr ? "الرقم المرجعي للمعاملة (Ref ID) *" : "Transaction Reference ID *"}
                           </label>
                           <input
                             type="text"
                             value={refNum}
                             onChange={(e) => setRefNum(e.target.value.replace(/\D/g, ""))}
-                            placeholder={selectedMethod === "instapay" ? (isAr ? "مثال: 123456789101" : "e.g. 123456789101") : (isAr ? "مثال لعملية فودافون كاش المرسل برسالة التأكيد" : "Vodafone Cash transaction ID")}
+                            placeholder={selectedMethod === "instapay" ? (isAr ? "مثال: 123456789101" : "e.g. 123456789101") : (isAr ? "اكتب رقم معاملة المحفظة" : "Wallet transaction ID")}
                             maxLength={18}
-                            className="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl px-4 py-3.5 text-xs font-semibold focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 focus:bg-white outline-none transition-all placeholder:text-slate-400"
+                            className="w-full bg-slate-50 border border-slate-200 focus:border-[#FF4D2D] focus:ring-4 focus:ring-[#FF4D2D]/10 focus:bg-white outline-none rounded-xl px-3 py-2.5 text-xs font-bold transition-all placeholder:text-slate-400"
                           />
                         </div>
 
-                        <div className="grid grid-cols-2 gap-3">
-                          <div className="space-y-1.5">
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1 block">
-                              {isAr ? "اسم المرسل للاستدلال" : "Sender Mobile / Name"}
+                        <div className="grid grid-cols-2 gap-2.5">
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">
+                              {isAr ? "اسم المرسل" : "Sender Name"}
                             </label>
                             <input
                               type="text"
                               value={senderNameOrPhone}
                               onChange={(e) => setSenderNameOrPhone(e.target.value)}
-                              placeholder={isAr ? "مثال: باسم رمضان" : "e.g. Bassem"}
-                              className="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl px-4 py-3 text-xs font-semibold focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 focus:bg-white outline-none transition-all placeholder:text-slate-400"
+                              placeholder={isAr ? "الاسم أو الهاتف" : "Name or phone"}
+                              className="w-full bg-slate-50 border border-slate-200 focus:border-[#FF4D2D] focus:ring-4 focus:ring-[#FF4D2D]/10 focus:bg-white outline-none rounded-xl px-3 py-2 text-xs font-bold transition-all placeholder:text-slate-400"
                             />
                           </div>
 
-                          <div className="space-y-1.5">
-                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest pl-1 block">
-                              {isAr ? "بريدك الإلكتروني" : "Your Email"}
+                          <div className="space-y-1">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest block">
+                              {isAr ? "البريد الإلكتروني" : "Your Email"}
                             </label>
                             <input
                               type="email"
                               value={userEmailInput}
                               onChange={(e) => setUserEmailInput(e.target.value)}
-                              placeholder="yourname@domain.com"
-                              className="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl px-4 py-3 text-xs font-semibold focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 focus:bg-white outline-none transition-all placeholder:text-slate-400"
+                              placeholder="e.g. name@domain.com"
+                              className="w-full bg-slate-50 border border-slate-200 focus:border-[#FF4D2D] focus:ring-4 focus:ring-[#FF4D2D]/10 focus:bg-white outline-none rounded-xl px-3 py-2 text-xs font-bold transition-all placeholder:text-slate-400"
                             />
                           </div>
                         </div>
 
-                        {/* Main Unlock CTA */}
-                        <div className="pt-2">
+                        {/* Submission Button */}
+                        <div className="pt-1.5">
                           <button
                             onClick={handleSubmitManualPayment}
                             disabled={submittingManual || !refNum}
-                            className="w-full flex items-center justify-center gap-2 py-4 rounded-2xl font-black text-xs text-white uppercase tracking-wider shadow-[0_10px_40px_-10px] transition-all active:scale-[0.98] cursor-pointer disabled:opacity-45 disabled:cursor-not-allowed disabled:shadow-none hover:shadow-xl bg-slate-900 hover:bg-slate-800 shadow-slate-900/40"
+                            className="w-full h-12 flex items-center justify-center gap-2 rounded-xl font-black text-xs text-white uppercase tracking-wider bg-slate-900 hover:bg-slate-800 active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-slate-900/10 cursor-pointer"
                           >
                             {submittingManual ? (
-                              <Loader2 size={18} className="animate-spin text-white" />
+                              <Loader2 size={16} className="animate-spin text-white" />
                             ) : (
                               <>
-                                <Lock size={15} className="text-white mb-0.5" />
-                                {isAr ? "تسجيل التحويل ومطابقته فورياً" : "Submit & Check Approval"}
+                                <Lock size={13} className="text-white shrink-0" />
+                                {isAr ? "تسجيل ومطابقة الكود فوراً" : "Submit and Match Code"}
                               </>
                             )}
                           </button>
@@ -544,65 +540,67 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         
                         <button
                           type="button"
-                          onClick={() => { setSelectedMethod("card"); }}
-                          className="text-[10px] font-bold text-slate-400 hover:text-slate-600 transition-all block mx-auto pt-1"
+                          onClick={() => { setSelectedMethod("code"); }}
+                          className="text-[10px] font-bold text-slate-400 hover:text-[#FF4D2D] transition-all block mx-auto py-1"
                         >
-                          {isAr ? "لديك كود تفعيل بالفعل؟ أدخله هنا ←" : "Already have an activation code? Enter here →"}
+                          {isAr ? "لديك كود تفعيل؟ أدخله هنا مباشرة ←" : "Already have an activation code? Enter here →"}
                         </button>
                       </div>
                     </div>
                   </motion.div>
                 ) : (
-                  // ── SCREEN: CLASSIC ACTIVATION CODE ENTER ──
+                  // SCREEN: Classic activation/voucher/purchased code verification
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="space-y-6"
+                    className="space-y-4"
                   >
-                    <div className="bg-slate-50/50 rounded-2xl border border-slate-100 p-5 space-y-3">
-                      <span className="inline-flex bg-white shadow-sm text-slate-600 text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-wider border border-slate-200">
-                        {isAr ? "كود التفعيل الفوري" : "Activation Code"}
+                    <div className="bg-slate-50/70 rounded-2xl border border-slate-100 p-4 space-y-2">
+                      <span className="inline-flex bg-white shadow-sm text-[#FF4D2D] text-[9px] font-black px-2.5 py-1 rounded-full uppercase border border-slate-200 animate-pulse">
+                        {isAr ? "كود تفعيل مسبق" : "Voucher Code"}
                       </span>
                       <p className="text-xs text-slate-500 font-semibold leading-relaxed">
                         {isAr 
-                          ? "إذا كان لديك كود مرسل مسبقاً من الإدارة، اكتبه بالأسفل لتفعيل ميزة تصدير وتحميل سيرتك الذاتية بشكل مجاني دائماً." 
-                          : "Enter the precise activation code provided to unlock infinite exports."}
+                          ? "إذا تم تزويدك بكود تفعيل من الإدارة، اكتبه بالأسفل لتصدير وتحميل سيرتك الذاتية مجاناً." 
+                          : "Enter the custom activation code provided to unlock high-fidelity downloads."}
                       </p>
                     </div>
 
-                    <div className="space-y-5">
-                      <div className="flex gap-2 p-1.5 bg-slate-50/50 rounded-2xl border border-slate-200 focus-within:ring-4 focus-within:ring-slate-500/10 focus-within:border-slate-400 transition-all">
+                    <div className="space-y-4">
+                      <div className="flex gap-2 p-1 bg-slate-50 rounded-2xl border border-slate-200 focus-within:ring-4 focus-within:ring-[#FF4D2D]/5 focus-within:border-[#FF4D2D]/70 transition-all">
                         <input
                           type="text"
                           value={code}
                           onChange={(e) => { setCode(e.target.value.toUpperCase()); setError(""); }}
                           onKeyDown={(e) => e.key === 'Enter' && handleVerify()}
                           placeholder="HASH-XXXX"
-                          className="flex-1 px-4 bg-transparent font-mono uppercase tracking-[0.2em] text-sm outline-none transition-all placeholder:text-slate-300 placeholder:tracking-normal font-bold text-slate-800"
+                          className="flex-1 px-3 bg-transparent font-mono uppercase tracking-widest text-xs outline-none transition-all placeholder:text-slate-300 placeholder:tracking-normal font-bold text-slate-800"
                         />
                         <button
                           onClick={handleVerify}
                           disabled={verifying || !code.trim()}
-                          className="flex items-center justify-center gap-1.5 px-6 py-3 rounded-xl font-black text-xs bg-slate-900 hover:bg-slate-800 text-white transition-all disabled:opacity-40 shadow-sm disabled:shadow-none cursor-pointer"
+                          className="flex items-center justify-center gap-1 px-5 py-2.5 rounded-xl font-black text-xs bg-slate-900 hover:bg-slate-800 text-white transition-all disabled:opacity-45 cursor-pointer"
                         >
-                          {verifying ? <Loader2 size={16} className="animate-spin text-white" /> : <><Lock size={14} /> {isAr ? "تأكيد" : "Verify"}</>}
+                          {verifying ? <Loader2 size={14} className="animate-spin text-white" /> : <><Lock size={12} /> {isAr ? "تأكيد" : "Verify"}</>}
                         </button>
                       </div>
 
-                      <div className="relative flex py-2 items-center">
-                        <div className="flex-grow border-t border-slate-100"></div>
-                        <span className="flex-shrink mx-4 text-slate-300 text-[10px] uppercase font-black tracking-widest">{isAr ? "أو" : "Or"}</span>
-                        <div className="flex-grow border-t border-slate-100"></div>
+                      {/* Separator */}
+                      <div className="relative flex items-center justify-center my-3">
+                        <div className="flex-grow border-t border-slate-100" />
+                        <span className="flex-shrink mx-3 text-slate-300 text-[10px] font-black uppercase tracking-wider">{isAr ? "أو" : "OR"}</span>
+                        <div className="flex-grow border-t border-slate-100" />
                       </div>
 
+                      {/* WhatsApp trigger */}
                       <a
                         href={`https://wa.me/201101007965?text=${encodeURIComponent(whatsappMsg)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full flex items-center justify-center gap-2.5 py-4 px-6 rounded-2xl font-black text-xs text-white transition-all active:scale-[0.98] shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30 cursor-pointer"
+                        className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-xs text-white transition-all active:scale-[0.98] shadow-md shadow-orange-500/10 cursor-pointer font-sans"
                         style={{ backgroundColor: '#128C7E' }}
                       >
-                        <MessageCircle size={18} />
+                        <MessageCircle size={15} />
                         {isAr ? "طلب كود تفعيل فوري عبر الواتساب" : "Request Code direct via WhatsApp"}
                       </a>
                     </div>
@@ -610,34 +608,30 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                 )}
               </div>
 
-              {/* Error alerts */}
+              {/* Dynamic Error display with robust icon and styling */}
               {error && (
                 <motion.div
-                  initial={{ opacity: 0, y: -6, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className="mt-6 p-4 bg-rose-50 border border-rose-100 rounded-xl relative overflow-hidden flex items-start gap-2.5 shadow-sm shadow-rose-100/50"
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 p-3 bg-red-50 border border-red-100 rounded-2xl flex items-start gap-2 shadow-sm"
                 >
-                  <AlertCircle size={16} className="text-rose-500 shrink-0 mt-0.5" />
-                  <p className={cn(
-                    "text-xs text-rose-700 font-bold leading-relaxed",
-                    isAr ? "text-right" : "text-left"
-                  )}>
-                    {error}
-                  </p>
+                  <AlertCircle size={15} className="text-red-500 shrink-0 mt-0.5" />
+                  <p className="text-xs text-red-700 font-bold leading-relaxed max-w-xs">{error}</p>
                 </motion.div>
               )}
 
-              {/* Trust Badges */}
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-8 pt-6 border-t border-slate-100/80">
-                <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                  <ShieldCheck size={16} className="text-emerald-500" />
-                  {isAr ? "تأمين 100%" : "Secure 100%"}
+              {/* Secure checkout badges */}
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-4 pt-5 border-t border-slate-100">
+                <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <ShieldCheck size={14} className="text-[#FF4D2D]" />
+                  {isAr ? "آمن 100%" : "Secure Check"}
                 </div>
-                <div className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                  <CheckCircle2 size={16} className="text-emerald-500" />
-                  {isAr ? "تأكيد تلقائي" : "Smart Verify"}
+                <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  <CheckCircle2 size={14} className="text-[#FF4D2D]" />
+                  {isAr ? "مراجعة فورية" : "Verified Direct"}
                 </div>
               </div>
+
             </div>
           </motion.div>
         </div>
