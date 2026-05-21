@@ -728,9 +728,9 @@ export default function EditorPage() {
                     key={"tab-" + activeTab}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,77,45,0.08)]"
+                    className="bg-white rounded-[2rem] border border-[#E8E6DF] shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-300 transform-gpu"
                   >
-                    <div className="absolute top-0 end-0 w-40 h-40 rounded-full blur-3xl -me-20 -mt-20 pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(255,77,45,0.1), transparent)' }}></div>
+                    <div className="absolute top-0 end-0 w-64 h-64 rounded-[2rem] opacity-[0.02] bg-[#FF4D2D] pointer-events-none transform translate-x-1/3 -translate-y-1/3 rotate-12"></div>
 
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-brand-500 flex items-center justify-center shrink-0 shadow-brand-500/25 relative z-10 ring-4 ring-brand-50 border border-white/20 group">
                       <Sparkles size={20} className="text-white animate-pulse sm:w-6 sm:h-6" />
@@ -1275,7 +1275,7 @@ export default function EditorPage() {
             data-tour="preview-pane"
             className="bg-neutral-100 border-s border-neutral-200 flex-col flex h-full overflow-hidden relative transition-colors duration-200"
           >
-            <div className="h-14 bg-neutral-50/80 backdrop-blur-sm border-b border-neutral-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200">
+            <div className="h-14 bg-neutral-100 border-b border-neutral-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu">
               <div className="flex items-center gap-2">
                 <div className="flex items-center bg-neutral-50 rounded-xl p-1 border border-neutral-200">
                     <button

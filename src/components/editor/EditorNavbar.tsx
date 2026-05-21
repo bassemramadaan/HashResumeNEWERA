@@ -257,7 +257,7 @@ export default function EditorNavbar({
   const isRtl = lang === "ar";
 
   return (
-    <nav className="sticky top-0 z-[100] border-b border-sans border-slate-200/80 bg-slate-50/95 backdrop-blur-md px-4 select-none" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <nav className="sticky top-0 z-[100] border-b border-sans border-slate-200 bg-slate-50 px-4 select-none transform-gpu" style={{ direction: isRtl ? "rtl" : "ltr" }}>
       <div className="h-14 flex items-center justify-between gap-4">
 
         {/* ── Left group: Logo + Undo + Save ── */}

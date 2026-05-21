@@ -291,7 +291,7 @@ export default function MobileEditorLayout({
     <div className="flex flex-col h-[100dvh] bg-slate-50 text-slate-800 select-none overflow-hidden" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header ── */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-sans border-slate-200/80 px-4 py-3 flex items-center justify-between shrink-0">
+      <header className="sticky top-0 z-50 bg-white border-b border-sans border-slate-200 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 shadow-xs">
             <img 
@@ -329,7 +329,7 @@ export default function MobileEditorLayout({
             {activeTab === "edit" && (
               <div className="h-full flex flex-col">
                 <div className="flex-1">{children}</div>
-                <div className="p-4 bg-white/80 backdrop-blur-md border-t border-slate-100 sticky bottom-0 z-10">
+                <div className="p-4 bg-white border-t border-slate-100 sticky bottom-0 z-10 transform-gpu">
                   <ProgressStepper
                     variant="mini"
                     current={currentIndex}
@@ -362,7 +362,7 @@ export default function MobileEditorLayout({
       </main>
 
       {/* ── Tactfully Designed Premium Bottom Navigation Bar ── */}
-      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md border-t border-sans border-slate-200/80 px-4 py-2 pb-6 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)]">
+      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-sans border-slate-200 px-4 py-2 pb-6 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
           const IconComponent = tab.icon;

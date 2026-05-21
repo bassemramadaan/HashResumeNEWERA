@@ -64,26 +64,22 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          whileHover={{ scale: 1.02, translateY: -8 }}
+          whileHover={{ scale: 1.02, translateY: -4 }}
           viewport={{ once: true }}
           transition={{ duration: 0.35 }}
-          className="relative rounded-[2rem] p-8 md:p-10 flex flex-col shadow-2xl bg-slate-900 border-2 border-slate-800 hover:border-[#FF4D2D]/50 transition-colors w-full max-w-lg"
+          className="relative rounded-[2rem] p-8 md:p-10 flex flex-col shadow-2xl bg-slate-900 border-2 border-slate-800 hover:border-[#FF4D2D]/50 transition-all w-full max-w-lg transform-gpu"
         >
           {/* Subtle gradient glow behind the card */}
-          <div className="absolute inset-0 pointer-events-none rounded-[2rem] opacity-20" style={{ background: 'radial-gradient(circle at top right, #FF4D2D 0%, transparent 60%)' }} />
+          <div className="absolute inset-0 pointer-events-none rounded-[2rem] opacity-20 transform-gpu" style={{ background: 'radial-gradient(circle at top right, #FF4D2D 0%, transparent 60%)' }} />
 
           <div className="absolute top-0 end-8 -translate-y-1/2">
-            <motion.div 
-               animate={{ y: [-2, 2, -2] }}
-               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-               className="relative"
-            >
-              <div className="absolute inset-0 blur-md opacity-50 rounded-full bg-[#FF4D2D]" />
+            <div className="relative hover:-translate-y-1 transition-transform transform-gpu">
+              <div className="absolute inset-0 blur-sm opacity-50 rounded-full bg-[#FF4D2D]" />
               <div className="relative px-5 py-2 rounded-full text-sm font-black text-white shadow-sm border border-white/20 flex items-center gap-2 uppercase tracking-widest bg-[#FF4D2D]">
                 <Sparkles className="w-4 h-4 text-white hover:rotate-12 transition-transform" />
                 {c.plan.popular}
               </div>
-            </motion.div>
+            </div>
           </div>
 
           <div className="flex flex-col flex-1 relative z-10 w-full text-center">
@@ -104,20 +100,15 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
               ))}
             </ul>
 
-            <motion.button
-              whileTap={{ scale: 0.97 }}
+            <button
               onClick={onPaidClick}
-              className="bg-[#FF4D2D] hover:bg-[#E64528] text-white rounded-full font-bold text-lg px-8 py-5 mt-10 w-full justify-center inline-flex items-center gap-3 shadow-xl shadow-orange-500/25 transition-all group"
+              className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white rounded-full font-bold text-lg px-8 py-5 mt-10 w-full justify-center inline-flex items-center gap-3 shadow-xl shadow-orange-500/25 transition-transform group transform-gpu"
             >
               {c.plan.cta}
-              <motion.span 
-                 animate={{ x: lang === 'ar' ? [-3, 0, -3] : [3, 0, 3] }}
-                 transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                 className="group-hover:opacity-80"
-              >
+              <span className="group-hover:translate-x-1 transition-transform">
                 {lang === 'ar' ? '←' : '→'}
-              </motion.span>
-            </motion.button>
+              </span>
+            </button>
           </div>
         </motion.div>
       </div>

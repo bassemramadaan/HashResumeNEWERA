@@ -31,15 +31,11 @@ export default function LandingPage() {
           <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%)' }} />
           
           {/* Animated decorative shapes */}
-          <motion.div 
-             animate={{ rotate: 360 }}
-             transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
-             className="absolute -top-[20%] -end-[10%] w-[50%] h-[150%] rounded-full bg-white opacity-5 pointer-events-none blur-3xl" 
+          <div 
+             className="absolute -top-[20%] -end-[10%] w-[50%] h-[150%] rounded-full bg-white opacity-5 pointer-events-none blur-3xl transform rotate-45" 
           />
-          <motion.div 
-             animate={{ rotate: -360 }}
-             transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-             className="absolute -bottom-[20%] -start-[10%] w-[40%] h-[120%] rounded-full bg-white opacity-5 pointer-events-none blur-3xl" 
+          <div 
+             className="absolute -bottom-[20%] -start-[10%] w-[40%] h-[120%] rounded-full bg-white opacity-5 pointer-events-none blur-3xl transform -rotate-45" 
           />
 
           <motion.div 

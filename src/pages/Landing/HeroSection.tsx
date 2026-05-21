@@ -70,13 +70,11 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
         }}
       />
 
-      {/* Top Abstract Glow */}
-      <motion.div
-        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.4, 0.3] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-[-10%] sm:top-[-20%] left-1/2 -translate-x-1/2 w-[600px] sm:w-[800px] h-[400px] sm:h-[600px] rounded-full blur-[100px] sm:blur-[120px] pointer-events-none"
+      {/* Top Abstract Glow (Simplified for performance) */}
+      <div
+        className="absolute top-[-10%] sm:top-[-20%] left-1/2 -translate-x-1/2 w-[600px] sm:w-[800px] h-[400px] sm:h-[600px] rounded-full pointer-events-none opacity-20 mix-blend-multiply filter blur-3xl transform-gpu"
         style={{
-          background: 'radial-gradient(circle, rgba(255,77,45,0.2) 0%, rgba(255,160,122,0.1) 50%, transparent 100%)',
+          background: 'radial-gradient(circle, rgba(255,160,122,0.3) 0%, transparent 70%)',
         }}
       />
 
@@ -93,54 +91,50 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             className="text-4xl sm:text-5xl md:text-7xl lg:text-[5rem] font-black text-slate-900 leading-[1.1] mb-6 tracking-tight drop-shadow-sm"
           >
             {copy.title1}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-400 inline-block">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-400 inline-block transform-gpu">
               {copy.titleAccent}
             </span>
             <br />
-            <span className="text-slate-500 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.2] mt-2 block">{copy.title2}</span>
+            <span className="text-slate-500 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.2] mt-2 block transform-gpu">{copy.title2}</span>
           </motion.h1>
 
-          <motion.div variants={item} className="mb-8">
+          <motion.div variants={item} className="mb-8 transform-gpu">
             <LiveCounter />
           </motion.div>
 
           <motion.p
             variants={item}
-            className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed whitespace-pre-line font-medium"
+            className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed whitespace-pre-line font-medium transform-gpu"
           >
             {copy.subtitle}
           </motion.p>
 
-          <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center">
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+          <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center transform-gpu">
+            <button
               onClick={() => {
                 trackEvent('resume_started', { source: 'hero_cta' });
                 onStart();
               }}
-              className="bg-[#FF4D2D] hover:bg-[#E64528] text-white shadow-xl shadow-orange-500/20 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all"
+              className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white shadow-xl shadow-orange-500/20 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-transform"
               aria-label={copy.cta}
             >
               <Sparkles className="w-5 h-5" />
               {copy.cta}
-            </motion.button>
+            </button>
 
-            <motion.button
-              whileHover={{ scale: 1.02, backgroundColor: 'rgba(241,245,249,1)' }}
-              whileTap={{ scale: 0.98 }}
+            <button
               onClick={() => navigate('/templates')}
-              className="bg-white border-2 border-slate-200 text-slate-700 hover:text-slate-900 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all"
+              className="bg-white border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 active:scale-95 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-transform"
             >
               <LayoutTemplate className="w-5 h-5" />
               {copy.ctaSec}
               <ArrowLeft className="w-5 h-5 rtl:rotate-180" />
-            </motion.button>
+            </button>
           </motion.div>
 
           <motion.div
             variants={item}
-            className="flex flex-wrap justify-center gap-x-8 gap-y-4 mt-12"
+            className="flex flex-wrap justify-center gap-x-8 gap-y-4 mt-12 transform-gpu"
           >
             {copy.trust.map((t) => (
               <span key={t} className="flex items-center gap-2 text-sm md:text-base font-semibold text-slate-500">
@@ -157,32 +151,28 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
-          className="mt-20 w-full max-w-6xl mx-auto relative perspective-1000"
+          className="mt-20 w-full max-w-6xl mx-auto relative perspective-1000 transform-gpu"
         >
           {/* Decorative Floaters */}
-          <motion.div 
-            animate={{ y: [-10, 10, -10], rotate: [-2, 2, -2] }}
-            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -left-8 md:-left-12 top-10 md:top-20 z-20 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden md:flex items-center gap-3"
+          <div 
+            className="absolute -left-8 md:-left-12 top-10 md:top-20 z-20 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden md:flex items-center gap-3 transform hover:-translate-y-1 transition-transform"
           >
             <div className="bg-[#FF4D2D]/10 p-3 rounded-xl"><FileText className="w-6 h-6 text-[#FF4D2D]" /></div>
             <div>
               <div className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">ATS Score</div>
               <div className="text-lg font-black text-slate-800">92/100</div>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div 
-            animate={{ y: [10, -10, 10], rotate: [2, -2, 2] }}
-            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -right-6 md:-right-10 bottom-20 md:bottom-32 z-20 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden md:flex items-center gap-3"
+          <div 
+            className="absolute -right-6 md:-right-10 bottom-20 md:bottom-32 z-20 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden md:flex items-center gap-3 transform hover:-translate-y-1 transition-transform"
           >
              <div className="bg-blue-100 p-3 rounded-xl"><Upload className="w-6 h-6 text-blue-600" /></div>
             <div>
               <div className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Exported</div>
               <div className="text-lg font-black text-slate-800">PDF & Word</div>
             </div>
-          </motion.div>
+          </div>
 
 
           {/* Big App Mockup */}
