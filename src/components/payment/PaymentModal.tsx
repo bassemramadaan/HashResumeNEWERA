@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, MessageCircle, Loader2, Lock, CheckCircle2, CreditCard, Smartphone, ShieldCheck, Zap, Copy, Check, RefreshCw, Sparkles, AlertCircle } from "lucide-react";
+import { X, MessageCircle, Loader2, Lock, CheckCircle2, CreditCard, Smartphone, ShieldCheck, Zap, Copy, Check, RefreshCw, Sparkles, AlertCircle, Share2 } from "lucide-react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { useResumeStore } from "../../store/useResumeStore";
 import { LOGO_URL } from "../../constants";
@@ -31,6 +31,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
 
   // Approval flow status and custom sharing features after approval is granted
   const [isApproved, setIsApproved] = useState(false);
+  const [sharingPdf, setSharingPdf] = useState(false);
   const [userPhone, setUserPhone] = useState(resumeData.personalInfo?.phone || "");
 
   // Manual payment state
@@ -78,57 +79,63 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
     setTimeout(() => setCopiedText(""), 2000);
   };
 
-  const getWhatsAppMessage = () => {
-    const fullName = resumeData.personalInfo?.fullName || (isAr ? "فلان الفلاني" : "User");
-    const jobTitle = resumeData.personalInfo?.jobTitle || (isAr ? "مطور برمجيات" : "Professional");
-    const phone = resumeData.personalInfo?.phone || "";
-    const email = resumeData.personalInfo?.email || "";
+  const handleSharePdfFile = async () => {
+    setSharingPdf(true);
+    setError("");
+    try {
+      const resumeEl = document.getElementById("resume-preview-container") || document.querySelector(".box-border.bg-white");
+      if (!resumeEl) {
+        throw new Error(isAr ? "لم يتم العثور على منطقة عرض السيرة الذاتية" : "Could not find resume preview container");
+      }
+      const htmlContent = resumeEl.innerHTML;
+      const styles = Array.from(
+        document.head.querySelectorAll('style, link[rel="stylesheet"]')
+      )
+        .map((el) => el.outerHTML)
+        .join("\n");
 
-    const expText = resumeData.experience && resumeData.experience.length > 0
-      ? resumeData.experience.slice(0, 3).map(e => `• ${e.position} - ${e.company}`).join("\n")
-      : "";
+      const response = await fetch("/api/pdf/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          html: `<div class="p-8">${htmlContent}</div>`,
+          css: styles,
+        }),
+      });
 
-    if (isAr) {
-      return `*📝 نسخة من بيانات سيرتي الذاتية كـ (${jobTitle})*
+      if (!response.ok) throw new Error("PDF generation failed");
 
-مرحباً، إليك ملف سيرتي الذاتية المعتمد والجاهز للمشاركة الفورية:
+      const blob = await response.blob();
+      const fileName = `${userFullName || "Resume"}_CV.pdf`;
+      const file = new File([blob], fileName, { type: "application/pdf" });
 
-*👤 الاسم الكريم:* ${fullName}
-*💼 المسمى الوظيفي المستهدف:* ${jobTitle}
-
-${expText ? `*💼 مقتطف من الخبرات المهنية:*\n${expText}\n` : ""}
-*📞 للتواصل السريع والمباشر:*
-• الهاتف: ${phone}
-• البريد الإلكتروني: ${email}
-• رابط السيرة الذاتية للتعديل والعرض المباشر: ${window.location.href}
-
-_تم الإنشاء بنجاح وبأعلى معايير التوافق والذكاء الاصطناعي_`;
-    } else {
-      return `*📝 My Certified Professional Resume details: (${jobTitle})*
-
-Hello, here is my updated resume details card for quick access and instant sharing:
-
-*👤 Name:* ${fullName}
-*💼 Target Career Title:* ${jobTitle}
-
-${expText ? `*💼 Recent Experience Highlight:*\n${expText}\n` : ""}
-*📞 Quick Contact Links:*
-• Mobile/Phone: ${phone}
-• Email: ${email}
-• View/Download Live Link: ${window.location.href}
-
-_Designed and optimized with professional ATS-compatible structure_`;
-    }
-  };
-
-  const handleSendWhatsApp = () => {
-    const cleanPhone = userPhone.replace(/[^\d]/g, "");
-    const message = encodeURIComponent(getWhatsAppMessage());
-
-    if (cleanPhone) {
-      window.open(`https://wa.me/${cleanPhone}?text=${message}`, "_blank");
-    } else {
-      window.open(`https://wa.me/?text=${message}`, "_blank");
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: fileName,
+          text: isAr ? "إليك سيرة ذاتية مهنية ومحدثة" : "Here is my updated professional resume PDF",
+        });
+      } else {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName;
+        link.click();
+        
+        setError(
+          isAr 
+            ? "المشاركة المباشرة عبر المتصفح غير مدعومة على هذا الجهاز. تم تنزيل السيرة الذاتية لملفات جهازك، يمكنك الآن اختيار إرسالها لأي محادثة!" 
+            : "Direct file sharing is not supported in this browser. The PDF has been downloaded to your device, you can now share it with any chat!"
+        );
+      }
+    } catch (err: any) {
+      console.error("Failed to share PDF:", err);
+      const msg = err instanceof Error ? err.message : "Error generating PDF";
+      setError(isAr ? `فشل جاري معالجة ومشاركة ملف الـ PDF: ${msg}` : `Failed to process and share PDF file: ${msg}`);
+    } finally {
+      setSharingPdf(false);
     }
   };
 
@@ -368,40 +375,39 @@ _Designed and optimized with professional ATS-compatible structure_`;
                       </button>
                     </div>
 
-                    {/* Option 2: Send directly to WhatsApp */}
+                    {/* Option 2: Share PDF File directly to WhatsApp or general share */}
                     <div className="bg-slate-50 border border-slate-150/70 p-5 rounded-2xl relative overflow-hidden group">
                       <div className="flex items-center gap-3 mb-2.5">
                         <div className="p-2 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-xl">
-                          <MessageCircle className="w-4 h-4" />
+                          <Share2 className="w-4 h-4" />
                         </div>
                         <h4 className="text-sm font-black text-slate-800">
-                          {isAr ? "2. إرسال السيرة الذاتية عبر الواتساب" : "2. Send CV Details to WhatsApp"}
+                          {isAr ? "2. مشاركة ملف السيرة الـ PDF مباشرة" : "2. Share CV PDF File Directly"}
                         </h4>
                       </div>
                       <p className="text-[11px] text-slate-500 font-bold mb-4 leading-normal">
                         {isAr
-                          ? "سيقوم بإرسال ملف ملخص منسق بالكامل ببياناتك مع رابط استعراض مباشر وسريع ليكون متاحاً بمحادثتك دائماً."
-                          : "Sends a beautifully structured text profile of your resume details and a direct access link to any chat."}
+                          ? "قم بمشاركة ملف الـ PDF الفعلي مباشرة لدردشة الواتساب، الإيميل، أو أي تطبيق آخر فوراً ومباشرة كملف معتمد."
+                          : "Instantly share the actual, fully compiled PDF work-file directly to WhatsApp chats, Telegram, or official emails."}
                       </p>
 
-                      <div className="space-y-2">
-                        <div className="flex gap-2">
-                          <input
-                            type="text"
-                            value={userPhone}
-                            onChange={(e) => setUserPhone(e.target.value.replace(/[^\d+]/g, ""))}
-                            placeholder={isAr ? "رقم الواتساب الخاص بك" : "Your WhatsApp number"}
-                            className="flex-1 bg-white border border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 outline-none rounded-xl px-3 py-2 text-xs font-black transition-all placeholder:text-slate-400"
-                          />
-                          <button
-                            onClick={handleSendWhatsApp}
-                            className="bg-[#128C7E] hover:bg-[#0e7065] text-white active:scale-95 transition-all rounded-xl text-xs font-black px-4 py-2.5 flex items-center justify-center gap-1.5 shadow-sm cursor-pointer whitespace-nowrap"
-                          >
-                            <MessageCircle size={14} />
-                            <span>{isAr ? "إرسال الآن" : "Send Now"}</span>
-                          </button>
-                        </div>
-                      </div>
+                      <button
+                        onClick={handleSharePdfFile}
+                        disabled={sharingPdf}
+                        className="w-full h-11 flex items-center justify-center gap-2 text-white bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600 active:scale-95 transition-all rounded-xl text-xs font-black shadow-md shadow-emerald-500/10 cursor-pointer select-none disabled:opacity-75 disabled:cursor-not-allowed"
+                      >
+                        {sharingPdf ? (
+                          <>
+                            <Loader2 size={16} className="animate-spin" />
+                            <span>{isAr ? "جاري تحضير ملف الـ PDF ومشاركته..." : "Preparing & Sharing PDF..."}</span>
+                          </>
+                        ) : (
+                          <>
+                            <Share2 size={16} />
+                            <span>{isAr ? "مشاركة ملف الـ PDF الآن" : "Share PDF File Now"}</span>
+                          </>
+                        )}
+                      </button>
                     </div>
                   </div>
 

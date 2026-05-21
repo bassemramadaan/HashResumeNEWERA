@@ -2809,6 +2809,7 @@ const ResumePreview = memo(
     return (
       <div
         ref={ref}
+        id="resume-preview-container"
         className={cn(
           "w-full h-full bg-white box-border transition-all duration-500", 
           settings.language === "ar" ? "font-editor-ar" : "font-editor-en",
