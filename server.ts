@@ -71,7 +71,7 @@ async function startServer() {
       const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout for slow Google Apps Script runs
 
       // Proxy the verification to the actual Google Apps Script privately
-      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "https://script.google.com/macros/s/AKfycbwZLlBLOBslWUVna1-MMOHTUqhfuUEZBP95H3NHohqQBDzNzRNNtrIvc1ycB5Sfta14gw/exec";
+      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "https://script.google.com/macros/s/AKfycbxjOQbCQqcIpYZDFx60UhEdljeCUhNM6Yw2pswcBHuTEU9ul2AAcgeuHvuGm9cnjZg-OA/exec";
       if (!scriptUrl) {
           throw new Error("Payment script URL not configured");
       }
