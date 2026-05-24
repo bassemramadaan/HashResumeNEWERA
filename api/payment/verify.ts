@@ -24,7 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-    const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "https://script.google.com/macros/s/AKfycbxjOQbCQqcIpYZDFx60UhEdljeCUhNM6Yw2pswcBHuTEU9ul2AAcgeuHvuGm9cnjZg-OA/exec";
+    const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "https://script.google.com/macros/s/AKfycbyi0Uq-F_xbCQkdB1BEJP0yHWvBfeq0CytA8pmoDLgXQ3LELOtGEuJEKvo5lcUZPDRN8Q/exec";
     if (!scriptUrl) {
       throw new Error("Payment script URL not configured");
     }
