@@ -16,7 +16,6 @@ import {
   FileText,
   Sparkles,
   AlertCircle,
-  Download,
   Calendar,
   Flag,
   Heart,
@@ -80,27 +79,27 @@ const PersonalInfoForm = () => {
 
   return (
     <div className="space-y-6">
-      {/* LinkedIn Import Banner */}
-      <div className="bg-[#0A66C2]/5 border border-[#0A66C2]/10 rounded-xl p-3 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm hover:shadow-md transition-shadow">
-        <div className="flex items-center gap-3 text-[#0A66C2]">
-          <div className="w-8 h-8 bg-[#0A66C2]/10 text-[#0A66C2] rounded-lg flex items-center justify-center shrink-0">
-            <Linkedin size={18} />
+      {/* Smart Auto-Parser Premium Banner */}
+      <div className="bg-gradient-to-r from-indigo-500/10 via-purple-500/5 to-indigo-500/10 border border-indigo-500/20 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-300">
+        <div className="flex items-center gap-3.5">
+          <div className="w-10 h-10 bg-indigo-500/15 text-indigo-600 rounded-xl flex items-center justify-center shrink-0 shadow-xs">
+            <Sparkles size={18} className="text-indigo-600 animate-pulse" />
           </div>
           <div>
             <h3 className="font-bold text-slate-800 text-sm">
-              {language === "ar" ? "استورد بياناتك من لينكد إن" : "Import from LinkedIn"}
+              {language === "ar" ? "مستخلص السبر الذاتية الذكي بالذكاء الاصطناعي (PDF)" : "Smart AI Resume & CV Auto-Parser (PDF)"}
             </h3>
-            <p className="text-xs text-slate-500">
-              {language === "ar" ? "ابنِ سيرتك الذاتية في ثوانٍ لاستيراد ملفك الشخصي كـ PDF." : "Build your resume in seconds by importing your profile PDF."}
+            <p className="text-xs text-slate-500 mt-0.5 max-w-lg">
+              {language === "ar" ? "ارفع ملف سيرتك الذاتية القديمة أو ملف لينكد إن وسنقوم بملء الحقول تلقائياً وبأمان." : "Upload any old CV or LinkedIn profile PDF, and let our Gemini parser populate your data instantly."}
             </p>
           </div>
         </div>
         <button
           onClick={() => setIsLinkedInModalOpen(true)}
-          className="w-full sm:w-auto px-4 py-1.5 rounded-lg text-sm font-bold transition-all whitespace-nowrap flex justify-center items-center gap-2 bg-[#0A66C2] text-white hover:bg-[#084e96] shadow-sm hover:shadow active:scale-95"
+          className="w-full sm:w-auto px-5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex justify-center items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm hover:shadow active:scale-95 cursor-pointer"
         >
-          <Download size={14} />
-          {language === "ar" ? "استيراد السيرة الذاتية" : "Import Resume"}
+          <Sparkles size={14} />
+          {language === "ar" ? "استيراد وتوطين البيانات" : "Auto-Parse old CV"}
         </button>
       </div>
 

@@ -265,6 +265,111 @@ const ExperienceForm = () => {
                           className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 font-mono leading-relaxed"
                           placeholder={String(t.experience?.descriptionPlaceholder || "")}
                         />
+
+                        {/* Smart Auto-Complete Duties Based on Position */}
+                        {exp.position && (
+                          <div className="mt-3 bg-slate-100/60 p-3 rounded-xl border border-slate-200/50">
+                            <h4 className="text-[11px] font-bold text-slate-600 mb-2 flex items-center gap-1.5 align-middle">
+                              <Sparkles size={11} className="text-indigo-505" />
+                              {language === "ar" 
+                                ? `مهام مقترحة ومصاغة لوظيفة (${exp.position}) - اضغط للإضافة وسد الفجوات:`
+                                : `Suggested duties for (${exp.position}) - click to insert to close ATS gaps:`}
+                            </h4>
+                            <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                              {(() => {
+                                const p = (exp.position || "").toLowerCase();
+                                const duties = p.includes("برمج") || p.includes("مطور") || p.includes("ويب") || p.includes("برنامج") || p.includes("tech") || p.includes("dev") || p.includes("soft") || p.includes("engineer")
+                                  ? (language === "ar"
+                                      ? [
+                                          "• تطوير وصيانة تطبيقات الويب باستخدام التقنيات الحديثة لضمان الكفاءة والسرعة الفائقة.",
+                                          "• تصميم وبناء قواعد بيانات قوية وموثوقة لضمان أمان معالجة البيانات بسلاسة تامة.",
+                                          "• التعاون مع مهندسي المنتجات ومصممي الواجهات لتحويل المتطلبات إلى ميزات حية وتفاعلية.",
+                                          "• إجراء مراجعة الأكواد البرمجية (Code Review) وكتابة اختبارات لضمان معايير الجودة الممتازة."
+                                        ]
+                                      : [
+                                          "• Developed and maintained scalable web applications utilizing modern technical stacks to guarantee raw speed.",
+                                          "• Engineered robust relational and non-relational database models assuring extreme accessibility.",
+                                          "• Partnered with product owners and UX researchers to formulate and launch high-impact runs.",
+                                          "• Conducted diligent code reviews and set up advanced integration testing suites."
+                                        ])
+                                  : p.includes("تصميم") || p.includes("مُصمم") || p.includes("ديزاين") || p.includes("design") || p.includes("ui") || p.includes("ux") || p.includes("graphic")
+                                  ? (language === "ar"
+                                      ? [
+                                          "• تصميم واجهات مستخدم (UI) جذابة وتفاعلية تتوافق مع معايير السلوك البصري وسلوك المستخدم.",
+                                          "• بناء مخططات وهياكل تجربة المستخدم (UX Wireframes) لتبسيط وتحسين رحلات العملاء.",
+                                          "• إجراء أبحاث واختبارات تجارب الاستخدام لضمان ملاءمة التصميم لاهداف العميل والجمهور.",
+                                          "• تسليم ملفات التصاميم ومكوناتها المتكاملة لصالح فرق التطوير البرمجية لتسريع البناء."
+                                        ]
+                                      : [
+                                          "• Created high-fidelity user interface concepts aligned with modern brand identity and user trends.",
+                                          "• Designed thorough UX wireframes and flow maps simplifying the digital onboarding path.",
+                                          "• Conducted user test groups and interactive prototype walk-through sessions to optimize flows.",
+                                          "• Handed off production-ready assets and comprehensive design spec tokens to engineering teams."
+                                        ])
+                                  : p.includes("تسويق") || p.includes("مبيعات") || p.includes("ماركت") || p.includes("marketing") || p.includes("sales") || p.includes("سوشيال")
+                                  ? (language === "ar"
+                                      ? [
+                                          "• صياغة وإطلاق الحملات التسويقية المدفوعة ومتابعة مقاييس الأداء والعائد من الاستثمار (ROI).",
+                                          "• تحليل وتطوير خطط الأداء وقنوات القمع بهدف زيادة تحويل المبيعات وتحقيق نمو للأرباح.",
+                                          "• إدارة حسابات التواصل وبناء شراكات تجارية قوية لضمان ولاء وتفاعل الجمهور المستهدف.",
+                                          "• استخدام أدوات التحليل الرقمي لرصد تفاعلات السوق وصياغة استبيانات الرأي الدورية."
+                                        ]
+                                      : [
+                                          "• Created and launched dynamic digital campaigns across social channels measuring KPI rates.",
+                                          "• Facilitated pipeline deals and negotiated client contracts directly with enterprise partners.",
+                                          "• Conducted thorough SEO audit cycles increasing organic impressions.",
+                                          "• Drafted analytical briefs highlighting purchase funnels and overall growth strategies."
+                                        ])
+                                  : p.includes("مشروع") || p.includes("ادارة") || p.includes("مدير") || p.includes("manager") || p.includes("project")
+                                  ? (language === "ar"
+                                      ? [
+                                          "• تخطيط وإدارة نطاق وجداول المشاريع باحترافية وضمان تسليمها في الوقت والميزانية المحددة.",
+                                          "• قيادة فرق عمل متعددة التخصصات وتوزيع المهام عبر منهجيات مرنة كالـ Scrum-Agile.",
+                                          "• رصد وتخفيف المخاطر التشغيلية المحتملة والتعامل مع العقبات بمرونة تامة لضمان سلامة الإنتاج.",
+                                          "• بناء وتوثيق التقارير التنفيذية الدورية وعرض تطورات العمل للرئاسة وأصحاب المصلحة."
+                                        ]
+                                      : [
+                                          "• Controlled project plan development from requirement aggregation to direct deployment.",
+                                          "• Facilitated daily standing sessions organizing team milestones safely.",
+                                          "• Managed client resources and budgets assuring 100% target delivery rate.",
+                                          "• Mitigated operational risks by creating structured deployment contingency plans."
+                                        ])
+                                  : (language === "ar"
+                                      ? [
+                                          "• تنظيم وإدارة المهام العملية اليومية بكفاءة لضمان تحقيق الأهداف الأساسية للقسم.",
+                                          "• كتابة وتوثيق المستندات والملفات التنظيمية لضمان دقة وتسهيل استرجاع واستخلاص المعلومات.",
+                                          "• تقديم مقترحات وحلول ابتكارية لمواجهة المشاكل التشغيلية والتنظيمية بأسلوب عملي مرن.",
+                                          "• المساهمة الفاعلة في تنسيق الجهود المشتركة مع باقي الأقسام لتحسين الكفاءة العامة."
+                                        ]
+                                      : [
+                                          "• Organized daily target tasks ensuring structured progression towards corporate goals.",
+                                          "• Structured and archived business documentation raising accessibility standard.",
+                                          "• Administered custom support sessions resolving emergent software and logistics bugs.",
+                                          "• Coordinated across standard team boards boosting standard alignment."
+                                        ]);
+
+                                return duties.map((duty, idx) => (
+                                  <button
+                                    key={idx}
+                                    type="button"
+                                    onClick={() => {
+                                      const currentText = exp.description || "";
+                                      const separator = currentText ? "\n" : "";
+                                      updateExperience(exp.id, {
+                                        description: currentText + separator + duty
+                                      });
+                                    }}
+                                    className="w-full text-start text-xs text-slate-600 hover:text-indigo-600 hover:bg-white p-2 px-3 rounded-lg border border-transparent hover:border-indigo-100 transition-all cursor-pointer select-none leading-relaxed flex items-start gap-1.5"
+                                  >
+                                    <span className="text-indigo-500 mt-0.5 shrink-0 font-bold">+</span>
+                                    <span>{duty}</span>
+                                  </button>
+                                ));
+                              })()}
+                            </div>
+                          </div>
+                        )}
+
                         <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
                             <Sparkles size={10} className="text-indigo-400 shrink-0" />
                             {language === "ar" 

@@ -10,8 +10,7 @@ import {
   Save,
   AlertTriangle,
   Settings2,
-  Wand2,
-  Type
+  Wand2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";

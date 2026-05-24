@@ -226,15 +226,15 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
             </button>
 
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-[#0A66C2]/10 rounded-xl flex items-center justify-center text-[#0A66C2]">
-                <Linkedin size={24} />
+              <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-600">
+                <Sparkles size={24} className="text-indigo-600 animate-pulse" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900">
-                  {language === "ar" ? "استيراد من لينكد إن" : "Import from LinkedIn"}
+                  {language === "ar" ? "مستخلص السبر الذاتية الذكي (PDF)" : "Smart Resume Auto-Parser (PDF)"}
                 </h3>
-                <p className="text-sm text-slate-500">
-                  {language === "ar" ? "ارفع ملف PDF الخاص بحسابك" : "Upload your profile PDF"}
+                <p className="text-xs text-slate-500 mt-0.5">
+                  {language === "ar" ? "ارفع سيرتك الذاتية القديمة أو ملف لينكد إن لاستخلاص البيانات فوراً" : "Upload your old resume or LinkedIn PDF to extract data instantly"}
                 </p>
               </div>
             </div>

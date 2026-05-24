@@ -4,6 +4,7 @@ import { Navbar }          from '@/components/layout/Navbar'
 import { HeroSection }     from './HeroSection'
 import { FeaturesSection } from './FeaturesSection'
 import { PricingSection }  from './PricingSection'
+import LandingAtsTester from '@/components/landing/LandingAtsTester'
 import Testimonials from '@/components/Testimonials'
 import SimpleSteps from '@/components/SimpleSteps'
 import Footer from '@/components/Footer'
@@ -24,6 +25,7 @@ export default function LandingPage() {
         <SimpleSteps />
         <FeaturesSection lang={lang as AppLang} />
         <Testimonials />
+        <LandingAtsTester lang={lang as AppLang} onStartClick={goToEditor} />
         <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
         
         {/* Final CTA */}

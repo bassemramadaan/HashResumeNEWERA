@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from "motion/react"
 import { Sparkles, Check, ArrowLeft, LayoutTemplate, FileText, Upload } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
@@ -53,6 +54,7 @@ const item = {
 export function HeroSection({ lang, onStart }: HeroSectionProps) {
   const copy = COPY[lang] || COPY['en']
   const navigate = useNavigate()
+  const [activeTheme, setActiveTheme] = useState(0)
 
   return (
     <section className="relative overflow-hidden bg-white pt-10 pb-20 md:pt-16 md:pb-28">
@@ -212,30 +214,97 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
               </div>
 
               {/* Document Preview Mock */}
-              <div className="flex-1 p-6 md:p-12 flex items-center justify-center overflow-hidden bg-slate-50 relative">
+              <div className="flex-1 p-6 md:p-12 flex flex-col items-center justify-center overflow-hidden bg-slate-50 relative min-h-[500px] md:min-h-auto">
                  {/* Subtle grid pattern for preview background */}
                  <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(#CBD5E1 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
                  
-                <div className="w-full max-w-[480px] aspect-[1/1.414] bg-white shadow-2xl border border-slate-200 p-8 flex flex-col relative transform md:scale-95 transition-transform hover:scale-100 z-10 group cursor-default">
+                 {/* Premium Interactive Theme / Template Switcher Panel */}
+                 <div className="absolute top-3 inset-x-0 z-30 flex justify-center px-4">
+                   <div className="bg-white/95 backdrop-blur-md p-1 rounded-full border border-slate-200 shadow-lg flex items-center gap-1">
+                     <button
+                       type="button"
+                       onClick={() => setActiveTheme(0)}
+                       className={`px-3 py-1.5 rounded-full text-[10px] md:text-xs font-bold transition-all ${
+                         activeTheme === 0 
+                           ? "bg-[#FF4D2D] text-white shadow-sm" 
+                           : "text-slate-650 hover:bg-slate-100"
+                       }`}
+                     >
+                       {lang === "ar" ? "روبي الحديث" : "Ruby Modern"}
+                     </button>
+                     <button
+                       type="button"
+                       onClick={() => setActiveTheme(1)}
+                       className={`px-3 py-1.5 rounded-full text-[10px] md:text-xs font-bold transition-all ${
+                         activeTheme === 1 
+                           ? "bg-slate-900 text-white shadow-sm" 
+                           : "text-slate-650 hover:bg-slate-100"
+                       }`}
+                     >
+                       {lang === "ar" ? "كلاسيك الهادئ" : "Classic Slate"}
+                     </button>
+                     <button
+                       type="button"
+                       onClick={() => setActiveTheme(2)}
+                       className={`px-3 py-1.5 rounded-full text-[10px] md:text-xs font-bold transition-all ${
+                         activeTheme === 2 
+                           ? "bg-[#059669] text-white shadow-sm" 
+                           : "text-slate-650 hover:bg-slate-100"
+                       }`}
+                     >
+                       {lang === "ar" ? "زمردي الإبداعي" : "Creative Emerald"}
+                     </button>
+                   </div>
+                 </div>
+
+                <div className={`w-full max-w-[480px] aspect-[1/1.414] bg-white shadow-2xl border border-slate-200 p-8 flex flex-col relative transform md:scale-90 lg:scale-95 transition-all duration-500 hover:scale-100 z-10 group cursor-default mt-8 ${
+                  activeTheme === 1 ? "font-serif" : "font-sans"
+                }`}>
                    {/* Hover overlay hint */}
-                   <div className="absolute inset-0 bg-slate-900/5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-sm">
-                      <div className="bg-white/90 text-slate-800 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg backdrop-blur-sm">Live Preview</div>
+                   <div className="absolute inset-0 bg-slate-900/[0.02] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center rounded-sm pointer-events-none">
+                      <div className="bg-white/95 text-slate-800 text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg border border-slate-100">
+                        {lang === "ar" ? "معاينة حية ومباشرة" : "Live Mock Preview"}
+                      </div>
                    </div>
 
-                  {/* Fake Resume Content */}
-                  <div className="text-center border-b-2 border-slate-800 pb-5 mb-5 mt-2">
-                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-[0.2em] mb-1">Youssef Ahmed</h2>
-                    <p className="text-[9px] text-slate-500 font-medium tracking-wider">Software Engineer  •  youssef@example.com  •  Cairo, Egypt</p>
+                  {/* Fake Resume Content based on selected Theme */}
+                  <div className={`text-center pb-5 mb-5 mt-4 transition-all duration-300 ${
+                    activeTheme === 0 
+                      ? "border-b-2 border-[#FF4D2D]" 
+                      : activeTheme === 1 
+                      ? "border-b border-dashed border-slate-900 text-slate-900 text-start pb-4" 
+                      : "border-b-2 border-[#059669]"
+                  }`}>
+                    <h2 className={`text-xl font-black uppercase tracking-[0.2em] mb-1 transition-all ${
+                      activeTheme === 0 
+                        ? "text-slate-800" 
+                        : activeTheme === 1 
+                        ? "text-slate-900 font-serif normal-case font-extrabold" 
+                        : "text-[#059669]"
+                    }`}>
+                      {activeTheme === 1 ? "Prof. Youssef Ahmed" : "Youssef Ahmed"}
+                    </h2>
+                    <p className="text-[8px] text-slate-500 font-medium tracking-wider">
+                      Software Engineer  •  youssef@example.com  •  Cairo, Egypt
+                    </p>
                   </div>
 
-                  <div className="flex gap-8 flex-1 text-[8px] leading-relaxed text-slate-700">
+                  <div className="flex gap-8 flex-1 text-[8px] leading-relaxed text-slate-705">
                     {/* Left Column */}
                     <div className="w-[65%] space-y-5">
                       <div>
-                        <h3 className="text-[10px] font-bold text-slate-800 border-b border-slate-200 pb-1 mb-3 uppercase tracking-widest text-[#FF4D2D]">Experience</h3>
+                        <h3 className={`text-[10px] font-bold border-b border-slate-100 pb-1 mb-3 uppercase tracking-widest transition-colors ${
+                          activeTheme === 0 
+                            ? "text-[#FF4D2D]" 
+                            : activeTheme === 1 
+                            ? "text-slate-900 font-serif font-black" 
+                            : "text-[#059669]"
+                        }`}>
+                          {lang === "ar" ? "الخبرات المتميزة" : "Experience"}
+                        </h3>
                         <div className="space-y-4">
                           <div>
-                            <div className="flex justify-between font-bold text-slate-800 mb-1">
+                            <div className="flex justify-between font-bold text-slate-900 mb-1">
                               <span className="text-[9px]">Senior Frontend Engineer — TechCorp</span>
                               <span>2021 - Present</span>
                             </div>
@@ -246,7 +315,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                             </ul>
                           </div>
                           <div>
-                            <div className="flex justify-between font-bold text-slate-800 mb-1">
+                            <div className="flex justify-between font-bold text-slate-900 mb-1">
                               <span className="text-[9px]">Frontend Developer — StartupX</span>
                               <span>2018 - 2021</span>
                             </div>
@@ -258,7 +327,15 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                         </div>
                       </div>
                       <div>
-                        <h3 className="text-[10px] font-bold text-slate-800 border-b border-slate-200 pb-1 mb-3 uppercase tracking-widest text-[#FF4D2D]">Education</h3>
+                        <h3 className={`text-[10px] font-bold border-b border-slate-100 pb-1 mb-3 uppercase tracking-widest transition-colors ${
+                          activeTheme === 0 
+                            ? "text-[#FF4D2D]" 
+                            : activeTheme === 1 
+                            ? "text-slate-900 font-serif font-black" 
+                            : "text-[#059669]"
+                        }`}>
+                          {lang === "ar" ? "التعليم الأكاديمي" : "Education"}
+                        </h3>
                         <div>
                           <div className="flex justify-between font-bold text-slate-800 mb-0.5">
                             <span className="text-[9px]">B.Sc. in Computer Science</span>
@@ -272,20 +349,45 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                     {/* Right Column */}
                     <div className="w-[35%] space-y-5">
                       <div>
-                        <h3 className="text-[10px] font-bold text-slate-800 border-b border-slate-200 pb-1 mb-3 uppercase tracking-widest text-[#FF4D2D]">Skills</h3>
+                        <h3 className={`text-[10px] font-bold border-b border-slate-100 pb-1 mb-3 uppercase tracking-widest transition-colors ${
+                          activeTheme === 0 
+                            ? "text-[#FF4D2D]" 
+                            : activeTheme === 1 
+                            ? "text-slate-900 font-serif font-black" 
+                            : "text-[#059669]"
+                        }`}>
+                          {lang === "ar" ? "المهارات الفنية" : "Skills"}
+                        </h3>
                         <div className="flex flex-wrap gap-1.5">
                           {['React', 'TypeScript', 'Node.js', 'Tailwind', 'Next.js', 'GraphQL', 'Git'].map(skill => (
-                            <span key={skill} className="bg-slate-100 text-slate-700 px-2 py-1 rounded-[4px] text-[7px] font-medium border border-slate-200/60 shadow-sm whitespace-nowrap">
+                            <span 
+                              key={skill} 
+                              className={`px-2 py-0.5 rounded-[4px] text-[7px] font-medium border whitespace-nowrap transition-all duration-300 ${
+                                activeTheme === 0
+                                  ? "bg-slate-50 text-slate-700 border-slate-200/60"
+                                  : activeTheme === 1
+                                  ? "bg-slate-900 text-white border-slate-800"
+                                  : "bg-emerald-50 text-emerald-800 border-emerald-100"
+                              }`}
+                            >
                               {skill}
                             </span>
                           ))}
                         </div>
                       </div>
                       <div>
-                        <h3 className="text-[10px] font-bold text-slate-800 border-b border-slate-200 pb-1 mb-3 uppercase tracking-widest text-[#FF4D2D]">Languages</h3>
-                        <div className="space-y-2 text-slate-600">
-                          <div className="flex justify-between border-b border-slate-100 pb-1"><span className="font-semibold text-slate-800">Arabic</span><span className="text-slate-400">Native</span></div>
-                          <div className="flex justify-between"><span className="font-semibold text-slate-800">English</span><span className="text-slate-400">Fluent</span></div>
+                        <h3 className={`text-[10px] font-bold border-b border-slate-100 pb-1 mb-3 uppercase tracking-widest transition-colors ${
+                          activeTheme === 0 
+                            ? "text-[#FF4D2D]" 
+                            : activeTheme === 1 
+                            ? "text-slate-900 font-serif font-black" 
+                            : "text-[#059669]"
+                        }`}>
+                          {lang === "ar" ? "اللغات" : "Languages"}
+                        </h3>
+                        <div className="space-y-2 text-slate-600 font-semibold">
+                          <div className="flex justify-between border-b border-slate-100 pb-1"><span className="text-slate-800">Arabic</span><span className="text-slate-400">Native</span></div>
+                          <div className="flex justify-between"><span className="text-slate-800">English</span><span className="text-slate-400">Fluent</span></div>
                         </div>
                       </div>
                     </div>

@@ -75,18 +75,40 @@ function Divider() {
 // ── SaveIndicator ─────────────────────────────────────────
 function SaveIndicator({ isSaved, lang }: { isSaved: boolean; lang: AppLang }) {
   const t = T[lang] ?? T.en;
+  const isAr = lang === "ar";
+  const cloudTooltip = isAr 
+    ? "جميع تعديلاتك محفوظة تلقائياً وبأمان في متصفحك المحلي" 
+    : "All of your changes are automatically synchronized to your secure local storage";
+
   return (
-    <div className={`flex items-center gap-1.5 text-xs font-semibold select-none leading-none px-2 py-1 rounded-lg ${isSaved ? "text-emerald-600 bg-emerald-500/5" : "text-slate-400 bg-slate-500/5 animate-pulse"}`}>
-      {isSaved ? (
-        <svg className="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-        </svg>
-      ) : (
-        <svg className="w-3.5 h-3.5 text-slate-400 shrink-0 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121 12m-7-5h5v5" />
-        </svg>
-      )}
-      <span>{isSaved ? t.saved : t.saving}</span>
+    <div className="group relative flex items-center">
+      <div className={`flex items-center gap-1.5 text-xs font-semibold select-none leading-none px-3 py-1.5 rounded-full border transition-all duration-300 ${isSaved ? "text-emerald-700 bg-emerald-500/5 border-emerald-500/10 cursor-help" : "text-amber-600 bg-amber-500/5 border-amber-500/10 animate-pulse"}`}>
+        {isSaved ? (
+          <svg className="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M12 10v4M12 14l-2-2M12 14l2-2" />
+            <path d="M17.5 19A3.5 3.5 0 0 0 21 15.5c0-2.79-2.54-4.5-5-4.5A7 7 0 1 0 3.5 14.5c0 2.18 1.41 3.82 3.5 4" />
+          </svg>
+        ) : (
+          <svg className="w-3.5 h-3.5 text-amber-500 shrink-0 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
+          </svg>
+        )}
+        <span className="text-[11px] font-bold">
+          {isSaved 
+            ? (isAr ? "محفوظ محلياً بأمان" : "Saved Locally & Securely") 
+            : (isAr ? "جاري الحفظ..." : "Saving...")}
+        </span>
+      </div>
+
+      {/* Elegant floating tooltip */}
+      <div className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-slate-900 border border-slate-800 text-white text-[10px] sm:text-xs py-1.5 px-3 rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none whitespace-nowrap z-50">
+        <div className="flex items-center gap-1.5 font-bold">
+          <svg className="w-3.5 h-3.5 text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          {cloudTooltip}
+        </div>
+      </div>
     </div>
   );
 }

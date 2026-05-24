@@ -128,6 +128,62 @@ const SkillsForm = () => {
               <span className="hidden sm:inline">{String(t.skills?.add || "")}</span>
             </button>
           </div>
+
+          {/* Smart Auto-Complete Suggested Skills based on Job Title */}
+          {personalInfo.jobTitle && (
+            <div className="mt-3 bg-indigo-50/40 p-3 rounded-xl border border-indigo-100/40">
+              <h4 className="text-[11px] font-bold text-slate-600 mb-2 flex items-center gap-1.5">
+                <Sparkles size={11} className="text-indigo-500" />
+                {language === "ar" 
+                  ? `مهارات ذكية مقترحة لمجال (${personalInfo.jobTitle}) - اضغط للإضافة:`
+                  : `Smart suggestions for (${personalInfo.jobTitle}) - click to insert:`}
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {(() => {
+                  const title = (personalInfo.jobTitle || "").toLowerCase();
+                  const pool = language === "ar"
+                    ? (title.includes("برمج") || title.includes("مطور") || title.includes("ويب") || title.includes("برنامج") || title.includes("تقن") || title.includes("tech") || title.includes("dev") || title.includes("soft") || title.includes("engineer")
+                        ? ["جافا سكريبت", "تايب سكريبت", "رياكت (React)", "Node.js", "قواعد بيانات SQL", "Git & GitHub", "حل المشكلات البرمجية", "منهجية Agile"]
+                        : title.includes("تصميم") || title.includes("مُصمم") || title.includes("رسام") || title.includes("ديزاين") || title.includes("design") || title.includes("ui") || title.includes("ux") || title.includes("graphic")
+                        ? ["تصميم واجهات UI", "Figma", "Adobe Photoshop", "الهوية البصرية", "تصميم تجربة UX", "التفكير الإبداعي", "تصميم الشعارات", "تعديل الصور"]
+                        : title.includes("تسويق") || title.includes("مبيعات") || title.includes("ماركت") || title.includes("سوشيال") || title.includes("social") || title.includes("marketing") || title.includes("sales")
+                        ? ["التسويق الرقمي", "إعلانات جوجل وفيسبوك", "إستراتيجية السوشيال ميديا", "تحسين محركات البحث SEO", "إستراتيجيات النمو", "مهارات الإقناع", "تحليل البيانات"]
+                        : title.includes("مشروع") || title.includes("ادارة") || title.includes("مدير") || title.includes("تخطيط") || title.includes("manager") || title.includes("project")
+                        ? ["إدارة المشاريع", "تخطيط المهام والميزانية", "منهجية Scrum & Agile", "حل النزاعات والقيادة", "تنسيق جهود الفريق", "إدارة المخاطر"]
+                        : ["إدارة الوقت", "التواصل الفعال", "حل المشكلات العميقة", "العمل الجماعي", "مهارات الإقناع", "التفكير الإبداعي", "التخطيط التنظيمي"])
+                    : (title.includes("soft") || title.includes("dev") || title.includes("web") || title.includes("engineer") || title.includes("program") || title.includes("tech")
+                        ? ["JavaScript", "TypeScript", "React.js", "Node.js", "SQL & NoSQL", "Git", "RESTful APIs", "Docker", "Problem Solving", "Agile"]
+                        : title.includes("design") || title.includes("art") || title.includes("ui") || title.includes("ux") || title.includes("graphic")
+                        ? ["UI/UX Design", "Figma", "Adobe Suite", "Visual Design", "Wireframing", "User Research", "Prototyping", "Design Systems"]
+                        : title.includes("market") || title.includes("sale") || title.includes("social") || title.includes("seo") || title.includes("growth")
+                        ? ["Digital Marketing", "SEO & SEM", "Social Media Strategy", "Google Analytics", "Sales Pitching", "CRM Systems", "Content Strategy"]
+                        : title.includes("project") || title.includes("manage") || title.includes("lead") || title.includes("scrum")
+                        ? ["Project Management", "Agile & Scrum", "Risk Assessment", "Stakeholder Communication", "Resource Allocation", "Leadership"]
+                        : ["Communication", "Problem Solving", "Time Management", "Collaboration", "Critical Thinking", "Adaptability"]);
+
+                  const filtered = pool.filter(s => !skills.includes(s));
+                  if (filtered.length === 0) {
+                    return (
+                      <span className="text-xs text-slate-400 italic">
+                        {language === "ar" ? "لقد أضفت كل المهارات المقترحة!" : "All suggested skills added!"}
+                      </span>
+                    );
+                  }
+                  return filtered.map((skillName) => (
+                    <button
+                      key={skillName}
+                      type="button"
+                      onClick={() => addSkill(skillName)}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors border border-indigo-100/30 cursor-pointer select-none"
+                    >
+                      <span>+</span>
+                      <span>{skillName}</span>
+                    </button>
+                  ));
+                })()}
+              </div>
+            </div>
+          )}
         </form>
 
         <div className="mb-8">
