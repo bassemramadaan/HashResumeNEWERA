@@ -164,11 +164,11 @@ function doGet(e) {
     for (let k = 0; k < freshlyAssignedCodes.length; k++) {
       const targetRow = freshlyAssignedCodes[k].rowIdx;
       // Column B: Status -> "assigned" (reserved, but first-time validation will consume it to "used")
-      codesSheet.getCell(targetRow, 2).setValue("assigned"); 
+      codesSheet.getRange(targetRow, 2).setValue("assigned"); 
       // Column C: Date
-      codesSheet.getCell(targetRow, 3).setValue(todayStr);
+      codesSheet.getRange(targetRow, 3).setValue(todayStr);
       // Column D: Reference
-      codesSheet.getCell(targetRow, 4).setValue(reference);
+      codesSheet.getRange(targetRow, 4).setValue(reference);
     }
     
     const responseCodesList = freshlyAssignedCodes.map(item => item.code);
@@ -210,9 +210,9 @@ function doGet(e) {
     // If code status is "unused" or "assigned" -> Permit Activation & Mark as "used" immediately!
     if (currentStatus === "assigned" || currentStatus === "unused") {
       // Mark code as fully consumed "used" now that user is using it on a CV
-      codesSheet.getCell(codeRowIdx, 2).setValue("used");
-      if (!codesSheet.getCell(codeRowIdx, 3).getValue()) {
-        codesSheet.getCell(codeRowIdx, 3).setValue(new Date().toLocaleDateString("en-US"));
+      codesSheet.getRange(codeRowIdx, 2).setValue("used");
+      if (!codesSheet.getRange(codeRowIdx, 3).getValue()) {
+        codesSheet.getRange(codeRowIdx, 3).setValue(new Date().toLocaleDateString("en-US"));
       }
       
       return jsonResponse({ 
