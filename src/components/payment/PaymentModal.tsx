@@ -28,6 +28,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
   const [verifying, setVerifying] = useState(false);
   const [error, setError] = useState("");
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>("instapay");
+  const [selectedPackage, setSelectedPackage] = useState<"single" | "bundle">("single");
 
   // Approval flow status and custom sharing features after approval is granted
   const [isApproved, setIsApproved] = useState(false);
@@ -199,7 +200,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
           reference: trimmedRef,
           senderInfo: senderNameOrPhone.trim() || userFullName || "Anonymous",
           email: userEmailInput.trim() || userFullEmail || "anonymous@hashresume.com",
-          amount: "50 EGP"
+          amount: selectedPackage === "single" ? "50 EGP" : "120 EGP (3 Codes)"
         })
       });
 
@@ -287,8 +288,8 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
   };
 
   const whatsappMsg = isAr
-    ? `السلام عليكم، أرغب في الدفع عبر ${selectedMethod === "instapay" ? "InstaPay" : selectedMethod === "vodafone" ? "Vodafone Cash" : "كود تفعيل"} للحصول على كود Hash Resume`
-    : `Hi, I want to pay via ${selectedMethod} to get my Hash Resume code.`;
+    ? `السلام عليكم، أرغب في الدفع عبر ${selectedMethod === "instapay" ? "InstaPay" : selectedMethod === "vodafone" ? "Vodafone Cash" : "كود تفعيل"} لشراء الباقة ${selectedPackage === "single" ? "الفردية (50 ج.م)" : "الثلاثية (120 ج.م)"} للحصول على كود تفعيل Hash Resume.`
+    : `Hi, I want to pay via ${selectedMethod} to purchase the ${selectedPackage === "single" ? "Single Code (50 EGP)" : "Saver Bundle (120 EGP)"} for Hash Resume.`;
 
   return (
     <AnimatePresence>
@@ -437,12 +438,50 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         : "Instant activation for unlimited downloads (PDF / DOCX) in high quality with no watermark"}
                     </p>
                     
-                    {/* Simplified Price Tag */}
-                    <div className="mt-4 inline-flex items-center gap-2 px-5 py-2 bg-orange-50 text-[#FF4D2D] rounded-2xl border border-orange-100 shadow-sm">
-                      <Sparkles size={14} className="text-[#FF4D2D] shrink-0" />
-                      <span className="text-lg font-black tracking-tight flex items-baseline gap-1">
-                        50 <span className="text-xs font-bold">{isAr ? "ج.م فقط" : "EGP"}</span>
-                      </span>
+                    {/* Dynamic Package switcher */}
+                    <div className="mt-4 w-full bg-gradient-to-r from-orange-50/50 to-amber-50/50 p-2.5 rounded-2xl border border-orange-100/70 shadow-xs max-w-sm">
+                      <p className="text-[10px] font-black uppercase text-orange-950/70 tracking-wider text-center mb-1.5 flex items-center justify-center gap-1">
+                        <Sparkles size={11} className="text-[#FF4D2D] shrink-0" />
+                        {isAr ? "اختر باقة التفعيل المناسبة لك" : "Select Your Plan Below"}
+                      </p>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => { setSelectedPackage("single"); setError(""); }}
+                          className={cn(
+                            "py-2 px-2.5 rounded-xl border transition-all duration-200 text-center flex flex-col items-center justify-center relative cursor-pointer",
+                            selectedPackage === "single"
+                              ? "bg-white border-[#FF4D2D] shadow-sm text-slate-950"
+                              : "bg-white/45 border-orange-100/30 text-slate-500 hover:text-slate-800 hover:bg-white/70"
+                          )}
+                        >
+                          <span className="text-[10px] font-black">{isAr ? "سيرة ذاتية واحدة" : "Single Code"}</span>
+                          <span className="text-xs font-black text-[#FF4D2D] mt-0.5">50 <span className="text-[9px] font-bold">{isAr ? "ج.م" : "EGP"}</span></span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => { setSelectedPackage("bundle"); setError(""); }}
+                          className={cn(
+                            "py-2 px-2.5 rounded-xl border transition-all duration-200 text-center flex flex-col items-center justify-center relative cursor-pointer overflow-hidden",
+                            selectedPackage === "bundle"
+                              ? "bg-white border-amber-500 shadow-sm text-slate-950"
+                              : "bg-white/45 border-orange-100/30 text-slate-500 hover:text-slate-800 hover:bg-white/70"
+                          )}
+                        >
+                          <div className="absolute top-0 right-0 bg-amber-500 text-white font-black text-[6px] px-1 py-0.5 rounded-bl-md uppercase translate-x-[1px] translate-y-[-1px]">
+                            {isAr ? "توفير" : "Saver"}
+                          </div>
+                          <span className="text-[10px] font-black">{isAr ? "باكدج 3 أكواد" : "3-Codes Bundle"}</span>
+                          <span className="text-xs font-black text-[#FF4D2D] mt-0.5">120 <span className="text-[9px] font-bold">{isAr ? "ج.م" : "EGP"}</span></span>
+                        </button>
+                      </div>
+                      <p className="text-[9px] text-center font-bold text-slate-500 mt-1.5 leading-tight">
+                        {selectedPackage === "single"
+                          ? (isAr ? "تفعيل وتحميل كامل لسيرة ذاتية واحدة (كود تفعيل لمرة واحدة)" : "Unlocks premium exports for 1 single resume/CV")
+                          : (isAr ? "3 أكواد تفعيل مستقلة صالحة لمدة سنة كاملة لـ 3 سير ذاتية مختلفة!" : "3 independent premium codes valid for 1 full year")
+                        }
+                      </p>
                     </div>
                   </div>
 
@@ -607,7 +646,9 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                           ) : (
                             <div className="space-y-2">
                               <p className="text-xs text-slate-500 font-semibold leading-relaxed">
-                                {isAr ? "قم بتحويل 50 جنيه كاش إلى رقم محفظة فودافون كاش التالي:" : "Transfer exactly 50 EGP to this Vodafone Cash wallet:"}
+                                {isAr 
+                                  ? `قم بتحويل مبلّغ قدره ${selectedPackage === "single" ? "50" : "120"} جنيه كاش إلى رقم محفظة فودافون كاش التالي:` 
+                                  : `Transfer exactly ${selectedPackage === "single" ? "50" : "120"} EGP to this Vodafone Cash wallet:`}
                               </p>
                               <div className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm hover:border-[#FF4D2D]/40 transition-colors group">
                                 <span className="font-mono font-black text-sm text-slate-800 select-all flex-1 tracking-wider">01101007965</span>
