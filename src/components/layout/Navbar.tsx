@@ -39,6 +39,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   const navLinks = lang === 'ar'
     ? [
         { label: 'الميزات', href: '#features' },
+        { label: 'فحص ATS', href: '/#ats-check', badge: 'مجاني' },
         { label: 'الأسعار', href: '#pricing' },
         { label: 'كيف يعمل؟', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
@@ -46,12 +47,14 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
     : lang === 'fr'
     ? [
         { label: 'Fonctionnalités', href: '#features' },
+        { label: 'Test ATS', href: '/#ats-check', badge: 'GRATUIT' },
         { label: 'Tarifs', href: '#pricing' },
         { label: 'Comment ça marche', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
     : [
         { label: 'Features', href: '#features' },
+        { label: 'ATS Check', href: '/#ats-check', badge: 'FREE' },
         { label: 'Pricing', href: '#pricing' },
         { label: 'How it Works', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
@@ -78,7 +81,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
           {/* Center: Nav Links */}
           <div className="hidden md:flex items-center justify-center gap-2 flex-1 px-8">
             {navLinks.map((link) => (
-              link.href.startsWith('/') ? (
+              (link.href.startsWith('/') && !link.href.includes('#')) ? (
                 <Link
                   key={link.href}
                   to={link.href}
@@ -92,6 +95,15 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                       className="bg-[#FF4D2D] text-white text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-[#FF4D2D]/20"
                     >
                       {lang === 'ar' ? 'جديد' : 'NEW'}
+                    </motion.span>
+                  )}
+                  {link.badge && (
+                    <motion.span 
+                      animate={{ scale: [1, 1.05, 1] }} 
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="bg-[#10B981] text-white text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-[#10B981]/20"
+                    >
+                      {link.badge}
                     </motion.span>
                   )}
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF4D2D] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-center duration-300" />
@@ -110,6 +122,15 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                       className="bg-[#FF4D2D] text-white text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-[#FF4D2D]/20"
                     >
                       {lang === 'ar' ? 'جديد' : 'NEW'}
+                    </motion.span>
+                  )}
+                  {link.badge && (
+                    <motion.span 
+                      animate={{ scale: [1, 1.05, 1] }} 
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="bg-[#10B981] text-white text-[9px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none shadow-sm shadow-[#10B981]/20"
+                    >
+                      {link.badge}
                     </motion.span>
                   )}
                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#FF4D2D] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-center duration-300" />
@@ -194,9 +215,21 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="px-3 py-2.5 text-sm text-neutral-700 hover:text-neutral-900 rounded-lg hover:bg-neutral-50"
+                  className="px-3 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-900 rounded-lg hover:bg-slate-50 flex items-center justify-between gap-2"
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  <div className="flex items-center gap-1.5">
+                    {link.label.includes('Hash Hunt') && (
+                      <span className="bg-[#FF4D2D] text-white text-[8px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none">
+                        {lang === 'ar' ? 'جديد' : 'NEW'}
+                      </span>
+                    )}
+                    {link.badge && (
+                      <span className="bg-[#10B981] text-white text-[8px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none">
+                        {link.badge}
+                      </span>
+                    )}
+                  </div>
                 </a>
               ))}
               <div className="flex gap-2 mt-2 pt-3 border-t border-neutral-100">

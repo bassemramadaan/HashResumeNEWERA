@@ -249,7 +249,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
   };
 
   return (
-    <section className="py-24 bg-slate-50 border-t border-b border-slate-200/60 relative overflow-hidden" dir={isAr ? "rtl" : "ltr"}>
+    <section id="ats-check" className="py-24 bg-slate-50 border-t border-b border-slate-200/60 relative overflow-hidden" dir={isAr ? "rtl" : "ltr"}>
       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
 
       <div className="container-page relative z-10 max-w-4xl mx-auto px-4 text-center">
