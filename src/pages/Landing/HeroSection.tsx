@@ -5,8 +5,6 @@ import type { AppLang } from '@/hooks/useDirection'
 import { trackEvent } from '@/services/analytics'
 import { useNavigate } from 'react-router-dom'
 
-import LiveCounter from '@/components/LiveCounter'
-
 interface HeroSectionProps {
   lang: AppLang
   onStart: () => void
@@ -100,9 +98,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             <span className="text-slate-500 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.2] mt-2 block transform-gpu">{copy.title2}</span>
           </motion.h1>
 
-          <motion.div variants={item} className="mb-8 transform-gpu">
-            <LiveCounter />
-          </motion.div>
+
 
           <motion.p
             variants={item}

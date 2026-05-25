@@ -6,7 +6,7 @@ import {
 import { Link } from "react-router-dom";
 import { useResumeStore } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
-import Navbar from "../components/Navbar";
+import { Navbar } from "@/components/layout/Navbar";
 import { aiService } from "../services/aiService";
 import { cn } from "@/lib/utils";
 

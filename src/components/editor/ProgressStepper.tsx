@@ -1,4 +1,15 @@
 import React, { useState } from "react";
+import {
+  User,
+  Briefcase,
+  GraduationCap,
+  Star,
+  Rocket,
+  Award,
+  Plus,
+  FileText,
+  Download,
+} from "lucide-react";
 
 // ── Types ─────────────────────────────────────────────────
 type Locale = "ar" | "en" | "fr";
@@ -21,6 +32,18 @@ interface ProgressStepperProps {
   lang?: Locale;
   completionMap?: Record<string, number>;
 }
+
+const STEP_ICONS: Record<string, React.ElementType> = {
+  basics: User,
+  experience: Briefcase,
+  education: GraduationCap,
+  skills: Star,
+  projects: Rocket,
+  certifications: Award,
+  custom: Plus,
+  "cover-letter": FileText,
+  finish: Download,
+};
 
 // ── Steps definition ──────────────────────────────────────
 const STEPS: Record<Locale, Step[]> = {
@@ -208,13 +231,20 @@ function VerticalStepper({ steps, current, onStepClick, completionMap, isRtl }: 
             <div style={{ paddingBottom: isLast ? 0 : 16, paddingTop: 3 }}>
               <div style={{
                 fontSize:   13,
-                fontWeight: state === "active" ? 700 : 400,
+                fontWeight: state === "active" ? 600 : 500,
                 color:      labelColor(state),
                 cursor:     "pointer",
+                display:    "flex",
+                alignItems: "center",
+                gap:        6,
               }}
                 onClick={() => onStepClick?.(i)}
               >
-                {step.emoji} {step.label}
+                {(() => {
+                  const Icon = STEP_ICONS[step.id];
+                  return Icon ? <Icon size={14} style={{ opacity: state === "active" ? 1 : 0.6 }} /> : null;
+                })()}
+                <span>{step.label}</span>
               </div>
             </div>
           </div>
@@ -274,8 +304,12 @@ function MiniStepper({ steps, current, onNext, onPrev, isRtl, navLabels }: { ste
       {/* progress info */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 5 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#111" }}>
-            {step.emoji} {step.label}
+          <span style={{ fontSize: 13, fontWeight: 600, color: "#111", display: "flex", alignItems: "center", gap: 6 }}>
+            {(() => {
+              const Icon = STEP_ICONS[step.id];
+              return Icon ? <Icon size={14} className="text-[#FF4D2D]" /> : null;
+            })()}
+            <span>{step.label}</span>
           </span>
           <span style={{ fontSize: 12, color: "#999" }}>
             {current + 1} / {steps.length}

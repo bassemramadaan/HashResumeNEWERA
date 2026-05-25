@@ -3,7 +3,6 @@ import React, { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from "react-helmet-async";
 import PageLoader from "./components/PageLoader";
-import ExitIntentPopup from "./components/ExitIntentPopup";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const LandingPage = React.lazy(() => import("./pages/Landing"));
@@ -43,7 +42,6 @@ export default function App() {
               <Route path="/faq" element={<FAQPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
-            <ExitIntentPopup />
             <Analytics />
           </Suspense>
         </ErrorBoundary>

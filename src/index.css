@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Cairo:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@300;400;500;700;800&family=Syne:wght@400;500;600;700;800&family=Cairo:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @import "./styles/components.css";
 
@@ -42,9 +42,9 @@
   --color-info:          #1565C0;
 
   /* Typography */
-  --font-sans:   'DM Sans', 'Plus Jakarta Sans', 'Cairo', sans-serif;
+  --font-sans:   'Inter', 'Plus Jakarta Sans', sans-serif;
   --font-syne:   'Syne', sans-serif;
-  --font-arabic: 'Cairo', sans-serif;
+  --font-arabic: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
 
   /* Border radius */
   --radius-sm:   6px;
@@ -74,7 +74,8 @@ body {
 [dir="rtl"] body,
 [dir="rtl"] input,
 [dir="rtl"] textarea,
-[dir="rtl"] select {
+[dir="rtl"] select,
+[dir="rtl"] button {
   font-family: var(--font-arabic);
 }
 

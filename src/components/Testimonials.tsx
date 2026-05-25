@@ -128,52 +128,52 @@ export default function Testimonials() {
             return (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ delay: index * 0.08, duration: 0.5, ease: "easeOut" }}
-                className={`group flex flex-col justify-between p-6 sm:p-8 rounded-[2.5rem] bg-white border border-slate-200/60 transition-all duration-300 hover:border-[#FF4D2D]/30 shadow-xs hover:shadow-2xl hover:shadow-[#FF4D2D]/5 hover:-translate-y-1 relative overflow-hidden h-full ${
+                viewport={{ once: true, margin: "-55px" }}
+                transition={{ delay: index * 0.05, duration: 0.45, ease: "easeOut" }}
+                className={`group flex flex-col justify-between p-6 sm:p-7 rounded-2xl bg-white border border-slate-200/80 transition-all duration-300 hover:border-[#FF4D2D]/30 shadow-xs hover:shadow-xl hover:shadow-[#FF4D2D]/[0.02] hover:-translate-y-0.5 relative overflow-hidden h-full ${
                   isFeatured ? "md:col-span-1 lg:col-span-2 bg-gradient-to-br from-white via-white to-slate-50/20" : ""
                 }`}
               >
                 {/* Decorative Giant Background Quote Mark */}
-                <div className="absolute top-0 end-0 p-6 opacity-3 group-hover:opacity-[0.06] transition-all duration-500 transform group-hover:scale-110 group-hover:-rotate-12 select-none pointer-events-none">
-                  <Quote size={100} className="text-[#FF4D2D] rtl:-scale-x-100" />
+                <div className="absolute top-0 end-0 p-5 opacity-[0.02] group-hover:opacity-[0.04] transition-all duration-550 transform group-hover:scale-105 select-none pointer-events-none">
+                  <Quote size={80} className="text-[#FF4D2D] rtl:-scale-x-100" />
                 </div>
 
                 <div className="relative z-10 flex flex-col h-full justify-between">
                   <div>
                     {/* User profile layout group */}
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br flex items-center justify-center font-black text-white text-lg sm:text-xl border-2 border-white shrink-0 shadow-md ${avatarColor}`}>
+                    <div className="flex items-center gap-3.5 mb-5">
+                      <div className={`w-11 h-11 rounded-xl bg-gradient-to-br flex items-center justify-center font-bold text-white text-base border border-white shrink-0 shadow-xs ${avatarColor}`}>
                         {review.name.charAt(0)}
                       </div>
                       
                       <div className="min-w-0">
-                        <h4 className="font-black text-slate-950 text-base sm:text-lg leading-tight truncate">
+                        <h4 className="font-bold text-slate-900 text-sm sm:text-base leading-tight truncate">
                           {review.name}
                         </h4>
-                        <div className="text-xs text-slate-400 mt-1 font-bold truncate flex items-center gap-1">
+                        <div className="text-[11px] text-slate-400 mt-0.5 font-medium truncate">
                           <span>{review.role}</span>
                         </div>
                         
                         {/* Interactive golden rating list */}
-                        <div className="flex items-center gap-1 mt-1.5 flex-wrap">
-                          <div className="flex items-center">
+                        <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                          <div className="flex items-center gap-0.5">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                size={12}
+                                size={10}
                                 className="fill-amber-400 text-amber-400 group-hover:scale-110 transition-transform duration-200"
                               />
                             ))}
                           </div>
                           
                           {/* Success localization tag */}
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 border border-emerald-100/60 text-emerald-600 rounded-lg text-[10px] font-black truncate leading-none">
-                            <CheckCircle2 size={10} className="shrink-0" />
+                          <span className="inline-flex items-center gap-0.5 px-2 py-0.5 bg-emerald-50/70 border border-emerald-100/50 text-[#0F6E56] rounded-md text-[9px] font-semibold truncate leading-none">
+                            <CheckCircle2 size={8} className="shrink-0" />
                             <span>
-                              {language === "ar" ? `تم قبوله بـ: ${review.company.ar}` : `Hired at: ${review.company.en}`}
+                              {language === "ar" ? `${review.company.ar}` : `${review.company.en}`}
                             </span>
                           </span>
                         </div>
@@ -181,19 +181,19 @@ export default function Testimonials() {
                     </div>
 
                     {/* Highly-tuned readable Quote Paragraph */}
-                    <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-semibold transition-colors duration-300 group-hover:text-slate-900 border-l-2 rtl:border-l-0 rtl:border-r-2 border-slate-100 pl-3 rtl:pl-0 rtl:pr-3 mb-6">
+                    <p className="text-slate-650 text-xs sm:text-sm leading-relaxed font-normal transition-colors duration-300 group-hover:text-slate-950 border-l-2 rtl:border-l-0 rtl:border-r-2 border-slate-100 pl-3.5 rtl:pl-0 rtl:pr-3.5 mb-5">
                       "{review.text}"
                     </p>
                   </div>
 
                   {/* Trust Badge Footer */}
-                  <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400 font-bold">
+                  <div className="mt-auto pt-3.5 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-bold">
                     <span className="flex items-center gap-1 text-emerald-600">
-                      <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
-                      <span>{language === "ar" ? "مستخدم موثق" : "Verified professional"}</span>
+                      <CheckCircle2 size={11} className="text-emerald-500 shrink-0" />
+                      <span>{language === "ar" ? "رأي موثّق" : "Verified review"}</span>
                     </span>
                     <span className="flex items-center gap-0.5 text-[#FF4D2D] opacity-80 group-hover:opacity-100 transition-opacity">
-                      <Award size={12} className="shrink-0" />
+                      <Award size={11} className="shrink-0" />
                       <span>{language === "ar" ? "ممتاز 100%" : "Excellent 100%"}</span>
                     </span>
                   </div>
