@@ -1189,14 +1189,25 @@ export default function EditorPage() {
           onExportPDF={handleExportClick}
           onExportWord={() => handleProceedToExport("docx")}
           previewContent={
-            <div className="bg-white shadow-[0_0_40px_rgba(0,0,0,0.1)] rounded-[0.5rem] overflow-hidden mx-auto w-full relative h-[calc(100vh-140px)]" style={{ minHeight: "297mm", transform: 'scale(0.55)', transformOrigin: 'top center' }}>
-              <Suspense fallback={<FormLoader />}>
-                {previewMode === "cover-letter" ? <CoverLetterPreview /> : <ResumePreview ref={componentRef} />}
-              </Suspense>
+            <div className="w-full h-full overflow-y-auto overflow-x-hidden p-2 pb-16 scrollbar-none flex justify-center transform-gpu">
+              <div 
+                className="bg-white shadow-[0_4px_25px_rgba(0,0,0,0.06)] rounded-2xl border border-slate-150 overflow-hidden shrink-0 origin-top transform-gpu" 
+                style={{ 
+                  width: '100%',
+                  maxWidth: '380px',
+                  zoom: 0.62,
+                  WebkitUserSelect: 'none',
+                  minHeight: "297mm"
+                }}
+              >
+                <Suspense fallback={<FormLoader />}>
+                  {previewMode === "cover-letter" ? <CoverLetterPreview /> : <ResumePreview ref={componentRef} />}
+                </Suspense>
+              </div>
             </div>
           }
         >
-          <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full relative">
+          <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full overflow-y-auto pb-32 relative scroll-smooth scrollbar-none">
             {formContent}
           </main>
         </MobileEditorLayout>

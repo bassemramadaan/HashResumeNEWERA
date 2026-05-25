@@ -288,10 +288,10 @@ export default function MobileEditorLayout({
   const currentSection = sections.find(s => s.id === activeSection);
 
   return (
-    <div className="flex flex-col h-[100dvh] bg-slate-50 text-slate-800 select-none overflow-hidden" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="flex flex-col h-[100dvh] bg-slate-50 text-slate-800 overflow-hidden relative pb-[calc(76px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header ── */}
-      <header className="sticky top-0 z-50 bg-white border-b border-sans border-slate-200 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu">
+      <header className="sticky top-0 z-50 bg-white border-b border-sans border-slate-200 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 shadow-xs">
             <img 
@@ -316,7 +316,7 @@ export default function MobileEditorLayout({
       </header>
 
       {/* ── Main content area with fade animations ── */}
-      <main className="flex-1 overflow-y-auto w-full max-w-lg mx-auto scrollbar-none pb-28">
+      <main className="flex-1 overflow-hidden w-full max-w-lg mx-auto relative">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -324,12 +324,12 @@ export default function MobileEditorLayout({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.2 }}
-            className="h-full"
+            className="h-full w-full"
           >
             {activeTab === "edit" && (
-              <div className="h-full flex flex-col">
-                <div className="flex-1">{children}</div>
-                <div className="p-4 bg-white border-t border-slate-100 sticky bottom-0 z-10 transform-gpu">
+              <div className="h-full flex flex-col overflow-hidden relative">
+                <div className="flex-1 overflow-hidden relative">{children}</div>
+                <div className="p-4 bg-white border-t border-slate-150 shrink-0 select-none transform-gpu bg-white/95 backdrop-blur-md">
                   <ProgressStepper
                     variant="mini"
                     current={currentIndex}
@@ -341,28 +341,32 @@ export default function MobileEditorLayout({
               </div>
             )}
             {activeTab === "preview" && (
-              <div className="p-4 h-full">
+              <div className="h-full overflow-hidden relative">
                 {previewContent}
               </div>
             )}
             {activeTab === "sections" && (
-              <SectionsScreen
-                _lang={lang}
-                sections={sections}
-                activeSection={activeSection}
-                onSectionChange={handleSectionChange}
-                completionMap={completionMap}
-              />
+              <div className="h-full overflow-y-auto w-full scrollbar-none pb-4">
+                <SectionsScreen
+                  _lang={lang}
+                  sections={sections}
+                  activeSection={activeSection}
+                  onSectionChange={handleSectionChange}
+                  completionMap={completionMap}
+                />
+              </div>
             )}
             {activeTab === "export" && (
-              <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} />
+              <div className="h-full overflow-y-auto w-full scrollbar-none pb-4">
+                <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} />
+              </div>
             )}
           </motion.div>
         </AnimatePresence>
       </main>
 
       {/* ── Tactfully Designed Premium Bottom Navigation Bar ── */}
-      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-sans border-slate-200 px-4 py-2 pb-6 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu">
+      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-sans border-slate-200 px-4 py-2 pb-[calc(1.2rem+env(safe-area-inset-bottom,0px))] md:pb-4 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu select-none">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
           const IconComponent = tab.icon;
