@@ -267,16 +267,8 @@ function MiniStepper({ steps, current, onNext, onPrev, isRtl, navLabels }: { ste
       display:        "flex",
       alignItems:     "center",
       gap:            12,
-      padding:        "10px 16px",
-      background:     "rgba(250,250,248,0.97)",
-      borderTop:      "1px solid #E8E6DF",
-      backdropFilter: "blur(12px)",
       direction:      isRtl ? "rtl" : "ltr",
-      position:       "fixed",
-      bottom:         0,
-      left:           0,
-      right:          0,
-      zIndex:         1000,
+      width:          "100%",
     }}>
       {/* prev btn */}
       <button

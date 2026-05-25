@@ -293,13 +293,18 @@ export default function MobileEditorLayout({
       {/* ── Visual Mobile Header ── */}
       <header className="sticky top-0 z-50 bg-white border-b border-sans border-slate-200 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 shadow-xs">
+          <motion.div 
+            whileTap={{ scale: 0.92 }}
+            onClick={() => { window.location.href = "/"; }}
+            className="w-8 h-8 rounded-lg overflow-hidden shrink-0 shadow-xs cursor-pointer hover:opacity-85 transition-opacity"
+            title={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
+          >
             <img 
               src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
               alt="HashResume Logo" 
               className="w-full h-full object-contain" 
             />
-          </div>
+          </motion.div>
           <span className="text-sm font-black text-slate-800">
             {currentSection?.emoji} {currentSection?.label}
           </span>
