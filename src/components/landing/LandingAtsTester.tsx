@@ -4,7 +4,16 @@ import { motion, AnimatePresence } from "motion/react";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Configure PDFJS worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+try {
+  const version = pdfjsLib.version || "5.7.284";
+  const workerUrl = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
+  const blob = new Blob([`importScripts('${workerUrl}');`], { type: "application/javascript" });
+  pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(blob);
+} catch (e) {
+  console.warn("Setting up Blob worker failed, using static fallback:", e);
+  const version = pdfjsLib.version || "5.7.284";
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
+}
 
 interface Props {
   lang: "ar" | "en" | "fr";

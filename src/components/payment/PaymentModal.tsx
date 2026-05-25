@@ -489,66 +489,62 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               ) : (
                 <>
                   {/* Top Header Block */}
-                  <div className="flex flex-col items-center text-center mt-2 mb-6">
-                    <div className="relative p-2 bg-white rounded-2xl shadow-sm border border-slate-100 mb-3.5">
-                      <img src={LOGO_URL} alt="Hash Resume Logo" className="h-9 w-auto" loading="lazy" />
+                  <div className="flex flex-col items-center text-center mt-2 mb-5">
+                    <div className="relative p-1.5 bg-white rounded-xl shadow-xs border border-slate-150/40 mb-3 text-slate-500">
+                      <img src={LOGO_URL} alt="Hash Resume Logo" className="h-7 w-auto opacity-95" loading="lazy" />
                     </div>
                     
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-                      {isAr ? "تحميل السيرة الذاتية المهنية" : "Unlock Professional Export"}
+                    <h2 className="text-lg sm:text-xl font-semibold text-slate-800 tracking-tight">
+                      {isAr ? "تحميل وترقية السيرة الذاتية" : "Upgrade to Premium Export"}
                     </h2>
-                    <p className="text-slate-500 font-semibold text-xs mt-1 px-4 leading-relaxed">
+                    <p className="text-slate-400 font-medium text-[11px] mt-1 px-4 leading-normal">
                       {isAr 
-                        ? "تفعيل فوري لتنزيل وتحميل غير محدود (PDF / DOCX) بأعلى جودة وبدون أي علامة مائية" 
-                        : "Instant activation for unlimited downloads (PDF / DOCX) in high quality with no watermark"}
+                        ? "تحميل غير محدود وبأعلى جودة واجتياز تلقائي لأنظمة الـ ATS" 
+                        : "Pristine export status with automatic ATS system integration"}
                     </p>
                     
-                    {/* Dynamic Package switcher */}
-                    <div className="mt-4 w-full bg-gradient-to-r from-orange-50/50 to-amber-50/50 p-2.5 rounded-2xl border border-orange-100/70 shadow-xs max-w-sm">
-                      <p className="text-[10px] font-black uppercase text-orange-950/70 tracking-wider text-center mb-1.5 flex items-center justify-center gap-1">
-                        <Sparkles size={11} className="text-[#FF4D2D] shrink-0" />
-                        {isAr ? "اختر باقة التفعيل المناسبة لك" : "Select Your Plan Below"}
-                      </p>
-                      <div className="grid grid-cols-2 gap-2">
+                    {/* Simplified, Calmer Package Switcher */}
+                    <div className="mt-4 w-full bg-slate-50 p-2 rounded-2xl border border-slate-200/50 max-w-sm">
+                      <div className="grid grid-cols-2 gap-1.5">
                         <button
                           type="button"
                           onClick={() => { setSelectedPackage("single"); setError(""); }}
                           className={cn(
-                            "py-2 px-2.5 rounded-xl border transition-all duration-200 text-center flex flex-col items-center justify-center relative cursor-pointer",
+                            "py-2 py-2.5 rounded-xl border text-center flex flex-col items-center justify-center relative cursor-pointer transition-all duration-200",
                             selectedPackage === "single"
-                              ? "bg-white border-[#FF4D2D] shadow-sm text-slate-950"
-                              : "bg-white/45 border-orange-100/30 text-slate-500 hover:text-slate-800 hover:bg-white/70"
+                              ? "bg-white border-slate-350 shadow-xs text-slate-800"
+                              : "bg-transparent border-transparent text-slate-400 hover:text-slate-600"
                           )}
                         >
-                          <span className="text-[10px] font-black">{isAr ? "سيرة ذاتية واحدة" : "Single Code"}</span>
-                          <span className="text-xs font-black text-[#FF4D2D] mt-0.5">50 <span className="text-[9px] font-bold">{isAr ? "ج.م" : "EGP"}</span></span>
+                          <span className="text-[10px] font-semibold">{isAr ? "كود تحميل واحد" : "Single Code"}</span>
+                          <span className="text-xs font-semibold text-slate-755 mt-0.5">50 <span className="text-[9px] font-bold">{isAr ? "ج.م" : "EGP"}</span></span>
                         </button>
-
+ 
                         <button
                           type="button"
                           onClick={() => { setSelectedPackage("bundle"); setError(""); }}
                           className={cn(
-                            "py-2 px-2.5 rounded-xl border transition-all duration-200 text-center flex flex-col items-center justify-center relative cursor-pointer overflow-hidden",
+                            "py-2 py-2.5 rounded-xl border text-center flex flex-col items-center justify-center relative cursor-pointer overflow-hidden transition-all duration-200",
                             selectedPackage === "bundle"
-                              ? "bg-white border-amber-500 shadow-sm text-slate-950"
-                              : "bg-white/45 border-orange-100/30 text-slate-500 hover:text-slate-800 hover:bg-white/70"
+                              ? "bg-white border-slate-350 shadow-xs text-slate-800"
+                              : "bg-transparent border-transparent text-slate-400 hover:text-slate-600"
                           )}
                         >
-                          <div className="absolute top-0 right-0 bg-amber-500 text-white font-black text-[6px] px-1 py-0.5 rounded-bl-md uppercase translate-x-[1px] translate-y-[-1px]">
+                          <div className="absolute top-0 right-0 bg-slate-205 text-slate-600 font-bold text-[6px] px-1.5 py-0.5 rounded-bl uppercase">
                             {isAr ? "توفير" : "Saver"}
                           </div>
-                          <span className="text-[10px] font-black">{isAr ? "باكدج 3 أكواد" : "3-Codes Bundle"}</span>
-                          <span className="text-xs font-black text-[#FF4D2D] mt-0.5">120 <span className="text-[9px] font-bold">{isAr ? "ج.م" : "EGP"}</span></span>
+                          <span className="text-[10px] font-semibold">{isAr ? "باقة ٣ أكواد" : "3-Codes Package"}</span>
+                          <span className="text-xs font-semibold text-slate-755 mt-0.5">120 <span className="text-[9px] font-bold">{isAr ? "ج.م" : "EGP"}</span></span>
                         </button>
                       </div>
-                      <p className="text-[9px] text-center font-bold text-slate-500 mt-1.5 leading-tight">
+                      <p className="text-[9.5px] text-center font-medium text-slate-450 mt-1.5 leading-normal">
                         {selectedPackage === "single"
-                          ? (isAr ? "تفعيل وتحميل كامل لسيرة ذاتية واحدة (كود تفعيل لمرة واحدة)" : "Unlocks premium exports for 1 single resume/CV")
-                          : (isAr ? "3 أكواد تفعيل مستقلة صالحة لمدة سنة كاملة لـ 3 سير ذاتية مختلفة!" : "3 independent premium codes valid for 1 full year")
+                          ? (isAr ? "كود تفعيل لمرة واحدة لتحميل فوري ومعتمد لسيرة ذاتية واحدة" : "Unlocks premium exports for a single resume")
+                          : (isAr ? "٣ أكواد تفعيل مستقلة صالحة لمدة عام كامل لـ ٣ سير مختلفة!" : "3 independent premium activation codes valid for 1 year")
                         }
                       </p>
                     </div>
-
+ 
                     {/* Visual Voucher Representation */}
                     <div className="mt-4 w-full">
                       <VoucherTicket
@@ -557,9 +553,9 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                       />
                     </div>
                   </div>
-
+ 
                   {/* Redesigned Payment Method Tabs (Extremely Cohesive & Simplified) */}
-                  <div className="grid grid-cols-3 gap-2 bg-slate-50 p-1 rounded-2xl border border-slate-200/50 mb-6">
+                  <div className="grid grid-cols-3 gap-1 bg-slate-100/50 p-1 rounded-2xl border border-slate-200/50 mb-6">
                     {[
                       { id: "instapay", label: isAr ? "انستاباي" : "InstaPay", icon: Zap },
                       { id: "vodafone", label: isAr ? "فودافون كاش" : "Vodafone", icon: Smartphone },
@@ -572,14 +568,14 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                           key={item.id}
                           onClick={() => { setSelectedMethod(item.id as PaymentMethod); setError(""); }}
                           className={cn(
-                            "flex flex-col items-center justify-center py-2.5 px-1.5 rounded-xl text-center transition-all duration-200 cursor-pointer relative",
+                            "flex flex-col items-center justify-center py-2 px-1 rounded-xl text-center transition-all duration-200 cursor-pointer relative",
                             isSelected 
-                              ? "bg-white text-[#FF4D2D] shadow-[0_4px_12px_rgba(0,0,0,0.04)] border border-slate-200/40" 
-                              : "text-slate-500 hover:text-slate-800"
+                              ? "bg-white text-slate-800 shadow-xs border border-slate-200/40" 
+                              : "text-slate-400 hover:text-slate-600"
                           )}
                         >
-                          <Icon size={15} className={cn("mb-1 transition-transform duration-200", isSelected ? "text-[#FF4D2D] scale-110" : "text-slate-400")} />
-                          <span className="text-[10px] sm:text-[11px] font-black tracking-tight leading-none">
+                          <Icon size={14} className={cn("mb-1 transition-transform duration-200", isSelected ? "text-[#FF4D2D] scale-105" : "text-slate-400")} />
+                          <span className="text-[10px] sm:text-[11px] font-semibold tracking-tight leading-none animate-fade-in">
                             {item.label}
                           </span>
                         </button>
@@ -655,10 +651,10 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         {/* Transfer Guideline Card */}
                         <div className="bg-slate-50/70 rounded-2xl border border-slate-100 p-4 space-y-3">
                           <div className="flex items-center gap-2">
-                            <span className="inline-flex text-[9px] font-black px-2 py-0.5 rounded-full uppercase bg-orange-100 text-[#FF4D2D] border border-orange-200">
-                              {isAr ? "الخطوة 1" : "STEP 1"}
+                            <span className="inline-flex text-[9px] font-semibold px-2 py-0.5 rounded-md uppercase bg-slate-100 text-slate-600 border border-slate-205">
+                              {isAr ? "الخطوة ١" : "STEP 1"}
                             </span>
-                            <span className="text-xs font-bold text-slate-600">
+                            <span className="text-xs font-semibold text-slate-600 font-sans">
                               {isAr ? "أرسل مبلغ الدفع" : "Transfer Request"}
                             </span>
                           </div>
@@ -746,11 +742,11 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         {/* Step 2 Form details */}
                         <div className="space-y-3.5">
                           <div className="flex items-center gap-1.5">
-                            <span className="inline-flex text-[9px] font-black px-2 py-0.5 rounded-full uppercase bg-orange-100 text-[#FF4D2D] border border-orange-200">
-                              {isAr ? "الخطوة 2" : "STEP 2"}
+                            <span className="inline-flex text-[9px] font-semibold px-2 py-0.5 rounded-md uppercase bg-slate-100 text-slate-600 border border-slate-205">
+                              {isAr ? "الخطوة ٢" : "STEP 2"}
                             </span>
-                            <h4 className="text-xs font-black text-slate-700">
-                              {isAr ? "أدخل تفاصيل المعاملة للتأكيد الفوري والمطابقة" : "Confirm reference for verification"}
+                            <h4 className="text-xs font-semibold text-slate-600 font-sans">
+                              {isAr ? "أدخل تفاصيل المعاملة للمطابقة" : "Confirm reference for verification"}
                             </h4>
                           </div>
 
