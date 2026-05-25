@@ -45,6 +45,8 @@ import { DEFAULT_BREAKDOWN } from "../components/ATSScoreWidget";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import EditorSidebar from "../components/editor/EditorSidebar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
+import ResumePreview from "../components/preview/ResumePreview";
+import CoverLetterPreview from "../components/preview/CoverLetterPreview";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -65,10 +67,6 @@ const CoverLetterForm = lazy(
   () => import("../components/editor/CoverLetterForm"),
 );
 const FinishStep = lazy(() => import("../components/editor/FinishStep"));
-const ResumePreview = lazy(() => import("../components/preview/ResumePreview"));
-const CoverLetterPreview = lazy(
-  () => import("../components/preview/CoverLetterPreview"),
-);
 const PaymentModal = lazy(() => import("../components/payment/PaymentModal"));
 const PostDownloadModal = lazy(
   () => import("../components/payment/PostDownloadModal"),
