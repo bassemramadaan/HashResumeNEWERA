@@ -54,13 +54,13 @@ const SkillsForm = () => {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 transition-colors">
+      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 transition-colors">
         <form onSubmit={handleAdd} className="mb-6">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
               <label
                 htmlFor="skillInput"
-                className="block text-sm font-medium text-slate-700"
+                className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
               >
                 {String(t.skills?.title || "")}
               </label>
@@ -73,7 +73,7 @@ const SkillsForm = () => {
             <button
               type="button"
               onClick={() => setShowAISuggestions(!showAISuggestions)}
-              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors"
+              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
                           title={language === "ar" ? "اقتراح مهارات ذكية بناءً على بياناتك" : "Suggest smart skills based on your profile"}
             >
               <Sparkles size={14} />
@@ -116,13 +116,13 @@ const SkillsForm = () => {
               id="skillInput"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="flex-1 px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
+              className="flex-1 px-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={String(t.skills?.placeholder || "")}
             />
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-700 hover:to-cyan-700 disabled:from-slate-300 disabled:to-slate-300 disabled:text-white0 text-white px-4 py-2 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm shadow-indigo-500/20"
+              className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white px-5 py-3 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm cursor-pointer"
             >
               <Plus size={18} />
               <span className="hidden sm:inline">{String(t.skills?.add || "")}</span>

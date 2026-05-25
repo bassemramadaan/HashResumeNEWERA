@@ -105,19 +105,19 @@ const PersonalInfoForm = () => {
 
       <LinkedInImportModal isOpen={isLinkedInModalOpen} onClose={() => setIsLinkedInModalOpen(false)} />
 
-      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 font-sans transition-colors">
+      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 font-sans transition-colors">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <label
             htmlFor="fullName"
-            className="text-sm font-medium text-slate-700"
+            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
           >
             {t.fullName} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
               <User
-                className={`h-4 w-4 ${errors.fullName ? "text-rose-400" : "text-slate-500 "}`}
+                className={`h-4 w-4 ${errors.fullName ? "text-rose-450" : "text-slate-400"}`}
               />
             </div>
             <input
@@ -127,10 +127,10 @@ const PersonalInfoForm = () => {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400 ${
+              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
                 errors.fullName
-                  ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500"
-                  : "border-slate-200 "
+                  ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
+                  : "border-slate-200 hover:border-slate-300"
               }`}
               placeholder={t.fullName}
             />
@@ -148,14 +148,14 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="jobTitle"
-            className="text-sm font-medium text-slate-700"
+            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
           >
             {t.jobTitle} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
               <FileText
-                className={`h-4 w-4 ${errors.jobTitle ? "text-rose-400" : "text-slate-500 "}`}
+                className={`h-4 w-4 ${errors.jobTitle ? "text-rose-450" : "text-slate-400"}`}
               />
             </div>
             <input
@@ -165,10 +165,10 @@ const PersonalInfoForm = () => {
               value={personalInfo.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400 ${
+              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
                 errors.jobTitle
-                  ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500"
-                  : "border-slate-200 "
+                  ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
+                  : "border-slate-200 hover:border-slate-300"
               }`}
               placeholder={t.jobTitle}
             />
@@ -184,13 +184,13 @@ const PersonalInfoForm = () => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium text-slate-700">
+          <label htmlFor="email" className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
             {t.email} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
               <Mail
-                className={`h-4 w-4 ${errors.email ? "text-rose-400" : "text-slate-400 "}`}
+                className={`h-4 w-4 ${errors.email ? "text-rose-455" : "text-slate-400"}`}
               />
             </div>
             <input
@@ -200,10 +200,10 @@ const PersonalInfoForm = () => {
               value={personalInfo.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-2 border rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400 ${
+              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
                 errors.email
-                  ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500"
-                  : "border-slate-200 "
+                  ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
+                  : "border-slate-200 hover:border-slate-300"
               }`}
               placeholder={t.email}
             />
@@ -219,7 +219,7 @@ const PersonalInfoForm = () => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="phone" className="text-sm font-medium text-slate-700">
+          <label htmlFor="phone" className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
             {t.phone}
           </label>
           <div className="relative">
@@ -232,7 +232,7 @@ const PersonalInfoForm = () => {
               name="phone"
               value={personalInfo.phone}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.phone}
             />
           </div>
@@ -241,7 +241,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="address"
-            className="text-sm font-medium text-slate-700"
+            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
           >
             {t.address}
           </label>
@@ -255,7 +255,7 @@ const PersonalInfoForm = () => {
               name="address"
               value={personalInfo.address}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.address}
             />
           </div>
@@ -264,7 +264,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="linkedin"
-            className="text-sm font-medium text-slate-700"
+            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
           >
             {t.linkedin}
           </label>
@@ -278,7 +278,7 @@ const PersonalInfoForm = () => {
               name="linkedin"
               value={personalInfo.linkedin}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.linkedin}
             />
           </div>
@@ -287,7 +287,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="github"
-            className="text-sm font-medium text-slate-700"
+            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
           >
             {t.github}
           </label>
@@ -301,7 +301,7 @@ const PersonalInfoForm = () => {
               name="github"
               value={personalInfo.github || ""}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.github}
             />
           </div>
@@ -310,7 +310,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="portfolio"
-            className="text-sm font-medium text-slate-700"
+            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
           >
             {t.website}
           </label>
@@ -324,14 +324,14 @@ const PersonalInfoForm = () => {
               name="portfolio"
               value={personalInfo.portfolio || ""}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors bg-slate-50 text-slate-900 placeholder-slate-400"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-455 font-medium"
               placeholder={t.website}
             />
           </div>
         </div>
 
         {/* Middle East & GCC Recruitment Fields Collapsible */}
-        <div className="col-span-1 md:col-span-2 border border-dashed border-slate-200 hover:border-[#FF4D2D]/30 rounded-2xl p-4 transition-all bg-white/50">
+        <div className="col-span-1 md:col-span-2 border border-dashed border-slate-200 hover:border-[#FF4D2D]/35 rounded-2xl p-4 transition-all bg-white shadow-3xs">
           <button
             type="button"
             onClick={() => setShowGCCFields(!showGCCFields)}
@@ -370,7 +370,7 @@ const PersonalInfoForm = () => {
                     name="birthDate"
                     value={personalInfo.birthDate || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 focus:outline-none"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 focus:outline-none"
                   />
                 </div>
               </div>
@@ -389,7 +389,7 @@ const PersonalInfoForm = () => {
                     name="nationality"
                     value={personalInfo.nationality || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-400"
                     placeholder={language === "ar" ? "مثال: مصري، سعودي" : "e.g. Saudi, Egyptian"}
                   />
                 </div>
@@ -409,7 +409,7 @@ const PersonalInfoForm = () => {
                     name="maritalStatus"
                     value={personalInfo.maritalStatus || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: أعزل، متزوج" : "e.g. Single, Married"}
                   />
                 </div>
@@ -429,7 +429,7 @@ const PersonalInfoForm = () => {
                     name="visaStatus"
                     value={personalInfo.visaStatus || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: إقامة قابلة للنقل، مواطن" : "e.g. Transferable Iqama, Citizen"}
                   />
                 </div>
@@ -449,7 +449,7 @@ const PersonalInfoForm = () => {
                     name="militaryStatus"
                     value={personalInfo.militaryStatus || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: معفى، قدّم الخدمة" : "e.g. Exempted, Completed"}
                   />
                 </div>
@@ -469,7 +469,7 @@ const PersonalInfoForm = () => {
                     name="drivingLicense"
                     value={personalInfo.drivingLicense || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm bg-slate-50 text-slate-900 placeholder-slate-400"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: رخصة قيادة سعودية خاصة" : "e.g. Valid GCC Driving License"}
                   />
                 </div>
@@ -483,7 +483,7 @@ const PersonalInfoForm = () => {
             <div className="flex items-center gap-2">
               <label
                 htmlFor="summary"
-                className="text-sm font-medium text-slate-700"
+                className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
               >
                 {t.summary}
               </label>
@@ -496,7 +496,7 @@ const PersonalInfoForm = () => {
             <button
               type="button"
               onClick={() => setShowAISuggestions(!showAISuggestions)}
-              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors"
+              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
                           title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
             >
               <Sparkles size={14} />
@@ -525,7 +525,7 @@ const PersonalInfoForm = () => {
             rows={5}
             value={personalInfo.summary}
             onChange={handleChange}
-            className="block w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y bg-slate-50 text-slate-900 placeholder-slate-400 font-mono leading-relaxed"
+            className="block w-full p-4 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all resize-y bg-white text-slate-900 placeholder-slate-400 font-medium leading-relaxed"
             placeholder={t.summaryPlaceholder}
           />
           <div className="mt-2 text-[10px] text-slate-400 flex items-start sm:items-center justify-between gap-4 px-2 leading-tight flex-col sm:flex-row">
