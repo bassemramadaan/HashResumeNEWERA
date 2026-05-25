@@ -15,48 +15,48 @@ interface FeaturesSectionProps { lang: AppLang }
 
 const FEATURES = {
   ar: [
-    { icon: "bot", title: "ذكاء اصطناعي حقيقي", desc: "Gemini AI يكتب المحتوى المهني بأسلوبك — مش ترجمة حرفية من إنجليزي.", tag: "AI", tagColor: "text-[#FF4D2D]", tagBg: "bg-[#FF4D2D]/10", iconColor: "text-[#FF4D2D]", iconBg: "bg-[#FF4D2D]/5 border-[#FF4D2D]/10" },
-    { icon: "target", title: "ATS متوافق 100%", desc: "كل الـ templates مصممة تعدي أنظمة الفلترة الأوتوماتيكية عند أكبر الشركات.", tag: "مهم", tagColor: "text-emerald-700", tagBg: "bg-emerald-100", iconColor: "text-emerald-600", iconBg: "bg-emerald-50 border-emerald-100" },
-    { icon: "globe", title: "عربي • إنجليزي • فرنسي", desc: "RTL حقيقي للعربي — مش مجرد تعكيس للنص. الوحيد في السوق بيدعم الفرنسية.", tag: "حصري", tagColor: "text-indigo-700", tagBg: "bg-indigo-100", iconColor: "text-indigo-600", iconBg: "bg-indigo-50 border-indigo-100" },
-    { icon: "zap", title: "5 دقائق بدون تسجيل", desc: "مفيش account، مفيش email، مفيش انتظار. تبدأ دلوقتي وتنزّل PDF على طول.", tag: "سريع", tagColor: "text-amber-700", tagBg: "bg-amber-100", iconColor: "text-amber-600", iconBg: "bg-amber-50 border-amber-100" },
-    { icon: "file", title: "PDF + Word تصدير", desc: "نزّل بالصيغتين. كتير من أصحاب العمل في MENA بيطلبوا Word صريح.", tag: "مميز", tagColor: "text-blue-700", tagBg: "bg-blue-100", iconColor: "text-blue-600", iconBg: "bg-blue-50 border-blue-100" },
-    { icon: "lock", title: "خصوصية كاملة", desc: "بياناتك مش بتتخزن على سيرفراتنا. كل شيء بيشتغل في المتصفح بتاعك.", tag: "آمن", tagColor: "text-emerald-700", tagBg: "bg-emerald-100", iconColor: "text-emerald-600", iconBg: "bg-emerald-50 border-emerald-100" },
+    { icon: "bot", title: "ذكاء اصطناعي حقيقي", desc: "Gemini AI يكتب المحتوى المهني بأسلوبك وبلمسة احترافية فريدة.", tag: "ذكاء", tagColor: "text-indigo-600", tagBg: "bg-indigo-50", iconColor: "text-indigo-600", iconBg: "bg-indigo-50/50 border-indigo-100/40" },
+    { icon: "target", title: "ATS متوافق 100%", desc: "قوالب سحابية مهيأة بالكامل لتمرير فحص التوظيف الآلي.", tag: "ذكي", tagColor: "text-emerald-700", tagBg: "bg-emerald-50", iconColor: "text-emerald-600", iconBg: "bg-emerald-50 border-emerald-100" },
+    { icon: "globe", title: "دعم حقيقي للاتجاهات", desc: "توجيه حقيقي ورائع للغة العربية والإنجليزية RTL و LTR.", tag: "لغات", tagColor: "text-violet-700", tagBg: "bg-violet-50", iconColor: "text-violet-600", iconBg: "bg-violet-50 border-violet-100" },
+    { icon: "zap", title: "بدء فوري بلا تسجيل", desc: "لا حسابات أو كلمات مرور معقدة، ابدأ التحرير مباشرة ووفر وقتك.", tag: "سلس", tagColor: "text-amber-700", tagBg: "bg-amber-50", iconColor: "text-amber-600", iconBg: "bg-amber-50 border-amber-100" },
+    { icon: "file", title: "تصدير متكامل ورسمي", desc: "حمّل سيرتك بصيغة PDF نقية ومصقولة وجاهزة للتقديم المباشر.", tag: "تصدير", tagColor: "text-[#FF4D2D]", tagBg: "bg-[#FF4D2D]/5", iconColor: "text-[#FF4D2D]", iconBg: "bg-[#FF4D2D]/5 border-[#FF4D2D]/10" },
+    { icon: "lock", title: "خصوصية بياناتك أولاً", desc: "بياناتك آمنة، لا يتم تخزين تفاصيلك الشخصية أبداً على خوادم عامة.", tag: "آمن", tagColor: "text-rose-700", tagBg: "bg-rose-50", iconColor: "text-rose-600", iconBg: "bg-rose-50 border-rose-100" },
   ],
   en: [
-    { icon: "bot", title: "True AI", desc: "Gemini AI writes professional content in your style — not just literal translation.", tag: "AI", tagColor: "text-[#FF4D2D]", tagBg: "bg-[#FF4D2D]/10", iconColor: "text-[#FF4D2D]", iconBg: "bg-[#FF4D2D]/5 border-[#FF4D2D]/10" },
-    { icon: "target", title: "100% ATS Friendly", desc: "All templates are designed to pass automated filtering systems at top companies.", tag: "Important", tagColor: "text-emerald-700", tagBg: "bg-emerald-100", iconColor: "text-emerald-600", iconBg: "bg-emerald-50 border-emerald-100" },
-    { icon: "globe", title: "Arabic • English • French", desc: "True RTL for Arabic. We are the only platform supporting French natively.", tag: "Exclusive", tagColor: "text-indigo-700", tagBg: "bg-indigo-100", iconColor: "text-indigo-600", iconBg: "bg-indigo-50 border-indigo-100" },
-    { icon: "zap", title: "5 Mins, No Sign-up", desc: "No account, no email, no waiting. Start now and download PDF instantly.", tag: "Fast", tagColor: "text-amber-700", tagBg: "bg-amber-100", iconColor: "text-amber-600", iconBg: "bg-amber-50 border-amber-100" },
-    { icon: "file", title: "PDF + Word Export", desc: "Download in both formats. Many employers in MENA explicitly request Word.", tag: "Special", tagColor: "text-blue-700", tagBg: "bg-blue-100", iconColor: "text-blue-600", iconBg: "bg-blue-50 border-blue-100" },
-    { icon: "lock", title: "Complete Privacy", desc: "Your data is not stored on our servers. Everything runs entirely in your browser.", tag: "Secure", tagColor: "text-emerald-700", tagBg: "bg-emerald-100", iconColor: "text-emerald-600", iconBg: "bg-emerald-50 border-emerald-100" },
+    { icon: "bot", title: "True AI Engine", desc: "Gemini AI crafts rich professional content matched to your unique style.", tag: "AI", tagColor: "text-indigo-600", tagBg: "bg-indigo-50", iconColor: "text-indigo-600", iconBg: "bg-indigo-50/50 border-indigo-100/40" },
+    { icon: "target", title: "100% ATS Friendly", desc: "Meticulously structure elements to bypass recruitment parsing software.", tag: "Smart", tagColor: "text-emerald-700", tagBg: "bg-emerald-50", iconColor: "text-emerald-600", iconBg: "bg-emerald-50 border-emerald-100" },
+    { icon: "globe", title: "True Multilingual RTL", desc: "Perfect bi-directional handling, layout mirroring, and elegant fonts.", tag: "Global", tagColor: "text-violet-700", tagBg: "bg-violet-50", iconColor: "text-violet-600", iconBg: "bg-violet-50 border-violet-100" },
+    { icon: "zap", title: "Frictionless Onboarding", desc: "No email verification or accounts. Start writing your CV in seconds flat.", tag: "Fast", tagColor: "text-amber-700", tagBg: "bg-amber-50", iconColor: "text-amber-600", iconBg: "bg-amber-50 border-amber-100" },
+    { icon: "file", title: "Professional PDF Export", desc: "Perfect vectors and aligned layouts rendering accurately across devices.", tag: "Export", tagColor: "text-[#FF4D2D]", tagBg: "bg-[#FF4D2D]/5", iconColor: "text-[#FF4D2D]", iconBg: "bg-[#FF4D2D]/5 border-[#FF4D2D]/10" },
+    { icon: "lock", title: "Complete Privacy Mode", desc: "All client personal details reside strictly inside your immediate browser local state.", tag: "Secure", tagColor: "text-rose-700", tagBg: "bg-rose-50", iconColor: "text-rose-600", iconBg: "bg-rose-50 border-rose-100" },
   ],
   fr: [
-    { icon: "bot", title: "Vraie IA", desc: "L'IA Gemini rédige du contenu de façon professionnelle dans votre style.", tag: "IA", tagColor: "text-[#FF4D2D]", tagBg: "bg-[#FF4D2D]/10", iconColor: "text-[#FF4D2D]", iconBg: "bg-[#FF4D2D]/5 border-[#FF4D2D]/10" },
-    { icon: "target", title: "100% Compatible ATS", desc: "Tous les modèles sont conçus pour passer les systèmes de filtrage automatisés.", tag: "Important", tagColor: "text-emerald-700", tagBg: "bg-emerald-100", iconColor: "text-emerald-600", iconBg: "bg-emerald-50 border-emerald-100" },
-    { icon: "globe", title: "Arabe • Anglais • Français", desc: "Véritable RTL pour l'arabe. La seule plateforme qui gère parfaitement le français.", tag: "Exclusif", tagColor: "text-indigo-700", tagBg: "bg-indigo-100", iconColor: "text-indigo-600", iconBg: "bg-indigo-50 border-indigo-100" },
-    { icon: "zap", title: "5 Min, Sans Inscription", desc: "Pas de compte, ni d'email, ni d'attente. Commencez et téléchargez votre PDF.", tag: "Rapide", tagColor: "text-amber-700", tagBg: "bg-amber-100", iconColor: "text-amber-600", iconBg: "bg-amber-50 border-amber-100" },
-    { icon: "file", title: "Export PDF + Word", desc: "Téléchargez dans les deux formats. Pratique pour les employeurs qui demandent Word.", tag: "Spécial", tagColor: "text-blue-700", tagBg: "bg-blue-100", iconColor: "text-blue-600", iconBg: "bg-blue-50 border-blue-100" },
-    { icon: "lock", title: "Confidentialité totale", desc: "Vos données ne sont pas stockées. Tout s'exécute localement dans votre navigateur.", tag: "Sécurisé", tagColor: "text-emerald-700", tagBg: "bg-emerald-100", iconColor: "text-emerald-600", iconBg: "bg-emerald-50 border-emerald-100" },
+    { icon: "bot", title: "Moteur IA natif", desc: "Gemini IA génère du texte de CV de manière fluide et professionnelle.", tag: "IA", tagColor: "text-indigo-600", tagBg: "bg-indigo-50", iconColor: "text-indigo-600", iconBg: "bg-indigo-50/50 border-indigo-100/40" },
+    { icon: "target", title: "Compatible ATS à 100%", desc: "Prêt pour les portails de recrutement modernes sans aucune rupture.", tag: "Smart", tagColor: "text-emerald-700", tagBg: "bg-emerald-50", iconColor: "text-emerald-600", iconBg: "bg-emerald-50 border-emerald-100" },
+    { icon: "globe", title: "Multilingue et RTL", desc: "Gère l'arabe, le français et l'anglais avec de magnifiques polices adaptatives.", tag: "Global", tagColor: "text-violet-700", tagBg: "bg-violet-50", iconColor: "text-violet-600", iconBg: "bg-violet-50 border-violet-100" },
+    { icon: "zap", title: "Zéro barrière", desc: "Pas d'inscription ni d'e-mail requis pour commencer l'édition directe.", tag: "Rapide", tagColor: "text-amber-700", tagBg: "bg-amber-50", iconColor: "text-amber-600", iconBg: "bg-amber-50 border-amber-100" },
+    { icon: "file", title: "Exports de haute qualité", desc: "Vos PDF sont parfaitement lignés, propres et légers pour l'évaluation.", tag: "Export", tagColor: "text-[#FF4D2D]", tagBg: "bg-[#FF4D2D]/5", iconColor: "text-[#FF4D2D]", iconBg: "bg-[#FF4D2D]/5 border-[#FF4D2D]/10" },
+    { icon: "lock", title: "Données protégées", desc: "Vos informations restent locales à votre navigateur. Aucun compte requis.", tag: "Sécurisé", tagColor: "text-rose-700", tagBg: "bg-rose-50", iconColor: "text-rose-600", iconBg: "bg-rose-50 border-rose-100" },
   ],
 }
 
 const HEADINGS = {
-  ar: { label: 'كل اللي محتاجه', title: 'مش بس Resume Builder', subtitle: 'أدوات كاملة لمساعدتك تحصل على الوظيفة — من كتابة السيرة لحد ما تعدي الـ ATS' },
-  en: { label: 'Everything you need', title: 'Not just a Resume Builder', subtitle: 'Complete tools to help you land the job — from writing the CV to passing the ATS.' },
-  fr: { label: 'Tout ce dont vous avez besoin', title: 'Plus qu\'un créateur de CV', subtitle: 'Des outils complets pour décrocher le poste — de la rédaction à l\'optimisation ATS.' },
+  ar: { label: 'كل الأدوات الاحترافية', title: 'أكثر من مجرد صانع سيرة ذاتية', subtitle: 'طوّر سيرتك، نسّقها بدقة بالغة، واكسب ثقة مسؤولي التوظيف في دقائق.' },
+  en: { label: 'Smarter Tools', title: 'Not just a Resume Builder', subtitle: 'A cohesive ecosystem of advanced tools designed to help you land premium corporate jobs.' },
+  fr: { label: 'Plus performant', title: 'Plus qu\'un créateur de CV', subtitle: 'Une suite complète pour façonner, polir et propulser votre carrière.' },
 }
 
 const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 }
+    transition: { staggerChildren: 0.05 }
   }
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } }
 }
 
 export function FeaturesSection({ lang }: FeaturesSectionProps) {
@@ -64,17 +64,18 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
   const heading = HEADINGS[lang] || HEADINGS['en']
 
   return (
-    <section id="features" className="py-24 px-6 md:px-12 w-full bg-white select-none">
-      <div className="max-w-7xl mx-auto">
+    <section id="features" className="py-16 px-6 md:px-12 w-full bg-white select-none">
+      <div className="max-w-5xl mx-auto">
+        
         {/* Section Header */}
-        <div className="text-center mb-16 max-w-2xl mx-auto">
-          <span className="inline-block bg-[#FF4D2D]/10 text-[#FF4D2D] text-xs font-bold tracking-widest px-4 py-1.5 rounded-full mb-4 uppercase">
+        <div className="text-center mb-12 max-w-xl mx-auto">
+          <span className="inline-block bg-[#FF4D2D]/8 text-[#FF4D2D] text-xs font-bold tracking-wider px-3.5 py-1 rounded-full mb-3 uppercase">
             {heading.label}
           </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 mb-4 leading-tight">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-slate-950 mb-3 tracking-tight">
             {heading.title}
           </h2>
-          <p className="text-slate-500 text-lg leading-relaxed">
+          <p className="text-slate-550 text-[13px] sm:text-sm leading-relaxed font-medium">
             {heading.subtitle}
           </p>
         </div>
@@ -84,8 +85,8 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in duration-700"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
         >
           {currentFeatures.map((f, i) => (
             <FeatureCard key={i} {...f} />
@@ -111,27 +112,26 @@ function FeatureCard({ icon, title, desc, tag, tagColor, tagBg, iconColor, iconB
   return (
     <motion.div
       variants={itemVariants}
-      className="bg-white border border-slate-200/60 rounded-[1.25rem] p-6 transition-all duration-300 hover:border-[#FF4D2D]/30 hover:shadow-xl hover:shadow-[#FF4D2D]/5 hover:-translate-y-1 relative overflow-hidden group cursor-default"
+      className="bg-white border border-slate-150 rounded-2xl p-5 hover:border-indigo-500/15 shadow-3xs transition-all duration-300 relative overflow-hidden group hover:shadow-2xs"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#FF4D2D]/[0.01] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-      <div className="relative z-10 index-10">
-        <div className="flex items-start justify-between mb-5">
-          <div className={`w-12 h-12 rounded-2xl ${iconBg || 'bg-slate-50 border-slate-100'} border flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300 shadow-xs shrink-0`}>
-            {IconComponent && (
-              <IconComponent className={`w-5 h-5 ${iconColor || 'text-slate-700'}`} strokeWidth={2.4} />
-            )}
-          </div>
-          <span className={`text-[11px] font-bold px-3 py-1 rounded-full ${tagColor} ${tagBg}`}>
-            {tag}
-          </span>
+      <div className="flex items-start justify-between mb-4">
+        {/* Sleek Minimal Modern Icon container */}
+        <div className={`w-10 h-10 rounded-xl ${iconBg || 'bg-slate-50 border-slate-100'} border flex items-center justify-center shrink-0 shadow-3xs group-hover:scale-105 group-hover:rotate-1 transition-transform`}>
+          {IconComponent && (
+            <IconComponent className={`w-4.5 h-4.5 ${iconColor || 'text-slate-700'}`} strokeWidth={2.0} />
+          )}
         </div>
-        <h3 className="text-lg font-black text-slate-950 mb-2 group-hover:text-[#FF4D2D] transition-colors duration-300 leading-snug">
-          {title}
-        </h3>
-        <p className="text-slate-500 text-sm leading-relaxed font-semibold">
-          {desc}
-        </p>
+        <span className={`text-[9px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-md ${tagColor} ${tagBg}`}>
+          {tag}
+        </span>
       </div>
+      
+      <h3 className="text-[15px] font-bold text-slate-900 mb-1 leading-tight tracking-tight">
+        {title}
+      </h3>
+      <p className="text-slate-500 text-xs sm:text-[13px] leading-relaxed font-medium">
+        {desc}
+      </p>
     </motion.div>
   );
 }

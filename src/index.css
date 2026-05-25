@@ -254,4 +254,18 @@ body {
 [dir="rtl"] [data-font-family="mono"] *,
 [dir="rtl"][data-font-family="mono"] * { font-family: 'Tajawal', 'IBM Plex Sans Arabic', sans-serif !important; }
 
+/* ============================================================
+   INFINITE MARQUEE KEYFRAMES
+   ============================================================ */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0%); }
+}
+
+
 

@@ -1,178 +1,186 @@
 import React from "react";
 import { motion } from "motion/react";
-import { FileText, Sparkles, Download } from "lucide-react";
+import { FileText, Sparkles, Download, ArrowRight, ArrowLeft } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 
-const EditorMockup = () => (
-  <div className="w-full h-40 bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden flex flex-col">
-    <div className="h-8 border-b border-slate-100 bg-slate-50 flex items-center px-3 gap-1.5">
-       <div className="w-2 h-2 rounded-full bg-rose-300"></div>
-       <div className="w-2 h-2 rounded-full bg-amber-300"></div>
-       <div className="w-2 h-2 rounded-full bg-emerald-300"></div>
-    </div>
-    <div className="p-4 flex-1 flex flex-col gap-3">
-       <div className="flex gap-3 items-center">
-           <div className="w-10 h-10 rounded-full bg-slate-100 shrink-0"></div>
-           <div className="flex-1 space-y-2 py-1">
-             <motion.div 
-               initial={{ width: "20%" }} 
-               whileInView={{ width: "60%" }} 
-               transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }} 
-               className="h-2 bg-slate-200 rounded-full" 
-             />
-             <motion.div 
-               initial={{ width: "40%" }} 
-               whileInView={{ width: "80%" }} 
-               transition={{ duration: 1.5, delay: 0.2, repeat: Infinity, repeatType: "reverse" }} 
-               className="h-2 bg-slate-100 rounded-full" 
-             />
-           </div>
-       </div>
-       <div className="space-y-2 mt-3">
-         <div className="h-1.5 bg-slate-100 rounded-full w-full"></div>
-         <div className="h-1.5 bg-slate-100 rounded-full w-5/6"></div>
-         <div className="h-1.5 bg-slate-100 rounded-full w-4/6"></div>
-       </div>
-    </div>
-  </div>
-);
-
-const AIMockup = () => (
-  <div className="w-full h-40 bg-white rounded-xl shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] border border-slate-200 overflow-hidden relative flex items-center justify-center p-4">
-     <div className="w-full space-y-4">
-        <div className="h-2 bg-slate-100 rounded-full w-full"></div>
+const StepOneGraphics = () => (
+  <div className="relative w-full h-24 flex items-center justify-center overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-b from-indigo-50/20 to-transparent rounded-2xl" />
+    <motion.div 
+      initial={{ opacity: 0.8, scale: 0.95 }}
+      whileHover={{ scale: 1.02 }}
+      className="relative w-44 bg-white/85 backdrop-blur-md rounded-xl p-3 border border-slate-150 shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex flex-col gap-2"
+    >
+      <div className="flex gap-1.5 items-center">
+        <span className="w-1.5 h-1.5 rounded-full bg-slate-300" />
+        <span className="w-1.5 h-1.5 rounded-full bg-slate-200" />
+        <span className="w-1.5 h-1.5 rounded-full bg-slate-100" />
+      </div>
+      <div className="space-y-1.5">
         <motion.div 
-          initial={{ backgroundColor: "#f1f5f9" }}
-          whileInView={{ backgroundColor: "#f3e8ff", scale: 1.02 }}
-          transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-          className="h-3 rounded-xl w-5/6 relative py-1"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0, rotate: -45 }}
-            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 0.3, delay: 0.8, repeat: Infinity, repeatDelay: 3 }}
-            className="absolute -top-5 -right-3 text-purple-600 bg-white rounded-full p-1 shadow-sm border border-purple-100"
-          >
-             <Sparkles size={14} className="fill-purple-100" />
-          </motion.div>
-        </motion.div>
-        <div className="h-2 bg-slate-100 rounded-full w-4/6"></div>
-     </div>
+          animate={{ width: ["30%", "65%", "30%"] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="h-1.5 bg-indigo-600/10 rounded-full" 
+        />
+        <div className="h-1 bg-slate-100 rounded-full w-full" />
+        <div className="h-1 bg-slate-100 rounded-full w-5/6" />
+      </div>
+    </motion.div>
+    {/* Floating micro items */}
+    <motion.div 
+      animate={{ y: [0, -4, 0] }}
+      transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+      className="absolute right-[15%] bottom-[15%] w-6 h-6 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center shadow-3xs"
+    >
+      <FileText size={10} className="text-indigo-600" />
+    </motion.div>
   </div>
 );
 
-const DownloadMockup = () => (
-  <div className="w-full h-40 bg-emerald-50/50 border border-emerald-100 rounded-xl overflow-hidden relative flex flex-col items-center justify-center gap-4">
-     <motion.div 
-        initial={{ y: -30, opacity: 0 }}
-        whileInView={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 1 }}
-        className="w-16 h-20 bg-white shadow-md border border-slate-200 rounded-sm flex flex-col p-2 top-4 relative"
-     >
-        <div className="h-1.5 bg-emerald-500 rounded-full w-1/2 mb-3"></div>
-        <div className="space-y-1.5">
-          <div className="h-1 bg-slate-200 rounded-full w-full"></div>
-          <div className="h-1 bg-slate-200 rounded-full w-5/6"></div>
-          <div className="h-1 bg-slate-200 rounded-full w-4/6"></div>
-        </div>
-     </motion.div>
+const StepTwoGraphics = () => (
+  <div className="relative w-full h-24 flex items-center justify-center overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-b from-[#FF4D2D]/5 to-transparent rounded-2xl" />
+    <div className="relative w-44 bg-white/85 backdrop-blur-md rounded-xl p-3 border border-slate-150 shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex flex-col gap-2">
+      <div className="flex items-center justify-between">
+        <div className="h-1.5 bg-slate-100 rounded-full w-1/2" />
+        <Sparkles size={11} className="text-[#FF4D2D] fill-[#FF4D2D]/10 shrink-0" />
+      </div>
+      <div className="space-y-1.5 relative">
+        <motion.div 
+          animate={{ width: ["40%", "85%", "40%"] }}
+          transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          className="h-2 bg-gradient-to-r from-[#FF4D2D]/20 to-[#FF4D2D]/5 rounded-full relative"
+        />
+        <div className="h-1 bg-slate-100 rounded-full w-4/5" />
+      </div>
+    </div>
+    {/* Floating sparkle star wrapper */}
+    <motion.div 
+      animate={{ scale: [0.9, 1.1, 0.9], rotate: [0, 15, 0] }}
+      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      className="absolute left-[12%] top-[15%] text-[#FF4D2D] opacity-60"
+    >
+      <Sparkles size={14} />
+    </motion.div>
+  </div>
+);
+
+const StepThreeGraphics = () => (
+  <div className="relative w-full h-24 flex items-center justify-center overflow-hidden">
+    <div className="absolute inset-0 bg-gradient-to-b from-emerald-50/20 to-transparent rounded-2xl" />
+    <motion.div 
+      animate={{ y: [2, -2, 2] }}
+      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+      className="relative w-44 bg-white/85 backdrop-blur-md rounded-xl p-3 border border-slate-150 shadow-[0_4px_16px_rgba(0,0,0,0.03)] flex flex-col gap-2 items-center text-center justify-center"
+    >
+      <div className="w-7 h-7 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shadow-3xs mb-0.5">
+        <Download size={12} className="text-emerald-600" />
+      </div>
+      <div className="h-1.5 bg-emerald-500/15 rounded-full w-2/3" />
+    </motion.div>
+    {/* Clean circular radar effect */}
+    <div className="absolute w-12 h-12 rounded-full border border-emerald-500/10 animate-ping opacity-35" />
   </div>
 );
 
 export default function SimpleSteps() {
   const { language } = useLanguageStore();
-  const t = translations[language].landing;
+  const t = translations[language]?.landing ?? {};
 
   const steps = [
     {
       icon: FileText,
-      title: t.simpleStep1Title,
-      desc: t.simpleStep1Desc,
-      color: "text-[#FF4D2D]",
-      bg: "bg-white",
-      border: "border-slate-100",
-      mockup: <EditorMockup />,
+      title: t.simpleStep1Title || (language === "ar" ? "املأ بياناتك" : "Fill Details"),
+      desc: t.simpleStep1Desc || (language === "ar" ? "أدخل مهاراتك وخبراتك بسهولة في واجهة مرنة." : "Enter your experience and skills in a smooth dashboard."),
+      color: "text-indigo-600 bg-indigo-50 border-indigo-100",
+      graphics: <StepOneGraphics />,
     },
     {
       icon: Sparkles,
-      title: t.simpleStep2Title,
-      desc: t.simpleStep2Desc,
-      color: "text-[#FF4D2D]",
-      bg: "bg-white",
-      border: "border-slate-100",
-      mockup: <AIMockup />,
+      title: t.simpleStep2Title || (language === "ar" ? "حسّن سيرتك بالذكاء الاصطناعي" : "Optimize with AI"),
+      desc: t.simpleStep2Desc || (language === "ar" ? "بنقرة واحدة ارفع من جودة الصياغة لتبهر مسؤولي التوظيف." : "Rephrase sections using Gemini AI to sound highly professional."),
+      color: "text-[#FF4D2D] bg-[#FF4D2D]/5 border-[#FF4D2D]/10",
+      graphics: <StepTwoGraphics />,
     },
     {
       icon: Download,
-      title: t.simpleStep3Title,
-      desc: t.simpleStep3Desc,
-      color: "text-[#FF4D2D]",
-      bg: "bg-white",
-      border: "border-slate-100",
-      mockup: <DownloadMockup />,
+      title: t.simpleStep3Title || (language === "ar" ? "تنزيل فوري" : "Instant Export"),
+      desc: t.simpleStep3Desc || (language === "ar" ? "حمّل سيرتك الذاتية بصيغة PDF أنيقة جاهزة لتجاوز الـ ATS." : "Get an ATS-friendly, outstanding PDF format ready for jobs."),
+      color: "text-emerald-600 bg-emerald-50 border-emerald-100",
+      graphics: <StepThreeGraphics />,
     },
   ];
 
+  const isRtl = language === "ar";
+
   return (
-    <section className="py-24 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-slate-50/50 border-y border-slate-100 select-none">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8">
+        
+        {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-slate-900 font-display">
-            {t.howItWorksTitle}
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900 font-sans">
+            {t.howItWorksTitle || (language === "ar" ? "كيف يعمل؟" : "How it works?")}
           </h2>
+          <p className="text-slate-500 text-sm mt-2 max-w-sm mx-auto font-medium leading-relaxed">
+            {language === "ar" 
+              ? "خطوات بسيطة وسريعة جداً لصياغة مظهرك المهني وتجاوز أنظمة التوظيف." 
+              : "A simple and rapid workflow to build beautiful ATS-ready resumes."}
+          </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-8 md:gap-4 lg:gap-12 relative justify-center items-center md:items-stretch">
-          {/* Connecting Line is removed because we will use arrows instead for clearer direction */}
-
+        {/* Steps Grid */}
+        <div className="flex flex-col md:flex-row gap-6 md:gap-3 lg:gap-8 items-stretch justify-center relative">
+          
           {steps.map((step, index) => (
             <React.Fragment key={index}>
+              
+              {/* Card Container */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="relative z-10 flex flex-col items-center text-center group flex-1"
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="flex-1 bg-white border border-slate-150 rounded-2xl p-5 shadow-3xs flex flex-col justify-between group transition-all duration-300 hover:border-indigo-500/20 hover:shadow-2xs"
               >
-                <div className="w-full mb-8 transform transition-transform duration-500 group-hover:-translate-y-2">
-                  {step.mockup}
+                {/* Graphics Header */}
+                <div className="mb-4">
+                  {step.graphics}
                 </div>
-                <div
-                  className={`w-16 h-16 rounded-[1.5rem] ${step.bg} ${step.border} border-2 flex items-center justify-center mb-6 shadow-xl shadow-slate-200/50 relative overflow-hidden transition-all group-hover:scale-110`}
-                >
-                  <div className="absolute -top-1 -end-1 w-6 h-6 rounded-full bg-slate-900 border-2 border-white text-white flex items-center justify-center font-black text-[10px] shadow-sm z-20">
-                    {index + 1}
+
+                {/* Info Text Content */}
+                <div className="space-y-2 mt-2">
+                  <div className="flex items-center gap-2.5">
+                    {/* Compact Number Badge */}
+                    <div className="w-5 h-5 rounded-md bg-slate-900 text-white flex items-center justify-center font-bold text-[10px]">
+                      {index + 1}
+                    </div>
+                    
+                    <h3 className="font-bold text-slate-900 text-sm sm:text-base tracking-tight transition-colors group-hover:text-indigo-650">
+                      {step.title}
+                    </h3>
                   </div>
-                  <step.icon size={26} className={`${step.color} relative z-10`} strokeWidth={2.5} />
+                  <p className="text-slate-500 text-xs sm:text-[13px] leading-relaxed font-medium">
+                    {step.desc}
+                  </p>
                 </div>
-                <h3 className="text-xl font-black text-slate-900 mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-slate-600 max-w-[250px] leading-relaxed text-sm">{step.desc}</p>
               </motion.div>
 
-              {/* Directional Arrow between steps (only on Desktop) */}
+              {/* Seamless connecting arrow between elements */}
               {index < steps.length - 1 && (
-                <div className="hidden md:flex flex-col items-center justify-center text-slate-300 px-2 lg:px-4 mt-[100px] gap-2">
-                  <motion.div
-                    animate={{ x: language === 'ar' ? [-5, 0, -5] : [5, 0, 5] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    {language === 'ar' ? (
-                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 text-[#FF4D2D]">
-                        <path d="M19 12H5M5 12L12 19M5 12L12 5" />
-                      </svg>
-                    ) : (
-                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60 text-[#FF4D2D]">
-                        <path d="M5 12h14M19 12l-7-7M19 12l-7 7" />
-                      </svg>
-                    )}
-                  </motion.div>
+                <div className="hidden md:flex items-center justify-center shrink-0 text-slate-300 transform self-center z-10 px-1">
+                  {isRtl ? (
+                    <ArrowLeft size={16} className="text-indigo-500/40" />
+                  ) : (
+                    <ArrowRight size={16} className="text-indigo-500/40" />
+                  )}
                 </div>
               )}
+
             </React.Fragment>
           ))}
+
         </div>
       </div>
     </section>
