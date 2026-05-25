@@ -54,7 +54,7 @@ const SkillsForm = () => {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 transition-colors">
+      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 transition-colors">
         <form onSubmit={handleAdd} className="mb-6">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2">
@@ -122,7 +122,7 @@ const SkillsForm = () => {
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-300 text-white px-5 py-3 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-95 shadow-sm cursor-pointer"
+              className="bg-indigo-650 hover:bg-indigo-700 disabled:bg-slate-200 text-white px-5 py-3 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-95 shadow-sm cursor-pointer"
             >
               <Plus size={18} />
               <span className="hidden sm:inline">{String(t.skills?.add || "")}</span>
@@ -131,9 +131,9 @@ const SkillsForm = () => {
 
           {/* Smart Auto-Complete Suggested Skills based on Job Title */}
           {personalInfo.jobTitle && (
-            <div className="mt-3 bg-indigo-50/40 p-3 rounded-xl border border-indigo-100/40">
-              <h4 className="text-[11px] font-bold text-slate-600 mb-2 flex items-center gap-1.5">
-                <Sparkles size={11} className="text-indigo-500" />
+            <div className="mt-3 bg-indigo-50/30 p-3 rounded-xl border border-indigo-150/40">
+              <h4 className="text-[11px] font-bold text-slate-650 mb-2 flex items-center gap-1.5">
+                <Sparkles size={11} className="text-indigo-550" />
                 {language === "ar" 
                   ? `مهارات ذكية مقترحة لمجال (${personalInfo.jobTitle}) - اضغط للإضافة:`
                   : `Smart suggestions for (${personalInfo.jobTitle}) - click to insert:`}
@@ -186,12 +186,12 @@ const SkillsForm = () => {
           )}
         </form>
 
-        <div className="mb-8">
-          <h3 className="text-sm font-medium text-slate-500 mb-4">
-            {String(t.skills?.yourSkills || "")}
+        <div className="mb-6">
+          <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wider block mb-4">
+            {String(t.skills?.yourSkills || "Your Skills")}
           </h3>
           {skills.length === 0 ? (
-            <p className="text-sm text-slate-500 italic">
+            <p className="text-xs text-slate-500 italic font-medium">
               {String(t.skills?.noSkills || "")}
             </p>
           ) : (
@@ -201,12 +201,12 @@ const SkillsForm = () => {
                 return (
                 <span
                   key={skillName}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 text-slate-800 text-sm font-medium group transition-colors"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-150 text-slate-700 hover:text-slate-900 text-xs sm:text-sm font-semibold transition-all shadow-3xs hover:border-slate-300 group"
                 >
                   {skillName}
                   <button
                     onClick={() => removeSkill(skill)}
-                    className="text-slate-500 hover:text-red-500 focus:outline-none transition-colors"
+                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-0.5 rounded-md focus:outline-none transition-all cursor-pointer"
                     aria-label={`Remove ${skillName}`}
                   >
                     <X size={14} />
@@ -220,10 +220,10 @@ const SkillsForm = () => {
 
         {/* ATS Hint */}
         {jobDescription && matchResults && (
-          <div className="mb-8 text-xs flex items-start gap-2 p-4 bg-slate-50 rounded-xl border border-slate-100">
+          <div className="mb-6 text-xs flex items-start gap-2 p-3 bg-slate-50/70 rounded-xl border border-slate-150">
             <AlertCircle size={14} className="text-amber-500 shrink-0 mt-0.5" />
             <div className="text-slate-600">
-              <span className="font-semibold text-slate-700">{String(t.experience?.atsHint || "")}: </span>
+              <span className="font-semibold text-slate-705">{String(t.experience?.atsHint || "")}: </span>
               {matchResults.missing.length > 0 ? (
                 <>
                   {String(t.skills?.tryAddingKeywords || "")}{" "}
@@ -242,7 +242,7 @@ const SkillsForm = () => {
 
         {unaddedSuggestions.length > 0 && (
           <div>
-            <h3 className="text-sm font-medium text-slate-500 mb-4 flex items-center gap-2">
+            <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wider block mb-4 flex items-center gap-2">
               <Sparkles size={14} className="text-indigo-500" />
               {String(t.skills?.aiSuggestionsFree || "")}
             </h3>
@@ -250,20 +250,19 @@ const SkillsForm = () => {
               {unaddedSuggestions.map((skill) => {
                 const skillName = typeof skill === 'string' ? skill : skill.name;
                 return (
-                <button
-                  key={skillName}
-                  onClick={() => addSkill(skill)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-200 text-sm font-medium transition-colors"
-                >
-                  <Plus size={14} />
-                  {skillName}
-                </button>
+                  <button
+                    key={skillName}
+                    onClick={() => addSkill(skill)}
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 text-slate-650 hover:bg-indigo-50/60 hover:text-indigo-700 hover:border-indigo-200 text-xs sm:text-sm font-semibold transition-all shadow-3xs cursor-pointer"
+                  >
+                    <Plus size={14} className="text-indigo-500" />
+                    {skillName}
+                  </button>
                 );
               })}
             </div>
           </div>
-        )
-}
+        )}
       </div>
     </div>
   );

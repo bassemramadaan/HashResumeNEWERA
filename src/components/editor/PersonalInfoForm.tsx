@@ -105,7 +105,7 @@ const PersonalInfoForm = () => {
 
       <LinkedInImportModal isOpen={isLinkedInModalOpen} onClose={() => setIsLinkedInModalOpen(false)} />
 
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 font-sans transition-colors">
+      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 font-sans transition-colors">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <label

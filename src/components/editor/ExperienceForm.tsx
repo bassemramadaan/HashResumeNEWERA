@@ -72,7 +72,7 @@ const ExperienceForm = () => {
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-slate-50 text-slate-600 hover:bg-slate-100 px-4 py-2 rounded-xl text-sm font-medium transition-colors border border-slate-200"
+          className="flex items-center gap-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 px-4 py-2.5 rounded-xl text-sm font-bold transition-all border border-indigo-100 cursor-pointer shadow-3xs active:scale-95"
         >
           <Plus size={16} />
           {String(t.experience?.add || "")}
@@ -80,7 +80,7 @@ const ExperienceForm = () => {
       </div>
 
       {experience.length === 0 ? (
-        <div className="bg-slate-50 p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500">
+        <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500 shadow-3xs">
           {String(t.experience?.noExperience || "")}
         </div>
       ) : (
@@ -94,17 +94,17 @@ const ExperienceForm = () => {
             <Reorder.Item
               key={exp.id}
               value={exp}
-              className="bg-slate-50 rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-all"
+              className="bg-white rounded-2xl shadow-sm border border-slate-150 overflow-hidden transition-all"
             >
               <div
-                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50 transition-colors"
+                className="p-4 md:p-6 flex items-center justify-between cursor-pointer hover:bg-slate-50/50 transition-colors"
                 onClick={() =>
                   setExpandedId(expandedId === exp.id ? null : exp.id)
                 }
               >
                 <div className="flex items-center gap-4">
                   <div
-                    className="cursor-grab active:cursor-grabbing p-1 text-slate-500 hover:text-slate-600"
+                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <GripVertical size={20} />
@@ -126,7 +126,7 @@ const ExperienceForm = () => {
                       const { id: _id, ...rest } = exp;
                       addExperience(rest);
                     }}
-                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors shrink-0"
+                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors shrink-0 cursor-pointer"
                     title={String(t.experience?.duplicate || "")}
                   >
                     <Copy size={18} />
@@ -136,7 +136,7 @@ const ExperienceForm = () => {
                       e.stopPropagation();
                       removeExperience(exp.id);
                     }}
-                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0 cursor-pointer"
                     title={String(t.experience?.remove || "")}
                   >
                     <Trash2 size={18} />
@@ -152,10 +152,10 @@ const ExperienceForm = () => {
               </div>
 
               {expandedId === exp.id && (
-                <div className="p-4 md:p-6 border-t border-slate-100 bg-slate-50/50 space-y-4">
+                <div className="p-4 md:p-6 border-t border-slate-150 bg-white space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-slate-700">
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                         {String(t.experience?.position || "")}
                       </label>
                       <input
@@ -164,12 +164,12 @@ const ExperienceForm = () => {
                         onChange={(e) =>
                           updateExperience(exp.id, { position: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
                         placeholder={String(t.experience?.position || "")}
                       />
                     </div>
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-slate-700">
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                         {String(t.experience?.company || "")}
                       </label>
                       <input
@@ -178,12 +178,12 @@ const ExperienceForm = () => {
                         onChange={(e) =>
                           updateExperience(exp.id, { company: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
                         placeholder={String(t.experience?.company || "")}
                       />
                     </div>
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-slate-700">
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                         {String(t.experience?.startDate || "")}
                       </label>
                       <input
@@ -194,11 +194,11 @@ const ExperienceForm = () => {
                             startDate: e.target.value,
                           })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium"
                       />
                     </div>
-                    <div className="space-y-1.5">
-                      <label className="text-xs font-medium text-slate-700">
+                    <div className="space-y-2">
+                      <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                         {String(t.experience?.endDate || "")}
                       </label>
                       <input
@@ -207,14 +207,14 @@ const ExperienceForm = () => {
                         onChange={(e) =>
                           updateExperience(exp.id, { endDate: e.target.value })
                         }
-                        className="block w-full px-4 py-2 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors placeholder-slate-400"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-455"
                         placeholder={String(t.experience?.endDate || "")}
                       />
                     </div>
-                    <div className="col-span-1 md:col-span-2 space-y-1.5">
+                    <div className="col-span-1 md:col-span-2 space-y-2 border-t border-slate-100 pt-4 mt-2">
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
-                          <label className="text-xs font-medium text-slate-700">
+                          <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                             {String(t.experience?.description || "")}
                           </label>
                           <SectionTooltip
@@ -230,7 +230,7 @@ const ExperienceForm = () => {
                               showAISuggestionFor === exp.id ? null : exp.id,
                             )
                           }
-                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors"
+                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
                           title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
                         >
                           <Sparkles size={14} />
@@ -262,15 +262,15 @@ const ExperienceForm = () => {
                               description: e.target.value,
                             })
                           }
-                          className="block w-full p-4 border border-slate-200 bg-slate-50 text-slate-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-colors resize-y placeholder-slate-400 font-mono leading-relaxed"
+                          className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all resize-y placeholder-slate-450 font-medium leading-relaxed"
                           placeholder={String(t.experience?.descriptionPlaceholder || "")}
                         />
 
                         {/* Smart Auto-Complete Duties Based on Position */}
                         {exp.position && (
-                          <div className="mt-3 bg-slate-100/60 p-3 rounded-xl border border-slate-200/50">
+                          <div className="mt-3 bg-slate-50/60 p-3 rounded-xl border border-slate-200/50">
                             <h4 className="text-[11px] font-bold text-slate-600 mb-2 flex items-center gap-1.5 align-middle">
-                              <Sparkles size={11} className="text-indigo-505" />
+                              <Sparkles size={11} className="text-indigo-500" />
                               {language === "ar" 
                                 ? `مهام مقترحة ومصاغة لوظيفة (${exp.position}) - اضغط للإضافة وسد الفجوات:`
                                 : `Suggested duties for (${exp.position}) - click to insert to close ATS gaps:`}
@@ -380,13 +380,13 @@ const ExperienceForm = () => {
 
                       {/* ATS Hint */}
                       {jobDescription && matchResults && (
-                        <div className="mt-2 text-xs flex items-start gap-2 p-2 bg-slate-50 rounded-lg border border-slate-100">
+                        <div className="mt-2 text-xs flex items-start gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
                           <AlertCircle
                             size={14}
                             className="text-amber-500 shrink-0 mt-0.5"
                           />
                           <div className="text-slate-600">
-                            <span className="font-semibold text-slate-700">
+                            <span className="font-semibold text-slate-705">
                               {String(t.experience?.atsHint || "")}:{" "}
                             </span>
                             {matchResults.missing.length > 0 ? (

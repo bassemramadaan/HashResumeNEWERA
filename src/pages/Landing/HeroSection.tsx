@@ -113,20 +113,20 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                 trackEvent('resume_started', { source: 'hero_cta' });
                 onStart();
               }}
-              className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white shadow-xl shadow-orange-500/20 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-transform"
+              className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white shadow-xl shadow-orange-500/20 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
               aria-label={copy.cta}
             >
-              <Sparkles className="w-5 h-5" />
+              <Sparkles className="w-5 h-5 animate-pulse" />
               {copy.cta}
             </button>
 
             <button
               onClick={() => navigate('/templates')}
-              className="bg-white border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50 active:scale-95 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-transform"
+              className="bg-white border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 active:scale-95 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
             >
-              <LayoutTemplate className="w-5 h-5" />
+              <LayoutTemplate className="w-5 h-5 text-slate-505" />
               {copy.ctaSec}
-              <ArrowLeft className="w-5 h-5 rtl:rotate-180" />
+              <ArrowLeft className="w-5 h-5 text-slate-450 rtl:rotate-180" />
             </button>
           </motion.div>
 
