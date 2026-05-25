@@ -33,7 +33,7 @@ const SkillsForm = () => {
   const { language } = useLanguageStore();
   const t = translations[language].editor;
   const { data, addSkill, removeSkill } = useResumeStore();
-  const { skills, jobDescription } = data;
+  const { skills, jobDescription, personalInfo } = data;
   const [inputValue, setInputValue] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
 

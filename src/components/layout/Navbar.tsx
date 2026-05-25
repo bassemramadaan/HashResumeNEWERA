@@ -38,24 +38,24 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
 
   const navLinks = lang === 'ar'
     ? [
-        { label: 'الميزات', href: '#features' },
+        { label: 'الميزات', href: '/#features' },
         { label: 'فحص ATS', href: '/#ats-check', badge: 'مجاني' },
-        { label: 'الأسعار', href: '#pricing' },
+        { label: 'الأسعار', href: '/#pricing' },
         { label: 'كيف يعمل؟', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
     : lang === 'fr'
     ? [
-        { label: 'Fonctionnalités', href: '#features' },
+        { label: 'Fonctionnalités', href: '/#features' },
         { label: 'Test ATS', href: '/#ats-check', badge: 'GRATUIT' },
-        { label: 'Tarifs', href: '#pricing' },
+        { label: 'Tarifs', href: '/#pricing' },
         { label: 'Comment ça marche', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
     : [
-        { label: 'Features', href: '#features' },
+        { label: 'Features', href: '/#features' },
         { label: 'ATS Check', href: '/#ats-check', badge: 'FREE' },
-        { label: 'Pricing', href: '#pricing' },
+        { label: 'Pricing', href: '/#pricing' },
         { label: 'How it Works', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
@@ -210,28 +210,56 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             className="md:hidden overflow-hidden border-t border-neutral-100 bg-white"
           >
             <div className="container-page py-4 flex flex-col gap-1">
-              {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="px-3 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-900 rounded-lg hover:bg-slate-50 flex items-center justify-between gap-2"
-                >
-                  <span>{link.label}</span>
-                  <div className="flex items-center gap-1.5">
-                    {link.label.includes('Hash Hunt') && (
-                      <span className="bg-[#FF4D2D] text-white text-[8px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none">
-                        {lang === 'ar' ? 'جديد' : 'NEW'}
-                      </span>
-                    )}
-                    {link.badge && (
-                      <span className="bg-[#10B981] text-white text-[8px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none">
-                        {link.badge}
-                      </span>
-                    )}
-                  </div>
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const isInternal = link.href.startsWith('/') && !link.href.includes('#');
+                if (isInternal) {
+                  return (
+                    <Link
+                      key={link.href}
+                      to={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="px-3 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-900 rounded-lg hover:bg-slate-50 flex items-center justify-between gap-2"
+                    >
+                      <span>{link.label}</span>
+                      <div className="flex items-center gap-1.5">
+                        {link.label.includes('Hash Hunt') && (
+                          <span className="bg-[#FF4D2D] text-white text-[8px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none">
+                            {lang === 'ar' ? 'جديد' : 'NEW'}
+                          </span>
+                        )}
+                        {link.badge && (
+                          <span className="bg-[#10B981] text-white text-[8px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none">
+                            {link.badge}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                  );
+                } else {
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="px-3 py-2.5 text-sm font-semibold text-slate-700 hover:text-slate-900 rounded-lg hover:bg-slate-50 flex items-center justify-between gap-2"
+                    >
+                      <span>{link.label}</span>
+                      <div className="flex items-center gap-1.5">
+                        {link.label.includes('Hash Hunt') && (
+                          <span className="bg-[#FF4D2D] text-white text-[8px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none">
+                            {lang === 'ar' ? 'جديد' : 'NEW'}
+                          </span>
+                        )}
+                        {link.badge && (
+                          <span className="bg-[#10B981] text-white text-[8px] uppercase font-bold px-1.5 py-0.5 rounded-md leading-none">
+                            {link.badge}
+                          </span>
+                        )}
+                      </div>
+                    </a>
+                  );
+                }
+              })}
               <div className="flex gap-2 mt-2 pt-3 border-t border-neutral-100">
                 {LANGS.map((l) => (
                   <button
