@@ -92,6 +92,7 @@
   "overrides": {
     "undici": "^6.21.0",
     "minimatch": "^10.0.0",
-    "picomatch": "^4.0.0"
+    "picomatch": "^4.0.0",
+    "node-domexception": "file:./mocks/node-domexception"
   }
 }

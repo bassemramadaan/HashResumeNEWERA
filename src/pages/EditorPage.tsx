@@ -319,6 +319,12 @@ export default function EditorPage() {
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [showProgressTracker, setShowProgressTracker] = useState(false);
+  const [exportStatus, setExportStatus] = useState<{
+    show: boolean;
+    step: number;
+    format: "pdf" | "docx" | "txt";
+  } | null>(null);
+  const [overflowLines, setOverflowLines] = useState(0);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{
     type: "load" | "clear";
@@ -473,6 +479,28 @@ export default function EditorPage() {
   const handleUndo = () => useResumeStore.temporal?.getState().undo();
   const handleRedo = () => useResumeStore.temporal?.getState().redo();
 
+  // Real-time Page Overflow Detector
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (componentRef.current) {
+        const height = componentRef.current.scrollHeight;
+        const pageHeight = 1125; // A4 height limit at 96 DPI
+        if (height > pageHeight) {
+          const lines = Math.max(1, Math.round((height - pageHeight) / 22));
+          setOverflowLines(lines);
+        } else {
+          setOverflowLines(0);
+        }
+      }
+    };
+    const timer = setTimeout(checkOverflow, 400);
+    const interval = setInterval(checkOverflow, 2000);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [data]);
+
   // Show welcome modal if not seen
   useEffect(() => {
     if (!hasSeenOnboarding && !showWelcomeModal) {
@@ -533,14 +561,28 @@ export default function EditorPage() {
       return;
     }
 
+    setExportStatus({ show: true, step: 0, format });
+
+    // Helper to simulate elegant delays to give sense of premium craftsmanship
+    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
     if (format === "pdf") {
       try {
+        setExportStatus({ show: true, step: 1, format }); // "Formatting margins & aligning..."
+        await sleep(1000);
+
+        setExportStatus({ show: true, step: 2, format }); // "Optimizing premium typography..."
+        await sleep(1000);
+
         const htmlContent = componentRef.current?.innerHTML;
         const styles = Array.from(
           document.head.querySelectorAll('style, link[rel="stylesheet"]'),
         )
           .map((el) => el.outerHTML)
           .join("\n");
+
+        setExportStatus({ show: true, step: 3, format }); // "Assembling PDF stream..."
+        await sleep(1000);
 
         const response = await fetch("/api/pdf/generate", {
           method: "POST",
@@ -555,6 +597,9 @@ export default function EditorPage() {
 
         if (!response.ok) throw new Error("PDF generation failed");
 
+        setExportStatus({ show: true, step: 4, format }); // "Finalizing file encoding..."
+        await sleep(600);
+
         const blob = await response.blob();
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
@@ -564,6 +609,10 @@ export default function EditorPage() {
         
         useResumeStore.getState().lockResume();
 
+        setExportStatus({ show: true, step: 5, format }); // "SUCCESS!"
+        await sleep(1200);
+
+        setExportStatus(null);
         setShowPostDownloadModal(true);
         setTimeout(() => setShowFeedbackModal(true), 2000);
       } catch (err) {
@@ -571,24 +620,47 @@ export default function EditorPage() {
           "Server PDF Generation Failed. Falling back to client-side. Error:",
           err,
         );
+        setExportStatus(null);
         handlePrint();
         useResumeStore.getState().lockResume();
       }
     } else if (format === "docx") {
-      generateWord(useResumeStore.getState().data);
-      useResumeStore.getState().lockResume();
+      try {
+        setExportStatus({ show: true, step: 1, format });
+        await sleep(800);
+        setExportStatus({ show: true, step: 3, format });
+        await sleep(800);
+        generateWord(useResumeStore.getState().data);
+        useResumeStore.getState().lockResume();
+        setExportStatus({ show: true, step: 5, format });
+        await sleep(1000);
+        setExportStatus(null);
+      } catch (e) {
+        console.error("Word gen err:", e);
+        setExportStatus(null);
+      }
     } else if (format === "txt") {
-      const data = useResumeStore.getState().data;
-      const text = `${data.personalInfo.fullName}\\n${data.personalInfo.email}\\n${data.personalInfo.phone}\\n\\nEXPERIENCE\\n${data.experience
-        .map((exp) => `${exp.position} at ${exp.company}\\n${exp.description}`)
-        .join("\\n\\n")}`;
-      const blob = new Blob([text], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${data.personalInfo.fullName || "resume"}.txt`;
-      link.click();
-      useResumeStore.getState().lockResume();
+      try {
+        setExportStatus({ show: true, step: 1, format });
+        await sleep(550);
+        const data = useResumeStore.getState().data;
+        const text = `${data.personalInfo.fullName}\n${data.personalInfo.email}\n${data.personalInfo.phone}\n\nEXPERIENCE\n${data.experience
+          .map((exp) => `${exp.position} at ${exp.company}\n${exp.description}`)
+          .join("\n\n")}`;
+        const blob = new Blob([text], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${data.personalInfo.fullName || "resume"}.txt`;
+        link.click();
+        useResumeStore.getState().lockResume();
+        setExportStatus({ show: true, step: 5, format });
+        await sleep(1000);
+        setExportStatus(null);
+      } catch (e) {
+        console.error("Txt gen err:", e);
+        setExportStatus(null);
+      }
     }
   };
 
@@ -1338,6 +1410,48 @@ export default function EditorPage() {
               </div>
             </div>
 
+            {/* Page Overflow Indicator Alert banner */}
+            <AnimatePresence>
+              {overflowLines > 0 && previewMode === "resume" && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="mx-6 mt-16 mb-[-3.5rem] relative z-20 bg-amber-50 border border-amber-200 text-amber-950 rounded-2xl p-4 shadow-md flex items-center justify-between gap-4"
+                  dir={language === "ar" ? "rtl" : "ltr"}
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-xl shrink-0">⚠️</span>
+                    <div className="space-y-0.5 animate-pulse">
+                      <p className="text-xs font-black">
+                        {language === "ar"
+                          ? `سيرتك الذاتية تتجاوز الصفحة الواحدة بحوالي ${overflowLines} أسطر!`
+                          : `Your CV exceeds one page by about ${overflowLines} lines!`}
+                      </p>
+                      <p className="text-[10px] text-amber-800 leading-normal font-medium">
+                        {language === "ar"
+                          ? "نوصي بتفعيل ميزة \"الاحتواء الموفر للمساحة\" لضغط الهوامش وتقليل الحجم ذكياً تلقائياً."
+                          : "Apply our compact custom margin and spacing configuration to seamlessly fit content into exactly 1 page."}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      useResumeStore.getState().updateSettings({
+                        fontSize: "small",
+                        lineHeight: "compact",
+                        sectionSpacing: "compact",
+                        marginSize: "compact"
+                      });
+                    }}
+                    className="shrink-0 bg-amber-600 hover:bg-amber-700 hover:shadow text-white font-extrabold text-[10px] px-3 py-1.5 rounded-xl transition-all cursor-pointer shadow-sm active:scale-95 whitespace-nowrap"
+                  >
+                    {language === "ar" ? "احتواء ذكي ✨" : "Fit to 1 Page ✨"}
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-neutral-100/50">
               <div
                 className={cn(
@@ -1685,6 +1799,66 @@ export default function EditorPage() {
                         : "Yes, Clear"}
                     </button>
                   </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
+        {/* Interactive Export Progress Indicator */}
+        <AnimatePresence>
+          {exportStatus && exportStatus.show && (
+            <div className="fixed inset-0 z-[120] flex items-center justify-center bg-zinc-950/80 backdrop-blur-md p-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                className="bg-white rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.4)] w-full max-w-sm overflow-hidden border border-slate-100 p-8 text-center space-y-6"
+              >
+                {/* Visual loader matching premium look */}
+                <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
+                  <div className="absolute inset-0 rounded-full border-4 border-indigo-100" />
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                    className="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent"
+                  />
+                  <span className="text-xl font-black text-indigo-600">
+                    {Math.min(100, exportStatus.step * 20)}%
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  <h3 className="text-lg font-black text-slate-800">
+                    {language === "ar" ? "جاري تحضير ملفك الفاخر 🌍" : "Preparing Your Premium Document 🌍"}
+                  </h3>
+                  <p className="text-xs text-slate-500 leading-normal max-w-xs mx-auto">
+                    {language === "ar"
+                      ? "جاري تنسيق الهوامش والخطوط وإجراء فحص مطابقة نظام الـ ATS الآلي..."
+                      : "Formatting margins, applying custom spacing rules, and running real-time ATS keyword matching calculations..."}
+                  </p>
+                </div>
+
+                {/* Animated progress checklist */}
+                <div className="space-y-2.5 text-start bg-slate-50 p-4 rounded-xl border border-slate-100 max-w-sm mx-auto">
+                  {[
+                    { id: 1, ar: "جاري ضبط الهوامش الاستراتيجية والمسافات...", en: "Configuring page margins & boundaries..." },
+                    { id: 2, ar: "جاري تحسين مظهر الخطوط الفاخرة للطباعة...", en: "Optimizing premium typography & sizes..." },
+                    { id: 3, ar: "جاري دمج الكلمات المفتاحية لمطابقة الـ ATS...", en: "Aligning structure with parsing targets..." },
+                    { id: 4, ar: "جاري تصدير وتشييد ملف الـ PDF النهائي...", en: "Rendering and compiling document stream..." },
+                    { id: 5, ar: "تم التصدير بنجاح! جاري التنزيل...", en: "Ready! Starting download..." }
+                  ].map((item) => {
+                    const isActive = exportStatus.step === item.id;
+                    const isCompleted = exportStatus.step > item.id;
+                    return (
+                      <div key={item.id} className="flex items-center gap-3 text-xs" dir={language === "ar" ? "rtl" : "ltr"}>
+                        <span className={`w-2 h-2 rounded-full ${isCompleted ? "bg-emerald-500" : isActive ? "bg-indigo-600 animate-ping" : "bg-slate-300"}`} />
+                        <span className={isCompleted ? "text-slate-400 line-through font-medium" : isActive ? "text-indigo-900 font-extrabold" : "text-slate-500 font-medium"}>
+                          {language === "ar" ? item.ar : item.en}
+                        </span>
+                      </div>
+                    );
+                  })}
                 </div>
               </motion.div>
             </div>

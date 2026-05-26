@@ -37,6 +37,7 @@ const ExperienceForm = () => {
   const [showAISuggestionFor, setShowAISuggestionFor] = useState<string | null>(
     null,
   );
+  const [aiSuggestionType, setAiSuggestionType] = useState<"improve" | "verbs">("improve");
 
   const matchResults = useMemo(() => getJobMatchResults(data), [data]);
 
@@ -223,19 +224,47 @@ const ExperienceForm = () => {
                             example={String(t.experience?.experienceExample || "")}
                           />
                         </div>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setShowAISuggestionFor(
-                              showAISuggestionFor === exp.id ? null : exp.id,
-                            )
-                          }
-                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
-                          title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
-                        >
-                          <Sparkles size={14} />
-                          {language === "ar" ? "تحسين بالذكاء الاصطناعي" : "Improve with AI"}
-                        </button>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          {/* Standard AI Improve */}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAiSuggestionType("improve");
+                              setShowAISuggestionFor(
+                                showAISuggestionFor === exp.id && aiSuggestionType === "improve" ? null : exp.id,
+                              );
+                            }}
+                            className={`text-xs font-bold flex items-center gap-1 px-3 py-1.5 rounded-full transition-colors cursor-pointer ${
+                              showAISuggestionFor === exp.id && aiSuggestionType === "improve"
+                                ? "bg-indigo-600 text-white"
+                                : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
+                            }`}
+                            title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
+                          >
+                            <Sparkles size={12} />
+                            {language === "ar" ? "تحسين بالذكاء الاصطناعي" : "Improve with AI"}
+                          </button>
+
+                          {/* Strong Action Verbs (ATS) Optimizer */}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setAiSuggestionType("verbs");
+                              setShowAISuggestionFor(
+                                showAISuggestionFor === exp.id && aiSuggestionType === "verbs" ? null : exp.id,
+                              );
+                            }}
+                            className={`text-xs font-bold flex items-center gap-1 px-3 py-1.5 rounded-full transition-colors cursor-pointer ${
+                              showAISuggestionFor === exp.id && aiSuggestionType === "verbs"
+                                ? "bg-amber-600 text-white"
+                                : "bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200/50"
+                            }`}
+                            title={language === "ar" ? "استبدل الأفعال الضعيفة بأفعال حركة قوية لـ ATS" : "Replace weak verbs with powerful action verbs for ATS"}
+                          >
+                            <Sparkles size={12} className="text-amber-500" />
+                            {language === "ar" ? "مُحسِّن أفعال ATS ⚡" : "ATS Action Verbs ⚡"}
+                          </button>
+                        </div>
                       </div>
 
                       {showAISuggestionFor === exp.id && (
@@ -249,6 +278,17 @@ const ExperienceForm = () => {
                               setShowAISuggestionFor(null);
                             }}
                             context={`Job Title: ${exp.position}, Company: ${exp.company}`}
+                            promptOverride={
+                              aiSuggestionType === "verbs"
+                                ? `You are an expert ATS optimization advisor and professional copywriter.
+Analyze the following work experience tasks/bullet points and rewrite them to replace weak, passive or soft verbs (such as 'helped with', 'worked on', 'made sure', 'joined', 'did', 'responsible for', 'شارك في', 'عملت على', 'ساعدت في') into powerful, metric-oriented, industry-respected strong active verbs (such as 'engineered', 'spearheaded', 'pioneered', 'formulated', 'orchestrated', 'streamlined', 'catalyzed', 'maximized', 'طوّرت', 'قُدت', 'ابتكرت', 'حسّنت', 'أطلقت', 'وجّهت').
+Maintain the exact technical scope of the task, but dramatically enhance authority, action-oriented impact, and ATS keywords parser density.
+Language: ${language === "ar" ? "Arabic" : language === "fr" ? "French" : "English"}.
+
+Current description: "${exp.description}"
+Provide ONLY the improved bullet points (representing the optimized block), without any markdown decorators or wrapper codeblocks. Just return the clean text lines.`
+                                : undefined
+                            }
                           />
                         </div>
                       )}

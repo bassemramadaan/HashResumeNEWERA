@@ -446,7 +446,7 @@ export default React.memo(function SettingsForm() {
             </div>
 
             {/* Font Family */}
-            <div className="space-y-2">
+            <div className="space-y-2 col-span-1 md:col-span-2">
               <label className="text-sm font-bold text-slate-700 block">
                 {settings.language === "ar" ? "نوع الخط الفاخر" : "Premium Font"}
               </label>
@@ -460,6 +460,59 @@ export default React.memo(function SettingsForm() {
                 <option value="serif">{settings.language === "ar" ? "الكلاسيكي (Serif)" : "Classic (Serif)"}</option>
                 <option value="mono">{settings.language === "ar" ? "التقني (Mono)" : "Technical (Mono)"}</option>
               </select>
+
+              {/* Interactive Visual Font Cards */}
+              <div className="mt-3">
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">
+                  {settings.language === "ar" ? "معاينة بصرية حية للخطوط المختارة" : "Active Typography Preview"}
+                </label>
+                <div className="grid grid-cols-3 gap-2.5">
+                  {[
+                    {
+                      id: "inter",
+                      name: settings.language === "ar" ? "حديث / Sans" : "Modern / Sans",
+                      fontClass: "font-sans",
+                      previewText: "A1 abc",
+                      previewAr: "الاسم الكامل"
+                    },
+                    {
+                      id: "serif",
+                      name: settings.language === "ar" ? "كلاسيكي / Serif" : "Classic / Serif",
+                      fontClass: "font-serif",
+                      previewText: "A1 abc",
+                      previewAr: "الاسم الكامل"
+                    },
+                    {
+                      id: "mono",
+                      name: settings.language === "ar" ? "تقني / Mono" : "Tech / Mono",
+                      fontClass: "font-mono",
+                      previewText: "A1 abc",
+                      previewAr: "الاسم الكامل"
+                    }
+                  ].map((f) => (
+                    <button
+                      key={f.id}
+                      type="button"
+                      onClick={() => updateSettings({ fontFamily: f.id as any })}
+                      className={cn(
+                        "p-2.5 rounded-xl border text-start transition-all cursor-pointer relative overflow-hidden",
+                        settings.fontFamily === f.id
+                          ? "border-orange-500 bg-orange-50/55 ring-2 ring-orange-400/25"
+                          : "border-slate-200 hover:border-slate-300 bg-white"
+                      )}
+                    >
+                      <div className="text-[10px] font-bold text-slate-500 mb-1 truncate">{f.name}</div>
+                      <div className={cn("space-y-0.5 pointer-events-none leading-none", f.fontClass)}>
+                        <div className="text-sm font-black text-slate-900">{f.previewText}</div>
+                        <div className="text-xs text-slate-800 font-medium">{f.previewAr}</div>
+                      </div>
+                      {settings.fontFamily === f.id && (
+                        <div className="absolute top-1 end-1 w-1.5 h-1.5 rounded-full bg-orange-500" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
