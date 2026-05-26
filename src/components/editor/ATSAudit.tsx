@@ -8,6 +8,7 @@ import {
   Activity,
   Target,
   Wand2,
+  Check
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../../utils/ats";
@@ -18,259 +19,279 @@ export default function ATSAudit() {
   const { language } = useLanguageStore();
   const t = translations[language].atsAudit;
   const { personalInfo } = data;
+  const isAr = language === "ar";
 
   const { score, sections } = useMemo(() => calculateATSScore(data), [data]);
   const isEmpty = score === 0 && !personalInfo.fullName;
 
   if (isEmpty) {
     return (
-      <div className="space-y-6 font-sans">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-            <Target className="text-indigo-500" size={24} />
-            {t.title}
-          </h2>
-        </div>
-        <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 text-center transition-colors">
-          <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors ring-1 ring-slate-900/5">
-            <Activity className="text-slate-500" size={32} />
+      <div className="space-y-6 font-sans max-w-4xl mx-auto" dir={isAr ? "rtl" : "ltr"}>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center border border-orange-100 shadow-xs">
+            <Target className="text-orange-500" size={20} />
           </div>
-          <h3 className="text-xl font-bold text-slate-900 mb-2">
-            {t.noDataTitle}
-          </h3>
-          <p className="text-white0 max-w-md mx-auto">{t.noDataDesc}</p>
+          <div>
+            <h2 className="text-xl font-bold text-slate-950">{t.title}</h2>
+            <p className="text-[11px] text-slate-500 font-medium">HashResume Automated Intelligence</p>
+          </div>
+        </div>
+
+        <div className="bg-white p-8 md:p-14 rounded-3xl border border-slate-200/70 text-center space-y-5 shadow-sm">
+          <div className="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto ring-1 ring-slate-100">
+            <Activity className="text-slate-400 animate-pulse" size={24} />
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-lg font-black text-slate-900">{t.noDataTitle}</h3>
+            <p className="text-xs text-slate-500 leading-relaxed max-w-sm mx-auto">{t.noDataDesc}</p>
+          </div>
         </div>
       </div>
     );
   }
 
-  const getScoreColor = (s: number) => {
-    if (s >= 80) return "text-indigo-500";
-    if (s >= 50) return "text-yellow-500";
-    return "text-red-500";
+  // Visual status markers matching premium tone
+  const getScoreVerdict = (s: number) => {
+    if (s >= 85) return { text: isAr ? "سيرة مثالية وجاهزة!" : "Highly Optimized", color: "text-emerald-600 bg-emerald-50 border-emerald-150" };
+    if (s >= 65) return { text: isAr ? "جيدة وتحتاج تحسين طفيف" : "Needs Adjustments", color: "text-amber-600 bg-amber-50 border-amber-150" };
+    return { text: isAr ? "تحتاج إعادة هيكلة" : "Critical Optimization Required", color: "text-rose-600 bg-rose-50 border-rose-150" };
   };
 
+  const scoreVerdict = getScoreVerdict(score);
+
   return (
-    <div className="space-y-6 font-sans">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-          <Target className="text-indigo-500" size={24} />
-          {t.title}
-        </h2>
+    <div className="space-y-8 font-sans max-w-5xl mx-auto" dir={isAr ? "rtl" : "ltr"}>
+      
+      {/* Title Header area */}
+      <div className="flex items-center justify-between border-b border-slate-100 pb-5">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-xs">
+            <Target className="text-indigo-600 animate-pulse" size={20} />
+          </div>
+          <div>
+            <h2 className="text-xl font-black text-slate-900 leading-tight">
+              {t.title}
+            </h2>
+            <p className="text-[10px] text-slate-500 font-extrabold uppercase tracking-wider">
+              {isAr ? "تحليل فوري قبل تفعيل التصدير" : "Instance diagnostic before lock"}
+            </p>
+          </div>
+        </div>
+        
+        <div className={`px-3 py-1.5 rounded-full border text-[11px] font-bold flex items-center gap-1.5 ${scoreVerdict.color}`}>
+          <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping" />
+          <span>{scoreVerdict.text}</span>
+        </div>
       </div>
 
-      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 transition-colors">
-        {/* Score Header */}
-        <div className="flex flex-col md:flex-row items-center gap-8 mb-10 pb-10 border-b border-slate-100">
-          <div className="relative flex items-center justify-center shrink-0 w-40 h-40">
-            <svg className="w-40 h-40 transform -rotate-90 absolute inset-0">
-              <defs>
-                <linearGradient
-                  id="score-gradient"
-                  x1="0%"
-                  y1="0%"
-                  x2="100%"
-                  y2="0%"
-                >
-                  <stop
-                    offset="0%"
-                    className="text-indigo-600"
-                    stopColor="currentColor"
-                  />
-                  <stop
-                    offset="100%"
-                    className="text-cyan-600"
-                    stopColor="currentColor"
-                  />
-                </linearGradient>
-              </defs>
+      {/* Main Core Score Dashboard Panel */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        
+        {/* Metric gauge Card */}
+        <div className="lg:col-span-4 bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs flex flex-col items-center justify-center text-center space-y-5 relative overflow-hidden">
+          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-indigo-500 to-orange-500" />
+          
+          <div className="relative flex items-center justify-center w-36 h-36">
+            <svg className="w-full h-full transform -rotate-90 absolute inset-0">
               <circle
-                cx="80"
-                cy="80"
-                r="70"
+                cx="72"
+                cy="72"
+                r="62"
                 stroke="currentColor"
-                strokeWidth="12"
+                strokeWidth="10"
                 fill="transparent"
-                className="text-slate-100 transition-colors"
+                className="text-slate-100"
               />
               <circle
-                cx="80"
-                cy="80"
-                r="70"
-                stroke={score >= 80 ? "url(#score-gradient)" : "currentColor"}
-                strokeWidth="12"
+                cx="72"
+                cy="72"
+                r="62"
+                stroke="currentColor"
+                strokeWidth="10"
                 fill="transparent"
-                strokeDasharray={440}
-                strokeDashoffset={440 - (440 * score) / 100}
+                strokeDasharray={390}
+                strokeDashoffset={390 - (390 * Math.min(score, 100)) / 100}
                 className={cn(
-                  "transition-all duration-1000 ease-out",
-                  score < 80 ? getScoreColor(score) : "",
+                  "transition-all duration-1000 ease-out text-indigo-600"
                 )}
               />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span
-                className={cn(
-                  "text-5xl font-black tracking-tighter",
-                  score >= 80
-                    ? "bg-gradient-to-r from-indigo-600 to-cyan-600 bg-clip-text text-transparent"
-                    : getScoreColor(score),
-                )}
-              >
+              <span className="text-4xl font-extrabold tracking-tight text-slate-900 leading-none">
                 {score}
               </span>
-              <span className="text-sm font-bold text-slate-500 uppercase tracking-widest mt-1">
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
                 {t.scoreOutOf}
               </span>
             </div>
           </div>
 
-          <div className="text-center md:text-start">
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">
-              {score >= 80
-                ? t.greatJob
-                : score >= 50
-                  ? t.goodStart
-                  : t.needsImprovement}
-            </h3>
-            <p className="text-slate-600 leading-relaxed max-w-lg">
+          <div className="space-y-1.5">
+            <h4 className="text-sm font-extrabold text-slate-950">
+              {score >= 80 ? t.greatJob : score >= 50 ? t.goodStart : t.needsImprovement}
+            </h4>
+            <p className="text-[11px] text-slate-500 max-w-[220px] mx-auto leading-relaxed">
               {t.atsExplanation}
             </p>
           </div>
         </div>
 
-        {/* Section Breakdown */}
-        <div className="mb-12">
-          <h3 className="text-xl font-bold text-slate-900 mb-6">
-            {t.sectionBreakdown}
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {sections.map((section, idx) => (
-              <div
-                key={idx}
-                className="p-4 rounded-xl border border-slate-100 bg-slate-50/50"
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-sm font-bold text-slate-700">
-                    {section.title}
-                  </span>
-                  <span
-                    className={cn(
-                      "text-xs font-bold px-2 py-0.5 rounded-full",
-                      section.score === section.maxScore
-                        ? "bg-emerald-100 text-emerald-700"
-                        : section.score > 0
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-red-100 text-red-700",
-                    )}
-                  >
-                    {section.score}/{section.maxScore}
-                  </span>
+        {/* Section Breakdown Grid list */}
+        <div className="lg:col-span-8 bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs space-y-5">
+          <div className="border-b border-slate-100 pb-3">
+            <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">
+              {t.sectionBreakdown}
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {sections.map((section, idx) => {
+              const pct = section.maxScore > 0 ? (section.score / section.maxScore) * 100 : 0;
+              const isPerfect = section.score === section.maxScore;
+              return (
+                <div key={idx} className="p-3 border border-slate-100 rounded-2xl bg-slate-50/50 space-y-2.5">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="font-bold text-slate-700">{section.title}</span>
+                    <span className={`font-extrabold px-1.5 py-0.5 rounded-md text-[10px] ${
+                      isPerfect ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-600"
+                    }`}>
+                      {section.score}/{section.maxScore}
+                    </span>
+                  </div>
+                  
+                  <div className="w-full h-1.5 bg-slate-200/70 rounded-full overflow-hidden">
+                    <div
+                      className={cn(
+                        "h-full transition-all duration-500 rounded-full",
+                        isPerfect ? "bg-emerald-500" : pct > 50 ? "bg-indigo-500" : "bg-orange-500"
+                      )}
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
                 </div>
-                <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
-                  <div
-                    className={cn(
-                      "h-full transition-all duration-500",
-                      section.score === section.maxScore
-                        ? "bg-emerald-500"
-                        : section.score > 0
-                          ? "bg-yellow-500"
-                          : "bg-red-500",
-                    )}
-                    style={{
-                      width: `${section.maxScore > 0 ? (section.score / section.maxScore) * 100 : 0}%`,
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* AI Job Description Tailoring */}
+      <div className="bg-white border border-slate-200/70 rounded-3xl p-6 md:p-8 shadow-xs space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center border border-orange-100">
+              <Wand2 className="text-orange-500" size={16} />
+            </div>
+            <div>
+              <h3 className="text-sm font-extrabold text-slate-900">
+                {isAr ? "مقارن الوصف الوظيفي الذكي (Instant Matching)" : "AI Job Description Mirroring"}
+              </h3>
+              <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
+                {isAr 
+                  ? "الصق متطلبات الوظيفة الشاغرة لتحليل الثغرات المهارية وحلها قبل تنزيل الملف." 
+                  : "Compare against corporate vacancies to immediately find core skill targets."}
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* AI Job Description Tailoring */}
-        <div className="mb-12 space-y-4">
-          <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-            <Wand2 className="text-indigo-500" size={20} />
-            {language === 'ar' ? "مطابقة الوصف الوظيفي (بالذكاء الاصطناعي)" : "AI Job Description Tailoring"}
-          </h3>
-          <p className="text-sm text-slate-600 mb-4">
-            {language === 'ar' 
-              ? "الصق الوصف الوظيفي هنا وسيقوم الذكاء الاصطناعي بتحليل مدى ملاءمة سيرتك الذاتية واستخراج الكلمات المفتاحية الناقصة."
-              : "Paste the job description here and AI will analyze how well your resume fits and extract missing keywords."}
-          </p>
+        <div className="relative group">
           <textarea
-            value={data.jobDescription}
+            value={data.jobDescription || ""}
             onChange={(e) => updateJobDescription(e.target.value)}
-            placeholder={language === 'ar' ? "الصق الوصف الوظيفي هنا..." : "Paste job description here..."}
-            className="w-full h-32 p-4 border border-slate-200 bg-white rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-sm resize-none"
-            dir={language === 'ar' ? "rtl" : "ltr"}
+            placeholder={isAr ? "الصق متطلبات الوظيفة الشاغرة ومؤهلاتها هنا..." : "Paste corporate job description terms, requirements or specifications..."}
+            className="w-full h-28 p-4 border border-slate-200 bg-white hover:border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/10 rounded-2xl transition-all text-xs resize-none"
+            dir={isAr ? "rtl" : "ltr"}
           />
-          {data.jobDescription && data.jobDescription.trim().length > 10 && (
+          {!data.jobDescription && (
+            <div className={`absolute bottom-3 ${isAr ? 'left-3' : 'right-3'} flex items-center gap-1.5 text-[10px] font-bold text-slate-400 select-nonepointer-events-none`}>
+              <Sparkles size={11} className="text-orange-400 animate-pulse" />
+              <span>{isAr ? "يقوم بكتابة اقتراحات فورية للمهارات الصعبة" : "Auto-extracts key tags"}</span>
+            </div>
+          )}
+        </div>
+
+        {data.jobDescription && data.jobDescription.trim().length > 10 && (
+          <div className="pt-2">
             <ATSAnalyzer
               resume={JSON.stringify(data)}
               jobDescription={data.jobDescription}
             />
-          )}
-        </div>
+          </div>
+        )}
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Detailed Feedback */}
-          <div className="space-y-8">
-            <h3 className="text-xl font-bold text-slate-900">
+      {/* Detailed Diagnostic logs / Improvements & Success points */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        {/* Recommended Upgrades / Detailed suggestions */}
+        <div className="bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs space-y-4">
+          <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+            <AlertCircle size={16} className="text-orange-500 shrink-0" />
+            <h3 className="text-sm font-extrabold text-slate-900">
               {t.detailedSuggestions}
             </h3>
-            {sections.map(
-              (section, idx) =>
-                section.improvements.length > 0 && (
-                  <div key={idx} className="space-y-3">
-                    <h4 className="text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                      <AlertCircle size={14} className="text-red-500" />
-                      {section.title}
-                    </h4>
-                    <ul className="space-y-2">
-                      {section.improvements.map((imp, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-4 p-4 bg-red-50/30 rounded-xl border border-red-100/50"
-                        >
-                          <div className="mt-2 shrink-0 w-2 h-2 rounded-full bg-red-500" />
-                          <span className="text-sm text-slate-700">{imp}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ),
-            )}
           </div>
 
-          <div className="space-y-8">
-            <h3 className="text-xl font-bold text-slate-900">
+          <div className="space-y-4 max-h-[420px] overflow-y-auto pr-1">
+            {sections.some(s => s.improvements.length > 0) ? (
+              sections.map((section, idx) => 
+                section.improvements.length > 0 && (
+                  <div key={idx} className="space-y-2">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
+                      {section.title}
+                    </span>
+                    <div className="space-y-2">
+                      {section.improvements.map((imp, i) => (
+                        <div key={i} className="flex gap-2.5 p-3 rounded-xl border border-orange-100/50 bg-orange-50/20 text-xs text-slate-700 leading-normal">
+                          <span className="text-orange-500 shrink-0 font-bold">✦</span>
+                          <span>{imp}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )
+              )
+            ) : (
+              <p className="text-xs text-slate-400 italic text-center py-6">
+                {isAr ? "لا توجد تعديلات عاجلة للتطبيق!" : "No modifications recommended!"}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Working Well / Points of Excellence */}
+        <div className="bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs space-y-4">
+          <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
+            <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+            <h3 className="text-sm font-extrabold text-slate-900">
               {t.workingWell}
             </h3>
-            {sections.map(
-              (section, idx) =>
+          </div>
+
+          <div className="space-y-4 max-h-[420px] overflow-y-auto pr-1">
+            {sections.some(s => s.goodPoints.length > 0) ? (
+              sections.map((section, idx) => 
                 section.goodPoints.length > 0 && (
-                  <div key={idx} className="space-y-3">
-                    <h4 className="text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-                      <CheckCircle2 size={14} className="text-emerald-500" />
+                  <div key={idx} className="space-y-2">
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
                       {section.title}
-                    </h4>
-                    <ul className="space-y-2">
+                    </span>
+                    <div className="space-y-2">
                       {section.goodPoints.map((gp, i) => (
-                        <li
-                          key={i}
-                          className="flex items-start gap-4 p-4 bg-emerald-50/30 rounded-xl border border-emerald-100/50"
-                        >
-                          <CheckCircle2
-                            size={14}
-                            className="text-emerald-500 shrink-0 mt-0.5"
-                          />
-                          <span className="text-sm text-slate-700">{gp}</span>
-                        </li>
+                        <div key={i} className="flex gap-2.5 p-3 rounded-xl border border-emerald-100/50 bg-emerald-50/20 text-xs text-slate-700 leading-normal">
+                          <Check size={12} className="text-emerald-500 shrink-0 mt-0.5" />
+                          <span>{gp}</span>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </div>
-                ),
+                )
+              )
+            ) : (
+              <p className="text-xs text-slate-400 italic text-center py-6">
+                {isAr ? "اكمل تعبئة الحقول الأساسية أولاً" : "Include core information to calculate perfect marks"}
+              </p>
             )}
           </div>
         </div>

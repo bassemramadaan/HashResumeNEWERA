@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { X, CheckCircle2, AlertCircle, FileText, Download, Target, Sparkles } from "lucide-react";
+import { X, CheckCircle2, AlertCircle, FileText, Download, Target, Check, HelpCircle } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -34,7 +34,13 @@ export default function ResumeCheckerModal({
   const { personalInfo, experience, education, skills } = data;
 
   const [mounted, setMounted] = useState(false);
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    if (isOpen) {
+      setMounted(true);
+    } else {
+      setMounted(false);
+    }
+  }, [isOpen]);
 
   const checks = [
     {
@@ -85,6 +91,7 @@ export default function ResumeCheckerModal({
   ];
 
   const failedChecks = checks.filter((c) => !c.passed);
+  const passedChecks = checks.filter((c) => c.passed);
   const score = Math.round(((checks.length - failedChecks.length) / checks.length) * 100);
 
   if (typeof document === 'undefined') return null;
@@ -96,183 +103,230 @@ export default function ResumeCheckerModal({
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
           dir={isAr ? "rtl" : "ltr"}
         >
-          {/* Custom Backdrop */}
+          {/* Blur backdrop overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-md"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-md"
           />
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.97, y: 15 }}
+            initial={{ opacity: 0, scale: 0.98, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: 15 }}
-            transition={{ type: "spring", damping: 26, stiffness: 320 }}
-            className="relative w-full max-w-xl bg-white rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] border border-slate-100 overflow-hidden flex flex-col max-h-[85vh] z-10 my-8"
+            exit={{ opacity: 0, scale: 0.98, y: 12 }}
+            transition={{ type: "spring", damping: 28, stiffness: 350 }}
+            className="relative w-full max-w-[560px] bg-white rounded-3xl shadow-[0_32px_80px_rgba(15,23,42,0.14)] border border-slate-100 overflow-hidden flex flex-col max-h-[85vh] z-10 my-8 font-sans"
           >
-            {/* Top accent glow */}
-            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 to-[#FF4D2D] overflow-hidden" />
+            {/* Elegant brand decorative top bar */}
+            <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-orange-500 via-indigo-500 to-emerald-500 overflow-hidden" />
 
-            {/* Glowing accents */}
-            <div className="absolute top-0 right-0 w-48 h-48 bg-orange-50 rounded-full blur-[64px] -z-10 translate-x-1/3 -translate-y-1/3 opacity-70" />
+            {/* Subtle glow background elements */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-orange-100/30 rounded-full blur-3xl -z-10 translate-x-1/4 -translate-y-1/4" />
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-150/20 rounded-full blur-3xl -z-10 -translate-x-1/4 translate-y-1/4" />
 
-            {/* Header */}
-            <div className="px-5 py-5 sm:px-7 sm:py-6 border-b border-slate-100/80 flex justify-between items-start bg-slate-50/40">
-              <div className="flex gap-3.5 items-start">
-                <div className="w-11 h-11 rounded-2xl bg-white shadow-sm border border-slate-200/60 flex items-center justify-center shrink-0">
-                  <Target className="text-[#FF4D2D] animate-pulse" size={20} />
+            {/* Header section */}
+            <div className="px-6 py-5 sm:px-8 sm:py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/30">
+              <div className="flex gap-3 items-center">
+                <div className="w-10 h-10 rounded-xl bg-indigo-55/10 flex items-center justify-center shrink-0 border border-indigo-100">
+                  <Target className="text-indigo-600" size={18} />
                 </div>
                 <div>
-                  <h2 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                  <h2 className="text-base sm:text-lg font-black text-slate-900 leading-tight">
                     {t.title}
                   </h2>
-                  <p className="text-xs text-slate-500 font-semibold mt-0.5 leading-relaxed">
+                  <p className="text-[10px] text-slate-500 font-extrabold uppercase tracking-widest mt-0.5">
                     {t.subtitle}
                   </p>
                 </div>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 text-slate-400 hover:text-slate-800 hover:bg-slate-100/80 rounded-full transition-all duration-200"
+                className="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-all cursor-pointer"
               >
-                <X size={16} />
+                <X size={15} />
               </button>
             </div>
 
-            {/* Scrollable Checklist */}
-            <div className="p-5 sm:p-7 overflow-y-auto flex-1 custom-scrollbar">
+            {/* Main content body */}
+            <div className="p-6 sm:p-8 overflow-y-auto flex-1 space-y-7 custom-scrollbar">
               
-              {/* Score Circular Indicator & Message Panel */}
-              <div className="flex flex-col sm:flex-row items-center gap-6 mb-8 bg-slate-50 p-5 rounded-2xl border border-slate-150/70 relative overflow-hidden shadow-sm">
+              {/* Premium score insight block */}
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center bg-slate-50/70 p-5 rounded-2xl border border-slate-100">
                 
-                {/* Background score state color splash */}
-                <div className={cn(
-                  "absolute -top-10 -right-10 w-36 h-36 blur-[40px] opacity-15 rounded-full pointer-events-none transition-colors duration-1000",
-                  score >= 80 ? "bg-emerald-500" : score >= 50 ? "bg-amber-500" : "bg-rose-500"
-                )} />
-
-                {/* Score Circle */}
-                <div className="relative flex items-center justify-center w-28 h-28 shrink-0">
-                  <svg className="w-full h-full transform -rotate-90 origin-center">
-                    <defs>
-                      <linearGradient id="checkerScoreGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor={score >= 80 ? "#059669" : score >= 50 ? "#d97706" : "#dc2626"} />
-                        <stop offset="100%" stopColor={score >= 80 ? "#34d399" : score >= 50 ? "#fbbf24" : "#f87171"} />
-                      </linearGradient>
-                    </defs>
-                    <circle cx="56" cy="56" r="48" stroke="currentColor" strokeWidth="6" fill="none" className="text-slate-200/80" />
-                    <circle
-                      cx="56"
-                      cy="56"
-                      r="48"
-                      stroke="url(#checkerScoreGlow)"
-                      strokeWidth="6"
-                      fill="none"
-                      strokeDasharray={301.6} 
-                      strokeDashoffset={301.6 - (301.6 * (mounted ? score : 0)) / 100}
-                      strokeLinecap="round"
-                      className="transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <motion.span 
-                      initial={{ scale: 0.6, opacity: 0 }} 
-                      animate={{ scale: 1, opacity: 1 }} 
-                      transition={{ delay: 0.25 }}
-                      className={cn("text-3xl font-black tracking-tighter leading-none", score >= 80 ? "text-emerald-700" : score >= 50 ? "text-amber-700" : "text-rose-700")}
-                    >
-                      {score}%
-                    </motion.span>
-                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-wider mt-1">
-                      {t.scoreLabel}
-                    </span>
+                {/* Score Dial */}
+                <div className="sm:col-span-4 flex justify-center shrink-0">
+                  <div className="relative w-24 h-24 flex items-center justify-center">
+                    <svg className="w-full h-full transform -rotate-90 origin-center">
+                      <circle 
+                        cx="48" 
+                        cy="48" 
+                        r="42" 
+                        stroke="currentColor" 
+                        strokeWidth="5" 
+                        fill="none" 
+                        className="text-slate-200" 
+                      />
+                      <circle
+                        cx="48"
+                        cy="48"
+                        r="42"
+                        stroke="currentColor"
+                        strokeWidth="5"
+                        fill="none"
+                        strokeDasharray={263.8} 
+                        strokeDashoffset={263.8 - (263.8 * (mounted ? score : 0)) / 100}
+                        strokeLinecap="round"
+                        className={cn(
+                          "transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                          score >= 80 ? "text-emerald-500" : score >= 50 ? "text-amber-500" : "text-[#FF4D2D]"
+                        )}
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center leading-none">
+                      <span className={cn(
+                        "text-2xl font-black tracking-tight", 
+                        score >= 80 ? "text-emerald-700" : score >= 50 ? "text-amber-700" : "text-[#FF4D2D]"
+                      )}>
+                        {score}%
+                      </span>
+                      <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest mt-0.5 scale-90">
+                        {isAr ? "النتيجة" : "Score"}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Status Advice text block */}
-                <div className="text-center sm:text-start flex-1">
-                  <h3 className={cn("text-base font-black flex items-center justify-center sm:justify-start gap-1.5", score >= 80 ? "text-emerald-800" : score >= 50 ? "text-amber-800" : "text-rose-800")}>
-                    <Sparkles size={14} className={score >= 80 ? "text-emerald-500" : "text-amber-500"} />
-                    {score >= 80 ? (isAr ? "عمل ممتع! سيرتك الذاتية متكاملة تماماً 🚀" : "Superb! Resume meets standard HR limits 🚀") : 
-                     score >= 50 ? (isAr ? "مستوى ممتاز، تبقى بضع لمسات ذكية" : "Good progress, minor polishes left") : 
-                     (isAr ? "سيرتك الذاتية تحتاج لإضافة المزيد من البيانات" : "Significant details missing")}
-                  </h3>
-                  <p className="text-slate-500 text-[11px] font-semibold leading-relaxed mt-1.5 max-w-xs sm:max-w-sm mx-auto sm:mx-0">
+                {/* Status indicator message */}
+                <div className="sm:col-span-8 text-center sm:text-start space-y-1">
+                  <div className="flex items-center justify-center sm:justify-start gap-1.5 flex-wrap">
+                    <span className={cn(
+                      "px-2 px-1.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider",
+                      score >= 80 ? "bg-emerald-50 text-emerald-700 border border-emerald-150" : 
+                      score >= 50 ? "bg-amber-50 text-amber-700 border border-amber-150" : 
+                      "bg-rose-50 text-[#FF4D2D] border border-rose-150"
+                    )}>
+                      {score >= 80 ? (isAr ? "فائق الموثوقية" : "Ready") : 
+                       score >= 50 ? (isAr ? "مستوى متميز" : "Good Progress") : 
+                       (isAr ? "تحتاج لإضافة تفاصيل" : "Missing Info")}
+                    </span>
+
+                    <span className="text-slate-350 select-none text-xs hidden sm:block">•</span>
+
+                    <h3 className="text-xs font-black text-slate-700 uppercase tracking-wide">
+                      {isAr ? "جاهزية الفرز الأوتوماتيكي" : "ATS Screening Score"}
+                    </h3>
+                  </div>
+
+                  <p className="text-slate-500 text-[11px] font-bold leading-normal max-w-sm">
                     {isAr 
-                      ? "نطابق الآن صياغة ومحتويات سيرتك مع أنظمة التوظيف ATS لرفع فرص القبول وتجاوز فرز السير الذاتية الذكي." 
-                      : "We matched your contents with ATS engine checklists. Optimize elements below to bypass standard human filtration."}
+                      ? "برامج الـ ATS تفضل السير الذاتية الكاملة. إليك تحليل سريع للعناصر المفقودة لضمان تجاوز الفرز." 
+                      : "Corporate ATS checkers favor rich, structured data. We tracked missing fields so you don't get filtered."}
                   </p>
                 </div>
               </div>
 
-              {/* Simplified & beautifully padded list checks */}
-              <div className="space-y-2.5">
-                {checks.map((check, index) => (
-                  <motion.div
-                    key={check.id}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.04 + 0.1 }}
-                    className={cn(
-                      "flex items-start gap-3.5 p-3.5 rounded-2xl border transition-all duration-300",
-                      check.passed 
-                        ? "bg-white border-slate-100 shadow-[0_2px_12px_rgba(0,0,0,0.02)]" 
-                        : "bg-red-50/30 border-red-100 shadow-[0_2px_12px_rgba(239,68,68,0.03)]"
-                    )}
-                  >
-                    <div className={cn(
-                      "mt-0.5 shrink-0 w-7 h-7 rounded-lg flex items-center justify-center",
-                      check.passed ? "bg-emerald-50 text-emerald-600 border border-emerald-100" : "bg-red-50 text-red-500 border border-red-100"
-                    )}>
-                      {check.passed ? <CheckCircle2 size={14} strokeWidth={2.5} /> : <AlertCircle size={14} strokeWidth={2.5} />}
+              {/* Categorized check sections */}
+              <div className="space-y-6">
+                
+                {/* 1. Opportunity Items / Needs Improvement */}
+                {failedChecks.length > 0 && (
+                  <div className="space-y-2.5">
+                    <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
+                      <HelpCircle size={13} className="text-slate-400" />
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">
+                        {isAr ? "ملاحظات وتوصيات لتحسين السيرة الذاتية" : "Improvements Recommended"}
+                      </span>
                     </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <h4 className={cn("text-xs font-black tracking-tight", check.passed ? "text-slate-800" : "text-red-900")}>
-                        {check.title}
-                      </h4>
-                      {!check.passed && (
-                        <p className="text-[11px] text-red-650/90 font-semibold leading-relaxed mt-0.5">
-                          {check.message}
-                        </p>
-                      )}
+
+                    <div className="grid grid-cols-1 gap-2">
+                      {failedChecks.map((check, index) => (
+                        <motion.div
+                          key={check.id}
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.03 }}
+                          className="flex items-start gap-3 p-3 bg-rose-50/15 border border-rose-100 rounded-xl transition-all"
+                        >
+                          <div className="mt-0.5 shrink-0 w-5 h-5 rounded-md bg-rose-50 border border-rose-100 flex items-center justify-center text-[#FF4D2D]">
+                            <AlertCircle size={11} strokeWidth={2.5} />
+                          </div>
+                          <div>
+                            <h4 className="text-xs font-black text-slate-800">
+                              {check.title}
+                            </h4>
+                            <p className="text-[10px] text-slate-550 font-bold leading-normal mt-0.5">
+                              {check.message}
+                            </p>
+                          </div>
+                        </motion.div>
+                      ))}
                     </div>
-                  </motion.div>
-                ))}
+                  </div>
+                )}
+
+                {/* 2. Successfully Met elements */}
+                {passedChecks.length > 0 && (
+                  <div className="space-y-2.5">
+                    <div className="flex items-center gap-1.5 border-b border-slate-100 pb-2">
+                      <CheckCircle2 size={13} className="text-emerald-500" />
+                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">
+                        {isAr ? "نقاط القوة المستوفاة" : "Met Criteria"}
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {passedChecks.map((check) => (
+                        <div
+                          key={check.id}
+                          className="flex items-center gap-2.5 p-2.5 bg-white border border-slate-100 rounded-xl hover:border-slate-200 transition-colors"
+                        >
+                          <div className="shrink-0 w-4.5 h-4.5 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+                            <Check size={10} strokeWidth={3} />
+                          </div>
+                          <span className="text-xs font-bold text-slate-700 truncate">
+                            {check.title}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Redesigned Footer with Solid Elegant Colors & CTA */}
-            <div className="px-5 py-4 sm:px-7 sm:py-5 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+            {/* Redesigned interactive Footer */}
+            <div className="px-6 py-4 sm:px-8 sm:py-5 border-t border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
+              
               <button
                 onClick={onClose}
-                className="w-full sm:w-auto h-11 px-5 text-xs font-black text-slate-500 hover:text-slate-800 hover:bg-slate-150/80 rounded-xl transition-all duration-200"
+                className="w-full sm:w-auto px-4 h-10 text-xs font-black text-slate-500 hover:text-slate-800 transition-colors shrink-0"
               >
                 {t.keepEditing}
               </button>
 
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest hidden sm:block px-2">
+              <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest hidden sm:block select-none">
                   {t.exportAs}
                 </span>
                 
-                <div className="flex w-full sm:w-auto p-1 bg-white border border-slate-200 rounded-2xl shadow-sm gap-1">
+                <div className="flex w-full sm:w-auto p-1 bg-white border border-slate-200 rounded-xl gap-1 shrink-0">
                   <button
                     onClick={() => onProceed("pdf")}
-                    className="flex-1 sm:flex-none h-9 flex items-center justify-center gap-1.5 px-4 rounded-xl text-xs font-black bg-slate-900 hover:bg-slate-800 text-white shadow-sm active:scale-95 transition-all duration-200 cursor-pointer"
+                    className="flex-1 sm:flex-none h-8.5 px-4 rounded-lg flex items-center justify-center gap-1 text-[11px] font-black bg-slate-900 hover:bg-slate-800 text-white shadow-sm active:scale-95 transition-all cursor-pointer"
                   >
-                    <Download size={13} strokeWidth={2.5} /> PDF
+                    <Download size={12} strokeWidth={2.5} /> PDF
                   </button>
                   <button
                     onClick={() => onProceed("docx")}
-                    className="flex-1 sm:flex-none h-9 flex items-center justify-center gap-1.5 px-4 rounded-xl text-xs font-black text-[#FF4D2D] bg-orange-50 hover:bg-orange-100 active:scale-95 transition-all duration-200 cursor-pointer"
+                    className="flex-1 sm:flex-none h-8.5 px-4 rounded-lg flex items-center justify-center gap-1 text-[11px] font-black text-indigo-600 bg-indigo-50 hover:bg-indigo-100 active:scale-95 transition-all cursor-pointer border border-indigo-100/50"
                   >
-                    <FileText size={13} strokeWidth={2.5} /> DOCX
+                    <FileText size={12} strokeWidth={2.5} /> DOCX
                   </button>
                 </div>
               </div>
+
             </div>
           </motion.div>
         </div>
