@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { Suspense } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import React, { Suspense, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from "react-helmet-async";
 import PageLoader from "./components/PageLoader";
@@ -20,10 +20,27 @@ const TrustPage = React.lazy(() => import("./pages/TrustPage"));
 const FAQPage = React.lazy(() => import("./pages/FAQPage"));
 const NotFoundPage = React.lazy(() => import("./pages/NotFoundPage"));
 
+import { initGA, trackPageView } from "./services/analytics";
+
+function GAListener() {
+  const location = useLocation();
+
+  useEffect(() => {
+    initGA();
+  }, []);
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
+  return null;
+}
+
 export default function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <GAListener />
         <ErrorBoundary>
           <Suspense fallback={<PageLoader />}>
             <Routes>
