@@ -1668,7 +1668,7 @@ const ResumePreview = memo(
           )}
 
           {experience.length > 0 && (
-            <section>
+<section>
               <h3 className="text-lg font-bold text-emerald-700 uppercase mb-4 border-b border-emerald-100 pb-1">
                 Clinical Experience
               </h3>
@@ -1693,10 +1693,9 @@ const ResumePreview = memo(
                 ))}
               </div>
             </section>
-          )}
-
-          {education.length > 0 && (
-            <section>
+)}
+{education.length > 0 && (
+<section>
               <h3 className="text-lg font-bold text-emerald-700 uppercase mb-4 border-b border-emerald-100 pb-1">
                 Education
               </h3>
@@ -1714,7 +1713,7 @@ const ResumePreview = memo(
                 ))}
               </div>
             </section>
-          )}
+)}
 
           {data.customSections?.length > 0 && (
             <React.Fragment>
@@ -1766,7 +1765,7 @@ const ResumePreview = memo(
           )}
 
           {experience.length > 0 && (
-            <section>
+<section>
               <h3 className="text-center text-sm font-bold uppercase tracking-widest mb-6 text-slate-500">
                 Legal Experience
               </h3>
@@ -1791,10 +1790,9 @@ const ResumePreview = memo(
                 ))}
               </div>
             </section>
-          )}
-
-          {education.length > 0 && (
-            <section>
+)}
+{education.length > 0 && (
+<section>
               <h3 className="text-center text-sm font-bold uppercase tracking-widest mb-6 text-slate-500">
                 Education
               </h3>
@@ -1817,7 +1815,7 @@ const ResumePreview = memo(
                 ))}
               </div>
             </section>
-          )}
+)}
 
           {data.customSections?.length > 0 && (
             <React.Fragment>
@@ -1885,7 +1883,7 @@ const ResumePreview = memo(
           )}
 
           {experience.length > 0 && (
-            <section>
+<section>
               <h3 className="font-bold text-slate-900 uppercase mb-4">
                 Academic & Professional Experience
               </h3>
@@ -2047,10 +2045,9 @@ const ResumePreview = memo(
                   ))}
                 </div>
               </section>
-            )}
-
-            {education.length > 0 && (
-              <section>
+)}
+{education.length > 0 && (
+<section>
                 <h3
                   className="text-lg font-bold uppercase tracking-widest mb-4 pb-1 border-b-2"
                   style={{ color: themeColor, borderColor: `${themeColor}20` }}
@@ -2073,7 +2070,7 @@ const ResumePreview = memo(
                   ))}
                 </div>
               </section>
-            )}
+)}
 
             {certifications.length > 0 && (
               <section>
@@ -2149,7 +2146,7 @@ const ResumePreview = memo(
           )}
 
           {experience.length > 0 && (
-            <section>
+<section>
               <h3 className="text-center text-xs font-bold uppercase tracking-[0.3em] text-slate-300 mb-8">
                 Experience
               </h3>
@@ -2392,10 +2389,9 @@ const ResumePreview = memo(
                   ))}
                 </div>
               </section>
-            )}
-
-            {education.length > 0 && (
-              <section>
+)}
+{education.length > 0 && (
+<section>
                 <h3
                   className="text-lg font-bold mb-4 flex items-center gap-2"
                   style={{ color: themeColor }}
@@ -2422,7 +2418,7 @@ const ResumePreview = memo(
                   ))}
                 </div>
               </section>
-            )}
+)}
 
             {certifications.length > 0 && (
               <section>
@@ -2511,7 +2507,7 @@ const ResumePreview = memo(
           <div className="grid grid-cols-3 gap-8">
             <div className="col-span-2 space-y-8">
               {experience.length > 0 && (
-                <section>
+<section>
                   <h3
                     className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-2"
                     style={{ color: themeColor }}
@@ -2589,10 +2585,9 @@ const ResumePreview = memo(
                     ))}
                   </ul>
                 </section>
-              )}
-
-              {education.length > 0 && (
-                <section>
+)}
+{education.length > 0 && (
+<section>
                   <h3
                     className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-2"
                     style={{ color: themeColor }}
@@ -2615,7 +2610,7 @@ const ResumePreview = memo(
                     ))}
                   </div>
                 </section>
-              )}
+)}
 
               {certifications.length > 0 && (
                 <section>
@@ -2691,7 +2686,7 @@ const ResumePreview = memo(
           )}
 
           {experience.length > 0 && (
-            <section>
+<section>
               <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1">
                 Professional Experience
               </h3>
@@ -2714,10 +2709,9 @@ const ResumePreview = memo(
                 ))}
               </div>
             </section>
-          )}
-
-          {education.length > 0 && (
-            <section>
+)}
+{education.length > 0 && (
+<section>
               <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1">
                 Education
               </h3>
@@ -2738,7 +2732,7 @@ const ResumePreview = memo(
                 ))}
               </div>
             </section>
-          )}
+)}
 
           {skills.length > 0 && (
             <section>

@@ -1189,18 +1189,20 @@ export default function EditorPage() {
           previewContent={
             <div className="w-full h-full overflow-y-auto overflow-x-hidden p-2 pb-16 scrollbar-none flex justify-center transform-gpu">
               <div 
-                className="bg-white shadow-[0_4px_25px_rgba(0,0,0,0.06)] rounded-2xl border border-slate-150 overflow-hidden shrink-0 origin-top transform-gpu" 
+                className="origin-top transform-gpu transition-all"
                 style={{ 
-                  width: '100%',
-                  maxWidth: '380px',
-                  zoom: 0.62,
+                  width: '210mm',
+                  minHeight: "297mm",
+                  transform: 'scale(0.46)',
+                  marginBottom: '-160mm',
                   WebkitUserSelect: 'none',
-                  minHeight: "297mm"
                 }}
               >
-                <Suspense fallback={<FormLoader />}>
+                <div className="bg-white shadow-[0_4px_25px_rgba(0,0,0,0.06)] rounded-sm overflow-hidden w-full h-full">
+                  <Suspense fallback={<FormLoader />}>
                   {previewMode === "cover-letter" ? <CoverLetterPreview /> : <ResumePreview ref={componentRef} />}
-                </Suspense>
+                  </Suspense>
+                </div>
               </div>
             </div>
           }
