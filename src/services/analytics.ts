@@ -3,8 +3,16 @@ type AnalyticsEvent = 'resume_started' | 'resume_completed' | 'download_clicked'
 let isInitialized = false;
 
 export const initGA = () => {
+  if (typeof window === "undefined") return;
+
+  // Respect index.html static script tag if already loaded
+  if ((window as any).gtag) {
+    isInitialized = true;
+    return;
+  }
+
   const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || "G-PGWJLPG7DQ";
-  if (!measurementId || measurementId === "G-XXXXXXXXXX" || isInitialized || typeof window === "undefined") return;
+  if (!measurementId || measurementId === "G-XXXXXXXXXX" || isInitialized) return;
 
   // Dynamically inject Google Analytics script tags only if a valid measurement ID is set
   const script1 = document.createElement("script");
