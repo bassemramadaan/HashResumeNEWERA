@@ -350,14 +350,9 @@ export default React.memo(function SettingsForm() {
           </label>
         </div>
 
-        {/* Styling & Spacing Panel */}
-        <div className="space-y-4 pt-6 border-t border-slate-200">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-              <Settings2 size={20} className="text-slate-500" />
-              {settings.language === "ar" ? "تنسيق المسافات والخطوط" : "Styling & Spacing"}
-            </h3>
-            
+        {/* Fit to One Page Feature */}
+        <div className="pt-6 border-t border-slate-200">
+          <div className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl p-1 shadow-lg shadow-orange-500/20 mb-6">
             <button
               onClick={() => {
                 // "Fit to One Page" Optimizer
@@ -368,11 +363,34 @@ export default React.memo(function SettingsForm() {
                   marginSize: "compact"
                 });
               }}
-              className="flex items-center gap-2 px-3 py-1.5 bg-orange-100 text-orange-700 hover:bg-orange-200 rounded-lg text-sm font-bold transition-all shadow-sm"
+              className="w-full bg-white hover:bg-orange-50 flex items-center justify-between p-4 rounded-xl transition-colors group relative overflow-hidden"
             >
-              <Wand2 size={14} />
-              {settings.language === "ar" ? "احتواء في صفحة واحدة" : "Fit to One Page"}
+              <div className="flex items-center gap-4 relative z-10">
+                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform">
+                  <Wand2 size={20} />
+                </div>
+                <div className="text-start">
+                  <div className="font-bold text-slate-900 group-hover:text-orange-700 transition-colors text-base">
+                    {settings.language === "ar" ? "احتواء في صفحة واحدة التلقائي" : "Auto Fit to One Page"}
+                  </div>
+                  <div className="text-sm text-slate-500 mt-0.5">
+                    {settings.language === "ar" ? "بضغطة زر، سيتم ضغط السيرة لتناسب صفحة واحدة" : "Instantly optimize spacing and fonts to fit perfectly on one page"}
+                  </div>
+                </div>
+              </div>
+              <div className="text-orange-600 font-bold bg-orange-100 px-4 py-1.5 rounded-full text-sm group-hover:bg-orange-200 transition-colors whitespace-nowrap ms-2">
+                {settings.language === "ar" ? "تطبيق الميزة" : "Apply Magic"}
+              </div>
             </button>
+          </div>
+
+        {/* Styling & Spacing Panel */}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <Settings2 size={20} className="text-slate-500" />
+              {settings.language === "ar" ? "تنسيق المسافات والخطوط (متقدم)" : "Advanced Styling & Spacing"}
+            </h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -444,6 +462,7 @@ export default React.memo(function SettingsForm() {
               </select>
             </div>
           </div>
+        </div>
         </div>
 
         {/* Data Backup & Restore */}
