@@ -8,7 +8,8 @@ import {
   Activity,
   Target,
   Wand2,
-  Check
+  Check,
+  Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../../utils/ats";
