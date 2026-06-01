@@ -4,7 +4,7 @@ import { AIResponse, IResumeService } from "../types/ai.types";
  * High-Fidelity Local Heuristics Fallback Engine
  * Bypasses API calls whenever rate limits, errors or missing credentials occur.
  */
-const localAISuggest = (prompt: string, systemInstruction?: string): string => {
+const localAISuggest = (prompt: string, _systemInstruction?: string): string => {
   const cleanPrompt = prompt.toLowerCase();
   const isAr = cleanPrompt.includes("arabic") || /[\u0600-\u06FF]/.test(prompt);
   const isFr = cleanPrompt.includes("french") || cleanPrompt.includes(" français");
@@ -222,7 +222,10 @@ export const aiService: IResumeService = {
         return { text };
       }
 
-      const requestBody: any = {
+      const requestBody: {
+        contents: { parts: { text: string }[] }[];
+        systemInstruction?: { parts: { text: string }[] };
+      } = {
         contents: [{ parts: [{ text: prompt }] }],
       };
       
@@ -311,7 +314,11 @@ export const aiService: IResumeService = {
 
       const prompt = `Parse this resume text:\n\n${rawText}`;
 
-      const requestBody: any = {
+      const requestBody: {
+        contents: { parts: { text: string }[] }[];
+        systemInstruction: { parts: { text: string }[] };
+        generationConfig: { responseMimeType: string };
+      } = {
         contents: [{ parts: [{ text: prompt }] }],
         systemInstruction: { parts: [{ text: systemInstruction }] },
         generationConfig: { responseMimeType: "application/json" }

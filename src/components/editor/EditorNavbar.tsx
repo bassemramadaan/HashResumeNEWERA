@@ -74,7 +74,6 @@ function Divider() {
 
 // ── SaveIndicator ─────────────────────────────────────────
 function SaveIndicator({ isSaved, lang }: { isSaved: boolean; lang: AppLang }) {
-  const t = T[lang] ?? T.en;
   const isAr = lang === "ar";
   const cloudTooltip = isAr 
     ? "جميع تعديلاتك محفوظة تلقائياً وبأمان في متصفحك المحلي" 

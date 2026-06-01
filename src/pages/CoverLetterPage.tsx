@@ -200,6 +200,7 @@ export default function CoverLetterPage() {
         skills:   data.skills.join(", ") || "",
       }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data.personalInfo.fullName]);
 
   const importFromResume = () => {

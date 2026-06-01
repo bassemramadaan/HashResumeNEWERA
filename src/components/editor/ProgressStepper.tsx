@@ -154,7 +154,7 @@ function DotNode({ index, state, onClick, size = 32 }: { index: number; state: S
 }
 
 // ── HORIZONTAL variant ────────────────────────────────────
-function HorizontalStepper({ steps, current, onStepClick, completionMap, isRtl }: { steps: Step[]; current: number; onStepClick?: (i: number) => void; completionMap: Record<string, number>; isRtl: boolean }) {
+function HorizontalStepper({ steps, current, onStepClick, completionMap: _completionMap, isRtl }: { steps: Step[]; current: number; onStepClick?: (i: number) => void; completionMap: Record<string, number>; isRtl: boolean }) {
   return (
     <div style={{
       display:     "flex",
@@ -200,7 +200,7 @@ function HorizontalStepper({ steps, current, onStepClick, completionMap, isRtl }
 }
 
 // ── VERTICAL variant ──────────────────────────────────────
-function VerticalStepper({ steps, current, onStepClick, completionMap, isRtl }: { steps: Step[]; current: number; onStepClick?: (i: number) => void; completionMap: Record<string, number>; isRtl: boolean }) {
+function VerticalStepper({ steps, current, onStepClick, completionMap: _completionMap, isRtl }: { steps: Step[]; current: number; onStepClick?: (i: number) => void; completionMap: Record<string, number>; isRtl: boolean }) {
   return (
     <div style={{
       display:       "flex",

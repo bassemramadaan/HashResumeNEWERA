@@ -16,8 +16,8 @@ const getInitialLang = (): Language => {
       const parsed = JSON.parse(stored);
       return parsed?.state?.language || "en";
     }
-  } catch (e) {
-    // console.error('Error reading language from LS', e);
+  } catch {
+    // console.error('Error reading language from LS');
   }
   return "en";
 };

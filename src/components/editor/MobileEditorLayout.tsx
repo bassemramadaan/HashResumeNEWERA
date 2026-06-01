@@ -291,7 +291,7 @@ export default function MobileEditorLayout({
     <div className="flex flex-col h-[100dvh] bg-slate-50 text-slate-800 overflow-hidden relative pb-[calc(76px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header ── */}
-      <header className="sticky top-0 z-50 bg-white border-b border-sans border-slate-200 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
+      <header className="sticky top-0 z-50 bg-white border-b border-solid border-slate-200 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
         <div className="flex items-center gap-2.5">
           <motion.div 
             whileTap={{ scale: 0.92 }}
@@ -371,7 +371,7 @@ export default function MobileEditorLayout({
       </main>
 
       {/* ── Tactfully Designed Premium Bottom Navigation Bar ── */}
-      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-sans border-slate-200 px-4 py-2 pb-[calc(1.2rem+env(safe-area-inset-bottom,0px))] md:pb-4 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu select-none">
+      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-solid border-slate-200 px-4 py-2 pb-[calc(1.2rem+env(safe-area-inset-bottom,0px))] md:pb-4 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu select-none">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
           const IconComponent = tab.icon;

@@ -41,7 +41,7 @@ import { hapticFeedback } from "../utils";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../utils/ats";
 import { generateWord } from "../utils/generateWord";
-import { DEFAULT_BREAKDOWN } from "../components/ATSScoreWidget";
+import { DEFAULT_BREAKDOWN } from "../constants";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import EditorSidebar from "../components/editor/EditorSidebar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
@@ -415,24 +415,6 @@ export default function EditorPage() {
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } =
     useOnboardingStore();
 
-  const calculateProgress = () => {
-    let filled = 0;
-    const total = 4; // basics, experience, education, skills
-    if (
-      data.personalInfo.fullName &&
-      data.personalInfo.email &&
-      data.personalInfo.jobTitle
-    )
-      filled++;
-    if (data.experience && data.experience.length > 0) filled++;
-    if (data.education && data.education.length > 0) filled++;
-    if (data.skills && data.skills.length > 0) filled++;
-
-    return Math.round((filled / total) * 100);
-  };
-
-  const overallProgress = calculateProgress();
-  
   const [isSaving, setIsSaving] = useState(false);
   useEffect(() => {
     setIsSaving(true);

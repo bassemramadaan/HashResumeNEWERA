@@ -37,7 +37,7 @@ const PersonalInfoForm = () => {
   const [showAISuggestions, setShowAISuggestions] = useState(false);
   const [showGCCFields, setShowGCCFields] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [touched, setTouched] = useState<Record<string, boolean>>({});
+  const [_touched, setTouched] = useState<Record<string, boolean>>({});
 
   const lang = settings.language || "en";
 

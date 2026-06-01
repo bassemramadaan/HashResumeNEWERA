@@ -280,6 +280,11 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
         </div>
 
         <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 md:p-10 text-start max-w-3xl mx-auto">
+          {error && (
+            <div className="mb-4 bg-rose-50 border border-rose-200/50 rounded-xl p-4 text-xs font-semibold text-rose-600 text-center flex items-center justify-center gap-2">
+              <span>⚠️ {error}</span>
+            </div>
+          )}
           <AnimatePresence mode="wait">
             {!file && !analyzing && !result && (
               <motion.div

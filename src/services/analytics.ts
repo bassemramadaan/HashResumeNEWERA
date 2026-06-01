@@ -1,12 +1,18 @@
 type AnalyticsEvent = 'resume_started' | 'resume_completed' | 'download_clicked' | 'payment_initiated' | 'payment_success' | 'language_changed';
 
+interface WindowWithGtag extends Window {
+  gtag?: (command: string, ...args: unknown[]) => void;
+}
+
 let isInitialized = false;
 
 export const initGA = () => {
   if (typeof window === "undefined") return;
 
+  const win = window as unknown as WindowWithGtag;
+
   // Respect index.html static script tag if already loaded
-  if ((window as any).gtag) {
+  if (win.gtag) {
     isInitialized = true;
     return;
   }
@@ -39,18 +45,20 @@ export const trackPageView = (path: string) => {
   const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || "G-PGWJLPG7DQ";
   if (!measurementId || measurementId === "G-XXXXXXXXXX" || typeof window === "undefined") return;
 
-  if ((window as any).gtag) {
-    (window as any).gtag('config', measurementId, {
+  const win = window as unknown as WindowWithGtag;
+  if (win.gtag) {
+    win.gtag('config', measurementId, {
       page_path: path
     });
     console.log(`[Analytics] PageView tracked: ${path}`);
   }
 };
 
-export const trackEvent = (event: AnalyticsEvent, properties?: Record<string, any>) => {
+export const trackEvent = (event: AnalyticsEvent, properties?: Record<string, unknown>) => {
   console.log(`[Analytics] ${event}`, properties);
   
-  if (typeof window !== "undefined" && (window as any).gtag) {
-    (window as any).gtag("event", event, properties);
+  const win = window as unknown as WindowWithGtag;
+  if (typeof window !== "undefined" && win.gtag) {
+    win.gtag("event", event, properties);
   }
 };
