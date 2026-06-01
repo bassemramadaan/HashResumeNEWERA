@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { cn } from "../../lib/utils";
 import {
   User,
   Briefcase,
@@ -9,12 +10,12 @@ import {
   Plus,
   FileText,
   Download,
+  Check,
 } from "lucide-react";
 
 // ── Types ─────────────────────────────────────────────────
 type Locale = "ar" | "en" | "fr";
 type Variant = "horizontal" | "vertical" | "mini";
-type StepState = "done" | "active" | "pending";
 
 interface Step {
   id: string;
@@ -48,37 +49,37 @@ const STEP_ICONS: Record<string, React.ElementType> = {
 // ── Steps definition ──────────────────────────────────────
 const STEPS: Record<Locale, Step[]> = {
   ar: [
-    { id: "basics",         label: "البيانات",  shortLabel: "البيانات",  emoji: "👤" },
-    { id: "experience",     label: "الخبرات",   shortLabel: "الخبرات",   emoji: "💼" },
-    { id: "education",      label: "التعليم",   shortLabel: "التعليم",   emoji: "🎓" },
-    { id: "skills",         label: "المهارات",  shortLabel: "المهارات",  emoji: "⭐" },
-    { id: "projects",       label: "المشاريع",  shortLabel: "المشاريع",  emoji: "🚀" },
-    { id: "certifications", label: "الشهادات",  shortLabel: "الشهادات",  emoji: "🏅" },
-    { id: "custom",         label: "إضافات",    shortLabel: "إضافات",    emoji: "➕" },
-    { id: "cover-letter",   label: "الخطاب",    shortLabel: "الخطاب",    emoji: "📝" },
-    { id: "finish",          label: "تحميل",     shortLabel: "تحميل",     emoji: "📄" },
+    { id: "basics",         label: "البيانات الأساسية",  shortLabel: "البيانات",  emoji: "👤" },
+    { id: "experience",     label: "الخبرات المهنية",   shortLabel: "الخبرات",   emoji: "💼" },
+    { id: "education",      label: "التعليم والدراسة",   shortLabel: "التعليم",   emoji: "🎓" },
+    { id: "skills",         label: "المهارات والقدرات",  shortLabel: "المهارات",  emoji: "⭐" },
+    { id: "projects",       label: "المشاريع المنجزة",  shortLabel: "المشاريع",  emoji: "🚀" },
+    { id: "certifications", label: "الشهادات والجوائز",  shortLabel: "الشهادات",  emoji: "🏅" },
+    { id: "custom",         label: "أقسام مخصصة",    shortLabel: "إضافات",    emoji: "➕" },
+    { id: "cover-letter",   label: "خطاب التغطية (AI)", shortLabel: "الخطاب",    emoji: "📝" },
+    { id: "finish",          label: "التدقيق والتحميل",     shortLabel: "تحميل",     emoji: "📄" },
   ],
   en: [
-    { id: "basics",         label: "Basics",      shortLabel: "Basics",  emoji: "👤" },
-    { id: "experience",     label: "Experience",  shortLabel: "Exp",     emoji: "💼" },
+    { id: "basics",         label: "Personal Info",      shortLabel: "Basics",  emoji: "👤" },
+    { id: "experience",     label: "Work Experience",  shortLabel: "Exp",     emoji: "💼" },
     { id: "education",      label: "Education",   shortLabel: "Edu",     emoji: "🎓" },
-    { id: "skills",         label: "Skills",      shortLabel: "Skills",  emoji: "⭐" },
-    { id: "projects",       label: "Projects",    shortLabel: "Proj",    emoji: "🚀" },
-    { id: "certifications", label: "Certs",       shortLabel: "Certs",   emoji: "🏅" },
-    { id: "custom",         label: "Custom",      shortLabel: "Custom",  emoji: "➕" },
-    { id: "cover-letter",   label: "Cover",       shortLabel: "Cover",   emoji: "📝" },
-    { id: "finish",          label: "Download",    shortLabel: "Done",    emoji: "📄" },
+    { id: "skills",         label: "Skills & Stack",      shortLabel: "Skills",  emoji: "⭐" },
+    { id: "projects",       label: "Key Projects",    shortLabel: "Proj",    emoji: "🚀" },
+    { id: "certifications", label: "Certifications",       shortLabel: "Certs",   emoji: "🏅" },
+    { id: "custom",         label: "Custom Sections",      shortLabel: "Custom",  emoji: "➕" },
+    { id: "cover-letter",   label: "Cover Letter",       shortLabel: "Cover",   emoji: "📝" },
+    { id: "finish",          label: "Download Resume",    shortLabel: "Done",    emoji: "📄" },
   ],
   fr: [
-    { id: "basics",         label: "Infos",       shortLabel: "Infos",   emoji: "👤" },
-    { id: "experience",     label: "Expérience",  shortLabel: "Exp",     emoji: "💼" },
-    { id: "education",      label: "Formation",   shortLabel: "Form",    emoji: "🎓" },
+    { id: "basics",         label: "Infos Personnelles",       shortLabel: "Infos",   emoji: "👤" },
+    { id: "experience",     label: "Expérience Pro",  shortLabel: "Exp",     emoji: "💼" },
+    { id: "education",      label: "Formation et Études",   shortLabel: "Form",    emoji: "🎓" },
     { id: "skills",         label: "Compétences", shortLabel: "Comp",    emoji: "⭐" },
-    { id: "projects",       label: "Projets",     shortLabel: "Proj",    emoji: "🚀" },
-    { id: "certifications", label: "Certifs",     shortLabel: "Cert",    emoji: "🏅" },
-    { id: "custom",         label: "Custom",      shortLabel: "Custom",  emoji: "➕" },
-    { id: "cover-letter",   label: "Lettre",      shortLabel: "Lett",    emoji: "📝" },
-    { id: "finish",          label: "Télécharger", shortLabel: "Fin",     emoji: "📄" },
+    { id: "projects",       label: "Projets Clés",     shortLabel: "Proj",    emoji: "🚀" },
+    { id: "certifications", label: "Certifications",     shortLabel: "Cert",    emoji: "🏅" },
+    { id: "custom",         label: "Sections Custom",      shortLabel: "Custom",  emoji: "➕" },
+    { id: "cover-letter",   label: "Lettre de Motivation",      shortLabel: "Lett",    emoji: "📝" },
+    { id: "finish",          label: "Téléchargement", shortLabel: "Fin",     emoji: "📄" },
   ],
 };
 
@@ -88,109 +89,161 @@ const NAV_LABELS: Record<Locale, { next: string; prev: string }> = {
   fr: { next: "Suivant",prev: "Retour" },
 };
 
-// ── color helpers ─────────────────────────────────────────
-function getStepState(i: number, current: number): StepState {
-  if (i < current)  return "done";
-  if (i === current) return "active";
-  return "pending";
+// ── Step Node with Circular Completion SVG Ring ────────────
+interface NodeProps {
+  index: number;
+  id: string;
+  isActive: boolean;
+  isDone: boolean;
+  completion: number;
+  onClick?: () => void;
+  size?: number;
 }
 
-function dotColors(state: StepState) {
-  switch (state) {
-    case "done":    return { bg: "#0F6E56", text: "#fff", border: "#0F6E56" };
-    case "active":  return { bg: "#FF4D2D", text: "#fff", border: "#FF4D2D" };
-    default:        return { bg: "#fff",    text: "#999", border: "#E0DDD6" };
-  }
-}
+function ProgressNode({ index, id, isActive, isDone, completion, onClick, size = 32 }: NodeProps) {
+  const Icon = STEP_ICONS[id];
+  
+  // Outer circle circumference for SVG indicator: 2 * pi * r. Let's use radius = 14 for a 32px box
+  const radius = 14;
+  const strokeWidth = 2.5;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (completion / 100) * circumference;
 
-function labelColor(state: StepState) {
-  switch (state) {
-    case "done":   return "#0F6E56";
-    case "active": return "#FF4D2D";
-    default:       return "#999";
-  }
-}
-
-function connectorColor(i: number, current: number) {
-  return i < current ? "#0F6E56" : "#E0DDD6";
-}
-
-// ── DotNode ───────────────────────────────────────────────
-function DotNode({ index, state, onClick, size = 32 }: { index: number; state: StepState; onClick?: () => void; size?: number }) {
-  const [hovered, setHovered] = useState(false);
-  const c = dotColors(state);
   return (
-    <div
+    <button
       onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        width:          size,
-        height:         size,
-        borderRadius:   "50%",
-        background:     c.bg,
-        color:          c.text,
-        border:         `2px solid ${c.border}`,
-        display:        "flex",
-        alignItems:     "center",
-        justifyContent: "center",
-        fontSize:       size < 28 ? 10 : 12,
-        fontWeight:     700,
-        cursor:         "pointer",
-        flexShrink:     0,
-        transition:     "all .25s",
-        transform:      hovered && state !== "active" ? "scale(1.1)" : "scale(1)",
-        boxShadow:      state === "active" ? "0 0 0 4px rgba(255,77,45,0.15)" : "none",
-        zIndex:         1,
-        position:       "relative",
-      }}
+      type="button"
+      className={cn(
+        "relative flex items-center justify-center rounded-full transition-all duration-300 shrink-0 select-none group focus:outline-hidden",
+        isActive 
+          ? "scale-110 shadow-lg shadow-brand-500/15" 
+          : "hover:scale-105"
+      )}
+      style={{ width: size, height: size }}
     >
-      {state === "done"
-        ? <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        : index + 1
-      }
-    </div>
+      {/* Background ring for completion percentage */}
+      {completion > 0 && completion < 100 && (
+        <svg className="absolute inset-0 w-full h-full -rotate-90 transform-gpu pointer-events-none" viewBox="0 0 32 32">
+          {/* Base track */}
+          <circle 
+            cx="16" cy="16" r={radius} 
+            fill="transparent" 
+            stroke="var(--color-neutral-200)" 
+            strokeWidth={strokeWidth} 
+          />
+          {/* Progress circle */}
+          <circle 
+            cx="16" cy="16" r={radius} 
+            fill="transparent" 
+            stroke="var(--color-brand-500)" 
+            strokeWidth={strokeWidth} 
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            className="transition-all duration-500 ease-out"
+          />
+        </svg>
+      )}
+
+      {/* Main Core Node */}
+      <div 
+        className={cn(
+          "w-full h-full rounded-full flex items-center justify-center font-bold text-xs border-2 transition-all duration-300",
+          isDone || completion === 100
+            ? "bg-emerald-600 border-emerald-600 text-white shadow-xs"
+            : isActive
+              ? "bg-brand-500 border-brand-500 text-white shadow- brand-500/20"
+              : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
+        )}
+      >
+        {isDone || completion === 100 ? (
+          <Check size={13} className="stroke-[3]" />
+        ) : Icon ? (
+          <Icon size={12} className="stroke-[2.5]" />
+        ) : (
+          index + 1
+        )}
+      </div>
+
+      {/* Mini state tooltip */}
+      <div className="absolute top-full mt-2 hidden group-hover:flex flex-col items-center z-50 pointer-events-none">
+        <div className="bg-neutral-900 text-white text-[10px] px-2 py-1 rounded-md font-black shadow-lg whitespace-nowrap">
+          {completion}%
+        </div>
+      </div>
+    </button>
   );
 }
 
-// ── HORIZONTAL variant ────────────────────────────────────
-function HorizontalStepper({ steps, current, onStepClick, completionMap: _completionMap, isRtl }: { steps: Step[]; current: number; onStepClick?: (i: number) => void; completionMap: Record<string, number>; isRtl: boolean }) {
+// ── HORIZONTAL variant (desktop top bar) ──────────────────
+function HorizontalStepper({ 
+  steps, 
+  current, 
+  onStepClick, 
+  completionMap, 
+  isRtl 
+}: { 
+  steps: Step[]; 
+  current: number; 
+  onStepClick?: (i: number) => void; 
+  completionMap: Record<string, number>; 
+  isRtl: boolean; 
+}) {
   return (
-    <div style={{
-      display:     "flex",
-      alignItems:  "flex-start",
-      padding:     "16px 24px",
-      background:  "#FAFAF8",
-      borderBottom: "1px solid #E8E6DF",
-      direction:   isRtl ? "rtl" : "ltr",
-      overflowX:   "auto",
-    }}>
+    <div 
+      className={cn(
+        "flex items-center gap-1.5 p-4 sm:p-5 bg-neutral-50/50 border-b border-neutral-200 overflow-x-auto scrollbar-none scroll-smooth",
+        isRtl ? "rtl" : "ltr"
+      )}
+    >
       {steps.map((step, i) => {
-        const state = getStepState(i, current);
+        const isActive = i === current;
+        const isDone = i < current;
+        const completion = completionMap[step.id] ?? 0;
+
         return (
-          <div key={step.id} style={{ display: "flex", alignItems: "flex-start", flex: 1, minWidth: 0 }}>
-            {/* dot + label */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-              <DotNode index={i} state={state} onClick={() => onStepClick?.(i)} />
-              <span style={{
-                fontSize:   10,
-                fontWeight: state === "active" ? 700 : 400,
-                color:      labelColor(state),
-                whiteSpace: "nowrap",
-              }}>
+          <div key={step.id} className="flex items-center flex-1 min-w-0 last:flex-none">
+            {/* Node + Label */}
+            <div className="flex items-center gap-2.5 px-1.5 py-1">
+              <ProgressNode 
+                index={i} 
+                id={step.id} 
+                isActive={isActive} 
+                isDone={isDone} 
+                completion={completion} 
+                onClick={() => onStepClick?.(i)} 
+              />
+              <span 
+                className={cn(
+                  "text-[11px] font-bold tracking-tight whitespace-nowrap transition-colors duration-200",
+                  isActive 
+                    ? "text-brand-500 font-extrabold" 
+                    : isDone || completion === 100
+                      ? "text-emerald-700" 
+                      : "text-neutral-500"
+                )}
+              >
                 {step.shortLabel}
+                {completion > 0 && completion < 100 && (
+                  <span className="text-[9px] text-neutral-400 font-normal ms-1">({completion}%)</span>
+                )}
               </span>
             </div>
-            {/* connector */}
+
+            {/* Connecting line */}
             {i < steps.length - 1 && (
-              <div style={{
-                flex:       1,
-                height:     2,
-                background: connectorColor(i, current),
-                marginTop:  15,
-                transition: "background .4s",
-                minWidth:   8,
-              }} />
+              <div className="flex-1 h-[2px] mx-2 min-w-[12px] bg-neutral-200 rounded-full overflow-hidden shrink-0">
+                <div 
+                  className={cn(
+                    "h-full transition-all duration-500",
+                    isDone || completion === 100
+                      ? "bg-emerald-600 w-full" 
+                      : isActive 
+                        ? "bg-gradient-to-r from-brand-500 to-neutral-200 w-1/2" 
+                        : "bg-transparent w-0"
+                  )}
+                />
+              </div>
             )}
           </div>
         );
@@ -199,54 +252,87 @@ function HorizontalStepper({ steps, current, onStepClick, completionMap: _comple
   );
 }
 
-// ── VERTICAL variant ──────────────────────────────────────
-function VerticalStepper({ steps, current, onStepClick, completionMap: _completionMap, isRtl }: { steps: Step[]; current: number; onStepClick?: (i: number) => void; completionMap: Record<string, number>; isRtl: boolean }) {
+// ── VERTICAL variant (desktop left sidebar) ───────────────
+function VerticalStepper({ 
+  steps, 
+  current, 
+  onStepClick, 
+  completionMap, 
+  isRtl 
+}: { 
+  steps: Step[]; 
+  current: number; 
+  onStepClick?: (i: number) => void; 
+  completionMap: Record<string, number>; 
+  isRtl: boolean; 
+}) {
   return (
-    <div style={{
-      display:       "flex",
-      flexDirection: "column",
-      padding:       "16px 12px",
-      direction:     isRtl ? "rtl" : "ltr",
-    }}>
+    <div className={cn("flex flex-col gap-1 p-3 w-full", isRtl ? "rtl" : "ltr")}>
       {steps.map((step, i) => {
-        const state  = getStepState(i, current);
+        const isActive = i === current;
+        const isDone = i < current;
         const isLast = i === steps.length - 1;
+        const completion = completionMap[step.id] ?? 0;
+
         return (
-          <div key={step.id} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-            {/* dot + vertical connector */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <DotNode index={i} state={state} onClick={() => onStepClick?.(i)} size={28} />
-              {!isLast && (
-                <div style={{
-                  width:      2,
-                  flex:       1,
-                  minHeight:  24,
-                  background: connectorColor(i, current),
-                  margin:     "3px 0",
-                  transition: "background .4s",
-                }} />
-              )}
-            </div>
-            {/* label + sub */}
-            <div style={{ paddingBottom: isLast ? 0 : 16, paddingTop: 3 }}>
-              <div style={{
-                fontSize:   13,
-                fontWeight: state === "active" ? 600 : 500,
-                color:      labelColor(state),
-                cursor:     "pointer",
-                display:    "flex",
-                alignItems: "center",
-                gap:        6,
-              }}
-                onClick={() => onStepClick?.(i)}
-              >
-                {(() => {
-                  const Icon = STEP_ICONS[step.id];
-                  return Icon ? <Icon size={14} style={{ opacity: state === "active" ? 1 : 0.6 }} /> : null;
-                })()}
-                <span>{step.label}</span>
+          <div key={step.id} className="flex flex-col w-full">
+            <div className="flex items-center gap-3 w-full">
+              {/* Node container with vertical connector embedded */}
+              <div className="flex flex-col items-center shrink-0">
+                <ProgressNode 
+                  index={i} 
+                  id={step.id} 
+                  isActive={isActive} 
+                  isDone={isDone} 
+                  completion={completion} 
+                  onClick={() => onStepClick?.(i)} 
+                  size={30}
+                />
               </div>
+
+              {/* Label Info Card */}
+              <button
+                type="button"
+                onClick={() => onStepClick?.(i)}
+                className={cn(
+                  "flex-1 flex items-center justify-between text-start p-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden",
+                  isActive
+                    ? "bg-brand-50/50 border-brand-500/25 shadow-xs"
+                    : "bg-transparent border-transparent hover:bg-neutral-100/70"
+                )}
+              >
+                <div className="flex flex-col text-start">
+                  <span 
+                    className={cn(
+                      "text-xs font-bold leading-tight",
+                      isActive 
+                        ? "text-brand-500 font-extrabold" 
+                        : isDone || completion === 100
+                          ? "text-emerald-700" 
+                          : "text-neutral-700"
+                    )}
+                  >
+                    {step.label}
+                  </span>
+                  
+                  {/* Subtle checklist stat helper */}
+                  {completion > 0 && (
+                    <span className="text-[9px] font-semibold text-neutral-400 mt-0.5">
+                      {completion === 100 ? (isRtl ? "مكتملة بالكامل" : "Completely Done") : `${completion}% ${isRtl ? "مكتمل" : "completed"}`}
+                    </span>
+                  )}
+                </div>
+
+                {completion === 100 && (
+                  <Check size={14} className="text-emerald-600 shrink-0" />
+                )}
+              </button>
             </div>
+
+            {/* Connecting line spacer */}
+            {!isLast && (
+              <div className={cn("h-4 w-[2px] my-0.5", isRtl ? "mr-[14px]" : "ml-[14px]", isDone || completion === 100 ? "bg-emerald-600/30" : "bg-neutral-200")} />
+            )}
           </div>
         );
       })}
@@ -254,115 +340,109 @@ function VerticalStepper({ steps, current, onStepClick, completionMap: _completi
   );
 }
 
-// ── MINI variant (mobile bottom bar) ─────────────────────
-function MiniStepper({ steps, current, onNext, onPrev, isRtl, navLabels }: { steps: Step[]; current: number; onNext: () => void; onPrev: () => void; isRtl: boolean; navLabels: { next: string; prev: string } }) {
+// ── MINI variant (mobile bottom controller bar) ───────────
+function MiniStepper({ 
+  steps, 
+  current, 
+  onNext, 
+  onPrev, 
+  isRtl, 
+  navLabels,
+  completionMap
+}: { 
+  steps: Step[]; 
+  current: number; 
+  onNext: () => void; 
+  onPrev: () => void; 
+  isRtl: boolean; 
+  navLabels: { next: string; prev: string };
+  completionMap: Record<string, number>;
+}) {
   const safeCurrent = Math.max(0, Math.min(current, steps.length - 1));
-  const step     = steps[safeCurrent];
+  const step = steps[safeCurrent];
   const progress = ((safeCurrent + 1) / steps.length) * 100;
-  const canNext  = safeCurrent < steps.length - 1;
-  const canPrev  = safeCurrent > 0;
+  const canNext = safeCurrent < steps.length - 1;
+  const canPrev = safeCurrent > 0;
+  const completion = completionMap[step.id] ?? 0;
+
+  const Icon = STEP_ICONS[step.id];
 
   return (
-    <div style={{
-      display:        "flex",
-      alignItems:     "center",
-      gap:            12,
-      direction:      isRtl ? "rtl" : "ltr",
-      width:          "100%",
-    }}>
-      {/* prev btn */}
+    <div className={cn("flex items-center gap-3.5 w-full", isRtl ? "rtl" : "ltr")}>
+      {/* Back button */}
       <button
         onClick={onPrev}
         disabled={!canPrev}
-        style={{
-          width:          38,
-          height:         38,
-          borderRadius:   "50%",
-          border:         "1px solid #E8E6DF",
-          background:     canPrev ? "#fff" : "#F5F5F0",
-          display:        "flex",
-          alignItems:     "center",
-          justifyContent: "center",
-          cursor:         canPrev ? "pointer" : "not-allowed",
-          flexShrink:     0,
-          color:          canPrev ? "#333" : "#CCC",
-          fontSize:       16,
-          transition:     "all .15s",
-        }}
+        type="button"
+        className={cn(
+          "w-9 h-9 rounded-full border flex items-center justify-center cursor-pointer transition-all duration-150 select-none shrink-0",
+          canPrev 
+            ? "border-neutral-200 bg-white text-neutral-800 hover:bg-neutral-50 hover:border-neutral-300 active:scale-95" 
+            : "border-neutral-150 bg-neutral-100 text-neutral-300 cursor-not-allowed"
+        )}
       >
-        {isRtl ? "→" : "←"}
+        <span className="text-sm font-black">{isRtl ? "←" : "→"}</span>
       </button>
 
-      {/* progress info */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 5 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: 13, fontWeight: 600, color: "#111", display: "flex", alignItems: "center", gap: 6 }}>
-            {(() => {
-              const Icon = STEP_ICONS[step.id];
-              return Icon ? <Icon size={14} className="text-[#FF4D2D]" /> : null;
-            })()}
-            <span>{step.label}</span>
+      {/* Center text description with progress */}
+      <div className="flex-1 flex flex-col gap-1.5 min-w-0">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-xs font-black text-neutral-900 flex items-center gap-1.5 truncate">
+            {Icon && <Icon size={12} className="text-brand-500 shrink-0" />}
+            <span className="truncate">{step.label}</span>
+            {completion > 0 && (
+              <span className="text-[10px] text-emerald-600 font-extrabold shrink-0">({completion}%)</span>
+            )}
           </span>
-          <span style={{ fontSize: 12, color: "#999" }}>
-            {current + 1} / {steps.length}
+          <span className="text-[10px] text-neutral-450 font-black font-mono select-none shrink-0">
+            {safeCurrent + 1} / {steps.length}
           </span>
         </div>
-        {/* progress bar */}
-        <div style={{ height: 4, background: "#F0EDE8", borderRadius: 99, overflow: "hidden" }}>
-          <div style={{
-            height:     4,
-            width:      `${progress}%`,
-            background: current === steps.length - 1 ? "#0F6E56" : "#FF4D2D",
-            borderRadius: 99,
-            transition: "width .4s cubic-bezier(.22,1,.36,1)",
-            ...(isRtl ? { float: "right" } : {}),
-          }} />
+
+        {/* Dynamic single visual slider */}
+        <div className="h-1.5 bg-neutral-150 rounded-full overflow-hidden shrink-0">
+          <div 
+            className="h-full rounded-full bg-brand-500 transition-all duration-500 ease-out"
+            style={{ 
+              width: `${progress}%`,
+              float: isRtl ? "right" : "left"
+            }} 
+          />
         </div>
       </div>
 
-      {/* next btn */}
+      {/* Next button */}
       <button
         onClick={onNext}
         disabled={!canNext}
-        style={{
-          height:         38,
-          paddingInline:  16,
-          borderRadius:   10,
-          border:         "none",
-          background:     canNext ? "#111" : "#F5F5F0",
-          color:          canNext ? "#fff" : "#CCC",
-          display:        "flex",
-          alignItems:     "center",
-          justifyContent: "center",
-          gap:            6,
-          cursor:         canNext ? "pointer" : "not-allowed",
-          flexShrink:     0,
-          fontSize:       13,
-          fontWeight:     700,
-          transition:     "all .15s",
-          whiteSpace:     "nowrap",
-        }}
+        type="button"
+        className={cn(
+          "h-9 px-4.5 rounded-xl flex items-center justify-center gap-1 cursor-pointer font-bold text-xs select-none transition-all duration-150 shrink-0 border-none",
+          canNext 
+            ? "bg-neutral-900 text-white hover:bg-neutral-800 active:scale-95" 
+            : "bg-neutral-100 text-neutral-400 cursor-not-allowed"
+        )}
       >
-        {navLabels.next} {isRtl ? "←" : "→"}
+        <span>{navLabels.next}</span>
+        <span className="text-[10px] font-black">{isRtl ? "→" : "←"}</span>
       </button>
     </div>
   );
 }
 
-// ── Main export ───────────────────────────────────────────
+// ── Main Export ───────────────────────────────────────────
 export default function ProgressStepper({
-  variant       = "horizontal",   // "horizontal" | "vertical" | "mini"
-  current       = 0,
-  onStepClick   = () => {},
-  onNext        = () => {},
-  onPrev        = () => {},
-  lang          = "ar",
+  variant = "horizontal",
+  current = 0,
+  onStepClick = () => {},
+  onNext = () => {},
+  onPrev = () => {},
+  lang = "ar",
   completionMap = {},
 }: ProgressStepperProps) {
-  const steps     = STEPS[lang] ?? STEPS.en;
-  const isRtl     = lang === "ar";
+  const steps = STEPS[lang] ?? STEPS.en;
+  const isRtl = lang === "ar";
   const navLabels = NAV_LABELS[lang] ?? NAV_LABELS.en;
-
   const safeCurrent = Math.max(0, Math.min(current, steps.length - 1));
 
   switch (variant) {
@@ -385,6 +465,7 @@ export default function ProgressStepper({
           onPrev={onPrev}
           isRtl={isRtl}
           navLabels={navLabels}
+          completionMap={completionMap}
         />
       );
     default:

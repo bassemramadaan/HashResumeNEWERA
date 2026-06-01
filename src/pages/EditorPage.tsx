@@ -732,6 +732,7 @@ export default function EditorPage() {
     skills: data.skills && data.skills.length > 0 ? 100 : 0,
     certifications: data.certifications && data.certifications.length > 0 ? 100 : 0,
     custom: data.customSections && data.customSections.length > 0 ? 100 : 0,
+    "cover-letter": data.coverLetter?.generatedContent ? 100 : 0,
     finish: atsScore,
   };
 

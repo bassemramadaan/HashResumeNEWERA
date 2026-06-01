@@ -1,17 +1,22 @@
+import React from "react";
 import ProgressStepper from "./ProgressStepper";
 import { useLanguageStore } from "../../store/useLanguageStore";
+import { cn } from "../../lib/utils";
 
-export default function EditorSidebar({
-  activeTab     = "basics",
-  onTabChange   = () => {},
-  completionMap = {},
-}: {
+interface EditorSidebarProps {
   activeTab?: string;
   onTabChange?: (id: string) => void;
   lang?: "ar" | "en" | "fr";
   completionMap?: Record<string, number>;
-}) {
+}
+
+export default function EditorSidebar({
+  activeTab = "basics",
+  onTabChange = () => {},
+  completionMap = {},
+}: EditorSidebarProps) {
   const { language } = useLanguageStore();
+  const isRtl = language === "ar";
   
   const stepIds = [
     "basics", "experience", "education", "skills", "projects", 
@@ -20,25 +25,14 @@ export default function EditorSidebar({
   const currentIndex = stepIds.indexOf(activeTab);
 
   return (
-    <aside style={{
-      width:          240,
-      minWidth:       240,
-      height:         "100%",
-      background:     "#FAFAF8",
-      borderInlineEnd: "1px solid #E8E6DF",
-      display:        "flex",
-      flexDirection:  "column",
-      direction:      language === "ar" ? "rtl" : "ltr",
-      overflowY:      "auto",
-    }}>
-      <div style={{
-        fontSize:      11,
-        fontWeight:    600,
-        color:         "#999",
-        letterSpacing: ".08em",
-        padding:       "16px 16px 4px",
-        textTransform: "uppercase",
-      }}>
+    <aside 
+      className={cn(
+        "w-60 min-w-60 h-full bg-neutral-50 border-neutral-200 flex flex-col overflow-y-auto select-none",
+        isRtl ? "border-l" : "border-r"
+      )}
+      style={{ direction: isRtl ? "rtl" : "ltr" }}
+    >
+      <div className="text-[10px] font-extrabold text-neutral-450 tracking-wider uppercase px-4.5 pt-4.5 pb-2">
         {language === "ar" ? "خطوات العمل" : language === "fr" ? "Étapes" : "Progress"}
       </div>
 
