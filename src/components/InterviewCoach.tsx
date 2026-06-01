@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Sparkles, MessageSquare, HelpCircle, ChevronDown, Award, Loader2, BookOpen, Lightbulb, PenTool } from "lucide-react";
+import { Sparkles, MessageSquare, ChevronDown, Award, Loader2, BookOpen, Lightbulb, PenTool } from "lucide-react";
 import { useResumeStore } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { aiService } from "../services/aiService";
@@ -107,12 +107,37 @@ export default function InterviewCoach() {
   const isAr = language === "ar";
   
   // Initialize from store, but let them edit
-  const [jobTitle, setJobTitle] = useState(data.personalInfo.jobTitle || "");
+  const [jobTitle, setJobTitle] = useState(data.personalInfo?.jobTitle || "");
   const [skillsInput, setSkillsInput] = useState(data.skills?.join(", ") || "");
   
   const [questions, setQuestions] = useState<QuestionItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
+
+  // Interactive Checklist State for Empty Status
+  const [checkedItems, setCheckedItems] = useState<Record<number, boolean>>({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+  });
+
+  const checklistItems = isAr 
+    ? [
+        { id: 1, title: "فحص الكاميرا والإضاءة والزاوية", desc: "تأكد من سطوع الإضاءة الكافية ووضوح ملامح وجهك مقابل العدسة." },
+        { id: 2, title: "نقاوة الصوت ومحيط هادئ", desc: "استخدم سماعات بجودة مقبولة مع إلغاء الضجيج قدر الإمكان لحديث هادئ ومريح." },
+        { id: 3, title: "مراجعة السيرة الذاتية المهنية", desc: "أعد تذكر أدوارك السابقة والمشاريع التي نفذتها لتتمم مطابقتهم بالأسئلة السلوكية." },
+        { id: 4, title: "تأمين اتصال إنترنت مستقر", desc: "تجنب انقطاع الرابط للذكاء الاصطناعي لتفادي توقف معالجة البيانات." },
+        { id: 5, title: "التحضير لمنهجية STAR في الإجابة", desc: "تذكر الهيكل: الموقف (Situation)، المهمة (Task)، الإجراء (Action)، والنتيجة (Result)." }
+      ]
+    : [
+        { id: 1, title: "Check Camera & Lighting Quality", desc: "Ensure your lighting source is front-facing and your face is fully visible on camera." },
+        { id: 2, title: "Audio Clarity & Silent Environment", desc: "Use a dedicated microphone and isolate environmental background noises or chatter." },
+        { id: 3, title: "Brief Over Candidate Bio & Experience", desc: "Re-read your resume points to align your previous achievements with interview questions." },
+        { id: 4, title: "Secure Stable Network State", desc: "Verify bandwidth reliability to prevent live stream disruptions." },
+        { id: 5, title: "Practice Constructing STAR Frameworks", desc: "Prepare answers with clear Situation, Task, Action, and Quantitative Results." }
+      ];
 
   const getFallback = (): QuestionItem[] => {
     const langKey = (language === "ar" || language === "en" || language === "fr") ? language : "en";
@@ -157,13 +182,20 @@ export default function InterviewCoach() {
         throw new Error("Invalid output layout");
       }
     } catch (e) {
-      console.warn("Generating interview questions via AI limits reached, pulling stellar heuristic mock interview questions:", e);
-      // Fallback
+      console.warn("Generating interview questions via AI limits reached:", e);
       setQuestions(getFallback());
     } finally {
       setLoading(false);
     }
   };
+
+  const toggleChecklistItem = (id: number) => {
+    setCheckedItems(prev => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const completedCount = Object.values(checkedItems).filter(Boolean).length;
+  const totalChecklist = checklistItems.length;
+  const percentageCompleted = Math.round((completedCount / totalChecklist) * 100);
 
   return (
     <div className="bg-white border border-slate-150 rounded-3xl p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] max-w-3xl mx-auto space-y-6 text-start select-none relative overflow-hidden" dir={isAr ? "rtl" : "ltr"}>
@@ -173,20 +205,20 @@ export default function InterviewCoach() {
       {/* Visual Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-slate-900 via-[#1C1A35] to-[#FF4D2D] p-3 text-white flex items-center justify-center shadow-lg shrink-0 relative">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-slate-900 via-slate-800 to-[#FF4D2D] p-3 text-white flex items-center justify-center shadow-lg shrink-0 relative">
             <MessageSquare size={20} className="relative z-10" />
             <div className="absolute inset-0 bg-white/10 rounded-2xl animate-pulse" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h4 className="font-black text-slate-900 text-sm sm:text-base tracking-tight leading-tight">
-                {isAr ? "مستشار الاستعداد للمقابلات الذكي" : "AI Interview Coach & Prep"}
+                {isAr ? "مستشار الاستعداد للمقابلات الشخصية الذكي" : "AI Interview Coach & Prep"}
               </h4>
-              <span className="bg-gradient-to-r from-[#FF4D2D]/10 to-indigo-500/10 text-[#FF4D2D] text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border border-[#FF4D2D]/20">
+              <span className="bg-[#FF4D2D]/10 text-[#FF4D2D] text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border border-[#FF4D2D]/20">
                 PRO AI
               </span>
             </div>
-            <p className="text-slate-400 text-[10px] sm:text-[11px] font-bold mt-1">
+            <p className="text-slate-500 text-[10px] sm:text-[11px] font-bold mt-1">
               {isAr 
                 ? "توليد أسئلة مقابلة متقدمة وإجابات نموذجية مستهدفة بناءً على بيانات مجالك مخصصة!" 
                 : "Generate custom mock interview questions and structured STAR response templates matching your goals!"}
@@ -227,7 +259,7 @@ export default function InterviewCoach() {
           <button
             onClick={generateAIQuestions}
             disabled={loading || !jobTitle.trim()}
-            className="w-full sm:w-auto bg-gradient-to-r from-slate-900 to-indigo-950 text-white border-none py-3 px-6 rounded-xl text-xs font-black hover:opacity-90 active:scale-[0.98] duration-150 disabled:opacity-40 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto bg-slate-900 text-white border-none py-3 px-6 rounded-xl text-xs font-black hover:bg-slate-800 active:scale-[0.98] duration-150 disabled:opacity-40 transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
           >
             <Sparkles size={12} className="text-[#FF4D2D]" />
             <span>{isAr ? "توليد أسئلة مخصصة بالذكاء الاصطناعي" : "Generate Custom Coach"}</span>
@@ -255,7 +287,7 @@ export default function InterviewCoach() {
 
       {/* Accordion Questions List */}
       <AnimatePresence>
-        {questions.length > 0 && (
+        {!loading && questions.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -268,9 +300,9 @@ export default function InterviewCoach() {
               </span>
               <button 
                 onClick={generateAIQuestions}
-                className="text-[10px] font-black text-[#FF4D2D] hover:underline hover:opacity-80 flex items-center gap-1 cursor-pointer"
+                className="text-[10px] font-black text-[#FF4D2D] hover:underline hover:opacity-85 flex items-center gap-1 cursor-pointer"
               >
-                <Sparkles size={10} />
+                <Sparkles size={10} className="text-[#FF4D2D]" />
                 <span>{isAr ? "إعادة التوليد بتحديثات جديدة" : "Regenerate New Set"}</span>
               </button>
             </div>
@@ -283,8 +315,8 @@ export default function InterviewCoach() {
                     key={idx}
                     className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
                       isExpanded 
-                        ? "border-[#FF4D2D]/40 bg-linear-to-b from-white to-slate-50/20 shadow-[0_4px_24px_rgba(255,102,51,0.06)] scale-[1.01]" 
-                        : "border-slate-150 bg-slate-50/20 hover:border-slate-300"
+                        ? "border-[#FF4D2D]/40 bg-linear-to-b from-white to-slate-50/25 shadow-[0_4px_24px_rgba(255,102,51,0.06)] scale-[1.01]" 
+                        : "border-slate-150 bg-slate-50/10 hover:border-slate-300"
                     }`}
                   >
                     {/* Header Trigger */}
@@ -298,7 +330,7 @@ export default function InterviewCoach() {
                         }`}>
                           {idx + 1}
                         </div>
-                        <span className="font-black text-slate-800 text-xs sm:text-[13px] leading-snug">
+                        <span className="font-black text-slate-880 text-xs sm:text-[13px] leading-snug">
                           {item.question}
                         </span>
                       </div>
@@ -321,32 +353,32 @@ export default function InterviewCoach() {
                           <div className="p-4 sm:p-5 space-y-4">
                             {/* Tips */}
                             {item.tip && (
-                              <div className="bg-indigo-50/40 border border-indigo-100/50 rounded-xl p-4 flex gap-3 text-indigo-950 leading-relaxed text-xs">
-                                <Lightbulb size={16} className="text-indigo-600 shrink-0 mt-0.5" />
+                              <div className="bg-indigo-50/50 border border-indigo-100/70 rounded-xl p-4 flex gap-3 text-slate-700 leading-relaxed text-xs">
+                                <Lightbulb size={16} className="text-indigo-600 shrink-0 mt-0.5 animate-pulse" />
                                 <div className="space-y-0.5">
                                   <span className="font-extrabold text-indigo-800 block">
                                     {isAr ? "هدف ومقصد مسؤول التوظيف:" : "What Recruiters Are Looking For:"}
                                   </span>
-                                  <p className="font-medium text-slate-650">{item.tip}</p>
+                                  <p className="font-semibold text-slate-600">{item.tip}</p>
                                 </div>
                               </div>
                             )}
 
                             {/* STAR Answer Template */}
                             {item.answerOutline && (
-                              <div className="bg-emerald-50/30 border border-emerald-100/40 rounded-xl p-4 flex gap-3 text-emerald-950 leading-relaxed text-xs">
+                              <div className="bg-emerald-50/50 border border-emerald-100/70 rounded-xl p-4 flex gap-3 text-slate-700 leading-relaxed text-xs">
                                 <Award size={16} className="text-emerald-600 shrink-0 mt-0.5" />
                                 <div className="space-y-0.5">
-                                  <span className="font-extrabold text-emerald-800 block">
+                                  <span className="font-extrabold text-[#059669] block">
                                     {isAr ? "صيغة الإجابة المقترحة بطريقة STAR:" : "Suggested STAR Format Formulation:"}
                                   </span>
-                                  <p className="font-medium text-slate-650">{item.answerOutline}</p>
+                                  <p className="font-semibold text-slate-650">{item.answerOutline}</p>
                                 </div>
                               </div>
                             )}
 
                             {/* Action Tracker Suggestion */}
-                            <div className="p-3 bg-slate-50/60 rounded-xl border border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase">
+                            <div className="p-3 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-bold uppercase">
                               <span className="flex items-center gap-1">
                                 <PenTool size={11} className="text-slate-350" />
                                 {isAr ? "تلميح: دوّن إجابتك الخاصة بصحفة الملاحظات" : "Pro tip: write down your custom draft"}
@@ -366,23 +398,108 @@ export default function InterviewCoach() {
         )}
       </AnimatePresence>
 
-      {/* Call to action info text empty state */}
+      {/* Call to action info text empty state - WITH EXQUISITE INTERACTIVE PREP CHECKLIST BOARD */}
       {!loading && questions.length === 0 && (
-        <div className="border border-dashed border-slate-200 rounded-3xl p-8 sm:p-10 text-center space-y-4 bg-linear-to-b from-slate-50/10 to-slate-150/10">
-          <HelpCircle className="mx-auto text-slate-300 w-9 h-9 animate-bounce" />
-          <div className="space-y-2 max-w-sm mx-auto">
-            <h5 className="font-black text-slate-800 text-xs sm:text-[14px]">
-              {isAr ? "تخصيص مستشار المقابلات فورا" : "Begin Your Tailored Practice"}
+        <div className="border border-dashed border-slate-200 rounded-3xl p-6 sm:p-8 bg-slate-50/30 relative z-10 space-y-6">
+          <div className="text-center space-y-2 max-w-sm mx-auto">
+            <div className="px-2.5 py-1 bg-slate-100 border border-slate-200 rounded-full text-[10px] font-black text-slate-600 uppercase block w-fit mx-auto select-none tracking-widest leading-none mb-1">
+              💻 {isAr ? "مرشد الاستعداد والتهيئة التفاعلي" : "INTERACTIVE PRE-INTERVIEW CHECKLIST"}
+            </div>
+            <h5 className="font-black text-slate-850 text-[13px] sm:text-[14px]">
+              {isAr ? "تجهيز بيئة العمل واستكمال نقاط الاستعداد" : "Complete Candidate Readiness Check"}
             </h5>
-            <p className="text-[11px] text-slate-400 font-bold leading-normal">
+            <p className="text-[11px] text-slate-500 font-bold leading-normal">
               {isAr 
-                ? "أدخل المسمى الوظيفي المستهدف والمهارات بالنموذج أعلاه لتصميم أسئلة ذكية ملائمة تماماً للمقابلات." 
-                : "Provide your target title and critical key skills above to synthesize interactive real-world recruiter simulations."}
+                ? "تأكّد من استجابة النقاط التالية قبل بدء المحاكاة لتثبيت ذهنيتك ورفع الكفاءة:" 
+                : "Check your background factors to achieve optimal vocal focus and professional recall metrics:"}
             </p>
           </div>
+
+          {/* Interactive Checklist Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            {checklistItems.map((item) => {
+              const checked = !!checkedItems[item.id];
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => toggleChecklistItem(item.id)}
+                  className={`p-4 rounded-2xl text-start transition-all cursor-pointer border flex gap-3 relative overflow-hidden group select-none ${
+                    checked 
+                      ? "bg-indigo-50/50 border-indigo-200 shadow-xs animate-none" 
+                      : "bg-white border-slate-150 hover:bg-slate-50/80 hover:border-slate-300"
+                  }`}
+                >
+                  <div className={`w-5 h-5 rounded-md flex items-center justify-center mt-0.5 shrink-0 transition-all ${
+                    checked 
+                      ? "bg-indigo-600 text-white" 
+                      : "border border-slate-300 group-hover:border-slate-400 bg-white"
+                  }`}>
+                    {checked && (
+                      <svg className="w-3.5 h-3.5 stroke-[3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    )}
+                  </div>
+                  <div className="space-y-1">
+                    <h6 className={`text-xs font-black transition-colors ${checked ? "text-indigo-800" : "text-slate-850"}`}>
+                      {item.title}
+                    </h6>
+                    <p className="text-[10px] text-slate-500 font-semibold leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Checklist Live Progress Meter Indicator */}
+          <div className="bg-white border border-slate-150 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="space-y-1.5 text-center sm:text-start w-full sm:w-auto">
+              <div className="flex items-center justify-center sm:justify-start gap-2">
+                <span className="text-xs font-black text-slate-750 font-sans">
+                  {isAr ? "مؤشر استعدادك الحالي:" : "Current Prep Index:"}
+                </span>
+                <span className={`text-[10px] font-black px-2 py-0.5 rounded-md ${
+                  percentageCompleted === 100 ? "bg-emerald-50 text-emerald-700 border border-emerald-150" : "bg-indigo-50 text-indigo-700 border border-indigo-150"
+                }`}>
+                  {percentageCompleted}% {isAr ? "مستعد" : "Ready"}
+                </span>
+              </div>
+              <p className="text-[10px] text-slate-450 font-bold">
+                {isAr
+                  ? `${completedCount} من أصل ${totalChecklist} خطوات مكتملة بنجاح.`
+                  : `${completedCount} of ${totalChecklist} criteria completed successfully.`}
+              </p>
+            </div>
+
+            {/* Progress Slider Bar */}
+            <div className="w-full sm:w-48 bg-slate-100 rounded-full h-2 relative overflow-hidden shrink-0">
+              <motion.div 
+                className={`h-full rounded-full bg-gradient-to-r ${percentageCompleted === 100 ? "from-emerald-500 to-teal-400" : "from-[#FF4D2D] to-indigo-500"}`}
+                initial={{ width: 0 }}
+                animate={{ width: `${percentageCompleted}%` }}
+                transition={{ duration: 0.3 }}
+              />
+            </div>
+          </div>
+
+          {percentageCompleted === 100 && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-emerald-50 border border-emerald-150 p-4 rounded-2xl text-center text-xs font-black text-emerald-800 flex items-center justify-center gap-2"
+            >
+              <span>🎉</span>
+              <span>
+                {isAr 
+                  ? "أنت جاهز تماماً! اضغط على زر التوليد بالأعلى لتصميم الأسئلة المخصصة بمقاييسك المتفوقة." 
+                  : "Excellent! You are 100% prepared. Click Generate Custom Coach above to formulate your custom simulations."}
+              </span>
+            </motion.div>
+          )}
         </div>
       )}
     </div>
   );
 }
-
