@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import {
@@ -7,7 +6,7 @@ import {
   Target,
   PenTool,
   Search,
-  Share2,
+  Sparkles,
 } from "lucide-react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
@@ -23,16 +22,8 @@ export default function FinishStep({
 }: FinishStepProps) {
   const { language } = useLanguageStore();
   const t = translations[language].landing.finish;
-  const [copiedLink, setCopiedLink] = useState(false);
 
   const isAr = language === "ar";
-
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      setCopiedLink(true);
-      setTimeout(() => setCopiedLink(false), 2000);
-    });
-  };
 
   const nextSteps = [
     {
@@ -77,31 +68,28 @@ export default function FinishStep({
         <p className="text-slate-500 text-lg">{t.readySubtitle}</p>
       </div>
 
-      {/* Centered Share Link Container */}
-      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-[0_4px_30px_-4px_rgba(0,0,0,0.03)] text-center relative overflow-hidden group max-w-xl mx-auto">
-        <div className="absolute top-0 end-0 w-32 h-32 bg-emerald-500/[0.02] rounded-full -me-16 -mt-16 transition-transform group-hover:scale-110 duration-500" />
-
-        <div className="space-y-5">
-          <div className="mx-auto p-2.5 bg-rose-50 rounded-2xl text-[#FF4D2D] w-fit">
-            <Share2 className="w-5 h-5" />
+      {/* Promoted AI Interview Coach Standalone Feature */}
+      <div className="bg-gradient-to-tr from-slate-900 via-slate-850 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl max-w-xl mx-auto text-center relative overflow-hidden group">
+        <div className="absolute inset-0 bg-radial from-orange-500/[0.08] to-transparent pointer-events-none" />
+        <div className="space-y-4">
+          <div className="mx-auto p-3 bg-white/10 rounded-2xl text-[#FF4D2D] w-fit font-black animate-pulse">
+            <Sparkles className="w-5 h-5" />
           </div>
-          <h3 className="text-lg font-black text-slate-800 tracking-tight">
-            {isAr ? "رابط المشاركة المباشر" : "Live Share Link"}
+          <h3 className="text-lg sm:text-xl font-black tracking-tight">
+            {isAr ? "مستشار المقابلات الشخصية بالذكاء الاصطناعي" : "AI Interview Prep & Coach"}
           </h3>
-          <p className="text-xs text-slate-500 font-semibold leading-relaxed max-w-sm mx-auto">
-            {isAr 
-              ? "انسخ رابط سيرتك الذاتية المباشر لمشاركته فوراً مع مسؤولي التوظيف والشركات."
-              : "Copy your direct live resume link to immediately share it with employers and recruiters."}
+          <p className="text-xs text-slate-300 font-medium leading-relaxed max-w-md mx-auto">
+            {isAr
+              ? "هل أنهيت إعداد سيرتك الذاتية؟ جرب ميزتنا الحصرية في صفحة منفصلة! تدرّب على محاكاة أسئلة المقابلات الشخصية بناءً على خبراتك وحصد وظيفة أحلامك الآن."
+              : "Finished compiling your resume? Test your performance using our separate master page tool! Prepare with exact contextual situational interview questions."}
           </p>
-          
           <div className="pt-2 flex justify-center">
-            <button
-              onClick={handleCopyLink}
-              className="flex items-center gap-2 h-12 px-6 text-white bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:from-rose-700 hover:to-[#E64528] active:scale-95 transition-all rounded-2xl text-xs font-black shadow-md cursor-pointer select-none"
+            <Link
+              to="/interview-prep"
+              className="flex items-center gap-2 h-11 px-6 bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 transition-all text-white rounded-2xl text-xs font-black shadow-md cursor-pointer select-none"
             >
-              <Share2 size={14} />
-              <span>{copiedLink ? (isAr ? "تم نسخ الرابط بنجاح!" : "Link Copied!") : (isAr ? "نسخ رابط سيرتك المباشر" : "Copy Live Link")}</span>
-            </button>
+              <span>{isAr ? "دخول مستشار المقابلات الآن" : "Launch Prep Coach"}</span>
+            </Link>
           </div>
         </div>
       </div>

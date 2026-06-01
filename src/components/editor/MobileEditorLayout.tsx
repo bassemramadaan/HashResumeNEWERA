@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Edit3, Eye, Grid, Download, 
-  FileText, ChevronRight, Share2 
+  FileText, ChevronRight 
 } from "lucide-react";
 import ProgressStepper from "./ProgressStepper";
 
@@ -100,13 +100,6 @@ function MiniRing({ pct }: { pct: number }) {
 // ── ExportScreen ──────────────────────────────────────────
 function ExportScreen({ lang, onPDF, onWord }: { lang: string; onPDF: () => void; onWord: () => void }) {
   const t = T[lang] ?? T.en;
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard?.writeText(window.location.href).catch(() => {});
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   const items = [
     { 
@@ -122,13 +115,6 @@ function ExportScreen({ lang, onPDF, onWord }: { lang: string; onPDF: () => void
       note: t.wordNote, 
       bg: "bg-blue-50 border-blue-100",  
       action: onWord 
-    },
-    { 
-      icon: <Share2 className="w-5 h-5 text-indigo-600" />, 
-      label: copied ? "✓ " + t.shareLink : t.shareLink, 
-      note: t.linkNote, 
-      bg: "bg-indigo-50 border-indigo-100", 
-      action: handleCopy 
     },
   ];
 

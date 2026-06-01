@@ -41,6 +41,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         { label: 'الميزات', href: '/#features' },
         { label: 'فحص ATS', href: '/#ats-check', badge: 'مجاني' },
         { label: 'الأسعار', href: '/#pricing' },
+        { label: 'المقابلة الذكية', href: '/interview-prep', badge: 'جديد' },
         { label: 'كيف يعمل؟', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
@@ -49,6 +50,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         { label: 'Fonctionnalités', href: '/#features' },
         { label: 'Test ATS', href: '/#ats-check', badge: 'GRATUIT' },
         { label: 'Tarifs', href: '/#pricing' },
+        { label: 'Coach Entretien', href: '/interview-prep', badge: 'NEW' },
         { label: 'Comment ça marche', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]
@@ -56,6 +58,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         { label: 'Features', href: '/#features' },
         { label: 'ATS Check', href: '/#ats-check', badge: 'FREE' },
         { label: 'Pricing', href: '/#pricing' },
+        { label: 'Interview Prep', href: '/interview-prep', badge: 'NEW' },
         { label: 'How it Works', href: '/how-ats-works' },
         { label: 'Hash Hunt', href: '/hash-hunt' },
       ]

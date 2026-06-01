@@ -14,6 +14,7 @@ const BlogPostPage = React.lazy(() => import("./pages/BlogPostPage"));
 const TemplatesPage = React.lazy(() => import("./pages/TemplatesPage"));
 const SharePage = React.lazy(() => import("./pages/SharePage"));
 const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage"));
+const InterviewCoachPage = React.lazy(() => import("./pages/InterviewCoachPage"));
 const TermsOfServicePage = React.lazy(() => import("./pages/TermsOfServicePage"));
 const HowAtsWorksPage = React.lazy(() => import("./pages/HowAtsWorksPage"));
 const TrustPage = React.lazy(() => import("./pages/TrustPage"));
@@ -57,6 +58,7 @@ export default function App() {
               <Route path="/trust" element={<TrustPage />} />
               <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
               <Route path="/faq" element={<FAQPage />} />
+              <Route path="/interview-prep" element={<InterviewCoachPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <Analytics />
