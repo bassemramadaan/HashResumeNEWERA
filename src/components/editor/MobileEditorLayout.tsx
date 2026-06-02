@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { 
   Edit3, Eye, Grid, Download, 
   FileText, ChevronRight 
@@ -255,6 +255,13 @@ export default function MobileEditorLayout({
   const handleSectionChange = (id: string) => {
     onSectionChange(id);
     setActiveTab("edit");
+    // Ensure instant scroll recovery when transitioning section mobile tabs
+    setTimeout(() => {
+      const scrollable = document.querySelector(".editor-form-scrollable");
+      if (scrollable) {
+        scrollable.scrollTo({ top: 0, behavior: "instant" as any });
+      }
+    }, 45);
   };
 
   const TABS = [
@@ -267,7 +274,7 @@ export default function MobileEditorLayout({
   const currentSection = sections.find(s => s.id === activeSection);
 
   return (
-    <div className="flex flex-col h-[100dvh] bg-slate-50 text-slate-800 overflow-hidden relative pb-[calc(76px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="fixed inset-0 flex flex-col bg-slate-50 text-slate-800 overflow-hidden pb-[calc(76px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header ── */}
       <header className="sticky top-0 z-50 bg-white border-b border-[#FF4D2D]/30 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
@@ -307,45 +314,37 @@ export default function MobileEditorLayout({
         />
       </div>
 
-      {/* ── Main content area with fade animations ── */}
+      {/* ── Main content area ── */}
       <main className="flex-1 overflow-hidden w-full max-w-lg mx-auto relative">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.2 }}
-            className="h-full w-full"
-          >
-            {activeTab === "edit" && (
-              <div className="h-full flex flex-col overflow-hidden relative">
-                <div className="flex-1 overflow-hidden relative">{children}</div>
-              </div>
-            )}
-            {activeTab === "preview" && (
-              <div className="h-full overflow-hidden relative">
-                {previewContent}
-              </div>
-            )}
-            {activeTab === "sections" && (
-              <div className="h-full overflow-y-auto w-full scrollbar-none pb-4">
-                <SectionsScreen
-                  _lang={lang}
-                  sections={sections}
-                  activeSection={activeSection}
-                  onSectionChange={handleSectionChange}
-                  completionMap={completionMap}
-                />
-              </div>
-            )}
-            {activeTab === "export" && (
-              <div className="h-full overflow-y-auto w-full scrollbar-none pb-4">
-                <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} />
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+        {/* EDIT TAB */}
+        <div className={`h-full w-full ${activeTab === "edit" ? "block" : "hidden"}`}>
+          <div className="h-full flex flex-col overflow-hidden relative">
+            <div className="flex-1 overflow-hidden relative">{children}</div>
+          </div>
+        </div>
+
+        {/* PREVIEW TAB */}
+        <div className={`h-full w-full ${activeTab === "preview" ? "block" : "hidden"}`}>
+          <div className="h-full overflow-hidden relative">
+            {previewContent}
+          </div>
+        </div>
+
+        {/* SECTIONS TAB */}
+        <div className={`h-full w-full overflow-y-auto scrollbar-none pb-4 ${activeTab === "sections" ? "block" : "hidden"}`}>
+          <SectionsScreen
+            _lang={lang}
+            sections={sections}
+            activeSection={activeSection}
+            onSectionChange={handleSectionChange}
+            completionMap={completionMap}
+          />
+        </div>
+
+        {/* EXPORT TAB */}
+        <div className={`h-full w-full overflow-y-auto scrollbar-none pb-4 ${activeTab === "export" ? "block" : "hidden"}`}>
+          <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} />
+        </div>
       </main>
 
       {/* ── Tactfully Designed Premium Bottom Navigation Bar ── */}
