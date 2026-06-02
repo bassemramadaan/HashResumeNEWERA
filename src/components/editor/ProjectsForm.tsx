@@ -28,7 +28,7 @@ export const ProjectsForm: React.FC = () => {
         </div>
         <button
           onClick={addProject}
-          className="flex items-center gap-2 bg-indigo-55 text-indigo-650 hover:bg-indigo-50 hover:text-indigo-650 px-4 py-2.5 rounded-xl text-sm font-bold transition-all border border-indigo-100 cursor-pointer shadow-3xs active:scale-95"
+          className="flex items-center gap-2 bg-slate-900 border border-slate-900 text-white hover:bg-slate-950 px-4 py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer shadow-3xs active:scale-95"
         >
           <Plus size={18} />
           {String(t.projects?.add || "Add")}
@@ -57,18 +57,20 @@ export const ProjectsForm: React.FC = () => {
             >
               <div className="flex items-center px-4 md:px-6 py-4 bg-white/50 border-b border-slate-100 justify-between">
                 <div className="flex items-center flex-1 min-w-0 mr-3 rtl:ml-3">
-                  <GripVertical className="mr-3 text-slate-400 cursor-grab active:cursor-grabbing shrink-0" size={20} />
+                  <div className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-[#FF4D2D]/10 text-slate-500 hover:text-[#FF4D2D] hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-[#FF4D2D]/15 transition-all shadow-3xs flex items-center justify-center shrink-0 mr-3 ml-3" title="Drag to reorder">
+                    <GripVertical size={16} style={{ strokeWidth: 2.2 }} />
+                  </div>
                   <button
                     onClick={() => toggleExpand(project.id)}
-                    className="flex-1 text-left rtl:text-right font-bold text-slate-900 truncate tracking-tight cursor-pointer hover:text-indigo-600 transition-colors"
+                    className="flex-1 text-left rtl:text-right font-bold text-slate-900 truncate tracking-tight cursor-pointer hover:text-brand-500 transition-colors"
                   >
                     {project.name || String(t.projects?.notSpecified || "")}
                   </button>
                 </div>
                 <div className="flex items-center gap-1 sm:gap-4 shrink-0">
-                  <button
+                   <button
                     onClick={() => duplicateProject(project.id)}
-                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors shrink-0 cursor-pointer"
+                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-brand-500 hover:bg-brand-50/50 rounded-lg transition-colors shrink-0 cursor-pointer"
                     title={String(t.projects?.duplicate || "")}
                   >
                     <Copy size={18} />
@@ -108,7 +110,7 @@ export const ProjectsForm: React.FC = () => {
                             value={project.name}
                             onChange={(e) => updateProject(project.id, { name: e.target.value })}
                             placeholder="e.g. Personal Portfolio"
-                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
                           />
                         </div>
                         <div className="space-y-2">
@@ -120,7 +122,7 @@ export const ProjectsForm: React.FC = () => {
                             value={project.link}
                             onChange={(e) => updateProject(project.id, { link: e.target.value })}
                             placeholder="e.g. project-url.com"
-                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
                           />
                         </div>
                       </div>
@@ -134,7 +136,7 @@ export const ProjectsForm: React.FC = () => {
                           onChange={(e) => updateProject(project.id, { description: e.target.value })}
                           placeholder={String(t.projects?.tipsExample || "")}
                           rows={4}
-                          className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all resize-y placeholder-slate-455 font-medium leading-relaxed outline-none"
+                          className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all resize-y placeholder-slate-455 font-medium leading-relaxed outline-none"
                         />
                       </div>
                     </div>

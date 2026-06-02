@@ -57,24 +57,24 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
   return (
     <section className="relative overflow-hidden bg-white pt-10 pb-20 md:pt-16 md:pb-28">
 
-      {/* Decorative Grid Background */}
+      {/* Fine Blueprint Matrix Grid & Radial Ambient Lighting Background */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        className="absolute inset-0 opacity-[0.06] pointer-events-none select-none"
         style={{
           backgroundImage:
-            'linear-gradient(to right, #000 1px, transparent 1px), linear-gradient(to bottom, #000 1px, transparent 1px)',
-          backgroundSize: '40px 40px',
-          maskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)',
+            'linear-gradient(to right, rgba(255, 77, 45, 0.25) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 77, 45, 0.25) 1px, transparent 1px)',
+          backgroundSize: '30px 30px',
+          maskImage: 'radial-gradient(circle at 50% 30%, black 60%, transparent 100%)',
+          WebkitMaskImage: 'radial-gradient(circle at 50% 30%, black 60%, transparent 100%)',
         }}
       />
 
-      {/* Top Abstract Glow (Simplified for performance) */}
+      {/* Smooth SaaS Radial Ambient Lighting Glow Behind Headlines */}
       <div
-        className="absolute top-[-10%] sm:top-[-20%] left-1/2 -translate-x-1/2 w-[600px] sm:w-[800px] h-[400px] sm:h-[600px] rounded-full pointer-events-none opacity-20 mix-blend-multiply filter blur-3xl transform-gpu"
+        className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[800px] md:w-[1200px] h-[600px] md:h-[700px] rounded-full pointer-events-none opacity-45 mix-blend-multiply filter blur-[120px] transform-gpu"
         style={{
-          background: 'radial-gradient(circle, rgba(255,160,122,0.3) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255,160,122,0.2) 0%, rgba(255,77,45,0.08) 40%, transparent 70%)',
         }}
       />
 
@@ -173,8 +173,17 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           </div>
 
 
-          {/* Big App Mockup */}
-          <div className="relative rounded-2xl md:rounded-[2rem] overflow-hidden border-2 border-slate-100 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] bg-white transform rotate-x-2 hover:rotate-x-0 transition-transform duration-700">
+          {/* Big App Mockup with floating motion and elegant 3D hover scale & tilt */}
+          <motion.div 
+            animate={{ y: [0, -6, 0] }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            whileHover={{ scale: 1.01, rotateX: 0.5, rotateY: -0.5 }}
+            className="relative rounded-2xl md:rounded-[2rem] overflow-hidden border-2 border-slate-150/80 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.12)] bg-white transition-all duration-300"
+          >
             {/* Window bar */}
             <div className="flex items-center gap-2 px-6 py-4 bg-slate-50 border-b border-slate-100">
               <span className="w-3 h-3 rounded-full bg-rose-400 shadow-sm" />
@@ -391,7 +400,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
       

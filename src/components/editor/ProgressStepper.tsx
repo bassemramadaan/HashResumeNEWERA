@@ -116,7 +116,7 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
       className={cn(
         "relative flex items-center justify-center rounded-full transition-all duration-300 shrink-0 select-none group focus:outline-hidden",
         isActive 
-          ? "scale-110 shadow-lg shadow-brand-500/15" 
+          ? "scale-110 shadow-lg shadow-slate-900/10" 
           : "hover:scale-105"
       )}
       style={{ width: size, height: size }}
@@ -152,7 +152,7 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
           isDone || completion === 100
             ? "bg-emerald-600 border-emerald-600 text-white shadow-xs"
             : isActive
-              ? "bg-brand-500 border-brand-500 text-white shadow-brand-500/20"
+              ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
               : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
         )}
       >
@@ -290,7 +290,7 @@ function VerticalStepper({
                 className={cn(
                   "flex-1 flex items-center justify-between text-start p-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden",
                   isActive
-                    ? "bg-brand-50/50 border-brand-500/25 shadow-xs"
+                    ? "bg-white border-slate-300 shadow-[0_4px_12px_rgba(15,23,42,0.04)] ring-1 ring-slate-100/50"
                     : "bg-transparent border-transparent hover:bg-neutral-100/70"
                 )}
               >
@@ -299,7 +299,7 @@ function VerticalStepper({
                     className={cn(
                       "text-xs font-bold leading-tight",
                       isActive 
-                        ? "text-brand-500 font-extrabold" 
+                        ? "text-slate-950 font-extrabold" 
                         : isDone || completion === 100
                           ? "text-emerald-700" 
                           : "text-neutral-700"

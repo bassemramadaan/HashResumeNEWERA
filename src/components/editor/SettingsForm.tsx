@@ -210,18 +210,18 @@ export default React.memo(function SettingsForm() {
                 className={cn(
                   "p-4 rounded-xl border-2 text-start transition-all relative overflow-hidden group",
                   settings.template === template.id
-                    ? "border-orange-500 bg-orange-50 shadow-sm"
+                    ? "border-brand-500 bg-brand-50 shadow-sm"
                     : "border-slate-200 hover:border-slate-300 hover:bg-slate-50",
                 )}
               >
                 {settings.template === template.id && (
-                  <div className="absolute top-0 end-0 w-16 h-16 bg-orange-500/10 rounded-bl-full -me-8 -mt-8 transition-transform group-hover:scale-110" />
+                  <div className="absolute top-0 end-0 w-16 h-16 bg-brand-500/10 rounded-bl-full -me-8 -mt-8 transition-transform group-hover:scale-110" />
                 )}
                 <div
                   className={cn(
                     "font-bold mb-1 transition-colors relative z-10",
                     settings.template === template.id
-                      ? "text-orange-700"
+                      ? "text-brand-700"
                       : "text-slate-900",
                   )}
                 >
@@ -231,7 +231,7 @@ export default React.memo(function SettingsForm() {
                   className={cn(
                     "text-xs transition-colors relative z-10",
                     settings.template === template.id
-                      ? "text-orange-600/80"
+                      ? "text-brand-600/80"
                       : "text-white0",
                   )}
                 >
@@ -254,7 +254,7 @@ export default React.memo(function SettingsForm() {
               className={cn(
                 "px-6 py-2 rounded-xl border-2 font-medium transition-all",
                 settings.language === "en"
-                  ? "border-orange-500 bg-orange-50 text-orange-700"
+                  ? "border-brand-500 bg-brand-50 text-brand-700"
                   : "border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50",
               )}
             >
@@ -265,7 +265,7 @@ export default React.memo(function SettingsForm() {
               className={cn(
                 "px-6 py-2 rounded-xl border-2 font-medium transition-all",
                 settings.language === "ar"
-                  ? "border-orange-500 bg-orange-50 text-orange-700"
+                  ? "border-brand-500 bg-brand-50 text-brand-700"
                   : "border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50",
               )}
             >
@@ -276,7 +276,7 @@ export default React.memo(function SettingsForm() {
               className={cn(
                 "px-6 py-2 rounded-xl border-2 font-medium transition-all",
                 settings.language === "fr"
-                  ? "border-orange-500 bg-orange-50 text-orange-700"
+                  ? "border-brand-500 bg-brand-50 text-brand-700"
                   : "border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50",
               )}
             >
@@ -328,7 +328,7 @@ export default React.memo(function SettingsForm() {
               <div
                 className={cn(
                   "w-11 h-6 rounded-full transition-colors relative",
-                  settings.isFreshGrad ? "bg-orange-500" : "bg-slate-300",
+                  settings.isFreshGrad ? "bg-brand-500" : "bg-slate-300",
                 )}
               >
                 <div
@@ -352,7 +352,7 @@ export default React.memo(function SettingsForm() {
 
         {/* Fit to One Page Feature */}
         <div className="pt-6 border-t border-slate-200">
-          <div className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-2xl p-1 shadow-lg shadow-orange-500/20 mb-6">
+          <div className="bg-gradient-to-r from-brand-500 to-amber-500 rounded-2xl p-1 shadow-lg shadow-brand-500/25 mb-6">
             <button
               onClick={() => {
                 // "Fit to One Page" Optimizer
@@ -363,14 +363,14 @@ export default React.memo(function SettingsForm() {
                   marginSize: "compact"
                 });
               }}
-              className="w-full bg-white hover:bg-orange-50 flex items-center justify-between p-4 rounded-xl transition-colors group relative overflow-hidden"
+              className="w-full bg-white hover:bg-brand-50/40 flex items-center justify-between p-4 rounded-xl transition-colors group relative overflow-hidden cursor-pointer"
             >
               <div className="flex items-center gap-4 relative z-10">
-                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 group-hover:scale-110 transition-transform">
+                <div className="w-10 h-10 bg-brand-100 rounded-full flex items-center justify-center text-brand-650 group-hover:scale-110 transition-transform animate-pulse">
                   <Wand2 size={20} />
                 </div>
                 <div className="text-start">
-                  <div className="font-bold text-slate-900 group-hover:text-orange-700 transition-colors text-base">
+                  <div className="font-bold text-slate-900 group-hover:text-brand-700 transition-colors text-base">
                     {settings.language === "ar" ? "احتواء في صفحة واحدة التلقائي" : "Auto Fit to One Page"}
                   </div>
                   <div className="text-sm text-slate-500 mt-0.5">
@@ -378,7 +378,7 @@ export default React.memo(function SettingsForm() {
                   </div>
                 </div>
               </div>
-              <div className="text-orange-600 font-bold bg-orange-100 px-4 py-1.5 rounded-full text-sm group-hover:bg-orange-200 transition-colors whitespace-nowrap ms-2">
+              <div className="text-brand-600 font-bold bg-brand-100 px-4 py-1.5 rounded-full text-sm group-hover:bg-brand-200 transition-colors whitespace-nowrap ms-2">
                 {settings.language === "ar" ? "تطبيق الميزة" : "Apply Magic"}
               </div>
             </button>
@@ -402,7 +402,7 @@ export default React.memo(function SettingsForm() {
               <select
                 value={settings.fontSize || "medium"}
                 onChange={(e) => updateSettings({ fontSize: e.target.value as any })}
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                 dir={settings.language === "ar" ? "rtl" : "ltr"}
               >
                 <option value="small">{settings.language === "ar" ? "صغير" : "Small"}</option>
@@ -419,7 +419,7 @@ export default React.memo(function SettingsForm() {
               <select
                 value={settings.lineHeight || "normal"}
                 onChange={(e) => updateSettings({ lineHeight: e.target.value as any })}
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                 dir={settings.language === "ar" ? "rtl" : "ltr"}
               >
                 <option value="tight">{settings.language === "ar" ? "ضيق" : "Tight"}</option>
@@ -436,7 +436,7 @@ export default React.memo(function SettingsForm() {
               <select
                 value={settings.sectionSpacing || "normal"}
                 onChange={(e) => updateSettings({ sectionSpacing: e.target.value as any })}
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                 dir={settings.language === "ar" ? "rtl" : "ltr"}
               >
                 <option value="compact">{settings.language === "ar" ? "مضغوط" : "Compact"}</option>
@@ -453,7 +453,7 @@ export default React.memo(function SettingsForm() {
               <select
                 value={settings.fontFamily || "inter"}
                 onChange={(e) => updateSettings({ fontFamily: e.target.value as any })}
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                 dir={settings.language === "ar" ? "rtl" : "ltr"}
               >
                 <option value="inter">{settings.language === "ar" ? "الحداثة (Sans)" : "Modern (Sans)"}</option>
@@ -497,7 +497,7 @@ export default React.memo(function SettingsForm() {
                       className={cn(
                         "p-2.5 rounded-xl border text-start transition-all cursor-pointer relative overflow-hidden",
                         settings.fontFamily === f.id
-                          ? "border-orange-500 bg-orange-50/55 ring-2 ring-orange-400/25"
+                          ? "border-brand-500 bg-brand-50/50 ring-2 ring-brand-500/10"
                           : "border-slate-200 hover:border-slate-300 bg-white"
                       )}
                     >
@@ -507,7 +507,7 @@ export default React.memo(function SettingsForm() {
                         <div className="text-xs text-slate-800 font-medium">{f.previewAr}</div>
                       </div>
                       {settings.fontFamily === f.id && (
-                        <div className="absolute top-1 end-1 w-1.5 h-1.5 rounded-full bg-orange-500" />
+                        <div className="absolute top-1 end-1 w-1.5 h-1.5 rounded-full bg-brand-500" />
                       )}
                     </button>
                   ))}
@@ -519,9 +519,9 @@ export default React.memo(function SettingsForm() {
         </div>
 
         {/* Data Backup & Restore */}
-        <div className="space-y-4 p-6 bg-orange-50 rounded-2xl border border-orange-100">
+        <div className="space-y-4 p-6 bg-slate-50 rounded-2xl border border-slate-200/85">
           <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <Save size={20} className="text-orange-500" />
+            <Save size={20} className="text-slate-600" />
             {t.settings.dataBackup}
           </h3>
           <p className="text-sm text-slate-600">

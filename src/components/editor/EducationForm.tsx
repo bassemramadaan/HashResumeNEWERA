@@ -96,10 +96,11 @@ const EducationForm = () => {
               >
                 <div className="flex items-center gap-4">
                   <div
-                    className="cursor-grab active:cursor-grabbing p-1 text-slate-400 hover:text-slate-600"
+                    className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-[#FF4D2D]/10 text-slate-500 hover:text-[#FF4D2D] hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-[#FF4D2D]/15 transition-all shadow-3xs flex items-center justify-center shrink-0"
                     onClick={(e) => e.stopPropagation()}
+                    title="Drag to reorder"
                   >
-                    <GripVertical size={20} />
+                    <GripVertical size={16} style={{ strokeWidth: 2.2 }} />
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 tracking-tight">

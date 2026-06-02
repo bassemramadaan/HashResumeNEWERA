@@ -81,21 +81,22 @@ function SaveIndicator({ isSaved, lang }: { isSaved: boolean; lang: AppLang }) {
 
   return (
     <div className="group relative flex items-center">
-      <div className={`flex items-center gap-1.5 text-xs font-semibold select-none leading-none px-3 py-1.5 rounded-full border transition-all duration-300 ${isSaved ? "text-emerald-700 bg-emerald-500/5 border-emerald-500/10 cursor-help" : "text-amber-600 bg-amber-500/5 border-amber-500/10 animate-pulse"}`}>
+      <div className={`flex items-center gap-2 text-xs font-semibold select-none leading-none px-3.5 py-1.5 rounded-full border transition-all duration-300 ${isSaved ? "text-emerald-700 bg-emerald-500/5 border-emerald-500/15 cursor-help" : "text-amber-600 bg-amber-500/5 border-amber-500/15"}`}>
         {isSaved ? (
-          <svg className="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 10v4M12 14l-2-2M12 14l2-2" />
-            <path d="M17.5 19A3.5 3.5 0 0 0 21 15.5c0-2.79-2.54-4.5-5-4.5A7 7 0 1 0 3.5 14.5c0 2.18 1.41 3.82 3.5 4" />
-          </svg>
+          <span className="relative flex h-2 w-2 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
         ) : (
-          <svg className="w-3.5 h-3.5 text-amber-500 shrink-0 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
-          </svg>
+          <span className="relative flex h-2 w-2 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+          </span>
         )}
-        <span className="text-[11px] font-bold">
+        <span className="text-[11px] font-black tracking-wide flex items-center gap-1">
           {isSaved 
-            ? (isAr ? "محفوظ محلياً بأمان" : "Saved Locally & Securely") 
-            : (isAr ? "جاري الحفظ..." : "Saving...")}
+            ? (isAr ? "محفوظ آمن 🔐" : "Securely Saved 🔐") 
+            : (isAr ? "تعديل جاري... ⏳" : "Saving progress... ⏳")}
         </span>
       </div>
 

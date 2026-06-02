@@ -319,6 +319,41 @@ export default function MobileEditorLayout({
         {/* EDIT TAB */}
         <div className={`h-full w-full ${activeTab === "edit" ? "block" : "hidden"}`}>
           <div className="h-full flex flex-col overflow-hidden relative">
+            {/* Horizontal Sections Quick Switcher */}
+            <div className="bg-white border-b border-slate-200/50 px-3 py-2 shrink-0 overflow-x-auto scrollbar-none flex items-center gap-2 select-none">
+              {sections.map((s) => {
+                const isActive = activeSection === s.id;
+                const pct = completionMap[s.id] ?? 0;
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => {
+                      onSectionChange(s.id);
+                      // Scroll form to top
+                      setTimeout(() => {
+                        const scrollable = document.querySelector(".editor-form-scrollable");
+                        if (scrollable) {
+                          scrollable.scrollTo({ top: 0, behavior: "instant" as any });
+                        }
+                      }, 45);
+                    }}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap shrink-0 transition-all border ${
+                      isActive
+                        ? "bg-rose-550/10 border-rose-500/25 text-[#FF4D2D]"
+                        : "bg-slate-50 border-slate-200/60 text-slate-655 hover:bg-slate-100"
+                    }`}
+                  >
+                    <span>{s.emoji}</span>
+                    <span>{s.label}</span>
+                    {pct === 100 ? (
+                      <span className="text-emerald-600 font-extrabold text-[10px]">✓</span>
+                    ) : pct > 0 ? (
+                      <span className="text-amber-500 font-extrabold text-[10px]">{pct}%</span>
+                    ) : null}
+                  </button>
+                );
+              })}
+            </div>
             <div className="flex-1 overflow-hidden relative">{children}</div>
           </div>
         </div>

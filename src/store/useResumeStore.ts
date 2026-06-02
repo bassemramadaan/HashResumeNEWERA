@@ -229,12 +229,18 @@ type ResumeStore = {
   addProject: (proj: Omit<Project, "id">) => void;
   updateProject: (id: string, proj: Partial<Project>) => void;
   removeProject: (id: string) => void;
+  reorderProjects: (newProjects: Project[]) => void;
+  duplicateProject: (id: string) => void;
   addCertification: (cert: Omit<Certification, "id">) => void;
   updateCertification: (id: string, cert: Partial<Certification>) => void;
   removeCertification: (id: string) => void;
+  reorderCertifications: (newCerts: Certification[]) => void;
+  duplicateCertification: (id: string) => void;
   addCustomSection: (section: Omit<CustomSection, "id">) => void;
   updateCustomSection: (id: string, section: Partial<CustomSection>) => void;
   removeCustomSection: (id: string) => void;
+  reorderCustomSections: (newSections: CustomSection[]) => void;
+  duplicateCustomSection: (id: string) => void;
   updateSettings: (settings: Partial<ResumeData["settings"]>) => void;
   updateJobDescription: (jd: string) => void;
   updateCoverLetter: (cl: Partial<CoverLetter>) => void;
@@ -384,6 +390,27 @@ export const useResumeStore = create<ResumeStore>()(
               projects: state.data.projects.filter((p) => p.id !== id),
             },
           })),
+        reorderProjects: (newProjects) =>
+          set((state) => ({
+            data: {
+              ...state.data,
+              projects: newProjects,
+            },
+          })),
+        duplicateProject: (id) =>
+          set((state) => {
+            const projectToDuplicate = state.data.projects.find(p => p.id === id);
+            if (!projectToDuplicate) return {};
+            return {
+              data: {
+                ...state.data,
+                projects: [
+                  ...state.data.projects,
+                  { ...projectToDuplicate, id: nanoid() }
+                ]
+              }
+            };
+          }),
         addCertification: (cert) =>
           set((state) => ({
             data: {
@@ -412,6 +439,27 @@ export const useResumeStore = create<ResumeStore>()(
               ),
             },
           })),
+        reorderCertifications: (newCerts) =>
+          set((state) => ({
+            data: {
+              ...state.data,
+              certifications: newCerts,
+            },
+          })),
+        duplicateCertification: (id) =>
+          set((state) => {
+            const certToDuplicate = state.data.certifications.find(c => c.id === id);
+            if (!certToDuplicate) return {};
+            return {
+              data: {
+                ...state.data,
+                certifications: [
+                  ...state.data.certifications,
+                  { ...certToDuplicate, id: nanoid() }
+                ]
+              }
+            };
+          }),
         addCustomSection: (section) =>
           set((state) => ({
             data: {
@@ -440,6 +488,27 @@ export const useResumeStore = create<ResumeStore>()(
               ),
             },
           })),
+        reorderCustomSections: (newSections) =>
+          set((state) => ({
+            data: {
+              ...state.data,
+              customSections: newSections,
+            },
+          })),
+        duplicateCustomSection: (id) =>
+          set((state) => {
+            const sectionToDuplicate = state.data.customSections.find(s => s.id === id);
+            if (!sectionToDuplicate) return {};
+            return {
+              data: {
+                ...state.data,
+                customSections: [
+                  ...state.data.customSections,
+                  { ...sectionToDuplicate, id: nanoid() }
+                ]
+              }
+            };
+          }),
         updateSettings: (settings) =>
           set((state) => ({
             data: {
@@ -502,7 +571,7 @@ export const useResumeStore = create<ResumeStore>()(
                   startDate: "2020-01",
                   endDate: "Present",
                   description:
-                    "Worked on the core web application using React and TypeScript.", // Shortened description
+                    "Worked on the core web application using React and TypeScript.",
                 },
                 {
                   id: nanoid(),

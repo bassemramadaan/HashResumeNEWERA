@@ -4,6 +4,7 @@ import { Navbar }          from '@/components/layout/Navbar'
 import { HeroSection }     from './HeroSection'
 import { FeaturesSection } from './FeaturesSection'
 import { PricingSection }  from './PricingSection'
+import { PremiumTemplatesGallery } from './PremiumTemplatesGallery'
 import LandingAtsTester from '@/components/landing/LandingAtsTester'
 import Testimonials from '@/components/Testimonials'
 import SimpleSteps from '@/components/SimpleSteps'
@@ -23,6 +24,7 @@ export default function LandingPage() {
       <main id="main-content" className="flex-1">
         <HeroSection lang={lang as AppLang} onStart={goToEditor} />
         <SimpleSteps />
+        <PremiumTemplatesGallery />
         <FeaturesSection lang={lang as AppLang} />
         <Testimonials />
         <LandingAtsTester lang={lang as AppLang} onStartClick={goToEditor} />

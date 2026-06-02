@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react'
 import { motion } from 'motion/react'
 import { Bot, Target, Globe, Zap, FileDown, Lock } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
@@ -50,13 +51,13 @@ const containerVariants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.04 }
+    transition: { staggerChildren: 0.05 }
   }
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 15 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
 }
 
 export function FeaturesSection({ lang }: FeaturesSectionProps) {
@@ -64,23 +65,27 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
   const heading = HEADINGS[lang] || HEADINGS['en']
 
   return (
-    <section id="features" className="py-24 px-6 md:px-12 w-full bg-slate-50/30 select-none">
-      <div className="max-w-6xl mx-auto">
+    <section id="features" className="py-24 px-6 md:px-12 w-full bg-slate-50/50 relative overflow-hidden select-none border-t border-slate-100">
+      {/* Visual background lights for section ambient */}
+      <div className="absolute top-[30%] left-[30%] w-[300px] h-[300px] rounded-full bg-rose-50/20 blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[30%] w-[350px] h-[350px] rounded-full bg-orange-50/10 blur-3xl pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto relative z-10">
         
         {/* Section Header */}
         <div className="text-center mb-16 max-w-xl mx-auto">
           <span className="inline-block bg-[#FF4D2D]/5 text-[#FF4D2D] text-[10px] font-black tracking-widest px-3.5 py-1 rounded-full mb-3.5 uppercase border border-[#FF4D2D]/10">
             {heading.label}
           </span>
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-4 tracking-tight leading-tight">
             {heading.title}
           </h2>
-          <p className="text-slate-500 text-[13px] sm:text-sm leading-relaxed font-medium">
+          <p className="text-slate-500 text-[13px] sm:text-sm leading-relaxed font-semibold">
             {heading.subtitle}
           </p>
         </div>
 
-        {/* Grid */}
+        {/* Bento Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
@@ -88,46 +93,81 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
           viewport={{ once: true, margin: "-50px" }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
-          {currentFeatures.map((f, i) => (
-            <FeatureCard key={i} {...f} />
-          ))}
+          {currentFeatures.map((f, i) => {
+            const spanClass = i === 0 || i === 3 || i === 4
+              ? "lg:col-span-2"
+              : "lg:col-span-1";
+            return <FeatureCard key={i} {...f} className={spanClass} />;
+          })}
         </motion.div>
       </div>
     </section>
   );
 }
 
-function FeatureCard({ icon, title, desc, tag }: { 
+function FeatureCard({ icon, title, desc, tag, className }: { 
   icon: string, 
   title: string, 
   desc: string, 
   tag: string,
+  className?: string,
 }) {
   const IconComponent = ICON_MAP[icon as keyof typeof ICON_MAP];
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    setCoords({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   return (
     <motion.div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       variants={itemVariants}
-      className="bg-white border border-slate-150 rounded-2xl p-6 hover:border-[#FF4D2D]/20 shadow-3xs transition-all duration-300 relative overflow-hidden group hover:shadow-xs"
+      className={`bg-white/80 backdrop-blur-md border border-slate-200/50 rounded-3xl p-6 sm:p-8 hover:border-[#FF4D2D]/35 transition-all duration-300 relative overflow-hidden group hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] cursor-default ${className || ""}`}
     >
-      <div className="flex items-start justify-between mb-5">
-        {/* Sleek Minimal Modern Icon container in Coral/Slate tones */}
-        <div className="w-10 h-10 rounded-xl bg-[#FF4D2D]/5 border border-[#FF4D2D]/10 flex items-center justify-center shrink-0 shadow-3xs group-hover:scale-105 group-hover:rotate-1 transition-transform">
+      {/* SaaS active glowing red blur trailing mouse on hover */}
+      {isHovered && (
+        <div 
+          className="absolute inset-0 pointer-events-none transition-opacity duration-500 opacity-100"
+          style={{
+            background: `radial-gradient(180px circle at ${coords.x}px ${coords.y}px, rgba(255, 77, 45, 0.09), transparent 80%)`
+          }}
+        />
+      )}
+
+      {/* Decorative subtle border color bar */}
+      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-[#FF4D2D]/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+      <div className="flex items-start justify-between mb-6 relative z-10">
+        {/* Icon in branded coral container with hover rotation/scaling animation */}
+        <div className="w-11 h-11 rounded-2xl bg-[#FF4D2D]/5 border border-[#FF4D2D]/10 flex items-center justify-center shrink-0 shadow-3xs group-hover:scale-105 group-hover:rotate-3 transition-transform duration-300">
           {IconComponent && (
-            <IconComponent className="w-4.5 h-4.5 text-[#FF4D2D]" strokeWidth={2.0} />
+            <IconComponent className="w-5 h-5 text-[#FF4D2D]" strokeWidth={2.2} />
           )}
         </div>
-        <span className="text-[9px] font-black tracking-wider uppercase px-2 py-0.5 rounded-md text-slate-500 bg-slate-100 border border-slate-200/50">
+        <span className="text-[10px] font-black tracking-wider uppercase px-2.5 py-0.5 rounded-full text-slate-500 bg-slate-50 border border-slate-200/50">
           {tag}
         </span>
       </div>
       
-      <h3 className="text-[15px] font-bold text-slate-950 mb-1.5 leading-tight tracking-tight">
-        {title}
-      </h3>
-      <p className="text-slate-500 text-xs sm:text-[13px] leading-relaxed font-semibold">
-        {desc}
-      </p>
+      <div className="relative z-10 space-y-2">
+        <h3 className="text-base sm:text-[17px] font-black text-slate-900 leading-tight tracking-tight">
+          {title}
+        </h3>
+        <p className="text-slate-500 text-xs sm:text-[13px] leading-relaxed font-semibold max-w-2xl">
+          {desc}
+        </p>
+      </div>
     </motion.div>
   );
 }

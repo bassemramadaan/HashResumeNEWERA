@@ -57,7 +57,9 @@ export const CertificationsForm: React.FC = () => {
             >
               <div className="flex items-center px-4 md:px-6 py-4 bg-white/50 border-b border-slate-100 justify-between">
                 <div className="flex items-center flex-1 min-w-0 mr-3 rtl:ml-3">
-                  <GripVertical className="mr-3 text-slate-400 cursor-grab active:cursor-grabbing shrink-0" size={20} />
+                  <div className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-[#FF4D2D]/10 text-slate-500 hover:text-[#FF4D2D] hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-[#FF4D2D]/15 transition-all shadow-3xs flex items-center justify-center shrink-0 mr-3 ml-3" title="Drag to reorder">
+                    <GripVertical size={16} style={{ strokeWidth: 2.2 }} />
+                  </div>
                   <button
                     onClick={() => toggleExpand(cert.id)}
                     className="flex-1 text-left rtl:text-right font-bold text-slate-900 truncate tracking-tight cursor-pointer hover:text-indigo-600 transition-colors"

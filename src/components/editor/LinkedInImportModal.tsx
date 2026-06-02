@@ -252,8 +252,8 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
             </button>
 
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-600">
-                <Sparkles size={24} className="text-indigo-600 animate-pulse" />
+              <div className="w-12 h-12 bg-brand-500/10 rounded-xl flex items-center justify-center text-brand-600">
+                <Sparkles size={24} className="text-brand-600 animate-pulse" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900">

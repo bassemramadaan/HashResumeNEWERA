@@ -262,7 +262,7 @@ const ProgressTrackerModal = ({
                           </div>
                         </div>
                         {isActive && (
-                          <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
+                          <div className="w-2 h-2 rounded-full bg-brand-500 animate-pulse" />
                         )}
                       </button>
                     );
@@ -1889,7 +1889,7 @@ export default function EditorPage() {
                       className={cn(
                         "flex-1 py-2 text-white rounded-xl font-bold transition-colors",
                         confirmAction.type === "load"
-                          ? "bg-indigo-600 hover:bg-indigo-700"
+                          ? "bg-brand-500 hover:bg-brand-600"
                           : "bg-red-600 hover:bg-red-700",
                       )}
                     >
@@ -1916,13 +1916,13 @@ export default function EditorPage() {
               >
                 {/* Visual loader matching premium look */}
                 <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
-                  <div className="absolute inset-0 rounded-full border-4 border-indigo-100" />
+                  <div className="absolute inset-0 rounded-full border-4 border-brand-50/50" />
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                    className="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent"
+                    className="absolute inset-0 rounded-full border-4 border-brand-500 border-t-transparent"
                   />
-                  <span className="text-xl font-black text-indigo-600">
+                  <span className="text-xl font-black text-brand-600">
                     {Math.min(100, exportStatus.step * 20)}%
                   </span>
                 </div>
@@ -1951,8 +1951,8 @@ export default function EditorPage() {
                     const isCompleted = exportStatus.step > item.id;
                     return (
                       <div key={item.id} className="flex items-center gap-3 text-xs" dir={language === "ar" ? "rtl" : "ltr"}>
-                        <span className={`w-2 h-2 rounded-full ${isCompleted ? "bg-emerald-500" : isActive ? "bg-indigo-600 animate-ping" : "bg-slate-300"}`} />
-                        <span className={isCompleted ? "text-slate-400 line-through font-medium" : isActive ? "text-indigo-900 font-extrabold" : "text-slate-500 font-medium"}>
+                        <span className={`w-2 h-2 rounded-full ${isCompleted ? "bg-emerald-500" : isActive ? "bg-brand-500 animate-ping" : "bg-slate-300"}`} />
+                        <span className={isCompleted ? "text-slate-400 line-through font-medium" : isActive ? "text-zinc-900 font-extrabold" : "text-slate-500 font-medium"}>
                           {language === "ar" ? item.ar : item.en}
                         </span>
                       </div>

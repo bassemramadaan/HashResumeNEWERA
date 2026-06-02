@@ -176,12 +176,18 @@ body {
   background-color: var(--color-neutral-900) !important;
 }
 
-/* Input focus ring */
+/* Input focus ring with soft aura gradient/glow */
+.editor-form input,
+.editor-form textarea,
+.editor-form select {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
 .editor-form input:focus,
 .editor-form textarea:focus,
 .editor-form select:focus {
   border-color: var(--color-brand-500) !important;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-500) 20%, transparent) !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-brand-500) 15%, transparent), 0 4px 14px color-mix(in srgb, var(--color-brand-500) 10%, transparent) !important;
+  transform: translateY(-1px);
 }
 
 /* Progress bars */

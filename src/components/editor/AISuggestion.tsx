@@ -60,9 +60,9 @@ export default function AISuggestion({
   if (!currentValue.trim() && !promptOverride) return null;
 
   return (
-    <div className="mt-2 p-4 rounded-xl bg-indigo-50 border border-indigo-100">
+    <div className="mt-2 p-4 rounded-xl bg-brand-50/15 border border-brand-100/30">
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-2 text-indigo-600">
+        <div className="flex items-center gap-2 text-brand-650">
           <Sparkles size={14} className="animate-pulse" />
           <span className="text-[10px] font-black uppercase tracking-widest">
             AI Suggestion
@@ -71,7 +71,7 @@ export default function AISuggestion({
         {!suggestion && !isGenerating && (
           <button
             onClick={generateSuggestion}
-            className="text-[10px] font-bold text-indigo-600 hover:underline"
+            className="text-[10px] font-bold text-brand-600 hover:underline"
           >
             {language === "ar"
               ? "تحسين باستخدام الذكاء الاصطناعي"
@@ -118,7 +118,7 @@ export default function AISuggestion({
                 onApply(suggestion);
                 setSuggestion(null);
               }}
-              className="flex items-center gap-1 px-4 py-1 bg-indigo-600 text-white rounded-lg text-[10px] font-bold hover:bg-indigo-700 transition-colors"
+              className="flex items-center gap-1 px-4 py-1 bg-slate-900 text-white rounded-lg text-[10px] font-bold hover:bg-slate-950 transition-colors"
             >
               <Check size={12} />
               {language === "ar" ? "تطبيق" : "Apply"}

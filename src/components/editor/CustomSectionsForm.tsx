@@ -56,7 +56,9 @@ export const CustomSectionsForm: React.FC = () => {
               className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="flex items-center px-4 py-3 bg-gray-50/50 border-b border-gray-100">
-                <GripVertical className="mr-3 text-gray-400 cursor-grab active:cursor-grabbing" size={20} />
+                <div className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-[#FF4D2D]/10 text-slate-500 hover:text-[#FF4D2D] hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-[#FF4D2D]/15 transition-all shadow-3xs flex items-center justify-center shrink-0 mr-3 ml-3" title="Drag to reorder">
+                  <GripVertical size={16} style={{ strokeWidth: 2.2 }} />
+                </div>
                 <button
                   onClick={() => toggleExpand(section.id)}
                   className="flex-1 text-left font-medium text-gray-900 truncate"

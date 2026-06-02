@@ -73,7 +73,7 @@ const SkillsForm = () => {
             <button
               type="button"
               onClick={() => setShowAISuggestions(!showAISuggestions)}
-              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
+              className="text-xs font-bold text-brand-600 flex items-center gap-1 bg-brand-50/50 hover:bg-brand-50 px-3 py-1.5 rounded-full transition-colors cursor-pointer border border-brand-100/30"
                           title={language === "ar" ? "اقتراح مهارات ذكية بناءً على بياناتك" : "Suggest smart skills based on your profile"}
             >
               <Sparkles size={14} />
@@ -102,7 +102,7 @@ const SkillsForm = () => {
                 />
               
               <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
-                   <Sparkles size={10} className="text-indigo-400 shrink-0" />
+                   <Sparkles size={10} className="text-brand-400 shrink-0" />
                    {language === "ar" 
                      ? "يتم إرسال المهارات والوصف الوظيفي (بدون هويات) بشكل مشفر لاقتراح مهارات مخصصة."
                      : "Only skills and job description (no PII) are sent anonymously to generate tailored suggestions."}
@@ -116,13 +116,13 @@ const SkillsForm = () => {
               id="skillInput"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="flex-1 px-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="flex-1 px-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={String(t.skills?.placeholder || "")}
             />
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="bg-indigo-650 hover:bg-indigo-700 disabled:bg-slate-200 text-white px-5 py-3 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-95 shadow-sm cursor-pointer"
+              className="bg-slate-900 hover:bg-slate-950 disabled:bg-slate-200 text-white px-5 py-3 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-95 shadow-sm cursor-pointer"
             >
               <Plus size={18} />
               <span className="hidden sm:inline">{String(t.skills?.add || "")}</span>
@@ -131,9 +131,9 @@ const SkillsForm = () => {
 
           {/* Smart Auto-Complete Suggested Skills based on Job Title */}
           {personalInfo.jobTitle && (
-            <div className="mt-3 bg-indigo-50/30 p-3 rounded-xl border border-indigo-150/40">
+            <div className="mt-3 bg-brand-50/15 p-3 rounded-xl border border-brand-100/30">
               <h4 className="text-[11px] font-bold text-slate-650 mb-2 flex items-center gap-1.5">
-                <Sparkles size={11} className="text-indigo-550" />
+                <Sparkles size={11} className="text-brand-550" />
                 {language === "ar" 
                   ? `مهارات ذكية مقترحة لمجال (${personalInfo.jobTitle}) - اضغط للإضافة:`
                   : `Smart suggestions for (${personalInfo.jobTitle}) - click to insert:`}
@@ -174,7 +174,7 @@ const SkillsForm = () => {
                       key={skillName}
                       type="button"
                       onClick={() => addSkill(skillName)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors border border-indigo-100/30 cursor-pointer select-none"
+                    className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-brand-50/40 text-brand-700 hover:bg-brand-50 hover:text-brand-800 transition-colors border border-brand-100/30 cursor-pointer select-none"
                     >
                       <span>+</span>
                       <span>{skillName}</span>
@@ -243,7 +243,7 @@ const SkillsForm = () => {
         {unaddedSuggestions.length > 0 && (
           <div>
             <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wider block mb-4 flex items-center gap-2">
-              <Sparkles size={14} className="text-indigo-500" />
+              <Sparkles size={14} className="text-brand-500" />
               {String(t.skills?.aiSuggestionsFree || "")}
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -253,9 +253,9 @@ const SkillsForm = () => {
                   <button
                     key={skillName}
                     onClick={() => addSkill(skill)}
-                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 text-slate-650 hover:bg-indigo-50/60 hover:text-indigo-700 hover:border-indigo-200 text-xs sm:text-sm font-semibold transition-all shadow-3xs cursor-pointer"
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-200 text-slate-650 hover:bg-brand-50/40 hover:text-brand-700 hover:border-brand-200/50 text-xs sm:text-sm font-semibold transition-all shadow-3xs cursor-pointer"
                   >
-                    <Plus size={14} className="text-indigo-500" />
+                    <Plus size={14} className="text-brand-500" />
                     {skillName}
                   </button>
                 );
