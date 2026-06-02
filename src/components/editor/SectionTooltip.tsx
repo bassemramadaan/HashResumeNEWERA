@@ -23,7 +23,7 @@ export default function SectionTooltip({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="text-slate-500 hover:text-indigo-500 transition-colors p-1"
+        className="text-slate-500 hover:text-brand-500 transition-colors p-1"
         title="Click for tips"
       >
         <HelpCircle size={16} />
@@ -44,7 +44,7 @@ export default function SectionTooltip({
             >
               <div className="flex items-center justify-between mb-4">
                 <h4 className="font-bold text-slate-900 text-sm flex items-center gap-2">
-                  <HelpCircle size={14} className="text-indigo-500" />
+                  <HelpCircle size={14} className="text-brand-500" />
                   {title}
                 </h4>
                 <button
@@ -61,7 +61,7 @@ export default function SectionTooltip({
 
               {example && (
                 <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                  <span className="block text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-1">
+                  <span className="block text-[10px] font-bold text-brand-600 uppercase tracking-widest mb-1">
                     Example
                   </span>
                   <p className="text-[11px] text-slate-700 italic leading-relaxed">

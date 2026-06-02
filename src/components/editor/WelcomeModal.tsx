@@ -60,7 +60,7 @@ const itemVariants: Variants = {
 };
 
 const QUICK_TEMPLATES = [
-  { id: "modern", gradient: "from-indigo-600 to-blue-600", color: "text-indigo-600" },
+  { id: "modern", gradient: "from-brand-600 to-blue-600", color: "text-brand-600" },
   { id: "professional", gradient: "from-slate-700 to-slate-900", color: "text-slate-700" },
   { id: "creative", gradient: "from-purple-600 to-pink-600", color: "text-purple-600" },
   { id: "arabic", gradient: "from-emerald-600 to-teal-600", color: "text-emerald-600" },
@@ -98,7 +98,7 @@ export default function WelcomeModal({
             className="relative w-full max-w-xl bg-slate-50 rounded-[2rem] shadow-2xl overflow-hidden border border-slate-100/50"
           >
             {/* Decorative Top Gradient */}
-            <div className="absolute top-0 start-0 w-full h-40 bg-gradient-to-br from-orange-50 to-indigo-50 opacity-50 pointer-events-none" />
+            <div className="absolute top-0 start-0 w-full h-40 bg-gradient-to-br from-orange-50 to-brand-50 opacity-50 pointer-events-none" />
 
             <div className="relative p-8 sm:p-10 text-center">
               <AnimatePresence mode="wait">
@@ -156,7 +156,7 @@ export default function WelcomeModal({
                     transition={{ duration: 0.3 }}
                     className="flex flex-col items-center"
                   >
-                    <motion.div variants={itemVariants} className="w-16 h-16 rounded-[1.25rem] bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center mb-6 relative overflow-hidden">
+                    <motion.div variants={itemVariants} className="w-16 h-16 rounded-[1.25rem] bg-gradient-to-b from-brand-500 to-brand-600 shadow-[0_8px_16px_-6px_rgba(79,70,229,0.5),inset_0_2px_0_rgba(255,255,255,0.2)] flex items-center justify-center mb-6 relative overflow-hidden">
                       <LayoutTemplate className="text-white w-8 h-8 relative z-10 drop-shadow-sm" />
                     </motion.div>
 
@@ -177,17 +177,17 @@ export default function WelcomeModal({
                             onClick={() => updateSettings({ template: tpl.id })}
                             className={`relative p-5 rounded-2xl border-2 transition-all flex items-center gap-4 group text-start ${
                               isSelected
-                                ? "border-indigo-500 bg-indigo-50/50 shadow-md shadow-indigo-500/10"
-                                : "border-slate-100 hover:border-indigo-200 hover:bg-slate-50 bg-slate-50"
+                                ? "border-brand-500 bg-brand-50/50 shadow-md shadow-brand-500/10"
+                                : "border-slate-100 hover:border-brand-200 hover:bg-slate-50 bg-slate-50"
                             }`}
                           >
                             <div
                               className={`w-12 h-16 rounded-lg shadow-sm flex items-center justify-center shrink-0 bg-gradient-to-br ${tpl.gradient} border border-slate-200/50`}
                             >
-                              <FileText size={20} className={isSelected ? "text-indigo-600" : "text-slate-500"} />
+                              <FileText size={20} className={isSelected ? "text-brand-600" : "text-slate-500"} />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className={`font-bold text-base truncate ${isSelected ? "text-indigo-900" : "text-slate-700"}`}>
+                              <div className={`font-bold text-base truncate ${isSelected ? "text-brand-900" : "text-slate-700"}`}>
                                 {templateInfo.name}
                               </div>
                               <div className="text-xs text-slate-500 truncate mt-0.5">
@@ -195,7 +195,7 @@ export default function WelcomeModal({
                               </div>
                             </div>
                             <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                              isSelected ? "border-indigo-500 bg-indigo-500" : "border-slate-200 group-hover:border-indigo-300"
+                              isSelected ? "border-brand-500 bg-brand-500" : "border-slate-200 group-hover:border-brand-300"
                             }`}>
                               {isSelected && <Check size={14} className="text-white" strokeWidth={3} />}
                             </div>

@@ -66,8 +66,8 @@ export default function ATSAudit() {
       {/* Title Header area */}
       <div className="flex items-center justify-between border-b border-slate-100 pb-5">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center border border-indigo-100 shadow-xs">
-            <Target className="text-indigo-600 animate-pulse" size={20} />
+          <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center border border-brand-100 shadow-xs">
+            <Target className="text-brand-600 animate-pulse" size={20} />
           </div>
           <div>
             <h2 className="text-xl font-black text-slate-900 leading-tight">
@@ -90,7 +90,7 @@ export default function ATSAudit() {
         
         {/* Metric gauge Card */}
         <div className="lg:col-span-4 bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs flex flex-col items-center justify-center text-center space-y-5 relative overflow-hidden">
-          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-indigo-500 to-orange-500" />
+          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brand-500 to-orange-500" />
           
           <div className="relative flex items-center justify-center w-36 h-36">
             <svg className="w-full h-full transform -rotate-90 absolute inset-0">
@@ -113,7 +113,7 @@ export default function ATSAudit() {
                 strokeDasharray={390}
                 strokeDashoffset={390 - (390 * Math.min(score, 100)) / 100}
                 className={cn(
-                  "transition-all duration-1000 ease-out text-indigo-600"
+                  "transition-all duration-1000 ease-out text-brand-600"
                 )}
               />
             </svg>
@@ -164,7 +164,7 @@ export default function ATSAudit() {
                     <div
                       className={cn(
                         "h-full transition-all duration-500 rounded-full",
-                        isPerfect ? "bg-emerald-500" : pct > 50 ? "bg-indigo-500" : "bg-orange-500"
+                        isPerfect ? "bg-emerald-500" : pct > 50 ? "bg-brand-500" : "bg-orange-500"
                       )}
                       style={{ width: `${pct}%` }}
                     />
@@ -201,7 +201,7 @@ export default function ATSAudit() {
             value={data.jobDescription || ""}
             onChange={(e) => updateJobDescription(e.target.value)}
             placeholder={isAr ? "الصق متطلبات الوظيفة الشاغرة ومؤهلاتها هنا..." : "Paste corporate job description terms, requirements or specifications..."}
-            className="w-full h-28 p-4 border border-slate-200 bg-white hover:border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/10 rounded-2xl transition-all text-xs resize-none"
+            className="w-full h-28 p-4 border border-slate-200 bg-white hover:border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500/10 rounded-2xl transition-all text-xs resize-none"
             dir={isAr ? "rtl" : "ltr"}
           />
           {!data.jobDescription && (

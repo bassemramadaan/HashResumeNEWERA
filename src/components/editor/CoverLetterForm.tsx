@@ -291,7 +291,7 @@ export default function CoverLetterForm() {
                 onClick={() => setSelectedStyle(style.id)}
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                   selectedStyle === style.id
-                    ? 'bg-indigo-50 border-indigo-200 text-indigo-700 border-2'
+                    ? 'bg-brand-50 border-brand-200 text-brand-700 border-2'
                     : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 border-2'
                 }`}
               >
@@ -329,7 +329,7 @@ export default function CoverLetterForm() {
 
           
           <div className="text-[10px] text-slate-400 flex items-center justify-center gap-1 opacity-70 px-2 leading-tight">
-               <Sparkles size={10} className="text-indigo-400 shrink-0" />
+               <Sparkles size={10} className="text-brand-400 shrink-0" />
                {language === "ar" 
                  ? "يتم إرسال المعلومات المدخلة أعلاه فقط (بدون أي هويات أو معلومات תواصل) بشكل مشفر لتخصيص محتواك."
                  : "Only the snippets above are sent anonymously to generate tailored content."}

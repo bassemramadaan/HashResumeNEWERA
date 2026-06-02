@@ -80,10 +80,10 @@ const PersonalInfoForm = () => {
   return (
     <div className="space-y-6">
       {/* Smart Auto-Parser Premium Banner */}
-      <div className="bg-gradient-to-r from-indigo-500/10 via-purple-500/5 to-indigo-500/10 border border-indigo-500/20 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-300">
+      <div className="bg-gradient-to-r from-brand-500/10 via-brand-500/5 to-brand-500/10 border border-brand-500/20 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-300">
         <div className="flex items-center gap-3.5">
-          <div className="w-10 h-10 bg-indigo-500/15 text-indigo-600 rounded-xl flex items-center justify-center shrink-0 shadow-xs">
-            <Sparkles size={18} className="text-indigo-600 animate-pulse" />
+          <div className="w-10 h-10 bg-brand-500/15 text-brand-600 rounded-xl flex items-center justify-center shrink-0 shadow-xs">
+            <Sparkles size={18} className="text-brand-600 animate-pulse" />
           </div>
           <div>
             <h3 className="font-bold text-slate-800 text-sm">
@@ -96,7 +96,7 @@ const PersonalInfoForm = () => {
         </div>
         <button
           onClick={() => setIsLinkedInModalOpen(true)}
-          className="w-full sm:w-auto px-5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex justify-center items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm hover:shadow active:scale-95 cursor-pointer"
+          className="w-full sm:w-auto px-5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex justify-center items-center gap-2 bg-slate-900 hover:bg-slate-950 text-white shadow-sm hover:shadow active:scale-95 cursor-pointer"
         >
           <Sparkles size={14} />
           {language === "ar" ? "استيراد وتوطين البيانات" : "Auto-Parse old CV"}
@@ -127,7 +127,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
+              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
                 errors.fullName
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -165,7 +165,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
+              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
                 errors.jobTitle
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -200,7 +200,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
+              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
                 errors.email
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -232,7 +232,7 @@ const PersonalInfoForm = () => {
               name="phone"
               value={personalInfo.phone}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.phone}
             />
           </div>
@@ -255,7 +255,7 @@ const PersonalInfoForm = () => {
               name="address"
               value={personalInfo.address}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.address}
             />
           </div>
@@ -278,7 +278,7 @@ const PersonalInfoForm = () => {
               name="linkedin"
               value={personalInfo.linkedin}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.linkedin}
             />
           </div>
@@ -301,7 +301,7 @@ const PersonalInfoForm = () => {
               name="github"
               value={personalInfo.github || ""}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.github}
             />
           </div>
@@ -324,7 +324,7 @@ const PersonalInfoForm = () => {
               name="portfolio"
               value={personalInfo.portfolio || ""}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-455 font-medium"
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-455 font-medium"
               placeholder={t.website}
             />
           </div>
@@ -370,7 +370,7 @@ const PersonalInfoForm = () => {
                     name="birthDate"
                     value={personalInfo.birthDate || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 focus:outline-none"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 focus:outline-none"
                   />
                 </div>
               </div>
@@ -389,7 +389,7 @@ const PersonalInfoForm = () => {
                     name="nationality"
                     value={personalInfo.nationality || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-400"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-400"
                     placeholder={language === "ar" ? "مثال: مصري، سعودي" : "e.g. Saudi, Egyptian"}
                   />
                 </div>
@@ -409,7 +409,7 @@ const PersonalInfoForm = () => {
                     name="maritalStatus"
                     value={personalInfo.maritalStatus || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: أعزل، متزوج" : "e.g. Single, Married"}
                   />
                 </div>
@@ -429,7 +429,7 @@ const PersonalInfoForm = () => {
                     name="visaStatus"
                     value={personalInfo.visaStatus || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: إقامة قابلة للنقل، مواطن" : "e.g. Transferable Iqama, Citizen"}
                   />
                 </div>
@@ -449,7 +449,7 @@ const PersonalInfoForm = () => {
                     name="militaryStatus"
                     value={personalInfo.militaryStatus || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: معفى، قدّم الخدمة" : "e.g. Exempted, Completed"}
                   />
                 </div>
@@ -469,7 +469,7 @@ const PersonalInfoForm = () => {
                     name="drivingLicense"
                     value={personalInfo.drivingLicense || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: رخصة قيادة سعودية خاصة" : "e.g. Valid GCC Driving License"}
                   />
                 </div>
@@ -496,7 +496,7 @@ const PersonalInfoForm = () => {
             <button
               type="button"
               onClick={() => setShowAISuggestions(!showAISuggestions)}
-              className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
+              className="text-xs font-bold text-brand-600 flex items-center gap-1 bg-brand-50/50 hover:bg-brand-50 border border-brand-100/30 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
                           title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
             >
               <Sparkles size={14} />
@@ -525,12 +525,12 @@ const PersonalInfoForm = () => {
             rows={5}
             value={personalInfo.summary}
             onChange={handleChange}
-            className="block w-full p-4 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all resize-y bg-white text-slate-900 placeholder-slate-400 font-medium leading-relaxed"
+            className="block w-full p-4 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all resize-y bg-white text-slate-900 placeholder-slate-400 font-medium leading-relaxed"
             placeholder={t.summaryPlaceholder}
           />
           <div className="mt-2 text-[10px] text-slate-400 flex items-start sm:items-center justify-between gap-4 px-2 leading-tight flex-col sm:flex-row">
             <div className="flex items-center gap-1 opacity-70">
-              <Sparkles size={10} className="text-indigo-400 shrink-0" />
+              <Sparkles size={10} className="text-brand-400 shrink-0" />
               {language === "ar" 
                 ? "يتم إرسال النص أعلاه فقط بشكل مشفر لتخصيص محتواك."
                 : "Only the text snippet above is sent anonymously to generate tailored content."}

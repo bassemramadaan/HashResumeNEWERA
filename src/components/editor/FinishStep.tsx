@@ -36,7 +36,7 @@ export default function FinishStep({
     {
       title: t.checkAts,
       desc: t.checkAtsDesc,
-      icon: <Target className="w-6 h-6 text-indigo-500" />,
+      icon: <Target className="w-6 h-6 text-brand-500" />,
       action: () => onJumpToStep("finish"),
       type: "button",
     },
@@ -69,7 +69,7 @@ export default function FinishStep({
       </div>
 
       {/* Promoted AI Interview Coach Standalone Feature */}
-      <div className="bg-gradient-to-tr from-slate-900 via-slate-850 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl max-w-xl mx-auto text-center relative overflow-hidden group">
+      <div className="bg-gradient-to-tr from-slate-900 via-slate-850 to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl max-w-xl mx-auto text-center relative overflow-hidden group">
         <div className="absolute inset-0 bg-radial from-orange-500/[0.08] to-transparent pointer-events-none" />
         <div className="space-y-4">
           <div className="mx-auto p-3 bg-white/10 rounded-2xl text-[#FF4D2D] w-fit font-black animate-pulse">

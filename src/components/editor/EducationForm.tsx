@@ -64,7 +64,7 @@ const EducationForm = () => {
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-indigo-50 text-indigo-600 hover:bg-slate-100 hover:text-slate-800 px-4 py-2.5 rounded-xl text-sm font-bold transition-all border border-slate-200 cursor-pointer hover:shadow-xs active:scale-95"
+          className="flex items-center gap-2 bg-slate-900 border-slate-900 border text-white hover:bg-slate-950 hover:text-slate-800 px-4 py-2.5 rounded-xl text-sm font-bold transition-all border border-slate-200 cursor-pointer hover:shadow-xs active:scale-95"
         >
           <Plus size={16} />
           {String(t.education?.add || "")}
@@ -119,7 +119,7 @@ const EducationForm = () => {
                       const { id: _id, ...rest } = edu;
                       addEducation(rest);
                     }}
-                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors shrink-0 cursor-pointer"
+                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-brand-500 hover:bg-brand-50 rounded-lg transition-colors shrink-0 cursor-pointer"
                     title={String(t.education?.duplicate || "")}
                   >
                     <Copy size={18} />
@@ -157,7 +157,7 @@ const EducationForm = () => {
                         onChange={(e) =>
                           updateEducation(edu.id, { degree: e.target.value })
                         }
-                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
                         placeholder={t.education.degree}
                       />
                     </div>
@@ -174,7 +174,7 @@ const EducationForm = () => {
                             institution: e.target.value,
                           })
                         }
-                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
                         placeholder={t.education.institution}
                       />
                       <datalist id={`universities-${edu.id}`}>
@@ -195,7 +195,7 @@ const EducationForm = () => {
                         onChange={(e) =>
                           updateEducation(edu.id, { startDate: e.target.value })
                         }
-                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium"
                       />
                     </div>
                     <div className="space-y-2">
@@ -208,7 +208,7 @@ const EducationForm = () => {
                         onChange={(e) =>
                           updateEducation(edu.id, { endDate: e.target.value })
                         }
-                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-455"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-455"
                         placeholder={String(t.education?.endDate || "")}
                       />
                     </div>
@@ -224,7 +224,7 @@ const EducationForm = () => {
                               showSuggestionsFor === edu.id ? null : edu.id,
                             )
                           }
-                          className="text-xs font-bold text-indigo-600 flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
+                          className="text-xs font-bold text-brand-600 flex items-center gap-1 bg-brand-50/50 hover:bg-brand-50 border border-brand-100/30 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
                           title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
                         >
                           <Sparkles size={14} />
@@ -263,7 +263,7 @@ const EducationForm = () => {
                                      });
                                      setShowSuggestionsFor(null);
                                    }}
-                                   className="text-xs text-slate-600 bg-white hover:text-indigo-600 hover:border-indigo-200 border border-slate-205 px-3 py-1.5 rounded-lg transition-all cursor-pointer"
+                                   className="text-xs text-slate-600 bg-white hover:text-brand-600 hover:border-brand-200 border border-slate-205 px-3 py-1.5 rounded-lg transition-all cursor-pointer"
                                  >
                                    {suggestion}
                                  </button>
@@ -282,11 +282,11 @@ const EducationForm = () => {
                               description: e.target.value,
                             })
                           }
-                          className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all resize-y placeholder-slate-450 font-medium leading-relaxed"
+                          className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all resize-y placeholder-slate-450 font-medium leading-relaxed"
                           placeholder={String(t.education?.descriptionPlaceholder || "")}
                         />
                         <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
-                            <Sparkles size={10} className="text-indigo-400 shrink-0" />
+                            <Sparkles size={10} className="text-brand-400 shrink-0" />
                             {language === "ar" 
                               ? "يتم إرسال النص أعلاه فقط (بدون أي هويات أو معلومات تواصل) بشكل مشفر لتخصيص محتواك."
                               : "Only the text snippet above is sent anonymously to generate tailored content."}

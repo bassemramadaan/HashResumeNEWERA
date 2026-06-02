@@ -228,7 +228,7 @@ const ProgressTrackerModal = ({
                         className={cn(
                           "flex items-center gap-4 p-4 rounded-2xl border transition-all text-start group",
                           isActive
-                            ? "bg-white border-brand-200 shadow-md ring-1 ring-brand-50"
+                            ? "bg-white border-slate-300 shadow-md ring-1 ring-slate-100/50"
                             : "bg-transparent border-neutral-100 hover:bg-neutral-50 hover:border-neutral-200",
                         )}
                       >
@@ -238,7 +238,7 @@ const ProgressTrackerModal = ({
                             step.done
                               ? "bg-emerald-50 text-emerald-600"
                               : isActive
-                                ? "bg-brand-600 text-white"
+                                ? "bg-slate-900 text-white"
                                 : "bg-neutral-100 text-neutral-400 group-hover:bg-neutral-200",
                           )}
                         >
@@ -928,19 +928,19 @@ export default function EditorPage() {
                   >
                     <div className="absolute top-0 end-0 w-64 h-64 rounded-[2rem] opacity-[0.02] bg-[#FF4D2D] pointer-events-none transform translate-x-1/3 -translate-y-1/3 rotate-12"></div>
 
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-brand-500 flex items-center justify-center shrink-0 shadow-brand-500/25 relative z-10 ring-4 ring-brand-50 border border-white/20 group">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-slate-900 flex items-center justify-center shrink-0 shadow-slate-900/10 relative z-10 ring-4 ring-slate-50 border border-white/20 group">
                       <Sparkles size={20} className="text-white animate-pulse sm:w-6 sm:h-6" />
                     </div>
 
                     <div className="flex-1 relative z-10 text-start w-full">
                       <div className="flex flex-col gap-1.5 sm:gap-2 w-full max-w-[200px] sm:max-w-xs mb-2">
-                        <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold text-brand-600 uppercase tracking-wider">
+                        <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold text-slate-800 uppercase tracking-wider">
                           <span>{String(tabs.find((t) => t.id === activeTab)?.label || "")}</span>
                           <span>{activeTabIndex} / {tabs.length}</span>
                         </div>
-                        <div className="w-full bg-brand-100 h-1.5 sm:h-2 rounded-full overflow-hidden">
+                        <div className="w-full bg-slate-200 h-1.5 sm:h-2 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-brand-500 rounded-full transition-all duration-500"
+                            className="h-full bg-slate-800 rounded-full transition-all duration-500"
                             style={{ width: `${(activeTabIndex / tabs.length) * 100}%` }}
                           />
                         </div>

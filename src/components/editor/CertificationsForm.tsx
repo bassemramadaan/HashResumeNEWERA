@@ -28,7 +28,7 @@ export const CertificationsForm: React.FC = () => {
         </div>
         <button
           onClick={() => addCertification({ name: "", issuer: "", date: "" })}
-          className="flex items-center gap-2 bg-indigo-55 text-indigo-605 hover:bg-indigo-50 hover:text-indigo-650 px-4 py-2.5 rounded-xl text-sm font-bold transition-all border border-indigo-100 cursor-pointer shadow-3xs active:scale-95"
+          className="flex items-center gap-2 bg-slate-900 text-white hover:bg-brand-50 hover:text-brand-650 px-4 py-2.5 rounded-xl text-sm font-bold transition-all border border-brand-100 cursor-pointer shadow-3xs active:scale-95"
         >
           <Plus size={18} />
           {String(t.certifications.add || "Add")}
@@ -62,7 +62,7 @@ export const CertificationsForm: React.FC = () => {
                   </div>
                   <button
                     onClick={() => toggleExpand(cert.id)}
-                    className="flex-1 text-left rtl:text-right font-bold text-slate-900 truncate tracking-tight cursor-pointer hover:text-indigo-600 transition-colors"
+                    className="flex-1 text-left rtl:text-right font-bold text-slate-900 truncate tracking-tight cursor-pointer hover:text-brand-600 transition-colors"
                   >
                     {cert.name || String(t.certifications.notSpecified || "")}
                   </button>
@@ -70,7 +70,7 @@ export const CertificationsForm: React.FC = () => {
                 <div className="flex items-center gap-1 sm:gap-4 shrink-0">
                   <button
                     onClick={() => duplicateCertification(cert.id)}
-                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors shrink-0 cursor-pointer"
+                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-brand-500 hover:bg-brand-50 rounded-lg transition-colors shrink-0 cursor-pointer"
                     title={String(t.experience?.duplicate || "")}
                   >
                     <Copy size={18} />
@@ -110,7 +110,7 @@ export const CertificationsForm: React.FC = () => {
                             value={cert.name}
                             onChange={(e) => updateCertification(cert.id, { name: e.target.value })}
                             placeholder="e.g. AWS Certified Solutions Architect"
-                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
                           />
                         </div>
                         <div className="space-y-2">
@@ -122,7 +122,7 @@ export const CertificationsForm: React.FC = () => {
                             value={cert.issuer}
                             onChange={(e) => updateCertification(cert.id, { issuer: e.target.value })}
                             placeholder="e.g. Amazon Web Services"
-                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
                           />
                         </div>
                         <div className="space-y-2">
@@ -134,7 +134,7 @@ export const CertificationsForm: React.FC = () => {
                             value={cert.date}
                             onChange={(e) => updateCertification(cert.id, { date: e.target.value })}
                             placeholder="MM/YYYY"
-                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
                           />
                         </div>
                       </div>

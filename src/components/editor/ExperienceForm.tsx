@@ -73,7 +73,7 @@ const ExperienceForm = () => {
         </div>
         <button
           onClick={handleAdd}
-          className="flex items-center gap-2 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 px-4 py-2.5 rounded-xl text-sm font-bold transition-all border border-indigo-100 cursor-pointer shadow-3xs active:scale-95"
+          className="flex items-center gap-2 bg-slate-900 border-slate-900 border text-white hover:bg-slate-950 px-4 py-2.5 rounded-xl text-sm font-bold transition-all border border-brand-100 cursor-pointer shadow-3xs active:scale-95"
         >
           <Plus size={16} />
           {String(t.experience?.add || "")}
@@ -128,7 +128,7 @@ const ExperienceForm = () => {
                       const { id: _id, ...rest } = exp;
                       addExperience(rest);
                     }}
-                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-indigo-500 hover:bg-indigo-50 rounded-lg transition-colors shrink-0 cursor-pointer"
+                    className="w-11 h-11 sm:w-8 sm:h-8 flex items-center justify-center text-slate-500 hover:text-brand-500 hover:bg-brand-50 rounded-lg transition-colors shrink-0 cursor-pointer"
                     title={String(t.experience?.duplicate || "")}
                   >
                     <Copy size={18} />
@@ -166,7 +166,7 @@ const ExperienceForm = () => {
                         onChange={(e) =>
                           updateExperience(exp.id, { position: e.target.value })
                         }
-                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
                         placeholder={String(t.experience?.position || "")}
                       />
                     </div>
@@ -180,7 +180,7 @@ const ExperienceForm = () => {
                         onChange={(e) =>
                           updateExperience(exp.id, { company: e.target.value })
                         }
-                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450"
                         placeholder={String(t.experience?.company || "")}
                       />
                     </div>
@@ -196,7 +196,7 @@ const ExperienceForm = () => {
                             startDate: e.target.value,
                           })
                         }
-                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium"
                       />
                     </div>
                     <div className="space-y-2">
@@ -209,7 +209,7 @@ const ExperienceForm = () => {
                         onChange={(e) =>
                           updateExperience(exp.id, { endDate: e.target.value })
                         }
-                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-455"
+                        className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-455"
                         placeholder={String(t.experience?.endDate || "")}
                       />
                     </div>
@@ -237,8 +237,8 @@ const ExperienceForm = () => {
                             }}
                             className={`text-xs font-bold flex items-center gap-1 px-3 py-1.5 rounded-full transition-colors cursor-pointer ${
                               showAISuggestionFor === exp.id && aiSuggestionType === "improve"
-                                ? "bg-indigo-600 text-white"
-                                : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
+                                ? "bg-brand-600 text-white"
+                                : "bg-slate-900 border-slate-900 border text-white hover:bg-slate-950"
                             }`}
                             title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
                           >
@@ -303,7 +303,7 @@ Provide ONLY the improved bullet points (representing the optimized block), with
                               description: e.target.value,
                             })
                           }
-                          className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 text-xs sm:text-sm transition-all resize-y placeholder-slate-450 font-medium leading-relaxed"
+                          className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all resize-y placeholder-slate-450 font-medium leading-relaxed"
                           placeholder={String(t.experience?.descriptionPlaceholder || "")}
                         />
 
@@ -311,7 +311,7 @@ Provide ONLY the improved bullet points (representing the optimized block), with
                         {exp.position && (
                           <div className="mt-3 bg-slate-50/60 p-3 rounded-xl border border-slate-200/50">
                             <h4 className="text-[11px] font-bold text-slate-600 mb-2 flex items-center gap-1.5 align-middle">
-                              <Sparkles size={11} className="text-indigo-500" />
+                              <Sparkles size={11} className="text-brand-500" />
                               {language === "ar" 
                                 ? `مهام مقترحة ومصاغة لوظيفة (${exp.position}) - اضغط للإضافة وسد الفجوات:`
                                 : `Suggested duties for (${exp.position}) - click to insert to close ATS gaps:`}
@@ -400,9 +400,9 @@ Provide ONLY the improved bullet points (representing the optimized block), with
                                         description: currentText + separator + duty
                                       });
                                     }}
-                                    className="w-full text-start text-xs text-slate-600 hover:text-indigo-600 hover:bg-white p-2 px-3 rounded-lg border border-transparent hover:border-indigo-100 transition-all cursor-pointer select-none leading-relaxed flex items-start gap-1.5"
+                                    className="w-full text-start text-xs text-slate-600 hover:text-brand-600 hover:bg-white p-2 px-3 rounded-lg border border-transparent hover:border-brand-100 transition-all cursor-pointer select-none leading-relaxed flex items-start gap-1.5"
                                   >
-                                    <span className="text-indigo-500 mt-0.5 shrink-0 font-bold">+</span>
+                                    <span className="text-brand-500 mt-0.5 shrink-0 font-bold">+</span>
                                     <span>{duty}</span>
                                   </button>
                                 ));
@@ -412,7 +412,7 @@ Provide ONLY the improved bullet points (representing the optimized block), with
                         )}
 
                         <div className="mt-2 text-[10px] text-slate-400 flex items-center gap-1 opacity-70 px-2 leading-tight">
-                            <Sparkles size={10} className="text-indigo-400 shrink-0" />
+                            <Sparkles size={10} className="text-brand-400 shrink-0" />
                             {language === "ar" 
                               ? "يتم إرسال النص أعلاه فقط (بدون أي هويات أو معلومات تواصل) بشكل مشفر لتخصيص محتواك."
                               : "Only the text snippet above is sent anonymously to generate tailored content."}
