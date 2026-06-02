@@ -1,12 +1,17 @@
-import React, { useState } from "react";
-import { useResumeStore } from "../../store/useResumeStore";
-import { useLanguageStore } from "../../store/useLanguageStore";
-import { translations } from "../../i18n/translations";
-import { Plus, Trash2, GripVertical, ChevronDown, ChevronUp, Copy, BookOpen } from "lucide-react";
-import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
+import * as fs from "fs";
+
+function patch() {
+  const file = "src/components/editor/CustomSectionsForm.tsx";
+  let content = fs.readFileSync(file, "utf8");
+
+  // Fix Tailwind colors
+  content = content.replace(/blue-/g, "brand-");
+  content = content.replace(/gray-/g, "slate-");
+  
+  const componentStr = `import { useDragControls as useFramerDragControls } from "motion/react";
 
 const CustomSectionItem = ({ section, expandedId, toggleExpand, updateCustomSection, duplicateCustomSection, removeCustomSection, t }: any) => {
-  const controls = useDragControls();
+  const controls = useFramerDragControls();
   
   return (
     <Reorder.Item
@@ -18,7 +23,7 @@ const CustomSectionItem = ({ section, expandedId, toggleExpand, updateCustomSect
       <div className="flex items-center px-4 py-3 bg-slate-50/50 border-b border-slate-100">
         <div 
           onPointerDown={(e) => controls.start(e)}
-          className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-slate-900/10 text-slate-500 hover:text-slate-900 hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-slate-900/15 transition-all shadow-3xs flex items-center justify-center shrink-0 mr-3 rtl:ml-3 rtl:mr-0" title="Drag to reorder">
+          className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-slate-900/10 text-slate-500 hover:text-slate-900 hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-slate-900/15 transition-all shadow-3xs flex items-center justify-center shrink-0 mr-3 ml-3" title="Drag to reorder">
           <GripVertical size={16} style={{ strokeWidth: 2.2 }} />
         </div>
         <button
@@ -82,7 +87,7 @@ const CustomSectionItem = ({ section, expandedId, toggleExpand, updateCustomSect
                   onChange={(e) => updateCustomSection(section.id, { content: e.target.value })}
                   placeholder={String(t.custom?.placeholderContent || "")}
                   rows={6}
-                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all placeholder:text-slate-400 font-mono text-sm leading-relaxed rtl:text-right border-l-0 border-r-0"
+                  className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all placeholder:text-slate-400 font-mono text-sm leading-relaxed rtl:text-right"
                 />
               </div>
             </div>
@@ -93,52 +98,13 @@ const CustomSectionItem = ({ section, expandedId, toggleExpand, updateCustomSect
   );
 };
 
-export const CustomSectionsForm: React.FC = () => {
-  const { language } = useLanguageStore();
-  const t = translations[language].editor;
-  const { data, updateCustomSection, addCustomSection, removeCustomSection, reorderCustomSections, duplicateCustomSection } = useResumeStore();
-  const [expandedId, setExpandedId] = useState<string | null>(data.customSections[0]?.id || null);
+export const CustomSectionsForm: React.FC = () => {`;
 
-  const toggleExpand = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
+  content = content.replace('export const CustomSectionsForm: React.FC = () => {', componentStr);
 
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-lg font-semibold text-slate-900 leading-none">
-            {String(t.custom?.title || "")}
-          </h3>
-          <p className="text-sm text-slate-500 mt-2">
-            {String(t.custom?.placeholderContent || "")}
-          </p>
-        </div>
-        <button
-          onClick={() => addCustomSection({ title: "", content: "" })}
-          className="flex items-center gap-2 px-4 py-2 bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition-colors shadow-sm text-sm font-medium"
-        >
-          <Plus size={18} />
-          {String(t.custom?.add || "")}
-        </button>
-      </div>
-
-      {data.customSections.length === 0 ? (
-        <div className="text-center py-12 bg-slate-50 rounded-xl border-2 border-dashed border-slate-300">
-          <BookOpen className="mx-auto h-12 w-12 text-slate-400" />
-          <h3 className="mt-4 text-sm font-medium text-slate-900">
-            {String(t.custom?.noSections || "")}
-          </h3>
-        </div>
-      ) : (
-        <Reorder.Group
-          axis="y"
-          values={data.customSections}
-          onReorder={reorderCustomSections}
-          className="space-y-4"
-        >
-          {data.customSections.map((section) => (
-            <CustomSectionItem
+  const reorderItemRegex = /<Reorder\.Item[\s\S]*?<\/Reorder\.Item>/;
+  content = content.replace(reorderItemRegex, `
+            <CustomSectionItem 
               key={section.id}
               section={section}
               expandedId={expandedId}
@@ -147,12 +113,8 @@ export const CustomSectionsForm: React.FC = () => {
               duplicateCustomSection={duplicateCustomSection}
               removeCustomSection={removeCustomSection}
               t={t}
-            />
-          ))}
-        </Reorder.Group>
-      )}
-    </div>
-  );
-};
+            />`);
 
-export default CustomSectionsForm;
+  fs.writeFileSync(file, content);
+}
+patch();

@@ -1361,7 +1361,13 @@ export default function EditorPage() {
                           </div>
                           <CoverLetterForm />
 
-                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
+                            <button
+                              onClick={() => setActiveTab("custom")}
+                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
+                            >
+                              {language === "ar" ? "السابق" : "Previous"}
+                            </button>
                             <button
                               onClick={() => setActiveTab("finish")}
                               className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
