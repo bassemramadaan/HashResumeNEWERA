@@ -291,6 +291,12 @@ export default function EditorPage() {
   const t = (translations[language as keyof typeof translations] || translations.en).editor;
 
   const [activeTab, setActiveTab] = useState<Tab>("basics");
+
+  useEffect(() => {
+    if (formRef.current) {
+      formRef.current.scrollTo({ top: 0, behavior: "instant" as any });
+    }
+  }, [activeTab]);
   
 
 
@@ -852,7 +858,7 @@ export default function EditorPage() {
                             <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
                               <button
                                 onClick={() => setActiveTab("experience")}
-                                className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
+                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
                               >
                                 {language === "ar"
                                   ? "الخطوة التالية: الخبرة"
@@ -901,7 +907,7 @@ export default function EditorPage() {
                               </button>
                               <button
                                 onClick={() => setActiveTab("education")}
-                                className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
+                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
                               >
                                 {language === "ar"
                                   ? "الخطوة التالية: التعليم"
@@ -950,7 +956,7 @@ export default function EditorPage() {
                               </button>
                               <button
                                 onClick={() => setActiveTab("skills")}
-                                className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
+                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
                               >
                                 {language === "ar"
                                   ? "الخطوة التالية: المهارات"
@@ -995,7 +1001,7 @@ export default function EditorPage() {
                             </button>
                             <button
                               onClick={() => setActiveTab("projects")}
-                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: المشاريع"
@@ -1039,7 +1045,7 @@ export default function EditorPage() {
                             </button>
                             <button
                               onClick={() => setActiveTab("certifications")}
-                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: الشهادات"
@@ -1083,7 +1089,7 @@ export default function EditorPage() {
                             </button>
                             <button
                               onClick={() => setActiveTab("custom")}
-                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: أقسام مخصصة"
@@ -1127,7 +1133,7 @@ export default function EditorPage() {
                             </button>
                             <button
                               onClick={() => setActiveTab("cover-letter")}
-                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: خطاب التقديم"
@@ -1165,7 +1171,7 @@ export default function EditorPage() {
                           <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
                             <button
                               onClick={() => setActiveTab("finish")}
-                              className="group flex items-center gap-3 bg-neutral-900 text-white px-8 py-4 rounded-2xl font-bold transition-all shadow-xl shadow-neutral-900/10 hover:shadow-neutral-900/20 active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "العودة للمراجعة والتحميل"

@@ -4,7 +4,6 @@ import {
   Edit3, Eye, Grid, Download, 
   FileText, ChevronRight 
 } from "lucide-react";
-import ProgressStepper from "./ProgressStepper";
 
 // ── i18n ──────────────────────────────────────────────────
 const T: Record<string, Record<string, string>> = {
@@ -253,18 +252,6 @@ export default function MobileEditorLayout({
   ];
   const currentIndex = stepIds.indexOf(activeSection);
 
-  const handleNext = () => {
-    if (currentIndex < stepIds.length - 1) {
-      onSectionChange(stepIds[currentIndex + 1]);
-    }
-  };
-
-  const handlePrev = () => {
-    if (currentIndex > 0) {
-      onSectionChange(stepIds[currentIndex - 1]);
-    }
-  };
-
   const handleSectionChange = (id: string) => {
     onSectionChange(id);
     setActiveTab("edit");
@@ -283,7 +270,7 @@ export default function MobileEditorLayout({
     <div className="flex flex-col h-[100dvh] bg-slate-50 text-slate-800 overflow-hidden relative pb-[calc(76px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header ── */}
-      <header className="sticky top-0 z-50 bg-white border-b border-solid border-slate-200 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
+      <header className="sticky top-0 z-50 bg-white border-b border-[#FF4D2D]/30 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
         <div className="flex items-center gap-2.5">
           <motion.div 
             whileTap={{ scale: 0.92 }}
@@ -312,6 +299,14 @@ export default function MobileEditorLayout({
         </div>
       </header>
 
+      {/* ── Premium 2px Horizontal Progress Tracker Indicator ── */}
+      <div className="h-0.5 w-full bg-slate-100 shrink-0 select-none">
+        <div 
+          className="h-full bg-[#FF4D2D] transition-all duration-300" 
+          style={{ width: `${(currentIndex / (stepIds.length - 1)) * 100}%` }}
+        />
+      </div>
+
       {/* ── Main content area with fade animations ── */}
       <main className="flex-1 overflow-hidden w-full max-w-lg mx-auto relative">
         <AnimatePresence mode="wait">
@@ -326,16 +321,6 @@ export default function MobileEditorLayout({
             {activeTab === "edit" && (
               <div className="h-full flex flex-col overflow-hidden relative">
                 <div className="flex-1 overflow-hidden relative">{children}</div>
-                <div className="p-4 bg-white border-t border-slate-150 shrink-0 select-none transform-gpu bg-white/95 backdrop-blur-md">
-                  <ProgressStepper
-                    variant="mini"
-                    current={currentIndex}
-                    onNext={handleNext}
-                    onPrev={handlePrev}
-                    lang={lang as "ar" | "en" | "fr"}
-                    completionMap={completionMap}
-                  />
-                </div>
               </div>
             )}
             {activeTab === "preview" && (

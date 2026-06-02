@@ -202,9 +202,11 @@ function ExportButton({ lang, onPDF, onWord, variant = "default" }: any) {
             open ? "bg-slate-100 text-[#FF4D2D]" : ""
           }`}
         >
+          {/* Multi-format export represented by clear download icon */}
           <svg className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="22" y1="2" x2="11" y2="13" />
-            <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
         </motion.button>
 
@@ -221,7 +223,7 @@ function ExportButton({ lang, onPDF, onWord, variant = "default" }: any) {
                 <button
                   key={i}
                   onClick={item.action}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer text-left transition-colors hover:bg-slate-50 text-slate-750"
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer text-left transition-colors hover:bg-slate-50 text-slate-755"
                   style={{ direction: "ltr" }}
                 >
                   {item.icon}
@@ -310,7 +312,7 @@ export default function EditorNavbar({
   const isRtl = lang === "ar";
 
   return (
-    <nav className="sticky top-0 z-[100] border-b border-slate-200/50 bg-[#fafafa]/85 backdrop-blur-md px-6 select-none transform-gpu" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <nav className="sticky top-0 z-[100] border-b border-[#FF4D2D]/30 bg-[#fafafa]/85 backdrop-blur-md px-6 select-none transform-gpu" style={{ direction: isRtl ? "rtl" : "ltr" }}>
       <div className="h-16 flex items-center justify-between gap-4">
 
         {/* ── Left group: Logo + Undo + Save ── */}
@@ -383,20 +385,6 @@ export default function EditorNavbar({
             lang={lang as "ar" | "en" | "fr"}
             variant="heart"
           />
-
-          {/* 5. User Profile / Shortcuts Icon 👤 */}
-          <motion.button
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onShowShortcuts}
-            title={lang === "ar" ? "اختصارات الكيبورد" : "Keyboard Shortcuts"}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors cursor-pointer text-slate-500 hover:bg-slate-100/80 hover:text-[#FF4D2D]"
-          >
-            <svg className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-            </svg>
-          </motion.button>
         </div>
 
         {/* ── Right group: Lang + Preview Split toggle ── */}
