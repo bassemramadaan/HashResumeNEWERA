@@ -116,10 +116,12 @@ export default function ATSScoreWidget({
   score     = 0,
   breakdown = DEFAULT_BREAKDOWN,
   lang      = "ar",
+  variant   = "default",
 }: {
   score?: number;
   breakdown?: any[];
   lang?: "ar" | "en" | "fr";
+  variant?: "default" | "heart";
 }) {
   const [open, setOpen] = useState(false);
   const wrapRef         = useRef<HTMLDivElement>(null);
@@ -143,23 +145,51 @@ export default function ATSScoreWidget({
   return (
     <div ref={wrapRef} className="relative inline-block" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
-      {/* ── Pill Button with Pulse Accent ── */}
-      <motion.button
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        onClick={() => setOpen(o => !o)}
-        aria-expanded={open}
-        className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs font-bold leading-none select-none cursor-pointer transition-colors shadow-xs ${fg} ${bg}`}
-      >
-        <span className="relative flex h-2 w-2">
-          <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75`} style={{ backgroundColor: ring }} />
-          <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: ring }} />
-        </span>
-        ATS {score}%
-        <span className="text-[9px] opacity-60 leading-none transition-transform duration-200" style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}>
-          ▼
-        </span>
-      </motion.button>
+      {variant === "heart" ? (
+        <motion.button
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setOpen(o => !o)}
+          title={lang === "ar" ? "درجة الـ ATS والجاهزية" : "ATS Score & Readiness"}
+          aria-expanded={open}
+          className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer text-slate-500 hover:bg-slate-100/80 hover:text-black ${
+            open ? "bg-slate-100 text-black" : ""
+          }`}
+        >
+          <svg
+            className={`w-5.5 h-5.5 transition-colors ${open ? "fill-black stroke-black text-black" : "fill-none"}`}
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+          </svg>
+          {/* High contrast Threads style notification badge */}
+          <span className="absolute -top-1 -right-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-slate-950 border border-white text-white min-w-[18px] text-center leading-none shadow-sm scale-90">
+            {score}
+          </span>
+        </motion.button>
+      ) : (
+        /* ── Pill Button with Pulse Accent ── */
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={() => setOpen(o => !o)}
+          aria-expanded={open}
+          className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs font-bold leading-none select-none cursor-pointer transition-colors shadow-xs ${fg} ${bg}`}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75`} style={{ backgroundColor: ring }} />
+            <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: ring }} />
+          </span>
+          ATS {score}%
+          <span className="text-[9px] opacity-60 leading-none transition-transform duration-200" style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}>
+            ▼
+          </span>
+        </motion.button>
+      )}
 
       {/* ── Interactive Premium Panel ── */}
       <AnimatePresence>
@@ -169,8 +199,10 @@ export default function ATSScoreWidget({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ type: "spring", stiffness: 450, damping: 30 }}
-            className="absolute top-full mt-2.5 w-[330px] bg-white border border-slate-200/80 rounded-2xl shadow-xl overflow-hidden z-[1100]"
-            style={{ [isRtl ? "right" : "left"]: 0 }}
+            className={`absolute top-full mt-2.5 w-[330px] bg-white border border-slate-200/80 rounded-2xl shadow-xl overflow-hidden z-[1100] ${
+              variant === "heart" ? "left-1/2 -translate-x-1/2" : ""
+            }`}
+            style={variant === "heart" ? undefined : (isRtl ? { right: 0 } : { left: 0 })}
           >
             {/* Header Content */}
             <div className="p-5 border-b border-sans border-slate-100 flex items-center gap-4 bg-gradient-to-b from-slate-50/50 to-white">

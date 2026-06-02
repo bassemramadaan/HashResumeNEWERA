@@ -152,7 +152,7 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
           isDone || completion === 100
             ? "bg-emerald-600 border-emerald-600 text-white shadow-xs"
             : isActive
-              ? "bg-brand-500 border-brand-500 text-white shadow- brand-500/20"
+              ? "bg-brand-500 border-brand-500 text-white shadow-brand-500/20"
               : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
         )}
       >
@@ -192,60 +192,53 @@ function HorizontalStepper({
   return (
     <div 
       className={cn(
-        "flex items-center gap-1.5 p-4 sm:p-5 bg-neutral-50/50 border-b border-neutral-200 overflow-x-auto scrollbar-none scroll-smooth",
+        "flex items-center justify-between gap-2 p-1.5 bg-[#ffffff]/85 backdrop-blur-md rounded-full border border-slate-200/50 shadow-[0_8px_30px_rgb(0,0,0,0.03)] overflow-x-auto scrollbar-none scroll-smooth w-full",
         isRtl ? "rtl" : "ltr"
       )}
     >
       {steps.map((step, i) => {
         const isActive = i === current;
-        const isDone = i < current;
         const completion = completionMap[step.id] ?? 0;
+        const isDone = completion === 100 || (i < current);
+        const Icon = STEP_ICONS[step.id];
 
         return (
-          <div key={step.id} className="flex items-center flex-1 min-w-0 last:flex-none">
-            {/* Node + Label */}
-            <div className="flex items-center gap-2.5 px-1.5 py-1">
-              <ProgressNode 
-                index={i} 
-                id={step.id} 
-                isActive={isActive} 
-                isDone={isDone} 
-                completion={completion} 
-                onClick={() => onStepClick?.(i)} 
-              />
-              <span 
-                className={cn(
-                  "text-[11px] font-bold tracking-tight whitespace-nowrap transition-colors duration-200",
-                  isActive 
-                    ? "text-brand-500 font-extrabold" 
-                    : isDone || completion === 100
-                      ? "text-emerald-700" 
-                      : "text-neutral-500"
-                )}
-              >
-                {step.shortLabel}
-                {completion > 0 && completion < 100 && (
-                  <span className="text-[9px] text-neutral-400 font-normal ms-1">({completion}%)</span>
-                )}
-              </span>
+          <button
+            key={step.id}
+            onClick={() => onStepClick?.(i)}
+            type="button"
+            className={cn(
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all relative shrink-0 cursor-pointer border select-none transformactive active:scale-[0.98]",
+              isActive 
+                ? "bg-slate-900 border-slate-900 text-white shadow-sm font-black" 
+                : isDone
+                  ? "bg-emerald-500/5 border-emerald-500/10 text-emerald-700 hover:bg-emerald-500/10" 
+                  : "bg-transparent border-transparent text-slate-550 hover:bg-slate-100/70 hover:text-slate-800"
+            )}
+          >
+            {/* Left element: Done checkmark or step Icon */}
+            <div className="flex items-center justify-center shrink-0">
+              {isDone ? (
+                <div className="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center scale-102">
+                  <Check size={11} className="stroke-[3.5]" />
+                </div>
+              ) : Icon ? (
+                <Icon size={14} className={cn("stroke-[2.5]", isActive ? "text-white" : "text-slate-400 group-hover:text-slate-600")} />
+              ) : null}
             </div>
 
-            {/* Connecting line */}
-            {i < steps.length - 1 && (
-              <div className="flex-1 h-[2px] mx-2 min-w-[12px] bg-neutral-200 rounded-full overflow-hidden shrink-0">
-                <div 
-                  className={cn(
-                    "h-full transition-all duration-500",
-                    isDone || completion === 100
-                      ? "bg-emerald-600 w-full" 
-                      : isActive 
-                        ? "bg-gradient-to-r from-brand-500 to-neutral-200 w-1/2" 
-                        : "bg-transparent w-0"
-                  )}
-                />
-              </div>
+            {/* Stepper shortLabel */}
+            <span className="leading-none whitespace-nowrap">
+              {step.shortLabel}
+            </span>
+
+            {/* Micro completion percent inside a clean, small badge */}
+            {completion > 0 && completion < 100 && !isActive && (
+              <span className="text-[9px] px-1 py-0.5 rounded-md bg-amber-500/10 text-amber-600 font-extrabold leading-none scale-90">
+                {completion}%
+              </span>
             )}
-          </div>
+          </button>
         );
       })}
     </div>

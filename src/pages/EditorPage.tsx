@@ -14,8 +14,6 @@ import {
   GraduationCap,
   Wrench,
   Download,
-  ChevronLeft,
-  Eye,
   LayoutTemplate,
   Target,
   CheckCircle2,
@@ -37,7 +35,6 @@ import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import SettingsModal from "../components/SettingsModal";
 import KeyboardShortcutsModal from "../components/KeyboardShortcutsModal";
-import { hapticFeedback } from "../utils";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../utils/ats";
 import { generateWord } from "../utils/generateWord";
@@ -287,7 +284,7 @@ const ProgressTrackerModal = ({
   );
 };
 
-import ProgressStepper from "../components/editor/ProgressStepper";
+
 
 export default function EditorPage() {
   const { language, dir, setLanguage } = useLanguageStore();
@@ -295,11 +292,7 @@ export default function EditorPage() {
 
   const [activeTab, setActiveTab] = useState<Tab>("basics");
   
-  const stepIds: Tab[] = [
-    "basics", "experience", "education", "skills", "projects", 
-    "certifications", "custom", "cover-letter", "finish"
-  ];
-  const currentIndex = stepIds.indexOf(activeTab);
+
 
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -760,18 +753,6 @@ export default function EditorPage() {
                {language === 'ar' ? 'مسح البيانات والبدء من جديد (Reset)' : 'Reset Data and Start Fresh'}
              </button>
           </div>
-        </div>
-      )}
-      {/* Horizontal Stepper for Desktop */}
-      {!isMobile && (
-        <div className="mb-6 rounded-[2rem] overflow-hidden border border-[#E8E6DF] shadow-sm">
-          <ProgressStepper
-            variant="horizontal"
-            current={currentIndex}
-            onStepClick={(i) => setActiveTab(stepIds[i])}
-            lang={language as any}
-            completionMap={sidebarCompletionMap}
-          />
         </div>
       )}
       
@@ -1571,71 +1552,7 @@ export default function EditorPage() {
         )}
       </AnimatePresence>
 
-      {/* Floating Compact Navbar (Bottom) */}
-      <div className="fixed bottom-4 sm:bottom-6 start-1/2 -translate-x-1/2 z-40 mb-safe w-[94%] sm:w-auto max-w-[480px]">
-        <div
-          className="flex items-center justify-between gap-2 w-full px-3 py-2 rounded-2xl"
-          style={{
-            background: 'rgba(255,255,255,0.97)',
-            backdropFilter: 'blur(16px)',
-            border: '1px solid var(--color-neutral-200)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-          }}
-        >
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => {
-                const currentIndex = tabs.findIndex((t) => t.id === activeTab);
-                if (currentIndex > 0) {
-                  hapticFeedback(30);
-                  setActiveTab(tabs[currentIndex - 1].id as Tab);
-                }
-              }}
-              disabled={activeTab === tabs[0].id}
-              className="w-10 h-10 flex items-center justify-center rounded-xl transition-colors disabled:opacity-30"
-              style={{ color: 'var(--color-neutral-500)' }}
-            >
-              <ChevronLeft size={20} className="rtl:rotate-180" />
-            </button>
 
-            <div className="flex flex-col min-w-[90px] text-center px-1">
-              <span className="text-[9px] font-black uppercase tracking-widest" style={{ color: 'var(--color-brand-500)' }}>
-                {activeTabIndex} / {tabs.length}
-              </span>
-              <span className="text-xs font-bold truncate max-w-[110px]" style={{ color: 'var(--color-neutral-900)' }}>
-                {tabs.find((t) => t.id === activeTab)?.shortLabel}
-              </span>
-            </div>
-
-            <button
-              onClick={() => {
-                const currentIndex = tabs.findIndex((t) => t.id === activeTab);
-                if (currentIndex < tabs.length - 1) {
-                  hapticFeedback(30);
-                  setActiveTab(tabs[currentIndex + 1].id as Tab);
-                }
-              }}
-              disabled={activeTab === tabs[tabs.length - 1].id}
-              className="w-10 h-10 flex items-center justify-center rounded-xl transition-colors disabled:opacity-30"
-              style={{ color: 'var(--color-neutral-500)' }}
-            >
-              <ArrowRight size={20} className="rtl:rotate-180" />
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => { hapticFeedback(40); setShowMobilePreview(!showMobilePreview); }}
-              className="md:hidden flex items-center justify-center gap-2 font-black h-10 px-4 rounded-xl transition-all active:scale-95 text-white text-xs uppercase tracking-widest"
-              style={{ backgroundColor: 'var(--color-brand-500)', boxShadow: '0 4px 12px color-mix(in srgb, var(--color-brand-500) 35%, transparent)' }}
-              title={language === 'ar' ? 'معاينة' : 'Preview'}
-            >
-              <Eye size={16} />
-              <span>{language === 'ar' ? 'معاينة' : 'Preview'}</span>
-            </button>
-          </div>
-        </div>
-      </div>
 
 
         </>
