@@ -58,8 +58,10 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> =
     { id: "experience",     label: "الخبرات العملية",   emoji: "💼" },
     { id: "education",      label: "التعليم والشهادات",   emoji: "🎓" },
     { id: "skills",         label: "المهارات المهنية",  emoji: "⭐" },
+    { id: "projects",       label: "المشاريع المنجزة",  emoji: "🚀" },
     { id: "certifications", label: "الشهادات والاعتمادات", emoji: "🏅" },
     { id: "custom",         label: "أقسام مخصصة إضافية", emoji: "➕" },
+    { id: "cover-letter",   label: "خطاب التغطية (AI)", emoji: "📝" },
     { id: "finish",         label: "مراجعة وتحميل",     emoji: "📄" },
   ],
   en: [
@@ -67,8 +69,10 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> =
     { id: "experience",     label: "Experience",       emoji: "💼" },
     { id: "education",      label: "Education",        emoji: "🎓" },
     { id: "skills",         label: "Skills & Expertise",emoji: "⭐" },
+    { id: "projects",       label: "Key Projects",    emoji: "🚀" },
     { id: "certifications", label: "Certifications",   emoji: "🏅" },
     { id: "custom",         label: "Custom Sections",  emoji: "➕" },
+    { id: "cover-letter",   label: "Cover Letter",       emoji: "📝" },
     { id: "finish",         label: "Audit & Download", emoji: "📄" },
   ],
   fr: [
@@ -76,8 +80,10 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> =
     { id: "experience",     label: "Expérience",       emoji: "💼" },
     { id: "education",      label: "Formation",        emoji: "🎓" },
     { id: "skills",         label: "Compétences",      emoji: "⭐" },
+    { id: "projects",       label: "Projets Clés",     emoji: "🚀" },
     { id: "certifications", label: "Certifications",   emoji: "🏅" },
     { id: "custom",         label: "Sections custom",  emoji: "➕" },
+    { id: "cover-letter",   label: "Lettre de Motivation", emoji: "📝" },
     { id: "finish",         label: "Vérifier & Télécharger", emoji: "📄" },
   ],
 };
@@ -327,6 +333,7 @@ export default function MobileEditorLayout({
                     onNext={handleNext}
                     onPrev={handlePrev}
                     lang={lang as "ar" | "en" | "fr"}
+                    completionMap={completionMap}
                   />
                 </div>
               </div>
