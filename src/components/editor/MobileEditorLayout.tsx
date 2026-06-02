@@ -178,7 +178,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             key={s.id}
-                    id={`m-tab-${s.id}`}
+                    id={`m-tab-nav-${s.id}`}
             onClick={() => onSectionChange(s.id)}
             className={`w-full flex items-center gap-3.5 p-4 rounded-2xl border cursor-pointer transition-all ${
               isActive 
@@ -335,6 +335,7 @@ export default function MobileEditorLayout({
                 return (
                   <button
                     key={s.id}
+                    id={`m-tab-${s.id}`}
                     onClick={() => {
                       onSectionChange(s.id);
                       // Scroll form to top

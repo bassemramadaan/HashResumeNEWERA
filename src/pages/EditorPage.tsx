@@ -895,10 +895,10 @@ export default function EditorPage() {
     <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32 relative">
       {data.isLocked && (
         <div className="absolute inset-0 z-[100] bg-white/70 backdrop-blur-md flex items-center justify-center rounded-[2rem] mx-[-1rem] px-4" style={{ height: 'max-content', minHeight: '100%' }}>
-          <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] max-w-md w-full text-center border border-rose-100 relative overflow-hidden mt-20">
+          <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] max-w-md w-full text-center border border-slate-200 relative overflow-hidden mt-20">
              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-slate-700 to-slate-900 overflow-hidden" />
-             <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-5 border border-rose-100">
-               <Lock className="w-10 h-10 text-rose-500" />
+             <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 border border-slate-200">
+               <Lock className="w-10 h-10 text-slate-700" />
              </div>
              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 tracking-tight">
                {language === 'ar' ? 'تم تأمين السيرة الذاتية' : 'Resume Locked'}
@@ -910,7 +910,7 @@ export default function EditorPage() {
              </p>
              <button 
                onClick={() => setConfirmAction({ type: "clear", message: t.clearConfirm })} 
-               className="bg-slate-900 hover:from-rose-700 hover:bg-slate-950 text-white font-black text-sm px-6 py-3.5 rounded-xl w-full transition-all active:scale-95 shadow-md shadow-orange-500/20"
+               className="bg-slate-900 hover:bg-black text-white font-black text-sm px-6 py-3.5 rounded-xl w-full transition-all active:scale-95 shadow-md shadow-slate-900/20"
              >
                {language === 'ar' ? 'مسح البيانات والبدء من جديد (Reset)' : 'Reset Data and Start Fresh'}
              </button>
