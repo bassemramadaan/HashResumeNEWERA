@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { 
   Edit3, Eye, Grid, Download, 
@@ -178,10 +178,11 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             key={s.id}
+                    id={`m-tab-${s.id}`}
             onClick={() => onSectionChange(s.id)}
             className={`w-full flex items-center gap-3.5 p-4 rounded-2xl border cursor-pointer transition-all ${
               isActive 
-                ? "bg-rose-500/5 border-rose-500/20 text-[#FF4D2D]" 
+                ? "bg-rose-500/5 border-rose-500/20 text-slate-900" 
                 : "bg-white border-slate-200/80 hover:bg-slate-50 text-slate-700"
             }`}
           >
@@ -205,11 +206,11 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
             onClick={() => onSectionChange("finish")}
-            className="w-full flex items-center gap-3.5 p-4 bg-gradient-to-r from-rose-500/10 to-[#FF4D2D]/5 hover:from-rose-500/15 hover:to-[#FF4D2D]/10 border border-[#FF4D2D]/20 rounded-2xl cursor-pointer transition-all text-slate-800"
+            className="w-full flex items-center gap-3.5 p-4 bg-gradient-to-r from-slate-700/10 to-slate-900/5 hover:from-slate-700/15 hover:to-slate-900/10 border border-slate-700/20 rounded-2xl cursor-pointer transition-all text-slate-800"
           >
             <span className="text-2xl shrink-0 select-none">{auditSection.emoji}</span>
             <span className="flex-1 text-sm font-bold text-right ltr:text-left">{auditSection.label}</span>
-            <span className="bg-[#FF4D2D] text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-xs leading-none">
+            <span className="bg-slate-900 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-xs leading-none">
               PDF
             </span>
           </motion.button>
@@ -252,6 +253,13 @@ export default function MobileEditorLayout({
   ];
   const currentIndex = stepIds.indexOf(activeSection);
 
+  useEffect(() => {
+    const tabEl = document.getElementById(`m-tab-${activeSection}`);
+    if (tabEl) {
+      tabEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }, [activeSection]);
+
   const handleSectionChange = (id: string) => {
     onSectionChange(id);
     setActiveTab("edit");
@@ -277,7 +285,7 @@ export default function MobileEditorLayout({
     <div className="fixed inset-0 flex flex-col bg-slate-50 text-slate-800 overflow-hidden pb-[calc(76px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header ── */}
-      <header className="sticky top-0 z-50 bg-white border-b border-[#FF4D2D]/30 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
+      <header className="sticky top-0 z-50 bg-white border-b border-slate-300/30 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
         <div className="flex items-center gap-2.5">
           <motion.div 
             whileTap={{ scale: 0.92 }}
@@ -309,7 +317,7 @@ export default function MobileEditorLayout({
       {/* ── Premium 2px Horizontal Progress Tracker Indicator ── */}
       <div className="h-0.5 w-full bg-slate-100 shrink-0 select-none">
         <div 
-          className="h-full bg-[#FF4D2D] transition-all duration-300" 
+          className="h-full bg-slate-900 transition-all duration-300" 
           style={{ width: `${(currentIndex / (stepIds.length - 1)) * 100}%` }}
         />
       </div>
@@ -339,7 +347,7 @@ export default function MobileEditorLayout({
                     }}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap shrink-0 transition-all border ${
                       isActive
-                        ? "bg-rose-550/10 border-rose-500/25 text-[#FF4D2D]"
+                        ? "bg-slate-900/10 border-slate-900/20 text-slate-900"
                         : "bg-slate-50 border-slate-200/60 text-slate-655 hover:bg-slate-100"
                     }`}
                   >
@@ -395,11 +403,11 @@ export default function MobileEditorLayout({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab("export")}
-                  className="w-12 h-12 bg-gradient-to-r from-rose-600 to-[#FF4D2D] text-white rounded-2xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(255,77,45,0.4)] border border-rose-400/20"
+                  className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(255,77,45,0.4)] border border-rose-400/20"
                 >
                   <Download className="w-5 h-5 shrink-0" />
                 </motion.button>
-                <span className="text-[10px] font-black mt-1 text-[#FF4D2D]">
+                <span className="text-[10px] font-black mt-1 text-slate-900">
                   {tab.label}
                 </span>
               </div>
@@ -415,10 +423,10 @@ export default function MobileEditorLayout({
             >
               <div className="relative z-10">
                 {IconComponent && (
-                  <IconComponent className={`w-5 h-5 transition-colors duration-200 ${isActive ? "text-[#FF4D2D]" : "text-slate-400"}`} />
+                  <IconComponent className={`w-5 h-5 transition-colors duration-200 ${isActive ? "text-slate-900" : "text-slate-400"}`} />
                 )}
               </div>
-              <span className={`text-[10px] font-bold mt-1 relative z-10 transition-colors duration-200 ${isActive ? "text-[#FF4D2D]" : "text-slate-400"}`}>
+              <span className={`text-[10px] font-bold mt-1 relative z-10 transition-colors duration-200 ${isActive ? "text-slate-900" : "text-slate-400"}`}>
                 {tab.label}
               </span>
               {isActive && (

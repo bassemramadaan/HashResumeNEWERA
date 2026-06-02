@@ -896,7 +896,7 @@ export default function EditorPage() {
       {data.isLocked && (
         <div className="absolute inset-0 z-[100] bg-white/70 backdrop-blur-md flex items-center justify-center rounded-[2rem] mx-[-1rem] px-4" style={{ height: 'max-content', minHeight: '100%' }}>
           <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] max-w-md w-full text-center border border-rose-100 relative overflow-hidden mt-20">
-             <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 to-[#FF4D2D] overflow-hidden" />
+             <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-slate-700 to-slate-900 overflow-hidden" />
              <div className="w-20 h-20 bg-rose-50 rounded-full flex items-center justify-center mx-auto mb-5 border border-rose-100">
                <Lock className="w-10 h-10 text-rose-500" />
              </div>
@@ -910,7 +910,7 @@ export default function EditorPage() {
              </p>
              <button 
                onClick={() => setConfirmAction({ type: "clear", message: t.clearConfirm })} 
-               className="bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:from-rose-700 hover:to-[#E64528] text-white font-black text-sm px-6 py-3.5 rounded-xl w-full transition-all active:scale-95 shadow-md shadow-orange-500/20"
+               className="bg-slate-900 hover:from-rose-700 hover:bg-slate-950 text-white font-black text-sm px-6 py-3.5 rounded-xl w-full transition-all active:scale-95 shadow-md shadow-orange-500/20"
              >
                {language === 'ar' ? 'مسح البيانات والبدء من جديد (Reset)' : 'Reset Data and Start Fresh'}
              </button>
@@ -926,7 +926,7 @@ export default function EditorPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-white rounded-[2rem] border border-[#E8E6DF] shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-300 transform-gpu"
                   >
-                    <div className="absolute top-0 end-0 w-64 h-64 rounded-[2rem] opacity-[0.02] bg-[#FF4D2D] pointer-events-none transform translate-x-1/3 -translate-y-1/3 rotate-12"></div>
+                    <div className="absolute top-0 end-0 w-64 h-64 rounded-[2rem] opacity-[0.02] bg-slate-900 pointer-events-none transform translate-x-1/3 -translate-y-1/3 rotate-12"></div>
 
                     <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-slate-900 flex items-center justify-center shrink-0 shadow-slate-900/10 relative z-10 ring-4 ring-slate-50 border border-white/20 group">
                       <Sparkles size={20} className="text-white animate-pulse sm:w-6 sm:h-6" />
@@ -983,15 +983,15 @@ export default function EditorPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-6"
                   >
-                    <div className="bg-orange-50/20 backdrop-blur-xs rounded-2xl border border-[#FF4D2D]/15 p-4 transition-all overflow-hidden shadow-2xs">
+                    <div className="bg-orange-50/20 backdrop-blur-xs rounded-2xl border border-slate-700/15 p-4 transition-all overflow-hidden shadow-2xs">
                       <button
                         onClick={() => setIsTipsOpen(!isTipsOpen)}
-                        className="w-full flex items-center justify-between font-bold text-xs text-[#FF4D2D] hover:opacity-85 transition-opacity"
+                        className="w-full flex items-center justify-between font-bold text-xs text-slate-900 hover:opacity-85 transition-opacity"
                       >
                         <span className="flex items-center gap-2">
                           <span>{ATS_SECTION_TIPS[language === "ar" ? "ar" : "en"][activeTab].title}</span>
                         </span>
-                        <span className="text-[10px] bg-[#FF4D2D]/10 px-2.5 py-1 rounded-lg">
+                        <span className="text-[10px] bg-slate-900/10 px-2.5 py-1 rounded-lg">
                           {isTipsOpen ? (language === "ar" ? "إخلاق" : "Hide") : (language === "ar" ? "عرض النصائح" : "Show Tips")}
                         </span>
                       </button>
@@ -1000,11 +1000,11 @@ export default function EditorPage() {
                         <motion.ul 
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: "auto" }}
-                          className="mt-3.5 space-y-2 text-xs md:text-sm text-slate-800 list-none ltr:pl-0 rtl:pr-0 border-t border-[#FF4D2D]/10 pt-3"
+                          className="mt-3.5 space-y-2 text-xs md:text-sm text-slate-800 list-none ltr:pl-0 rtl:pr-0 border-t border-slate-300/10 pt-3"
                         >
                           {ATS_SECTION_TIPS[language === "ar" ? "ar" : "en"][activeTab].tips.map((tip, idx) => (
                             <li key={idx} className="flex items-start gap-2.5 leading-relaxed font-semibold text-slate-700">
-                              <span className="text-[#FF4D2D] shrink-0 mt-0.5">✓</span>
+                              <span className="text-slate-900 shrink-0 mt-0.5">✓</span>
                               <span>{tip}</span>
                             </li>
                           ))}
@@ -1028,7 +1028,7 @@ export default function EditorPage() {
 
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start">
-                              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
+                              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
                                 <User
                                   size={24}
                                   className="relative z-10 drop-shadow-sm"
@@ -1051,7 +1051,7 @@ export default function EditorPage() {
                             <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
                               <button
                                 onClick={() => setActiveTab("experience")}
-                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
+                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
                               >
                                 {language === "ar"
                                   ? "الخطوة التالية: الخبرة"
@@ -1100,7 +1100,7 @@ export default function EditorPage() {
                               </button>
                               <button
                                 onClick={() => setActiveTab("education")}
-                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
+                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
                               >
                                 {language === "ar"
                                   ? "الخطوة التالية: التعليم"
@@ -1149,7 +1149,7 @@ export default function EditorPage() {
                               </button>
                               <button
                                 onClick={() => setActiveTab("skills")}
-                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
+                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
                               >
                                 {language === "ar"
                                   ? "الخطوة التالية: المهارات"
@@ -1166,7 +1166,7 @@ export default function EditorPage() {
                       {activeTab === "skills" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
                               <Wrench
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1194,7 +1194,7 @@ export default function EditorPage() {
                             </button>
                             <button
                               onClick={() => setActiveTab("projects")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: المشاريع"
@@ -1210,7 +1210,7 @@ export default function EditorPage() {
                       {activeTab === "projects" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
                               <LayoutTemplate
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1238,7 +1238,7 @@ export default function EditorPage() {
                             </button>
                             <button
                               onClick={() => setActiveTab("certifications")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: الشهادات"
@@ -1254,7 +1254,7 @@ export default function EditorPage() {
                       {activeTab === "certifications" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
                               <Award
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1282,7 +1282,7 @@ export default function EditorPage() {
                             </button>
                             <button
                               onClick={() => setActiveTab("custom")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: أقسام مخصصة"
@@ -1298,7 +1298,7 @@ export default function EditorPage() {
                       {activeTab === "custom" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
                               <PlusIcon
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1326,7 +1326,7 @@ export default function EditorPage() {
                             </button>
                             <button
                               onClick={() => setActiveTab("cover-letter")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "الخطوة التالية: خطاب التقديم"
@@ -1342,7 +1342,7 @@ export default function EditorPage() {
                       {activeTab === "cover-letter" && (
                         <section>
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(255, 77, 45, 0.3)' }}>
+                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
                               <FileText
                                 size={24}
                                 className="relative z-10 drop-shadow-sm"
@@ -1364,7 +1364,7 @@ export default function EditorPage() {
                           <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
                             <button
                               onClick={() => setActiveTab("finish")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-[#FF4D2D] shadow-lg hover:bg-black transition-all active:scale-95"
+                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
                                 ? "العودة للمراجعة والتحميل"
