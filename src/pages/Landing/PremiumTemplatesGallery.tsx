@@ -126,6 +126,10 @@ export function PremiumTemplatesGallery() {
             return (
               <motion.div
                 key={tpl.id}
+                initial={{ opacity: 0, y: 35 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
                 onMouseEnter={() => setHoveredCard(tpl.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 className={`bg-white rounded-3xl border border-slate-150 p-6 md:p-8 flex flex-col justify-between transition-all duration-300 relative overflow-hidden group shadow-sm hover:border-slate-200 ${

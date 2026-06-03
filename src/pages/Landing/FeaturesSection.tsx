@@ -65,7 +65,7 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
   const heading = HEADINGS[lang] || HEADINGS['en']
 
   return (
-    <section id="features" className="py-24 px-6 md:px-12 w-full bg-slate-50/50 relative overflow-hidden select-none border-t border-slate-100">
+    <section id="features" className="py-16 sm:py-20 px-6 md:px-12 w-full bg-slate-50/50 relative overflow-hidden select-none border-t border-slate-100">
       {/* Visual background lights for section ambient */}
       <div className="absolute top-[30%] left-[30%] w-[300px] h-[300px] rounded-full bg-rose-50/20 blur-3xl pointer-events-none" />
       <div className="absolute bottom-[20%] right-[30%] w-[350px] h-[350px] rounded-full bg-orange-50/10 blur-3xl pointer-events-none" />

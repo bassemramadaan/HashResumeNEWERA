@@ -31,7 +31,7 @@ export default function LandingPage() {
         <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
         
         {/* Final CTA */}
-        <section className="py-32 relative overflow-hidden bg-[#FF4D2D]" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+        <section className="py-20 sm:py-24 relative overflow-hidden bg-[#FF4D2D]" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
           <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%)' }} />
           
           {/* Animated decorative shapes */}

@@ -261,7 +261,13 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
     <section id="ats-check" className="py-24 bg-slate-50 border-t border-b border-slate-200/60 relative overflow-hidden" dir={isAr ? "rtl" : "ltr"}>
       <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
 
-      <div className="container-page relative z-10 max-w-4xl mx-auto px-4 text-center">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.6 }}
+        className="container-page relative z-10 max-w-4xl mx-auto px-4 text-center"
+      >
         <div className="text-center max-w-2xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-100/60 mb-4 animate-bounce">
             <Sparkles size={12} className="text-indigo-600" />
@@ -498,7 +504,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
             )}
           </AnimatePresence>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -10,27 +10,14 @@ interface Testimonial {
   initial: string;
 }
 
+// 3 high-impact testimonials representing different fields to simplify and reduce space
 const reviews: Testimonial[] = [
   {
     name: "يوسف أحمد",
     role: "مهندس برمجيات",
     company: { ar: "نيوم", en: "NEOM" },
-    text: "جربت تحليل الـ ATS وقدرت أعدل سيرتي الذاتية وأستهدف الكلمات المفتاحية لمجالي. وحصلت على مقابلة من أول أسبوع تقديم!",
+    text: "جربت تحليل الـ ATS وقدرت أعدل سيرتي الذاتية وأستهدف الكلمات المفتاحية لمجالي. حصلت على مقابلة من أول أسبوع!",
     initial: "ي",
-  },
-  {
-    name: "Laila Hassan",
-    role: "Product Manager",
-    company: { ar: "دبي القابضة", en: "Dubai Holding" },
-    text: "I love the 100% data privacy. No online accounts or databases, and the option to export instantly is a real lifesaver.",
-    initial: "L",
-  },
-  {
-    name: "محمد إبراهيم",
-    role: "مدير مشاريع",
-    company: { ar: "أرامكو السعودية", en: "Saudi Aramco" },
-    text: "الأداة دي احترافية للدرجة القصوى وسهلة للغاية! وفرت عليا ساعات من التنسيق اليدوي المعقد بالوورد ومرت من الـ ATS بسهولة.",
-    initial: "م",
   },
   {
     name: "Amina Al-Kharji",
@@ -40,18 +27,11 @@ const reviews: Testimonial[] = [
     initial: "A",
   },
   {
-    name: "محمود حسن",
-    role: "محلل مالي",
-    company: { ar: "بنك مصر", en: "Banque Misr" },
-    text: "كنت أواجه مشاكل مع نظام الـ ATS لكن تصميم هالقوالب العربي متوافق تماماً وتلقيت ردود إيجابية وتوظيف بفضل مرونة الأداة.",
+    name: "محمد إبراهيم",
+    role: "مدير مشاريع",
+    company: { ar: "أرامكو", en: "Saudi Aramco" },
+    text: "الأداة دي احترافية للدرجة القصوى وسهلة للغاية! وفرت عليا ساعات من التنسيق اليدوي المعقد بالوورد ومرت من الـ ATS بسهولة.",
     initial: "م",
-  },
-  {
-    name: "أسماء محمود",
-    role: "كبير مصممي واجهات",
-    company: { ar: "فودافون", en: "Vodafone" },
-    text: "دعم الخط العربي مذهل وجعل مظهري المهني متميزاً، والألوان منسقة جداً ولا تؤذي العين.",
-    initial: "أ",
   },
 ];
 
@@ -61,71 +41,71 @@ export default function Testimonials() {
   return (
     <section
       id="testimonials"
-      className="py-24 bg-white border-b border-slate-100 select-none font-sans relative overflow-hidden"
+      className="py-12 sm:py-16 bg-white border-b border-slate-100 select-none font-sans relative overflow-hidden"
     >
-      <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-slate-50/50 to-transparent pointer-events-none" />
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-slate-50/20 to-transparent pointer-events-none" />
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-lg mx-auto mb-16">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF4D2D]/5 border border-[#FF4D2D]/10 text-[#FF4D2D] text-[10px] font-black uppercase tracking-widest mb-3.5">
-            <Star size={10} className="fill-[#FF4D2D] text-[#FF4D2D]" />
+        <div className="text-center max-w-md mx-auto mb-10">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#FF4D2D]/5 border border-[#FF4D2D]/10 text-[#FF4D2D] text-[9px] font-black uppercase tracking-widest mb-2.5">
+            <Star size={9} className="fill-[#FF4D2D] text-[#FF4D2D]" />
             <span>
-              {language === "ar" ? "جدار المحبة" : "WALL OF LOVE"}
+              {language === "ar" ? "آراء المستخدمين" : "TESTIMONIALS"}
             </span>
           </span>
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 tracking-tight">
+          <h2 className="text-2xl md:text-3xl font-black text-slate-900 mb-1.5 tracking-tight">
             {language === "ar" ? "قصص نجاح حقيقية" : "Trusted by Professionals"}
           </h2>
-          <p className="text-slate-500 text-[13px] sm:text-sm font-semibold leading-relaxed">
+          <p className="text-slate-400 text-xs sm:text-[13px] font-semibold">
             {language === "ar" 
-              ? "قصص نجاح واقتباسات حقيقية من مستخدمينا الرائعين حول العالم." 
-              : "Read inspiring stories from amazing professionals who achieved success with us."}
+              ? "مستخدمون رائعون تجاوزوا فلاتر الـ ATS وتلقوا عروض توظيف." 
+              : "Inspiring success stories from users who bypassed ATS filters successfully."}
           </p>
         </div>
 
-        {/* Premium Masonry-like Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+        {/* Simplified Compact Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
           {reviews.map((review, i) => (
             <div
               key={i}
-              className="bg-white border border-slate-150 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:border-[#FF4D2D]/20 shadow-3xs hover:shadow-2xs"
+              className="bg-slate-50/50 border border-slate-100 rounded-xl p-5 flex flex-col justify-between transition-all duration-300 hover:border-[#FF4D2D]/15 hover:bg-white shadow-3xs"
             >
-              <div className="space-y-4">
-                {/* Upper line: quote mark & stars */}
+              <div className="space-y-3">
+                {/* Upper line: quote mark */}
                 <div className="flex items-center justify-between">
-                  <Quote size={20} className="text-[#FF4D2D]/10 transform scale-x-[-1] rtl:scale-x-[1]" />
+                  <Quote size={14} className="text-[#FF4D2D]/15 transform scale-x-[-1] rtl:scale-x-[1]" />
                   <div className="flex items-center gap-0.5">
                     {[...Array(5)].map((_, starIdx) => (
-                      <Star key={starIdx} size={11} className="fill-[#FF4D2D] text-[#FF4D2D]" />
+                      <Star key={starIdx} size={9} className="fill-[#FF4D2D] text-[#FF4D2D]" />
                     ))}
                   </div>
                 </div>
 
                 {/* Text quote */}
-                <p className="text-slate-700 text-xs sm:text-[13px] leading-relaxed font-semibold">
+                <p className="text-slate-600 text-xs sm:text-[13.5px] leading-relaxed font-semibold text-start">
                   "{review.text}"
                 </p>
               </div>
 
               {/* Author Info */}
-              <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#FF4D2D]/5 text-[#FF4D2D] border border-[#FF4D2D]/10 flex items-center justify-center font-bold text-sm shrink-0 select-none shadow-3xs font-mono">
+              <div className="mt-4 pt-3.5 border-t border-slate-100 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-[#FF4D2D]/5 text-[#FF4D2D] border border-[#FF4D2D]/10 flex items-center justify-center font-bold text-xs shrink-0 select-none font-mono">
                     {review.initial}
                   </div>
                   <div className="min-w-0 text-start">
-                    <h4 className="font-bold text-slate-900 text-[12px] sm:text-[13px] leading-tight truncate">
+                    <h5 className="font-bold text-slate-800 text-[11px] sm:text-xs leading-none truncate">
                       {review.name}
-                    </h4>
-                    <span className="text-[10px] text-slate-400 font-semibold block truncate mt-0.5">
+                    </h5>
+                    <span className="text-[9px] text-slate-400 font-bold block truncate mt-1">
                       {review.role}
                     </span>
                   </div>
                 </div>
 
-                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md text-[9px] font-black border border-emerald-100 shrink-0">
-                  <CheckCircle2 size={9} className="text-emerald-500" />
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-emerald-50/70 text-emerald-700 rounded-md text-[8px] font-extrabold border border-emerald-100/50 shrink-0">
+                  <CheckCircle2 size={8} className="text-[#10B981]" />
                   <span>{language === "ar" ? review.company.ar : review.company.en}</span>
                 </span>
               </div>

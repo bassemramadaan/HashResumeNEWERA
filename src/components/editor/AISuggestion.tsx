@@ -1,8 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Sparkles, Loader2, Check, RefreshCw } from "lucide-react";
 import { motion } from "motion/react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { aiService } from "../../services/aiService";
+
+// Beautiful Typewriter Effect component with blinking AI cursor
+function TypewriterText({ text, speed = 10 }: { text: string; speed?: number }) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(true);
+
+  useEffect(() => {
+    setDisplayedText("");
+    setIsTyping(true);
+    let index = 0;
+    const interval = setInterval(() => {
+      // safe bounds check
+      if (index < text.length) {
+        setDisplayedText((prev) => prev + text.charAt(index));
+        index++;
+      } else {
+        clearInterval(interval);
+        setIsTyping(false);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed]);
+
+  return (
+    <span className="relative">
+      {displayedText}
+      {isTyping && (
+        <span className="inline-block w-1.5 h-3.5 ml-0.5 bg-[#FF4D2D] animate-pulse" style={{ verticalAlign: 'middle' }} />
+      )}
+    </span>
+  );
+}
 
 interface AISuggestionProps {
   currentValue: string;
@@ -163,7 +196,11 @@ Provide ONLY the final improved sentence, with absolutely no notes, no chat/mess
 
       {suggestion && (
         <div className="space-y-2.5 bg-white p-3 rounded-xl border border-slate-150 shadow-3xs">
-          <p className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">"{suggestion}"</p>
+          <p className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
+            "
+            <TypewriterText text={suggestion} />
+            "
+          </p>
           <div className="flex gap-2">
             <button
               onClick={() => {
