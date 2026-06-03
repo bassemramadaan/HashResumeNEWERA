@@ -56,9 +56,6 @@ const EducationForm = lazy(() => import("../components/editor/EducationForm"));
 const SkillsForm = lazy(() => import("../components/editor/SkillsForm"));
 const ProjectsForm = lazy(() => import("../components/editor/ProjectsForm"));
 const CertificationsForm = lazy(() => import("../components/editor/CertificationsForm"));
-const CustomSectionsForm = lazy(
-  () => import("../components/editor/CustomSectionsForm"),
-);
 const ATSAudit = lazy(() => import("../components/editor/ATSAudit"));
 const CoverLetterForm = lazy(
   () => import("../components/editor/CoverLetterForm"),
@@ -1048,7 +1045,7 @@ export default function EditorPage() {
                             </div>
                             <PersonalInfoForm />
 
-                            <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-end">
+                            <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-end">
                               <button
                                 onClick={() => setActiveTab("experience")}
                                 className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
@@ -1091,7 +1088,7 @@ export default function EditorPage() {
                               <ExperienceForm />
                             </div>
 
-                            <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
+                            <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
                               <button
                                 onClick={() => setActiveTab("basics")}
                                 className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
@@ -1140,7 +1137,7 @@ export default function EditorPage() {
                               <EducationForm />
                             </div>
 
-                            <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
+                            <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
                               <button
                                 onClick={() => setActiveTab("experience")}
                                 className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
@@ -1185,7 +1182,7 @@ export default function EditorPage() {
                           </div>
                           <SkillsForm />
 
-                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
                             <button
                               onClick={() => setActiveTab("education")}
                               className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
@@ -1229,7 +1226,7 @@ export default function EditorPage() {
                           </div>
                           <ProjectsForm />
 
-                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
                             <button
                               onClick={() => setActiveTab("skills")}
                               className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
@@ -1273,53 +1270,9 @@ export default function EditorPage() {
                           </div>
                           <CertificationsForm />
 
-                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
                             <button
                               onClick={() => setActiveTab("projects")}
-                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
-                            >
-                              {language === "ar" ? "السابق" : "Previous"}
-                            </button>
-                            <button
-                              onClick={() => setActiveTab("custom")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
-                            >
-                              {language === "ar"
-                                ? "الخطوة التالية: أقسام مخصصة"
-                                : "Next: Custom Sections"}
-                              <ArrowRight
-                                size={20}
-                                className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
-                              />
-                            </button>
-                          </div>
-                        </section>
-                      )}
-                      {activeTab === "custom" && (
-                        <section>
-                          <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
-                              <PlusIcon
-                                size={24}
-                                className="relative z-10 drop-shadow-sm"
-                              />
-                            </div>
-                            <div>
-                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
-                                {String(t.custom?.title || "Custom Sections")}
-                              </h2>
-                              <p className="text-xs text-neutral-500 font-medium">
-                                {language === "ar"
-                                  ? "أضف أي أقسام إضافية تراها مهمة"
-                                  : "Add any additional sections you find important"}
-                              </p>
-                            </div>
-                          </div>
-                          <CustomSectionsForm />
-
-                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
-                            <button
-                              onClick={() => setActiveTab("certifications")}
                               className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
                             >
                               {language === "ar" ? "السابق" : "Previous"}
@@ -1361,9 +1314,9 @@ export default function EditorPage() {
                           </div>
                           <CoverLetterForm />
 
-                          <div className="mt-12 pt-8 border-t border-neutral-100 flex justify-between gap-4">
+                          <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
                             <button
-                              onClick={() => setActiveTab("custom")}
+                              onClick={() => setActiveTab("certifications")}
                               className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
                             >
                               {language === "ar" ? "السابق" : "Previous"}

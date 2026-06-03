@@ -20,7 +20,7 @@ export default function EditorSidebar({
   
   const stepIds = [
     "basics", "experience", "education", "skills", "projects", 
-    "certifications", "custom", "cover-letter", "finish"
+    "certifications", "cover-letter", "finish"
   ];
   const currentIndex = stepIds.indexOf(activeTab);
 

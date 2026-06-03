@@ -76,12 +76,6 @@ export type CoverLetter = {
   generatedContent: string;
 };
 
-export type CustomSection = {
-  id: string;
-  title: string;
-  content: string;
-};
-
 export type SectionId =
   | "summary"
   | "experience"
@@ -99,7 +93,6 @@ export type ResumeData = {
   skills: string[];
   projects: Project[];
   certifications: Certification[];
-  customSections: CustomSection[];
   settings: {
     template:
       | "modern"
@@ -143,7 +136,6 @@ export function getResumeSignature(data: any): string {
     skills: data.skills || [],
     projects: (data.projects || []).map((p: any) => `${p.name}-${p.description}-${p.link}`),
     certifications: (data.certifications || []).map((c: any) => `${c.name}-${c.issuer}-${c.date}`),
-    customSections: (data.customSections || []).map((s: any) => `${s.title}-${s.content}`),
     template: data.settings?.template || "",
     themeColor: data.settings?.themeColor || "",
   };
@@ -157,7 +149,6 @@ const defaultSectionOrder: SectionId[] = [
   "skills",
   "projects",
   "certifications",
-  "custom",
 ];
 
 const initialData: ResumeData = {
@@ -192,7 +183,6 @@ const initialData: ResumeData = {
   skills: [],
   projects: [],
   certifications: [],
-  customSections: [],
   settings: {
     template: "modern",
     themeColor: "#475569", // Neutral Slate
@@ -236,40 +226,88 @@ type ResumeStore = {
   removeCertification: (id: string) => void;
   reorderCertifications: (newCerts: Certification[]) => void;
   duplicateCertification: (id: string) => void;
-  addCustomSection: (section: Omit<CustomSection, "id">) => void;
-  updateCustomSection: (id: string, section: Partial<CustomSection>) => void;
-  removeCustomSection: (id: string) => void;
-  reorderCustomSections: (newSections: CustomSection[]) => void;
-  duplicateCustomSection: (id: string) => void;
-  updateSettings: (settings: Partial<ResumeData["settings"]>) => void;
-  updateJobDescription: (jd: string) => void;
-  updateCoverLetter: (cl: Partial<CoverLetter>) => void;
-  unlockPremium: () => void;
-  lockResume: () => void;
-  resetData: () => void;
-  loadExampleData: () => void;
-  loadData: (data: ResumeData) => void;
-  updateData: (data: ResumeData) => void;
-  reorderSections: (newOrder: SectionId[]) => void;
-  importFromLinkedIn: (data: Partial<ResumeData>) => void;
-  addSection: (sectionId: SectionId) => void;
+  setSettings: (settings: Partial<ResumeData["settings"]>) => void;
+  setJobDescription: (desc: string) => void;
+  importFromLinkedIn: (linkedinData: any) => void;
+  addSection: (sectionId: string) => void;
   reorderExperience: (startIndex: number, endIndex: number) => void;
-};
+  reorderEducation: (startIndex: number, endIndex: number) => void;
+  generateDescription: (
+    type: "experience" | "education" | "project",
+    id: string,
+    prompt: string,
+    language: string,
+  ) => Promise<void>;
+  generateGlobalSuggestions: (
+    language: string,
+  ) => Promise<{ suggestions: any[] }>;
+  generateCoverLetter: (
+    jobDescription: string,
+    companyName: string,
+    jobTitle: string,
+    language: string,
+    onStream: (text: string) => void,
+  ) => Promise<void>;
+  updateCoverLetter: (content: string) => void;
+  checkATSCompatibility: (language: string) => Promise<any>;
+  translateResume: (targetLanguage: string) => Promise<void>;
+  unlockPremium: (
+    name: string,
+    email: string,
+    signature: string,
+  ) => Promise<boolean>;
+}
 
 export const useResumeStore = create<ResumeStore>()(
   temporal(
     persist(
-      (set) => ({
-        data: initialData,
-        isHydrated: false,
-        setHydrated: (isHydrated) => set({ isHydrated }),
-        reorderSections: (newOrder) =>
+      (set, get) => ({
+      data: initialData,
+      isHydrated: false,
+      isGeneratingText: false,
+      isTranslating: false,
+      isCheckingATS: false,
+      isGeneratingMap: {},
+      aiSuggestions: [],
+      atsResult: null,
+
+      setHydrated: (isHydrated) => set({ isHydrated }),
+      updatePersonalInfo: (info) =>
+        set((state) => ({
+          data: {
+            ...state.data,
+            personalInfo: { ...state.data.personalInfo, ...info },
+          },
+        })),
+
+        duplicateCertification: (id) =>
+          set((state) => {
+            const certToDuplicate = state.data.certifications.find(
+              (c) => c.id === id,
+            );
+            if (!certToDuplicate) return state;
+            return {
+              data: {
+                ...state.data,
+                certifications: [
+                  ...state.data.certifications,
+                  { ...certToDuplicate, id: crypto.randomUUID() },
+                ],
+              },
+            };
+          }),
+        setSettings: (settings) =>
           set((state) => ({
             data: {
               ...state.data,
-              settings: { ...state.data.settings, sectionOrder: newOrder },
+              settings: { ...state.data.settings, ...settings },
             },
           })),
+        setJobDescription: (desc) =>
+          set((state) => ({
+            data: { ...state.data, jobDescription: desc },
+          })),
+
         importFromLinkedIn: (linkedinData) =>
           set((state) => ({
             data: { ...state.data, ...linkedinData },
@@ -460,62 +498,6 @@ export const useResumeStore = create<ResumeStore>()(
               }
             };
           }),
-        addCustomSection: (section) =>
-          set((state) => ({
-            data: {
-              ...state.data,
-              customSections: [
-                ...state.data.customSections,
-                { ...section, id: nanoid() },
-              ],
-            },
-          })),
-        updateCustomSection: (id, section) =>
-          set((state) => ({
-            data: {
-              ...state.data,
-              customSections: state.data.customSections.map((s) =>
-                s.id === id ? { ...s, ...section } : s,
-              ),
-            },
-          })),
-        removeCustomSection: (id) =>
-          set((state) => ({
-            data: {
-              ...state.data,
-              customSections: state.data.customSections.filter(
-                (s) => s.id !== id,
-              ),
-            },
-          })),
-        reorderCustomSections: (newSections) =>
-          set((state) => ({
-            data: {
-              ...state.data,
-              customSections: newSections,
-            },
-          })),
-        duplicateCustomSection: (id) =>
-          set((state) => {
-            const sectionToDuplicate = state.data.customSections.find(s => s.id === id);
-            if (!sectionToDuplicate) return {};
-            return {
-              data: {
-                ...state.data,
-                customSections: [
-                  ...state.data.customSections,
-                  { ...sectionToDuplicate, id: nanoid() }
-                ]
-              }
-            };
-          }),
-        updateSettings: (settings) =>
-          set((state) => ({
-            data: {
-              ...state.data,
-              settings: { ...state.data.settings, ...settings },
-            },
-          })),
         updateJobDescription: (jd) =>
           set((state) => ({
             data: { ...state.data, jobDescription: jd },
@@ -619,7 +601,6 @@ export const useResumeStore = create<ResumeStore>()(
                   date: "2021-08",
                 },
               ],
-              customSections: [],
               settings: {
                 template: "modern",
                 themeColor: "#2563EB",

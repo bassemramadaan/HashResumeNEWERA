@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { 
   Edit3, Eye, Grid, Download, 
-  FileText, ChevronRight 
+  FileText, ChevronRight, ChevronLeft
 } from "lucide-react";
 
 // ── i18n ──────────────────────────────────────────────────
@@ -59,7 +59,7 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> =
     { id: "skills",         label: "المهارات المهنية",  emoji: "⭐" },
     { id: "projects",       label: "المشاريع المنجزة",  emoji: "🚀" },
     { id: "certifications", label: "الشهادات والاعتمادات", emoji: "🏅" },
-    { id: "custom",         label: "أقسام مخصصة إضافية", emoji: "➕" },
+    
     { id: "cover-letter",   label: "خطاب التغطية (AI)", emoji: "📝" },
     { id: "finish",         label: "مراجعة وتحميل",     emoji: "📄" },
   ],
@@ -70,7 +70,7 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> =
     { id: "skills",         label: "Skills & Expertise",emoji: "⭐" },
     { id: "projects",       label: "Key Projects",    emoji: "🚀" },
     { id: "certifications", label: "Certifications",   emoji: "🏅" },
-    { id: "custom",         label: "Custom Sections",  emoji: "➕" },
+    
     { id: "cover-letter",   label: "Cover Letter",       emoji: "📝" },
     { id: "finish",         label: "Audit & Download", emoji: "📄" },
   ],
@@ -81,7 +81,7 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> =
     { id: "skills",         label: "Compétences",      emoji: "⭐" },
     { id: "projects",       label: "Projets Clés",     emoji: "🚀" },
     { id: "certifications", label: "Certifications",   emoji: "🏅" },
-    { id: "custom",         label: "Sections custom",  emoji: "➕" },
+    
     { id: "cover-letter",   label: "Lettre de Motivation", emoji: "📝" },
     { id: "finish",         label: "Vérifier & Télécharger", emoji: "📄" },
   ],
@@ -244,12 +244,21 @@ export default function MobileEditorLayout({
 }) {
   const t                         = T[lang] ?? T.en;
   const [activeTab, setActiveTab] = useState("edit");
+  const [showPreviewDrawer, setShowPreviewDrawer] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 375);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const sections                  = SECTIONS[lang] ?? SECTIONS.en;
   const isRtl                     = lang === "ar";
   
   const stepIds = [
     "basics", "experience", "education", "skills", "projects", 
-    "certifications", "custom", "cover-letter", "finish"
+    "certifications", "cover-letter", "finish"
   ];
   const currentIndex = stepIds.indexOf(activeSection);
 
@@ -314,12 +323,32 @@ export default function MobileEditorLayout({
         </div>
       </header>
 
-      {/* ── Premium 2px Horizontal Progress Tracker Indicator ── */}
-      <div className="h-0.5 w-full bg-slate-100 shrink-0 select-none">
-        <div 
-          className="h-full bg-slate-900 transition-all duration-300" 
-          style={{ width: `${(currentIndex / (stepIds.length - 1)) * 100}%` }}
-        />
+      {/* ── Proposal 3: Interactive steps progress bar pills ── */}
+      <div className="bg-white border-b border-slate-100 px-4 py-2.5 flex items-center justify-between gap-1 select-none shrink-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+        <div className="flex items-center gap-1.5 flex-1 justify-center">
+          {stepIds.map((stepId) => {
+            const isActive = activeSection === stepId;
+            const isCompleted = (completionMap[stepId] ?? 0) === 100;
+            const s = sections.find(x => x.id === stepId);
+            return (
+              <button
+                key={stepId}
+                onClick={() => handleSectionChange(stepId)}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  isActive 
+                    ? "w-8 bg-slate-900" 
+                    : isCompleted 
+                      ? "w-2.5 bg-emerald-500" 
+                      : "w-1.5 bg-slate-200 hover:bg-slate-300"
+                }`}
+                title={s?.label || stepId}
+              />
+            );
+          })}
+        </div>
+        <span className="text-[10px] font-black text-slate-400 select-none shrink-0 bg-slate-50 border border-slate-150 px-2 py-0.5 rounded-md">
+          {currentIndex + 1} / {stepIds.length}
+        </span>
       </div>
 
       {/* ── Main content area ── */}
@@ -363,7 +392,54 @@ export default function MobileEditorLayout({
                 );
               })}
             </div>
-            <div className="flex-1 overflow-hidden relative">{children}</div>
+            <div className="flex-1 overflow-hidden relative pb-[72px]">
+              <div className="h-full w-full overflow-hidden relative">
+                {children}
+              </div>
+
+              {/* Proposal 1: Sticky bar for mobile edit step navigation */}
+              <div className="absolute bottom-0 inset-x-0 h-[72px] bg-white/85 backdrop-blur-md border-t border-slate-200/50 z-30 px-4 flex items-center justify-between gap-4 select-none" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+                {currentIndex > 0 ? (
+                  <button
+                    onClick={() => {
+                      const prevSection = stepIds[currentIndex - 1];
+                      handleSectionChange(prevSection);
+                    }}
+                    className="flex-1 py-3 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 bg-white font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-3xs"
+                  >
+                    <ChevronLeft size={16} className="rtl:rotate-180" />
+                    {lang === "ar" ? "السابق" : lang === "fr" ? "Précédent" : "Previous"}
+                  </button>
+                ) : (
+                  <div className="flex-1" />
+                )}
+
+                <span className="text-[10px] font-black text-slate-500 select-none shrink-0 bg-slate-50 border border-slate-150 px-3 py-1.5 rounded-full">
+                  {currentIndex + 1} / {stepIds.length}
+                </span>
+
+                {currentIndex < stepIds.length - 1 ? (
+                  <button
+                    onClick={() => {
+                      const nextSection = stepIds[currentIndex + 1];
+                      handleSectionChange(nextSection);
+                    }}
+                    className="flex-1 py-3 px-4 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-black transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-sm shadow-slate-900/10"
+                  >
+                    {lang === "ar" ? "التالي" : lang === "fr" ? "Suivant" : "Next"}
+                    <ChevronRight size={16} className="rtl:rotate-180" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setActiveTab("export")}
+                    className="flex-1 py-3 px-4 rounded-xl bg-orange-600 border border-orange-500 text-white font-bold text-xs hover:bg-orange-700 transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                  >
+                    {lang === "ar" ? "تصدير" : lang === "fr" ? "Exporter" : "Export"}
+                    <Download size={14} />
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -441,6 +517,89 @@ export default function MobileEditorLayout({
           );
         })}
       </nav>
+
+      {/* Proposal 2: Floating Circular Live Preview FAB */}
+      {activeTab === "edit" && !showPreviewDrawer && (
+        <motion.button
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0, opacity: 0 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => setShowPreviewDrawer(true)}
+          className="fixed bottom-[140px] z-40 bg-slate-900 text-white shadow-[0_12px_24px_rgba(15,23,42,0.3)] hover:bg-black rounded-full px-4 py-3 flex items-center gap-2 border border-slate-800 text-xs font-black tracking-tight active:scale-95 transition-all cursor-pointer select-none"
+          style={{ right: isRtl ? "auto" : "20px", left: isRtl ? "20px" : "auto" }}
+        >
+          <span>📄</span>
+          <span>{lang === "ar" ? "معاينة فورية" : lang === "fr" ? "Aperçu rapide" : "Quick Preview"}</span>
+        </motion.button>
+      )}
+
+      {/* Proposal 2: Bottom Sheet Drawer for Quick Live Preview */}
+      <AnimatePresence>
+        {showPreviewDrawer && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.4 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowPreviewDrawer(false)}
+              className="fixed inset-0 bg-black/60 z-[100] pointer-events-auto"
+            />
+            {/* Drawer */}
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 220 }}
+              className="fixed bottom-0 inset-x-0 h-[82vh] bg-slate-50 rounded-t-[32px] border-t border-slate-200 z-[110] flex flex-col shadow-2xl overflow-hidden shadow-black/10 pb-[env(safe-area-inset-bottom,0px)]"
+              style={{ direction: isRtl ? "rtl" : "ltr" }}
+            >
+              {/* Swipe/Touch pull indicator */}
+              <div 
+                className="w-full h-8 flex items-center justify-center shrink-0 cursor-pointer" 
+                onClick={() => setShowPreviewDrawer(false)}
+              >
+                <div className="w-12 h-1.5 rounded-full bg-slate-300 hover:bg-slate-400 transition-colors" />
+              </div>
+
+              {/* Header */}
+              <div className="px-5 pb-3 border-b border-slate-200/60 flex items-center justify-between shrink-0 select-none">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl">📄</span>
+                  <h3 className="text-sm font-black text-slate-800">
+                    {lang === "ar" ? "المعاينة السريعة للسيرة الذاتية" : lang === "fr" ? "Aperçu rapide du CV" : "Quick Resume Preview"}
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowPreviewDrawer(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center font-bold text-sm cursor-pointer border border-slate-200"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Real-time PDF layout view with correct scaling */}
+              <div className="flex-1 overflow-hidden relative">
+                <div className="absolute inset-0 overflow-y-auto p-4 flex justify-center bg-slate-150/40 pb-16">
+                  <div 
+                    className="origin-top shrink-0 transform-gpu transition-all" 
+                    style={{
+                      width: "210mm",
+                      transform: `scale(${Math.min(0.88, (windowWidth - 32) / 794)})`,
+                      marginBottom: `-${(1 - Math.min(0.88, (windowWidth - 32) / 794)) * 297}mm`
+                    }}
+                  >
+                    <div className="bg-white shadow-[0_12px_40px_rgba(0,0,0,0.08)] rounded-sm overflow-hidden select-none">
+                      {previewContent}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
     </div>
   );

@@ -86,7 +86,6 @@ const ResumePreview = memo(
       "skills",
       "projects",
       "certifications",
-      "custom",
     ];
     const hiddenSections = settings.hiddenSections || [];
 
@@ -429,11 +428,11 @@ const ResumePreview = memo(
                 </section>
               );
             case "custom":
-              if (!data.customSections || data.customSections.length === 0)
+              if (!([] as any[]) || ([] as any[]).length === 0)
                 return null;
               return (
                 <React.Fragment key="custom">
-                  {data.customSections.map((section) => (
+                  {([] as any[]).map((section) => (
                     <section key={section.id} className="mb-8">
                       <h3
                         className="text-lg font-bold uppercase tracking-wider mb-4 flex items-center gap-2"
@@ -647,11 +646,11 @@ const ResumePreview = memo(
                 </section>
               );
             case "custom":
-              if (!data.customSections || data.customSections.length === 0)
+              if (!([] as any[]) || ([] as any[]).length === 0)
                 return null;
               return (
                 <React.Fragment key="custom">
-                  {data.customSections.map((section) => (
+                  {([] as any[]).map((section) => (
                     <section key={section.id} className="mb-8">
                       <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1 text-slate-800">
                         {section.title}
@@ -911,9 +910,9 @@ const ResumePreview = memo(
             </section>
           )}
 
-          {data.customSections?.length > 0 && (
+          {([] as any[])?.length > 0 && (
             <React.Fragment>
-              {data.customSections.map((section) => (
+              {([] as any[]).map((section) => (
                 <section key={section.id} className="mb-10">
                   <h3 className="text-xl md:text-2xl font-black uppercase tracking-wider mb-6 text-slate-900 flex items-center gap-4">
                     <span
@@ -1120,11 +1119,11 @@ const ResumePreview = memo(
                 </section>
               );
             case "custom":
-              if (!data.customSections || data.customSections.length === 0)
+              if (!([] as any[]) || ([] as any[]).length === 0)
                 return null;
               return (
                 <React.Fragment key="custom">
-                  {data.customSections.map((section) => (
+                  {([] as any[]).map((section) => (
                     <section key={section.id} className="mb-12">
                       <h3 className="text-sm font-bold uppercase tracking-[0.25em] text-slate-400 mb-8 text-center border-b border-slate-100 pb-4">
                         {section.title}
@@ -1343,9 +1342,9 @@ const ResumePreview = memo(
           </section>
         )}
 
-        {data.customSections?.length > 0 && (
+        {([] as any[])?.length > 0 && (
           <React.Fragment>
-            {data.customSections.map((section) => (
+            {([] as any[]).map((section) => (
               <section key={section.id} className="mb-10">
                 <h3
                   className="text-lg font-bold mb-6"
@@ -1501,9 +1500,9 @@ const ResumePreview = memo(
               return null;
             })}
 
-            {data.customSections?.length > 0 && (
+            {([] as any[])?.length > 0 && (
               <React.Fragment>
-                {data.customSections.map((section) => (
+                {([] as any[]).map((section) => (
                   <section key={section.id} className="mb-10">
                     <h3
                       className="text-lg font-bold uppercase tracking-widest mb-6 border-b border-slate-300 pb-2"
@@ -1715,9 +1714,9 @@ const ResumePreview = memo(
             </section>
 )}
 
-          {data.customSections?.length > 0 && (
+          {([] as any[])?.length > 0 && (
             <React.Fragment>
-              {data.customSections.map((section) => (
+              {([] as any[]).map((section) => (
                 <section key={section.id}>
                   <h3 className="text-lg font-bold text-emerald-700 uppercase mb-4 border-b border-emerald-100 pb-1">
                     {section.title}
@@ -1817,9 +1816,9 @@ const ResumePreview = memo(
             </section>
 )}
 
-          {data.customSections?.length > 0 && (
+          {([] as any[])?.length > 0 && (
             <React.Fragment>
-              {data.customSections.map((section) => (
+              {([] as any[]).map((section) => (
                 <section key={section.id}>
                   <h3 className="text-center text-sm font-bold uppercase tracking-widest mb-6 text-slate-500">
                     {section.title}
@@ -1938,9 +1937,9 @@ const ResumePreview = memo(
             </section>
           )}
 
-          {data.customSections?.length > 0 && (
+          {([] as any[])?.length > 0 && (
             <React.Fragment>
-              {data.customSections.map((section) => (
+              {([] as any[]).map((section) => (
                 <section key={section.id}>
                   <h3 className="font-bold text-slate-900 uppercase mb-4">
                     {section.title}
@@ -2095,9 +2094,9 @@ const ResumePreview = memo(
               </section>
             )}
 
-            {data.customSections?.length > 0 && (
+            {([] as any[])?.length > 0 && (
               <React.Fragment>
-                {data.customSections.map((section) => (
+                {([] as any[]).map((section) => (
                   <section key={section.id}>
                     <h3
                       className="text-lg font-bold uppercase tracking-widest mb-4 pb-1 border-b-2"
@@ -2209,9 +2208,9 @@ const ResumePreview = memo(
               </section>
             )}
 
-            {data.customSections?.length > 0 && (
+            {([] as any[])?.length > 0 && (
               <React.Fragment>
-                {data.customSections.map((section) => (
+                {([] as any[]).map((section) => (
                   <section key={section.id}>
                     <h3 className="text-center text-xs font-bold uppercase tracking-[0.3em] text-slate-300 mb-8">
                       {section.title}
@@ -2444,9 +2443,9 @@ const ResumePreview = memo(
               </section>
             )}
 
-            {data.customSections?.length > 0 && (
+            {([] as any[])?.length > 0 && (
               <React.Fragment>
-                {data.customSections.map((section) => (
+                {([] as any[]).map((section) => (
                   <section key={section.id}>
                     <h3
                       className="text-lg font-bold mb-4 flex items-center gap-2"
@@ -2635,9 +2634,9 @@ const ResumePreview = memo(
                 </section>
               )}
 
-              {data.customSections?.length > 0 && (
+              {([] as any[])?.length > 0 && (
                 <React.Fragment>
-                  {data.customSections.map((section) => (
+                  {([] as any[]).map((section) => (
                     <section key={section.id}>
                       <h3
                         className="text-sm font-bold uppercase tracking-widest mb-4 border-b border-slate-200 pb-2"
@@ -2782,9 +2781,9 @@ const ResumePreview = memo(
             </section>
           )}
 
-          {data.customSections?.length > 0 && (
+          {([] as any[])?.length > 0 && (
             <React.Fragment>
-              {data.customSections.map((section) => (
+              {([] as any[]).map((section) => (
                 <section key={section.id}>
                   <h3 className="text-base font-bold uppercase tracking-widest border-b border-slate-300 mb-4 pb-1">
                     {section.title}

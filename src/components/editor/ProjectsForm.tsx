@@ -3,27 +3,11 @@ import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronUp, Copy, Layout } from "lucide-react";
-import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
+import { motion, Reorder, AnimatePresence } from "motion/react";
 
 
 
-const ProjectItem = ({ project, expandedId, toggleExpand, updateProject, duplicateProject, removeProject, t }: any) => {
-  const controls = useDragControls();
-  
-  return (
-    
-            <ProjectItem 
-              key={project.id}
-              project={project}
-              expandedId={expandedId}
-              toggleExpand={toggleExpand}
-              updateProject={updateProject}
-              duplicateProject={duplicateProject}
-              removeProject={removeProject}
-              t={t}
-            />
-  );
-};
+
 
 export const ProjectsForm: React.FC = () => {
   const { language } = useLanguageStore();
