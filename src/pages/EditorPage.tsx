@@ -26,7 +26,6 @@ import {
   Settings,
   ArrowRight,
   Award,
-  Plus as PlusIcon,
   Lock,
 } from "lucide-react";
 import { useResumeStore, ResumeData, getResumeSignature } from "../store/useResumeStore";
@@ -86,7 +85,6 @@ type Tab =
   | "skills"
   | "projects"
   | "certifications"
-  | "custom"
   | "cover-letter"
   | "finish"
   | "review";
@@ -441,6 +439,7 @@ export default function EditorPage() {
   const formRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<Tab>("basics");
   const [isTipsOpen, setIsTipsOpen] = useState(true);
+  const [showScoreChecklist, setShowScoreChecklist] = useState(false);
 
   useEffect(() => {
     if (formRef.current) {
@@ -608,7 +607,7 @@ export default function EditorPage() {
     // Subscribe to changes
     const unsubscribe = useResumeStore.temporal.subscribe(updateTemporalState);
     return () => unsubscribe();
-  }, [data]);
+  }, []);
 
   const handleUndo = () => useResumeStore.temporal?.getState().undo();
   const handleRedo = () => useResumeStore.temporal?.getState().redo();
@@ -835,13 +834,6 @@ export default function EditorPage() {
       tourId: "certifications-section",
     },
     {
-      id: "custom",
-      label: String(language === "ar" ? "أقسام إضافية" : "Custom Sections"),
-      shortLabel: String(language === "ar" ? "أقسام" : "Custom"),
-      icon: PlusIcon,
-      tourId: "custom-section",
-    },
-    {
       id: "cover-letter",
       label: String(language === "ar" ? "خطاب التقديم" : "Cover Letter"),
       shortLabel: String(language === "ar" ? "الخطاب" : "Cover"),
@@ -868,10 +860,6 @@ export default function EditorPage() {
       String(language === "ar"
         ? "أضف الشهادات والإنجازات المهنية."
         : "Add professional certifications and achievements."),
-    custom:
-      String(language === "ar"
-        ? "أضف أي أقسام إضافية تراها مهمة."
-        : "Add any additional sections you find important."),
     "cover-letter": String(t.coverLetterDesc || "Cover letter info"),
     finish: String(t.finishDesc || "Finish info"),
     review: String(t.finishDesc || "Finish info"),
@@ -883,7 +871,6 @@ export default function EditorPage() {
     education: data.education && data.education.length > 0 ? 100 : 0,
     skills: data.skills && data.skills.length > 0 ? 100 : 0,
     certifications: data.certifications && data.certifications.length > 0 ? 100 : 0,
-    custom: data.customSections && data.customSections.length > 0 ? 100 : 0,
     "cover-letter": data.coverLetter?.generatedContent ? 100 : 0,
     finish: atsScore,
   };
@@ -921,33 +908,138 @@ export default function EditorPage() {
                     key={"tab-" + activeTab}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white rounded-[2rem] border border-[#E8E6DF] shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center relative overflow-hidden transition-all duration-300 transform-gpu"
+                    className="bg-white rounded-[2rem] border border-[#E8E6DF] shadow-[0_10px_40px_rgba(0,0,0,0.04)] p-5 sm:p-7 flex flex-col xl:flex-row gap-5 xl:gap-6 items-start xl:items-center relative overflow-hidden transition-all duration-300 transform-gpu"
                   >
                     <div className="absolute top-0 end-0 w-64 h-64 rounded-[2rem] opacity-[0.02] bg-slate-900 pointer-events-none transform translate-x-1/3 -translate-y-1/3 rotate-12"></div>
 
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-[1.25rem] bg-slate-900 flex items-center justify-center shrink-0 shadow-slate-900/10 relative z-10 ring-4 ring-slate-50 border border-white/20 group">
-                      <Sparkles size={20} className="text-white animate-pulse sm:w-6 sm:h-6" />
+                    {/* Step info section */}
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-start sm:items-center flex-1 w-full">
+                      <div className="w-12 h-12 sm:w-13 sm:h-13 rounded-[1.25rem] bg-slate-900 flex items-center justify-center shrink-0 shadow-slate-900/10 relative z-10 ring-4 ring-slate-50 border border-white/20">
+                        <Sparkles size={18} className="text-white animate-pulse" />
+                      </div>
+
+                      <div className="flex-1 text-start w-full">
+                        <div className="flex flex-col gap-1.5 sm:gap-2 w-full max-w-[200px] sm:max-w-xs mb-2">
+                          <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold text-slate-800 uppercase tracking-wider">
+                            <span>{String(tabs.find((t) => t.id === activeTab)?.label || "")}</span>
+                            <span>{activeTabIndex} / {tabs.length}</span>
+                          </div>
+                          <div className="w-full bg-slate-200 h-1.5 sm:h-2 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-slate-800 rounded-full transition-all duration-500"
+                              style={{ width: `${(activeTabIndex / tabs.length) * 100}%` }}
+                            />
+                          </div>
+                        </div>
+                        <h1 className="text-sm sm:text-lg font-black text-neutral-900 tracking-tight leading-snug">
+                          {String(tabDescriptions[activeTab] || "")}
+                        </h1>
+                      </div>
                     </div>
 
-                    <div className="flex-1 relative z-10 text-start w-full">
-                      <div className="flex flex-col gap-1.5 sm:gap-2 w-full max-w-[200px] sm:max-w-xs mb-2">
-                        <div className="flex justify-between items-center text-[10px] sm:text-xs font-bold text-slate-800 uppercase tracking-wider">
-                          <span>{String(tabs.find((t) => t.id === activeTab)?.label || "")}</span>
-                          <span>{activeTabIndex} / {tabs.length}</span>
+                    {/* Premium Live ATS Score & Checklist Panel */}
+                    <div className="relative z-20 shrink-0 w-full xl:w-auto" style={{ direction: dir }}>
+                      <div 
+                        onClick={() => setShowScoreChecklist(!showScoreChecklist)}
+                        className="flex items-center gap-4 bg-slate-50/70 hover:bg-slate-50 border border-slate-200/80 hover:border-slate-300/90 px-4 py-3 rounded-2xl cursor-pointer transition-all duration-300 select-none shadow-3xs"
+                      >
+                        {/* Circular dynamic gauge */}
+                        <div className="relative flex items-center justify-center w-11 h-11 shrink-0">
+                          <svg className="w-full h-full transform -rotate-90">
+                            <circle cx="22" cy="22" r="18" fill="none" stroke="#E2E8F0" strokeWidth="3" />
+                            <motion.circle
+                              cx="22"
+                              cy="22"
+                              r="18"
+                              fill="none"
+                              stroke={atsScore >= 80 ? "#10B981" : atsScore >= 50 ? "#F59E0B" : "#FF4D2D"}
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                              strokeDasharray={2 * Math.PI * 18}
+                              initial={{ strokeDashoffset: 2 * Math.PI * 18 }}
+                              animate={{ strokeDashoffset: 2 * Math.PI * 18 * (1 - atsScore / 100) }}
+                              transition={{ duration: 0.8, ease: "easeOut" }}
+                            />
+                          </svg>
+                          <span className="absolute text-[10px] font-black text-slate-900">{atsScore}%</span>
                         </div>
-                        <div className="w-full bg-slate-200 h-1.5 sm:h-2 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-slate-800 rounded-full transition-all duration-500"
-                            style={{ width: `${(activeTabIndex / tabs.length) * 100}%` }}
-                          />
+
+                        {/* Interactive labels */}
+                        <div className="text-start min-w-[110px]">
+                          <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">
+                            {language === "ar" ? "قوة الـ ATS" : "ATS Strength"}
+                          </div>
+                          <div className="font-extrabold text-[11px] leading-tight">
+                            {atsScore >= 80 ? (
+                              <span className="text-emerald-600 flex items-center gap-1">
+                                <span>⭐</span> {language === "ar" ? "جاهزة تماماً" : "ATS Ready"}
+                              </span>
+                            ) : atsScore >= 50 ? (
+                              <span className="text-amber-600 flex items-center gap-1">
+                                <span>⚠️</span> {language === "ar" ? "مستوى مقبول" : "Acceptable"}
+                              </span>
+                            ) : (
+                              <span className="text-[#FF4D2D] flex items-center gap-1">
+                                <span>❌</span> {language === "ar" ? "ضعيف جداً" : "Incomplete"}
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-[9px] text-slate-400 font-bold mt-1 leading-none hover:text-slate-600 flex items-center gap-1">
+                            <span>{language === "ar" ? "عرض المتطلبات" : "Check list"}</span>
+                            <span className={`text-[8px] transition-transform duration-200 ${showScoreChecklist ? "rotate-180" : ""}`}>▼</span>
+                          </div>
                         </div>
                       </div>
-                      <h1 className="text-sm sm:text-lg font-black text-neutral-900 tracking-tight leading-snug">
-                        {String(tabDescriptions[activeTab] || "")}
-                      </h1>
+
+                      {/* Dropdown Checklist overlay with satisfying checkmarks */}
+                      <AnimatePresence>
+                        {showScoreChecklist && (
+                          <>
+                            {/* Backdrop to close click-outside */}
+                            <div className="fixed inset-0 z-10" onClick={() => setShowScoreChecklist(false)} />
+                            <motion.div
+                              initial={{ opacity: 0, y: 8, scale: 0.95 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                              className="absolute top-full end-0 mt-2 bg-white rounded-2xl border border-slate-200 p-4 shadow-[0_12px_32px_rgba(15,23,42,0.12)] z-20 w-72 text-start select-none"
+                            >
+                              <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-2.5">
+                                <h4 className="text-xs font-black text-slate-800">
+                                  {language === "ar" ? "معايير السيرة الذاتية الذكية" : "ATS Quality Checklist"}
+                                </h4>
+                                <span className="text-[9px] bg-slate-100 text-slate-500 font-extrabold px-1.5 py-0.5 rounded-md">
+                                  {breakdown.filter(x => x.done).length} / {breakdown.length}
+                                </span>
+                              </div>
+                              <ul className="space-y-2">
+                                {breakdown.map((item, idx) => {
+                                  return (
+                                    <li key={idx} className="flex items-center justify-between gap-3 text-xs text-slate-600 font-semibold">
+                                      <span className="truncate leading-none">
+                                        {language === "ar" ? item.label.ar : language === "fr" ? item.label.fr : item.label.en}
+                                      </span>
+                                      {item.done ? (
+                                        <span className="w-4 h-4 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-full flex items-center justify-center text-[10px] select-none font-bold">✓</span>
+                                      ) : (
+                                        <span className="w-4 h-4 bg-slate-50 border border-slate-200 rounded-full flex items-center justify-center text-[10px] text-slate-400 select-none">○</span>
+                                      )}
+                                    </li>
+                                  );
+                                })}
+                              </ul>
+                              <div className="mt-3.5 bg-slate-50 rounded-xl p-2.5 border border-slate-100/80 text-[10px] text-slate-500 font-bold leading-relaxed">
+                                {language === "ar" 
+                                  ? "💡 احرص على ملء كافة عناصر السيرة لضمان تخطي فلاتر الشركات والذكاء الاصطناعي بنجاح." 
+                                  : "💡 Ensure all tasks are completed to make your profile bypass industry ATS filters perfectly."}
+                              </div>
+                            </motion.div>
+                          </>
+                        )}
+                      </AnimatePresence>
                     </div>
 
-                    <div className="flex items-center gap-2 z-10 w-full sm:w-auto mt-4 sm:mt-0">
+                    {/* Controls Actions */}
+                    <div className="flex items-center gap-2 z-10 w-full xl:w-auto mt-2 xl:mt-0">
                       <button
                         onClick={() =>
                           setConfirmAction({
@@ -955,7 +1047,7 @@ export default function EditorPage() {
                             message: t.overwriteConfirm,
                           })
                         }
-                        className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-brand-500 bg-white hover:bg-brand-50 h-12 px-4 rounded-2xl transition-all border border-brand-500/10 shadow-sm whitespace-nowrap active:scale-95"
+                        className="flex-1 xl:flex-none text-[10px] font-black uppercase tracking-widest text-[#FF4D2D] bg-[#FF4D2D]/5 hover:bg-[#FF4D2D]/10 h-11 px-4 text-center rounded-xl transition-all border border-[#FF4D2D]/10 shadow-3xs whitespace-nowrap active:scale-95 cursor-pointer"
                       >
                         {String(t.loadExample || "")}
                       </button>
@@ -966,7 +1058,7 @@ export default function EditorPage() {
                             message: t.clearConfirm,
                           })
                         }
-                        className="flex-1 sm:flex-none text-[10px] font-black uppercase tracking-widest text-neutral-400 hover:text-rose-500 h-12 px-4 rounded-2xl hover:bg-rose-50 transition-all border border-transparent whitespace-nowrap active:scale-95"
+                        className="flex-1 xl:flex-none text-[10px] font-black uppercase tracking-widest text-neutral-450 hover:text-rose-600 h-11 px-4 rounded-xl hover:bg-rose-50/50 transition-all border border-transparent whitespace-nowrap active:scale-95 cursor-pointer"
                       >
                         {String(t.clearAll || "")}
                       </button>

@@ -305,7 +305,6 @@ export default React.memo(function SettingsForm() {
                     "skills",
                     "projects",
                     "certifications",
-                    "custom",
                   ];
                   const newOrder = [...currentOrder];
                   const eduIdx = newOrder.indexOf("education");

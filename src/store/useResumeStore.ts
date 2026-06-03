@@ -82,8 +82,7 @@ export type SectionId =
   | "education"
   | "skills"
   | "projects"
-  | "certifications"
-  | "custom";
+  | "certifications";
 
 export type ResumeData = {
   personalInfo: PersonalInfo;
