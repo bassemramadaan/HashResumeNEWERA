@@ -200,6 +200,7 @@ function HorizontalStepper({
         return (
           <button
             key={step.id}
+            data-tour={step.id === "basics" ? "personal-info" : step.id === "experience" ? "experience-section" : step.id === "skills" ? "skills-section" : step.id === "finish" ? "review-section" : undefined}
             onClick={() => onStepClick?.(i)}
             type="button"
             className={cn(
@@ -281,6 +282,7 @@ function VerticalStepper({
               {/* Label Info Card */}
               <button
                 type="button"
+                data-tour={step.id === "basics" ? "personal-info" : step.id === "experience" ? "experience-section" : step.id === "skills" ? "skills-section" : step.id === "finish" ? "review-section" : undefined}
                 onClick={() => onStepClick?.(i)}
                 className={cn(
                   "flex-1 flex items-center justify-between text-start p-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden",

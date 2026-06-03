@@ -16,6 +16,7 @@ const T = {
     export:      "تصدير",
     copied:      "تم النسخ!",
     templates:   "القوالب",
+    tour:        "جولة تعليمية 🧭",
   },
   en: {
     saved:       "Saved",
@@ -28,6 +29,7 @@ const T = {
     export:      "Export",
     copied:      "Copied!",
     templates:   "Templates",
+    tour:        "Guided Tour 🧭",
   },
   fr: {
     saved:       "Enregistré",
@@ -40,6 +42,7 @@ const T = {
     export:      "Exporter",
     copied:      "Copié !",
     templates:   "Modèles",
+    tour:        "Visite guidée 🧭",
   },
 } as const;
 
@@ -195,6 +198,7 @@ function ExportButton({ lang, onPDF, onWord, variant = "default" }: any) {
     return (
       <div ref={ref} className="relative">
         <motion.button
+          data-tour="export-button"
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setOpen((o: boolean) => !o)}
@@ -241,6 +245,7 @@ function ExportButton({ lang, onPDF, onWord, variant = "default" }: any) {
   return (
     <div ref={ref} className="relative">
       <motion.button
+        data-tour="export-button"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         onClick={() => setOpen((o: boolean) => !o)}
@@ -293,6 +298,7 @@ export default function EditorNavbar({
   onBackToHome    = () => {},
   onShowSettings  = () => {},
   onShowShortcuts = () => {},
+  onStartTour,
 }: {
   lang?: AppLang;
   onLangChange?: (lang: AppLang) => void;
@@ -308,6 +314,7 @@ export default function EditorNavbar({
   onBackToHome?: () => void;
   onShowSettings?: () => void;
   onShowShortcuts?: () => void;
+  onStartTour?: () => void;
 }) {
   const t     = T[lang] ?? T.en;
   const isRtl = lang === "ar";
@@ -391,6 +398,13 @@ export default function EditorNavbar({
         {/* ── Right group: Lang + Preview Split toggle ── */}
         <div className="flex items-center gap-2 shrink-0">
           <LangSwitcher lang={lang} onChange={onLangChange} />
+
+          {onStartTour && (
+            <NavBtn onClick={onStartTour} title={t.tour}>
+              <span className="text-sm">🧭</span>
+              <span className="hidden md:inline-block font-bold">{t.tour}</span>
+            </NavBtn>
+          )}
 
           <Divider />
 

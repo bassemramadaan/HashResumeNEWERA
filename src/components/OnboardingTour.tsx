@@ -112,6 +112,7 @@ const OnboardingTour = () => {
           borderRadius: "24px",
           padding: "24px",
           boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+          direction: isAr ? "rtl" : "ltr",
         },
         tooltipContainer: {
           textAlign: isAr ? "right" : "left",
