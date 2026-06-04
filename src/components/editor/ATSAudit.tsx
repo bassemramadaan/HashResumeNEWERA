@@ -9,10 +9,7 @@ import {
   Target,
   Wand2,
   Check,
-  Sparkles,
-  Eye,
-  RefreshCw,
-  X
+  Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../../utils/ats";
@@ -179,28 +176,6 @@ export default function ATSAudit() {
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
-          {/* ATS Vision Simulator Toggle Button */}
-          <button
-            onClick={() => {
-              if (!showSimulator) {
-                handleScanSimulation();
-              }
-              setShowSimulator(!showSimulator);
-            }}
-            className={cn(
-              "px-3.5 py-2 rounded-xl border text-xs font-bold flex items-center gap-2 cursor-pointer transition-all shadow-3xs",
-              showSimulator 
-                ? "bg-slate-900 border-slate-900 text-white hover:bg-slate-800" 
-                : "bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50"
-            )}
-          >
-            <Eye size={14} className={cn(showSimulator && "text-brand-400")} />
-            <span>{isAr ? "محاكي فحص الـ ATS البصري" : "ATS Vision Simulator"}</span>
-            <span className="bg-brand-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-black scale-90 animate-pulse">
-              NEW
-            </span>
-          </button>
-
           <div className={`px-3 py-1.5 rounded-full border text-[11px] font-bold flex items-center gap-1.5 ${scoreVerdict.color}`}>
             <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping" />
             <span>{scoreVerdict.text}</span>
@@ -208,97 +183,9 @@ export default function ATSAudit() {
         </div>
       </div>
 
-      {showSimulator ? (
-        /* ATS Vision Terminal Screen Simulator */
-        <div className="space-y-6">
-          <div className="bg-slate-950 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden text-start" dir="ltr">
-            {/* Terminal Top bar decoration */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-900 bg-slate-900/60">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500" />
-                <div className="w-3 h-3 rounded-full bg-amber-500" />
-                <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                <span className="text-[11px] font-mono font-medium text-slate-400 ml-2">ats_crawler_system_v5.sh</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={handleScanSimulation}
-                  disabled={isScanning}
-                  className="bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-350 px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer"
-                >
-                  <RefreshCw size={12} className={cn("text-slate-400", isScanning && "animate-spin")} />
-                  <span>{isAr ? "إعادة فحص" : "RE-SCAN"}</span>
-                </button>
-                <button
-                  onClick={() => setShowSimulator(false)}
-                  className="bg-slate-800 hover:bg-rose-500 hover:text-white text-slate-350 p-1.5 rounded-lg border border-slate-700 transition-all cursor-pointer"
-                  title="Close Simulator"
-                >
-                  <X size={13} />
-                </button>
-              </div>
-            </div>
-
-            {/* Terminal Core Viewport */}
-            <div className="p-6 md:p-8 font-mono text-xs text-emerald-400 overflow-x-auto min-h-[400px] max-h-[550px] leading-relaxed relative">
-              {isScanning ? (
-                /* Scanning overlay animations */
-                <div className="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center space-y-4">
-                  <div className="w-10 h-10 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
-                  <span className="text-xs font-mono tracking-widest text-[#FF4D2D] animate-pulse uppercase">
-                    [CRAWLER_BOT]: SCANNING RAW DATA STRUCTURE...
-                  </span>
-                  <div className="w-48 bg-slate-900 h-1 rounded-full overflow-hidden">
-                    <div className="bg-[#FF4D2D] h-full rounded-full animate-[loading_1s_infinite]" style={{ width: '40%' }} />
-                  </div>
-                </div>
-              ) : (
-                <pre className="whitespace-pre-wrap select-text font-mono tracking-wide text-indigo-200">
-                  {getATSParsedText()}
-                </pre>
-              )}
-            </div>
-            
-            {/* Ambient terminal green bar reflection */}
-            <div className="absolute bottom-0 inset-x-0 h-1 bg-brand-500 animate-pulse pointer-events-none" />
-          </div>
-
-          {/* User reassuring card info block */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-5 text-start flex gap-3">
-              <span className="text-xl">💡</span>
-              <div className="space-y-1">
-                <h4 className="text-xs font-black text-emerald-950 uppercase tracking-wide">
-                  {isAr ? "لماذا يفيدك هذا المنظور البصري؟" : "How does this simulation assist you?"}
-                </h4>
-                <p className="text-[11px] text-slate-650 leading-relaxed font-semibold">
-                  {isAr
-                    ? "يقوم المحاكي بتقشير التصاميم والألوان وإظهار النصوص الخام تمامًا التي تستخلصها أنظمة الموارد البشرية كـ Workday أو Taleo لتكون واثقًا من قابلية قراءتها الآلية بنسبة 100%."
-                    : "The simulator strips away graphic colors and shapes, mimicking how corporate screening engines (like Workday or Taleo) crawl text layout, securing index-safe readability."}
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-5 text-start flex gap-3">
-              <span className="text-xl">🎯</span>
-              <div className="space-y-1">
-                <h4 className="text-xs font-black text-indigo-950 uppercase tracking-wide">
-                  {isAr ? "نصيحة ذهبية للقبول" : "Golden Rule for Approval"}
-                </h4>
-                <p className="text-[11px] text-slate-650 leading-relaxed font-semibold">
-                  {isAr
-                    ? "تأكّد من عدم ترك حقول فارغة (مثل [EMPTY]). روبوتات تصفية الكفاءات تعتمد على وجود الكلمات الدلالية المناسبة في تصنيفاتها الصحيحة لفرز ملفك للمقابلة الشخصية."
-                    : "Ensure parser tokens are populated rather than [EMPTY]. Screening spiders search specifically for context boundaries to route candidates to managers."}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : (
-        /* Standard Dashboard panel blocks */
-        <div className="space-y-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-        
+      <div className="space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      
         {/* Metric gauge Card */}
         <div className="lg:col-span-4 bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs flex flex-col items-center justify-center text-center space-y-5 relative overflow-hidden">
           <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brand-500 to-orange-500" />
@@ -507,9 +394,8 @@ export default function ATSAudit() {
             )}
           </div>
         </div>
-        </div>
-        </div>
-      )}
+      </div>
+      </div>
     </div>
   );
 }

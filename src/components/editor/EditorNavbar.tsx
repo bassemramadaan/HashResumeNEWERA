@@ -170,7 +170,7 @@ function LangSwitcher({ lang, onChange }: { lang: AppLang, onChange: (lang: AppL
 }
 
 // ── ExportButton ──────────────────────────────────────────
-function ExportButton({ lang, onPDF, onWord, variant = "default" }: any) {
+function ExportButton({ lang, onPDF, onWord, variant = "default", isReady = false }: any) {
   const [open, setOpen]   = useState(false);
   const ref               = useRef<HTMLDivElement>(null);
   const t                 = T[lang as keyof typeof T] ?? T.en;
@@ -213,6 +213,12 @@ function ExportButton({ lang, onPDF, onWord, variant = "default" }: any) {
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
+          {isReady && (
+            <span className="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
+              <span className="animate-ping absolute text-rose-500 inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 border-2 border-white shadow-sm"></span>
+            </span>
+          )}
         </motion.button>
 
         <AnimatePresence>
@@ -254,6 +260,12 @@ function ExportButton({ lang, onPDF, onWord, variant = "default" }: any) {
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         <span>{t.export}</span>
         <svg width="9" height="9" className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        {isReady && (
+          <span className="absolute -top-1 -right-1 flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-400 border border-white"></span>
+          </span>
+        )}
       </motion.button>
 
       <AnimatePresence>
@@ -381,6 +393,7 @@ export default function EditorNavbar({
             onPDF={onExportPDF}
             onWord={onExportWord}
             variant="airplane"
+            isReady={atsScore >= 100}
           />
 
           {/* 3. Plus / Templates Icon ➕ */}

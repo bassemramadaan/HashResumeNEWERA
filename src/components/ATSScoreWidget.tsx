@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { DEFAULT_BREAKDOWN } from "../constants";
 import { useResumeStore } from "../store/useResumeStore";
-import { Plus, CheckCircle, Sparkles, Check } from "lucide-react";
+import { Sparkles, Check } from "lucide-react";
 
 // ── Role Dictionary for Immediate Keywords ──
 const ROLE_KEYWORDS: Record<string, string[]> = {
@@ -130,6 +130,7 @@ function ScoreRing({ score, size = 88 }: { score: number; size?: number }) {
 
 // ── main ──────────────────────────────────────────────────
 export default function ATSScoreWidget({
+  score,
   breakdown = DEFAULT_BREAKDOWN,
   lang      = "ar",
   variant   = "default",
@@ -157,7 +158,7 @@ export default function ATSScoreWidget({
   const totalChecklist = breakdown.length;
   const keywordScore = suggested.length > 0 ? (matched.length / suggested.length) * 50 : 50;
   const structScore = totalChecklist > 0 ? (doneChecklist / totalChecklist) * 50 : 50;
-  const activeScore = Math.min(100, Math.round(keywordScore + structScore));
+  const activeScore = score !== undefined ? score : Math.min(100, Math.round(keywordScore + structScore));
   
   const { fg, bg, ring } = scoreColor(activeScore);
 
@@ -228,36 +229,8 @@ export default function ATSScoreWidget({
               />
             </div>
 
-            <div className="p-5 max-h-[350px] overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-slate-200">
+            <div className="p-5 max-h-[290px] overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-slate-200">
               
-              {/* Interactive Keyword Injector */}
-              <div className="space-y-3">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">{t.missing}</span>
-                <div className="flex flex-wrap gap-1.5">
-                  {missing.length > 0 ? missing.map((kw: string) => (
-                    <button
-                      key={kw}
-                      onClick={() => addSkill(kw)}
-                      className="px-2.5 py-1.5 bg-white text-slate-600 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-200 text-[11px] font-bold rounded-lg border border-slate-200 shadow-3xs transition-all flex items-center gap-1 cursor-pointer active:scale-95"
-                    >
-                      <Plus size={12} className="opacity-60" />
-                      {kw}
-                    </button>
-                  )) : (
-                    <span className="text-xs font-semibold text-emerald-600 flex gap-1 items-center bg-emerald-50 px-2 py-1 rounded-md"><CheckCircle size={12}/> All key terms present!</span>
-                  )}
-                </div>
-                
-                {matched.length > 0 && (
-                  <div className="mt-2 text-[10px] text-slate-400 font-medium">
-                    <span className="text-emerald-600 font-bold">{matched.length}</span> {t.matched}: {matched.join(", ")}
-                  </div>
-                )}
-              </div>
-
-              <div className="w-full h-px bg-slate-100" />
-
-              {/* Structural Checklist */}
               <div className="space-y-2">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 block">{t.todo}</span>
                 {breakdown.map((item, i) => (
@@ -272,14 +245,11 @@ export default function ATSScoreWidget({
                       <div className={`text-xs font-semibold ${item.done ? "line-through text-slate-500" : "text-slate-700"}`}>
                         {getText(item.label, lang)}
                       </div>
-                      {!item.done && getText(item.tip, lang) && (
-                        <div className="text-[10px] text-slate-500 mt-0.5">{getText(item.tip, lang)}</div>
-                      )}
                     </div>
                   </motion.div>
                 ))}
               </div>
-
+              
             </div>
           </motion.div>
         )}

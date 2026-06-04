@@ -22,6 +22,26 @@ const ACTION_VERBS = new Set([
   "generated", "delivered", "executed", "planned",
 ]);
 
+// ── Role Dictionary for Immediate Keywords ──
+const ROLE_KEYWORDS: Record<string, string[]> = {
+  "software": ["JavaScript", "TypeScript", "React", "Node.js", "Git", "API", "SQL", "Agile", "Testing", "AWS"],
+  "frontend": ["HTML", "CSS", "JavaScript", "React", "Redux", "UI/UX", "Tailwind", "TypeScript", "Webpack"],
+  "backend": ["Node.js", "Python", "Java", "SQL", "MongoDB", "Docker", "AWS", "RESTful", "Microservices", "Redis"],
+  "designer": ["Figma", "UI/UX", "Wireframing", "Prototyping", "Adobe Creative Suite", "Design Systems", "User Research"],
+  "data": ["Python", "SQL", "Machine Learning", "Data Analysis", "Tableau", "Pandas", "Statistics", "R", "Excel"],
+  "marketing": ["SEO", "Content Marketing", "Google Analytics", "Social Media", "Copywriting", "Email Campaigns", "CRM"],
+  "manager": ["Leadership", "Agile", "Scrum", "Project Planning", "Jira", "Risk Management", "Stakeholder Communication", "Budgeting"],
+  "sales": ["CRM", "Negotiation", "B2B", "Lead Generation", "Salesforce", "Communication", "Closing", "Cold Calling"]
+};
+
+function getSuggestedKeywords(jobTitle: string = ""): string[] {
+  const norm = jobTitle.toLowerCase();
+  for (const key in ROLE_KEYWORDS) {
+    if (norm.includes(key)) return ROLE_KEYWORDS[key];
+  }
+  return ["Communication", "Problem Solving", "Teamwork", "Leadership", "Time Management", "Project Management"];
+}
+
 export default function ResumeCheckerModal({
   isOpen,
   onClose,
