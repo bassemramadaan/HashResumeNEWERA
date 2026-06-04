@@ -258,41 +258,17 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           <div className="lg:col-span-5 flex justify-center w-full">
             <motion.div
               variants={item}
-              className="relative select-none w-full max-w-[420px]"
+              className="relative select-none w-full max-w-[360px]"
             >
-              {/* Backglow element */}
-              <div className="absolute -inset-2 rounded-[2.5rem] bg-gradient-to-tr from-[#FF4D2D]/15 to-orange-400/15 opacity-70 blur-2xl animate-pulse pointer-events-none" />
-              
-              {/* Main Card Container with hover zoom details */}
-              <div className="relative rounded-[2rem] border border-slate-200 bg-white/90 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.06)] backdrop-blur-md overflow-hidden group transition-all duration-300 hover:shadow-[0_30px_60px_rgba(0,0,0,0.12)] hover:border-orange-200">
-                {/* Floating shiny line accent */}
-                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF4D2D]/20 to-transparent" />
-                
-                {/* Image */}
+              {/* Main Card Container styled modern and clean */}
+              <div className="relative rounded-2xl border border-slate-150 bg-white p-3 shadow-md overflow-hidden group transition-all duration-300">
+                {/* Simplified Image */}
                 <img
-                  src="/src/assets/images/ai_resume_illustration_1780566828156.png"
-                  alt="AI Resume Builder Illustration"
+                  src="/src/assets/images/simple_resume_hero_1780569346068.png"
+                  alt="Minimal Resume Illustration"
                   referrerPolicy="no-referrer"
-                  className="w-full h-auto object-cover rounded-2xl transform group-hover:scale-[1.03] transition-transform duration-700 ease-out pointer-events-none"
+                  className="w-full h-auto object-contain rounded-xl pointer-events-none"
                 />
-
-                {/* Micro interactivity overlay */}
-                <div className="absolute top-8 left-8 bg-white/95 border border-slate-100 shadow-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5 text-[10px] font-black text-slate-800 animate-bounce">
-                  <Sparkles className="w-3.5 h-3.5 text-[#FF4D2D]" />
-                  <span>{lang === 'ar' ? 'سيرة ذاتية متطورة' : lang === 'fr' ? 'CV Nouvelle Génération' : 'Next-Gen Resume'}</span>
-                </div>
-
-                <div 
-                  className="absolute bottom-10 right-8 bg-white/95 border border-slate-100 shadow-xl p-3 rounded-2xl flex items-center gap-3 transform rotate-3 hover:rotate-0 transition-transform duration-300"
-                >
-                  <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
-                    <Check className="w-4 h-4 text-emerald-600" />
-                  </div>
-                  <div className="text-start">
-                    <div className="text-[9px] text-slate-400 font-extrabold tracking-wider uppercase">ATS SCORE</div>
-                    <div className="text-xs font-black text-emerald-800 animate-pulse">98/100</div>
-                  </div>
-                </div>
               </div>
             </motion.div>
           </div>
