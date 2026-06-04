@@ -1,5 +1,4 @@
 {
-  "regions": ["cdg1", "iad1"],
   "headers": [
     {
       "source": "/(.*)",
@@ -17,7 +16,7 @@
       ]
     },
     {
-      "source": "/(.*\\.png|.*\\.jpg|.*\\.ico|.*\\.svg|.*\\.webp)",
+      "source": "/:file(.*\\.(png|jpg|ico|svg|webp))",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
