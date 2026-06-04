@@ -38,6 +38,16 @@ function GAListener() {
   return null;
 }
 
+function ScrollToTop() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
+  return null;
+}
+
 export default function App() {
   const { language, dir } = useLanguageStore();
 
@@ -52,6 +62,7 @@ export default function App() {
     <HelmetProvider>
       <BrowserRouter>
         <GAListener />
+        <ScrollToTop />
         <ErrorBoundary>
           <Suspense fallback={<PageLoader />}>
             <Routes>
