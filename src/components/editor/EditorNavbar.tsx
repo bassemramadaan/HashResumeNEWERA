@@ -84,7 +84,7 @@ function SaveIndicator({ isSaved, lang }: { isSaved: boolean; lang: AppLang }) {
 
   return (
     <div className="group relative flex items-center">
-      <div className={`flex items-center gap-2 text-xs font-semibold select-none leading-none px-3.5 py-1.5 rounded-full border transition-all duration-300 ${isSaved ? "text-emerald-700 bg-emerald-500/5 border-emerald-500/15 cursor-help" : "text-amber-600 bg-amber-500/5 border-amber-500/15"}`}>
+      <div className={`flex items-center gap-2 text-[11px] font-bold select-none leading-none px-3 py-1.5 rounded-full transition-all duration-300 ${isSaved ? "text-emerald-600 bg-emerald-50 cursor-help" : "text-amber-500 bg-amber-50"}`}>
         {isSaved ? (
           <span className="relative flex h-2 w-2 shrink-0">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -98,8 +98,8 @@ function SaveIndicator({ isSaved, lang }: { isSaved: boolean; lang: AppLang }) {
         )}
         <span className="text-[11px] font-black tracking-wide flex items-center gap-1">
           {isSaved 
-            ? (isAr ? "محفوظ آمن 🔐" : "Securely Saved 🔐") 
-            : (isAr ? "تعديل جاري... ⏳" : "Saving progress... ⏳")}
+            ? (isAr ? "تم الحفظ" : "Saved") 
+            : (isAr ? "جاري الحفظ..." : "Saving...")}
         </span>
       </div>
 
@@ -334,7 +334,7 @@ export default function EditorNavbar({
   const isRtl = lang === "ar";
 
   return (
-    <nav className="sticky top-0 z-[100] border-b border-[#FF4D2D]/30 bg-[#fafafa]/85 backdrop-blur-md px-6 select-none transform-gpu" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <nav className="sticky top-0 z-[100] border-b border-slate-200/60 bg-white/80 backdrop-blur-md px-6 select-none transform-gpu" style={{ direction: isRtl ? "rtl" : "ltr" }}>
       <div className="h-16 flex items-center justify-between gap-4">
 
         {/* ── Left group: Logo + Undo + Save ── */}
@@ -372,21 +372,7 @@ export default function EditorNavbar({
         </div>
 
         {/* ── Center group: Floating Threads Capsule ── */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white border border-slate-200/80 shadow-[0_10px_25px_-10px_rgba(0,0,0,0.08)] rounded-full px-2 py-1 h-12 flex-row gap-1 select-none scale-100 sm:scale-105 transition-all">
-          {/* 1. Home Icon 🏠 */}
-          <motion.button
-            whileHover={{ scale: 1.08 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onBackToHome}
-            title={lang === "ar" ? "الرئيسية" : "Home"}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors cursor-pointer text-slate-500 hover:bg-slate-100/80 hover:text-rose-600"
-          >
-            <svg className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
-          </motion.button>
-
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white border border-slate-200/50 shadow-sm rounded-full px-2 py-1 h-11 flex-row gap-0.5 select-none transition-all">
           {/* 2. Paper Airplane Export Icon ✈️ */}
           <ExportButton
             lang={lang}
@@ -427,14 +413,13 @@ export default function EditorNavbar({
 
           {onStartTour && (
             <NavBtn onClick={onStartTour} title={t.tour}>
-              <span className="text-sm">🧭</span>
-              <span className="hidden md:inline-block font-bold">{t.tour}</span>
+              <span className="text-base leading-none translate-y-px">🧭</span>
             </NavBtn>
           )}
 
           <Divider />
 
-          <NavBtn onClick={onTogglePreview} active={previewOpen}>
+          <NavBtn onClick={onTogglePreview} active={previewOpen} title={previewOpen ? t.editOnly : t.preview}>
             <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
             <span className="hidden sm:inline-block font-bold">{previewOpen ? t.preview : t.editOnly}</span>
           </NavBtn>

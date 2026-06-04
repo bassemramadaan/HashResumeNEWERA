@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -21,8 +21,6 @@ export default function ATSAudit() {
   const t = translations[language].atsAudit;
   const { personalInfo } = data;
   const isAr = language === "ar";
-  const [showSimulator, setShowSimulator] = useState(false);
-  const [isScanning, setIsScanning] = useState(false);
 
   const { score, sections } = useMemo(() => calculateATSScore(data), [data]);
   const isEmpty = score === 0 && !personalInfo.fullName;
@@ -60,100 +58,6 @@ export default function ATSAudit() {
     return { text: isAr ? "تحتاج إعادة هيكلة" : "Critical Optimization Required", color: "text-rose-600 bg-rose-50 border-rose-150" };
   };
 
-  const getATSParsedText = () => {
-    let text = "";
-    text += `========================================================\n`;
-    text += `  ATS ENGINE PARSER v5.0 // CORE SCAN PROTOCOL\n`;
-    text += `  STATUS: 100% PLAIN-TEXT READABLE & SEGMENTED\n`;
-    text += `  TIMESTAMP: ${new Date().toISOString()}\n`;
-    text += `========================================================\n\n`;
-
-    text += `[STRUCTURE UNIT_01: CONTACT & CREDENTIALS]\n`;
-    text += `--------------------------------------------------------\n`;
-    text += `FULL NAME: ${personalInfo.fullName || " [EMPTY] "}\n`;
-    text += `JOB TITLE: ${personalInfo.jobTitle || " [EMPTY] "}\n`;
-    text += `EMAIL:     ${personalInfo.email || " [EMPTY] "}\n`;
-    text += `PHONE:     ${personalInfo.phone || " [EMPTY] "}\n`;
-    text += `LOCALITY:  ${personalInfo.address || " [EMPTY] "}\n`;
-    if (personalInfo.linkedin) text += `LINKEDIN:  ${personalInfo.linkedin}\n`;
-    if (personalInfo.github)   text += `GITHUB:    ${personalInfo.github}\n`;
-    text += `\n`;
-
-    text += `[STRUCTURE UNIT_02: PROFILE SUMMARY]\n`;
-    text += `--------------------------------------------------------\n`;
-    text += `${personalInfo.summary || " [No profile summary parsed] "}\n\n`;
-
-    text += `[STRUCTURE UNIT_03: EXPERIENCE TIMELINE]\n`;
-    text += `--------------------------------------------------------\n`;
-    if (data.experience && data.experience.length > 0) {
-      data.experience.forEach((exp: any, i: number) => {
-        text += `RECORD #${i + 1}:\n`;
-        text += `  COMPANY:  ${exp.company || " [NOT DECLARED] "}\n`;
-        text += `  POSITION: ${exp.position || " [NOT DECLARED] "}\n`;
-        text += `  TIMELINE: ${exp.startDate || "N/A"} - ${exp.currentlyWorking ? "Present" : exp.endDate || "N/A"}\n`;
-        text += `  EXTRACTED RESPONSIBILITIES:\n`;
-        if (exp.description) {
-          text += `    ${exp.description.replace(/\n/g, "\n    ")}\n`;
-        } else {
-          text += `    [Warning: No responsibility text found for parsing]\n`;
-        }
-        text += `\n`;
-      });
-    } else {
-      text += ` [No experience files registered. WARNING: High danger score] \n\n`;
-    }
-
-    text += `[STRUCTURE UNIT_04: EDUCATION HISTORY]\n`;
-    text += `--------------------------------------------------------\n`;
-    if (data.education && data.education.length > 0) {
-      data.education.forEach((edu: any, i: number) => {
-        text += `RECORD #${i + 1}:\n`;
-        text += `  INSTITUTION: ${edu.institution || " [NOT DECLARED] "}\n`;
-        text += `  DEGREE:      ${edu.degree || " [NOT DECLARED] "}\n`;
-        text += `  TIMELINE:    ${edu.startDate || "N/A"} - ${edu.endDate || "N/A"}\n`;
-        if (edu.description) text += `  DETAILS:     ${edu.description}\n`;
-        text += `\n`;
-      });
-    } else {
-      text += ` [No higher educational tracks parsed] \n\n`;
-    }
-
-    text += `[STRUCTURE UNIT_05: TAXONOMY TAGS / SKILLS]\n`;
-    text += `--------------------------------------------------------\n`;
-    if (data.skills && data.skills.length > 0) {
-      const skillsList = data.skills.map((s: any) => typeof s === 'string' ? s : s.name).filter(Boolean);
-      text += `SKILLS PARSED: ${skillsList.join(" | ")}\n\n`;
-    } else {
-      text += ` [Critical Warning: No indexed skills parsed] \n\n`;
-    }
-
-    text += `[STRUCTURE UNIT_06: PORTFOLIO PROJECTS]\n`;
-    text += `--------------------------------------------------------\n`;
-    if (data.projects && data.projects.length > 0) {
-      data.projects.forEach((proj: any, i: number) => {
-        text += `RECORD #${i + 1}:\n`;
-        text += `  PROJECT NAME: ${proj.name || " [NOT DECLARED] "}\n`;
-        if (proj.link) text += `  PROJECT LINK: ${proj.link}\n`;
-        if (proj.description) text += `  DETAILS:      ${proj.description}\n`;
-        text += `\n`;
-      });
-    } else {
-      text += ` [No custom project listings found] \n\n`;
-    }
-
-    text += `========================================================\n`;
-    text += `  SCAN CYCLE COMPLETE -- RESULT: VERIFIED PARSE READY\n`;
-    text += `========================================================\n`;
-    return text;
-  };
-
-  const handleScanSimulation = () => {
-    setIsScanning(true);
-    setTimeout(() => {
-      setIsScanning(false);
-    }, 1200);
-  };
-
   const scoreVerdict = getScoreVerdict(score);
 
   return (
@@ -184,13 +88,22 @@ export default function ATSAudit() {
       </div>
 
       <div className="space-y-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+        <div className="grid grid-cols-1 gap-6 items-stretch">
       
         {/* Metric gauge Card */}
-        <div className="lg:col-span-4 bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs flex flex-col items-center justify-center text-center space-y-5 relative overflow-hidden">
+        <div className="bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs flex flex-row items-center justify-between text-start gap-8 relative overflow-hidden">
           <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brand-500 to-orange-500" />
           
-          <div className="relative flex items-center justify-center w-36 h-36">
+          <div className="flex-1 space-y-2">
+            <h4 className="text-xl font-extrabold text-slate-950">
+              {score >= 80 ? t.greatJob : score >= 50 ? t.goodStart : t.needsImprovement}
+            </h4>
+            <p className="text-sm text-slate-500 leading-relaxed max-w-lg">
+              {t.atsExplanation}
+            </p>
+          </div>
+
+          <div className="relative flex items-center justify-center w-36 h-36 shrink-0">
             <svg className="w-full h-full transform -rotate-90 absolute inset-0">
               <circle
                 cx="72"
@@ -211,7 +124,8 @@ export default function ATSAudit() {
                 strokeDasharray={390}
                 strokeDashoffset={390 - (390 * Math.min(score, 100)) / 100}
                 className={cn(
-                  "transition-all duration-1000 ease-out text-brand-600"
+                  "transition-all duration-1000 ease-out",
+                  score >= 80 ? "text-emerald-500" : score >= 50 ? "text-amber-500" : "text-rose-500"
                 )}
               />
             </svg>
@@ -223,53 +137,6 @@ export default function ATSAudit() {
                 {t.scoreOutOf}
               </span>
             </div>
-          </div>
-
-          <div className="space-y-1.5">
-            <h4 className="text-sm font-extrabold text-slate-950">
-              {score >= 80 ? t.greatJob : score >= 50 ? t.goodStart : t.needsImprovement}
-            </h4>
-            <p className="text-[11px] text-slate-500 max-w-[220px] mx-auto leading-relaxed">
-              {t.atsExplanation}
-            </p>
-          </div>
-        </div>
-
-        {/* Section Breakdown Grid list */}
-        <div className="lg:col-span-8 bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs space-y-5">
-          <div className="border-b border-slate-100 pb-3">
-            <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">
-              {t.sectionBreakdown}
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {sections.map((section, idx) => {
-              const pct = section.maxScore > 0 ? (section.score / section.maxScore) * 100 : 0;
-              const isPerfect = section.score === section.maxScore;
-              return (
-                <div key={idx} className="p-3 border border-slate-100 rounded-2xl bg-slate-50/50 space-y-2.5">
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="font-bold text-slate-700">{section.title}</span>
-                    <span className={`font-extrabold px-1.5 py-0.5 rounded-md text-[10px] ${
-                      isPerfect ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-600"
-                    }`}>
-                      {section.score}/{section.maxScore}
-                    </span>
-                  </div>
-                  
-                  <div className="w-full h-1.5 bg-slate-200/70 rounded-full overflow-hidden">
-                    <div
-                      className={cn(
-                        "h-full transition-all duration-500 rounded-full",
-                        isPerfect ? "bg-emerald-500" : pct > 50 ? "bg-brand-500" : "bg-orange-500"
-                      )}
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>

@@ -34,9 +34,9 @@ const EducationItem = ({
       value={edu}
       dragListener={false}
       dragControls={controls}
-      className="bg-white border border-slate-150 rounded-2xl overflow-hidden shadow-xs transition-colors"
+      className="bg-white border border-slate-200/60 rounded-xl overflow-hidden transition-colors"
     >
-      <div className="flex items-center px-4 md:px-6 py-4 bg-white/50 border-b border-slate-100 justify-between">
+      <div className="flex items-center px-4 md:px-5 py-3 bg-transparent border-b border-slate-100 justify-between">
         <div className="flex items-center flex-1 min-w-0 mr-3 ml-3">
           <div
             onPointerDown={(e) => {
@@ -83,7 +83,7 @@ const EducationItem = ({
             <div className="p-4 md:p-6 space-y-4 text-start" dir={isAr ? "rtl" : "ltr"}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+                  <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.education?.institution || "Institution")}
                   </label>
                   <input
@@ -91,11 +91,11 @@ const EducationItem = ({
                     value={edu.institution || ""}
                     onChange={(e) => updateEducation(edu.id, { institution: e.target.value })}
                     placeholder="e.g. Cairo University"
-                    className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                    className="block w-full px-3 py-2 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all font-medium placeholder-slate-400 outline-none"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+                  <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.education?.degree || "Degree")}
                   </label>
                   <input
@@ -103,14 +103,14 @@ const EducationItem = ({
                     value={edu.degree || ""}
                     onChange={(e) => updateEducation(edu.id, { degree: e.target.value })}
                     placeholder="e.g. Bachelor of Science in Computer Science"
-                    className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                    className="block w-full px-3 py-2 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all font-medium placeholder-slate-400 outline-none"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-100 pt-4">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+                  <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.education?.startDate || "Start Date")}
                   </label>
                   <input
@@ -118,11 +118,11 @@ const EducationItem = ({
                     value={edu.startDate || ""}
                     onChange={(e) => updateEducation(edu.id, { startDate: e.target.value })}
                     placeholder="e.g. 2020"
-                    className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                    className="block w-full px-3 py-2 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all font-medium placeholder-slate-400 outline-none"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+                  <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.education?.endDate || "End Date")}
                   </label>
                   <input
@@ -130,13 +130,13 @@ const EducationItem = ({
                     value={edu.endDate || ""}
                     onChange={(e) => updateEducation(edu.id, { endDate: e.target.value })}
                     placeholder="e.g. 2024"
-                    className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                    className="block w-full px-3 py-2 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all font-medium placeholder-slate-400 outline-none"
                   />
                 </div>
               </div>
 
               <div className="space-y-2 border-t border-slate-100 pt-4">
-                <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+                <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                   {String(t.education?.description || "Description")}
                 </label>
                 <textarea
@@ -144,7 +144,7 @@ const EducationItem = ({
                   onChange={(e) => updateEducation(edu.id, { description: e.target.value })}
                   placeholder={String(t.education?.descriptionPlaceholder || "Describe your studies...")}
                   rows={4}
-                  className="block w-full p-4 border border-slate-200 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all resize-y placeholder-slate-450 font-medium leading-relaxed outline-none"
+                  className="block w-full p-3 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all resize-y placeholder-slate-400 font-medium outline-none"
                 />
               </div>
 
