@@ -1,5 +1,4 @@
 {
-  "regions": ["cdg1", "iad1"],
   "headers": [
     {
       "source": "/(.*)",
@@ -17,13 +16,13 @@
       ]
     },
     {
-      "source": "/(.*\\.png|.*\\.jpg|.*\\.ico|.*\\.svg|.*\\.webp)",
+      "source": "/(.*\.png|.*\.jpg|.*\.ico|.*\.svg|.*\.webp)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=86400" }
       ]
     }
   ],
   "rewrites": [
-    { "source": "/((?!api/.*).*)", "destination": "/index.html" }
+    { "source": "/((?!api)/.*)", "destination": "/index.html" }
   ]
 }
