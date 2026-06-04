@@ -12,14 +12,63 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 800,
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom', 'react-router-dom'],
-            ui: ['lucide-react', 'framer-motion', 'motion'],
-            pdf: ['react-to-print'],
-            utils: ['date-fns', 'papaparse', 'nanoid', 'clsx', 'tailwind-merge']
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (
+                id.includes('react') ||
+                id.includes('react-dom') ||
+                id.includes('react-router') ||
+                id.includes('react-router-dom') ||
+                id.includes('react-helmet-async')
+              ) {
+                return 'react-core';
+              }
+              if (
+                id.includes('pdfjs-dist') ||
+                id.includes('react-to-print')
+              ) {
+                return 'pdf-libs';
+              }
+              if (id.includes('docx')) {
+                return 'docx-libs';
+              }
+              if (
+                id.includes('react-markdown') ||
+                id.includes('micromark') ||
+                id.includes('mdast') ||
+                id.includes('unist') ||
+                id.includes('vfile') ||
+                id.includes('parse5')
+              ) {
+                return 'markdown-libs';
+              }
+              if (
+                id.includes('lucide-react') ||
+                id.includes('framer-motion') ||
+                id.includes('motion') ||
+                id.includes('react-joyride')
+              ) {
+                return 'ui-vendors';
+              }
+              if (
+                id.includes('date-fns') ||
+                id.includes('papaparse') ||
+                id.includes('zundo') ||
+                id.includes('zustand')
+              ) {
+                return 'utils';
+              }
+              return 'vendor-others';
+            }
+            if (id.includes('/components/editor/')) {
+              return 'editor-components';
+            }
+            if (id.includes('/components/preview/')) {
+              return 'preview-components';
+            }
           }
         }
       }
