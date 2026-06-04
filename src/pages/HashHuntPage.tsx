@@ -725,7 +725,29 @@ function doPost(e) {
             <div className="absolute top-0 start-0 w-1.5 h-full bg-[#FF4D2D]" />
             
             <div className="font-sans text-xl font-bold text-slate-900 mb-1">{isRtl ? "أنشئ ملفك الشخصي" : "Create Profile"}</div>
-            <div className="text-[11px] text-slate-400 font-semibold mb-6">{isRtl ? "يستغرق أقل من دقيقتين · تزامن وتحديث فوري لـ Google Drive" : "Takes less than 2 minutes · Seamless sync to sheet folder"}</div>
+            <div className="text-[11px] text-slate-400 font-semibold mb-4">{isRtl ? "يستغرق أقل من دقيقتين · تزامن وتحديث فوري لـ Google Drive" : "Takes less than 2 minutes · Seamless sync to sheet folder"}</div>
+
+            {/* AI Resume Creator Conversion Prompt */}
+            <div className="bg-gradient-to-r from-orange-500/10 via-rose-500/5 to-transparent border border-orange-505/15 rounded-xl p-3.5 mb-5 space-y-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" style={{ borderColor: 'rgba(255, 77, 45, 0.15)' }}>
+              <div className="space-y-0.5">
+                <p className="text-[11px] sm:text-xs font-black text-rose-600 flex items-center gap-1">
+                  <span>✨</span>
+                  <span>{isRtl ? "ليس لديك سيرة متوافقة مع الـ ATS بعد؟" : "Don't have an ATS-friendly CV yet?"}</span>
+                </p>
+                <p className="text-[10px] text-slate-500 font-medium leading-relaxed leading-none">
+                  {isRtl 
+                    ? "ابنِ سيرتك بالذكاء الاصطناعي وبفرز ذكي بـ 5 دقائق فقط لرفع فرص قبولك 3 أضعاف."
+                    : "Create a verified, high-scoring resume in 5 minutes with our AI Resume Builder!"}
+                </p>
+              </div>
+              <button 
+                type="button" 
+                onClick={() => { window.location.href = "/editor"; }}
+                className="shrink-0 bg-slate-900 hover:bg-black text-white px-3.5 py-2 rounded-lg text-[11px] font-black tracking-wide transition-all hover:scale-103 cursor-pointer text-center"
+              >
+                {isRtl ? "انطلق للمحرر 🧠" : "Build Resume 🧠"}
+              </button>
+            </div>
 
             {errorMessage && (
               <div aria-live="polite" className="flex items-start gap-2.5 p-4 rounded-xl bg-rose-50 border border-rose-100/80 text-rose-700 text-xs sm:text-sm mb-6 font-medium">
@@ -1024,12 +1046,19 @@ function doPost(e) {
                     : "We will connect you with the best job opportunity."}
                 </p>
 
-                <div className="w-full">
+                <div className="w-full space-y-2.5">
+                  <button
+                    onClick={() => { window.location.href = "/editor"; }}
+                    className="w-full bg-[#FF4D2D] hover:bg-[#CC3A1F] text-white font-bold py-3 rounded-xl text-xs sm:text-sm active:scale-98 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-md hover:shadow-orange-500/10"
+                  >
+                    <span>✨</span>
+                    <span>{isRtl ? "أنشئ سيرتك الذاتية الذكية الآن" : "Create My AI Resume Now"}</span>
+                  </button>
                   <button
                     onClick={() => setShowSuccess(false)}
-                    className="w-full bg-[#FF4D2D] hover:bg-[#CC3A1F] text-white font-semibold py-2.5 rounded-xl text-xs sm:text-sm transition-all cursor-pointer"
+                    className="w-full bg-slate-150 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs transition-all cursor-pointer"
                   >
-                    {isRtl ? "إغلاق" : "Close"}
+                    {isRtl ? "إغلاق للتصفح" : "Dismiss"}
                   </button>
                 </div>
 

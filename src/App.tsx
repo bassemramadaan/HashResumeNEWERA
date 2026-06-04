@@ -22,6 +22,7 @@ const FAQPage = React.lazy(() => import("./pages/FAQPage"));
 const NotFoundPage = React.lazy(() => import("./pages/NotFoundPage"));
 
 import { initGA, trackPageView } from "./services/analytics";
+import { useLanguageStore } from "./store/useLanguageStore";
 
 function GAListener() {
   const location = useLocation();
@@ -38,6 +39,15 @@ function GAListener() {
 }
 
 export default function App() {
+  const { language, dir } = useLanguageStore();
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.dir = dir;
+      document.documentElement.lang = language;
+    }
+  }, [language, dir]);
+
   return (
     <HelmetProvider>
       <BrowserRouter>

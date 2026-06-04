@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import { LayoutTemplate, Check, ArrowRight, ArrowLeft, Star } from "lucide-react";
 import { useLanguageStore } from "@/store/useLanguageStore";
 import { useResumeStore } from "@/store/useResumeStore";
+import TiltCard from "@/components/landing/TiltCard";
 
 const TEMPLATE_HIGHLIGHTS = [
   {
@@ -124,12 +124,8 @@ export function PremiumTemplatesGallery() {
             const features = isAr ? tpl.featuresAr : lang === "fr" ? tpl.featuresFr : tpl.featuresEn;
 
             return (
-              <motion.div
+              <TiltCard
                 key={tpl.id}
-                initial={{ opacity: 0, y: 35 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
                 onMouseEnter={() => setHoveredCard(tpl.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 className={`bg-white rounded-3xl border border-slate-150 p-6 md:p-8 flex flex-col justify-between transition-all duration-300 relative overflow-hidden group shadow-sm hover:border-slate-200 ${
@@ -143,7 +139,7 @@ export function PremiumTemplatesGallery() {
                 />
 
                 {/* Content details */}
-                <div className="space-y-6">
+                <div className="space-y-6 text-start">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <span className="w-4 h-4 rounded-full border-2" style={{ borderColor: tpl.color, backgroundColor: isHovered ? tpl.color : "transparent" }} />
@@ -179,15 +175,15 @@ export function PremiumTemplatesGallery() {
                 {/* Mini Resume Skeletal Preview Card - Gives user direct feel */}
                 <div className={`mt-8 p-4 rounded-2xl bg-gradient-to-b ${tpl.bgClass} border border-slate-200/50 flex flex-col gap-2`}>
                   <div className="flex justify-between items-center pb-2 border-b border-white">
-                    <div className="space-y-1">
+                    <div className="space-y-1 text-start">
                       <div className="h-2 w-16 rounded bg-slate-400/30" />
                       <div className="h-1.5 w-24 rounded bg-slate-400/20" />
                     </div>
-                    <div className="w-6 h-6 rounded-full" style={{ backgroundColor: tpl.color }} />
+                    <div className="w-6 h-6 rounded-full animate-pulse" style={{ backgroundColor: tpl.color }} />
                   </div>
                   <div className="flex gap-4">
                     {/* Columns skeleton */}
-                    <div className="w-3/5 space-y-2">
+                    <div className="w-3/5 space-y-2 text-start">
                       <div className="h-1.5 w-1/2 rounded bg-slate-300" />
                       <div className="space-y-1">
                         <div className="h-1 w-full rounded bg-slate-200" />
@@ -195,7 +191,7 @@ export function PremiumTemplatesGallery() {
                         <div className="h-1 w-4/5 rounded bg-slate-200" />
                       </div>
                     </div>
-                    <div className="w-2/5 space-y-2">
+                    <div className="w-2/5 space-y-2 text-start">
                       <div className="h-1.5 w-4/5 rounded bg-slate-300" />
                       <div className="flex flex-wrap gap-1">
                         <div className="h-2.5 w-6 rounded bg-white border border-slate-100" />
@@ -210,7 +206,7 @@ export function PremiumTemplatesGallery() {
                 <div className="mt-8">
                   <button
                     onClick={() => handleSelect(tpl.id, tpl.color)}
-                    className="w-full bg-[#FF4D2D] hover:bg-[#E64528] text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wider shadow-md hover:shadow-lg hover:shadow-orange-500/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                    className="w-full bg-[#FF4D2D] hover:bg-[#E64528] text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wider shadow-md hover:shadow-lg hover:shadow-orange-500/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>{t.cta}</span>
                     {isAr ? (
@@ -221,7 +217,7 @@ export function PremiumTemplatesGallery() {
                   </button>
                 </div>
 
-              </motion.div>
+              </TiltCard>
             );
           })}
         </div>

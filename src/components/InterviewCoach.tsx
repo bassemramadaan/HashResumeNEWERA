@@ -310,6 +310,14 @@ export default function InterviewCoach() {
     setUserDrafts({});
     setSavedDrafts({});
 
+    // Read details from store if available
+    const candidateExperience = data.experience && data.experience.length > 0
+      ? data.experience.map(exp => `- Role: ${exp.position} at ${exp.company}. Accomplishments: ${exp.description || ""}`).join("\n")
+      : "";
+    const candidateProjects = data.projects && data.projects.length > 0
+      ? data.projects.map(proj => `- Project: ${proj.name}. description: ${proj.description || ""}`).join("\n")
+      : "";
+
     const prompt = `
       You are an expert HR Manager and Technical Recruiter.
       Candidate Details:
@@ -318,7 +326,13 @@ export default function InterviewCoach() {
       Prep Focus: "${prepMode === "technical" ? "Deep Systems Architecture, Coding Best Practices, technical constraints" : "Behavioral, Competency, Leadership challenges, interpersonal skills"}"
       Language: "${language === "ar" ? "Arabic" : language === "fr" ? "French" : "English"}"
 
+      Candidate Resume Context:
+      ${candidateExperience ? `WORK HISTORY:\n${candidateExperience}\n` : ""}
+      ${candidateProjects ? `NOTABLE PROJECTS:\n${candidateProjects}\n` : ""}
+
       Generate exactly 3 customized situational and role-specific interview questions with recruiters' tips and standard STAR model response formulations.
+      CRITICAL INSTRUCTION: Since you have their specific resume work history or project highlights above, customize at least 1 or 2 of the questions to directly address those specific roles, projects, or accomplishments mentioned. This makes the interview feel highly tailored to their true background.
+      
       Return ONLY a pure JSON array following this structure (No markdown wrap, no backticks, no trailing commas):
       [
         {
@@ -436,6 +450,30 @@ export default function InterviewCoach() {
                   </p>
                 </div>
               </div>
+
+              {/* Active CV Integration Badge */}
+              {(data.personalInfo?.jobTitle || (data.skills && data.skills.length > 0) || (data.experience && data.experience.length > 0)) && (
+                <div className="bg-emerald-50/50 border border-emerald-500/10 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-start">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+                      <CheckCircle2 className="w-4 h-4" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <span className="text-[10px] font-black text-emerald-650 uppercase tracking-wider block font-mono">
+                        {isAr ? "ربط تلقائي بالـ CV مغذى" : "LIVE CV SYNCHRONIZATION ACTIVE"}
+                      </span>
+                      <p className="text-[11px] text-slate-650 font-semibold leading-normal">
+                        {isAr 
+                          ? `جارِ توليد أسئلة مطابقة وتفصيلية لملفك النشط (${data.personalInfo?.jobTitle || "بدون مسمى"}) عبر ${data.experience?.length || 0} منصب سابق و ${data.projects?.length || 0} مشاريع.`
+                          : `Generating custom-calibrated simulations based on your builder CV profile (${data.personalInfo?.jobTitle || "untitled role"}) with ${data.experience?.length || 0} roles & ${data.projects?.length || 0} projects.`}
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 border border-emerald-500/15 p-1 px-2.5 rounded-full uppercase shrink-0">
+                    {isAr ? "متزامن" : "CONNECTED"}
+                  </span>
+                </div>
+              )}
 
               {/* Dynamic Inputs grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50/40 p-5 rounded-2xl border border-slate-100 relative">

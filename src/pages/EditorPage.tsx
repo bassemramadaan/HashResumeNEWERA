@@ -2131,6 +2131,30 @@ export default function EditorPage() {
             </span>
           </motion.div>
         </div>
+
+        {/* Floating AI Command Bar trigger for discoverability on mobile & touch */}
+        <div className="fixed bottom-6 end-6 z-[120] select-none pointer-events-auto">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            whileHover={{ scale: 1.05 }}
+            className="flex items-center gap-2 bg-gradient-to-r from-slate-900 to-[#1e293b] border border-slate-800 text-white rounded-full p-2 py-3 px-4 shadow-2xl hover:brightness-110 cursor-pointer group"
+            onClick={() => setIsCommandBarOpen(true)}
+            title={language === "ar" ? "مساعد الذكاء الاصطناعي (Cmd+K)" : "AI Assistant (Cmd+K)"}
+          >
+            <div className="relative flex items-center justify-center bg-gradient-to-r from-orange-500 to-[#FF4D2D] text-white p-1 rounded-full shrink-0">
+              <svg className="w-4 h-4 text-white animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 21l-.813-5.096L3 15l5.096-.813L9 9l.813 5.187L15 15l-5.187.904z" />
+              </svg>
+            </div>
+            <span className="text-[11px] font-black text-white group-hover:text-orange-100 flex items-center gap-1.5">
+              <span>{language === "ar" ? "المساعد السريع ✨" : "AI Assistant ✨"}</span>
+            </span>
+            <div className="hidden sm:flex items-center gap-0.5 ml-1 font-mono text-[9px] font-black text-slate-400 bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700">
+              ⌘K
+            </div>
+          </motion.div>
+        </div>
     </div>
   );
 }

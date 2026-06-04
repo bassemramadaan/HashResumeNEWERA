@@ -1,6 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 
+// Production guard to prevent accidental run during deployment or production runtime
+if (process.env.NODE_ENV === 'production' || process.env.VITE_USER_NODE_ENV === 'production') {
+  console.error('🚫 Error: This development replace utility script is disabled in production environments!');
+  process.exit(1);
+}
+
 function replaceInFile(filePath: string) {
   let content = fs.readFileSync(filePath, 'utf-8');
   content = content.replace(/green/g, 'indigo');

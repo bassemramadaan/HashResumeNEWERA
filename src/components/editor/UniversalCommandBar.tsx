@@ -399,9 +399,18 @@ export default function UniversalCommandBar({
               )}
 
               {isGenerating && (
-                <div className="py-8 flex flex-col items-center justify-center space-y-3">
-                  <div className="w-8 h-8 rounded-full border-2 border-indigo-500/20 border-t-indigo-500 animate-spin" />
-                  <span className="text-[10px] text-slate-500 font-mono tracking-widest uppercase">GENERATING TEXT STREAM...</span>
+                <div className="py-8 flex flex-col items-center justify-center space-y-4">
+                  <div className="relative">
+                    <div className="w-10 h-10 rounded-full border-4 border-orange-500/10 border-t-[#FF4D2D] animate-spin" />
+                    <Sparkles className="w-4 h-4 text-orange-500 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+                  </div>
+                  <span className="text-[11px] text-[#FF4D2D] font-bold tracking-wider uppercase animate-pulse">
+                    {isAr ? "جاري صياغة النص وبنائه بالذكاء الاصطناعي..." : "GENERATING YOUR TAILORED DURATION..."}
+                  </span>
+                  <div className="w-64 space-y-2 mt-2">
+                    <div className="h-2 bg-slate-800 rounded-full animate-pulse w-full" />
+                    <div className="h-2 bg-slate-800 rounded-full animate-pulse w-5/6" />
+                  </div>
                 </div>
               )}
 

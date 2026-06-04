@@ -1,7 +1,7 @@
-import { motion } from "motion/react"
 import { Check, Sparkles, Gift } from 'lucide-react'
 import { PageSection, SectionHeading } from '@/components/layout/PageSection'
 import type { AppLang } from '@/hooks/useDirection'
+import TiltCard from '@/components/landing/TiltCard'
 
 interface PricingSectionProps {
   lang: AppLang
@@ -136,12 +136,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-5xl mx-auto w-full px-4 items-stretch select-none">
         
         {/* Card 1: Single CV */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          whileHover={{ scale: 1.01, translateY: -4 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3 }}
+        <TiltCard
           className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-xl bg-slate-900 border-2 border-slate-800 hover:border-slate-700 transition-all transform-gpu"
         >
           <div className="absolute top-0 end-8 -translate-y-1/2">
@@ -178,15 +173,10 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
               {isAr ? '←' : '→'}
             </span>
           </button>
-        </motion.div>
+        </TiltCard>
 
         {/* Card 2: 3-Codes Saver Package */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          whileHover={{ scale: 1.02, translateY: -4 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.35, delay: 0.1 }}
+        <TiltCard
           className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-2xl bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-[#FF4D2D] hover:border-[#FF4D2D] transition-all transform-gpu"
         >
           {/* Subtle gold glow behind the card */}
@@ -233,7 +223,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
               {isAr ? '←' : '→'}
             </span>
           </button>
-        </motion.div>
+        </TiltCard>
 
       </div>
 

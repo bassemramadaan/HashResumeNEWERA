@@ -30,11 +30,24 @@ export default function BlogPostPage() {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title[language],
-    "image": post.image,
+    "description": post.excerpt[language],
+    "image": post.image.startsWith("http") ? post.image : `https://hashresume.com${post.image}`,
     "datePublished": post.date,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": shareUrl
+    },
     "author": {
       "@type": "Person",
       "name": post.author[language]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Hash Resume",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://hashresume.com/favicon.png"
+      }
     }
   };
 
@@ -43,9 +56,7 @@ export default function BlogPostPage() {
       <Helmet>
         <title>{post.title[language]} | Hash Resume</title>
         <meta name="description" content={post.excerpt[language]} />
-        <script type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Helmet>
       <Navbar />
 
@@ -55,7 +66,7 @@ export default function BlogPostPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-center gap-4 text-sm text-white0 mb-6"
+            className="flex items-center justify-center gap-4 text-sm text-slate-500 mb-6"
           >
             <span className="flex items-center gap-1">
               <Calendar size={16} />
