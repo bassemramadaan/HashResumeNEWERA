@@ -92,6 +92,7 @@ export type ResumeData = {
   skills: string[];
   projects: Project[];
   certifications: Certification[];
+  customSections?: any[];
   settings: {
     template:
       | "modern"
@@ -121,6 +122,7 @@ export type ResumeData = {
   };
   jobDescription: string;
   isPremium: boolean;
+  isLocked?: boolean;
   unlockedName?: string;
   unlockedEmail?: string;
   unlockedSignature?: string;
@@ -226,6 +228,7 @@ type ResumeStore = {
   reorderCertifications: (newCerts: Certification[]) => void;
   duplicateCertification: (id: string) => void;
   setSettings: (settings: Partial<ResumeData["settings"]>) => void;
+  updateSettings: (settings: Partial<ResumeData["settings"]>) => void;
   setJobDescription: (desc: string) => void;
   importFromLinkedIn: (linkedinData: any) => void;
   addSection: (sectionId: string) => void;
@@ -255,6 +258,12 @@ type ResumeStore = {
     email: string,
     signature: string,
   ) => Promise<boolean>;
+  resetData: () => void;
+  loadData: (data: ResumeData) => void;
+  updateData: (data: ResumeData) => void;
+  loadExampleData: () => void;
+  lockResume: () => void;
+  updateJobDescription: (jd: string) => void;
 }
 
 export const useResumeStore = create<ResumeStore>()(
@@ -280,6 +289,13 @@ export const useResumeStore = create<ResumeStore>()(
         })),
 
         setSettings: (settings) =>
+          set((state) => ({
+            data: {
+              ...state.data,
+              settings: { ...state.data.settings, ...settings },
+            },
+          })),
+        updateSettings: (settings) =>
           set((state) => ({
             data: {
               ...state.data,
@@ -314,11 +330,11 @@ export const useResumeStore = create<ResumeStore>()(
             result.splice(endIndex, 0, removed);
             return { data: { ...state.data, experience: result } };
           }),
-        updateCoverLetter: (cl) =>
+        updateCoverLetter: (content) =>
           set((state) => ({
             data: {
               ...state.data,
-              coverLetter: { ...state.data.coverLetter, ...cl },
+              coverLetter: { ...state.data.coverLetter, generatedContent: content },
             },
           })),
         addExperience: (exp) =>
@@ -478,16 +494,18 @@ export const useResumeStore = create<ResumeStore>()(
           set((state) => ({
             data: { ...state.data, jobDescription: jd },
           })),
-        unlockPremium: () =>
+        unlockPremium: async (name, email, signature) => {
           set((state) => ({
             data: { 
               ...state.data, 
               isPremium: true,
-              unlockedName: state.data.personalInfo.fullName,
-              unlockedEmail: state.data.personalInfo.email,
-              unlockedSignature: getResumeSignature(state.data),
+              unlockedName: name,
+              unlockedEmail: email,
+              unlockedSignature: signature,
             },
-          })),
+          }));
+          return true;
+        },
         lockResume: () =>
           set((state) => ({
             data: {

@@ -577,12 +577,12 @@ export default function EditorPage() {
   }, [showPaymentModal, language]);
 
   useEffect(() => {
-    if (data.templateId) {
+    if (data.settings?.template) {
       trackEvent(FUNNEL_EVENTS.TEMPLATE_CHOSEN, {
-        templateId: data.templateId,
+        templateId: data.settings.template,
       });
     }
-  }, [data.templateId]);
+  }, [data.settings?.template]);
 
   const { hasSeenOnboarding, startOnboarding, skipOnboarding } =
     useOnboardingStore();
@@ -881,6 +881,7 @@ export default function EditorPage() {
     experience: String(t.experienceDesc || "Experience info"),
     education: String(t.educationDesc || "Education info"),
     skills: String(t.skillsDesc || "Skills info"),
+    projects: String(language === "ar" ? "أضف مشاريعك التي عملت عليها" : "Add projects you've worked on"),
     certifications:
       String(language === "ar"
         ? "أضف الشهادات والإنجازات المهنية."
@@ -1578,7 +1579,7 @@ export default function EditorPage() {
         isSaved={!isSaving}
         onUndo={handleUndo}
         onExportPDF={handleExportClick}
-        onWord={() => handleProceedToExport("docx")}
+        onExportWord={() => handleProceedToExport("docx")}
         onTogglePreview={() => setShowFullPreview(!showFullPreview)}
         previewOpen={showFullPreview}
         isLocked={data.isLocked}
@@ -1592,7 +1593,7 @@ export default function EditorPage() {
       {/* Real-time Progress tracker moved to tabs and dock */}
 
       <PanelGroup
-        direction={isMobile ? "vertical" : "horizontal"}
+        orientation={isMobile ? "vertical" : "horizontal"}
         className="flex-1 w-full h-full overflow-hidden relative editor-form"
       >
         {/* Editor Area */}

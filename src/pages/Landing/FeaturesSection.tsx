@@ -57,7 +57,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as any } }
 }
 
 export function FeaturesSection({ lang }: FeaturesSectionProps) {
@@ -132,7 +132,7 @@ function FeatureCard({ icon, title, desc, tag, className }: {
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      variants={itemVariants}
+      variants={itemVariants as any}
       className={`bg-white/80 backdrop-blur-md border border-slate-200/50 rounded-3xl p-6 sm:p-8 hover:border-[#FF4D2D]/35 transition-all duration-300 relative overflow-hidden group hover:shadow-[0_15px_30px_rgba(0,0,0,0.04)] cursor-default ${className || ""}`}
     >
       {/* SaaS active glowing red blur trailing mouse on hover */}

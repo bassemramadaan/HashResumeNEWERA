@@ -194,7 +194,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           className="flex flex-col items-center text-center max-w-4xl mx-auto mb-16"
         >
           <motion.h1
-            variants={item}
+            variants={item as any}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-black text-slate-800 leading-[1.1] mb-6 tracking-tight drop-shadow-sm font-sans"
           >
             {copy.title1}{' '}
@@ -208,13 +208,13 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           </motion.h1>
 
           <motion.p
-            variants={item}
+            variants={item as any}
             className="text-base md:text-lg text-slate-500 max-w-2xl mb-10 leading-relaxed whitespace-pre-line font-medium transform-gpu"
           >
             {copy.subtitle}
           </motion.p>
 
-          <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center transform-gpu">
+          <motion.div variants={item as any} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center transform-gpu">
             <button
               onClick={() => {
                 trackEvent('resume_started', { source: 'hero_cta' });
@@ -238,7 +238,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           </motion.div>
 
           <motion.div
-            variants={item}
+            variants={item as any}
             className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-10 transform-gpu"
           >
             {copy.trust.map((t) => (
