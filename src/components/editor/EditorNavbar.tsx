@@ -299,6 +299,7 @@ export default function EditorNavbar({
   onShowSettings  = () => {},
   onShowShortcuts = () => {},
   onStartTour,
+  onShowCommandBar = () => {},
 }: {
   lang?: AppLang;
   onLangChange?: (lang: AppLang) => void;
@@ -315,6 +316,7 @@ export default function EditorNavbar({
   onShowSettings?: () => void;
   onShowShortcuts?: () => void;
   onStartTour?: () => void;
+  onShowCommandBar?: () => void;
 }) {
   const t     = T[lang] ?? T.en;
   const isRtl = lang === "ar";
@@ -342,6 +344,17 @@ export default function EditorNavbar({
           <NavBtn onClick={onUndo} title="Undo">
             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
           </NavBtn>
+
+          <button 
+            onClick={onShowCommandBar} 
+            title={lang === "ar" ? "شريط الأوامر السريع (Cmd+K)" : "Universal Command Bar (Cmd+K)"}
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200 bg-white shadow-3xs text-xs font-bold transition-all cursor-pointer hover:bg-slate-50 hover:text-rose-500 select-none"
+          >
+            <span className="flex items-center gap-0.5 font-mono text-[9px] font-black text-slate-500">
+              <span>⌘</span>
+              <span>K</span>
+            </span>
+          </button>
 
           <SaveIndicator isSaved={isSaved} lang={lang} />
         </div>

@@ -43,6 +43,7 @@ import EditorSidebar from "../components/editor/EditorSidebar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import ResumePreview from "../components/preview/ResumePreview";
 import CoverLetterPreview from "../components/preview/CoverLetterPreview";
+import UniversalCommandBar from "../components/editor/UniversalCommandBar";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -438,9 +439,24 @@ export default function EditorPage() {
 
   const formRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<Tab>("basics");
+  const [isCommandBarOpen, setIsCommandBarOpen] = useState(false);
   const [isTipsOpen, setIsTipsOpen] = useState(true);
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
   const [showScoreChecklist, setShowScoreChecklist] = useState(false);
+
+  // Shortcut key command listener
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+        e.preventDefault();
+        setIsCommandBarOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleGlobalKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleGlobalKeyDown);
+    };
+  }, []);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -1562,7 +1578,7 @@ export default function EditorPage() {
         isSaved={!isSaving}
         onUndo={handleUndo}
         onExportPDF={handleExportClick}
-        onExportWord={() => handleProceedToExport("docx")}
+        onWord={() => handleProceedToExport("docx")}
         onTogglePreview={() => setShowFullPreview(!showFullPreview)}
         previewOpen={showFullPreview}
         isLocked={data.isLocked}
@@ -1570,6 +1586,7 @@ export default function EditorPage() {
         onShowSettings={() => setIsSettingsModalOpen(true)}
         onShowShortcuts={() => setShowKeyboardShortcuts(true)}
         onStartTour={handleStartTour}
+        onShowCommandBar={() => setIsCommandBarOpen(true)}
       />
 
       {/* Real-time Progress tracker moved to tabs and dock */}
@@ -1956,6 +1973,13 @@ export default function EditorPage() {
           data={data}
           activeTab={activeTab}
           onJumpToStep={(id) => setActiveTab(id as Tab)}
+        />
+
+        <UniversalCommandBar
+          isOpen={isCommandBarOpen}
+          onClose={() => setIsCommandBarOpen(false)}
+          activeTab={activeTab}
+          setActiveTab={(tab) => setActiveTab(tab)}
         />
 
         {/* Action Confirmation Modal */}

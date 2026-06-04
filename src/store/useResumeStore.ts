@@ -279,22 +279,6 @@ export const useResumeStore = create<ResumeStore>()(
           },
         })),
 
-        duplicateCertification: (id) =>
-          set((state) => {
-            const certToDuplicate = state.data.certifications.find(
-              (c) => c.id === id,
-            );
-            if (!certToDuplicate) return state;
-            return {
-              data: {
-                ...state.data,
-                certifications: [
-                  ...state.data.certifications,
-                  { ...certToDuplicate, id: crypto.randomUUID() },
-                ],
-              },
-            };
-          }),
         setSettings: (settings) =>
           set((state) => ({
             data: {
@@ -330,13 +314,6 @@ export const useResumeStore = create<ResumeStore>()(
             result.splice(endIndex, 0, removed);
             return { data: { ...state.data, experience: result } };
           }),
-        updatePersonalInfo: (info) =>
-          set((state) => ({
-            data: {
-              ...state.data,
-              personalInfo: { ...state.data.personalInfo, ...info },
-            },
-          })),
         updateCoverLetter: (cl) =>
           set((state) => ({
             data: {

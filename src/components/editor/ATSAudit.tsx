@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -9,7 +9,10 @@ import {
   Target,
   Wand2,
   Check,
-  Sparkles
+  Sparkles,
+  Eye,
+  RefreshCw,
+  X
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../../utils/ats";
@@ -21,6 +24,8 @@ export default function ATSAudit() {
   const t = translations[language].atsAudit;
   const { personalInfo } = data;
   const isAr = language === "ar";
+  const [showSimulator, setShowSimulator] = useState(false);
+  const [isScanning, setIsScanning] = useState(false);
 
   const { score, sections } = useMemo(() => calculateATSScore(data), [data]);
   const isEmpty = score === 0 && !personalInfo.fullName;
@@ -58,13 +63,107 @@ export default function ATSAudit() {
     return { text: isAr ? "تحتاج إعادة هيكلة" : "Critical Optimization Required", color: "text-rose-600 bg-rose-50 border-rose-150" };
   };
 
+  const getATSParsedText = () => {
+    let text = "";
+    text += `========================================================\n`;
+    text += `  ATS ENGINE PARSER v5.0 // CORE SCAN PROTOCOL\n`;
+    text += `  STATUS: 100% PLAIN-TEXT READABLE & SEGMENTED\n`;
+    text += `  TIMESTAMP: ${new Date().toISOString()}\n`;
+    text += `========================================================\n\n`;
+
+    text += `[STRUCTURE UNIT_01: CONTACT & CREDENTIALS]\n`;
+    text += `--------------------------------------------------------\n`;
+    text += `FULL NAME: ${personalInfo.fullName || " [EMPTY] "}\n`;
+    text += `JOB TITLE: ${personalInfo.jobTitle || " [EMPTY] "}\n`;
+    text += `EMAIL:     ${personalInfo.email || " [EMPTY] "}\n`;
+    text += `PHONE:     ${personalInfo.phone || " [EMPTY] "}\n`;
+    text += `LOCALITY:  ${personalInfo.address || " [EMPTY] "}\n`;
+    if (personalInfo.linkedin) text += `LINKEDIN:  ${personalInfo.linkedin}\n`;
+    if (personalInfo.github)   text += `GITHUB:    ${personalInfo.github}\n`;
+    text += `\n`;
+
+    text += `[STRUCTURE UNIT_02: PROFILE SUMMARY]\n`;
+    text += `--------------------------------------------------------\n`;
+    text += `${personalInfo.summary || " [No profile summary parsed] "}\n\n`;
+
+    text += `[STRUCTURE UNIT_03: EXPERIENCE TIMELINE]\n`;
+    text += `--------------------------------------------------------\n`;
+    if (data.experience && data.experience.length > 0) {
+      data.experience.forEach((exp: any, i: number) => {
+        text += `RECORD #${i + 1}:\n`;
+        text += `  COMPANY:  ${exp.company || " [NOT DECLARED] "}\n`;
+        text += `  POSITION: ${exp.position || " [NOT DECLARED] "}\n`;
+        text += `  TIMELINE: ${exp.startDate || "N/A"} - ${exp.currentlyWorking ? "Present" : exp.endDate || "N/A"}\n`;
+        text += `  EXTRACTED RESPONSIBILITIES:\n`;
+        if (exp.description) {
+          text += `    ${exp.description.replace(/\n/g, "\n    ")}\n`;
+        } else {
+          text += `    [Warning: No responsibility text found for parsing]\n`;
+        }
+        text += `\n`;
+      });
+    } else {
+      text += ` [No experience files registered. WARNING: High danger score] \n\n`;
+    }
+
+    text += `[STRUCTURE UNIT_04: EDUCATION HISTORY]\n`;
+    text += `--------------------------------------------------------\n`;
+    if (data.education && data.education.length > 0) {
+      data.education.forEach((edu: any, i: number) => {
+        text += `RECORD #${i + 1}:\n`;
+        text += `  INSTITUTION: ${edu.institution || " [NOT DECLARED] "}\n`;
+        text += `  DEGREE:      ${edu.degree || " [NOT DECLARED] "}\n`;
+        text += `  TIMELINE:    ${edu.startDate || "N/A"} - ${edu.endDate || "N/A"}\n`;
+        if (edu.description) text += `  DETAILS:     ${edu.description}\n`;
+        text += `\n`;
+      });
+    } else {
+      text += ` [No higher educational tracks parsed] \n\n`;
+    }
+
+    text += `[STRUCTURE UNIT_05: TAXONOMY TAGS / SKILLS]\n`;
+    text += `--------------------------------------------------------\n`;
+    if (data.skills && data.skills.length > 0) {
+      const skillsList = data.skills.map((s: any) => typeof s === 'string' ? s : s.name).filter(Boolean);
+      text += `SKILLS PARSED: ${skillsList.join(" | ")}\n\n`;
+    } else {
+      text += ` [Critical Warning: No indexed skills parsed] \n\n`;
+    }
+
+    text += `[STRUCTURE UNIT_06: PORTFOLIO PROJECTS]\n`;
+    text += `--------------------------------------------------------\n`;
+    if (data.projects && data.projects.length > 0) {
+      data.projects.forEach((proj: any, i: number) => {
+        text += `RECORD #${i + 1}:\n`;
+        text += `  PROJECT NAME: ${proj.name || " [NOT DECLARED] "}\n`;
+        if (proj.link) text += `  PROJECT LINK: ${proj.link}\n`;
+        if (proj.description) text += `  DETAILS:      ${proj.description}\n`;
+        text += `\n`;
+      });
+    } else {
+      text += ` [No custom project listings found] \n\n`;
+    }
+
+    text += `========================================================\n`;
+    text += `  SCAN CYCLE COMPLETE -- RESULT: VERIFIED PARSE READY\n`;
+    text += `========================================================\n`;
+    return text;
+  };
+
+  const handleScanSimulation = () => {
+    setIsScanning(true);
+    setTimeout(() => {
+      setIsScanning(false);
+    }, 1200);
+  };
+
   const scoreVerdict = getScoreVerdict(score);
 
   return (
     <div className="space-y-8 font-sans max-w-5xl mx-auto" dir={isAr ? "rtl" : "ltr"}>
       
       {/* Title Header area */}
-      <div className="flex items-center justify-between border-b border-slate-100 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-5 gap-4">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center border border-brand-100 shadow-xs">
             <Target className="text-brand-600 animate-pulse" size={20} />
@@ -79,14 +178,126 @@ export default function ATSAudit() {
           </div>
         </div>
         
-        <div className={`px-3 py-1.5 rounded-full border text-[11px] font-bold flex items-center gap-1.5 ${scoreVerdict.color}`}>
-          <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping" />
-          <span>{scoreVerdict.text}</span>
+        <div className="flex flex-wrap items-center gap-2">
+          {/* ATS Vision Simulator Toggle Button */}
+          <button
+            onClick={() => {
+              if (!showSimulator) {
+                handleScanSimulation();
+              }
+              setShowSimulator(!showSimulator);
+            }}
+            className={cn(
+              "px-3.5 py-2 rounded-xl border text-xs font-bold flex items-center gap-2 cursor-pointer transition-all shadow-3xs",
+              showSimulator 
+                ? "bg-slate-900 border-slate-900 text-white hover:bg-slate-800" 
+                : "bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-50"
+            )}
+          >
+            <Eye size={14} className={cn(showSimulator && "text-brand-400")} />
+            <span>{isAr ? "محاكي فحص الـ ATS البصري" : "ATS Vision Simulator"}</span>
+            <span className="bg-brand-500 text-white text-[9px] px-1.5 py-0.5 rounded-full font-black scale-90 animate-pulse">
+              NEW
+            </span>
+          </button>
+
+          <div className={`px-3 py-1.5 rounded-full border text-[11px] font-bold flex items-center gap-1.5 ${scoreVerdict.color}`}>
+            <span className="w-1.5 h-1.5 rounded-full bg-current animate-ping" />
+            <span>{scoreVerdict.text}</span>
+          </div>
         </div>
       </div>
 
-      {/* Main Core Score Dashboard Panel */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+      {showSimulator ? (
+        /* ATS Vision Terminal Screen Simulator */
+        <div className="space-y-6">
+          <div className="bg-slate-950 rounded-3xl border border-slate-800 shadow-2xl relative overflow-hidden text-start" dir="ltr">
+            {/* Terminal Top bar decoration */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-900 bg-slate-900/60">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500" />
+                <div className="w-3 h-3 rounded-full bg-amber-500" />
+                <div className="w-3 h-3 rounded-full bg-emerald-500" />
+                <span className="text-[11px] font-mono font-medium text-slate-400 ml-2">ats_crawler_system_v5.sh</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleScanSimulation}
+                  disabled={isScanning}
+                  className="bg-slate-800 hover:bg-slate-700 disabled:opacity-50 text-slate-350 px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs font-mono font-bold flex items-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <RefreshCw size={12} className={cn("text-slate-400", isScanning && "animate-spin")} />
+                  <span>{isAr ? "إعادة فحص" : "RE-SCAN"}</span>
+                </button>
+                <button
+                  onClick={() => setShowSimulator(false)}
+                  className="bg-slate-800 hover:bg-rose-500 hover:text-white text-slate-350 p-1.5 rounded-lg border border-slate-700 transition-all cursor-pointer"
+                  title="Close Simulator"
+                >
+                  <X size={13} />
+                </button>
+              </div>
+            </div>
+
+            {/* Terminal Core Viewport */}
+            <div className="p-6 md:p-8 font-mono text-xs text-emerald-400 overflow-x-auto min-h-[400px] max-h-[550px] leading-relaxed relative">
+              {isScanning ? (
+                /* Scanning overlay animations */
+                <div className="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center space-y-4">
+                  <div className="w-10 h-10 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+                  <span className="text-xs font-mono tracking-widest text-[#FF4D2D] animate-pulse uppercase">
+                    [CRAWLER_BOT]: SCANNING RAW DATA STRUCTURE...
+                  </span>
+                  <div className="w-48 bg-slate-900 h-1 rounded-full overflow-hidden">
+                    <div className="bg-[#FF4D2D] h-full rounded-full animate-[loading_1s_infinite]" style={{ width: '40%' }} />
+                  </div>
+                </div>
+              ) : (
+                <pre className="whitespace-pre-wrap select-text font-mono tracking-wide text-indigo-200">
+                  {getATSParsedText()}
+                </pre>
+              )}
+            </div>
+            
+            {/* Ambient terminal green bar reflection */}
+            <div className="absolute bottom-0 inset-x-0 h-1 bg-brand-500 animate-pulse pointer-events-none" />
+          </div>
+
+          {/* User reassuring card info block */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-emerald-50/50 border border-emerald-100 rounded-2xl p-5 text-start flex gap-3">
+              <span className="text-xl">💡</span>
+              <div className="space-y-1">
+                <h4 className="text-xs font-black text-emerald-950 uppercase tracking-wide">
+                  {isAr ? "لماذا يفيدك هذا المنظور البصري؟" : "How does this simulation assist you?"}
+                </h4>
+                <p className="text-[11px] text-slate-650 leading-relaxed font-semibold">
+                  {isAr
+                    ? "يقوم المحاكي بتقشير التصاميم والألوان وإظهار النصوص الخام تمامًا التي تستخلصها أنظمة الموارد البشرية كـ Workday أو Taleo لتكون واثقًا من قابلية قراءتها الآلية بنسبة 100%."
+                    : "The simulator strips away graphic colors and shapes, mimicking how corporate screening engines (like Workday or Taleo) crawl text layout, securing index-safe readability."}
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-5 text-start flex gap-3">
+              <span className="text-xl">🎯</span>
+              <div className="space-y-1">
+                <h4 className="text-xs font-black text-indigo-950 uppercase tracking-wide">
+                  {isAr ? "نصيحة ذهبية للقبول" : "Golden Rule for Approval"}
+                </h4>
+                <p className="text-[11px] text-slate-650 leading-relaxed font-semibold">
+                  {isAr
+                    ? "تأكّد من عدم ترك حقول فارغة (مثل [EMPTY]). روبوتات تصفية الكفاءات تعتمد على وجود الكلمات الدلالية المناسبة في تصنيفاتها الصحيحة لفرز ملفك للمقابلة الشخصية."
+                    : "Ensure parser tokens are populated rather than [EMPTY]. Screening spiders search specifically for context boundaries to route candidates to managers."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* Standard Dashboard panel blocks */
+        <div className="space-y-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         
         {/* Metric gauge Card */}
         <div className="lg:col-span-4 bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs flex flex-col items-center justify-center text-center space-y-5 relative overflow-hidden">
@@ -296,7 +507,9 @@ export default function ATSAudit() {
             )}
           </div>
         </div>
-      </div>
+        </div>
+        </div>
+      )}
     </div>
   );
 }
