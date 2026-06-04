@@ -287,7 +287,7 @@ function VerticalStepper({
                 className={cn(
                   "flex-1 flex items-center justify-between text-start p-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden",
                   isActive
-                    ? "bg-white border-slate-300 shadow-[0_4px_12px_rgba(15,23,42,0.04)] ring-1 ring-slate-100/50"
+                    ? "bg-white border-slate-200/70 shadow-2xs"
                     : "bg-transparent border-transparent hover:bg-neutral-100/70"
                 )}
               >

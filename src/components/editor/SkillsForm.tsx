@@ -60,7 +60,7 @@ const SkillsForm = () => {
             <div className="flex items-center gap-2">
               <label
                 htmlFor="skillInput"
-                className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+                className="text-[11px] font-semibold text-slate-500 block mb-1"
               >
                 {String(t.skills?.title || "")}
               </label>
@@ -116,7 +116,7 @@ const SkillsForm = () => {
               id="skillInput"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="flex-1 px-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="flex-1 px-3 py-2.5 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white hover:border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all text-slate-900 placeholder-slate-400 font-medium"
               placeholder={String(t.skills?.placeholder || "")}
             />
             <button
@@ -187,7 +187,7 @@ const SkillsForm = () => {
         </form>
 
         <div className="mb-6">
-          <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wider block mb-4">
+          <h3 className="text-[11px] font-semibold text-slate-500 block mb-1 mb-4">
             {String(t.skills?.yourSkills || "Your Skills")}
           </h3>
           {skills.length === 0 ? (
@@ -242,7 +242,7 @@ const SkillsForm = () => {
 
         {unaddedSuggestions.length > 0 && (
           <div>
-            <h3 className="text-xs font-semibold text-slate-700 uppercase tracking-wider block mb-4 flex items-center gap-2">
+            <h3 className="text-[11px] font-semibold text-slate-500 block mb-1 mb-4 flex items-center gap-2">
               <Sparkles size={14} className="text-brand-500" />
               {String(t.skills?.aiSuggestionsFree || "")}
             </h3>

@@ -110,7 +110,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="fullName"
-            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+            className="text-[11px] font-semibold text-slate-500 block mb-1"
           >
             {t.fullName} <span className="text-rose-500">*</span>
           </label>
@@ -127,7 +127,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
+              className={`block w-full ps-9 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.fullName
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -148,7 +148,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="jobTitle"
-            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+            className="text-[11px] font-semibold text-slate-500 block mb-1"
           >
             {t.jobTitle} <span className="text-rose-500">*</span>
           </label>
@@ -165,7 +165,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
+              className={`block w-full ps-9 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.jobTitle
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -184,7 +184,7 @@ const PersonalInfoForm = () => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="email" className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+          <label htmlFor="email" className="text-[11px] font-semibold text-slate-500 block mb-1">
             {t.email} <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
@@ -200,7 +200,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-10 pe-4 py-3 border rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium ${
+              className={`block w-full ps-9 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.email
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -219,7 +219,7 @@ const PersonalInfoForm = () => {
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="phone" className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+          <label htmlFor="phone" className="text-[11px] font-semibold text-slate-500 block mb-1">
             {t.phone}
           </label>
           <div className="relative">
@@ -241,7 +241,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="address"
-            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+            className="text-[11px] font-semibold text-slate-500 block mb-1"
           >
             {t.address}
           </label>
@@ -264,7 +264,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="linkedin"
-            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+            className="text-[11px] font-semibold text-slate-500 block mb-1"
           >
             {t.linkedin}
           </label>
@@ -287,7 +287,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="github"
-            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+            className="text-[11px] font-semibold text-slate-500 block mb-1"
           >
             {t.github}
           </label>
@@ -310,7 +310,7 @@ const PersonalInfoForm = () => {
         <div className="space-y-2">
           <label
             htmlFor="portfolio"
-            className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+            className="text-[11px] font-semibold text-slate-500 block mb-1"
           >
             {t.website}
           </label>
@@ -483,7 +483,7 @@ const PersonalInfoForm = () => {
             <div className="flex items-center gap-2">
               <label
                 htmlFor="summary"
-                className="text-xs font-semibold text-slate-700 uppercase tracking-wider block"
+                className="text-[11px] font-semibold text-slate-500 block mb-1"
               >
                 {t.summary}
               </label>
