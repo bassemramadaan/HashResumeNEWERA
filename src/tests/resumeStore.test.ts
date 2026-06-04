@@ -38,10 +38,10 @@ describe("Resume Store", () => {
   });
 
   it("should reorder sections", () => {
-    const { reorderSections } = useResumeStore.getState();
+    const { setSettings } = useResumeStore.getState();
     const newOrder: string[] = ["experience", "summary", "education"];
 
-    reorderSections(newOrder);
+    setSettings({ sectionOrder: newOrder });
 
     expect(useResumeStore.getState().data.settings.sectionOrder).toEqual(
       newOrder,

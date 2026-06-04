@@ -1,48 +1,44 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { StorageService } from "../services/storage.service";
+import { ResumeData } from "../schemas/resume.schema";
 
 describe("StorageService", () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
-  it("should save and load resume data", () => {
-    const resumeData = {
-      personalInfo: {
-        fullName: "Jane Doe",
-        email: "jane@example.com",
-      },
+  const validResumeData: ResumeData = {
+    personalInfo: {
+      fullName: "Jane Doe",
+      jobTitle: "Software Engineer",
+      email: "jane@example.com",
+      phone: "+1234567890",
       summary: "A summary",
-      experience: [],
-      education: [],
-      skills: [],
-      languages: [],
-      certifications: [],
-      projects: [],
-    };
+    },
+    coverLetter: {},
+    experience: [],
+    education: [],
+    skills: [],
+    projects: [],
+    certifications: [],
+    customSections: [],
+    settings: {
+      template: "modern",
+      language: "en",
+      fontSize: "medium",
+      colorScheme: "#475569",
+    },
+  };
 
-    StorageService.saveResume(resumeData);
+  it("should save and load resume data", () => {
+    StorageService.saveResume(validResumeData);
     const loadedData = StorageService.loadResume();
 
-    expect(loadedData).toEqual(resumeData);
+    expect(loadedData).toEqual(validResumeData);
   });
 
   it("should clear resume data", () => {
-    const resumeData = {
-      personalInfo: {
-        fullName: "Jane Doe",
-        email: "jane@example.com",
-      },
-      summary: "A summary",
-      experience: [],
-      education: [],
-      skills: [],
-      languages: [],
-      certifications: [],
-      projects: [],
-    };
-
-    StorageService.saveResume(resumeData);
+    StorageService.saveResume(validResumeData);
     StorageService.clearResume();
     const loadedData = StorageService.loadResume();
 
