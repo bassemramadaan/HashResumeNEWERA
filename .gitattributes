@@ -1,2 +1,0 @@
-# Prevent local vercel.json from overriding remote during merge
-vercel.json merge=ours

@@ -91,7 +91,6 @@ export const translations = {
       step3Desc:
         "Only pay a small one-time fee when you are 100% satisfied and ready to download your professional PDF.",
       statsText: "1,200+ users joined this month",
-      reviews: "Trusted by professionals",
       quantifiableMetrics: "Add more quantifiable metrics to your experience descriptions.",
       missingLinkedin: "Missing LinkedIn profile URL.",
       newHashHunt: "New: Hash Hunt",
@@ -111,7 +110,6 @@ export const translations = {
       interviewRequestDesc: "TechCorp loved your profile and wants to chat.",
       month: "month",
       download: "download",
-      trustedBy: "Trusted by professionals from",
       interviewIncrease: "85% increase in interview callbacks",
       timeSaved: "Save 4+ hours per resume",
       atsPassRate: "98% ATS pass rate",
@@ -770,7 +768,6 @@ export const translations = {
       step3Desc:
         "ادفع مبلغاً رمزياً ولمرة واحدة فقط عندما تكون راضياً تماماً ومستعداً للتحميل.",
       statsText: "أكثر من 1,200 مستخدم انضموا هذا الشهر",
-      reviews: "موثوق من المحترفين",
       quantifiableMetrics: "أضف المزيد من المقاييس القابلة للقياس إلى أوصاف خبرتك.",
       missingLinkedin: "رابط ملف LinkedIn الشخصي مفقود.",
       newHashHunt: "جديد: Hash Hunt",
@@ -790,7 +787,6 @@ export const translations = {
       interviewRequestDesc: "أعجبت شركة TechCorp بملفك الشخصي وتريد الدردشة معك.",
       month: "شهر",
       download: "تحميل",
-      trustedBy: "موثوق به من قبل محترفين في",
       interviewIncrease: "زيادة بنسبة 85% في الرد على طلبات المقابلة",
       timeSaved: "وفر أكثر من 4 ساعات لكل سيرة ذاتية",
       atsPassRate: "نسبة نجاح 98% في أنظمة الـ ATS",

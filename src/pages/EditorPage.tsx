@@ -2092,33 +2092,6 @@ export default function EditorPage() {
           )}
         </AnimatePresence>
 
-        {/* Floating Keyboard Shortcuts Hint Button */}
-        <div className="fixed bottom-6 start-6 z-[120] select-none pointer-events-auto hidden md:block">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            whileHover={{ scale: 1.05 }}
-            className="flex items-center gap-2 bg-slate-900 border border-slate-800 text-white rounded-full p-2 py-3 px-4 shadow-2xl hover:bg-slate-950 transition-all cursor-pointer group"
-            onClick={() => setShowKeyboardShortcuts(true)}
-            title={language === "ar" ? "اختصارات الكيبورد (Ctrl+Z)" : "Keyboard Shortcuts (Ctrl+Z)"}
-          >
-            <div className="relative flex items-center justify-center">
-              <span className="absolute inline-flex h-2.5 w-2.5 rounded-full bg-[#FF4D2D] opacity-75 animate-ping" />
-              <kbd className="relative inline-flex items-center gap-1 text-[10px] font-black font-mono bg-slate-800 border-b border-slate-700 px-1.5 py-0.5 rounded leading-none text-slate-350">
-                Ctrl
-              </kbd>
-            </div>
-            <span className="text-slate-600 font-mono text-[9px]">+</span>
-            <kbd className="inline-flex items-center gap-1 text-[10px] font-black font-mono bg-slate-800 border-b border-slate-700 px-1.5 py-0.5 rounded leading-none text-slate-350">
-              Z
-            </kbd>
-            <div className="w-[1px] h-3 bg-slate-800 mx-1" />
-            <span className="text-[11px] font-black text-slate-200 group-hover:text-white flex items-center gap-1.5">
-              <span>⌨️</span>
-              <span>{language === "ar" ? "الاختصارات السريعة" : language === "fr" ? "Raccourcis" : "Keyboard Shortcuts"}</span>
-            </span>
-          </motion.div>
-        </div>
 
     </div>
   );
