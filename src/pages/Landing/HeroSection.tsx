@@ -186,71 +186,116 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
         }}
       />
 
-      <div className="relative container-page z-10">
+      <div className="relative container-page z-10-landing-hero">
         <motion.div
           variants={container}
           initial="hidden"
           animate="show"
-          className="flex flex-col items-center text-center max-w-4xl mx-auto"
+          className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center max-w-6xl mx-auto mb-16"
         >
-
-          <motion.h1
-            variants={item}
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-[5rem] font-black text-slate-900 leading-[1.1] mb-6 tracking-tight drop-shadow-sm"
-          >
-            {copy.title1}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-400 inline-block transform-gpu">
-              {copy.titleAccent}
-            </span>
-            <br />
-            <span className="text-slate-500 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.2] mt-2 block transform-gpu">{copy.title2}</span>
-          </motion.h1>
-
-
-
-          <motion.p
-            variants={item}
-            className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed whitespace-pre-line font-medium transform-gpu"
-          >
-            {copy.subtitle}
-          </motion.p>
-
-          <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center transform-gpu">
-            <button
-              onClick={() => {
-                trackEvent('resume_started', { source: 'hero_cta' });
-                onStart();
-              }}
-              className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white shadow-xl shadow-orange-500/20 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
-              aria-label={copy.cta}
+          {/* Left Column (or Right in RTL): Text description and Action buttons */}
+          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-start rtl:lg:items-end rtl:lg:text-end">
+            <motion.h1
+              variants={item}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-black text-slate-800 leading-[1.1] mb-6 tracking-tight drop-shadow-sm font-sans"
             >
-              <Sparkles className="w-5 h-5 animate-pulse" />
-              {copy.cta}
-            </button>
-
-            <button
-              onClick={() => navigate('/templates')}
-              className="bg-white border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 active:scale-95 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
-            >
-              <LayoutTemplate className="w-5 h-5 text-slate-500" />
-              {copy.ctaSec}
-              <ArrowLeft className="w-5 h-5 text-slate-405 rtl:rotate-180" />
-            </button>
-          </motion.div>
-
-          <motion.div
-            variants={item}
-            className="flex flex-wrap justify-center gap-x-8 gap-y-4 mt-12 transform-gpu"
-          >
-            {copy.trust.map((t) => (
-              <span key={t} className="flex items-center gap-2 text-sm md:text-base font-semibold text-slate-500">
-                <div className="bg-emerald-100 rounded-full p-1">
-                  <Check className="w-3 h-3 text-emerald-600" />
-                </div>
-                {t}
+              {copy.title1}{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-400 inline-block transform-gpu">
+                {copy.titleAccent}
               </span>
-            ))}
-          </motion.div>
+              <br />
+              <span className="text-slate-500 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.2] mt-2 block transform-gpu">
+                {copy.title2}
+              </span>
+            </motion.h1>
+
+            <motion.p
+              variants={item}
+              className="text-base md:text-lg text-slate-500 max-w-2xl mb-10 leading-relaxed whitespace-pre-line font-medium transform-gpu"
+            >
+              {copy.subtitle}
+            </motion.p>
+
+            <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center lg:justify-start transform-gpu">
+              <button
+                onClick={() => {
+                  trackEvent('resume_started', { source: 'hero_cta' });
+                  onStart();
+                }}
+                className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white shadow-xl shadow-orange-500/20 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
+                aria-label={copy.cta}
+              >
+                <Sparkles className="w-5 h-5 animate-pulse" />
+                {copy.cta}
+              </button>
+
+              <button
+                onClick={() => navigate('/templates')}
+                className="bg-white border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 active:scale-95 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
+              >
+                <LayoutTemplate className="w-5 h-5 text-slate-500" />
+                {copy.ctaSec}
+                <ArrowLeft className="w-5 h-5 text-slate-405 rtl:rotate-180" />
+              </button>
+            </motion.div>
+
+            <motion.div
+              variants={item}
+              className="flex flex-wrap justify-center lg:justify-start gap-x-6 gap-y-3 mt-10 transform-gpu"
+            >
+              {copy.trust.map((t) => (
+                <span key={t} className="flex items-center gap-2 text-xs md:text-sm font-semibold text-slate-500">
+                  <div className="bg-emerald-100 rounded-full p-1">
+                    <Check className="w-3 h-3 text-emerald-600" />
+                  </div>
+                  {t}
+                </span>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Right Column: Premium AI Resume Illustration */}
+          <div className="lg:col-span-5 flex justify-center w-full">
+            <motion.div
+              variants={item}
+              className="relative select-none w-full max-w-[420px]"
+            >
+              {/* Backglow element */}
+              <div className="absolute -inset-2 rounded-[2.5rem] bg-gradient-to-tr from-[#FF4D2D]/15 to-orange-400/15 opacity-70 blur-2xl animate-pulse pointer-events-none" />
+              
+              {/* Main Card Container with hover zoom details */}
+              <div className="relative rounded-[2rem] border border-slate-200 bg-white/90 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.06)] backdrop-blur-md overflow-hidden group transition-all duration-300 hover:shadow-[0_30px_60px_rgba(0,0,0,0.12)] hover:border-orange-200">
+                {/* Floating shiny line accent */}
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#FF4D2D]/20 to-transparent" />
+                
+                {/* Image */}
+                <img
+                  src="/src/assets/images/ai_resume_illustration_1780566828156.png"
+                  alt="AI Resume Builder Illustration"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-auto object-cover rounded-2xl transform group-hover:scale-[1.03] transition-transform duration-700 ease-out pointer-events-none"
+                />
+
+                {/* Micro interactivity overlay */}
+                <div className="absolute top-8 left-8 bg-white/95 border border-slate-100 shadow-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5 text-[10px] font-black text-slate-800 animate-bounce">
+                  <Sparkles className="w-3.5 h-3.5 text-[#FF4D2D]" />
+                  <span>{lang === 'ar' ? 'سيرة ذاتية متطورة' : lang === 'fr' ? 'CV Nouvelle Génération' : 'Next-Gen Resume'}</span>
+                </div>
+
+                <div 
+                  className="absolute bottom-10 right-8 bg-white/95 border border-slate-100 shadow-xl p-3 rounded-2xl flex items-center gap-3 transform rotate-3 hover:rotate-0 transition-transform duration-300"
+                >
+                  <div className="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
+                    <Check className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <div className="text-start">
+                    <div className="text-[9px] text-slate-400 font-extrabold tracking-wider uppercase">ATS SCORE</div>
+                    <div className="text-xs font-black text-emerald-800 animate-pulse">98/100</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
 
         <motion.div

@@ -297,40 +297,90 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                onDragEnter={handleDrag}
-                onDragOver={handleDrag}
-                onDragLeave={handleDrag}
-                onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-                className={`border-2 border-dashed rounded-2xl p-10 md:p-16 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 ${
-                  dragActive 
-                    ? "border-indigo-600 bg-indigo-50/50 scale-[1.01]" 
-                    : "border-slate-200 hover:border-indigo-500 hover:bg-slate-50/50"
-                }`}
+                className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
               >
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  accept="application/pdf"
-                  className="hidden"
-                />
-                
-                <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm">
-                  <Upload size={28} className="animate-pulse" />
+                {/* Drag and Drop Zone */}
+                <div
+                  onDragEnter={handleDrag}
+                  onDragOver={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`border-2 border-dashed rounded-2xl p-6 md:p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 min-h-[290px] ${
+                    dragActive 
+                      ? "border-indigo-600 bg-indigo-50/50 scale-[1.01]" 
+                      : "border-slate-200 hover:border-indigo-500 hover:bg-slate-50/50"
+                  }`}
+                >
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    accept="application/pdf"
+                    className="hidden"
+                  />
+                  
+                  <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm animate-pulse">
+                    <Upload size={24} />
+                  </div>
+                  
+                  <h3 className="text-base font-black text-slate-800 leading-tight">
+                    {isAr ? "اسحب وأفلت سيرتك المكتوبة سابقا هنا" : "Drag & Drop Your Existing PDF Resume Here"}
+                  </h3>
+                  <p className="text-slate-400 text-xs mt-1.5 max-w-xs mx-auto leading-relaxed">
+                    {isAr 
+                      ? "أو اضغط لتصفح ملفات جهازك (يدعم صيغة PDF فقط)" 
+                      : "Or click to browse your system files (supports PDF only)"}
+                  </p>
+                  <div className="mt-4 flex items-center gap-1.5 text-[10px] text-indigo-600 font-bold bg-indigo-50 border border-indigo-100/40 px-3 py-1 rounded-full">
+                    <Sparkles size={11} />
+                    <span>{isAr ? "تشفير سحابي آمن وحماية قصوى للبيانات" : "100% Secure & Encrypted Parsing"}</span>
+                  </div>
                 </div>
-                
-                <h3 className="text-lg font-black text-slate-800">
-                  {isAr ? "اسحب وأفلت ملف سيرتك الذاتية هنا" : "Drag & Drop Your Resume PDF Here"}
-                </h3>
-                <p className="text-slate-400 text-xs sm:text-sm mt-1 max-w-xs mx-auto leading-relaxed">
-                  {isAr 
-                    ? "أو اضغط لتصفح ملفات جهازك (يدعم صيغة PDF فقط)" 
-                    : "Or click to browse your system files (PDF format only)"}
-                </p>
-                <div className="mt-4 flex items-center gap-1.5 text-[10px] text-indigo-600 font-bold bg-indigo-50 border border-indigo-100/40 px-3 py-1 rounded-full">
-                  <Sparkles size={11} />
-                  <span>{isAr ? "تشفير سحابي آمن متكامل" : "100% Encrypted & Secure Scan"}</span>
+
+                {/* Educational/Visual panel on ATS scoring */}
+                <div className="space-y-4 text-start">
+                  <div className="relative rounded-2xl overflow-hidden border border-slate-200/60 p-4 bg-slate-50/60 shadow-3xs flex justify-center">
+                    <div className="absolute -inset-1 bg-gradient-to-tr from-indigo-500/5 to-purple-500/5 opacity-50 blur-lg pointer-events-none" />
+                    <img
+                      src="/src/assets/images/ats_success_illustration_1780566851774.png"
+                      alt="ATS Compliance Check"
+                      referrerPolicy="no-referrer"
+                      className="max-h-[140px] md:max-h-[160px] w-auto object-contain transform hover:scale-105 transition-transform duration-500 pointer-events-none"
+                    />
+                  </div>
+
+                  <div className="space-y-2.5">
+                    <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider">
+                      {isAr ? "ماذا يفحص نظام تقدير الملاءمة المباشر؟" : "What does the instant scanner audit?"}
+                    </h4>
+                    <ul className="space-y-2 text-[11px] sm:text-xs text-slate-500 font-medium leading-relaxed">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 shrink-0" />
+                        <span>
+                          {isAr 
+                            ? "رصد الأقسام وتوزيع الفواصل والخبرات في مستند الـ PDF المستورد للتأكد من سهولة القراءة الآلية." 
+                            : "Identifies standard section headers, structural flow and timeline intervals."}
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 shrink-0" />
+                        <span>
+                          {isAr 
+                            ? "تحليل كثافة الكلمات الدلالية ومطابقة مهاراتك مع متطلبات التوظيف المعيارية." 
+                            : "Measures keyword density, tech stack alignment and metrics integration."}
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 shrink-0" />
+                        <span>
+                          {isAr 
+                            ? "رصد الأخطاء التنسيقية وتجنب تداخل النصوص والعواميد المعقدة." 
+                            : "Detects parsing obstacles like complex table grids or non-standard fonts."}
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </motion.div>
             )}
