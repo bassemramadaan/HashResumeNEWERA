@@ -26,10 +26,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "HTML content is required" });
     }
 
-    // Launch puppeteer (note: package sizes and libraries on standard Vercel may need external services or configuration)
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
+    // Launch puppeteer with a timeout so it doesn't hang in headless-unsupported environments like standard Vercel serverless functions
+    let browser;
+    try {
+      browser = await Promise.race([
+        puppeteer.launch({
+          args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu']
+        }),
+        new Promise<never>((_, reject) => 
+          setTimeout(() => reject(new Error("Timeout launching Chrome browser")), 3500)
+        )
+      ]);
+    } catch (launchError: any) {
+      console.warn("[Vercel PDF Generator] Browser launch failed or timed out:", launchError.message || launchError);
+      return res.status(503).json({
+        error: "Server-side PDF renderer is not available. Please use client-side download.",
+        fallback: true
+      });
+    }
     const page = await browser.newPage();
     
     const fullHtml = `
