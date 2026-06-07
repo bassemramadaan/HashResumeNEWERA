@@ -9,8 +9,7 @@
 Hash Resume is a cutting-edge, AI-powered resume builder designed to help job seekers create professional, ATS-friendly resumes and cover letters in minutes. It features real-time editing, AI-driven content generation (powered by Google Gemini), ATS scoring, and high-quality PDF/Word exports.
 
 ### 📸 Screenshots
-- **Editor View:** 
-  <img src="https://images.unsplash.com/photo-1626262483832-68da98af342b?w=800&auto=format&fit=crop" width="600" alt="Editor View showing real-time updates" />
+time updates" />
 - **Templates:** 
   <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop" width="600" alt="Hash Resume Templates Gallery" />
 - **ATS Scoring:** 
