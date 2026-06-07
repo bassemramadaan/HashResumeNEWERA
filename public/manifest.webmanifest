@@ -1,0 +1,16 @@
+{
+  "name": "Hash Resume",
+  "short_name": "HashResume",
+  "description": "Create a professional, ATS-friendly resume in 5 minutes with AI. Supports English, Arabic, and French.",
+  "theme_color": "#FF4D2D",
+  "background_color": "#001639",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
