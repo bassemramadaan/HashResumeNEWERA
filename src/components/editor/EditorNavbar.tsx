@@ -53,7 +53,7 @@ const LANGS = [
 ];
 
 // ── NavBtn Sub-component ──────────────────────────────
-function NavBtn({ onClick, children, title, active = false }: any) {
+function NavBtn({ onClick, children, title, active = false }: unknown) {
   return (
     <motion.button
       whileHover={{ scale: 1.03 }}
@@ -170,7 +170,7 @@ function LangSwitcher({ lang, onChange }: { lang: AppLang, onChange: (lang: AppL
 }
 
 // ── ExportButton ──────────────────────────────────────────
-function ExportButton({ lang, onPDF, onWord, variant = "default", isReady = false }: any) {
+function ExportButton({ lang, onPDF, onWord, variant = "default", isReady = false }: unknown) {
   const [open, setOpen]   = useState(false);
   const ref               = useRef<HTMLDivElement>(null);
   const t                 = T[lang as keyof typeof T] ?? T.en;

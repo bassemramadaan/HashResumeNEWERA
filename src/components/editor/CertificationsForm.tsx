@@ -3,27 +3,12 @@ import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronUp, Copy, Award } from "lucide-react";
-import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
+import { motion, Reorder, AnimatePresence } from "motion/react";
 
 
 
-const CertificationItem = ({ cert, expandedId, toggleExpand, updateCertification, duplicateCertification, removeCertification, t }: any) => {
-  const controls = useDragControls();
-  
-  return (
-    
-            <CertificationItem 
-              key={cert.id}
-              cert={cert}
-              expandedId={expandedId}
-              toggleExpand={toggleExpand}
-              updateCertification={updateCertification}
-              duplicateCertification={duplicateCertification}
-              removeCertification={removeCertification}
-              t={t}
-            />
-  );
-};
+
+
 
 export const CertificationsForm: React.FC = () => {
   const { language } = useLanguageStore();

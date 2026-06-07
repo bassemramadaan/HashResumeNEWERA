@@ -392,52 +392,9 @@ export default function MobileEditorLayout({
                 );
               })}
             </div>
-            <div className="flex-1 overflow-hidden relative pb-[72px]">
+            <div className="flex-1 overflow-hidden relative">
               <div className="h-full w-full overflow-hidden relative">
                 {children}
-              </div>
-
-              {/* Proposal 1: Sticky bar for mobile edit step navigation */}
-              <div className="absolute bottom-0 inset-x-0 h-[60px] bg-white/85 backdrop-blur-md border-t border-slate-200/50 z-30 px-3 flex items-center justify-between gap-3 select-none" style={{ direction: isRtl ? "rtl" : "ltr" }}>
-                {currentIndex > 0 ? (
-                  <button
-                    onClick={() => {
-                      const prevSection = stepIds[currentIndex - 1];
-                      handleSectionChange(prevSection);
-                    }}
-                    className="flex-1 py-2.5 px-3 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 bg-white font-bold text-[11px] transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-3xs"
-                  >
-                    <ChevronLeft size={14} className="rtl:rotate-180" />
-                    {lang === "ar" ? "السابق" : lang === "fr" ? "Précédent" : "Previous"}
-                  </button>
-                ) : (
-                  <div className="flex-1" />
-                )}
-
-                <span className="text-[9px] font-black text-slate-500 select-none shrink-0 bg-slate-50 border border-slate-150 px-2.5 py-1 rounded-full">
-                  {currentIndex + 1} / {stepIds.length}
-                </span>
-
-                {currentIndex < stepIds.length - 1 ? (
-                  <button
-                    onClick={() => {
-                      const nextSection = stepIds[currentIndex + 1];
-                      handleSectionChange(nextSection);
-                    }}
-                    className="flex-1 py-2.5 px-3 rounded-lg bg-slate-900 text-white font-bold text-[11px] hover:bg-black transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-sm shadow-slate-900/10"
-                  >
-                    {lang === "ar" ? "التالي" : lang === "fr" ? "Suivant" : "Next"}
-                    <ChevronRight size={14} className="rtl:rotate-180" />
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => setActiveTab("export")}
-                    className="flex-1 py-2.5 px-3 rounded-lg bg-orange-600 border border-orange-500 text-white font-bold text-[11px] hover:bg-orange-700 transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
-                  >
-                    {lang === "ar" ? "تصدير" : lang === "fr" ? "Exporter" : "Export"}
-                    <Download size={14} />
-                  </button>
-                )}
               </div>
             </div>
           </div>

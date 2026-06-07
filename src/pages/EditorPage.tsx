@@ -1597,8 +1597,50 @@ export default function EditorPage() {
             </div>
           }
         >
-          <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full overflow-y-auto pb-32 relative scrollbar-none editor-form-scrollable">
-            {formContent}
+          <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full overflow-y-auto pb-6 relative scrollbar-none editor-form-scrollable">
+            <div className="min-h-full flex flex-col">
+              <div className="flex-1">
+                {formContent}
+              </div>
+              <div className="mt-8 px-4 py-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                {Object.keys(sidebarCompletionMap).indexOf(activeTab as any) > 0 ? (
+                  <button
+                    onClick={() => {
+                      const allTabs = Object.keys(sidebarCompletionMap);
+                      const currentIndex = allTabs.indexOf(activeTab as any);
+                      setActiveTab(allTabs[currentIndex - 1] as any);
+                    }}
+                    className="flex-1 py-3.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 bg-white font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-1.5 shadow-sm"
+                  >
+                    <ArrowRight size={16} className="rtl:-scale-x-100 ltr:rotate-180" />
+                    {language === "ar" ? "السابق" : language === "fr" ? "Précédent" : "Previous"}
+                  </button>
+                ) : (
+                  <div className="flex-1" />
+                )}
+                {Object.keys(sidebarCompletionMap).indexOf(activeTab as any) < Object.keys(sidebarCompletionMap).length - 1 ? (
+                  <button
+                    onClick={() => {
+                      const allTabs = Object.keys(sidebarCompletionMap);
+                      const currentIndex = allTabs.indexOf(activeTab as any);
+                      setActiveTab(allTabs[currentIndex + 1] as any);
+                    }}
+                    className="flex-1 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-black transition-all active:scale-95 flex items-center justify-center gap-1.5 shadow-sm shadow-slate-900/10"
+                  >
+                    {language === "ar" ? "التالي" : language === "fr" ? "Suivant" : "Next"}
+                    <ArrowRight size={16} className="rtl:-scale-x-100" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleProceedToExport("pdf")}
+                    className="flex-1 py-3.5 px-4 rounded-xl bg-orange-600 border border-orange-500 text-white font-bold text-sm hover:bg-orange-700 transition-all active:scale-95 flex items-center justify-center gap-1.5 shadow-sm"
+                  >
+                    {language === "ar" ? "تصدير" : language === "fr" ? "Exporter" : "Export"}
+                    <ArrowRight size={16} className="rtl:-scale-x-100" />
+                  </button>
+                )}
+              </div>
+            </div>
           </main>
         </MobileEditorLayout>
       ) : (
