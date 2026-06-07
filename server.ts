@@ -130,6 +130,35 @@ async function startServer() {
     }
   });
 
+  // Dedicated Payment Submission Endpoint
+  app.all("/api/payment/submit", async (req, res) => {
+    try {
+      const { reference, senderInfo, email, amount } = req.method === "POST" ? req.body : req.query;
+
+      let scriptUrl = process.env.GOOGLE_SCRIPT_URL || process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
+      if (!scriptUrl || !scriptUrl.includes("AKfycbxEwZA")) {
+        scriptUrl = "https://script.google.com/macros/s/AKfycbxEwZAiv_ja3Tlpno6HWp-OL1ur2WPkRq_9V4BTqquWsfX1gAEacB9vu-iRowF9FxDI-A/exec";
+      }
+
+      const params = new URLSearchParams({
+        action: "submitPayment",
+        reference: (reference || "").toString(),
+        senderInfo: (senderInfo || "").toString(),
+        email: (email || "").toString(),
+        amount: (amount || "50 EGP").toString(),
+      });
+
+      console.log(`[PaymentSubmitProxy] Submitting payment to script: ${scriptUrl}`);
+      const response = await fetch(`${scriptUrl}?${params}`);
+      const data = await response.json();
+
+      res.json(data);
+    } catch (error) {
+      console.error("[PaymentSubmitProxy] Error in payment submission:", error);
+      res.status(500).json({ success: false, message: "HTTP Submission Error" });
+    }
+  });
+
   // Feedback Submission Endpoint
   app.post("/api/feedback/submit", async (req, res) => {
     try {
