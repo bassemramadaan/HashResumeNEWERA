@@ -199,10 +199,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       const result = await response.json();
       if (result.success === true) {
         useResumeStore.getState().unlockPremium();
-        setIsApproved(true);
-        const verifiedCodeList = [code.trim().toUpperCase()];
-        setApprovedCodes(verifiedCodeList);
-        localStorage.setItem("hashresume_approved_codes", JSON.stringify(verifiedCodeList));
+        onSuccess();
       } else {
         setError(result.message || (isAr ? "كود غير صالح أو مستخدم من قبل" : "Invalid or already used code"));
       }
@@ -298,6 +295,17 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
         localStorage.removeItem("pending_payment_ref");
         setPendingRef("");
         useResumeStore.getState().unlockPremium();
+
+        let isBundlePackage = selectedPackage === "bundle";
+        if (result.amount) {
+           isBundlePackage = String(result.amount).includes("120") || String(result.amount).includes("3");
+        }
+
+        if (!isBundlePackage) {
+           onSuccess();
+           return;
+        }
+
         setIsApproved(true);
 
         // Claim codes from Google sheet response, with a smart deterministic fallback so they are NEVER empty
