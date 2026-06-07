@@ -25,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
     let scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
-    if (!scriptUrl || scriptUrl.includes("AKfycbyi0Uq")) {
+    if (!scriptUrl || !scriptUrl.includes("AKfycbxEwZA")) {
       scriptUrl = "https://script.google.com/macros/s/AKfycbxEwZAiv_ja3Tlpno6HWp-OL1ur2WPkRq_9V4BTqquWsfX1gAEacB9vu-iRowF9FxDI-A/exec";
     }
     if (!scriptUrl) {
