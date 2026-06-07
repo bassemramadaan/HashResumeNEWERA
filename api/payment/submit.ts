@@ -12,10 +12,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ? req.body 
       : req.query;
 
-    let scriptUrl = process.env.GOOGLE_SCRIPT_URL || process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
-    if (!scriptUrl || !scriptUrl.includes("AKfycbxEwZA")) {
-      scriptUrl = "https://script.google.com/macros/s/AKfycbxEwZAiv_ja3Tlpno6HWp-OL1ur2WPkRq_9V4BTqquWsfX1gAEacB9vu-iRowF9FxDI-A/exec";
-    }
+    const scriptUrl = process.env.GOOGLE_SCRIPT_URL 
+      || 'https://script.google.com/macros/s/AKfycbxEwZAiv_ja3Tlpno6HWp-OL1ur2WPkRq_9V4BTqquWsfX1gAEacB9vu-iRowF9FxDI-A/exec';
 
     if (!scriptUrl) {
       return res.status(500).json({ success: false, message: 'Payment service not configured' });
