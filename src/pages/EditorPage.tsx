@@ -890,6 +890,51 @@ export default function EditorPage() {
 
   const formContent = (
     <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32 relative">
+      {/* Dynamic Persistent Resume Completion Progress Bar */}
+      <div className="mb-6 bg-slate-900 border border-slate-800 text-white rounded-[2rem] p-4.5 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.15)] relative overflow-hidden group select-none">
+        <div className="absolute inset-0 bg-radial-gradient(circle at top right, rgba(255, 77, 45, 0.1), transparent 70%) pointer-events-none" />
+        
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 z-10 relative">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-[#FF4D2D]/15 flex items-center justify-center border border-[#FF4D2D]/30 shrink-0">
+              <Sparkles className="w-5 h-5 text-[#FF4D2D] animate-pulse" />
+            </div>
+            <div>
+              <h4 className="text-sm font-black text-slate-100 leading-tight">
+                {language === "ar" ? (
+                  <>سيرتك مكتملة <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> — أكمل عشان تـ download 🔥</>
+                ) : language === "fr" ? (
+                  <>Votre CV est complété à <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> — complétez pour télécharger 🚀</>
+                ) : (
+                  <>Your resume is <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> complete — finish to download 🚀</>
+                )}
+              </h4>
+              <p className="text-[10px] text-slate-400 font-bold mt-0.5">
+                {language === "ar" 
+                  ? "املأ المزيد من حقول الخبرات المهنية والتعليم والمهارات لرفع النسبة لتتخطى الـ ATS وتزيل العلامة المائية!"
+                  : "Fill in more experience, education and skills to bypass recruiter filters and remove watermarks!"}
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex-1 max-w-xs w-full">
+            <div className="flex justify-between items-center mb-1.5 text-[10px] text-slate-400 font-extrabold">
+              <span>{language === "ar" ? "نسبة الاكتمال" : "Completion Progress"}</span>
+              <span>{atsScore}%</span>
+            </div>
+            <div className="h-2.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50 p-[1px]">
+              <motion.div 
+                className="h-full rounded-full bg-gradient-to-r from-orange-500 to-[#FF4D2D] relative"
+                initial={{ width: 0 }}
+                animate={{ width: `${atsScore}%` }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
+                <div className="absolute inset-x-0 top-0 h-[1px] bg-white/20" />
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </div>
       {data.isLocked && (
         <div className="absolute inset-0 z-[100] bg-white/70 backdrop-blur-md flex items-center justify-center rounded-[2rem] mx-[-1rem] px-4" style={{ height: 'max-content', minHeight: '100%' }}>
           <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] max-w-md w-full text-center border border-slate-200 relative overflow-hidden mt-20">

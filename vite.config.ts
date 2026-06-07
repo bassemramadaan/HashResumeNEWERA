@@ -12,10 +12,12 @@ export default defineConfig(({ mode }) => {
       VitePWA({
         registerType: 'autoUpdate',
         manifest: {
-          name: 'Resume Builder',
-          short_name: 'ResumeBuilder',
+          name: 'Hash Resume',
+          short_name: 'HashResume',
           description: 'A powerful app to build and optimize your resume.',
-          theme_color: '#ffffff',
+          theme_color: '#FF4D2D',
+          background_color: '#001639',
+          lang: 'ar',
           icons: [
             {
               src: '/pwa-192x192.png',
