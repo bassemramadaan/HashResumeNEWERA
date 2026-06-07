@@ -306,7 +306,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                   onDragLeave={handleDrag}
                   onDrop={handleDrop}
                   onClick={() => fileInputRef.current?.click()}
-                  className={`border-2 border-dashed rounded-2xl p-6 md:p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 min-h-[290px] ${
+                  className={`border border-dashed rounded-2xl p-6 md:p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 min-h-[290px] ${
                     dragActive 
                       ? "border-indigo-600 bg-indigo-50/50 scale-[1.01]" 
                       : "border-slate-200 hover:border-indigo-500 hover:bg-slate-50/50"

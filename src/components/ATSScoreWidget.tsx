@@ -145,13 +145,12 @@ export default function ATSScoreWidget({
   const t = T[lang] ?? T.en;
   const isRtl = lang === "ar";
   
-  const { data, addSkill } = useResumeStore();
+  const { data } = useResumeStore();
   const currentSkills = data.skills?.map(s => s.toLowerCase().trim()) || [];
   const jobTitle = data.personalInfo?.jobTitle || "";
   
   const suggested = getSuggestedKeywords(jobTitle);
   const matched = suggested.filter(kw => currentSkills.includes(kw.toLowerCase()));
-  const missing = suggested.filter(kw => !currentSkills.includes(kw.toLowerCase()));
 
   // Dynamic score based on matched keywords + structural checklist
   const doneChecklist = breakdown.filter(b => b.done).length;

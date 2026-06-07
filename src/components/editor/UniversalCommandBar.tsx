@@ -24,14 +24,12 @@ import { aiService } from "../../services/aiService";
 import { cn } from "@/lib/utils";
 
 interface UniversalCommandBarProps {
-  activeTab: string;
-  setActiveTab: (tab: any) => void;
+  setActiveTab: (tab: string) => void;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export default function UniversalCommandBar({
-  activeTab,
   setActiveTab,
   isOpen,
   onClose,
@@ -282,9 +280,10 @@ export default function UniversalCommandBar({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen, selectedIndex, combinedItems, query, isAiQuery, aiPromptText]);
 
-  const handleItemSelection = (item: any) => {
+  const handleItemSelection = (item: { id: string; [key: string]: unknown }) => {
     if (item.id.startsWith("demo-")) {
       handleAutofillDemo(item.id === "demo-tech" ? "tech" : "design");
     } else {

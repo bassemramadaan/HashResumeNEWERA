@@ -13,13 +13,13 @@
 
 /* Secondary */
 .btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl px-6 py-3 transition-colors duration-150 cursor-pointer whitespace-nowrap bg-neutral-100 hover:bg-neutral-200 text-neutral-800;
+  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl px-6 py-3 transition-colors duration-150 cursor-pointer whitespace-nowrap bg-neutral-100/80 hover:bg-neutral-200 text-neutral-800;
   min-height: 48px;
 }
 
 /* Ghost */
 .btn-ghost {
-  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl px-6 py-3 transition-colors duration-150 cursor-pointer whitespace-nowrap border border-neutral-300 hover:bg-neutral-50 text-neutral-700;
+  @apply inline-flex items-center justify-center gap-2 font-medium rounded-xl px-6 py-3 transition-colors duration-150 cursor-pointer whitespace-nowrap border border-neutral-200 hover:bg-neutral-50 text-neutral-700;
   min-height: 48px;
 }
 
@@ -32,7 +32,7 @@
 /* ===== INPUTS ===== */
 .input, .textarea, .input-base {
   @apply w-full h-12 px-4 rounded-xl
-         border border-neutral-300
+         border border-neutral-200
          bg-white text-neutral-800
          placeholder:text-neutral-400
          text-base /* منع iOS zoom */
@@ -48,7 +48,7 @@
 
 .input:focus, .textarea:focus, .input-base:focus {
   border-color: var(--color-brand-500);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-500) 20%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand-500) 15%, transparent);
 }
 
 .input:disabled, .textarea:disabled, .input-base:disabled {
@@ -57,10 +57,10 @@
 
 /* ===== CARDS ===== */
 .card {
-  @apply bg-neutral-0 border border-neutral-200 rounded-xl p-5;
+  @apply bg-neutral-0 border border-neutral-100 rounded-xl p-5;
 }
 .card-hover {
-  @apply bg-neutral-0 border border-neutral-200 rounded-xl p-5 transition-shadow duration-150 hover:shadow-md;
+  @apply bg-neutral-0 border border-neutral-100 rounded-xl p-5 transition-shadow duration-150 hover:shadow-sm;
 }
 
 /* ===== LABELS ===== */

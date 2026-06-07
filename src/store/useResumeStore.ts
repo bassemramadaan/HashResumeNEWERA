@@ -92,7 +92,7 @@ export type ResumeData = {
   skills: string[];
   projects: Project[];
   certifications: Certification[];
-  customSections?: any[];
+  customSections?: unknown[];
   settings: {
     template:
       | "modern"
@@ -128,15 +128,15 @@ export type ResumeData = {
   unlockedSignature?: string;
 };
 
-export function getResumeSignature(data: any): string {
+export function getResumeSignature(data: ResumeData | Partial<ResumeData>): string {
   if (!data) return "";
   const parts = {
     personalInfo: JSON.stringify(data.personalInfo || {}),
-    experience: (data.experience || []).map((e: any) => `${e.company}-${e.position}-${e.startDate}-${e.endDate}-${e.description}`),
-    education: (data.education || []).map((e: any) => `${e.institution}-${e.degree}-${e.startDate}-${e.endDate}-${e.description}`),
+    experience: (data.experience || []).map((e: { company: string; position: string; startDate: string; endDate: string; description: string }) => `${e.company}-${e.position}-${e.startDate}-${e.endDate}-${e.description}`),
+    education: (data.education || []).map((e: { institution: string; degree: string; startDate: string; endDate: string; description: string }) => `${e.institution}-${e.degree}-${e.startDate}-${e.endDate}-${e.description}`),
     skills: data.skills || [],
-    projects: (data.projects || []).map((p: any) => `${p.name}-${p.description}-${p.link}`),
-    certifications: (data.certifications || []).map((c: any) => `${c.name}-${c.issuer}-${c.date}`),
+    projects: (data.projects || []).map((p: { name: string; description: string; link: string }) => `${p.name}-${p.description}-${p.link}`),
+    certifications: (data.certifications || []).map((c: { name: string; issuer: string; date: string }) => `${c.name}-${c.issuer}-${c.date}`),
     template: data.settings?.template || "",
     themeColor: data.settings?.themeColor || "",
   };
@@ -230,7 +230,7 @@ type ResumeStore = {
   setSettings: (settings: Partial<ResumeData["settings"]>) => void;
   updateSettings: (settings: Partial<ResumeData["settings"]>) => void;
   setJobDescription: (desc: string) => void;
-  importFromLinkedIn: (linkedinData: any) => void;
+  importFromLinkedIn: (linkedinData: unknown) => void;
   addSection: (sectionId: string) => void;
   reorderExperience: (startIndex: number, endIndex: number) => void;
   reorderEducation: (startIndex: number, endIndex: number) => void;
@@ -242,7 +242,7 @@ type ResumeStore = {
   ) => Promise<void>;
   generateGlobalSuggestions: (
     language: string,
-  ) => Promise<{ suggestions: any[] }>;
+  ) => Promise<{ suggestions: string[] }>;
   generateCoverLetter: (
     jobDescription: string,
     companyName: string,
@@ -251,7 +251,7 @@ type ResumeStore = {
     onStream: (text: string) => void,
   ) => Promise<void>;
   updateCoverLetter: (content: string) => void;
-  checkATSCompatibility: (language: string) => Promise<any>;
+  checkATSCompatibility: (language: string) => Promise<unknown>;
   translateResume: (targetLanguage: string) => Promise<void>;
   unlockPremium: (
     name: string,
@@ -269,7 +269,7 @@ type ResumeStore = {
 export const useResumeStore = create<ResumeStore>()(
   temporal(
     persist(
-      (set, get) => ({
+      (set) => ({
       data: initialData,
       isHydrated: false,
       isGeneratingText: false,

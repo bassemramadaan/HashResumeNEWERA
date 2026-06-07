@@ -175,7 +175,7 @@ export default function WelcomeModal({
                           <button
                             key={tpl.id}
                             onClick={() => updateSettings({ template: tpl.id })}
-                            className={`relative p-5 rounded-2xl border-2 transition-all flex items-center gap-4 group text-start ${
+                            className={`relative p-5 rounded-2xl border transition-all flex items-center gap-4 group text-start ${
                               isSelected
                                 ? "border-brand-500 bg-brand-50/50 shadow-md shadow-brand-500/10"
                                 : "border-slate-100 hover:border-brand-200 hover:bg-slate-50 bg-slate-50"
@@ -194,7 +194,7 @@ export default function WelcomeModal({
                                 {templateInfo.desc}
                               </div>
                             </div>
-                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                            <div className={`w-6 h-6 rounded-full border flex items-center justify-center shrink-0 transition-colors ${
                               isSelected ? "border-brand-500 bg-brand-500" : "border-slate-200 group-hover:border-brand-300"
                             }`}>
                               {isSelected && <Check size={14} className="text-white" strokeWidth={3} />}

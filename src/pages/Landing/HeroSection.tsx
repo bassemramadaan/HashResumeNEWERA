@@ -229,7 +229,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
             <button
               onClick={() => navigate('/templates')}
-              className="bg-white border-2 border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 active:scale-95 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
+              className="bg-white border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 active:scale-95 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
             >
               <LayoutTemplate className="w-5 h-5 text-slate-500" />
               {copy.ctaSec}
@@ -288,7 +288,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
           {/* Render the TiltCard for the entire Sandbox container */}
           <TiltCard
-            className="relative rounded-2xl md:rounded-[2rem] overflow-hidden border-2 border-slate-150/80 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.12)] bg-white transition-all duration-300"
+            className="relative rounded-2xl md:rounded-[2rem] overflow-hidden border border-slate-150/80 shadow-[0_16px_32px_-8px_rgba(0,0,0,0.1)] bg-white transition-all duration-300"
           >
             {/* Window bar */}
             <div className="flex items-center justify-between px-6 py-4 bg-slate-50 border-b border-slate-100">

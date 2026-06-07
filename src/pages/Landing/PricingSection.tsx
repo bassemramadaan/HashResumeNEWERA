@@ -137,7 +137,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
         
         {/* Card 1: Single CV */}
         <TiltCard
-          className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-xl bg-slate-900 border-2 border-slate-800 hover:border-slate-700 transition-all transform-gpu"
+          className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-lg bg-slate-900 border border-slate-800 hover:border-slate-700 hover:shadow-xl transition-all transform-gpu"
         >
           <div className="absolute top-0 end-8 -translate-y-1/2">
             <span className="px-4 py-1.5 rounded-full text-xs font-black text-rose-400 border border-rose-500/30 tracking-wider uppercase bg-slate-950">
@@ -177,7 +177,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
 
         {/* Card 2: 3-Codes Saver Package */}
         <TiltCard
-          className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-2xl bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-[#FF4D2D] hover:border-[#FF4D2D] transition-all transform-gpu"
+          className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-lg bg-gradient-to-b from-slate-900 to-slate-950 border border-[#FF4D2D]/60 hover:border-[#FF4D2D] hover:shadow-xl transition-all transform-gpu"
         >
           {/* Subtle gold glow behind the card */}
           <div className="absolute inset-0 pointer-events-none rounded-[2rem] opacity-25 transform-gpu" style={{ background: 'radial-gradient(circle at top right, #FF4D2D 0%, transparent 60%)' }} />

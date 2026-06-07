@@ -398,23 +398,23 @@ export default function MobileEditorLayout({
               </div>
 
               {/* Proposal 1: Sticky bar for mobile edit step navigation */}
-              <div className="absolute bottom-0 inset-x-0 h-[72px] bg-white/85 backdrop-blur-md border-t border-slate-200/50 z-30 px-4 flex items-center justify-between gap-4 select-none" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+              <div className="absolute bottom-0 inset-x-0 h-[60px] bg-white/85 backdrop-blur-md border-t border-slate-200/50 z-30 px-3 flex items-center justify-between gap-3 select-none" style={{ direction: isRtl ? "rtl" : "ltr" }}>
                 {currentIndex > 0 ? (
                   <button
                     onClick={() => {
                       const prevSection = stepIds[currentIndex - 1];
                       handleSectionChange(prevSection);
                     }}
-                    className="flex-1 py-3 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 bg-white font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-3xs"
+                    className="flex-1 py-2.5 px-3 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 bg-white font-bold text-[11px] transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-3xs"
                   >
-                    <ChevronLeft size={16} className="rtl:rotate-180" />
+                    <ChevronLeft size={14} className="rtl:rotate-180" />
                     {lang === "ar" ? "السابق" : lang === "fr" ? "Précédent" : "Previous"}
                   </button>
                 ) : (
                   <div className="flex-1" />
                 )}
 
-                <span className="text-[10px] font-black text-slate-500 select-none shrink-0 bg-slate-50 border border-slate-150 px-3 py-1.5 rounded-full">
+                <span className="text-[9px] font-black text-slate-500 select-none shrink-0 bg-slate-50 border border-slate-150 px-2.5 py-1 rounded-full">
                   {currentIndex + 1} / {stepIds.length}
                 </span>
 
@@ -424,15 +424,15 @@ export default function MobileEditorLayout({
                       const nextSection = stepIds[currentIndex + 1];
                       handleSectionChange(nextSection);
                     }}
-                    className="flex-1 py-3 px-4 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-black transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-sm shadow-slate-900/10"
+                    className="flex-1 py-2.5 px-3 rounded-lg bg-slate-900 text-white font-bold text-[11px] hover:bg-black transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-sm shadow-slate-900/10"
                   >
                     {lang === "ar" ? "التالي" : lang === "fr" ? "Suivant" : "Next"}
-                    <ChevronRight size={16} className="rtl:rotate-180" />
+                    <ChevronRight size={14} className="rtl:rotate-180" />
                   </button>
                 ) : (
                   <button
                     onClick={() => setActiveTab("export")}
-                    className="flex-1 py-3 px-4 rounded-xl bg-orange-600 border border-orange-500 text-white font-bold text-xs hover:bg-orange-700 transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
+                    className="flex-1 py-2.5 px-3 rounded-lg bg-orange-600 border border-orange-500 text-white font-bold text-[11px] hover:bg-orange-700 transition-all active:scale-95 flex items-center justify-center gap-1.5 cursor-pointer shadow-sm"
                   >
                     {lang === "ar" ? "تصدير" : lang === "fr" ? "Exporter" : "Export"}
                     <Download size={14} />
@@ -468,7 +468,7 @@ export default function MobileEditorLayout({
       </main>
 
       {/* ── Tactfully Designed Premium Bottom Navigation Bar ── */}
-      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-solid border-slate-200 px-4 py-2 pb-[calc(1.2rem+env(safe-area-inset-bottom,0px))] md:pb-4 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu select-none">
+      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-solid border-slate-200 px-3 py-1.5 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] md:pb-3 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu select-none">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
           const IconComponent = tab.icon;
@@ -480,11 +480,11 @@ export default function MobileEditorLayout({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab("export")}
-                  className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(255,77,45,0.4)] border border-rose-400/20"
+                  className="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(255,77,45,0.4)] border border-rose-400/20"
                 >
-                  <Download className="w-5 h-5 shrink-0" />
+                  <Download className="w-4 h-4 shrink-0" />
                 </motion.button>
-                <span className="text-[10px] font-black mt-1 text-slate-900">
+                <span className="text-[9px] font-black mt-1 text-slate-900">
                   {tab.label}
                 </span>
               </div>
@@ -496,14 +496,14 @@ export default function MobileEditorLayout({
               whileTap={{ scale: 0.95 }}
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className="flex flex-col items-center justify-center p-2.5 rounded-2xl cursor-pointer relative"
+              className="flex flex-col items-center justify-center p-2 rounded-xl cursor-pointer relative"
             >
               <div className="relative z-10">
                 {IconComponent && (
-                  <IconComponent className={`w-5 h-5 transition-colors duration-200 ${isActive ? "text-slate-900" : "text-slate-400"}`} />
+                  <IconComponent className={`w-[18px] h-[18px] transition-colors duration-200 ${isActive ? "text-slate-900" : "text-slate-400"}`} />
                 )}
               </div>
-              <span className={`text-[10px] font-bold mt-1 relative z-10 transition-colors duration-200 ${isActive ? "text-slate-900" : "text-slate-400"}`}>
+              <span className={`text-[9px] font-bold mt-1 relative z-10 transition-colors duration-200 ${isActive ? "text-slate-900" : "text-slate-400"}`}>
                 {tab.label}
               </span>
               {isActive && (

@@ -208,9 +208,9 @@ export default React.memo(function SettingsForm() {
                 key={template.id}
                 onClick={() => updateSettings({ template: template.id })}
                 className={cn(
-                  "p-4 rounded-xl border-2 text-start transition-all relative overflow-hidden group",
+                  "p-4 rounded-xl border text-start transition-all relative overflow-hidden group",
                   settings.template === template.id
-                    ? "border-brand-500 bg-brand-50 shadow-sm"
+                    ? "border-brand-500 bg-brand-50/50 shadow-sm"
                     : "border-slate-200 hover:border-slate-300 hover:bg-slate-50",
                 )}
               >
@@ -252,9 +252,9 @@ export default React.memo(function SettingsForm() {
             <button
               onClick={() => updateSettings({ language: "en" })}
               className={cn(
-                "px-6 py-2 rounded-xl border-2 font-medium transition-all",
+                "px-6 py-2 rounded-xl border font-medium transition-all",
                 settings.language === "en"
-                  ? "border-brand-500 bg-brand-50 text-brand-700"
+                  ? "border-brand-500 bg-brand-50/55 text-brand-700"
                   : "border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50",
               )}
             >
@@ -263,9 +263,9 @@ export default React.memo(function SettingsForm() {
             <button
               onClick={() => updateSettings({ language: "ar" })}
               className={cn(
-                "px-6 py-2 rounded-xl border-2 font-medium transition-all",
+                "px-6 py-2 rounded-xl border font-medium transition-all",
                 settings.language === "ar"
-                  ? "border-brand-500 bg-brand-50 text-brand-700"
+                  ? "border-brand-500 bg-brand-50/55 text-brand-700"
                   : "border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50",
               )}
             >
@@ -274,9 +274,9 @@ export default React.memo(function SettingsForm() {
             <button
               onClick={() => updateSettings({ language: "fr" })}
               className={cn(
-                "px-6 py-2 rounded-xl border-2 font-medium transition-all",
+                "px-6 py-2 rounded-xl border font-medium transition-all",
                 settings.language === "fr"
-                  ? "border-brand-500 bg-brand-50 text-brand-700"
+                  ? "border-brand-500 bg-brand-50/55 text-brand-700"
                   : "border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50",
               )}
             >
@@ -400,7 +400,7 @@ export default React.memo(function SettingsForm() {
               </label>
               <select
                 value={settings.fontSize || "medium"}
-                onChange={(e) => updateSettings({ fontSize: e.target.value as any })}
+                onChange={(e) => updateSettings({ fontSize: e.target.value as "small" | "medium" | "large" })}
                 className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                 dir={settings.language === "ar" ? "rtl" : "ltr"}
               >
@@ -417,7 +417,7 @@ export default React.memo(function SettingsForm() {
               </label>
               <select
                 value={settings.lineHeight || "normal"}
-                onChange={(e) => updateSettings({ lineHeight: e.target.value as any })}
+                onChange={(e) => updateSettings({ lineHeight: e.target.value as "tight" | "normal" | "relaxed" })}
                 className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                 dir={settings.language === "ar" ? "rtl" : "ltr"}
               >
@@ -434,7 +434,7 @@ export default React.memo(function SettingsForm() {
               </label>
               <select
                 value={settings.sectionSpacing || "normal"}
-                onChange={(e) => updateSettings({ sectionSpacing: e.target.value as any })}
+                onChange={(e) => updateSettings({ sectionSpacing: e.target.value as "compact" | "normal" | "relaxed" })}
                 className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                 dir={settings.language === "ar" ? "rtl" : "ltr"}
               >
@@ -451,7 +451,7 @@ export default React.memo(function SettingsForm() {
               </label>
               <select
                 value={settings.fontFamily || "inter"}
-                onChange={(e) => updateSettings({ fontFamily: e.target.value as any })}
+                onChange={(e) => updateSettings({ fontFamily: e.target.value as "inter" | "serif" | "mono" })}
                 className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                 dir={settings.language === "ar" ? "rtl" : "ltr"}
               >
@@ -492,7 +492,7 @@ export default React.memo(function SettingsForm() {
                     <button
                       key={f.id}
                       type="button"
-                      onClick={() => updateSettings({ fontFamily: f.id as any })}
+                      onClick={() => updateSettings({ fontFamily: f.id as "inter" | "serif" | "mono" })}
                       className={cn(
                         "p-2.5 rounded-xl border text-start transition-all cursor-pointer relative overflow-hidden",
                         settings.fontFamily === f.id

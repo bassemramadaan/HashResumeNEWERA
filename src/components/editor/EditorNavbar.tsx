@@ -309,14 +309,13 @@ export default function EditorNavbar({
   isLocked        = false,
   onBackToHome    = () => {},
   onShowSettings  = () => {},
-  onShowShortcuts = () => {},
   onStartTour,
   onShowCommandBar = () => {},
 }: {
   lang?: AppLang;
   onLangChange?: (lang: AppLang) => void;
   atsScore?: number;
-  atsBreakdown?: any;
+  atsBreakdown?: unknown;
   isSaved?: boolean;
   onUndo?: () => void;
   onExportPDF?: () => void;
