@@ -131,7 +131,7 @@ async function startServer() {
   });
 
   // Dedicated Payment Submission Endpoint
-  app.all("/api/payment/submit", async (req, res) => {
+  app.all("/api/payment/verify", async (req, res) => {
     try {
       const { reference, senderInfo, email, amount } = req.method === "POST" ? req.body : req.query;
 
