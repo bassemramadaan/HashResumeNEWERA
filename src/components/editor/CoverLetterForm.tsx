@@ -289,11 +289,7 @@ export default function CoverLetterForm() {
               <button
                 key={style.id}
                 onClick={() => setSelectedStyle(style.id)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                  selectedStyle === style.id
-                    ? 'bg-brand-50 border-brand-200 text-brand-700 border-2'
-                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 border-2'
-                }`}
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${selectedStyle === style.id ? 'bg-orange-50 border-orange-200 text-orange-700 border-2' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 border-2'}`}
               >
                 {style.label}
               </button>
@@ -301,37 +297,30 @@ export default function CoverLetterForm() {
           </div>
         </div>
 
-        {error && (
-          <div className="bg-rose-50 text-rose-600 p-4 rounded-lg text-sm flex items-center gap-2">
-            <AlertCircle size={16} />
-            {error}
-          </div>
-        )}
-
-        <div className="relative flex flex-col gap-2">
+        <div className="relative flex flex-col gap-3">
           <button
             onClick={generateCoverLetter}
             disabled={isGenerating}
-            className="w-full flex items-center justify-center gap-2 bg-[#ff4d2d] hover:bg-[#e63e1d] text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg shadow-orange-500/20 disabled:opacity-70 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full flex items-center justify-center gap-2.5 bg-gradient-to-r from-orange-500 hover:from-orange-600 to-rose-500 hover:to-rose-600 text-white font-black py-4 px-6 rounded-2xl transition-all duration-300 shadow-[0_8px_30px_rgb(255,77,45,0.2)] disabled:opacity-70 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0.5 group overflow-hidden relative"
           >
+            <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out z-0 mix-blend-overlay" />
             {isGenerating ? (
-              <>
-                <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <span className="flex items-center gap-2.5 relative z-10">
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 {String(t.coverLetter?.generating || "Generating...")}
-              </>
+              </span>
             ) : (
-              <>
-                <Sparkles size={18} />
+              <span className="flex items-center gap-2.5 relative z-10">
+                <Sparkles size={18} className="animate-pulse" />
                 {String(t.coverLetter?.generateWithAI || "Generate with AI")}
-              </>
+              </span>
             )}
           </button>
-
           
-          <div className="text-[10px] text-slate-400 flex items-center justify-center gap-1 opacity-70 px-2 leading-tight">
-               <Sparkles size={10} className="text-brand-400 shrink-0" />
+          <div className="text-[10px] text-slate-400 flex items-center text-center justify-center gap-1 opacity-70 px-2 leading-tight">
+               <Sparkles size={10} className="text-orange-400 shrink-0" />
                {language === "ar" 
-                 ? "يتم إرسال المعلومات المدخلة أعلاه فقط (بدون أي هويات أو معلومات תواصل) بشكل مشفر لتخصيص محتواك."
+                 ? "يتم إرسال المعلومات المدخلة أعلاه فقط (بدون أي هويات أو معلومات تواصل) بشكل مشفر لتخصيص محتواك."
                  : "Only the snippets above are sent anonymously to generate tailored content."}
           </div>
         </div>

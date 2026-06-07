@@ -87,53 +87,63 @@ export default function ATSAudit() {
         </div>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-6">
         <div className="grid grid-cols-1 gap-6 items-stretch">
       
         {/* Metric gauge Card */}
-        <div className="bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs flex flex-row items-center justify-between text-start gap-8 relative overflow-hidden">
-          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brand-500 to-orange-500" />
+        <div className="bg-white border border-slate-200/60 p-6 md:p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex flex-col md:flex-row items-center justify-between text-center md:text-start gap-8 relative overflow-hidden group hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-orange-500 to-rose-500 opacity-80" />
           
-          <div className="flex-1 space-y-2">
-            <h4 className="text-xl font-extrabold text-slate-950">
+          <div className="flex-1 space-y-3 relative z-10 w-full">
+            <h4 className="text-2xl font-black text-slate-800 tracking-tight">
               {score >= 80 ? t.greatJob : score >= 50 ? t.goodStart : t.needsImprovement}
             </h4>
-            <p className="text-sm text-slate-500 leading-relaxed max-w-lg">
+            <p className="text-sm text-slate-500 leading-relaxed max-w-lg mx-auto md:mx-0 font-medium">
               {t.atsExplanation}
             </p>
           </div>
 
-          <div className="relative flex items-center justify-center w-36 h-36 shrink-0">
-            <svg className="w-full h-full transform -rotate-90 absolute inset-0">
+          <div className="relative flex items-center justify-center w-40 h-40 shrink-0">
+            {/* Soft backdrop glow behind gauge */}
+            <div className={cn(
+              "absolute inset-0 rounded-full blur-2xl opacity-20 transition-colors duration-1000",
+              score >= 80 ? "bg-emerald-500" : score >= 50 ? "bg-amber-500" : "bg-rose-500"
+            )} />
+            
+            <svg className="w-full h-full transform -rotate-90 absolute inset-0 z-10 drop-shadow-sm">
               <circle
-                cx="72"
-                cy="72"
-                r="62"
+                cx="80"
+                cy="80"
+                r="68"
                 stroke="currentColor"
-                strokeWidth="10"
+                strokeWidth="12"
                 fill="transparent"
                 className="text-slate-100"
               />
               <circle
-                cx="72"
-                cy="72"
-                r="62"
+                cx="80"
+                cy="80"
+                r="68"
                 stroke="currentColor"
-                strokeWidth="10"
+                strokeWidth="12"
+                strokeLinecap="round"
                 fill="transparent"
-                strokeDasharray={390}
-                strokeDashoffset={390 - (390 * Math.min(score, 100)) / 100}
+                strokeDasharray={427}
+                strokeDashoffset={427 - (427 * Math.min(score, 100)) / 100}
                 className={cn(
-                  "transition-all duration-1000 ease-out",
+                  "transition-all duration-1500 ease-out",
                   score >= 80 ? "text-emerald-500" : score >= 50 ? "text-amber-500" : "text-rose-500"
                 )}
               />
             </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-4xl font-extrabold tracking-tight text-slate-900 leading-none">
+            <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
+              <span className={cn(
+                "text-5xl font-black tracking-tighter leading-none transition-colors duration-1000",
+                score >= 80 ? "text-emerald-600" : score >= 50 ? "text-amber-600" : "text-rose-600"
+              )}>
                 {score}
               </span>
-              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">
+              <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1.5">
                 {t.scoreOutOf}
               </span>
             </div>
@@ -142,17 +152,17 @@ export default function ATSAudit() {
       </div>
 
       {/* AI Job Description Tailoring */}
-      <div className="bg-white border border-slate-200/70 rounded-3xl p-6 md:p-8 shadow-xs space-y-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center border border-orange-100">
-              <Wand2 className="text-orange-500" size={16} />
+      <div className="bg-white border border-slate-200/60 rounded-3xl p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-6 relative overflow-hidden group hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-orange-50/80 flex items-center justify-center border border-orange-100/50 shadow-inner">
+              <Wand2 className="text-orange-500" size={18} />
             </div>
             <div>
-              <h3 className="text-sm font-extrabold text-slate-900">
+              <h3 className="text-lg font-black text-slate-800 tracking-tight">
                 {isAr ? "مقارن الوصف الوظيفي الذكي (Instant Matching)" : "AI Job Description Mirroring"}
               </h3>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
+              <p className="text-xs text-slate-500 mt-0.5 font-medium">
                 {isAr 
                   ? "الصق متطلبات الوظيفة الشاغرة لتحليل الثغرات المهارية وحلها قبل تنزيل الملف." 
                   : "Compare against corporate vacancies to immediately find core skill targets."}
@@ -166,19 +176,19 @@ export default function ATSAudit() {
             value={data.jobDescription || ""}
             onChange={(e) => updateJobDescription(e.target.value)}
             placeholder={isAr ? "الصق متطلبات الوظيفة الشاغرة ومؤهلاتها هنا..." : "Paste corporate job description terms, requirements or specifications..."}
-            className="w-full h-28 p-4 border border-slate-200 bg-white hover:border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500/10 rounded-2xl transition-all text-xs resize-none"
+            className="w-full h-32 p-5 border border-slate-200/80 bg-slate-50/50 hover:bg-white focus:bg-white hover:border-slate-300 focus:border-orange-400 focus:ring-4 focus:ring-orange-500/10 rounded-2xl transition-all text-sm resize-none"
             dir={isAr ? "rtl" : "ltr"}
           />
           {!data.jobDescription && (
-            <div className={`absolute bottom-3 ${isAr ? 'left-3' : 'right-3'} flex items-center gap-1.5 text-[10px] font-bold text-slate-400 select-nonepointer-events-none`}>
-              <Sparkles size={11} className="text-orange-400 animate-pulse" />
+            <div className={`absolute bottom-4 ${isAr ? 'left-4' : 'right-4'} flex items-center gap-1.5 text-[11px] font-bold text-slate-400 select-none pointer-events-none`}>
+              <Sparkles size={12} className="text-orange-400 animate-pulse" />
               <span>{isAr ? "يقوم بكتابة اقتراحات فورية للمهارات الصعبة" : "Auto-extracts key tags"}</span>
             </div>
           )}
         </div>
 
         {data.jobDescription && data.jobDescription.trim().length > 10 && (
-          <div className="pt-2">
+          <div className="pt-2 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <ATSAnalyzer
               resume={JSON.stringify(data)}
               jobDescription={data.jobDescription}
@@ -191,26 +201,28 @@ export default function ATSAudit() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Recommended Upgrades / Detailed suggestions */}
-        <div className="bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs space-y-4">
-          <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-            <AlertCircle size={16} className="text-orange-500 shrink-0" />
-            <h3 className="text-sm font-extrabold text-slate-900">
+        <div className="bg-white border border-slate-200/60 p-6 md:p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-5 group hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+          <div className="flex items-center gap-2 border-b border-slate-100 pb-4">
+            <div className="p-1.5 bg-orange-50 rounded-lg">
+              <AlertCircle size={18} className="text-orange-500 shrink-0" />
+            </div>
+            <h3 className="text-base font-black text-slate-800">
               {t.detailedSuggestions}
             </h3>
           </div>
 
-          <div className="space-y-4 max-h-[420px] overflow-y-auto pr-1">
+          <div className="space-y-5 max-h-[420px] overflow-y-auto pr-2 scrollbar-none">
             {sections.some(s => s.improvements.length > 0) ? (
               sections.map((section, idx) => 
                 section.improvements.length > 0 && (
-                  <div key={idx} className="space-y-2">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
+                  <div key={idx} className="space-y-2.5">
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block bg-slate-50 px-2 py-1 rounded w-fit">
                       {section.title}
                     </span>
                     <div className="space-y-2">
                       {section.improvements.map((imp, i) => (
-                        <div key={i} className="flex gap-2.5 p-3 rounded-xl border border-orange-100/50 bg-orange-50/20 text-xs text-slate-700 leading-normal">
-                          <span className="text-orange-500 shrink-0 font-bold">✦</span>
+                        <div key={i} className="flex gap-3 p-3.5 rounded-2xl border border-orange-100/60 bg-gradient-to-br from-orange-50/50 to-rose-50/20 text-xs text-slate-700 leading-relaxed font-medium">
+                          <span className="text-orange-500 shrink-0 font-bold mt-0.5">✦</span>
                           <span>{imp}</span>
                         </div>
                       ))}
@@ -219,34 +231,39 @@ export default function ATSAudit() {
                 )
               )
             ) : (
-              <p className="text-xs text-slate-400 italic text-center py-6">
-                {isAr ? "لا توجد تعديلات عاجلة للتطبيق!" : "No modifications recommended!"}
-              </p>
+              <div className="flex flex-col items-center justify-center py-10 text-center space-y-2">
+                <CheckCircle2 className="text-slate-200" size={32} />
+                <p className="text-xs text-slate-400 italic">
+                  {isAr ? "لا توجد تعديلات عاجلة للتطبيق!" : "No modifications recommended!"}
+                </p>
+              </div>
             )}
           </div>
         </div>
 
         {/* Working Well / Points of Excellence */}
-        <div className="bg-white border border-slate-200/70 p-6 md:p-8 rounded-3xl shadow-xs space-y-4">
-          <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
-            <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
-            <h3 className="text-sm font-extrabold text-slate-900">
+        <div className="bg-white border border-slate-200/60 p-6 md:p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] space-y-5 group hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+          <div className="flex items-center gap-2 border-b border-slate-100 pb-4">
+            <div className="p-1.5 bg-emerald-50 rounded-lg">
+              <CheckCircle2 size={18} className="text-emerald-500 shrink-0" />
+            </div>
+            <h3 className="text-base font-black text-slate-800">
               {t.workingWell}
             </h3>
           </div>
 
-          <div className="space-y-4 max-h-[420px] overflow-y-auto pr-1">
+          <div className="space-y-5 max-h-[420px] overflow-y-auto pr-2 scrollbar-none">
             {sections.some(s => s.goodPoints.length > 0) ? (
               sections.map((section, idx) => 
                 section.goodPoints.length > 0 && (
-                  <div key={idx} className="space-y-2">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
+                  <div key={idx} className="space-y-2.5">
+                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block bg-slate-50 px-2 py-1 rounded w-fit">
                       {section.title}
                     </span>
                     <div className="space-y-2">
                       {section.goodPoints.map((gp, i) => (
-                        <div key={i} className="flex gap-2.5 p-3 rounded-xl border border-emerald-100/50 bg-emerald-50/20 text-xs text-slate-700 leading-normal">
-                          <Check size={12} className="text-emerald-500 shrink-0 mt-0.5" />
+                        <div key={i} className="flex gap-3 p-3.5 rounded-2xl border border-emerald-100/60 bg-gradient-to-br from-emerald-50/50 to-teal-50/20 text-xs text-slate-700 leading-relaxed font-medium">
+                          <Check size={14} className="text-emerald-500 shrink-0 mt-0.5" />
                           <span>{gp}</span>
                         </div>
                       ))}
@@ -255,9 +272,12 @@ export default function ATSAudit() {
                 )
               )
             ) : (
-              <p className="text-xs text-slate-400 italic text-center py-6">
-                {isAr ? "اكمل تعبئة الحقول الأساسية أولاً" : "Include core information to calculate perfect marks"}
-              </p>
+              <div className="flex flex-col items-center justify-center py-10 text-center space-y-2">
+                <Target className="text-slate-200" size={32} />
+                <p className="text-xs text-slate-400 italic">
+                  {isAr ? "اكمل تعبئة الحقول الأساسية أولاً" : "Include core information to calculate perfect marks"}
+                </p>
+              </div>
             )}
           </div>
         </div>

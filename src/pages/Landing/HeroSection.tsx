@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from "motion/react"
-import { Sparkles, Check, ArrowLeft, LayoutTemplate, FileText, Wand2, RefreshCw, Star } from 'lucide-react'
+import { Sparkles, Check, Plus, ArrowLeft, LayoutTemplate, FileText, Wand2, RefreshCw, Star } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
 import { trackEvent } from '@/services/analytics'
 import { useNavigate } from 'react-router-dom'
@@ -288,39 +288,43 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
           {/* Render the TiltCard for the entire Sandbox container */}
           <TiltCard
-            className="relative rounded-2xl md:rounded-[2rem] overflow-hidden border border-slate-150/80 shadow-[0_16px_32px_-8px_rgba(0,0,0,0.1)] bg-white transition-all duration-300"
+            className="relative rounded-2xl md:rounded-[2rem] overflow-hidden border border-slate-200/80 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.12)] bg-white transition-all duration-300"
           >
             {/* Window bar */}
-            <div className="flex items-center justify-between px-6 py-4 bg-slate-50 border-b border-slate-100">
+            <div className="flex items-center justify-between px-6 py-4 bg-slate-50/80 backdrop-blur-md border-b border-slate-200/60 transition-colors">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-rose-400 shadow-sm" />
-                <span className="w-3 h-3 rounded-full bg-amber-400 shadow-sm" />
-                <span className="w-3 h-3 rounded-full bg-emerald-400 shadow-sm" />
+                <span className="w-3 h-3 rounded-full bg-rose-400 border border-rose-500/20 shadow-inner" />
+                <span className="w-3 h-3 rounded-full bg-amber-400 border border-amber-500/20 shadow-inner" />
+                <span className="w-3 h-3 rounded-full bg-emerald-400 border border-emerald-500/20 shadow-inner" />
               </div>
-              <div className="mx-6 flex-1 h-7 rounded-md bg-white border border-slate-200 shadow-inner px-3 text-xs font-medium flex items-center justify-center text-slate-400 font-mono">
+              <div className="mx-6 flex-1 h-8 rounded-lg bg-white/60 border border-slate-200 shadow-[inset_0_1px_3px_rgb(0,0,0,0.02)] px-3 text-xs font-semibold flex items-center justify-center text-slate-400 font-mono tracking-tight">
                 app.hashresume.com/sandbox
               </div>
               <button 
                 onClick={handleResetSandbox}
-                className="text-[10px] font-bold text-slate-500 hover:text-[#FF4D2D] transition-colors flex items-center gap-1 cursor-pointer"
+                className="text-[10px] font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg hover:text-[#FF4D2D] transition-all flex items-center gap-1 cursor-pointer active:scale-95"
               >
                 <span>{sCopy.resetBtn}</span>
               </button>
             </div>
 
             {/* App Layout: Sidebar Sandbox controls + Responsive Resume Output preview */}
-            <div className="flex flex-col md:flex-row h-auto md:h-[720px] bg-slate-101/50" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+            <div className="flex flex-col md:flex-row h-auto md:h-[720px] bg-slate-100/50" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
               
               {/* Sidebar Input Sandbox */}
-              <div className="w-full md:w-[40%] bg-white p-6 md:p-8 border-e border-slate-200 overflow-y-auto flex flex-col gap-6 shadow-[10px_0_15px_-3px_rgba(0,0,0,0.02)] z-10 text-start">
+              <div className="w-full md:w-[40%] bg-white p-6 md:p-8 border-e border-slate-200/80 overflow-y-auto flex flex-col gap-6 shadow-[15px_0_30px_-5px_rgba(0,0,0,0.03)] z-10 text-start">
                 
                 {/* AI Magic Wand Section */}
-                <div className="bg-gradient-to-r from-orange-50 to-rose-50 border border-orange-200/60 rounded-2xl p-4 space-y-3 relative overflow-hidden">
-                  <div className="flex items-center gap-2 text-[#FF4D2D] font-bold text-xs">
-                    <Sparkles className="w-4 h-4 animate-pulse shrink-0" />
+                <div className="bg-gradient-to-br from-orange-50 to-rose-50/50 border border-orange-200/60 rounded-3xl p-5 md:p-6 space-y-4 relative overflow-hidden group">
+                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-400/10 rounded-full blur-2xl pointer-events-none transition-all group-hover:scale-125 duration-500" />
+                  
+                  <div className="flex items-center gap-3 text-[#FF4D2D] font-black text-sm relative z-10">
+                    <div className="p-1.5 bg-orange-500/10 rounded-lg">
+                      <Sparkles className="w-4 h-4 animate-pulse shrink-0" />
+                    </div>
                     <span>{lang === "ar" ? "تحسين فوري ذكي" : lang === "fr" ? "Amélioration IA" : "Instant AI Enhancement"}</span>
                   </div>
-                  <p className="text-[10px] text-slate-500 leading-normal font-semibold">
+                  <p className="text-[11px] text-slate-600 leading-relaxed font-medium relative z-10">
                     {lang === "ar" 
                       ? "اضغط لتجربة كيف يقوم الذكاء الاصطناعي بتحسين صياغة النبذة المهنية وتعبئة الكلمات المفتاحية الذكية لرفع نسبة قبول السيرة أمام فحص الـ ATS بشكل فوري."
                       : "Click to simulate how the resume builder uses AI to target profile summary words, immediately boosting your indexing compatibility score."}
@@ -330,12 +334,12 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                     type="button"
                     disabled={isAIOptimizing}
                     onClick={handleAIOptimize}
-                    className={`w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 border shadow-sm transition-all cursor-pointer ${
+                    className={`w-full py-3.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm relative z-10 ${
                       isAIOptimizing 
-                        ? "bg-amber-100 text-amber-800 border-amber-200" 
+                        ? "bg-amber-100 text-amber-800 border border-amber-200" 
                         : hasOptimized 
-                        ? "bg-emerald-50 text-emerald-800 border-emerald-200 pointer-events-none" 
-                        : "bg-[#FF4D2D] text-white hover:bg-[#E64528] active:scale-95 border-orange-400"
+                        ? "bg-emerald-50 text-emerald-800 border border-emerald-200 pointer-events-none" 
+                        : "bg-gradient-to-r from-[#FF4D2D] to-rose-600 text-white hover:from-[#E64528] hover:to-rose-700 active:scale-95 shadow-orange-500/20 border border-orange-600/50"
                     }`}
                   >
                     {isAIOptimizing ? (
@@ -354,39 +358,42 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
                 {/* Grid Inputs */}
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-[11px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">{sCopy.fullNameLabel}</label>
+                  <div className="group">
+                    <label className="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider group-focus-within:text-orange-500 transition-colors">{sCopy.fullNameLabel}</label>
                     <input 
                       type="text"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      className="w-full px-3 py-2 text-xs font-bold border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-1 focus:ring-[#FF4D2D] outline-none text-slate-800"
+                      className="w-full px-4 py-2.5 text-xs font-bold border border-slate-200/80 rounded-xl bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:border-orange-300 focus:ring-4 focus:ring-orange-500/10 outline-none text-slate-800 transition-all shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)]"
                     />
                   </div>
-                  <div>
-                    <label className="block text-[11px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">{sCopy.jobTitleLabel}</label>
+                  <div className="group">
+                    <label className="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider group-focus-within:text-orange-500 transition-colors">{sCopy.jobTitleLabel}</label>
                     <input 
                       type="text"
                       value={jobTitle}
                       onChange={(e) => setJobTitle(e.target.value)}
-                      className="w-full px-3 py-2 text-xs font-bold border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-1 focus:ring-[#FF4D2D] outline-none text-slate-800"
+                      className="w-full px-4 py-2.5 text-xs font-bold border border-slate-200/80 rounded-xl bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:border-orange-300 focus:ring-4 focus:ring-orange-500/10 outline-none text-slate-800 transition-all shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)]"
                     />
                   </div>
-                  <div>
-                    <label className="block text-[11px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">{sCopy.summaryLabel}</label>
+                  <div className="group">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="block text-[10px] font-black text-slate-400 uppercase tracking-wider group-focus-within:text-orange-500 transition-colors">{sCopy.summaryLabel}</label>
+                      {hasOptimized && <span className="text-[9px] font-black text-emerald-500 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">{lang === "ar" ? "محسّن بالذكاء الاصطناعي" : "AI Optimized"}</span>}
+                    </div>
                     <textarea 
                       value={summary}
                       onChange={(e) => setSummary(e.target.value)}
-                      rows={3}
-                      className="w-full px-3 py-2 text-xs font-semibold border border-slate-200 rounded-xl bg-slate-50 focus:bg-white focus:ring-1 focus:ring-[#FF4D2D] outline-none text-slate-700 leading-relaxed resize-none"
+                      rows={4}
+                      className={`w-full px-4 py-3 text-xs font-semibold border rounded-xl bg-slate-50/50 hover:bg-slate-50 focus:bg-white outline-none text-slate-700 leading-relaxed resize-none transition-all shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)] ${hasOptimized ? 'border-emerald-200 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10 ring-1 ring-emerald-100' : 'border-slate-200/80 focus:border-orange-300 focus:ring-4 focus:ring-orange-500/10'}`}
                     />
                   </div>
                 </div>
 
                 {/* Active and Available Skills section */}
                 <div className="space-y-3">
-                  <label className="block text-[11px] font-black text-slate-500 mb-1 uppercase tracking-wider">{sCopy.skillsLabel}</label>
-                  <div className="flex flex-wrap gap-1.5">
+                  <label className="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-wider">{sCopy.skillsLabel}</label>
+                  <div className="flex flex-wrap gap-2">
                     {sCopy.skillsPool.map((skill) => {
                       const isActive = skills.includes(skill);
                       return (
@@ -394,13 +401,13 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                           key={skill}
                           type="button"
                           onClick={() => handleToggleSkill(skill)}
-                          className={`px-2.5 py-1.5 rounded-lg text-[10px] font-bold border transition-all cursor-pointer flex items-center gap-1 ${
+                          className={`px-3 py-1.5 rounded-lg text-[10px] font-bold border transition-all duration-300 cursor-pointer flex items-center gap-1.5 ${
                             isActive
-                              ? "bg-[#FF4D2D]/10 text-[#FF4D2D] border-[#FF4D2D]/30 shadow-xs"
-                              : "bg-slate-50 hover:bg-slate-100 text-slate-600 border-slate-200"
+                              ? "bg-gradient-to-br from-orange-500 to-[#FF4D2D] text-white border-transparent shadow-[0_4px_12px_rgb(255,77,45,0.2)] hover:shadow-[0_4px_16px_rgb(255,77,45,0.3)] scale-105"
+                              : "bg-white hover:bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300 shadow-sm"
                           }`}
                         >
-                          <span className="text-[9px]">{isActive ? "✓" : "+"}</span>
+                          {isActive ? <Check className="w-3 h-3 drop-shadow-sm" /> : <Plus className="w-3 h-3 text-slate-400" />}
                           <span>{skill}</span>
                         </button>
                       );
