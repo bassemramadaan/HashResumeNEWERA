@@ -71,6 +71,9 @@ const WelcomeModal = lazy(() => import("../components/editor/WelcomeModal"));
 const ResumeCheckerModal = lazy(
   () => import("../components/editor/ResumeCheckerModal"),
 );
+const LinkedInImportModal = lazy(
+  () => import("../components/editor/LinkedInImportModal"),
+);
 
 const FormLoader = () => (
   <div className="flex flex-col items-center justify-center py-20 space-y-4">
@@ -485,6 +488,7 @@ export default function EditorPage() {
   } | null>(null);
   const [overflowLines, setOverflowLines] = useState(0);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{
     type: "load" | "clear";
     message: string;
@@ -901,18 +905,28 @@ export default function EditorPage() {
             </div>
             <div>
               <h4 className="text-sm font-black text-slate-100 leading-tight">
-                {language === "ar" ? (
-                  <>سيرتك مكتملة <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> — أكمل عشان تـ download 🔥</>
-                ) : language === "fr" ? (
-                  <>Votre CV est complété à <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> — complétez pour télécharger 🚀</>
+                {atsScore < 25 ? (
+                  language === "ar" ? (
+                    "ابدأ بمعلوماتك الأساسية — 5 خطوات للسيرة المثالية ✨"
+                  ) : language === "fr" ? (
+                    "Commencez par vos infos de base — 5 étapes pour un CV parfait ✨"
+                  ) : (
+                    "Start with your basic information — 5 steps to the perfect resume ✨"
+                  )
                 ) : (
-                  <>Your resume is <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> complete — finish to download 🚀</>
+                  language === "ar" ? (
+                    <>سيرتك الذاتية ممتازة ومكتملة بنسبة <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span>! استمر في الإضافة لتخطي الفلاتر 🚀</>
+                  ) : language === "fr" ? (
+                    <>Votre CV est complété à <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> — continuez pour le rendre parfait ! 🚀</>
+                  ) : (
+                    <>Excellent! Your resume is <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> complete — keep going to make it perfect! 🚀</>
+                  )
                 )}
               </h4>
               <p className="text-[10px] text-slate-400 font-bold mt-0.5">
                 {language === "ar" 
-                  ? "املأ المزيد من حقول الخبرات المهنية والتعليم والمهارات لرفع النسبة لتتخطى الـ ATS وتزيل العلامة المائية!"
-                  : "Fill in more experience, education and skills to bypass recruiter filters and remove watermarks!"}
+                  ? "املأ حقول الخبرات العملية والتعليم لرفع نسبة تخطي أنظمة الفرز والحصول على فرصتك المثالية!"
+                  : "Fill in experience and education fields to bypass automatic recruiter filters and land top-tier interviews!"}
               </p>
             </div>
           </div>
@@ -935,6 +949,32 @@ export default function EditorPage() {
           </div>
         </div>
       </div>
+
+      {/* Smart Auto-Parser Onboarding Step Card */}
+      {activeTab === "basics" && (
+        <div className="mb-6 bg-gradient-to-r from-brand-500/10 via-brand-500/5 to-brand-500/10 border border-brand-500/20 rounded-[2rem] p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-xs hover:shadow-md transition-all duration-300">
+          <div className="flex items-center gap-3.5 text-start">
+            <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center border border-brand-500/30 shrink-0 shadow-xs">
+              <Sparkles className="w-6 h-6 text-brand-500 animate-pulse" />
+            </div>
+            <div>
+              <h3 className="text-sm sm:text-base font-black text-slate-950 tracking-tight leading-snug">
+                {language === "ar" ? "عندك CV قديم؟ ارفعه وهنملا كل حاجة ✨" : "Have an old CV? Upload it and we will fill everything ✨"}
+              </h3>
+              <p className="text-xs text-slate-500 mt-1 font-semibold leading-relaxed max-w-xl">
+                {language === "ar" ? "مستخلص السير الذاتية الذكي بالذكاء الاصطناعي (PDF): ارفع ملف سيرتك القديمة أو ملف لينكد إن وسنقوم بملء الحقول تلقائياً وبأمان." : "Smart AI Auto-Parser: Drag/drop your old layout PDF or LinkedIn profile, and watch Gemini populate all fields instantly."}
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setIsLinkedInModalOpen(true)}
+            className="w-full sm:w-auto px-6 py-3.5 rounded-xl text-xs font-black transition-all whitespace-nowrap flex justify-center items-center gap-2 bg-slate-900 hover:bg-black text-white shadow-md active:scale-95 cursor-pointer shrink-0"
+          >
+            <Sparkles size={14} />
+            {language === "ar" ? "ابدأ الاستيراد الذكي" : "Start Smart Import"}
+          </button>
+        </div>
+      )}
       {data.isLocked && (
         <div className="absolute inset-0 z-[100] bg-white/70 backdrop-blur-md flex items-center justify-center rounded-[2rem] mx-[-1rem] px-4" style={{ height: 'max-content', minHeight: '100%' }}>
           <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] max-w-md w-full text-center border border-slate-200 relative overflow-hidden mt-20">
@@ -1776,10 +1816,10 @@ export default function EditorPage() {
             <AnimatePresence>
               {overflowLines > 0 && previewMode === "resume" && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="mx-6 mt-16 mb-[-3.5rem] relative z-20 bg-amber-50 border border-amber-200 text-amber-950 rounded-2xl p-4 shadow-md flex items-center justify-between gap-4"
+                  exit={{ opacity: 0, y: 30 }}
+                  className="absolute bottom-6 start-6 end-6 z-20 bg-amber-55/95 backdrop-blur-md border border-amber-200 text-amber-950 rounded-2xl p-4.5 shadow-[0_12px_40px_rgba(0,0,0,0.12)] flex items-center justify-between gap-4"
                   dir={language === "ar" ? "rtl" : "ltr"}
                 >
                   <div className="flex items-start gap-3">
@@ -1960,6 +2000,10 @@ export default function EditorPage() {
         <SettingsModal
           isOpen={isSettingsModalOpen}
           onClose={() => setIsSettingsModalOpen(false)}
+        />
+        <LinkedInImportModal
+          isOpen={isLinkedInModalOpen}
+          onClose={() => setIsLinkedInModalOpen(false)}
         />
         {/* Full Page Preview Modal */}
         <AnimatePresence>

@@ -27,15 +27,15 @@ export default function LandingPage() {
         <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
         
         {/* Final CTA */}
-        <section className="py-20 sm:py-24 relative overflow-hidden bg-[#FF4D2D]" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(255,255,255,0.15) 0%, transparent 70%)' }} />
+        <section className="py-20 sm:py-24 relative overflow-hidden bg-[#001639]" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+          <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at center, rgba(255,77,45,0.08) 0%, transparent 75%)' }} />
           
           {/* Animated decorative shapes */}
           <div 
-             className="absolute -top-[20%] -end-[10%] w-[50%] h-[150%] rounded-full bg-white opacity-5 pointer-events-none blur-3xl transform rotate-45" 
+             className="absolute -top-[20%] -end-[10%] w-[50%] h-[150%] rounded-full bg-[#FF4D2D] opacity-10 pointer-events-none blur-3xl transform rotate-45" 
           />
           <div 
-             className="absolute -bottom-[20%] -start-[10%] w-[40%] h-[120%] rounded-full bg-white opacity-5 pointer-events-none blur-3xl transform -rotate-45" 
+             className="absolute -bottom-[20%] -start-[10%] w-[40%] h-[120%] rounded-full bg-blue-500 opacity-5 pointer-events-none blur-3xl transform -rotate-45" 
           />
 
           <motion.div 
@@ -48,7 +48,7 @@ export default function LandingPage() {
             <h2 className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tight drop-shadow-sm">
               {lang === 'ar' ? 'مستعد تبدأ مسيرتك المهنية؟' : lang === 'fr' ? 'Prêt à lancer votre carrière ?' : 'Ready to start your career journey?'}
             </h2>
-            <p className="text-white/90 text-lg md:text-2xl mb-12 max-w-2xl mx-auto font-medium">
+            <p className="text-white/80 text-lg md:text-2xl mb-12 max-w-2xl mx-auto font-medium">
               {lang === 'ar' 
                 ? 'انضم لآلاف المستخدمين اللي بنوا سيرتهم الذاتية في دقايق.'
                 : lang === 'fr'
@@ -56,16 +56,16 @@ export default function LandingPage() {
                 : 'Join thousands of users who built their resumes in minutes.'}
             </p>
             <motion.button 
-              whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)" }}
+              whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgba(255, 77, 45, 0.35), 0 10px 10px -5px rgba(255, 77, 45, 0.25)" }}
               whileTap={{ scale: 0.95 }}
               onClick={goToEditor}
-              className="bg-white text-[#FF4D2D] px-10 py-5 rounded-full font-black text-xl shadow-xl transition-all flex items-center gap-3 group"
+              className="bg-[#FF4D2D] text-white px-10 py-5 rounded-full font-black text-xl shadow-xl transition-all flex items-center gap-3 group"
             >
               {lang === 'ar' ? 'أنشئ سيرتك الآن' : lang === 'fr' ? 'Créer mon CV maintenant' : 'Create My Resume Now'}
               <motion.span 
-                 animate={{ x: lang === 'ar' ? [-3, 0, -3] : [3, 0, 3] }}
-                 transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                 className="group-hover:opacity-80"
+                animate={{ x: lang === 'ar' ? [-3, 0, -3] : [3, 0, 3] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                className="group-hover:opacity-80"
               >
                 {lang === 'ar' ? '←' : '→'}
               </motion.span>

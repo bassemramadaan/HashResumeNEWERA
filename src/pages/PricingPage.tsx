@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Check, ArrowRight } from "lucide-react";
+import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useLanguageStore } from "../store/useLanguageStore";

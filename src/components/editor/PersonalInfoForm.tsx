@@ -4,7 +4,6 @@ import { ZodIssue } from "zod";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
-import LinkedInImportModal from "./LinkedInImportModal";
 import {
   User,
   Mail,
@@ -75,36 +74,8 @@ const PersonalInfoForm = () => {
     setErrors((prev) => ({ ...prev, [name]: error }));
   };
 
-  const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
-
   return (
     <div className="space-y-6">
-      {/* Smart Auto-Parser Premium Banner */}
-      <div className="bg-gradient-to-r from-brand-500/10 via-brand-500/5 to-brand-500/10 border border-brand-500/20 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs hover:shadow-md transition-all duration-300">
-        <div className="flex items-center gap-3.5">
-          <div className="w-10 h-10 bg-brand-500/15 text-brand-600 rounded-xl flex items-center justify-center shrink-0 shadow-xs">
-            <Sparkles size={18} className="text-brand-600 animate-pulse" />
-          </div>
-          <div>
-            <h3 className="font-bold text-slate-800 text-sm">
-              {language === "ar" ? "مستخلص السبر الذاتية الذكي بالذكاء الاصطناعي (PDF)" : "Smart AI Resume & CV Auto-Parser (PDF)"}
-            </h3>
-            <p className="text-xs text-slate-500 mt-0.5 max-w-lg">
-              {language === "ar" ? "ارفع ملف سيرتك الذاتية القديمة أو ملف لينكد إن وسنقوم بملء الحقول تلقائياً وبأمان." : "Upload any old CV or LinkedIn profile PDF, and let our Gemini parser populate your data instantly."}
-            </p>
-          </div>
-        </div>
-        <button
-          onClick={() => setIsLinkedInModalOpen(true)}
-          className="w-full sm:w-auto px-5 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap flex justify-center items-center gap-2 bg-slate-900 hover:bg-slate-950 text-white shadow-sm hover:shadow active:scale-95 cursor-pointer"
-        >
-          <Sparkles size={14} />
-          {language === "ar" ? "استيراد وتوطين البيانات" : "Auto-Parse old CV"}
-        </button>
-      </div>
-
-      <LinkedInImportModal isOpen={isLinkedInModalOpen} onClose={() => setIsLinkedInModalOpen(false)} />
-
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 font-sans transition-colors">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">

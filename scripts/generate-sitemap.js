@@ -7,6 +7,7 @@ const pages = [
   { route: 'cover-letter', file: 'src/pages/CoverLetterPage.tsx', priority: '0.8', changefreq: 'weekly' },
   { route: 'blog', file: 'src/pages/BlogPage.tsx', priority: '0.8', changefreq: 'daily' },
   { route: 'hash-hunt', file: 'src/pages/HashHuntPage.tsx', priority: '0.4', changefreq: 'weekly' },
+  { route: 'pricing', file: 'src/pages/PricingPage.tsx', priority: '0.8', changefreq: 'weekly' },
   { route: 'privacy', file: 'src/pages/PrivacyPage.tsx', priority: '0.5', changefreq: 'monthly' },
   { route: 'terms', file: 'src/pages/TermsOfServicePage.tsx', priority: '0.5', changefreq: 'monthly' },
   { route: 'trust', file: 'src/pages/TrustPage.tsx', priority: '0.6', changefreq: 'monthly' },

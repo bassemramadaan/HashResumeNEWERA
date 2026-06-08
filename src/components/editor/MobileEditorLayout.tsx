@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { 
   Edit3, Eye, Grid, Download, 
-  FileText, ChevronRight, ChevronLeft
+  FileText, ChevronRight
 } from "lucide-react";
 
 // ── i18n ──────────────────────────────────────────────────
@@ -357,7 +357,7 @@ export default function MobileEditorLayout({
         <div className={`h-full w-full ${activeTab === "edit" ? "block" : "hidden"}`}>
           <div className="h-full flex flex-col overflow-hidden relative">
             {/* Horizontal Sections Quick Switcher */}
-            <div className="bg-white border-b border-slate-200/50 px-3 py-2 shrink-0 overflow-x-auto scrollbar-none flex items-center gap-2 select-none">
+            <div className="bg-white border-b border-slate-200/50 px-3 py-2.5 shrink-0 overflow-x-auto scrollbar-none flex items-center gap-2 select-none">
               {sections.map((s) => {
                 const isActive = activeSection === s.id;
                 const pct = completionMap[s.id] ?? 0;
@@ -375,18 +375,20 @@ export default function MobileEditorLayout({
                         }
                       }, 45);
                     }}
-                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap shrink-0 transition-all border ${
+                    className={`relative flex flex-col items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-2xl text-[10px] font-black whitespace-nowrap shrink-0 transition-all border ${
                       isActive
-                        ? "bg-slate-900/10 border-slate-900/20 text-slate-900"
-                        : "bg-slate-50 border-slate-200/60 text-slate-655 hover:bg-slate-100"
+                        ? "bg-slate-900 border-slate-950 text-white shadow-sm"
+                        : "bg-slate-50/80 border-slate-200/60 text-slate-500 hover:bg-slate-100/90"
                     }`}
                   >
-                    <span>{s.emoji}</span>
-                    <span>{s.label}</span>
+                    <span className="text-sm select-none">{s.emoji}</span>
+                    <span className="text-[9px] font-black tracking-tight leading-none">{s.label}</span>
                     {pct === 100 ? (
-                      <span className="text-emerald-600 font-extrabold text-[10px]">✓</span>
+                      <span className="absolute -top-1 -end-1 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white" />
                     ) : pct > 0 ? (
-                      <span className="text-amber-500 font-extrabold text-[10px]">{pct}%</span>
+                      <span className="absolute -top-1 -end-1 bg-amber-500 text-white font-black text-[7.5px] px-1 py-0.5 rounded-md leading-none border border-white scale-90">
+                        {pct}%
+                      </span>
                     ) : null}
                   </button>
                 );

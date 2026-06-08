@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
-import { Sparkles, Check, AlertCircle, Import } from "lucide-react";
+import { Sparkles, Check, Import } from "lucide-react";
 import { aiService } from "../../services/aiService";
 import SectionTooltip from "./SectionTooltip";
 

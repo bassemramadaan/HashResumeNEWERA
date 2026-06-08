@@ -94,10 +94,7 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {currentFeatures.map((f, i) => {
-            const spanClass = i === 0 || i === 3 || i === 4
-              ? "lg:col-span-2"
-              : "lg:col-span-1";
-            return <FeatureCard key={i} {...f} className={spanClass} />;
+            return <FeatureCard key={i} {...f} className="h-full flex flex-col justify-between" />;
           })}
         </motion.div>
       </div>

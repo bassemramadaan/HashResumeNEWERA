@@ -183,14 +183,13 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             </div>
 
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, backgroundColor: 'rgba(255, 77, 45, 0.05)' }}
               whileTap={{ scale: 0.95 }}
               onClick={handleStart}
-              className="bg-[#FF4D2D] hover:bg-[#E64528] text-white shadow-lg shadow-orange-500/20 px-5 py-2.5 rounded-full font-bold text-sm hidden md:inline-flex items-center gap-2 transition-colors relative overflow-hidden group"
+              className="border-2 border-[#FF4D2D] text-[#FF4D2D] px-5 py-2 rounded-full font-black text-sm hidden md:inline-flex items-center gap-2 transition-all duration-300 bg-transparent group"
             >
-              <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out rounded-full" />
-              <Sparkles className="w-4 h-4 relative z-10" />
-              <span className="relative z-10">{ctaLabel}</span>
+              <Sparkles className="w-4 h-4 text-[#FF4D2D]" />
+              <span>{ctaLabel}</span>
             </motion.button>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -276,9 +275,9 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               </div>
               <button
                 onClick={() => { handleStart(); setMobileOpen(false) }}
-                className="btn-primary mt-2 w-full justify-center inline-flex gap-2"
+                className="border-2 border-[#FF4D2D] text-[#FF4D2D] hover:bg-[#FF4D2D]/5 mt-2 w-full justify-center inline-flex items-center gap-2 py-2.5 rounded-xl font-bold transition-all bg-transparent"
               >
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 text-[#FF4D2D]" />
                 {ctaLabel}
               </button>
             </div>

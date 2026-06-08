@@ -137,26 +137,26 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
         
         {/* Card 1: Single CV */}
         <TiltCard
-          className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-lg bg-slate-900 border border-slate-800 hover:border-slate-700 hover:shadow-xl transition-all transform-gpu"
+          className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-md bg-white border border-slate-200 hover:border-slate-350 hover:shadow-lg transition-all transform-gpu"
         >
           <div className="absolute top-0 end-8 -translate-y-1/2">
-            <span className="px-4 py-1.5 rounded-full text-xs font-black text-rose-400 border border-rose-500/30 tracking-wider uppercase bg-slate-950">
+            <span className="px-4 py-1.5 rounded-full text-xs font-black text-rose-600 border border-rose-100 tracking-wider uppercase bg-rose-50">
               {c.planSingle.popular}
             </span>
           </div>
 
           <div className="flex flex-col flex-1">
             <div className="mb-6 text-center md:text-start">
-              <div className="text-xs font-black text-slate-400 mb-2 tracking-widest uppercase">{c.planSingle.name}</div>
+              <div className="text-xs font-black text-slate-405 text-slate-500 mb-2 tracking-widest uppercase">{c.planSingle.name}</div>
               <div className="flex items-baseline justify-center md:justify-start gap-2">
-                <span className="text-4xl sm:text-5xl font-black text-white tracking-tight">{c.planSingle.price}</span>
-                <span className="text-xs font-semibold text-slate-400">{c.planSingle.period}</span>
+                <span className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">{c.planSingle.price}</span>
+                <span className="text-xs font-semibold text-slate-500">{c.planSingle.period}</span>
               </div>
             </div>
 
-            <ul className="space-y-3.5 text-start flex-1 border-t border-slate-850 pt-6">
+            <ul className="space-y-3.5 text-start flex-1 border-t border-slate-100 pt-6">
               {c.planSingle.features.map((f) => (
-                <li key={f} className="flex items-start gap-3 text-sm text-slate-300 font-medium">
+                <li key={f} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
                   <Check className="w-4 h-4 flex-shrink-0 text-[#FF4D2D] mt-0.5" />
                   <span>{f}</span>
                 </li>
@@ -166,7 +166,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
 
           <button
             onClick={onPaidClick}
-            className="bg-slate-800 hover:bg-slate-700 active:scale-95 text-white rounded-full font-bold text-sm px-6 py-4 mt-8 w-full justify-center inline-flex items-center gap-2 border border-slate-700 transition-all cursor-pointer group"
+            className="bg-slate-900 hover:bg-slate-800 active:scale-95 text-white rounded-full font-bold text-sm px-6 py-4 mt-8 w-full justify-center inline-flex items-center gap-2 border border-transparent transition-all cursor-pointer group shadow-md"
           >
             {c.planSingle.cta}
             <span className="group-hover:translate-x-1 transition-transform">

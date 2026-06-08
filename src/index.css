@@ -41,9 +41,8 @@
   --color-info:          #1565C0;
 
   /* Typography */
-  --font-sans:   'Inter', 'Plus Jakarta Sans', sans-serif;
-  --font-syne:   'Syne', sans-serif;
-  --font-arabic: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif;
+  --font-sans:   'Plus Jakarta Sans', sans-serif;
+  --font-arabic: 'Cairo', sans-serif;
 
   /* Border radius */
   --radius-sm:   6px;
@@ -247,17 +246,17 @@ body {
 
 /* Font Family Overrides */
 /* Default (LTR / English & French) */
-[data-font-family="inter"] * { font-family: 'Inter', 'Plus Jakarta Sans', sans-serif !important; }
+[data-font-family="inter"] * { font-family: 'Plus Jakarta Sans', sans-serif !important; }
 [data-font-family="serif"] * { font-family: 'Playfair Display', ui-serif, Georgia, Cambria, "Times New Roman", Times, serif !important; }
 [data-font-family="mono"] * { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important; }
 
 /* Arabic Specific Overrides (RTL) */
 [dir="rtl"] [data-font-family="inter"] *,
-[dir="rtl"][data-font-family="inter"] * { font-family: 'IBM Plex Sans Arabic', 'Tajawal', sans-serif !important; }
+[dir="rtl"][data-font-family="inter"] * { font-family: 'Cairo', sans-serif !important; }
 [dir="rtl"] [data-font-family="serif"] *,
-[dir="rtl"][data-font-family="serif"] * { font-family: 'Cairo', 'Tajawal', sans-serif !important; }
+[dir="rtl"][data-font-family="serif"] * { font-family: 'Cairo', sans-serif !important; }
 [dir="rtl"] [data-font-family="mono"] *,
-[dir="rtl"][data-font-family="mono"] * { font-family: 'Tajawal', 'IBM Plex Sans Arabic', sans-serif !important; }
+[dir="rtl"][data-font-family="mono"] * { font-family: 'Cairo', sans-serif !important; }
 
 /* ============================================================
    INFINITE MARQUEE KEYFRAMES

@@ -168,10 +168,10 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
       {/* Fine Blueprint Matrix Grid & Radial Ambient Lighting Background */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 opacity-[0.06] pointer-events-none select-none"
+        className="absolute inset-0 opacity-[0.04] pointer-events-none select-none"
         style={{
           backgroundImage:
-            'linear-gradient(to right, rgba(255, 77, 45, 0.25) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 77, 45, 0.25) 1px, transparent 1px)',
+            'linear-gradient(to right, rgba(0, 22, 57, 0.25) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 22, 57, 0.25) 1px, transparent 1px)',
           backgroundSize: '30px 30px',
           maskImage: 'radial-gradient(circle at 50% 30%, black 60%, transparent 100%)',
           WebkitMaskImage: 'radial-gradient(circle at 50% 30%, black 60%, transparent 100%)',
@@ -180,9 +180,9 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
       {/* Smooth SaaS Radial Ambient Lighting Glow Behind Headlines */}
       <div
-        className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[800px] md:w-[1200px] h-[600px] md:h-[700px] rounded-full pointer-events-none opacity-45 mix-blend-multiply filter blur-[120px] transform-gpu"
+        className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[800px] md:w-[1200px] h-[600px] md:h-[700px] rounded-full pointer-events-none opacity-30 mix-blend-multiply filter blur-[120px] transform-gpu"
         style={{
-          background: 'radial-gradient(circle, rgba(255,160,122,0.2) 0%, rgba(255,77,45,0.08) 40%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, rgba(244,63,94,0.08) 45%, transparent 70%)',
         }}
       />
 
