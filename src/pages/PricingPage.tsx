@@ -1,0 +1,140 @@
+import { motion } from "motion/react";
+import { Check, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { useLanguageStore } from "../store/useLanguageStore";
+
+export default function PricingPage() {
+  const { language } = useLanguageStore();
+  const isAr = language === "ar";
+  
+  return (
+    <>
+      <Helmet>
+        <title>{isAr ? "الأسعار - Hash Resume" : "Pricing - Hash Resume"}</title>
+        <meta 
+          name="description" 
+          content={isAr ? "اختر الباقة المناسبة لسيرتك الذاتية. باقات مرنة واقتصادية." : "Choose the right package for your resume. Flexible and affordable pricing."} 
+        />
+      </Helmet>
+      
+      <div className="min-h-screen bg-slate-50 font-sans selection:bg-orange-100 pb-20" dir={isAr ? "rtl" : "ltr"}>
+        <header className="fixed top-0 inset-x-0 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2">
+              <span className="text-xl font-black text-slate-800 tracking-tight">Hash Resume</span>
+            </Link>
+            <Link 
+              to="/editor"
+              className="text-sm font-bold text-white bg-slate-900 px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors"
+            >
+              {isAr ? "بناء السيرة الذاتية" : "Build Resume"}
+            </Link>
+          </div>
+        </header>
+
+        <main className="pt-32 px-4 max-w-5xl mx-auto">
+          <div className="text-center mb-16 space-y-4">
+            <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">
+              {isAr ? "أسعار بسيطة. قيمة لا محدودة." : "Simple pricing. Unlimited value."}
+            </h1>
+            <p className="text-slate-500 font-medium text-lg max-w-2xl mx-auto">
+              {isAr 
+                ? "ابدأ بخطتك المثالية. الدفع مرة واحدة ولا توجد اشتراكات خفية."
+                : "Start with the perfect plan. Pay once, no hidden subscriptions."}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Single Package */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col"
+            >
+              <h3 className="text-xl font-bold text-slate-800 mb-2">{isAr ? "كود تحميل واحد" : "Single Code"}</h3>
+              <p className="text-slate-500 text-sm mb-6 min-h-[40px]">
+                {isAr ? "مثالي لشخص يبحث عن وظيفة واحدة ويريد سيرة ذاتية مثالية." : "Perfect for a single application or update."}
+              </p>
+              <div className="mb-8 flex items-baseline gap-2">
+                <span className="text-5xl font-black text-slate-900">50</span>
+                <span className="text-slate-500 font-bold">{isAr ? "ج.م" : "EGP"}</span>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                {[
+                  isAr ? "١ تحميل PDF خالي من العلامة المائية" : "1 watermark-free PDF export",
+                  isAr ? "تحليل ATS بالذكاء الاصطناعي" : "AI ATS analysis",
+                  isAr ? "جميع القوالب الاحترافية" : "All professional templates",
+                  isAr ? "دعم اللغتين العربية والإنجليزية" : "Arabic & English support"
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700">
+                    <Check className="w-5 h-5 text-emerald-500 shrink-0" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link 
+                to="/editor"
+                className="w-full py-4 rounded-xl font-bold text-center border-2 border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50 transition-colors"
+              >
+                {isAr ? "ابدأ الآن" : "Start Now"}
+              </Link>
+            </motion.div>
+
+            {/* Bundle Package */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-gradient-to-b from-orange-50 to-white rounded-3xl p-8 border-2 border-orange-200 shadow-lg relative flex flex-col scale-[1.02]"
+            >
+              <div className="absolute top-0 right-8 -translate-y-1/2 bg-gradient-to-r from-orange-500 to-rose-500 text-white px-3 py-1 rounded-full text-xs font-black shadow-sm">
+                {isAr ? "توفير ٦٠٪ - الأكثر شعبية" : "SAVE 60% - MOST POPULAR"}
+              </div>
+              
+              <h3 className="text-xl font-black text-orange-950 mb-2">{isAr ? "باقة ٣ أكواد" : "3-Codes Bundle"}</h3>
+              <p className="text-orange-800/70 text-sm mb-6 min-h-[40px] font-medium">
+                {isAr ? "شارك الباقة مع أصدقائك أو أنشئ أكثر من سيرة ذاتية لمجالات مختلفة." : "Share with friends or create multiple versions of your resume."}
+              </p>
+              <div className="mb-8 flex items-baseline gap-2">
+                <span className="text-5xl font-black text-[#FF4D2D]">120</span>
+                <span className="text-orange-800/70 font-bold">{isAr ? "ج.م" : "EGP"}</span>
+              </div>
+              <ul className="space-y-4 mb-8 flex-1">
+                {[
+                  isAr ? "٣ أكواد تحميل مستقلة" : "3 independent export codes",
+                  isAr ? "مثالي للتخصيص لأكثر من وظيفة" : "Perfect for tailoring to multiple roles",
+                  isAr ? "تحليل ATS بالذكاء الاصطناعي" : "AI ATS analysis",
+                  isAr ? "تحديث السيرة الذاتية لاحقاً" : "Update resume later (use code anytime)",
+                  isAr ? "جميع مميزات الباقة الفردية" : "All Single Code features"
+                ].map((feature, i) => (
+                  <li key={i} className="flex items-center gap-3 text-sm font-bold text-slate-800">
+                    <Check className="w-5 h-5 text-[#FF4D2D] shrink-0" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link 
+                to="/editor"
+                className="w-full py-4 rounded-xl font-black text-center text-white bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
+              >
+                {isAr ? "احصل على الباقة" : "Get the Bundle"}
+              </Link>
+            </motion.div>
+          </div>
+          
+          <div className="mt-16 text-center">
+            <p className="text-sm font-medium text-slate-500 mb-4">
+              {isAr ? "ندعم وسائل الدفع المحلية:" : "We support local payment methods:"}
+            </p>
+            <div className="flex items-center justify-center gap-6 opacity-70 grayscale">
+              <div className="font-black text-lg">InstaPay</div>
+              <div className="font-black text-lg">Vodafone Cash</div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </>
+  );
+}
