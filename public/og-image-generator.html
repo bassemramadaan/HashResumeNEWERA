@@ -4,57 +4,262 @@
 <meta charset="UTF-8">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  width: 1200px; height: 630px;
-  background: #FAFAFA;
-  font-family: 'Cairo', sans-serif;
-  display: flex; align-items: center; justify-content: center;
-  position: relative; overflow: hidden;
+body { background: #001639; }
+.og {
+  width: 1200px;
+  height: 630px;
+  background: #001639;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.grid {
-  position: absolute; inset: 0;
-  background-image: linear-gradient(to right, #e8e8e620 1px, transparent 1px),
-    linear-gradient(to bottom, #e8e8e620 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-.glow {
-  position: absolute; top: -200px; left: 50%;
-  transform: translateX(-50%);
-  width: 800px; height: 400px;
-  background: radial-gradient(ellipse, rgba(255,77,45,0.12), transparent);
+.bg-glow {
+  position: absolute;
+  width: 600px; height: 600px;
   border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,77,45,0.18) 0%, transparent 70%);
+  top: -150px; right: -100px;
+}
+.bg-glow2 {
+  position: absolute;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,77,45,0.08) 0%, transparent 70%);
+  bottom: -100px; left: 50px;
+}
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 .content {
-  position: relative; z-index: 10;
-  text-align: center; padding: 60px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  padding: 0 80px;
+  width: 100%;
 }
-.logo { font-size: 32px; font-weight: 700; margin-bottom: 32px; }
-.logo span:first-child { color: #FF4D2D; }
-.logo span:last-child { color: #242422; }
-.title { font-size: 64px; font-weight: 700; color: #121210; line-height: 1.1; margin-bottom: 20px; }
-.title em { color: #FF4D2D; font-style: normal; }
-.sub { font-size: 28px; color: #737370; margin-bottom: 40px; }
-.badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: white; border: 1px solid #E8E8E6;
-  border-radius: 999px; padding: 12px 28px;
-  font-size: 20px; color: #525250;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+.left { flex: 1; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,77,45,0.15);
+  border: 1px solid rgba(255,77,45,0.3);
+  border-radius: 99px;
+  padding: 6px 16px;
+  margin-bottom: 28px;
 }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: #2E7D32; }
+.tag-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #FF4D2D;
+}
+.tag-text {
+  color: #FF4D2D;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.title {
+  color: #ffffff;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.title span { color: #FF4D2D; }
+.subtitle {
+  color: rgba(255,255,255,0.55);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 480px;
+}
+.pills {
+  display: flex;
+  gap: 12px;
+  margin-top: 36px;
+  flex-wrap: wrap;
+}
+.pill {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 8px 18px;
+  color: rgba(255,255,255,0.7);
+  font-size: 16px;
+}
+.right {
+  flex-shrink: 0;
+  width: 320px;
+}
+.cv-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 20px;
+  padding: 28px;
+  position: relative;
+}
+.cv-card::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 20px; right: 20px;
+  height: 3px;
+  background: linear-gradient(90deg, #FF4D2D, #FF8C6B);
+  border-radius: 0 0 4px 4px;
+}
+.cv-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.cv-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF4D2D, #FF8C6B);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+}
+.cv-name { color: #fff; font-size: 16px; font-weight: 600; }
+.cv-role { color: rgba(255,255,255,0.45); font-size: 13px; margin-top: 2px; }
+.cv-line {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.08);
+  margin-bottom: 10px;
+}
+.cv-line.short { width: 60%; }
+.cv-line.med { width: 80%; }
+.cv-line.long { width: 95%; }
+.cv-line.accent { background: rgba(255,77,45,0.3); }
+.cv-section-label {
+  color: rgba(255,255,255,0.3);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 16px 0 8px;
+}
+.ats-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  background: rgba(255,77,45,0.08);
+  border: 1px solid rgba(255,77,45,0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+.ats-score { color: #FF4D2D; font-size: 20px; font-weight: 700; }
+.ats-label { color: rgba(255,255,255,0.5); font-size: 12px; }
+.logo-area {
+  position: absolute;
+  bottom: 40px;
+  left: 80px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: #FF4D2D;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+}
+.logo-name { color: rgba(255,255,255,0.6); font-size: 18px; font-weight: 500; }
+.domain { color: rgba(255,255,255,0.3); font-size: 16px; position: absolute; bottom: 44px; right: 80px; }
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-<div class="grid"></div>
-<div class="glow"></div>
-<div class="content">
-  <div class="logo"><span>Hash</span><span>Resume</span></div>
-  <div class="title">سيرتك الاحترافية<br><em>في 5 دقائق</em></div>
-  <div class="sub">عربي • إنجليزي • فرنسي</div>
-  <div class="badge">
-    <div class="dot"></div>
-    +2,400 سيرة هذا الشهر
+<div class="og" id="og">
+  <div class="bg-glow"></div>
+  <div class="bg-glow2"></div>
+  <div class="grid-lines"></div>
+
+  <div class="content">
+    <div class="left">
+      <div class="tag">
+        <div class="tag-dot"></div>
+        <span class="tag-text">AI-Powered Resume Builder</span>
+      </div>
+      <div class="title">
+        Land the Job.<br><span>Effortlessly.</span>
+      </div>
+      <div class="subtitle">
+        سيرتك الذاتية الاحترافية في 5 دقائق<br>عربي · إنجليزي · فرنسي
+      </div>
+      <div class="pills">
+        <div class="pill">✦ ATS-Friendly</div>
+        <div class="pill">✦ No Sign-up</div>
+        <div class="pill">✦ AI-Powered</div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="cv-card">
+        <div class="cv-header">
+          <div class="cv-avatar">أ</div>
+          <div>
+            <div class="cv-name">أحمد محمد</div>
+            <div class="cv-role">Software Engineer</div>
+          </div>
+        </div>
+        <div class="cv-section-label">Experience</div>
+        <div class="cv-line long accent"></div>
+        <div class="cv-line med"></div>
+        <div class="cv-line short"></div>
+        <div class="cv-section-label">Skills</div>
+        <div class="cv-line med accent"></div>
+        <div class="cv-line long"></div>
+        <div class="ats-bar">
+          <div class="ats-score">92%</div>
+          <div>
+            <div style="color:#fff;font-size:13px;font-weight:600">ATS Score</div>
+            <div class="ats-label">Ready to apply</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <div class="logo-area">
+    <div class="logo-icon">#</div>
+    <div class="logo-name">Hash Resume</div>
+  </div>
+  <div class="domain">hashresume.com</div>
 </div>
+
+<script>
+  // Wait a bit for fonts to load
+  setTimeout(() => {
+    html2canvas(document.getElementById('og')).then(c => { 
+      const a = document.createElement('a'); 
+      a.download = 'og-image.png'; 
+      a.href = c.toDataURL(); 
+      a.click(); 
+    });
+  }, 1000);
+</script>
 </body>
 </html>
