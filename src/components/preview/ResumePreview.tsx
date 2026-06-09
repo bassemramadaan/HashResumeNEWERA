@@ -74,11 +74,43 @@ const ResumePreview = memo(
       personalInfo,
       experience,
       education,
-      skills,
+      skills: rawSkills,
       projects,
       certifications,
       settings,
     } = data;
+
+    const skills = (rawSkills || []).map((skill: any, idx: number) => {
+      if (typeof skill === "string") {
+        return {
+          id: String(idx),
+          name: skill,
+          level: "",
+          toString() {
+            return skill;
+          },
+        };
+      }
+      if (skill && typeof skill === "object") {
+        return {
+          ...skill,
+          id: skill.id || String(idx),
+          name: skill.name || "",
+          level: skill.level || "",
+          toString() {
+            return skill.name || "";
+          },
+        };
+      }
+      return {
+        id: String(idx),
+        name: "",
+        level: "",
+        toString() {
+          return "";
+        },
+      };
+    });
     const sectionOrder = settings.sectionOrder || [
       "summary",
       "experience",
