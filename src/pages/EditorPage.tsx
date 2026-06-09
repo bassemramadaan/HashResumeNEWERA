@@ -29,7 +29,6 @@ import {
   Lock,
 } from "lucide-react";
 import { useResumeStore, ResumeData, getResumeSignature } from "../store/useResumeStore";
-import { useOnboardingStore } from "../store/useOnboardingStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 import SettingsModal from "../components/SettingsModal";
@@ -66,8 +65,6 @@ const PostDownloadModal = lazy(
   () => import("../components/payment/PostDownloadModal"),
 );
 const FeedbackModal = lazy(() => import("../components/FeedbackModal"));
-const OnboardingTour = lazy(() => import("../components/OnboardingTour"));
-const WelcomeModal = lazy(() => import("../components/editor/WelcomeModal"));
 const ResumeCheckerModal = lazy(
   () => import("../components/editor/ResumeCheckerModal"),
 );
@@ -447,6 +444,17 @@ export default function EditorPage() {
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
   const [showScoreChecklist, setShowScoreChecklist] = useState(false);
 
+  const [focusMode, setFocusMode] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("focusMode") === "true";
+    }
+    return false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("focusMode", String(focusMode));
+  }, [focusMode]);
+
   // Keyboard shortcuts for undo/redo
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -479,7 +487,6 @@ export default function EditorPage() {
   const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
-  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [showProgressTracker, setShowProgressTracker] = useState(false);
   const [exportStatus, setExportStatus] = useState<{
     show: boolean;
@@ -575,9 +582,6 @@ export default function EditorPage() {
     }
   }, [data.settings?.template]);
 
-  const { hasSeenOnboarding, startOnboarding, skipOnboarding } =
-    useOnboardingStore();
-
   const [isSaving, setIsSaving] = useState(false);
   useEffect(() => {
     setIsSaving(true);
@@ -649,23 +653,6 @@ export default function EditorPage() {
       clearInterval(interval);
     };
   }, [data]);
-
-  // Show welcome modal if not seen
-  useEffect(() => {
-    if (!hasSeenOnboarding && !showWelcomeModal) {
-      setShowWelcomeModal(true);
-    }
-  }, [hasSeenOnboarding, showWelcomeModal]);
-
-  const handleStartTour = () => {
-    setShowWelcomeModal(false);
-    startOnboarding();
-  };
-
-  const handleSkipTour = () => {
-    setShowWelcomeModal(false);
-    skipOnboarding();
-  };
 
   // Keyboard shortcuts for undo/redo
   useEffect(() => {
@@ -893,62 +880,64 @@ export default function EditorPage() {
   };
 
   const formContent = (
-    <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32 relative">
+    <div className={cn(focusMode ? "max-w-[720px]" : "max-w-4xl", "mx-auto pb-[120px] sm:pb-32 relative")}>
       {/* Dynamic Persistent Resume Completion Progress Bar */}
-      <div className="mb-6 bg-[#FFF7F5] border border-[#FFD5CB] text-[#001639] rounded-xl p-4.5 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.01)] relative overflow-hidden group select-none">
-        <div className="absolute inset-0 bg-radial-gradient(circle at top right, rgba(255, 77, 45, 0.08), transparent 70%) pointer-events-none" />
-        
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 z-10 relative">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#FF4D2D]/10 flex items-center justify-center border border-[#FF4D2D]/20 shrink-0">
-              <Sparkles className="w-5 h-5 text-[#FF4D2D] animate-pulse" />
-            </div>
-            <div>
-              <h4 className="text-sm font-extrabold text-[#001639] leading-tight font-sans">
-                {atsScore < 25 ? (
-                  language === "ar" ? (
-                    "ابدأ بمعلوماتك الأساسية — 5 خطوات للسيرة المثالية ✨"
-                  ) : language === "fr" ? (
-                    "Commencez par vos infos de base — 5 étapes pour un CV parfait ✨"
-                  ) : (
-                    "Start with your basic information — 5 steps to the perfect resume ✨"
-                  )
-                ) : (
-                  language === "ar" ? (
-                    <>سيرتك الذاتية ممتازة ومكتملة بنسبة <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span>! استمر في الإضافة لتخطي الفلاتر 🚀</>
-                  ) : language === "fr" ? (
-                    <>Votre CV est complété à <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> — continuez pour le rendre parfait ! 🚀</>
-                  ) : (
-                    <>Excellent! Your resume is <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> complete — keep going to make it perfect! 🚀</>
-                  )
-                )}
-              </h4>
-              <p className="text-[10px] text-[#001639]/70 font-semibold mt-0.5 font-sans">
-                {language === "ar" 
-                  ? "املأ حقول الخبرات العملية والتعليم لرفع نسبة تخطي أنظمة الفرز والحصول على فرصتك المثالية!"
-                  : "Fill in experience and education fields to bypass automatic recruiter filters and land top-tier interviews!"}
-              </p>
-            </div>
-          </div>
+      {!focusMode && (
+        <div className="mb-6 bg-[#FFF7F5] border border-[#FFD5CB] text-[#001639] rounded-xl p-4.5 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.01)] relative overflow-hidden group select-none">
+          <div className="absolute inset-0 bg-radial-gradient(circle at top right, rgba(255, 77, 45, 0.08), transparent 70%) pointer-events-none" />
           
-          <div className="flex-1 max-w-xs w-full">
-            <div className="flex justify-between items-center mb-1.5 text-[10px] text-[#001639]/70 font-extrabold font-sans">
-              <span>{language === "ar" ? "نسبة الاكتمال" : "Completion Progress"}</span>
-              <span className="text-[#001639] font-black">{atsScore}%</span>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 z-10 relative">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-[#FF4D2D]/10 flex items-center justify-center border border-[#FF4D2D]/20 shrink-0">
+                <Sparkles className="w-5 h-5 text-[#FF4D2D] animate-pulse" />
+              </div>
+              <div>
+                <h4 className="text-sm font-extrabold text-[#001639] leading-tight font-sans">
+                  {atsScore < 25 ? (
+                    language === "ar" ? (
+                      "ابدأ بمعلوماتك الأساسية — 5 خطوات للسيرة المثالية ✨"
+                    ) : language === "fr" ? (
+                      "Commencez par vos infos de base — 5 étapes pour un CV parfait ✨"
+                    ) : (
+                      "Start with your basic information — 5 steps to the perfect resume ✨"
+                    )
+                  ) : (
+                    language === "ar" ? (
+                      <>سيرتك الذاتية ممتازة ومكتملة بنسبة <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span>! استمر في الإضافة لتخطي الفلاتر 🚀</>
+                    ) : language === "fr" ? (
+                      <>Votre CV est complété à <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> — continuez pour le rendre parfait ! 🚀</>
+                    ) : (
+                      <>Excellent! Your resume is <span className="text-[#FF4D2D] text-base font-extrabold">{atsScore}%</span> complete — keep going to make it perfect! 🚀</>
+                    )
+                  )}
+                </h4>
+                <p className="text-[10px] text-[#001639]/70 font-semibold mt-0.5 font-sans">
+                  {language === "ar" 
+                    ? "املأ حقول الخبرات العملية والتعليم لرفع نسبة تخطي أنظمة الفرز والحصول على فرصتك المثالية!"
+                    : "Fill in experience and education fields to bypass automatic recruiter filters and land top-tier interviews!"}
+                </p>
+              </div>
             </div>
-            <div className="h-2.5 bg-[#FF4D2D]/5 rounded-full overflow-hidden border border-[#FFD5CB]/60 p-[1px]">
-              <motion.div 
-                className="h-full rounded-full bg-gradient-to-r from-orange-500 to-[#FF4D2D] relative"
-                initial={{ width: 0 }}
-                animate={{ width: `${atsScore}%` }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-              >
-                <div className="absolute inset-x-0 top-0 h-[1px] bg-white/20" />
-              </motion.div>
+            
+            <div className="flex-1 max-w-xs w-full">
+              <div className="flex justify-between items-center mb-1.5 text-[10px] text-[#001639]/70 font-extrabold font-sans">
+                <span>{language === "ar" ? "نسبة الاكتمال" : "Completion Progress"}</span>
+                <span className="text-[#001639] font-black">{atsScore}%</span>
+              </div>
+              <div className="h-2.5 bg-[#FF4D2D]/5 rounded-full overflow-hidden border border-[#FFD5CB]/60 p-[1px]">
+                <motion.div 
+                  className="h-full rounded-full bg-gradient-to-r from-orange-500 to-[#FF4D2D] relative"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${atsScore}%` }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                >
+                  <div className="absolute inset-x-0 top-0 h-[1px] bg-white/20" />
+                </motion.div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* Smart Auto-Parser Onboarding Step Card */}
       {activeTab === "basics" && (
@@ -1210,7 +1199,7 @@ export default function EditorPage() {
                   </motion.div>
                 </div>
 
-                {ATS_SECTION_TIPS[language === "ar" ? "ar" : "en"]?.[activeTab] && (
+                {!focusMode && ATS_SECTION_TIPS[language === "ar" ? "ar" : "en"]?.[activeTab] && (
                   <motion.div 
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -1605,7 +1594,6 @@ export default function EditorPage() {
           content="Build your professional resume with our AI-powered editor."
         />
       </Helmet>
-      <OnboardingTour />
 
       {isMobile ? (
         <MobileEditorLayout
@@ -1700,8 +1688,9 @@ export default function EditorPage() {
         onBackToHome={() => { window.location.href = "/"; }}
         onShowSettings={() => setIsSettingsModalOpen(true)}
         onShowShortcuts={() => setShowKeyboardShortcuts(true)}
-        onStartTour={handleStartTour}
         onShowCommandBar={() => setIsCommandBarOpen(true)}
+        focusMode={focusMode}
+        onToggleFocus={() => setFocusMode(!focusMode)}
       />
 
       {/* Real-time Progress tracker moved to tabs and dock */}
@@ -1712,7 +1701,7 @@ export default function EditorPage() {
       >
         {/* Editor Area */}
         <Panel defaultSize={55} minSize={30} className="block">
-          <div className="flex flex-row h-full overflow-hidden transition-all duration-300 bg-neutral-50">
+          <div className={cn("flex flex-row h-full overflow-hidden transition-all duration-300", focusMode ? "bg-white" : "bg-neutral-50")}>
             <EditorSidebar
               activeTab={activeTab}
               onTabChange={(id) => setActiveTab(id as Tab)}
@@ -1722,9 +1711,27 @@ export default function EditorPage() {
             <main
               ref={formRef}
               onScroll={handleFormScroll}
-              className="flex-1 overflow-y-auto p-4 sm:p-8 sm:pt-10 scroll-smooth relative"
+              className={cn(
+                "flex-1 overflow-y-auto p-4 sm:p-8 sm:pt-10 scroll-smooth relative",
+                focusMode ? "bg-white" : ""
+              )}
             >
-              {formContent}{/* Mobile Scroll to Top */}
+              {formContent}
+              {focusMode && (
+                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-500 rounded-full py-2 px-5 shadow-sm flex items-center justify-center gap-2 text-xs font-semibold select-none z-50">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <span>
+                    {language === "ar" 
+                      ? "Focus Mode ON — بتركز على المحتوى" 
+                      : language === "fr"
+                      ? "Focus Mode ON — Concentré sur le contenu"
+                      : "Focus Mode ON — Focusing on Content"}
+                  </span>
+                </div>
+              )}{/* Mobile Scroll to Top */}
                 <AnimatePresence>
                   {showScrollTop && (
                     <motion.button
@@ -1742,7 +1749,7 @@ export default function EditorPage() {
           </div>
         </Panel>
 
-        {!isMobile && (
+        {!isMobile && !focusMode && (
           <>
             <PanelResizeHandle className="w-1.5 focus:outline-none bg-neutral-200 hover:bg-brand-500 active:bg-brand-600 transition-colors group z-50">
               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -2078,12 +2085,6 @@ export default function EditorPage() {
         <FeedbackModal
           isOpen={showFeedbackModal}
           onClose={() => setShowFeedbackModal(false)}
-        />
-
-        <WelcomeModal
-          isOpen={showWelcomeModal}
-          onStartTour={handleStartTour}
-          onSkip={handleSkipTour}
         />
 
         <ProgressTrackerModal
