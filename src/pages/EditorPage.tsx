@@ -895,7 +895,7 @@ export default function EditorPage() {
   const formContent = (
     <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32 relative">
       {/* Dynamic Persistent Resume Completion Progress Bar */}
-      <div className="mb-6 bg-[#FFF7F5] border border-[#FFD5CB] text-[#001639] rounded-[2rem] p-4.5 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.01)] relative overflow-hidden group select-none">
+      <div className="mb-6 bg-[#FFF7F5] border border-[#FFD5CB] text-[#001639] rounded-xl p-4.5 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.01)] relative overflow-hidden group select-none">
         <div className="absolute inset-0 bg-radial-gradient(circle at top right, rgba(255, 77, 45, 0.08), transparent 70%) pointer-events-none" />
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 z-10 relative">

@@ -246,12 +246,37 @@ export default function MobileEditorLayout({
   const [activeTab, setActiveTab] = useState("edit");
   const [showPreviewDrawer, setShowPreviewDrawer] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 375);
+  const [showQuickPreview, setShowQuickPreview] = useState(true);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Listen to capture scroll events on any list/form wrapper (like .editor-form-scrollable)
+  useEffect(() => {
+    const handleScrollCapture = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (target && typeof target.scrollTop === "number") {
+        if (target.scrollTop > 50) {
+          setShowQuickPreview(false);
+        } else {
+          setShowQuickPreview(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScrollCapture, true);
+    return () => {
+      window.removeEventListener("scroll", handleScrollCapture, true);
+    };
+  }, []);
+
+  // Reset visibility when tabs or step sections change
+  useEffect(() => {
+    setShowQuickPreview(true);
+  }, [activeSection, activeTab]);
 
   const sections                  = SECTIONS[lang] ?? SECTIONS.en;
   const isRtl                     = lang === "ar";
@@ -356,8 +381,26 @@ export default function MobileEditorLayout({
         {/* EDIT TAB */}
         <div className={`h-full w-full ${activeTab === "edit" ? "block" : "hidden"}`}>
           <div className="h-full flex flex-col overflow-hidden relative">
+            <style>{`
+              .mobile-tabs-container {
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+                overflow-x: auto !important;
+                white-space: nowrap !important;
+                scroll-snap-type: x mandatory !important;
+                scrollbar-width: none !important; /* Firefox */
+                -ms-overflow-style: none !important;  /* IE and Edge */
+              }
+              .mobile-tabs-container::-webkit-scrollbar {
+                display: none !important; /* Chrome, Safari, Opera */
+              }
+              .mobile-tab-btn {
+                scroll-snap-align: start !important;
+              }
+            `}</style>
             {/* Horizontal Sections Quick Switcher */}
-            <div className="bg-white border-b border-slate-200/50 px-3 py-2.5 shrink-0 overflow-x-auto scrollbar-none flex items-center gap-2 select-none">
+            <div className="bg-white border-b border-slate-200/50 px-3 py-2.5 shrink-0 select-none mobile-tabs-container">
               {sections.map((s) => {
                 const isActive = activeSection === s.id;
                 const pct = completionMap[s.id] ?? 0;
@@ -375,10 +418,10 @@ export default function MobileEditorLayout({
                         }
                       }, 45);
                     }}
-                    className={`relative flex flex-col items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-2xl text-[10px] font-black whitespace-nowrap shrink-0 transition-all border ${
+                    className={`relative flex flex-col items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-[10px] font-black whitespace-nowrap shrink-0 transition-all border mobile-tab-btn ${
                       isActive
-                        ? "bg-slate-900 border-slate-950 text-white shadow-sm"
-                        : "bg-slate-50/80 border-slate-200/60 text-slate-500 hover:bg-slate-100/90"
+                        ? "bg-[#001639] border-[#001639] text-white shadow-xs"
+                        : "bg-transparent border-transparent text-[#6B7280] hover:bg-slate-50"
                     }`}
                   >
                     <span className="text-sm select-none">{s.emoji}</span>
@@ -479,18 +522,22 @@ export default function MobileEditorLayout({
 
       {/* Proposal 2: Floating Circular Live Preview FAB */}
       {activeTab === "edit" && !showPreviewDrawer && (
-        <motion.button
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0, opacity: 0 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setShowPreviewDrawer(true)}
-          className="fixed bottom-[140px] z-40 bg-slate-900 text-white shadow-[0_12px_24px_rgba(15,23,42,0.3)] hover:bg-black rounded-full px-4 py-3 flex items-center gap-2 border border-slate-800 text-xs font-black tracking-tight active:scale-95 transition-all cursor-pointer select-none"
-          style={{ right: isRtl ? "auto" : "20px", left: isRtl ? "20px" : "auto" }}
-        >
-          <span>📄</span>
-          <span>{lang === "ar" ? "معاينة فورية" : lang === "fr" ? "Aperçu rapide" : "Quick Preview"}</span>
-        </motion.button>
+        <AnimatePresence>
+          {showQuickPreview && (
+            <motion.button
+              initial={{ scale: 0, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0, y: 20, opacity: 0 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setShowPreviewDrawer(true)}
+              className="fixed bottom-[140px] z-40 bg-slate-900 text-white shadow-[0_12px_24px_rgba(15,23,42,0.3)] hover:bg-black rounded-full px-4 py-3 flex items-center gap-2 border border-slate-800 text-xs font-black tracking-tight active:scale-95 transition-all cursor-pointer select-none"
+              style={{ right: isRtl ? "auto" : "20px", left: isRtl ? "20px" : "auto" }}
+            >
+              <span>📄</span>
+              <span>{lang === "ar" ? "معاينة فورية" : lang === "fr" ? "Aperçu rapide" : "Quick Preview"}</span>
+            </motion.button>
+          )}
+        </AnimatePresence>
       )}
 
       {/* Proposal 2: Bottom Sheet Drawer for Quick Live Preview */}

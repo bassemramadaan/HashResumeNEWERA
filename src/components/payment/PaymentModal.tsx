@@ -358,9 +358,26 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
     <AnimatePresence>
       {isOpen && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto custom-modal-container"
           dir={isAr ? "rtl" : "ltr"}
         >
+          <style>{`
+            @media (max-width: 480px) {
+              .custom-modal-container {
+                align-items: flex-end !important;
+                justify-content: center !important;
+                padding: 0 !important;
+              }
+              .custom-modal-wrapper {
+                border-radius: 24px 24px 0 0 !important;
+                margin-top: auto !important;
+                margin-bottom: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                bottom: 0 !important;
+              }
+            }
+          `}</style>
           {/* Backdrop overlay with modern blur */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -376,7 +393,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 15 }}
             transition={{ type: "spring", stiffness: 350, damping: 28 }}
-            className="relative w-full max-w-md bg-white rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] overflow-hidden border border-slate-100 my-8 z-10"
+            className="relative w-full max-w-md bg-white rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] overflow-hidden border border-slate-100 my-8 z-10 custom-modal-wrapper"
           >
             {/* Elegant Brand Color Strip at the very top */}
             <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 to-[#FF4D2D] overflow-hidden" />

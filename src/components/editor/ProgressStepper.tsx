@@ -289,25 +289,19 @@ function VerticalStepper({
                 data-tour={step.id === "basics" ? "personal-info" : step.id === "experience" ? "experience-section" : step.id === "skills" ? "skills-section" : step.id === "finish" ? "review-section" : undefined}
                 onClick={() => onStepClick?.(i)}
                 className={cn(
-                  "flex-1 flex items-center justify-between text-start p-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden",
+                  "flex-1 flex items-center justify-between text-start px-3 py-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden group",
                   isActive
-                    ? "bg-white border-slate-200/70 shadow-2xs"
+                    ? "bg-[#FFF7F5] border-y-transparent border-l-transparent border-r-2 border-r-[#FF4D2D] rounded-r-none rounded-l-xl shadow-2xs"
                     : "bg-transparent border-transparent hover:bg-neutral-100/70"
                 )}
               >
                 <div className="flex flex-col text-start">
                   <span 
                     className={cn(
-                      "text-[12px] leading-tight",
+                      "text-[13px] leading-tight transition-colors duration-200",
                       isActive 
-                        ? "text-slate-950 font-semibold" 
-                        : completion === 100
-                          ? "text-emerald-700 font-medium" 
-                          : isDone && completion > 0
-                            ? "text-emerald-600 font-medium"
-                            : isDone && completion === 0
-                              ? "text-slate-500 font-medium"
-                              : "text-neutral-700 font-medium"
+                        ? "text-[#001639] font-medium" 
+                        : "text-[#6B7280] group-hover:text-[#001639] font-medium"
                     )}
                   >
                     {step.label}

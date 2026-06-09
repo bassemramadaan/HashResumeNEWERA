@@ -53,12 +53,74 @@ export default function VoucherTicket({
 
   return (
     <div 
-      className="relative w-full max-w-md mx-auto overflow-hidden select-none transition-all duration-300"
+      className="relative w-full max-w-md mx-auto overflow-hidden select-none transition-all duration-300 custom-voucher-card animate-fade-in"
       dir={isAr ? "rtl" : "ltr"}
     >
+      <style>{`
+        /* Ticket custom responsive styling */
+        .custom-voucher-card {
+          overflow: hidden !important;
+          word-break: break-word !important;
+        }
+        
+        @media (max-width: 480px) {
+          .custom-ticket-container {
+            flex-direction: column !important;
+            min-height: auto !important;
+          }
+          .custom-ticket-side-a {
+            width: 100% !important;
+            order: 1 !important;
+            border-width: 0 0 2px 0 !important;
+            border-style: dashed !important;
+            border-color: rgba(226, 232, 240, 0.8) !important;
+            padding: 10px 16px !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+          }
+          .custom-ticket-side-b {
+            width: 100% !important;
+            order: 2 !important;
+            padding: 16px !important;
+          }
+          .custom-voucher-title {
+            font-size: 14px !important;
+          }
+          .custom-plan-type-info, .custom-price-info {
+            width: auto !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            text-align: center !important;
+          }
+          .custom-barcode-container {
+            width: auto !important;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            padding: 0 6px !important;
+          }
+          .custom-cutout-1 {
+            top: auto !important;
+            bottom: -16px !important;
+            left: -16px !important;
+            right: auto !important;
+            transform: none !important;
+            clip-path: circle(50% at 50% 50%) !important;
+          }
+          .custom-cutout-2 {
+            top: auto !important;
+            bottom: -16px !important;
+            right: -16px !important;
+            left: auto !important;
+            transform: none !important;
+            clip-path: circle(50% at 50% 50%) !important;
+          }
+        }
+      `}</style>
+
       {/* Curved ticket body with beautifully textured minimalist slate/cream styling */}
       <div 
-        className="relative flex items-stretch rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200/50 text-slate-700 bg-white font-sans min-h-[190px] overflow-hidden group hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)] transition-all duration-300"
+        className="relative flex items-stretch rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-200/50 text-slate-700 bg-white font-sans min-h-[190px] overflow-hidden group hover:shadow-[0_8px_30px_rgb(0,0,0,0.1)] transition-all duration-300 custom-ticket-container"
       >
         {/* Subtle decorative mesh overlay for refined textured design */}
         <div className="absolute inset-0 opacity-5 pointer-events-none mix-blend-multiply" style={{ backgroundImage: "radial-gradient(#000 1px, transparent 1px)", backgroundSize: "16px 16px" }} />
@@ -67,17 +129,17 @@ export default function VoucherTicket({
         <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-rose-400/10 rounded-full blur-3xl pointer-events-none" />
         
         {/* SIDE A: Stub Part (Left for LTR, Right for RTL) */}
-        <div className={`w-[28%] flex flex-col justify-between items-center p-3 sm:p-4 border-dashed border-slate-200/80 relative z-10 bg-slate-50/50 backdrop-blur-sm ${isAr ? "order-2 border-r-2" : "order-1 border-l-0"}`}>
+        <div className={`w-[28%] flex flex-col justify-between items-center p-3 sm:p-4 border-dashed border-slate-200/80 relative z-10 bg-slate-50/50 backdrop-blur-sm custom-ticket-side-a ${isAr ? "order-2 border-r-2" : "order-1 border-l-0"}`}>
           
           {/* Perforation Cutouts - exactly on the border edge */}
-          <div className={`absolute -top-4 w-8 h-8 rounded-full bg-white z-20 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.05)] border-b border-l border-slate-200/50 ${isAr ? "-left-4" : "-right-4"}`} style={{ clipPath: "circle(50% at 50% 0%)" }} />
-          <div className={`absolute -bottom-4 w-8 h-8 rounded-full bg-white z-20 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] border-t border-l border-slate-200/50 ${isAr ? "-left-4" : "-right-4"}`} style={{ clipPath: "circle(50% at 50% 100%)" }} />
+          <div className={`absolute -top-4 w-8 h-8 rounded-full bg-white z-20 shadow-[inset_0_-2px_4px_rgba(0,0,0,0.05)] border-b border-l border-slate-200/50 custom-cutout-1 ${isAr ? "-left-4" : "-right-4"}`} style={{ clipPath: "circle(50% at 50% 0%)" }} />
+          <div className={`absolute -bottom-4 w-8 h-8 rounded-full bg-white z-20 shadow-[inset_0_2px_4px_rgba(0,0,0,0.05)] border-t border-l border-slate-200/50 custom-cutout-2 ${isAr ? "-left-4" : "-right-4"}`} style={{ clipPath: "circle(50% at 50% 100%)" }} />
 
           {/* Vertical perforated line simulation */}
-          <div className={`absolute top-0 bottom-0 ${isAr ? "-left-[1px]" : "-right-[1px]"} w-0 border-r-2 border-dashed border-slate-200 z-10`} />
+          <div className={`absolute top-0 bottom-0 ${isAr ? "-left-[1px]" : "-right-[1px]"} w-0 border-r-2 border-dashed border-slate-200 z-10 hidden sm:block`} />
 
           {/* Ticket header tag */}
-          <div className="text-center w-full mt-2">
+          <div className="text-center w-full mt-2 custom-plan-type-info">
             <span className="text-[7.5px] font-black tracking-[0.2em] text-slate-400 uppercase block">
               {isAr ? "نوع الباقة" : "PLAN TYPE"}
             </span>
@@ -87,7 +149,7 @@ export default function VoucherTicket({
           </div>
 
           {/* Stylized realistic barcode but quieter */}
-          <div className="flex flex-col items-center justify-center space-y-1.5 w-full my-3 mix-blend-darken opacity-70">
+          <div className="flex flex-col items-center justify-center space-y-1.5 w-full my-3 mix-blend-darken opacity-70 custom-barcode-container">
             <div className="flex items-end justify-center gap-[1.5px] py-1.5 px-2 bg-transparent rounded-md">
               {[1, 2, 4, 1, 2, 3, 1, 1, 4, 2, 1, 3, 2, 1, 3, 1, 2, 1].map((n, idx) => (
                 <div key={idx} className="bg-slate-800 rounded-sm h-8" style={{ width: `${n * 0.8}px` }} />
@@ -99,7 +161,7 @@ export default function VoucherTicket({
           </div>
 
           {/* Price Label */}
-          <div className="text-center w-full mb-2">
+          <div className="text-center w-full mb-2 custom-price-info">
             <span className="text-[7.5px] font-black tracking-[0.2em] text-slate-400 uppercase block">
               {isAr ? "السعر" : "PRICE"}
             </span>
@@ -110,11 +172,11 @@ export default function VoucherTicket({
         </div>
 
         {/* SIDE B: Title & Information (Left for RTL, Right for LTR) */}
-        <div className={`flex-1 flex flex-col justify-between p-4 sm:p-6 relative z-10 bg-white/80 backdrop-blur-sm ${isAr ? "order-1" : "order-2"}`}>
+        <div className={`flex-1 flex flex-col justify-between p-4 sm:p-6 relative z-10 bg-white/80 backdrop-blur-sm custom-ticket-side-b ${isAr ? "order-1" : "order-2"}`}>
           
           {/* Header Row */}
           <div className="flex items-start justify-between">
-            <div>
+            <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1">
                 <Sparkles size={11} className="text-[#FF4D2D]/80 shrink-0" />
                 <span className="text-[8px] font-medium uppercase tracking-widest text-[#FF4D2D]/90">
@@ -122,7 +184,7 @@ export default function VoucherTicket({
                 </span>
               </div>
               
-              <h4 className="text-sm font-semibold text-slate-800 mt-1 select-none">
+              <h4 className="text-sm font-semibold text-slate-800 mt-1 select-none custom-voucher-title break-words leading-tight">
                 {isApproved 
                   ? (isAr ? "تم التفعيل بنجاح ←" : "VERIFIED & UNLOCKED")
                   : isPending
