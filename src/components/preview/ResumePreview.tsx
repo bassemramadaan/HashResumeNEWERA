@@ -132,6 +132,17 @@ const ResumePreview = memo(
         </div>
       ) : null;
 
+    const renderFullName = () => {
+      if (personalInfo.fullName) {
+        return personalInfo.fullName;
+      }
+      return (
+        <span className="opacity-45 font-semibold text-slate-400 select-none tracking-normal normal-case italic">
+          {lang === "ar" ? "يوسف أحمد ممدوح" : "Youssef Ahmed"}
+        </span>
+      );
+    };
+
     const GCCRecruitmentData = () => {
       const hasGCCData = 
         personalInfo.nationality || 
@@ -195,8 +206,7 @@ const ResumePreview = memo(
             className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-1"
             style={{ color: themeColor }}
           >
-            {personalInfo.fullName ||
-              ((lang === "ar" ? "الاسم الكامل" : "YOUR NAME"))}
+            {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-xl md:text-2xl font-bold text-neutral-500 mb-6 tracking-tight">
@@ -464,7 +474,7 @@ const ResumePreview = memo(
         {/* Header */}
         <header className="mb-8 text-center border-b-2 border-neutral-800 pb-6">
           <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-4 text-slate-900">
-            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+            {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-lg md:text-xl italic text-slate-700 mb-4">
@@ -685,7 +695,7 @@ const ResumePreview = memo(
               className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-2 leading-none"
               style={{ color: themeColor }}
             >
-              {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+              {renderFullName()}
             </h1>
             {personalInfo.jobTitle && (
               <h2 className="text-lg md:text-xl font-medium text-slate-600">
@@ -940,7 +950,7 @@ const ResumePreview = memo(
         <FreshGradBadge />
         <header className="mb-12 text-center">
           <h1 className="text-3xl md:text-4xl font-light tracking-[0.15em] text-slate-900 mb-4 uppercase">
-            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+            {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-lg md:text-xl font-medium text-slate-500 mb-6 tracking-widest uppercase">
@@ -1153,7 +1163,7 @@ const ResumePreview = memo(
             className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight"
             style={{ color: themeColor }}
           >
-            &gt; {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+            &gt; {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-lg md:text-xl text-slate-600 mb-6">
@@ -1373,7 +1383,7 @@ const ResumePreview = memo(
           style={{ borderColor: themeColor }}
         >
           <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-4 text-center">
-            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+            {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-lg md:text-xl font-medium text-slate-600 mb-6 text-center uppercase tracking-wider">
@@ -1602,7 +1612,7 @@ const ResumePreview = memo(
         <FreshGradBadge />
         <header className="mb-8 border-b-4 border-emerald-600 pb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-emerald-800 mb-2">
-            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+            {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-xl font-medium text-slate-600 mb-4">
@@ -1736,7 +1746,7 @@ const ResumePreview = memo(
       <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-[#fdfbf7]">
         <header className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2 uppercase tracking-widest">
-            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+            {renderFullName()}
           </h1>
           <div className="w-24 h-1 bg-neutral-900 mx-auto mb-4"></div>
           {personalInfo.jobTitle && (
@@ -1838,7 +1848,7 @@ const ResumePreview = memo(
       <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-white">
         <header className="mb-8 border-b border-slate-300 pb-6">
           <h1 className="text-3xl font-bold text-slate-900 mb-1">
-            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+            {renderFullName()}
           </h1>
           <div className="text-slate-600 mb-4">{personalInfo.jobTitle}</div>
           <div className="text-sm text-slate-600 space-y-1">
@@ -1963,7 +1973,7 @@ const ResumePreview = memo(
         >
           <div>
             <h1 className="text-4xl font-black text-slate-900 mb-2">
-              {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+              {renderFullName()}
             </h1>
             <h2 className="text-xl font-bold text-slate-500 uppercase tracking-wider">
               {personalInfo.jobTitle}
@@ -2123,7 +2133,7 @@ const ResumePreview = memo(
       <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-16 max-w-[850px] mx-auto bg-white">
         <header className="text-center mb-12">
           <h1 className="text-5xl font-light tracking-tighter text-slate-900 mb-4">
-            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+            {renderFullName()}
           </h1>
           <div className="flex justify-center items-center gap-4 text-xs uppercase tracking-[0.2em] text-slate-400 font-sans">
             {personalInfo.email && <span>{personalInfo.email}</span>}
@@ -2237,7 +2247,7 @@ const ResumePreview = memo(
           style={{ borderColor: themeColor }}
         >
           <h1 className="text-4xl font-bold text-slate-900 mb-2">
-            {personalInfo.fullName || "الاسم الكامل"}
+            {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
             <h2 className="text-xl text-slate-600 mb-4">
@@ -2474,7 +2484,7 @@ const ResumePreview = memo(
         <header className="mb-8 flex justify-between items-end border-b-2 border-slate-200 pb-6">
           <div>
             <h1 className="text-4xl font-black tracking-tight text-slate-900 mb-2 uppercase">
-              {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+              {renderFullName()}
             </h1>
             {personalInfo.jobTitle && (
               <h2 className="text-xl font-bold text-slate-500 uppercase tracking-widest">
@@ -2661,7 +2671,7 @@ const ResumePreview = memo(
       <div className="font-serif text-slate-900 p-8 md:p-12 max-w-[850px] mx-auto bg-white">
         <header className="text-center border-b-2 border-neutral-900 pb-6 mb-8">
           <h1 className="text-3xl font-bold uppercase tracking-widest mb-2">
-            {personalInfo.fullName || (settings.language === "ar" ? "الاسم الكامل" : "YOUR NAME")}
+            {renderFullName()}
           </h1>
           <div className="text-sm font-sans flex flex-wrap justify-center gap-x-4 gap-y-1 text-slate-700">
             {personalInfo.address && <span>{personalInfo.address}</span>}

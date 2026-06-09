@@ -895,16 +895,16 @@ export default function EditorPage() {
   const formContent = (
     <div className="max-w-4xl mx-auto pb-[120px] sm:pb-32 relative">
       {/* Dynamic Persistent Resume Completion Progress Bar */}
-      <div className="mb-6 bg-slate-900 border border-slate-800 text-white rounded-[2rem] p-4.5 sm:p-5 shadow-[0_12px_40px_rgba(0,0,0,0.15)] relative overflow-hidden group select-none">
-        <div className="absolute inset-0 bg-radial-gradient(circle at top right, rgba(255, 77, 45, 0.1), transparent 70%) pointer-events-none" />
+      <div className="mb-6 bg-[#FFF7F5] border border-[#FFD5CB] text-[#001639] rounded-[2rem] p-4.5 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.01)] relative overflow-hidden group select-none">
+        <div className="absolute inset-0 bg-radial-gradient(circle at top right, rgba(255, 77, 45, 0.08), transparent 70%) pointer-events-none" />
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 z-10 relative">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#FF4D2D]/15 flex items-center justify-center border border-[#FF4D2D]/30 shrink-0">
+            <div className="w-10 h-10 rounded-2xl bg-[#FF4D2D]/10 flex items-center justify-center border border-[#FF4D2D]/20 shrink-0">
               <Sparkles className="w-5 h-5 text-[#FF4D2D] animate-pulse" />
             </div>
             <div>
-              <h4 className="text-sm font-black text-slate-100 leading-tight">
+              <h4 className="text-sm font-extrabold text-[#001639] leading-tight font-sans">
                 {atsScore < 25 ? (
                   language === "ar" ? (
                     "ابدأ بمعلوماتك الأساسية — 5 خطوات للسيرة المثالية ✨"
@@ -923,7 +923,7 @@ export default function EditorPage() {
                   )
                 )}
               </h4>
-              <p className="text-[10px] text-slate-400 font-bold mt-0.5">
+              <p className="text-[10px] text-[#001639]/70 font-semibold mt-0.5 font-sans">
                 {language === "ar" 
                   ? "املأ حقول الخبرات العملية والتعليم لرفع نسبة تخطي أنظمة الفرز والحصول على فرصتك المثالية!"
                   : "Fill in experience and education fields to bypass automatic recruiter filters and land top-tier interviews!"}
@@ -932,11 +932,11 @@ export default function EditorPage() {
           </div>
           
           <div className="flex-1 max-w-xs w-full">
-            <div className="flex justify-between items-center mb-1.5 text-[10px] text-slate-400 font-extrabold">
+            <div className="flex justify-between items-center mb-1.5 text-[10px] text-[#001639]/70 font-extrabold font-sans">
               <span>{language === "ar" ? "نسبة الاكتمال" : "Completion Progress"}</span>
-              <span>{atsScore}%</span>
+              <span className="text-[#001639] font-black">{atsScore}%</span>
             </div>
-            <div className="h-2.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50 p-[1px]">
+            <div className="h-2.5 bg-[#FF4D2D]/5 rounded-full overflow-hidden border border-[#FFD5CB]/60 p-[1px]">
               <motion.div 
                 className="h-full rounded-full bg-gradient-to-r from-orange-500 to-[#FF4D2D] relative"
                 initial={{ width: 0 }}

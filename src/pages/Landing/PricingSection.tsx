@@ -149,14 +149,14 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
             <div className="mb-6 text-center md:text-start">
               <div className="text-xs font-black text-slate-405 text-slate-500 mb-2 tracking-widest uppercase">{c.planSingle.name}</div>
               <div className="flex items-baseline justify-center md:justify-start gap-2">
-                <span className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">{c.planSingle.price}</span>
+                <span className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{c.planSingle.price}</span>
                 <span className="text-xs font-semibold text-slate-500">{c.planSingle.period}</span>
               </div>
             </div>
 
             <ul className="space-y-3.5 text-start flex-1 border-t border-slate-100 pt-6">
               {c.planSingle.features.map((f) => (
-                <li key={f} className="flex items-start gap-3 text-sm text-slate-600 font-medium">
+                <li key={f} className="flex items-start gap-3 text-sm text-[#374151] font-semibold">
                   <Check className="w-4 h-4 flex-shrink-0 text-[#FF4D2D] mt-0.5" />
                   <span>{f}</span>
                 </li>
@@ -166,7 +166,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
 
           <button
             onClick={onPaidClick}
-            className="bg-slate-900 hover:bg-slate-800 active:scale-95 text-white rounded-full font-bold text-sm px-6 py-4 mt-8 w-full justify-center inline-flex items-center gap-2 border border-transparent transition-all cursor-pointer group shadow-md"
+            className="bg-transparent hover:bg-slate-55 border-2 border-slate-900 hover:bg-slate-50 active:scale-95 text-slate-900 rounded-full font-bold text-sm px-6 py-4 mt-8 w-full justify-center inline-flex items-center gap-2 transition-all cursor-pointer group"
           >
             {c.planSingle.cta}
             <span className="group-hover:translate-x-1 transition-transform">
@@ -199,7 +199,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
                 {c.planBundle.name}
               </div>
               <div className="flex items-baseline justify-center md:justify-start gap-2">
-                <span className="text-4xl sm:text-5xl font-black text-white tracking-tight">{c.planBundle.price}</span>
+                <span className="text-4xl sm:text-5xl font-black text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{c.planBundle.price}</span>
                 <span className="text-xs font-semibold text-slate-400">{c.planBundle.period}</span>
               </div>
             </div>

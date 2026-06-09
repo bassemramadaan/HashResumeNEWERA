@@ -7,7 +7,7 @@ import { translations } from "../i18n/translations";
 // Step 1: Human-crafted input form layout
 const StepOneGraphics = () => (
   <div className="relative w-full h-32 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group-hover:bg-orange-50/20 transition-all duration-300">
-    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF4D2D]/10 to-[#FF8C6B]/10 border border-[#FF4D2D]/20 shadow-xs">
+    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF4D2D]/10 to-[#FF4D2D]/5 border border-[#FF4D2D]/20 shadow-xs">
       <FileText className="w-8 h-8 text-[#FF4D2D]" strokeWidth={1.5} />
     </div>
   </div>
@@ -15,18 +15,18 @@ const StepOneGraphics = () => (
 
 // Step 2: Live AI transformation before/after
 const StepTwoGraphics = () => (
-  <div className="relative w-full h-32 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group-hover:bg-amber-50/20 transition-all duration-300">
-    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/10 to-yellow-400/10 border border-amber-500/20 shadow-xs">
-      <Sparkles className="w-8 h-8 text-amber-500 animate-pulse" strokeWidth={1.5} />
+  <div className="relative w-full h-32 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group-hover:bg-orange-50/20 transition-all duration-300">
+    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF4D2D]/10 to-[#FF4D2D]/5 border border-[#FF4D2D]/20 shadow-xs">
+      <Sparkles className="w-8 h-8 text-[#FF4D2D] animate-pulse" strokeWidth={1.5} />
     </div>
   </div>
 );
 
 // Step 3: Beautiful polished export
 const StepThreeGraphics = () => (
-  <div className="relative w-full h-32 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group-hover:bg-emerald-50/20 transition-all duration-300">
-    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-teal-400/10 border border-emerald-500/20 shadow-xs">
-      <Download className="w-8 h-8 text-emerald-500" strokeWidth={1.5} />
+  <div className="relative w-full h-32 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group-hover:bg-orange-50/20 transition-all duration-300">
+    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF4D2D]/10 to-[#FF4D2D]/5 border border-[#FF4D2D]/20 shadow-xs">
+      <Download className="w-8 h-8 text-[#FF4D2D]" strokeWidth={1.5} />
     </div>
   </div>
 );
@@ -99,8 +99,8 @@ export default function SimpleSteps() {
               <div className="mb-6 relative">
                 {step.graphics}
                 
-                {/* Floating micro number badge */}
-                <div className="absolute -top-3.5 -end-3.5 w-8 h-8 rounded-full bg-slate-900 border-2 border-white text-white font-mono flex items-center justify-center text-xs font-black shadow-sm">
+                {/* Floating prominent number badge */}
+                <div className="absolute -top-4 -end-4 w-12 h-12 rounded-full bg-[#FF4D2D] border-4 border-white text-white font-mono flex items-center justify-center text-base font-black shadow-md shadow-orange-500/20 group-hover:scale-110 transition-transform duration-300">
                   {step.num}
                 </div>
               </div>

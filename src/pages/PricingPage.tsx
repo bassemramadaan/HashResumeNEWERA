@@ -58,8 +58,8 @@ export default function PricingPage() {
                 {isAr ? "مثالي لشخص يبحث عن وظيفة واحدة ويريد سيرة ذاتية مثالية." : "Perfect for a single application or update."}
               </p>
               <div className="mb-8 flex items-baseline gap-2">
-                <span className="text-5xl font-black text-slate-900">50</span>
-                <span className="text-slate-500 font-bold">{isAr ? "ج.م" : "EGP"}</span>
+                <span className="text-5xl font-black text-slate-900" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>50</span>
+                <span className="text-slate-500 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
@@ -98,8 +98,8 @@ export default function PricingPage() {
                 {isAr ? "شارك الباقة مع أصدقائك أو أنشئ أكثر من سيرة ذاتية لمجالات مختلفة." : "Share with friends or create multiple versions of your resume."}
               </p>
               <div className="mb-8 flex items-baseline gap-2">
-                <span className="text-5xl font-black text-[#FF4D2D]">120</span>
-                <span className="text-orange-800/70 font-bold">{isAr ? "ج.م" : "EGP"}</span>
+                <span className="text-5xl font-black text-[#FF4D2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>120</span>
+                <span className="text-orange-800/70 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {[

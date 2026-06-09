@@ -139,51 +139,51 @@ export default function Footer() {
 
             <div className="flex flex-col lg:col-span-2">
               <h4 className="text-white font-semibold mb-4">{t.connect}</h4>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3 items-center">
                 <a
                   href="https://www.linkedin.com/company/hashresume"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-[#0077b5] transition-colors"
+                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
                   aria-label="LinkedIn"
                 >
-                  <Linkedin size={20} />
+                  <Linkedin size={24} />
                 </a>
                 <a
                   href="https://twitter.com/hashresume"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-[#1DA1F2] transition-colors"
+                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
                   aria-label="Twitter"
                 >
-                  <Twitter size={20} />
+                  <Twitter size={24} />
                 </a>
                 <a
                   href="https://www.facebook.com/hashsocialmarketing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-[#1877F2] transition-colors"
+                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
                   aria-label="Facebook"
                 >
-                  <Facebook size={20} />
+                  <Facebook size={24} />
                 </a>
                 <a
                   href="https://www.instagram.com/hashsocialmarketing/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-[#E4405F] transition-colors"
+                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
                   aria-label="Instagram"
                 >
-                  <Instagram size={20} />
+                  <Instagram size={24} />
                 </a>
                 <a
                   href="https://wa.me/201101007965"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-slate-400 hover:text-[#25D366] transition-colors relative group"
+                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all relative group"
                   aria-label="WhatsApp"
                 >
-                  <MessageCircle size={20} />
+                  <MessageCircle size={24} />
                   <span className="absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-zinc-800 text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none border border-slate-700">
                     {t.whatsappTooltip}
                   </span>

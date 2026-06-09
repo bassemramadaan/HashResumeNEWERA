@@ -529,7 +529,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                               )}
                             >
                               <span className="text-[11px] font-bold">{isAr ? "كود تحميل واحد" : "Single Code"}</span>
-                              <span className="text-sm font-black text-slate-800 mt-0.5">50 <span className="text-[9px] font-bold text-slate-500">{isAr ? "ج.م" : "EGP"}</span></span>
+                              <span className="text-sm font-black text-slate-800 mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>50 <span className="text-[9px] font-bold text-slate-500" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span></span>
                             </button>
                             
                             <button
@@ -549,7 +549,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                 {isAr ? "توفير ٦٠٪" : "SAVE 60%"}
                               </div>
                               <span className="text-[11px] font-bold">{isAr ? "باقة ٣ أكواد" : "3-Codes Bundle"}</span>
-                              <span className="text-sm font-black text-[#FF4D2D] mt-0.5">120 <span className="text-[9px] font-bold opacity-70">{isAr ? "ج.م" : "EGP"}</span></span>
+                              <span className="text-sm font-black text-[#FF4D2D] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>120 <span className="text-[9px] font-bold opacity-70" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span></span>
                             </button>
                           </div>
                         </div>

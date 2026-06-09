@@ -195,14 +195,14 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
         >
           <motion.h1
             variants={item as any}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-black text-slate-800 leading-[1.1] mb-6 tracking-tight drop-shadow-sm font-sans"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-bold text-slate-800 leading-[1.1] mb-6 tracking-tight drop-shadow-sm font-sans"
           >
             {copy.title1}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-400 inline-block transform-gpu">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-400 inline-block transform-gpu font-bold">
               {copy.titleAccent}
             </span>
             <br />
-            <span className="text-slate-500 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.2] mt-2 block transform-gpu">
+            <span className="text-slate-500 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.2] mt-2 block transform-gpu">
               {copy.title2}
             </span>
           </motion.h1>
@@ -505,12 +505,12 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                 </div>
 
                 {/* Realistic Document Render Sheet */}
-                <div className={`w-full max-w-[460px] aspect-[1/1.414] bg-white shadow-2xl border border-slate-200 p-6 md:p-8 flex flex-col relative transform transition-all duration-300 z-10 text-start overflow-hidden leading-normal ${
+                <div className={`w-full max-w-[490px] aspect-[1/1.414] bg-white shadow-2xl border border-slate-200 p-6 md:p-8 flex flex-col relative transform transition-all duration-300 z-10 text-start overflow-hidden leading-normal hover:scale-[1.01] ${
                   activeTheme === 1 ? "font-serif" : "font-sans"
                 }`}>
                   
                   {/* Watermark/Interactive Ribbon */}
-                  <div className="absolute top-2 right-2 flex items-center gap-1 px-1.5 py-0.5 rounded border border-amber-200 bg-amber-50 text-neutral-500 font-mono text-[7px]" dir="ltr">
+                  <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 rounded border border-amber-200 bg-amber-50 text-neutral-500 font-mono text-[9px]" dir="ltr">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
                     <span>{sCopy.liveSec}</span>
                   </div>
@@ -523,23 +523,23 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                       ? "border-b border-dashed border-slate-900 text-slate-900 text-start pb-3" 
                       : "border-b-2 border-[#059669] text-start"
                   }`}>
-                    <h2 className={`text-base font-black uppercase tracking-[0.1em] mb-1 transition-all ${
+                    <h2 className={`text-xl md:text-2xl font-black uppercase tracking-[0.1em] mb-1 transition-all ${
                       activeTheme === 0 
                         ? "text-slate-800" 
                         : activeTheme === 1 
-                        ? "text-slate-900 font-serif normal-case font-extrabold text-lg" 
+                        ? "text-slate-900 font-serif normal-case font-extrabold" 
                         : "text-[#059669]"
                     }`}>
                       {fullName || "Youssef Ahmed"}
                     </h2>
-                    <p className="text-[8px] text-slate-500 font-bold tracking-wider">
+                    <p className="text-[11px] text-slate-500 font-bold tracking-wider">
                       {jobTitle || "Software Engineer"}  •  youssef@example.com  •  Cairo, Egypt
                     </p>
                   </div>
 
                   {/* Profile Summary statement details */}
                   <div className="mb-4">
-                    <h3 className={`text-[9px] font-black border-b border-slate-100 pb-0.5 mb-2 uppercase tracking-widest transition-colors ${
+                    <h3 className={`text-[12px] font-black border-b border-slate-100 pb-0.5 mb-2 uppercase tracking-widest transition-colors ${
                       activeTheme === 0 ? "text-[#FF4D2D]" : activeTheme === 1 ? "text-slate-900 font-black" : "text-[#059669]"
                     }`}>
                       {lang === "ar" ? "النبذة التعريفية" : "Professional Summary"}
@@ -549,40 +549,40 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       transition={{ duration: 0.3 }}
-                      className="text-[8px] leading-relaxed text-slate-600 font-medium"
+                      className="text-[10px] leading-relaxed text-slate-600 font-medium"
                     >
                       {summary}
                     </motion.p>
                   </div>
 
                   {/* Core Columns content */}
-                  <div className="flex gap-6 flex-1 text-[8px] leading-relaxed text-slate-700">
+                  <div className="flex gap-6 flex-1 text-[10px] leading-relaxed text-slate-700">
                     
                     {/* Left Column (Main experience block) */}
                     <div className="w-[65%] space-y-4">
                       <div>
-                        <h3 className={`text-[9px] font-black border-b border-slate-100 pb-0.5 mb-2.5 uppercase tracking-widest transition-colors ${
+                        <h3 className={`text-[11px] md:text-[12px] font-black border-b border-slate-100 pb-0.5 mb-2.5 uppercase tracking-widest transition-colors ${
                           activeTheme === 0 ? "text-[#FF4D2D]" : activeTheme === 1 ? "text-slate-900 font-black" : "text-[#059669]"
                         }`}>
                           {lang === "ar" ? "الخبرات المتميزة" : "Experience"}
                         </h3>
                         <div className="space-y-3">
                           <div>
-                            <div className="flex justify-between font-bold text-slate-900 mb-0.5">
-                              <span className="text-[8.5px]">Senior Frontend Dev — GlobalTech</span>
+                            <div className="flex justify-between font-bold text-slate-900 mb-0.5 text-[11px]">
+                              <span>Senior Frontend Dev — GlobalTech</span>
                               <span>2022 - Present</span>
                             </div>
-                            <ul className="list-disc ps-3 space-y-1 text-slate-500 marker:text-slate-300">
+                            <ul className="list-disc ps-3 space-y-1 text-slate-500 text-[10px] marker:text-slate-300">
                               <li>Architected interfaces with React & TypeScript, boosting page throughput by 42%.</li>
                               <li>Engineered clean reusable components saving downstream development velocity.</li>
                             </ul>
                           </div>
                           <div>
-                            <div className="flex justify-between font-bold text-slate-900 mb-0.5">
-                              <span className="text-[8.5px]">Front-End Developer — StartupX</span>
+                            <div className="flex justify-between font-bold text-slate-900 mb-0.5 text-[11px]">
+                              <span>Front-End Developer — StartupX</span>
                               <span>2020 - 2022</span>
                             </div>
-                            <ul className="list-disc ps-3 space-y-1 text-slate-500 marker:text-slate-300">
+                            <ul className="list-disc ps-3 space-y-1 text-slate-500 text-[10px] marker:text-slate-300">
                               <li>Accelerated responsive layouts targeting 5k+ regular daily visitors.</li>
                             </ul>
                           </div>
@@ -593,19 +593,19 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                     {/* Right column (Skills and education details) */}
                     <div className="w-[35%] space-y-4 border-s border-dotted border-slate-200 ps-4 text-start">
                       <div>
-                        <h3 className={`text-[9px] font-black border-b border-slate-100 pb-0.5 mb-2.5 uppercase tracking-widest transition-colors ${
+                        <h3 className={`text-[11px] md:text-[12px] font-black border-b border-slate-100 pb-0.5 mb-2.5 uppercase tracking-widest transition-colors ${
                           activeTheme === 0 ? "text-[#FF4D2D]" : activeTheme === 1 ? "text-slate-900 font-black" : "text-[#059669]"
                         }`}>
                           {lang === "ar" ? "المهارات والأدوات" : "Core Tech Skills"}
                         </h3>
                         <div className="flex flex-wrap gap-1">
                           {skills.length === 0 ? (
-                            <span className="text-[8px] text-slate-350 italic">None selected</span>
+                            <span className="text-[10px] text-slate-350 italic">None selected</span>
                           ) : (
                             skills.map(skill => (
                               <span 
                                 key={skill} 
-                                className={`px-1.5 py-0.5 rounded-[3px] text-[7px] font-bold border whitespace-nowrap transition-all duration-300 ${
+                                className={`px-2 py-0.5 rounded-[4px] text-[9px] font-bold border whitespace-nowrap transition-all duration-300 ${
                                   activeTheme === 0
                                     ? "bg-slate-50 text-slate-700 border-slate-200/50"
                                     : activeTheme === 1
@@ -621,14 +621,14 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                       </div>
 
                       <div>
-                        <h3 className={`text-[9px] font-black border-b border-slate-100 pb-0.5 mb-2 uppercase tracking-widest transition-colors ${
+                        <h3 className={`text-[11px] md:text-[12px] font-black border-b border-slate-100 pb-0.5 mb-2 uppercase tracking-widest transition-colors ${
                           activeTheme === 0 ? "text-[#FF4D2D]" : activeTheme === 1 ? "text-slate-900 font-black" : "text-[#059669]"
                         }`}>
                           {lang === "ar" ? "التعليم الأكاديمي" : "Education"}
                         </h3>
-                        <div>
+                        <div className="text-[10px]">
                           <div className="font-bold text-slate-850">B.Sc. in Computer Science</div>
-                          <div className="text-slate-400 font-semibold text-[7px]">Cairo University</div>
+                          <div className="text-slate-400 font-semibold">Cairo University</div>
                         </div>
                       </div>
 

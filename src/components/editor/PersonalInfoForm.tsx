@@ -301,18 +301,83 @@ const PersonalInfoForm = () => {
           </div>
         </div>
 
+        <div className="col-span-1 md:col-span-2 space-y-2">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center gap-2">
+              <label
+                htmlFor="summary"
+                className="text-[11px] font-semibold text-slate-500 block mb-1"
+              >
+                {t.summary}
+              </label>
+              <SectionTooltip
+                title={t.summaryTips}
+                content={t.summaryDesc}
+                example={t.summaryExample}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowAISuggestions(!showAISuggestions)}
+              className="text-xs font-bold text-brand-600 flex items-center gap-1 bg-brand-50/50 hover:bg-brand-50 border border-brand-100/30 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
+                          title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
+            >
+              <Sparkles size={14} />
+              {language === "ar" ? "تحسين بالذكاء الاصطناعي" : "Improve with AI"}
+            </button>
+          </div>
+
+          {showAISuggestions && (
+            <div className="mb-2">
+              <AISuggestion
+                currentValue={personalInfo.summary}
+                onApply={(newText) => {
+                  updatePersonalInfo({ summary: newText });
+                  setShowAISuggestions(false);
+                }}
+                context={`Job Title: ${personalInfo.jobTitle}`}
+              />
+            
+            </div>
+          )}
+
+          <div className="relative">
+          <textarea
+            id="summary"
+            name="summary"
+            rows={5}
+            value={personalInfo.summary}
+            onChange={handleChange}
+            className="block w-full p-4 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all resize-y bg-white text-slate-900 placeholder-slate-400 font-medium leading-relaxed"
+            placeholder={t.summaryPlaceholder}
+          />
+          <div className="mt-2 text-[10px] text-slate-400 flex items-start sm:items-center justify-between gap-4 px-2 leading-tight flex-col sm:flex-row">
+            <div className="flex items-center gap-1 opacity-70">
+              <Sparkles size={10} className="text-brand-400 shrink-0" />
+              {language === "ar" 
+                ? "يتم إرسال النص أعلاه فقط بشكل مشفر لتخصيص محتواك."
+                : "Only the text snippet above is sent anonymously to generate tailored content."}
+            </div>
+            <div className={`font-mono font-medium ${(personalInfo.summary?.length || 0) > 500 ? "text-amber-500" : "text-slate-400"}`}>
+              {personalInfo.summary?.length || 0} / 500
+            </div>
+          </div>
+          <p className="text-xs text-slate-500 mt-2 px-2">{t.summaryFooter}</p>
+          </div>
+        </div>
+
         {/* Middle East & GCC Recruitment Fields Collapsible */}
-        <div className="col-span-1 md:col-span-2 border border-dashed border-slate-200 hover:border-[#FF4D2D]/35 rounded-2xl p-4 transition-all bg-white shadow-3xs">
+        <div className="col-span-1 md:col-span-2 border border-dashed border-slate-200 hover:border-[#FF4D2D]/35 rounded-2xl p-4 transition-all bg-white shadow-3xs mt-2">
           <button
             type="button"
             onClick={() => setShowGCCFields(!showGCCFields)}
-            className="flex items-center justify-between w-full text-start text-slate-700 font-bold text-sm"
+            className="flex items-center justify-between w-full text-start text-slate-700 font-bold text-sm cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <span className="text-xl">🌍</span>
               <div>
                 <span>{language === "ar" ? "بيانات التوظيف لدول الخليج والشرق الأوسط (اختياري)" : "MENA & GCC Premium Recruiting Fields (Optional)"}</span>
-                <p className="text-[11px] text-slate-400 font-normal">
+                <p className="text-[11px] text-slate-400 font-normal mt-0.5">
                   {language === "ar" ? "تاريخ الميلاد، الجنسية، الحالة الاجتماعية، التأشيرة والخدمة العسكرية" : "Date of Birth, Nationality, Marital, Visa & Military status"}
                 </p>
               </div>
@@ -447,71 +512,6 @@ const PersonalInfoForm = () => {
               </div>
             </motion.div>
           )}
-        </div>
-
-        <div className="col-span-1 md:col-span-2 space-y-2">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <label
-                htmlFor="summary"
-                className="text-[11px] font-semibold text-slate-500 block mb-1"
-              >
-                {t.summary}
-              </label>
-              <SectionTooltip
-                title={t.summaryTips}
-                content={t.summaryDesc}
-                example={t.summaryExample}
-              />
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowAISuggestions(!showAISuggestions)}
-              className="text-xs font-bold text-brand-600 flex items-center gap-1 bg-brand-50/50 hover:bg-brand-50 border border-brand-100/30 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
-                          title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
-            >
-              <Sparkles size={14} />
-              {language === "ar" ? "تحسين بالذكاء الاصطناعي" : "Improve with AI"}
-            </button>
-          </div>
-
-          {showAISuggestions && (
-            <div className="mb-2">
-              <AISuggestion
-                currentValue={personalInfo.summary}
-                onApply={(newText) => {
-                  updatePersonalInfo({ summary: newText });
-                  setShowAISuggestions(false);
-                }}
-                context={`Job Title: ${personalInfo.jobTitle}`}
-              />
-            
-            </div>
-          )}
-
-          <div className="relative">
-          <textarea
-            id="summary"
-            name="summary"
-            rows={5}
-            value={personalInfo.summary}
-            onChange={handleChange}
-            className="block w-full p-4 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all resize-y bg-white text-slate-900 placeholder-slate-400 font-medium leading-relaxed"
-            placeholder={t.summaryPlaceholder}
-          />
-          <div className="mt-2 text-[10px] text-slate-400 flex items-start sm:items-center justify-between gap-4 px-2 leading-tight flex-col sm:flex-row">
-            <div className="flex items-center gap-1 opacity-70">
-              <Sparkles size={10} className="text-brand-400 shrink-0" />
-              {language === "ar" 
-                ? "يتم إرسال النص أعلاه فقط بشكل مشفر لتخصيص محتواك."
-                : "Only the text snippet above is sent anonymously to generate tailored content."}
-            </div>
-            <div className={`font-mono font-medium ${(personalInfo.summary?.length || 0) > 500 ? "text-amber-500" : "text-slate-400"}`}>
-              {personalInfo.summary?.length || 0} / 500
-            </div>
-          </div>
-          <p className="text-xs text-slate-500 mt-2 px-2">{t.summaryFooter}</p>
-          </div>
         </div>
       </div>
     </div>

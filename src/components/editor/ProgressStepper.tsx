@@ -144,14 +144,18 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
       <div 
         className={cn(
           "w-full h-full rounded-full flex items-center justify-center font-bold text-xs border-2 transition-all duration-300",
-          isDone || completion === 100
+          completion === 100
             ? "bg-emerald-600 border-emerald-600 text-white shadow-xs"
-            : isActive
-              ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
-              : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
+            : isDone && completion === 0
+              ? "bg-emerald-50/70 border-emerald-250 text-emerald-600"
+              : isDone && completion > 0
+                ? "bg-emerald-50 border-emerald-300 text-emerald-700 font-bold"
+                : isActive
+                  ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
+                  : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
         )}
       >
-        {isDone || completion === 100 ? (
+        {completion === 100 ? (
           <Check size={13} className="stroke-[3]" />
         ) : Icon ? (
           <Icon size={12} className="stroke-[2.5]" />
@@ -294,23 +298,31 @@ function VerticalStepper({
                 <div className="flex flex-col text-start">
                   <span 
                     className={cn(
-                      "text-xs font-bold leading-tight",
+                      "text-[12px] leading-tight",
                       isActive 
-                        ? "text-slate-950 font-extrabold" 
-                        : isDone || completion === 100
-                          ? "text-emerald-700" 
-                          : "text-neutral-700"
+                        ? "text-slate-950 font-semibold" 
+                        : completion === 100
+                          ? "text-emerald-700 font-medium" 
+                          : isDone && completion > 0
+                            ? "text-emerald-600 font-medium"
+                            : isDone && completion === 0
+                              ? "text-slate-500 font-medium"
+                              : "text-neutral-700 font-medium"
                     )}
                   >
                     {step.label}
                   </span>
                   
                   {/* Subtle checklist stat helper */}
-                  {completion > 0 && (
+                  {completion > 0 ? (
                     <span className="text-[9px] font-semibold text-neutral-400 mt-0.5">
                       {completion === 100 ? (isRtl ? "مكتملة بالكامل" : "Completely Done") : `${completion}% ${isRtl ? "مكتمل" : "completed"}`}
                     </span>
-                  )}
+                  ) : isDone ? (
+                    <span className="text-[9px] font-medium text-slate-400 mt-0.5 italic">
+                      {isRtl ? "تمت زيارة القسم" : "Section Visited"}
+                    </span>
+                  ) : null}
                 </div>
 
                 {completion === 100 && (
