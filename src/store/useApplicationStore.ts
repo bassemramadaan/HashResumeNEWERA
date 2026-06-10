@@ -29,7 +29,7 @@ export const useApplicationStore = create<ApplicationStore>()(
             ...state.applications,
             {
               ...app,
-              id: crypto.randomUUID(),
+              id: typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11),
               appliedAt: new Date().toISOString(),
             },
           ],

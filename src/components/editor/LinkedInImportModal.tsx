@@ -175,9 +175,10 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
       if (parsedData.experience && parsedData.experience.length > 0) {
         clearExperience();
         parsedData.experience.forEach((exp) => {
+          const safeId = exp.id || (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
           addExperience({
             ...exp,
-            id: exp.id || crypto.randomUUID(),
+            id: safeId,
           });
         });
       }
@@ -185,9 +186,10 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
       if (parsedData.education && parsedData.education.length > 0) {
         clearEducation();
         parsedData.education.forEach((edu) => {
+          const safeId = edu.id || (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
           addEducation({
             ...edu,
-            id: edu.id || crypto.randomUUID(),
+            id: safeId,
           });
         });
       }
