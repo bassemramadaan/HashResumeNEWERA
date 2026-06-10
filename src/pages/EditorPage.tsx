@@ -994,27 +994,27 @@ export default function EditorPage() {
                   <motion.div
                     layout
                     key={"tab-" + activeTab}
-                    className="bg-white rounded-[2rem] border border-[#E8E6DF] shadow-[0_10px_40px_rgba(0,0,0,0.04)] overflow-hidden transition-all duration-300 transform-gpu"
+                    className="bg-white dark:bg-neutral-0 rounded-[2rem] border border-[#E8E6DF] dark:border-neutral-200 shadow-[0_10px_40px_rgba(0,0,0,0.04)] overflow-hidden transition-all duration-300 transform-gpu"
                   >
                     {/* Header / Toggle Row */}
                     <div 
                       onClick={() => setIsIntroExpanded(!isIntroExpanded)}
-                      className="p-4 sm:p-5 flex items-center justify-between cursor-pointer select-none hover:bg-slate-50/40 transition-colors"
+                      className="p-4 sm:p-5 flex items-center justify-between cursor-pointer select-none hover:bg-slate-50/40 dark:hover:bg-neutral-50/10 transition-colors"
                     >
                       <div className="flex items-center gap-3.5 flex-1 min-w-0 text-start">
-                        <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-slate-900 flex items-center justify-center shrink-0 shadow-slate-900/10 ring-4 ring-slate-50 border border-white/20">
+                        <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-xl bg-slate-900 flex items-center justify-center shrink-0 shadow-slate-900/10 ring-4 ring-slate-50 dark:ring-neutral-50 border border-white/20">
                           <Sparkles size={16} className="text-white animate-pulse" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-[10px] sm:text-xs font-black text-slate-800 uppercase tracking-wider">
+                            <span className="text-[10px] sm:text-xs font-black text-slate-800 dark:text-neutral-800 uppercase tracking-wider">
                               {String(tabs.find((t) => t.id === activeTab)?.label || "")}
                             </span>
-                            <span className="text-[10px] text-slate-400 font-extrabold bg-slate-100 px-1.5 py-0.5 rounded-md">
+                            <span className="text-[10px] text-slate-500 dark:text-neutral-600 font-extrabold bg-slate-100 dark:bg-neutral-200 px-1.5 py-0.5 rounded-md text-slate-400">
                               {activeTabIndex} / {tabs.length}
                             </span>
                           </div>
-                          <h1 className="text-xs sm:text-base font-black text-neutral-900 tracking-tight leading-snug truncate">
+                          <h1 className={cn("text-xs sm:text-base font-black text-neutral-900 dark:text-neutral-900 tracking-tight leading-snug", isIntroExpanded ? "whitespace-normal text-balance" : "truncate")}>
                             {isIntroExpanded 
                               ? String(tabDescriptions[activeTab] || "") 
                               : (language === "ar" ? "اضغط لعرض دليل ملء البيانات ونقاط الـ ATS" : "Tap to view guidelines, examples & ATS score")}
@@ -1025,7 +1025,7 @@ export default function EditorPage() {
                       <div className="flex items-center gap-2 shrink-0">
                         {/* If collapsed, show a mini ATS pill */}
                         {!isIntroExpanded && (
-                          <div className="hidden xs:inline-flex items-center gap-1 px-2.5 py-1 rounded-full font-extrabold text-[9px] bg-slate-100 text-slate-700 border border-slate-200">
+                          <div className="hidden xs:inline-flex items-center gap-1 px-2.5 py-1 rounded-full font-extrabold text-[9px] bg-slate-100 dark:bg-neutral-200 text-slate-700 dark:text-neutral-800 border border-slate-200 dark:border-neutral-300">
                             <span>ATS {atsScore}%</span>
                           </div>
                         )}
@@ -1047,12 +1047,12 @@ export default function EditorPage() {
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.2, ease: "easeInOut" }}
                         >
-                          <div className="px-5 pb-5 sm:px-7 sm:pb-7 pt-2 border-t border-slate-100 flex flex-col xl:flex-row gap-5 xl:gap-6 items-start xl:items-center relative bg-gradient-to-b from-white to-slate-50/30">
+                          <div className="px-5 pb-5 sm:px-7 sm:pb-7 pt-2 border-t border-slate-100 dark:border-neutral-200 flex flex-col xl:flex-row gap-5 xl:gap-6 items-start xl:items-center relative bg-gradient-to-b from-white to-slate-50/30 dark:from-neutral-0 dark:to-neutral-50/30">
                             <div className="absolute top-0 end-0 w-64 h-64 rounded-[2rem] opacity-[0.02] bg-slate-900 pointer-events-none transform translate-x-1/3 -translate-y-1/3 rotate-12"></div>
                             
                             {/* Step info detailed subtitle */}
                             <div className="flex-1 text-start w-full relative z-10">
-                              <h1 className="text-sm sm:text-lg font-black text-neutral-900 tracking-tight leading-snug">
+                              <h1 className="text-sm sm:text-lg font-black text-neutral-900 dark:text-neutral-900 tracking-tight leading-snug">
                                 {String(tabDescriptions[activeTab] || "")}
                               </h1>
                               {language === "ar" ? (
@@ -1070,12 +1070,12 @@ export default function EditorPage() {
                             <div className="relative z-20 shrink-0 w-full xl:w-auto" style={{ direction: dir }}>
                               <div 
                                 onClick={() => setShowScoreChecklist(!showScoreChecklist)}
-                                className="flex items-center gap-4 bg-slate-50/70 hover:bg-slate-50 border border-slate-200/80 hover:border-slate-300/90 px-4 py-3 rounded-2xl cursor-pointer transition-all duration-300 select-none shadow-3xs"
+                                className="flex items-center gap-4 bg-slate-50/70 dark:bg-neutral-100/70 hover:bg-slate-50 dark:hover:bg-neutral-100 border border-slate-200/80 dark:border-neutral-200 px-4 py-3 rounded-2xl cursor-pointer transition-all duration-300 select-none shadow-3xs"
                               >
                                 {/* Circular dynamic gauge */}
                                 <div className="relative flex items-center justify-center w-11 h-11 shrink-0">
                                   <svg className="w-full h-full transform -rotate-90">
-                                    <circle cx="22" cy="22" r="18" fill="none" stroke="#E2E8F0" strokeWidth="3" />
+                                    <circle cx="22" cy="22" r="18" fill="none" stroke="currentColor" className="text-slate-200 dark:text-neutral-200" strokeWidth="3" />
                                     <motion.circle
                                       cx="22"
                                       cy="22"
@@ -1090,7 +1090,7 @@ export default function EditorPage() {
                                       transition={{ duration: 0.8, ease: "easeOut" }}
                                     />
                                   </svg>
-                                  <span className="absolute text-[10px] font-black text-slate-900">{atsScore}%</span>
+                                  <span className="absolute text-[10px] font-black text-slate-900 dark:text-neutral-900">{atsScore}%</span>
                                 </div>
 
                                 {/* Interactive labels */}
@@ -1113,8 +1113,8 @@ export default function EditorPage() {
                                       </span>
                                     )}
                                   </div>
-                                  <div className="text-[9px] text-slate-400 font-bold mt-1 leading-none hover:text-slate-600 flex items-center gap-1">
-                                    <span>{language === "ar" ? "عرض المتطلبات" : "Check list"}</span>
+                                  <div className="text-[9px] text-slate-400 font-bold mt-1 leading-none hover:text-slate-600 dark:hover:text-neutral-600 flex items-center gap-1">
+                                    <span>{language === "ar" ? "عرض المتمتطلبات" : "Check list"}</span>
                                     <span className={`text-[8px] transition-transform duration-200 ${showScoreChecklist ? "rotate-180" : ""}`}>▼</span>
                                   </div>
                                 </div>
@@ -1130,33 +1130,33 @@ export default function EditorPage() {
                                       initial={{ opacity: 0, y: 8, scale: 0.95 }}
                                       animate={{ opacity: 1, y: 0, scale: 1 }}
                                       exit={{ opacity: 0, y: 8, scale: 0.95 }}
-                                      className="absolute top-full end-0 mt-2 bg-white rounded-2xl border border-slate-200 p-4 shadow-[0_12px_32px_rgba(15,23,42,0.12)] z-20 w-72 text-start select-none"
+                                      className="absolute top-full end-0 mt-2 bg-white dark:bg-neutral-0 rounded-2xl border border-slate-200 dark:border-neutral-200 p-4 shadow-[0_12px_32px_rgba(15,23,42,0.12)] z-20 w-72 text-start select-none"
                                     >
-                                      <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 mb-2.5">
-                                        <h4 className="text-xs font-black text-slate-800">
+                                      <div className="flex items-center justify-between border-b border-slate-100 dark:border-neutral-200 pb-2.5 mb-2.5">
+                                        <h4 className="text-xs font-black text-slate-800 dark:text-neutral-800">
                                           {language === "ar" ? "معايير السيرة الذاتية الذكية" : "ATS Quality Checklist"}
                                         </h4>
-                                        <span className="text-[9px] bg-slate-100 text-slate-500 font-extrabold px-1.5 py-0.5 rounded-md">
+                                        <span className="text-[9px] bg-slate-100 dark:bg-neutral-100 text-slate-500 dark:text-neutral-550 font-extrabold px-1.5 py-0.5 rounded-md">
                                           {breakdown.filter(x => x.done).length} / {breakdown.length}
                                         </span>
                                       </div>
                                       <ul className="space-y-2">
                                         {breakdown.map((item, idx) => {
                                           return (
-                                            <li key={idx} className="flex items-center justify-between gap-3 text-xs text-slate-600 font-semibold">
+                                            <li key={idx} className="flex items-center justify-between gap-3 text-xs text-slate-600 dark:text-neutral-600 font-semibold">
                                               <span className="truncate leading-none">
                                                 {language === "ar" ? item.label.ar : language === "fr" ? item.label.fr : item.label.en}
                                               </span>
                                               {item.done ? (
-                                                <span className="w-4 h-4 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-full flex items-center justify-center text-[10px] select-none font-bold">✓</span>
+                                                <span className="w-4 h-4 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-850 rounded-full flex items-center justify-center text-[10px] select-none font-bold">✓</span>
                                               ) : (
-                                                <span className="w-4 h-4 bg-slate-50 border border-slate-200 rounded-full flex items-center justify-center text-[10px] text-slate-400 select-none">○</span>
+                                                <span className="w-4 h-4 bg-slate-50 dark:bg-neutral-100 border border-slate-200 dark:border-neutral-200 rounded-full flex items-center justify-center text-[10px] text-slate-400 dark:text-neutral-400 select-none">○</span>
                                               )}
                                             </li>
                                           );
                                         })}
                                       </ul>
-                                      <div className="mt-3.5 bg-slate-50 rounded-xl p-2.5 border border-slate-100/80 text-[10px] text-slate-500 font-bold leading-relaxed">
+                                      <div className="mt-3.5 bg-slate-50 dark:bg-neutral-100 rounded-xl p-2.5 border border-slate-100/80 dark:border-neutral-200/80 text-[10px] text-slate-500 dark:text-neutral-550 font-bold leading-relaxed">
                                         {language === "ar" 
                                           ? "💡 احرص على ملء كافة عناصر السيرة لضمان تخطي فلاتر الشركات والذكاء الاصطناعي بنجاح." 
                                           : "💡 Ensure all tasks are completed to make your profile bypass industry ATS filters perfectly."}

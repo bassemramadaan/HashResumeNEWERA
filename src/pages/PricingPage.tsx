@@ -51,15 +51,15 @@ export default function PricingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col"
+              className="bg-white dark:bg-neutral-0 rounded-3xl p-8 border border-slate-200 dark:border-neutral-200 shadow-sm hover:shadow-md transition-all flex flex-col"
             >
-              <h3 className="text-xl font-bold text-slate-800 mb-2">{isAr ? "كود تحميل واحد" : "Single Code"}</h3>
-              <p className="text-slate-500 text-sm mb-6 min-h-[40px]">
+              <h3 className="text-xl font-bold text-slate-800 dark:text-neutral-800 mb-2">{isAr ? "كود تحميل واحد" : "Single Code"}</h3>
+              <p className="text-slate-500 dark:text-neutral-500 text-sm mb-6 min-h-[40px]">
                 {isAr ? "مثالي لشخص يبحث عن وظيفة واحدة ويريد سيرة ذاتية مثالية." : "Perfect for a single application or update."}
               </p>
               <div className="mb-8 flex items-baseline gap-2">
-                <span className="text-5xl font-black text-slate-900" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>50</span>
-                <span className="text-slate-500 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
+                <span className="text-5xl font-black text-slate-900 dark:text-neutral-900" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>50</span>
+                <span className="text-slate-500 dark:text-neutral-500 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
@@ -68,7 +68,7 @@ export default function PricingPage() {
                   isAr ? "جميع القوالب الاحترافية" : "All professional templates",
                   isAr ? "دعم اللغتين العربية والإنجليزية" : "Arabic & English support"
                 ].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700">
+                  <li key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-neutral-700">
                     <Check className="w-5 h-5 text-emerald-500 shrink-0" />
                     {feature}
                   </li>
@@ -76,7 +76,7 @@ export default function PricingPage() {
               </ul>
               <Link 
                 to="/editor"
-                className="w-full py-4 rounded-xl font-bold text-center border-2 border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-50 transition-colors"
+                className="w-full py-4 rounded-xl font-bold text-center border-2 border-slate-200 dark:border-neutral-200 text-slate-800 dark:text-neutral-800 hover:border-slate-300 dark:hover:border-neutral-350 hover:bg-slate-50 dark:hover:bg-neutral-50 transition-colors"
               >
                 {isAr ? "ابدأ الآن" : "Start Now"}
               </Link>
@@ -87,19 +87,19 @@ export default function PricingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-gradient-to-b from-orange-50 to-white rounded-3xl p-8 border-2 border-orange-200 shadow-lg relative flex flex-col scale-[1.02]"
+              className="bg-gradient-to-b from-orange-50 to-white dark:from-brand-500/10 dark:to-neutral-100 rounded-3xl p-8 border-2 border-orange-200 dark:border-brand-500/40 shadow-lg relative flex flex-col scale-[1.02]"
             >
               <div className="absolute top-0 right-8 -translate-y-1/2 bg-gradient-to-r from-orange-500 to-rose-500 text-white px-3 py-1 rounded-full text-xs font-black shadow-sm">
                 {isAr ? "توفير ٦٠٪ - الأكثر شعبية" : "SAVE 60% - MOST POPULAR"}
               </div>
               
-              <h3 className="text-xl font-black text-orange-950 mb-2">{isAr ? "باقة ٣ أكواد" : "3-Codes Bundle"}</h3>
-              <p className="text-orange-800/70 text-sm mb-6 min-h-[40px] font-medium">
+              <h3 className="text-xl font-black text-orange-950 dark:text-orange-200 mb-2">{isAr ? "باقة ٣ أكواد" : "3-Codes Bundle"}</h3>
+              <p className="text-orange-800/70 dark:text-orange-300/80 text-sm mb-6 min-h-[40px] font-medium">
                 {isAr ? "شارك الباقة مع أصدقائك أو أنشئ أكثر من سيرة ذاتية لمجالات مختلفة." : "Share with friends or create multiple versions of your resume."}
               </p>
               <div className="mb-8 flex items-baseline gap-2">
                 <span className="text-5xl font-black text-[#FF4D2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>120</span>
-                <span className="text-orange-800/70 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
+                <span className="text-orange-850 dark:text-orange-200/90 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
@@ -109,7 +109,7 @@ export default function PricingPage() {
                   isAr ? "تحديث السيرة الذاتية لاحقاً" : "Update resume later (use code anytime)",
                   isAr ? "جميع مميزات الباقة الفردية" : "All Single Code features"
                 ].map((feature, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm font-bold text-slate-800">
+                  <li key={i} className="flex items-center gap-3 text-sm font-bold text-slate-800 dark:text-neutral-800">
                     <Check className="w-5 h-5 text-[#FF4D2D] shrink-0" />
                     {feature}
                   </li>

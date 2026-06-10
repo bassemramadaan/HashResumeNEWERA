@@ -2873,8 +2873,29 @@ const ResumePreview = memo(
         {settings.template === "finance" && renderFinance()}
 
         {/* Watermark */}
-        <div className="mt-8 pb-4 text-center text-xs text-slate-300 font-medium opacity-50">
-          Created with Hash Resume
+        <div className="mt-8 pb-4 text-center text-xs text-slate-400 font-medium opacity-80 print:hidden select-none">
+          {settings.language === "ar" ? (
+            <div className="flex flex-col gap-1 items-center">
+              <span>تم الإنشاء بواسطة Hash Resume</span>
+              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-850 px-2.5 py-0.5 rounded-full">
+                💡 يتم إزالة هذه العلامة المائية تلقائياً من الملف النهائي بعد الدفع أو الشحن
+              </span>
+            </div>
+          ) : settings.language === "fr" ? (
+            <div className="flex flex-col gap-1 items-center">
+              <span>Créé avec Hash Resume</span>
+              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-850 px-2.5 py-0.5 rounded-full">
+                💡 Ce filigrane est retiré automatiquement après le paiement/téléchargement
+              </span>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-1 items-center">
+              <span>Created with Hash Resume</span>
+              <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-850 px-2.5 py-0.5 rounded-full">
+                💡 This watermark is automatically removed from the final PDF after export/payment
+              </span>
+            </div>
+          )}
         </div>
       </div>
     );

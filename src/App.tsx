@@ -56,6 +56,8 @@ export default function App() {
     if (typeof document !== "undefined") {
       document.documentElement.dir = dir;
       document.documentElement.lang = language;
+      document.documentElement.classList.remove("dark");
+      document.documentElement.style.colorScheme = "light";
     }
   }, [language, dir]);
 

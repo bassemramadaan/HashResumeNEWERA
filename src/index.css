@@ -4,28 +4,98 @@
 /* ============================================================
    DESIGN TOKENS
    ============================================================ */
+:root {
+  --brand-50:  #FFF3F0;
+  --brand-100: #FFD9D0;
+  --brand-200: #FFB3A0;
+  --brand-400: #FF7A5C;
+  --brand-500: #FF4D2D;
+  --brand-600: #E63A1A;
+  --brand-700: #C42E12;
+
+  --neutral-0:   #FFFFFF;
+  --neutral-50:  #FAFAFA;
+  --neutral-100: #F4F4F3;
+  --neutral-200: #E8E8E6;
+  --neutral-300: #D1D1CE;
+  --neutral-400: #A8A8A4;
+  --neutral-500: #737370;
+  --neutral-600: #525250;
+  --neutral-700: #3A3A38;
+  --neutral-800: #242422;
+  --neutral-900: #121210;
+
+  --slate-50:  #f8fafc;
+  --slate-100: #f1f5f9;
+  --slate-200: #e2e8f0;
+  --slate-300: #cbd5e1;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+  --slate-800: #1e293b;
+  --slate-900: #0f172a;
+  --slate-950: #020617;
+
+  --gray-50:  #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+}
+
 @theme {
   /* Brand */
-  --color-brand-50:  #FFF3F0;
-  --color-brand-100: #FFD9D0;
-  --color-brand-200: #FFB3A0;
-  --color-brand-400: #FF7A5C;
-  --color-brand-500: #FF4D2D;
-  --color-brand-600: #E63A1A;
-  --color-brand-700: #C42E12;
+  --color-brand-50:  var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
 
   /* Neutrals */
-  --color-neutral-0:   #FFFFFF;
-  --color-neutral-50:  #FAFAFA;
-  --color-neutral-100: #F4F4F3;
-  --color-neutral-200: #E8E8E6;
-  --color-neutral-300: #D1D1CE;
-  --color-neutral-400: #A8A8A4;
-  --color-neutral-500: #737370;
-  --color-neutral-600: #525250;
-  --color-neutral-700: #3A3A38;
-  --color-neutral-800: #242422;
-  --color-neutral-900: #121210;
+  --color-neutral-0:   var(--neutral-0);
+  --color-neutral-50:  var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+
+  /* Slate Override */
+  --color-slate-50:    var(--slate-50);
+  --color-slate-100:   var(--slate-100);
+  --color-slate-200:   var(--slate-200);
+  --color-slate-300:   var(--slate-300);
+  --color-slate-400:   var(--slate-400);
+  --color-slate-500:   var(--slate-500);
+  --color-slate-600:   var(--slate-600);
+  --color-slate-700:   var(--slate-700);
+  --color-slate-800:   var(--slate-800);
+  --color-slate-900:   var(--slate-900);
+  --color-slate-950:   var(--slate-950);
+
+  /* Gray Override */
+  --color-gray-50:    var(--gray-50);
+  --color-gray-100:   var(--gray-100);
+  --color-gray-200:   var(--gray-200);
+  --color-gray-300:   var(--gray-300);
+  --color-gray-400:   var(--gray-400);
+  --color-gray-500:   var(--gray-500);
+  --color-gray-600:   var(--gray-600);
+  --color-gray-700:   var(--gray-700);
+  --color-gray-800:   var(--gray-800);
+  --color-gray-900:   var(--gray-900);
 
   /* Semantic */
   --color-success-light: #E8F5E9;
@@ -270,6 +340,9 @@ body {
   0% { transform: translateX(-50%); }
   100% { transform: translateX(0%); }
 }
+
+
+
 
 
 

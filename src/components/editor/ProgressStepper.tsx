@@ -288,7 +288,7 @@ function VerticalStepper({
                 type="button"
                 data-tour={step.id === "basics" ? "personal-info" : step.id === "experience" ? "experience-section" : step.id === "skills" ? "skills-section" : step.id === "finish" ? "review-section" : undefined}
                 onClick={() => onStepClick?.(i)}
-                className={cn(
+                 className={cn(
                   "flex-1 flex items-center justify-between text-start px-3 py-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden group",
                   isActive
                     ? "bg-[#FFF7F5] border-y-transparent border-l-transparent border-r-2 border-r-[#FF4D2D] rounded-r-none rounded-l-xl shadow-2xs"
@@ -300,7 +300,7 @@ function VerticalStepper({
                     className={cn(
                       "text-[13px] leading-tight transition-colors duration-200",
                       isActive 
-                        ? "text-[#001639] font-medium" 
+                        ? "text-[#001639] font-bold" 
                         : "text-[#6B7280] group-hover:text-[#001639] font-medium"
                     )}
                   >

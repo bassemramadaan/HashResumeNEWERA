@@ -350,6 +350,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                   </button>
                 ))}
               </div>
+
               <button
                 onClick={() => { handleStart(); setMobileOpen(false) }}
                 className="border-2 border-[#FF4D2D] text-[#FF4D2D] hover:bg-[#FF4D2D]/5 mt-2 w-full justify-center inline-flex items-center gap-2 py-2.5 rounded-xl font-bold transition-all bg-transparent"
