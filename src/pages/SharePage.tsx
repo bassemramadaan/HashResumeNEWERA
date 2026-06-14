@@ -14,6 +14,15 @@ export default function SharePage() {
   const [showConfirm, setShowConfirm] = useState(false);
   const loadData = useResumeStore((state) => state.loadData);
 
+  // Track window size for scaling to prevent content cropping or horizontal overflow on small displays
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 375);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -119,43 +128,83 @@ export default function SharePage() {
     );
   }
 
+  const cvLang = data?.settings?.language || "ar";
+  const isRtl = cvLang === "ar";
+
+  const SHARE_T: Record<string, Record<string, string>> = {
+    ar: {
+      copied: "تم النسخ!",
+      copyLink: "نسخ الرابط",
+      editCV: "تعديل السيرة",
+      home: "الرئيسية",
+      confirmTitle: "استبدال بيانات المحرر؟",
+      confirmText: "سيؤدي هذا إلى استبدال نسختك الحالية في المحرر ببيانات هذه السيرة الذاتية. هل أنت متأكد من الاستمرار؟",
+      cancel: "إلغاء",
+      confirm: "نعم، استمر",
+    },
+    en: {
+      copied: "Copied!",
+      copyLink: "Copy Link",
+      editCV: "Edit Resume",
+      home: "Home",
+      confirmTitle: "Overwrite Editor Data?",
+      confirmText: "This will overwrite your current local editor draft with this CV. Are you sure you want to continue?",
+      cancel: "Cancel",
+      confirm: "Yes, Continue",
+    },
+    fr: {
+      copied: "Copié !",
+      copyLink: "Copier le lien",
+      editCV: "Modifier le CV",
+      home: "Accueil",
+      confirmTitle: "Écraser les données ?",
+      confirmText: "Cela remplacera votre brouillon actuel dans l'éditeur par les données de ce CV. Voulez-vous continuer ?",
+      cancel: "Annuler",
+      confirm: "Oui, continuer",
+    }
+  };
+
+  const t = SHARE_T[cvLang] ?? SHARE_T.en;
+
+  // Calculat scaling based on viewport width vs. standard A4 width (794px equivalent of 210mm)
+  const scale = Math.min(1, (windowWidth - 32) / 794);
+
   return (
-    <div className="min-h-screen bg-slate-100 p-4 md:p-8 flex flex-col items-center relative">
+    <div className="min-h-screen bg-slate-100 flex flex-col items-center relative overflow-x-hidden pb-12" style={{ direction: isRtl ? "rtl" : "ltr" }}>
       <AnimatePresence>
         {showConfirm && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-slate-50 rounded-2xl shadow-xl w-full max-w-md overflow-hidden"
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden border border-slate-200"
             >
               <div className="p-6 space-y-4">
-                <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <AlertTriangle className="text-amber-600" size={24} />
+                <div className="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mx-auto mb-2 border border-amber-200">
+                  <AlertTriangle size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-center text-slate-900">
-                  Overwrite Editor Data?
+                <h3 className="text-lg font-extrabold text-center text-slate-900">
+                  {t.confirmTitle}
                 </h3>
-                <p className="text-center text-slate-600">
-                  This will overwrite your current editor data with this CV. Are
-                  you sure you want to continue?
+                <p className="text-center text-xs sm:text-sm text-slate-500 font-medium leading-relaxed">
+                  {t.confirmText}
                 </p>
-                <div className="flex gap-4 pt-4">
+                <div className="flex gap-3 pt-2">
                   <button
                     onClick={() => setShowConfirm(false)}
-                    className="flex-1 py-2 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-colors"
+                    className="flex-1 py-3 bg-slate-100 text-slate-700 rounded-xl font-bold text-xs sm:text-sm hover:bg-slate-200 transition-colors cursor-pointer"
                   >
-                    Cancel
+                    {t.cancel}
                   </button>
                   <button
                     onClick={() => {
                       setShowConfirm(false);
                       handleUseTemplate();
                     }}
-                    className="flex-1 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-colors"
+                    className="flex-1 py-3 bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:opacity-95 text-white rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer"
                   >
-                    Yes, Continue
+                    {t.confirm}
                   </button>
                 </div>
               </div>
@@ -164,31 +213,57 @@ export default function SharePage() {
         )}
       </AnimatePresence>
 
-      <div className="w-full max-w-5xl flex justify-between items-center mb-6">
-        <Link to="/" className="text-xl font-bold text-slate-900">
-          Hash Resume
-        </Link>
-        <div className="flex gap-4">
-          <button
-            onClick={handleCopyLink}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-50 text-slate-700 rounded-full shadow-sm hover:bg-slate-50 transition-colors"
-          >
-            {copied ? <Check size={16} /> : <Copy size={16} />}
-            {copied ? "Copied" : "Copy Link"}
-          </button>
-          <button
-            onClick={() => setShowConfirm(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-full shadow-sm hover:bg-indigo-700 transition-colors"
-          >
-            <Edit size={16} />
-            Edit this CV
-          </button>
+      {/* Modern High-End Frosted Glass Header */}
+      <header className="w-full bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-40 px-4 py-3 sm:py-4 shadow-3xs flex justify-center">
+        <div className="w-full max-w-5xl flex items-center justify-between gap-4">
+          <Link to="/" className="flex items-center gap-2">
+            <img 
+              src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
+              alt="HashResume" 
+              className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded-lg" 
+            />
+            <span className="text-sm sm:text-base font-black text-slate-900 tracking-tight">
+              Hash Resume
+            </span>
+          </Link>
+          
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              onClick={handleCopyLink}
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-xs font-black transition-all shadow-3xs cursor-pointer"
+            >
+              {copied ? <Check size={14} className="text-emerald-500" /> : <Copy size={14} />}
+              <span>{copied ? t.copied : t.copyLink}</span>
+            </button>
+            <button
+              onClick={() => setShowConfirm(true)}
+              className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-[#001639] hover:bg-[#002257] text-white rounded-xl text-xs font-black transition-all shadow-md shadow-[#001639]/10 cursor-pointer"
+            >
+              <Edit size={14} />
+              <span>{t.editCV}</span>
+            </button>
+          </div>
         </div>
-      </div>
+      </header>
 
-      <div className="w-full max-w-[210mm] bg-slate-50 shadow-2xl rounded-sm overflow-hidden">
-        <ResumePreview data={data} />
-      </div>
+      {/* Main Content Area: Responsive Resume Preview Container */}
+      <main className="flex-1 w-full flex flex-col items-center justify-start py-8 px-4 relative overflow-visible">
+        {/* Decorative ambient visual background glow */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-gradient-to-tr from-[#FF4D2D]/5 via-amber-500/5 to-transparent rounded-full blur-[100px] pointer-events-none" />
+
+        <div 
+          className="origin-top shrink-0 transform-gpu transition-all" 
+          style={{
+            width: "210mm",
+            transform: `scale(${scale})`,
+            marginBottom: `-${(1 - scale) * 297}mm`
+          }}
+        >
+          <div className="bg-white shadow-[0_15px_45px_rgba(0,0,0,0.06)] border border-slate-200/50 rounded-sm overflow-hidden select-none">
+            <ResumePreview data={data} />
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
