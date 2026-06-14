@@ -13,6 +13,7 @@ import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react"
 import SectionTooltip from "./SectionTooltip";
 import AISuggestion from "./AISuggestion";
 import FormSkeleton from "./FormSkeleton";
+import ATSVerbAssistant from "./ATSVerbAssistant";
 
 const ExperienceItem = ({
   exp,
@@ -156,9 +157,19 @@ const ExperienceItem = ({
               </div>
 
               <div className="space-y-2 border-t border-slate-100 pt-4">
-                <label className="text-[11px] font-semibold text-slate-500 block mb-1">
-                  {String(t.experience?.description || "Description")}
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-[11px] font-semibold text-slate-500 block">
+                    {String(t.experience?.description || "Description")}
+                  </label>
+                  <ATSVerbAssistant 
+                    onSelectWord={(word) => {
+                      const currentVal = exp.description || "";
+                      const newVal = currentVal ? `${currentVal}\n• ${word} ` : `• ${word} `;
+                      updateExperience(exp.id, { description: newVal });
+                    }}
+                    isAr={isAr}
+                  />
+                </div>
                 <textarea
                   value={exp.description || ""}
                   onChange={(e) => updateExperience(exp.id, { description: e.target.value })}

@@ -341,6 +341,11 @@ body {
   100% { transform: translateX(0%); }
 }
 
+/* Lucide Icon Stroke Consistency */
+svg.lucide, .lucide svg, svg[class*="lucide-"] {
+  stroke-width: 1.8px !important;
+}
+
 
 
 

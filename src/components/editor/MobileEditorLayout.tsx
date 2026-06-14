@@ -418,7 +418,7 @@ export default function MobileEditorLayout({
                         }
                       }, 45);
                     }}
-                    className={`relative flex flex-col items-center justify-center gap-1.5 px-4.5 py-2.5 rounded-lg text-[10px] font-black whitespace-nowrap shrink-0 transition-all border mobile-tab-btn ${
+                    className={`relative flex flex-col items-center justify-center gap-1.5 px-4.5 py-3 min-h-[44px] rounded-lg text-[10px] font-black whitespace-nowrap shrink-0 transition-all border mobile-tab-btn ${
                       isActive
                         ? "bg-[#001639] border-[#001639] text-white shadow-xs"
                         : "bg-transparent border-transparent text-[#6B7280] hover:bg-slate-50"
@@ -470,19 +470,19 @@ export default function MobileEditorLayout({
       </main>
 
       {/* ── Tactfully Designed Premium Bottom Navigation Bar ── */}
-      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-solid border-slate-200 px-3 py-1.5 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] md:pb-3 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu select-none">
+      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-solid border-slate-200 px-3 py-2 pb-[calc(1.2rem+env(safe-area-inset-bottom,0px))] md:pb-3 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu select-none">
         {TABS.map(tab => {
           const isActive = activeTab === tab.id;
           const IconComponent = tab.icon;
 
           if (tab.isExport) {
             return (
-              <div key={tab.id} className="relative flex flex-col items-center">
+              <div key={tab.id} className="relative flex flex-col items-center justify-center min-w-[64px] min-h-[48px]">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab("export")}
-                  className="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(255,77,45,0.4)] border border-rose-400/20"
+                  className="w-11 h-11 bg-slate-900 text-white rounded-xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(255,77,45,0.4)] border border-rose-400/20"
                 >
                   <Download className="w-4 h-4 shrink-0" />
                 </motion.button>
@@ -498,7 +498,7 @@ export default function MobileEditorLayout({
               whileTap={{ scale: 0.95 }}
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className="flex flex-col items-center justify-center p-2 rounded-xl cursor-pointer relative"
+              className="flex flex-col items-center justify-center min-w-[64px] min-h-[48px] py-1 rounded-xl cursor-pointer relative"
             >
               <div className="relative z-10">
                 {IconComponent && (

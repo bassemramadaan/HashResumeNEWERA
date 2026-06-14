@@ -10,7 +10,12 @@ import {
   Save,
   AlertTriangle,
   Settings2,
-  Wand2
+  Wand2,
+  Eye,
+  EyeOff,
+  ArrowUp,
+  ArrowDown,
+  Sparkles
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";
@@ -349,6 +354,142 @@ export default React.memo(function SettingsForm() {
           </label>
         </div>
 
+        {/* Dynamic Section Manager */}
+        <div className="space-y-4 pt-6 border-t border-slate-200">
+          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <Sparkles size={20} className="text-[#e24e2c]" />
+            {settings.language === "ar" ? "مدير الأقسام (إعادة ترتيب وإخفاء الأقسام)" : "Interactive Section Manager"}
+          </h3>
+          <p className="text-sm text-slate-500">
+            {settings.language === "ar" 
+              ? "تحكم في تسلسل ظهور الأقسام في السيرة الذاتية بالضغط على أسهم الترتيب، ويمكنك إخفاء أو إظهار أي قسم سريعاً بلمسة زر." 
+              : "Arrange the sequence of sections on your CV using up/down controls, and toggle visibility on the fly."}
+          </p>
+
+          <div className="space-y-2 max-w-2xl">
+            {(settings.sectionOrder || [
+              "summary",
+              "experience",
+              "education",
+              "skills",
+              "projects",
+              "certifications",
+            ]).map((sectionId, index) => {
+              const orderList = settings.sectionOrder || [
+                "summary",
+                "experience",
+                "education",
+                "skills",
+                "projects",
+                "certifications",
+              ];
+              const isHidden = (settings.hiddenSections || []).includes(sectionId as any);
+              
+              const SECTION_NAMES: Record<string, { en: string; ar: string; fr: string }> = {
+                summary: { en: "Summary / Profile Summary", ar: "الملخص وبطاقة التعريف", fr: "Résumé " },
+                experience: { en: "Work Experience", ar: "الخبرات والمسيرة المهنية", fr: "Expérience Professionnelle" },
+                education: { en: "Education & Studies", ar: "التعليم والدراسات الأكاديمية", fr: "Éducation" },
+                skills: { en: "Technical Skills", ar: "المهارات والخبرات التقنية", fr: "Compétences" },
+                projects: { en: "Projects", ar: "المشاريع والإنجازات", fr: "Projets" },
+                certifications: { en: "Certifications", ar: "الشهادات والاعتمادات", fr: "Certifications" },
+              };
+              
+              const label = SECTION_NAMES[sectionId]?.[settings.language] || sectionId;
+
+              const handleMove = (direction: "up" | "down", e: React.MouseEvent) => {
+                e.preventDefault();
+                const targetIdx = direction === "up" ? index - 1 : index + 1;
+                if (targetIdx < 0 || targetIdx >= orderList.length) return;
+                const newOrder = [...orderList];
+                const temp = newOrder[index];
+                newOrder[index] = newOrder[targetIdx];
+                newOrder[targetIdx] = temp;
+                updateSettings({ sectionOrder: newOrder as any[] });
+              };
+
+              const handleToggleVisibility = (e: React.MouseEvent) => {
+                e.preventDefault();
+                const currentHidden = settings.hiddenSections || [];
+                let newHidden: any[];
+                if (currentHidden.includes(sectionId as any)) {
+                  newHidden = currentHidden.filter((id) => id !== sectionId);
+                } else {
+                  newHidden = [...currentHidden, sectionId];
+                }
+                updateSettings({ hiddenSections: newHidden });
+              };
+
+              return (
+                <div 
+                  key={sectionId}
+                  className={cn(
+                    "flex items-center justify-between p-3.5 rounded-xl border transition-all duration-200 bg-white",
+                    isHidden 
+                      ? "border-slate-100 bg-slate-50/50 opacity-60" 
+                      : "border-slate-200/80 hover:border-slate-300 shadow-xs"
+                  )}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="flex flex-col text-slate-400">
+                      <button
+                        type="button"
+                        disabled={index === 0}
+                        onClick={(e) => handleMove("up", e)}
+                        className="hover:text-brand-600 disabled:opacity-20 cursor-pointer p-0.5"
+                      >
+                        <ArrowUp size={14} />
+                      </button>
+                      <button
+                        type="button"
+                        disabled={index === orderList.length - 1}
+                        onClick={(e) => handleMove("down", e)}
+                        className="hover:text-brand-600 disabled:opacity-20 cursor-pointer p-0.5"
+                      >
+                        <ArrowDown size={14} />
+                      </button>
+                    </div>
+
+                    <div className="text-start">
+                      <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-mono uppercase font-black mr-2">
+                        {settings.language === "ar" ? `الترتيب #${index + 1}` : `#${index + 1}`}
+                      </span>
+                      <span className={cn(
+                        "text-sm font-bold text-slate-800",
+                        isHidden && "line-through text-slate-400"
+                      )}>
+                        {label}
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleToggleVisibility}
+                    className={cn(
+                      "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all relative overflow-hidden ring-1 cursor-pointer",
+                      isHidden 
+                        ? "bg-slate-100 text-slate-500 ring-slate-200" 
+                        : "bg-emerald-50 text-emerald-700 ring-emerald-200/50 hover:bg-emerald-100/50"
+                    )}
+                  >
+                    {isHidden ? (
+                      <>
+                        <EyeOff size={14} />
+                        <span>{settings.language === "ar" ? "مخفي" : settings.language === "fr" ? "Masqué" : "Hidden"}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Eye size={14} />
+                        <span>{settings.language === "ar" ? "نشط وعارض" : settings.language === "fr" ? "Visible" : "Visible"}</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Fit to One Page Feature */}
         <div className="pt-6 border-t border-slate-200">
           <div className="bg-gradient-to-r from-brand-500 to-amber-500 rounded-2xl p-1 shadow-lg shadow-brand-500/25 mb-6">
@@ -359,7 +500,11 @@ export default React.memo(function SettingsForm() {
                   fontSize: "small",
                   sectionSpacing: "compact",
                   lineHeight: "tight",
-                  marginSize: "compact"
+                  marginSize: "compact",
+                  customFontSize: 92,
+                  customSpacing: 75,
+                  customLineHeight: 88,
+                  customMargin: 75,
                 });
               }}
               className="w-full bg-white hover:bg-brand-50/40 flex items-center justify-between p-4 rounded-xl transition-colors group relative overflow-hidden cursor-pointer"
@@ -442,6 +587,124 @@ export default React.memo(function SettingsForm() {
                 <option value="normal">{settings.language === "ar" ? "طبيعي" : "Normal"}</option>
                 <option value="relaxed">{settings.language === "ar" ? "واسع" : "Relaxed"}</option>
               </select>
+            </div>
+
+            {/* Empty Spot */}
+            <div className="hidden md:block" />
+
+            {/* Fine-Tuning Spacing & Density Controllers */}
+            <div className="col-span-1 md:col-span-2 pt-4 border-t border-slate-100 space-y-4">
+              <h4 className="text-sm font-extrabold text-[#e24e2c] flex items-center gap-2">
+                <span>🎛️</span>
+                <span>{settings.language === "ar" ? "التحكم الدقيق والمخصص بمسافات وهوامش الصفحة" : "Fine-Tuning & Content Density Sliders"}</span>
+              </h4>
+              <p className="text-xs text-slate-500">
+                {settings.language === "ar" 
+                  ? "اسحب لتعديل المسافات والهوامش وحجم الخط بدقة متناهية لاحتواء السيرة في صفحة واحدة ومنع التداخل." 
+                  : "Drag the sliders below to fine-tune section packing, margins, and content sizing to perfectly fit your content on exactly 1 page."}
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Font Size Slider */}
+                <div className="bg-white p-4 rounded-xl border border-slate-200/60 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-bold text-slate-700">
+                      {settings.language === "ar" ? "🔍 مقياس حجم الخط والكتابة" : "Font Size Scale"}
+                    </span>
+                    <span className="text-xs font-black text-brand-650 bg-brand-50 px-2 py-0.5 rounded-full">
+                      {settings.customFontSize || 100}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="70"
+                    max="135"
+                    value={settings.customFontSize || 100}
+                    onChange={(e) => updateSettings({ customFontSize: Number(e.target.value) })}
+                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-brand-500"
+                  />
+                  <div className="flex justify-between text-[10px] text-slate-400 font-medium">
+                    <span>{settings.language === "ar" ? "أصغر (70%)" : "Smaller (70%)"}</span>
+                    <span>{settings.language === "ar" ? "طبيعي (100%)" : "Normal (100%)"}</span>
+                    <span>{settings.language === "ar" ? "أكبر (135%)" : "Larger (135%)"}</span>
+                  </div>
+                </div>
+
+                {/* Section Spacing Slider */}
+                <div className="bg-white p-4 rounded-xl border border-slate-200/60 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-bold text-slate-700">
+                      {settings.language === "ar" ? "↕️ التباعد العمودي بين الأقسام" : "Vertical Section Spacing"}
+                    </span>
+                    <span className="text-xs font-black text-brand-650 bg-brand-50 px-2 py-0.5 rounded-full">
+                      {settings.customSpacing || 100}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="40"
+                    max="160"
+                    value={settings.customSpacing || 100}
+                    onChange={(e) => updateSettings({ customSpacing: Number(e.target.value) })}
+                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-brand-500"
+                  />
+                  <div className="flex justify-between text-[10px] text-slate-400 font-medium">
+                    <span>{settings.language === "ar" ? "مضغوط (40%)" : "Compact (40%)"}</span>
+                    <span>{settings.language === "ar" ? "طبيعي (100%)" : "Normal (100%)"}</span>
+                    <span>{settings.language === "ar" ? "متباعد (160%)" : "Relaxed (160%)"}</span>
+                  </div>
+                </div>
+
+                {/* Line Height Slider */}
+                <div className="bg-white p-4 rounded-xl border border-slate-200/60 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-bold text-slate-700">
+                      {settings.language === "ar" ? "📏 ارتفاع أسطر الكتابة" : "Line Height Multiplier"}
+                    </span>
+                    <span className="text-xs font-black text-brand-650 bg-brand-50 px-2 py-0.5 rounded-full">
+                      {settings.customLineHeight || 100}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="65"
+                    max="135"
+                    value={settings.customLineHeight || 100}
+                    onChange={(e) => updateSettings({ customLineHeight: Number(e.target.value) })}
+                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-brand-500"
+                  />
+                  <div className="flex justify-between text-[10px] text-slate-400 font-medium">
+                    <span>{settings.language === "ar" ? "ضيق (65%)" : "Tight (65%)"}</span>
+                    <span>{settings.language === "ar" ? "طبيعي (100%)" : "Normal (100%)"}</span>
+                    <span>{settings.language === "ar" ? "مريح (135%)" : "Relaxed (135%)"}</span>
+                  </div>
+                </div>
+
+                {/* Outer Margins Slider */}
+                <div className="bg-white p-4 rounded-xl border border-slate-200/60 space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs font-bold text-slate-700">
+                      {settings.language === "ar" ? "↔️ هوامش وحواف صفحة الـ PDF" : "Page Margin Padding"}
+                    </span>
+                    <span className="text-xs font-black text-brand-650 bg-brand-50 px-2 py-0.5 rounded-full">
+                      {settings.customMargin || 100}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="30"
+                    max="170"
+                    value={settings.customMargin || 100}
+                    onChange={(e) => updateSettings({ customMargin: Number(e.target.value) })}
+                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-brand-500"
+                  />
+                  <div className="flex justify-between text-[10px] text-slate-400 font-medium">
+                    <span>{settings.language === "ar" ? "صغير جداً (30%)" : "Micro (30%)"}</span>
+                    <span>{settings.language === "ar" ? "طبيعي (100%)" : "Normal (100%)"}</span>
+                    <span>{settings.language === "ar" ? "عريض (170%)" : "Relaxed (170%)"}</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Font Family */}

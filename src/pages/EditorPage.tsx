@@ -1861,7 +1861,7 @@ export default function EditorPage() {
               )}
             </AnimatePresence>
 
-            <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-neutral-100/50">
+            <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-slate-50/70">
               <div
                 className={cn(
                   "origin-top transition-all duration-500 flex justify-center",
@@ -1872,7 +1872,7 @@ export default function EditorPage() {
               >
                 <div
                   className={cn(
-                    "bg-neutral-50 shadow-2xl rounded-sm overflow-hidden ring-1 ring-neutral-900/5",
+                    "bg-white shadow-[0_25px_60px_-15px_rgba(15,23,42,0.08),0_0_1px_rgba(15,23,42,0.1)] rounded-md overflow-hidden",
                     previewMode !== "cover-letter"
                       ? "w-[210mm] min-h-[297mm] shrink-0"
                       : "w-full",

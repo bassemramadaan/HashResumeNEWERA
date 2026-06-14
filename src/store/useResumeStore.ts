@@ -119,6 +119,10 @@ export type ResumeData = {
     marginSize?: "compact" | "normal" | "relaxed";
     sectionSpacing?: "compact" | "normal" | "relaxed";
     lineHeight?: "tight" | "normal" | "relaxed";
+    customFontSize?: number;
+    customLineHeight?: number;
+    customSpacing?: number;
+    customMargin?: number;
   };
   jobDescription: string;
   isPremium: boolean;
@@ -196,6 +200,10 @@ const initialData: ResumeData = {
     marginSize: "normal",
     sectionSpacing: "normal",
     lineHeight: "normal",
+    customFontSize: 100,
+    customLineHeight: 100,
+    customSpacing: 100,
+    customMargin: 100,
   },
   jobDescription: "",
   isPremium: false,
@@ -602,6 +610,10 @@ export const useResumeStore = create<ResumeStore>()(
                 isFreshGrad: false,
                 sectionOrder: defaultSectionOrder,
                 hiddenSections: [],
+                customFontSize: 100,
+                customLineHeight: 100,
+                customSpacing: 100,
+                customMargin: 100,
               },
               jobDescription: "",
               isPremium: false,

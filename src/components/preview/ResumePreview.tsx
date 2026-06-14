@@ -2841,22 +2841,89 @@ const ResumePreview = memo(
       </div>
     );
 
+    const zoomScale = settings.customFontSize ? settings.customFontSize / 100 : 1;
+    const spacingScale = settings.customSpacing !== undefined ? settings.customSpacing / 100 : 1;
+    const marginScale = settings.customMargin !== undefined ? settings.customMargin / 100 : 1;
+    const lineScale = settings.customLineHeight !== undefined ? settings.customLineHeight / 100 : 1;
+
     return (
       <div
         ref={ref}
         id="resume-preview-container"
         className={cn(
-          "w-full h-full bg-white box-border transition-all duration-500", 
+          "w-full h-full bg-white box-border transition-all duration-500 relative", 
           settings.language === "ar" ? "font-editor-ar" : "font-editor-en",
           isEmpty && "opacity-[0.35] blur-[1px] pointer-events-none select-none grayscale-[0.5]"
         )}
-        style={{ minHeight: "297mm" }}
+        style={{ 
+          minHeight: "297mm",
+          zoom: zoomScale,
+        }}
         dir={settings.language === "ar" ? "rtl" : "ltr"}
         data-spacing={settings.sectionSpacing || "normal"}
         data-font-size={settings.fontSize || "medium"}
         data-line-height={settings.lineHeight || "normal"}
         data-font-family={settings.fontFamily || "inter"}
       >
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            #resume-preview-container {
+              --spacing-mult: ${spacingScale};
+              --margin-mult: ${marginScale};
+              --line-mult: ${lineScale};
+            }
+            #resume-preview-container * {
+              line-height: calc(1.4 * var(--line-mult, 1)) !important;
+            }
+            /* Spacings MB/MT scaling */
+            #resume-preview-container .mb-8 { margin-bottom: calc(2rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .mb-10 { margin-bottom: calc(2.5rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .mb-6 { margin-bottom: calc(1.5rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .mb-4 { margin-bottom: calc(1rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .mb-2 { margin-bottom: calc(0.5rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .mt-8 { margin-top: calc(2rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .mt-6 { margin-top: calc(1.5rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .mt-4 { margin-top: calc(1rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .mt-2 { margin-top: calc(0.5rem * var(--spacing-mult, 1)) !important; }
+            
+            /* Spacings gap- space-y- scaling */
+            #resume-preview-container .gap-8 { gap: calc(2rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .gap-6 { gap: calc(1.5rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .gap-4 { gap: calc(1rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .space-y-6 > * + * { margin-top: calc(1.5rem * var(--spacing-mult, 1)) !important; }
+            #resume-preview-container .space-y-4 > * + * { margin-top: calc(1rem * var(--spacing-mult, 1)) !important; }
+            
+            /* Spacings Padding scaling */
+            #resume-preview-container .p-6 { padding: calc(1.5rem * var(--margin-mult, 1)) !important; }
+            #resume-preview-container .p-8 { padding: calc(2rem * var(--margin-mult, 1)) !important; }
+            #resume-preview-container .p-10 { padding: calc(2.5rem * var(--margin-mult, 1)) !important; }
+            #resume-preview-container .p-12 { padding: calc(3rem * var(--margin-mult, 1)) !important; }
+            #resume-preview-container .pb-6 { padding-bottom: calc(1.5rem * var(--margin-mult, 1)) !important; }
+            #resume-preview-container .pb-8 { padding-bottom: calc(2rem * var(--margin-mult, 1)) !important; }
+            #resume-preview-container .pt-8 { padding-top: calc(2rem * var(--margin-mult, 1)) !important; }
+            #resume-preview-container .py-6 { padding-top: calc(1.5rem * var(--margin-mult, 1)) !important; padding-bottom: calc(1.5rem * var(--margin-mult, 1)) !important; }
+            #resume-preview-container .py-4 { padding-top: calc(1rem * var(--margin-mult, 1)) !important; padding-bottom: calc(1rem * var(--margin-mult, 1)) !important; }
+          `
+        }} />
+
+        {/* Absolute Page Break Guidelines */}
+        <div className="absolute left-0 right-0 pointer-events-none print:hidden select-none" style={{ top: "297mm", zIndex: 100 }}>
+          <div className="border-t-2 border-dashed border-rose-500/50 w-full relative flex items-center justify-center">
+            <span className="absolute -top-3.5 px-3 py-1 bg-rose-500 text-white text-[10px] font-black rounded-full shadow-md flex items-center gap-1 border border-rose-600">
+              <span>✂️</span>
+              <span>{settings.language === "ar" ? "نهاية الصفحة الأولى 📄" : settings.language === "fr" ? "Fin de la page 1 📄" : "Page 1 Break Line 📄"}</span>
+            </span>
+          </div>
+        </div>
+        <div className="absolute left-0 right-0 pointer-events-none print:hidden select-none" style={{ top: "594mm", zIndex: 100 }}>
+          <div className="border-t-2 border-dashed border-rose-500/50 w-full relative flex items-center justify-center">
+            <span className="absolute -top-3.5 px-3 py-1 bg-rose-500 text-white text-[10px] font-black rounded-full shadow-md flex items-center gap-1 border border-rose-600">
+              <span>✂️</span>
+              <span>{settings.language === "ar" ? "نهاية الصفحة الثانية 📄" : settings.language === "fr" ? "Fin de la page 2 📄" : "Page 2 Break Line 📄"}</span>
+            </span>
+          </div>
+        </div>
+
         {settings.template === "modern" && renderModern()}
         {settings.template === "classic" && renderClassic()}
         {settings.template === "creative" && renderCreative()}
