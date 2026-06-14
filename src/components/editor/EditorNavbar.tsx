@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Download, FileText, Share2, Sparkles, ChevronDown } from "lucide-react";
 import ATSScoreWidget from "../ATSScoreWidget";
 import type { AppLang } from "../../hooks/useDirection";
 
@@ -173,10 +174,11 @@ function LangSwitcher({ lang, onChange }: { lang: AppLang, onChange: (lang: AppL
 }
 
 // ── ExportButton ──────────────────────────────────────────
-function ExportButton({ lang, onPDF, onWord, variant = "default", isReady = false }: unknown) {
-  const [open, setOpen]   = useState(false);
-  const ref               = useRef<HTMLDivElement>(null);
-  const t                 = T[lang as keyof typeof T] ?? T.en;
+function ExportButton({ lang, onPDF, onWord, isReady = false }: { lang: AppLang; onPDF?: () => void; onWord?: () => void; isReady?: boolean }) {
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const isAr = lang === "ar";
 
   useEffect(() => {
     const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
@@ -184,89 +186,40 @@ function ExportButton({ lang, onPDF, onWord, variant = "default", isReady = fals
     return () => document.removeEventListener("mousedown", h);
   }, []);
 
-  const menuItems = [
-    {
-      icon: <svg className="w-4 h-4 text-[#FF4D2D]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>,
-      label: t.exportPDF,
-      action: () => { onPDF?.(); setOpen(false); },
-    },
-    {
-      icon: <svg className="w-4 h-4 text-[#185FA5]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/><polyline points="9 9 10 9"/></svg>,
-      label: t.exportWord,
-      action: () => { onWord?.(); setOpen(false); },
-    },
-  ];
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
+    } catch (err) {
+      console.error("Failed to copy link:", err);
+    }
+  };
 
-  if (variant === "airplane") {
-    return (
-      <div ref={ref} className="relative">
-        <motion.button
-          data-tour="export-button"
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setOpen((o: boolean) => !o)}
-          title={t.export}
-          className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-colors cursor-pointer text-slate-500 hover:bg-slate-100/80 hover:text-[#FF4D2D] ${
-            open ? "bg-slate-100 text-[#FF4D2D]" : ""
-          }`}
-        >
-          {/* Multi-format export represented by clear download icon */}
-          <svg className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
-          {isReady && (
-            <span className="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
-              <span className="animate-ping absolute text-rose-500 inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500 border-2 border-white shadow-sm"></span>
-            </span>
-          )}
-        </motion.button>
-
-        <AnimatePresence>
-          {open && (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 7 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 7 }}
-              transition={{ type: "spring", stiffness: 400, damping: 25 }}
-              className="absolute top-full mt-2.5 right-1/2 translate-x-1/2 bg-white border border-slate-200/80 shadow-xl rounded-2xl overflow-hidden z-[1110] min-w-[190px] p-1.5 space-y-0.5"
-            >
-              {menuItems.map((item, i) => (
-                <button
-                  key={i}
-                  onClick={item.action}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer text-left transition-colors hover:bg-slate-50 text-slate-755"
-                  style={{ direction: "ltr" }}
-                >
-                  {item.icon}
-                  <span className="flex-1 text-slate-700">{item.label}</span>
-                </button>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    );
-  }
+  const ctaText = isAr ? "تحميل وتصدير السيرة" : lang === "fr" ? "Télécharger CV" : "Download Resume";
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="relative z-50">
       <motion.button
         data-tour="export-button"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }}
         onClick={() => setOpen((o: boolean) => !o)}
-        className="flex items-center gap-1.5 bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:from-rose-700 hover:to-[#E64528] text-white font-bold text-xs px-4 py-2 rounded-xl shadow-xs transition-all cursor-pointer select-none"
+        className="flex items-center gap-2 bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:from-rose-700 hover:to-[#E64528] text-white font-extrabold text-xs sm:text-sm px-4.5 py-2.5 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer select-none relative group"
       >
-        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span>{t.export}</span>
-        <svg width="9" height="9" className={`transition-transform duration-200 ${open ? "rotate-180" : ""}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        <span className="relative flex h-2 w-2 shrink-0">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+        </span>
+        
+        <span className="tracking-wide">{ctaText}</span>
+        
+        <ChevronDown size={14} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+
         {isReady && (
           <span className="absolute -top-1 -right-1 flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-400 border border-white"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border border-white"></span>
           </span>
         )}
       </motion.button>
@@ -277,19 +230,94 @@ function ExportButton({ lang, onPDF, onWord, variant = "default", isReady = fals
             initial={{ opacity: 0, scale: 0.95, y: 7 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 7 }}
-            transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="absolute top-full mt-1.5 right-0 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-[1110] min-w-[190px] p-1.5 space-y-0.5"
+            transition={{ type: "spring", stiffness: 450, damping: 25 }}
+            className={`absolute top-full mt-2 bg-white border border-slate-200/80 shadow-2xl rounded-2xl overflow-hidden z-[1110] p-2 space-y-1 w-[260px] sm:w-[310px] ${
+              isAr ? "left-0 sm:left-auto sm:-right-4" : "right-0 sm:right-auto sm:-left-4"
+            }`}
+            style={{ direction: isAr ? "rtl" : "ltr" }}
           >
-            {menuItems.map((item, i) => (
-              <button
-                key={i}
-                onClick={item.action}
-                className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer text-left transition-colors hover:bg-slate-50 text-slate-750"
-              >
-                {item.icon}
-                <span>{item.label}</span>
-              </button>
-            ))}
+            {/* Header Hint */}
+            <div className="px-3 py-2 bg-slate-50 border-b border-slate-100 rounded-xl mb-1.5 flex items-center justify-between">
+              <span className="text-[10px] font-extrabold uppercase tracking-wide text-slate-400">
+                {isAr ? "خيارات الحفظ الفوري" : "Instant Export Actions"}
+              </span>
+              <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
+                <Sparkles size={8} />
+                {isAr ? "متوافق مع ATS" : "ATS-Compliant"}
+              </span>
+            </div>
+
+            {/* PDF Item */}
+            <button
+              onClick={() => { onPDF?.(); setOpen(false); }}
+              className="w-full flex items-start gap-3 p-2.5 rounded-xl cursor-pointer text-start transition-all hover:bg-slate-50 group/item active:scale-98"
+            >
+              <div className="w-10 h-10 bg-rose-50 text-[#FF4D2D] rounded-xl flex items-center justify-center shrink-0 group-hover/item:bg-rose-100/70 transition-colors">
+                <FileText size={20} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover/item:text-[#FF4D2D] transition-colors">
+                    {isAr ? "تحميل ملف PDF رسمي" : "Download Official PDF"}
+                  </span>
+                  <span className="text-[8px] font-bold text-[#FF4D2D] bg-rose-50/70 px-1 py-0.2 rounded-md">
+                    {isAr ? "موصى به" : "Best"}
+                  </span>
+                </div>
+                <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
+                  {isAr 
+                    ? "النسخة النموذجية للتقديم المباشر والطباعة الفندقية." 
+                    : "The standard, highly optimized copy for job applications and ATS scanners."}
+                </p>
+              </div>
+            </button>
+
+            {/* Word Item */}
+            <button
+              onClick={() => { onWord?.(); setOpen(false); }}
+              className="w-full flex items-start gap-3 p-2.5 rounded-xl cursor-pointer text-start transition-all hover:bg-slate-50 group/item active:scale-98"
+            >
+              <div className="w-10 h-10 bg-[#185FA5]/5 text-[#185FA5] rounded-xl flex items-center justify-center shrink-0 group-hover/item:bg-[#185FA5]/10 transition-colors">
+                <Download size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover/item:text-[#185FA5] transition-colors block">
+                  {isAr ? "تحميل مستند Word قابل للتعديل" : "Download Word DOCX"}
+                </span>
+                <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
+                  {isAr 
+                    ? "نسخة قابلة للتحرير والتعديل بالكامل في برنامج Word." 
+                    : "Fully editable Microsoft Word file to customize independently later."}
+                </p>
+              </div>
+            </button>
+
+            {/* Share Link Item */}
+            <button
+              onClick={handleCopyLink}
+              className="w-full flex items-start gap-3 p-2.5 rounded-xl cursor-pointer text-start transition-all hover:bg-slate-50 group/item active:scale-98"
+            >
+              <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shrink-0 group-hover/item:bg-emerald-100/70 transition-colors">
+                <Share2 size={18} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover/item:text-emerald-600 transition-colors">
+                    {isAr ? "رابط المشاركة السحابي" : "Get Online Share Link"}
+                  </span>
+                  {copied && (
+                    <span className="text-[8px] font-black text-white bg-emerald-500 px-1.5 py-0.2 rounded-md animate-bounce shrink-0">
+                      {isAr ? "تم النسخ!" : "Copied!"}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
+                  {isAr 
+                    ? "رابط مباشر تفاعلي لمشاركته مع مدراء التوظيف." 
+                    : "Live web link to send directly to recruiters or share on LinkedIn."}
+                </p>
+              </div>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -377,15 +405,6 @@ export default function EditorNavbar({
 
         {/* ── Center group: Floating Threads Capsule ── */}
         <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white border border-slate-200/50 shadow-sm rounded-full px-2 py-1 h-11 flex-row gap-0.5 select-none transition-all">
-          {/* 2. Paper Airplane Export Icon ✈️ */}
-          <ExportButton
-            lang={lang}
-            onPDF={onExportPDF}
-            onWord={onExportWord}
-            variant="airplane"
-            isReady={atsScore >= 100}
-          />
-
           {/* 3. Plus / Templates Icon ➕ */}
           {!isLocked && (
             <motion.button
@@ -411,9 +430,18 @@ export default function EditorNavbar({
           />
         </div>
 
-        {/* ── Right group: Lang + Preview Split toggle ── */}
+        {/* ── Right group: Lang + Export CTA + Preview Split toggle ── */}
         <div className="flex items-center gap-2 shrink-0">
           <LangSwitcher lang={lang} onChange={onLangChange} />
+
+          <Divider />
+
+          <ExportButton
+            lang={lang}
+            onPDF={onExportPDF}
+            onWord={onExportWord}
+            isReady={atsScore >= 80}
+          />
 
           <Divider />
 

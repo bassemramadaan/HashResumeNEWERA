@@ -2939,6 +2939,8 @@ const ResumePreview = memo(
         {settings.template === "engineering" && renderEngineering()}
         {settings.template === "finance" && renderFinance()}
 
+
+
         {/* Watermark */}
         <div className="mt-8 pb-4 text-center text-xs text-slate-400 font-medium opacity-80 print:hidden select-none">
           {settings.language === "ar" ? (

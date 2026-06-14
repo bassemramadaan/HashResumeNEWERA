@@ -43,6 +43,7 @@ import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import ResumePreview from "../components/preview/ResumePreview";
 import CoverLetterPreview from "../components/preview/CoverLetterPreview";
 import UniversalCommandBar from "../components/editor/UniversalCommandBar";
+import ATSHealthGauge from "../components/editor/ATSHealthGauge";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -1861,7 +1862,12 @@ export default function EditorPage() {
               )}
             </AnimatePresence>
 
-            <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-slate-50/70">
+            <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-slate-50/70 relative">
+              {previewMode === "resume" && (
+                <div className="absolute top-24 end-6 z-30 hidden xl:block">
+                  <ATSHealthGauge data={data} isAr={language === "ar"} />
+                </div>
+              )}
               <div
                 className={cn(
                   "origin-top transition-all duration-500 flex justify-center",

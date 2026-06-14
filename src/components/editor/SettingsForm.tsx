@@ -15,7 +15,8 @@ import {
   EyeOff,
   ArrowUp,
   ArrowDown,
-  Sparkles
+  Sparkles,
+  CheckCircle2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React, { useRef, useState } from "react";
@@ -27,6 +28,8 @@ export default React.memo(function SettingsForm() {
   const { data, updateSettings, updateData, resetData } = useResumeStore();
   const { settings } = data;
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  const [fitAppliedMode, setFitAppliedMode] = useState<"one" | "two" | null>(null);
 
   const TEMPLATES = [
     {
@@ -490,42 +493,126 @@ export default React.memo(function SettingsForm() {
           </div>
         </div>
 
-        {/* Fit to One Page Feature */}
+        {/* Fit to One/Two Pages Premium Feature */}
         <div className="pt-6 border-t border-slate-200">
-          <div className="bg-gradient-to-r from-brand-500 to-amber-500 rounded-2xl p-1 shadow-lg shadow-brand-500/25 mb-6">
-            <button
-              onClick={() => {
-                // "Fit to One Page" Optimizer
-                updateSettings({
-                  fontSize: "small",
-                  sectionSpacing: "compact",
-                  lineHeight: "tight",
-                  marginSize: "compact",
-                  customFontSize: 92,
-                  customSpacing: 75,
-                  customLineHeight: 88,
-                  customMargin: 75,
-                });
-              }}
-              className="w-full bg-white hover:bg-brand-50/40 flex items-center justify-between p-4 rounded-xl transition-colors group relative overflow-hidden cursor-pointer"
-            >
-              <div className="flex items-center gap-4 relative z-10">
-                <div className="w-10 h-10 bg-brand-100 rounded-full flex items-center justify-center text-brand-650 group-hover:scale-110 transition-transform animate-pulse">
-                  <Wand2 size={20} />
-                </div>
-                <div className="text-start">
-                  <div className="font-bold text-slate-900 group-hover:text-brand-700 transition-colors text-base">
-                    {settings.language === "ar" ? "احتواء في صفحة واحدة التلقائي" : "Auto Fit to One Page"}
+          <h3 className="text-base font-extrabold text-slate-800 flex items-center gap-2 mb-3">
+            <Wand2 size={18} className="text-[#e24e2c]" />
+            <span>{settings.language === "ar" ? "معالج الاحتواء والتباعد السريع ذكي الأبعاد" : "Smart Fit-to-Page Layout Wizards"}</span>
+          </h3>
+          <p className="text-xs text-slate-500 mb-4 leading-relaxed">
+            {settings.language === "ar"
+              ? "لتفادي قياس وتعديل الـ Sliders يدوياً، تتيح لك الأزرار السفلية ضبط التباعد وحجم الخط والهوامش بذكاء بنسب منضبطة فندقية لتصغير ملفك واحتوائه كاملاً وبشكل جذاب."
+              : "Instead of manually adjusting sliders, let these automated wizards optimize font scale, vertical spacing, and page margins to fit perfectly."}
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {/* Fit to 1 Page Button */}
+            <div className="bg-gradient-to-r from-brand-500 to-amber-500 rounded-2xl p-0.5 shadow-xs hover:shadow-sm transition-all active:scale-98">
+              <button
+                type="button"
+                onClick={() => {
+                  updateSettings({
+                    fontSize: "small",
+                    sectionSpacing: "compact",
+                    lineHeight: "tight",
+                    marginSize: "compact",
+                    customFontSize: 92,
+                    customSpacing: 75,
+                    customLineHeight: 88,
+                    customMargin: 75,
+                  });
+                  setFitAppliedMode("one");
+                  setTimeout(() => setFitAppliedMode(null), 3500);
+                }}
+                className="w-full bg-white hover:bg-brand-50/20 text-start p-4 rounded-[14px] transition-colors relative overflow-hidden cursor-pointer flex flex-col justify-between h-full gap-3"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 bg-brand-50 rounded-xl flex items-center justify-center text-brand-650 shrink-0">
+                    <Wand2 size={16} />
                   </div>
-                  <div className="text-sm text-slate-500 mt-0.5">
-                    {settings.language === "ar" ? "بضغطة زر، سيتم ضغط السيرة لتناسب صفحة واحدة" : "Instantly optimize spacing and fonts to fit perfectly on one page"}
+                  <div>
+                    <h5 className="font-extrabold text-slate-900 text-sm">
+                      {settings.language === "ar" ? "احتواء ذكي في صفحة واحدة" : "Auto Fit: Exactly 1 Page"}
+                    </h5>
+                    <p className="text-[11px] text-slate-500 mt-0.5 leading-normal">
+                      {settings.language === "ar" 
+                        ? "يضغط الخط والهوامش والمسافات بنسب منضبطة جداً للنوم في ورقة واحدة." 
+                        : "Compacts fonts, margins and paddings symmetrically to fit exactly 1 page."}
+                    </p>
                   </div>
                 </div>
-              </div>
-              <div className="text-brand-600 font-bold bg-brand-100 px-4 py-1.5 rounded-full text-sm group-hover:bg-brand-200 transition-colors whitespace-nowrap ms-2">
-                {settings.language === "ar" ? "تطبيق الميزة" : "Apply Magic"}
-              </div>
-            </button>
+                
+                <div className="w-full flex justify-between items-center mt-1">
+                  <span className="text-[10px] font-black text-amber-600 bg-amber-50/75 px-2 py-0.5 rounded-full">
+                    {settings.language === "ar" ? "ضغط 92% عالي الكثافة" : "92% Dense Compression"}
+                  </span>
+                  <div className="text-[11px] font-black text-white bg-slate-900 hover:bg-slate-800 px-3 py-1 rounded-lg transition-colors shadow-xs">
+                    {fitAppliedMode === "one" ? (
+                      <span className="flex items-center gap-1 text-emerald-400">
+                        <CheckCircle2 size={12} />
+                        {settings.language === "ar" ? "تم الضغط!" : "Fit Applied!"}
+                      </span>
+                    ) : (
+                      <span>{settings.language === "ar" ? "تنفيذ السحر" : "Optimize"}</span>
+                    )}
+                  </div>
+                </div>
+              </button>
+            </div>
+
+            {/* Fit to 2 Pages Button */}
+            <div className="bg-gradient-to-r from-slate-300 to-slate-400 rounded-2xl p-0.5 shadow-xs hover:shadow-sm transition-all active:scale-98">
+              <button
+                type="button"
+                onClick={() => {
+                  updateSettings({
+                    fontSize: "medium",
+                    sectionSpacing: "normal",
+                    lineHeight: "normal",
+                    marginSize: "normal",
+                    customFontSize: 100,
+                    customSpacing: 95,
+                    customLineHeight: 98,
+                    customMargin: 95,
+                  });
+                  setFitAppliedMode("two");
+                  setTimeout(() => setFitAppliedMode(null), 3500);
+                }}
+                className="w-full bg-white hover:bg-slate-50/50 text-start p-4 rounded-[14px] transition-colors relative overflow-hidden cursor-pointer flex flex-col justify-between h-full gap-3"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-9 h-9 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600 shrink-0">
+                    <LayoutTemplate size={16} />
+                  </div>
+                  <div>
+                    <h5 className="font-extrabold text-slate-900 text-sm">
+                      {settings.language === "ar" ? "احتواء متكامل في صَفحتين" : "Auto Fit: Exactly 2 Pages"}
+                    </h5>
+                    <p className="text-[11px] text-slate-500 mt-0.5 leading-normal">
+                      {settings.language === "ar" 
+                        ? "يعيد السيرة للوضع الكلاسيكي ويقترح توزيعاً مريحاً للأقسام على ورقتين." 
+                        : "Resets spacing styles to elegant medium margins best suited for 2 pages."}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="w-full flex justify-between items-center mt-1">
+                  <span className="text-[10px] font-black text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">
+                    {settings.language === "ar" ? "توزيع متوازن ومقروء" : "100% Symmetrical Spacing"}
+                  </span>
+                  <div className="text-[11px] font-black text-white bg-slate-900 hover:bg-slate-800 px-3 py-1 rounded-lg transition-colors shadow-xs">
+                    {fitAppliedMode === "two" ? (
+                      <span className="flex items-center gap-1 text-emerald-400">
+                        <CheckCircle2 size={12} />
+                        {settings.language === "ar" ? "تم الضبط!" : "Layout Done!"}
+                      </span>
+                    ) : (
+                      <span>{settings.language === "ar" ? "تنفيذ السحر" : "Optimize"}</span>
+                    )}
+                  </div>
+                </div>
+              </button>
+            </div>
           </div>
 
         {/* Styling & Spacing Panel */}
