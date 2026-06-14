@@ -4,6 +4,7 @@ import { createServer as createViteServer } from "vite";
 import rateLimit from "express-rate-limit";
 
 import path from "path";
+import fs from "fs";
 import dotenv from "dotenv";
 import puppeteer from "puppeteer";
 
@@ -349,8 +350,35 @@ async function startServer() {
   } else {
     const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath));
+    
+    let indexHtmlCache: string | null = null;
     app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+      try {
+        const filePath = path.join(distPath, 'index.html');
+        if (!indexHtmlCache) {
+          if (fs.existsSync(filePath)) {
+            indexHtmlCache = fs.readFileSync(filePath, 'utf8');
+          }
+        }
+
+        if (indexHtmlCache) {
+          const host = req.get('host') || req.headers.host || "hashresume.com";
+          const protocol = req.headers['x-forwarded-proto'] || req.protocol || 'https';
+          const baseUrl = `${protocol}://${host}`;
+
+          // Replace hardcoded domain with the actual current host URL dynamically
+          const modifiedHtml = indexHtmlCache
+            .replaceAll('https://hashresume.com/', `${baseUrl}/`)
+            .replaceAll('https://hashresume.com', baseUrl);
+
+          res.send(modifiedHtml);
+        } else {
+          res.sendFile(filePath);
+        }
+      } catch (err) {
+        console.error("Error serving index.html:", err);
+        res.sendFile(path.join(distPath, 'index.html'));
+      }
     });
   }
 
