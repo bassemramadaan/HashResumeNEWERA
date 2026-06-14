@@ -764,7 +764,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                   : `Transfer exactly ${selectedPackage === "single" ? "50" : "120"} EGP to this Vodafone Cash wallet:`}
                               </p>
                               <div className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm hover:border-[#FF4D2D]/40 transition-colors group">
-                                <span className="font-mono font-black text-sm text-slate-800 select-all flex-1 tracking-wider">01101007965</span>
+                                <span className="font-mono font-black text-sm text-slate-800 select-all flex-1 tracking-wider" dir="ltr">01101007965</span>
                                 <button
                                   onClick={() => handleCopy("01101007965", "phone")}
                                   className="p-1.5 bg-slate-50 text-slate-400 hover:text-[#FF4D2D] border border-slate-100 rounded-lg transition-all"

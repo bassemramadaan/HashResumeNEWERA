@@ -25,10 +25,10 @@ export default function Footer() {
               <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>
               <div className="text-sm text-slate-500 space-y-1">
                 <p>
-                  <span className="font-semibold text-slate-400">{t.emailLabel}</span> support@hashresume.com
+                  <span className="font-semibold text-slate-400">{t.emailLabel}</span> <span dir="ltr" className="inline-block text-slate-400 select-all">support@hashresume.com</span>
                 </p>
                 <p>
-                  <span className="font-semibold text-slate-300">{t.phoneLabel}</span> +20 110 100 7965
+                  <span className="font-semibold text-slate-300">{t.phoneLabel}</span> <span dir="ltr" className="inline-block text-slate-400 select-all">+20 110 100 7965</span>
                 </p>
               </div>
             </div>
