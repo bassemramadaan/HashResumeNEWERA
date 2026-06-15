@@ -15,15 +15,21 @@ import {
   ExternalLink,
   ChevronDown,
   Info,
-  Briefcase
+  Briefcase,
+  RefreshCw,
+  Check
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
+import { useResumeStore } from "../store/useResumeStore";
 import { Navbar } from "@/components/layout/Navbar";
 import Footer from "../components/Footer";
 
 export default function HashHuntPage() {
   const { language, dir } = useLanguageStore();
   const isRtl = language === "ar";
+
+  const resumeData = useResumeStore((state) => state.data);
+  const hasDesignedResume = resumeData && (resumeData.personalInfo?.fullName || resumeData.personalInfo?.email);
 
   // Form states
   const [fullName, setFullName] = useState("");
@@ -592,11 +598,14 @@ function doPost(e) {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {almosaferJobs.map((job) => (
+            {almosaferJobs.map((job, idx) => (
               <motion.div
                 key={job.id}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.2 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.15 }}
+                whileHover={{ y: -6 }}
                 className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-xs hover:shadow-xl hover:border-[#FF4D2D]/35 transition-all flex flex-col justify-between relative"
               >
                 {/* Brand Tag */}
@@ -940,6 +949,112 @@ function doPost(e) {
               </div>
             )}
 
+            {/* Resume Quick-Preview Widget */}
+            {hasDesignedResume && (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 mb-6 hover:border-[#FF4D2D]/35 transition-all relative overflow-hidden shadow-xs group"
+              >
+                {/* Visual top border styling line */}
+                <div className="absolute top-0 left-0 w-full h-[3.5px] bg-gradient-to-r from-emerald-400 via-[#FF4D2D] to-indigo-400" />
+                
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-3.5">
+                    {/* Visual mini template representation */}
+                    <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex flex-col items-center justify-center text-slate-500 font-bold shrink-0 relative overflow-hidden shadow-3xs">
+                      <span className="text-[7.5px] text-slate-400 font-black leading-none uppercase tracking-wider block mb-0.5 mb-1 truncate px-1">
+                        {resumeData.settings?.template || "Modern"}
+                      </span>
+                      <FileText size={18} className="text-[#FF4D2D]" />
+                    </div>
+
+                    <div className="space-y-1 text-start">
+                      <div className="flex flex-wrap items-center gap-1.5 leading-tight">
+                        <span className="text-xs sm:text-sm font-black text-slate-800">
+                          {resumeData.personalInfo?.fullName || (isRtl ? "سيرة بلا اسم" : "Unnamed Resume")}
+                        </span>
+                        <span className="bg-emerald-50 text-emerald-700 border border-emerald-100/60 text-[8.5px] font-black px-2 py-0.5 rounded-full flex items-center gap-0.5 shrink-0 select-none">
+                          <Check size={9} className="stroke-[3.5]" />
+                          <span>{isRtl ? "مكتملة ومحسنة" : "Optimized Live"}</span>
+                        </span>
+                      </div>
+                      
+                      <p className="text-[10px] sm:text-[11px] font-bold text-slate-500 leading-none">
+                        {resumeData.personalInfo?.jobTitle || (isRtl ? "مسمى غير محدد بالمحرر" : "Title not set in editor")}
+                      </p>
+
+                      <div className="flex flex-wrap gap-x-2.5 gap-y-1 text-[9px] sm:text-[10px] text-slate-400 font-medium">
+                        {resumeData.personalInfo?.email && (
+                          <span className="truncate max-w-[150px] sm:max-w-[200px] block">📧 {resumeData.personalInfo.email}</span>
+                        )}
+                        {resumeData.personalInfo?.phone && (
+                          <span>📞 <span dir="ltr">{resumeData.personalInfo.phone}</span></span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Fill CTA Button */}
+                  <div className="sm:self-center shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setFullName(resumeData.personalInfo?.fullName || "");
+                        setPhoneNumber(resumeData.personalInfo?.phone || "");
+                        setEmail(resumeData.personalInfo?.email || "");
+                        setJobTitle(resumeData.personalInfo?.jobTitle || "");
+                        
+                        // Flash inputs with nice visual cue ring
+                        const ids = ["full-name-input", "phone-input", "email-input", "target-job-title"];
+                        ids.forEach((id) => {
+                          const el = document.getElementById(id);
+                          if (el) {
+                            el.classList.add("ring-animated-flash");
+                            setTimeout(() => {
+                              el.classList.remove("ring-animated-flash");
+                            }, 2500);
+                          }
+                        });
+                      }}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-black px-4 py-2.5 rounded-xl text-xs sm:text-[11px] shadow-xs active:scale-97 transition-all cursor-pointer"
+                    >
+                      <RefreshCw size={12} className="shrink-0" />
+                      <span>{isRtl ? "تعبئة البيانات من السيرة ⚡" : "Auto-fill from Resume ⚡"}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Micro metrics row */}
+                <div className="mt-4 pt-3 border-t border-slate-100 grid grid-cols-4 gap-2">
+                  <div className="bg-slate-50/60 rounded-lg p-2 border border-slate-100 text-center">
+                    <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">{isRtl ? "الخبرات" : "Experiences"}</p>
+                    <p className="text-xs font-black text-slate-800 mt-0.5">
+                      {resumeData.experience?.length || 0} 🏢
+                    </p>
+                  </div>
+                  <div className="bg-slate-50/60 rounded-lg p-2 border border-slate-100 text-center">
+                    <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">{isRtl ? "التعليم" : "Education"}</p>
+                    <p className="text-xs font-black text-slate-800 mt-0.5">
+                      {resumeData.education?.length || 0} 🎓
+                    </p>
+                  </div>
+                  <div className="bg-slate-50/60 rounded-lg p-2 border border-slate-100 text-center">
+                    <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">{isRtl ? "المهارات" : "Skills"}</p>
+                    <p className="text-xs font-black text-slate-800 mt-0.5">
+                      {resumeData.skills?.length || 0} 🛠️
+                    </p>
+                  </div>
+                  <div className="bg-slate-50/60 rounded-lg p-2 border border-slate-100 text-center">
+                    <p className="text-[8px] text-slate-400 font-bold uppercase tracking-wider">{isRtl ? "الشهادات" : "Certifications"}</p>
+                    <p className="text-xs font-black text-slate-800 mt-0.5">
+                      {resumeData.certifications?.length || 0} 📜
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+
             <form className="space-y-5" onSubmit={handleFormSubmit}>
               {selectedJobAlert && (
                 <div className="bg-[#FF4D2D]/5 border border-[#FF4D2D]/15 rounded-xl p-3.5 flex items-center justify-between gap-3 animate-pulse">
@@ -972,6 +1087,7 @@ function doPost(e) {
                 <div className="space-y-1">
                   <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">{isRtl ? "الاسم بالكامل *" : "Full Name *"}</label>
                   <input 
+                    id="full-name-input"
                     type="text" 
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
@@ -984,7 +1100,8 @@ function doPost(e) {
                 <div className="space-y-1">
                   <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">{isRtl ? "رقم الهاتف أو المحمول *" : "Phone Number *"}</label>
                   <input 
-                    type="tel" 
+                    id="phone-input"
+                    type="text" 
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#FF4D2D] focus:ring-1 focus:ring-[#FF4D2D]/25 outline-none transition-all placeholder-slate-400" 
@@ -996,6 +1113,7 @@ function doPost(e) {
                 <div className="space-y-1">
                   <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">{isRtl ? "البريد الإلكتروني *" : "Email *"}</label>
                   <input 
+                    id="email-input"
                     type="email" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
