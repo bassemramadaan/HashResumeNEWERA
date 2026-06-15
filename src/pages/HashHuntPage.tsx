@@ -579,15 +579,15 @@ function doPost(e) {
           <div className="text-center mb-16 max-w-2xl mx-auto">
             <span className="inline-flex bg-gradient-to-r from-blue-600/5 to-[#FF4D2D]/10 border border-[#FF4D2D]/20 text-[#FF4D2D] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4 items-center gap-1.5 shadow-3xs">
               <span className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-ping" />
-              <span>{isRtl ? "شريك التوظيف الخارجي: تيسير شركة المسافر" : "Exclusive Direct Fast-Track: Almosafer Travel Group"}</span>
+              <span>{isRtl ? "وظائف شاغرة نشطة ومثبتة" : "Active Verified Vacancies"}</span>
             </span>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight tracking-tight mb-4">
-              {isRtl ? "وظائف شاغرة نشطة بشركة المسافر للسياحة" : "Active Vacancies at Almosafer Group"}
+              {isRtl ? "فرص العمل المتاحة حالياً" : "Active Vacancies"}
             </h2>
             <p className="text-slate-500 text-xs sm:text-sm font-medium max-w-xl mx-auto leading-relaxed">
               {isRtl 
-                ? "عرض تفصيلي للفرص المتاحة حالياً بشركة المسافر في مصر. للتقديم، انقر فوق الزر وقم بتحديث استمارتك وسيرتك بالأسفل لرفعها وتزامنها مع محرك التنسيق."
-                : "Explore verified competitive positions. Click 'Apply Via Hash Hunt' to auto-populate the profile form below and sync with the hiring sheet."}
+                ? "تصفح الفرص والوظائف القيادية النشطة. اضغط على 'قدّم الآن عبر هاش هانت' لتعبئة استمارة التقديم والبدء فوراً."
+                : "Explore verified competitive positions. Click 'Apply Via Hash Hunt' to auto-populate the profile form below and fast-track your submission."}
             </p>
           </div>
 
