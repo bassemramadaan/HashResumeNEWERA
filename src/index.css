@@ -346,6 +346,16 @@ svg.lucide, .lucide svg, svg[class*="lucide-"] {
   stroke-width: 1.8px !important;
 }
 
+@keyframes ringFlash {
+  0% { box-shadow: 0 0 0 0px rgba(255, 77, 45, 0.5); border-color: #FF4D2D; }
+  50% { box-shadow: 0 0 0 8px rgba(255, 77, 45, 0.25); border-color: #FF4D2D; }
+  100% { box-shadow: 0 0 0 0px rgba(255, 77, 45, 0); }
+}
+
+.ring-animated-flash {
+  animation: ringFlash 1.2s ease-in-out 2;
+}
+
 
 
 

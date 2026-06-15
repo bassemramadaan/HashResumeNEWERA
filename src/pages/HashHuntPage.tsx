@@ -14,7 +14,8 @@ import {
   Target,
   ExternalLink,
   ChevronDown,
-  Info
+  Info,
+  Briefcase
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { Navbar } from "@/components/layout/Navbar";
@@ -43,6 +44,95 @@ export default function HashHuntPage() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [_submissionResult, setSubmissionResult] = useState<{ isSimulated?: boolean; fileUrl?: string } | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedJobAlert, setSelectedJobAlert] = useState<string | null>(null);
+
+  // Almosafer Travel Group jobs data
+  const almosaferJobs = [
+    {
+      id: "it-support",
+      title: "Officer - IT Support Egypt",
+      dept: isRtl ? "تكنولوجيا الدعم الفني والبنية التحتية" : "IT Support Egypt & Tech",
+      url: "https://jobs.almosafer.com/job/Cairo-Officer-IT-Support-Egypt/1401870033/",
+      exp: isRtl ? "1-3 سنوات" : "1-3 Years",
+      location: isRtl ? "القاهرة، مصر" : "Cairo, Egypt",
+      arabicTitle: "مسؤول - الدعم الفني وتكنولوجيا المعلومات",
+      bullets: isRtl ? [
+        "تقديم الدعم الفني والتقني اليومي لموظفي وأجهزة مكتب مصر.",
+        "حل وصيانة الأعطال المتعلقة بأجهزة الكمبيوتر، البرمجيات، والشبكات والخدمات.",
+        "تجهيز وتهيئة محطات العمل وحسابات الموظفين الجدد بالكامل.",
+        "متابعة استقرار أجهزة الاتصال والصيانة مع الطواقم الإقليمية بالشركة."
+      ] : [
+        "Provide daily desktop & infrastructure technical support to Cairo office staff.",
+        "Troubleshoot local hardware, software, security setups, and local network issues.",
+        "Provision new equipment, accounts, software access, and workstations.",
+        "Maintain office IT assets, inventory records, and support internal SLA guidelines."
+      ]
+    },
+    {
+      id: "revenue-assurance",
+      title: "Officer - Revenue Assurance",
+      dept: isRtl ? "المالية وتدقيق الإيرادات وعقود التحقق" : "Finance & Commercial Audit",
+      url: "https://jobs.almosafer.com/job/Cairo-Officer-Revenue-Assurance/1399488333/",
+      exp: isRtl ? "2-4 سنوات" : "2-4 Years",
+      location: isRtl ? "القاهرة، مصر" : "Cairo, Egypt",
+      arabicTitle: "مسؤول - تدقيق ومراقبة صحة الإيرادات",
+      bullets: isRtl ? [
+        "تدقيق ومراجعة المعاملات والعمليات المالية اليومية لرصد أي تسرب مالي.",
+        "إجراء تسويات مالية دورية دقيقة بين الأنظمة المتعددة ومقدمي خدمات الطيران والفنادق.",
+        "متابعة وتحليل التقارير المالية لتقديم توصيات مباشرة ومطابقة القيود المحاسبية.",
+        "تسوية الفروقات الناتجة عن بوابات الدفع الإلكتروني والبطاقات الائتمانية للشركاء."
+      ] : [
+        "Audit daily transactions and bookings to find and prevent leakage early.",
+        "Perform routine reconciliations between core systems and tourist travel vendors.",
+        "Identify commercial pricing deviations, incorrect commissions or chargebacks.",
+        "Validate payment gateway settlement workflows and reconcile differences."
+      ]
+    },
+    {
+      id: "order-to-cash",
+      title: "Sr.Officer - Order-to-Cash",
+      dept: isRtl ? "المبيعات والتحصيل وإدارة الائتمان" : "Finance & Accounts Receivable (O2C)",
+      url: "https://jobs.almosafer.com/job/Cairo-Sr_Officer-Order-to-Cash/1400535133/",
+      exp: isRtl ? "3-5 سنوات" : "3-5 Years",
+      location: isRtl ? "القاهرة، مصر" : "Cairo, Egypt",
+      arabicTitle: "مسؤول أول - دورة الطلب وسداد الفواتير حتى التحصيل",
+      bullets: isRtl ? [
+        "إدارة دورة حسابات الذمم المدينة والتحصيل لعملاء الشركة والشركات الكبرى بالكامل.",
+        "مراجعة وإصدار الفواتير الدورية بدقة عالية والتواصل اللقائي لتأكيد المبالغ المستحقة.",
+        "متابعة تواريخ الاستحقاق وجدولة السداد لتعزيز التدفقات النقدية والسيولة.",
+        "معالجة المقبوضات وتنزيلها على نظام الـ ERP (مثل Oracle أو SAP) ومطابقتها دورياً."
+      ] : [
+        "Lead the Order-to-Cash (O2C) accounting lifecycle for corporate high-value partners.",
+        "Audit corporate booking sales, manage credit lines, and produce flawless active invoices.",
+        "Track customer aging reports, manage active collections, and maintain healthy cash flow.",
+        "Post incoming payments in Oracle/SAP ERP and clear open invoices accurately."
+      ]
+    }
+  ];
+
+  const handleApplyToAlmosaferJob = (title: string) => {
+    setJobTitle(title);
+    setSelectedJobAlert(title);
+    
+    // Smooth scroll to the form section
+    const formElement = document.getElementById("upload-profile");
+    if (formElement) {
+      formElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    
+    // Flash dynamic class ring on input
+    setTimeout(() => {
+      const inputEl = document.getElementById("target-job-title") as HTMLInputElement;
+      if (inputEl) {
+        inputEl.focus();
+        inputEl.select();
+        inputEl.classList.add("ring-animated-flash");
+        setTimeout(() => {
+          inputEl.classList.remove("ring-animated-flash");
+        }, 3000);
+      }
+    }, 850);
+  };
   
   // Integrations Guide Panel - show on localhost/development domains by default, or if ?dev=true is appended in production
   const [showDevGuide] = useState(() => {
@@ -479,6 +569,100 @@ function doPost(e) {
         </div>
       </section>
 
+      {/* ── EXCLUSIVE ALMOSAFER TRAVEL GOING OPPORTUNITIES ── */}
+      <section id="almosafer-jobs-section" className="py-24 bg-gradient-to-b from-white to-[#FAFAF6] border-b border-rose-500/10 relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-1/2 left-0 w-80 h-80 bg-[#FF4D2D]/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-10 right-0 w-80 h-80 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
+
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 max-w-2xl mx-auto">
+            <span className="inline-flex bg-gradient-to-r from-blue-600/5 to-[#FF4D2D]/10 border border-[#FF4D2D]/20 text-[#FF4D2D] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4 items-center gap-1.5 shadow-3xs">
+              <span className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-ping" />
+              <span>{isRtl ? "شريك التوظيف الخارجي: تيسير شركة المسافر" : "Exclusive Direct Fast-Track: Almosafer Travel Group"}</span>
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 leading-tight tracking-tight mb-4">
+              {isRtl ? "وظائف شاغرة نشطة بشركة المسافر للسياحة" : "Active Vacancies at Almosafer Group"}
+            </h2>
+            <p className="text-slate-500 text-xs sm:text-sm font-medium max-w-xl mx-auto leading-relaxed">
+              {isRtl 
+                ? "عرض تفصيلي للفرص المتاحة حالياً بشركة المسافر في مصر. للتقديم، انقر فوق الزر وقم بتحديث استمارتك وسيرتك بالأسفل لرفعها وتزامنها مع محرك التنسيق."
+                : "Explore verified competitive positions. Click 'Apply Via Hash Hunt' to auto-populate the profile form below and sync with the hiring sheet."}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {almosaferJobs.map((job) => (
+              <motion.div
+                key={job.id}
+                whileHover={{ y: -4 }}
+                transition={{ duration: 0.2 }}
+                className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-xs hover:shadow-xl hover:border-[#FF4D2D]/35 transition-all flex flex-col justify-between relative"
+              >
+                {/* Brand Tag */}
+                <div className="flex items-center justify-between mb-5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 font-bold flex items-center justify-center text-xs shrink-0 border border-blue-100/60 shadow-3xs">
+                      ✈️
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-black text-[#FF4D2D] uppercase tracking-wider block">Almosafer</span>
+                      <span className="text-[9px] text-slate-400 font-bold block">{job.location}</span>
+                    </div>
+                  </div>
+                  <span className="bg-emerald-50 text-emerald-700 border border-emerald-100 text-[9px] font-bold px-2.5 py-1 rounded-md">
+                    {job.exp}
+                  </span>
+                </div>
+
+                {/* Job Info */}
+                <div className="mb-6 flex-1">
+                  <h3 className="text-sm sm:text-base font-black text-slate-900 mb-1 leading-snug group-hover:text-[#FF4D2D] transition-colors select-text">
+                    {job.title}
+                  </h3>
+                  <p className="text-[11px] font-bold text-slate-400 mb-4 flex items-center gap-1">
+                    <Briefcase size={11} />
+                    <span>{job.dept}</span>
+                  </p>
+
+                  <div className="border-t border-slate-100 pt-4 space-y-2.5">
+                    {job.bullets.map((bullet, idx) => (
+                      <div key={idx} className="flex items-start gap-2">
+                        <span className="text-[#FF4D2D] text-[11px] mt-0.5 select-none font-bold">✓</span>
+                        <p className="text-xs text-slate-600 font-normal leading-relaxed select-text flex-1">
+                          {bullet}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Action CTA Block */}
+                <div className="space-y-2.5 pt-4 border-t border-slate-100">
+                  <button
+                    onClick={() => handleApplyToAlmosaferJob(job.title)}
+                    className="w-full bg-[#FF4D2D] hover:bg-[#CC3A1F] text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-[#FF4D2D]/10 active:scale-98 cursor-pointer"
+                  >
+                    <span>⚡</span>
+                    <span>{isRtl ? "قدّم الآن عبر هاش هانت" : "Apply Via Hash Hunt"}</span>
+                  </button>
+                  
+                  <a
+                    href={job.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-200/60"
+                  >
+                    <span>{isRtl ? "عرض الإعلان الرسمي للمسافر" : "View Official Almosafer Post"}</span>
+                    <ExternalLink size={12} className="text-slate-450" />
+                  </a>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── BASSEM'S GOOGLE INTEGRATION CENTER INDICATION ── */}
       {showDevGuide && (
         <section className="py-4 bg-slate-905 text-white border-b border-slate-800 bg-slate-950">
@@ -757,6 +941,32 @@ function doPost(e) {
             )}
 
             <form className="space-y-5" onSubmit={handleFormSubmit}>
+              {selectedJobAlert && (
+                <div className="bg-[#FF4D2D]/5 border border-[#FF4D2D]/15 rounded-xl p-3.5 flex items-center justify-between gap-3 animate-pulse">
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">✈️</span>
+                    <div>
+                      <p className="text-[10px] uppercase font-bold text-[#FF4D2D] leading-none mb-0.5">
+                        {isRtl ? "طلب ترشيح لشركة المسافر" : "Almosafer Application Target"}
+                      </p>
+                      <p className="text-xs font-black text-slate-800 leading-none">
+                        {selectedJobAlert}
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedJobAlert(null);
+                      setJobTitle("");
+                    }}
+                    className="text-[10px] font-black text-slate-400 hover:text-[#FF4D2D] underline cursor-pointer shrink-0"
+                  >
+                    {isRtl ? "إلغاء التجديد" : "Clear"}
+                  </button>
+                </div>
+              )}
+
               <div className="grid sm:grid-cols-2 gap-4">
                 
                 <div className="space-y-1">
@@ -798,6 +1008,7 @@ function doPost(e) {
                 <div className="space-y-1">
                   <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">{isRtl ? "المسمى الوظيفي المستهدف *" : "Job Title *"}</label>
                   <input 
+                    id="target-job-title"
                     type="text" 
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
