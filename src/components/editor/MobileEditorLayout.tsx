@@ -435,50 +435,54 @@ export default function MobileEditorLayout({
   return (
     <div className="fixed inset-0 flex flex-col bg-[#FAF9F6] text-slate-800 overflow-hidden pb-[calc(84px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
-      {/* ── Visual Mobile Header ── */}
-      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 py-2.5 flex items-center justify-between shrink-0 transform-gpu select-none">
-        <div className="flex items-center gap-2.5">
-          <motion.div 
-            whileTap={{ scale: 0.94 }}
-            onClick={() => { window.location.href = "/"; }}
-            className="w-8.5 h-8.5 rounded-xl bg-slate-50 border border-slate-200/50 p-1 flex items-center justify-center shrink-0 cursor-pointer shadow-3xs"
-            title={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
-          >
-            <img 
-              src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
-              alt="HashResume Logo" 
-              className="w-full h-full object-contain" 
-            />
-          </motion.div>
-          
-          <div className="flex flex-col items-start leading-none">
-            <span className="text-[8.5px] font-black text-[#FF4D2D] tracking-wider uppercase leading-none">HashResume App</span>
-            <span className="text-[12px] font-extrabold text-slate-900 mt-0.5 flex items-center gap-1 leading-none">
-              <span className="text-xs shrink-0">{currentSection?.emoji}</span>
-              <span className="font-extrabold">{currentSection?.label}</span>
-            </span>
+      {/* ── Visual Mobile Header (Floating Pill like Desktop) ── */}
+      <div className="w-full z-50 pt-3 px-3 pb-1 bg-transparent pointer-events-none flex justify-center shrink-0 transform-gpu select-none">
+        <header className="pointer-events-auto bg-white/90 backdrop-blur-2xl border border-white shadow-[0_8px_30px_rgba(15,23,42,0.08)] rounded-2xl px-3 h-14 flex items-center justify-between w-full relative">
+          <div className="flex items-center gap-2.5">
+            <motion.div 
+              whileTap={{ scale: 0.94 }}
+              onClick={() => { window.location.href = "/"; }}
+              className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200/50 p-1 flex items-center justify-center shrink-0 cursor-pointer shadow-3xs"
+              title={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
+            >
+              <img 
+                src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
+                alt="HashResume App" 
+                className="w-full h-full object-contain drop-shadow-sm" 
+              />
+            </motion.div>
+            
+            <div className="flex flex-col items-start leading-none">
+              <span className="text-[8.5px] font-black text-[#FF4D2D] tracking-wider uppercase leading-none">HashResume</span>
+              <span className="text-[12px] font-extrabold text-slate-900 mt-0.5 flex items-center gap-1 leading-none">
+                <span className="text-xs shrink-0">{currentSection?.emoji}</span>
+                <span className="font-extrabold">{currentSection?.label}</span>
+              </span>
+            </div>
           </div>
-        </div>
 
-        {/* Beautiful Floating Glassmorphic ATS Badge */}
-        <div className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full font-black text-[10px] bg-slate-950 text-white shadow-[0_4px_10px_rgba(15,23,42,0.12)] border border-slate-900">
-          <span className="relative flex h-1.5 w-1.5 shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-          </span>
-          <span className="tracking-tight">ATS {atsScore}%</span>
-        </div>
-      </header>
+          {/* Floating Glassmorphic ATS Badge */}
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full font-black text-[10px] bg-slate-950 text-white shadow-[0_4px_10px_rgba(15,23,42,0.12)] border border-slate-900">
+            <span className="relative flex h-1.5 w-1.5 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4D2D] opacity-75" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF4D2D]" />
+            </span>
+            <span className="tracking-tight">ATS {atsScore}%</span>
+          </div>
+        </header>
+      </div>
 
       {/* Sleek Gradient completeness progress micro-line */}
-      <div className="w-full h-[3px] bg-slate-100 relative overflow-hidden shrink-0 select-none">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="absolute top-0 bottom-0 bg-gradient-to-r from-[#FF4D2D] via-orange-500 to-amber-500 rounded-full"
-          style={{ [isRtl ? "right" : "left"]: 0 }}
-        />
+      <div className="w-full h-[6px] bg-transparent relative overflow-visible shrink-0 select-none px-5 pt-1 pb-1">
+        <div className="w-full bg-slate-200/80 h-1 rounded-full overflow-hidden relative shadow-inner">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#FF4D2D] via-orange-500 to-amber-500 rounded-full"
+            style={{ [isRtl ? "right" : "left"]: 0 }}
+          />
+        </div>
       </div>
 
       {/* ── Main content area ── */}
