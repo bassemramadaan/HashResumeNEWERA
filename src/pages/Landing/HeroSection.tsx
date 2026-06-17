@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from "motion/react"
-import { Sparkles, Check, Plus, ArrowLeft, LayoutTemplate, FileText, Wand2, RefreshCw, Star } from 'lucide-react'
+import { Sparkles, Check, Plus, ArrowLeft, ArrowRight, LayoutTemplate, FileText, Wand2, RefreshCw, Star } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
 import { trackEvent } from '@/services/analytics'
 import { useNavigate } from 'react-router-dom'
@@ -238,18 +238,25 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             >
               <LayoutTemplate className="w-5 h-5 text-slate-500" />
               {copy.ctaSec}
-              <ArrowLeft className="w-5 h-5 text-slate-404 rtl:rotate-180" />
+              {lang === 'ar' ? (
+                <ArrowLeft className="w-5 h-5 text-slate-400" />
+              ) : (
+                <ArrowRight className="w-5 h-5 text-slate-400" />
+              )}
             </button>
           </motion.div>
 
           <motion.div
             variants={item as any}
-            className="flex flex-wrap justify-center gap-x-6 gap-y-3 mt-10 transform-gpu"
+            className="flex flex-wrap justify-center gap-2.5 sm:gap-6 mt-10 transform-gpu px-4"
           >
             {copy.trust.map((t) => (
-              <span key={t} className="flex items-center gap-2 text-xs md:text-sm font-semibold text-slate-500">
-                <div className="bg-emerald-100 rounded-full p-1">
-                  <Check className="w-3 h-3 text-emerald-600" />
+              <span 
+                key={t} 
+                className="flex items-center gap-2 text-[11px] sm:text-xs md:text-sm font-bold text-slate-600 bg-slate-50 border border-slate-100/80 px-3.5 py-1.5 rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.01)] transition-colors hover:bg-slate-100/50 shrink-0 select-none"
+              >
+                <div className="bg-emerald-100 rounded-full p-0.5 sm:p-1">
+                  <Check className="w-3 h-3 text-emerald-600 font-extrabold" />
                 </div>
                 {t}
               </span>

@@ -446,6 +446,18 @@ export default function EditorPage() {
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
   const [showScoreChecklist, setShowScoreChecklist] = useState(false);
   const [showAIBanner, setShowAIBanner] = useState(true);
+  const [showWelcomeProgress, setShowWelcomeProgress] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("hashresume_hide_welcome_progress") !== "true";
+    }
+    return true;
+  });
+  const [showSmartImportCard, setShowSmartImportCard] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("hashresume_hide_smart_import_card") !== "true";
+    }
+    return true;
+  });
 
   const [focusMode, setFocusMode] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
@@ -465,6 +477,26 @@ export default function EditorPage() {
       setIsIntroExpanded(isDesktop);
       setIsTipsOpen(isDesktop);
     }
+  }, []);
+
+  // Keyboard-Aware dynamic focus auto-scrolling for mobile devices
+  useEffect(() => {
+    const handleFocusIn = (e: FocusEvent) => {
+      const target = e.target as HTMLElement;
+      if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
+        setTimeout(() => {
+          target.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 220);
+      }
+    };
+
+    document.addEventListener("focusin", handleFocusIn);
+    return () => {
+      document.removeEventListener("focusin", handleFocusIn);
+    };
   }, []);
 
   useEffect(() => {
@@ -885,8 +917,18 @@ export default function EditorPage() {
   const formContent = (
     <div className={cn(focusMode ? "max-w-[720px]" : "max-w-4xl", "mx-auto pb-[120px] sm:pb-32 relative")}>
       {/* Dynamic Persistent Resume Completion Progress Bar */}
-      {!focusMode && (
-        <div className="mb-6 bg-[#FFF7F5] border border-[#FFD5CB] text-[#001639] rounded-xl p-4.5 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.01)] relative overflow-hidden group select-none">
+      {!focusMode && showWelcomeProgress && (
+        <div className="mb-6 bg-[#FFF7F5] border border-[#FFD5CB] text-[#001639] rounded-xl p-4.5 sm:p-5 shadow-[0_8px_30px_rgba(0,0,0,0.01)] relative overflow-hidden group select-none pr-10 rtl:pl-10">
+          <button
+            onClick={() => {
+              setShowWelcomeProgress(false);
+              localStorage.setItem("hashresume_hide_welcome_progress", "true");
+            }}
+            className="absolute top-3 right-3 rtl:left-3 rtl:right-auto w-6 h-6 rounded-full bg-slate-950/5 hover:bg-slate-950/10 text-slate-700 hover:text-slate-900 flex items-center justify-center font-bold text-[10px] cursor-pointer border border-transparent hover:border-slate-300/30 transition-all z-20"
+            title={language === "ar" ? "إغلاق" : "Close"}
+          >
+            ✕
+          </button>
           <div className="absolute inset-0 bg-radial-gradient(circle at top right, rgba(255, 77, 45, 0.08), transparent 70%) pointer-events-none" />
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 z-10 relative">
@@ -943,8 +985,18 @@ export default function EditorPage() {
       )}
 
       {/* Smart Auto-Parser Onboarding Step Card */}
-      {activeTab === "basics" && (
-        <div className="mb-6 bg-gradient-to-r from-brand-500/10 via-brand-500/5 to-brand-500/10 border border-brand-500/20 rounded-[2rem] p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-xs hover:shadow-md transition-all duration-300">
+      {activeTab === "basics" && showSmartImportCard && (
+        <div className="mb-6 bg-gradient-to-r from-brand-500/10 via-brand-500/5 to-brand-500/10 border border-brand-500/20 rounded-[2rem] p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-5 shadow-xs hover:shadow-md transition-all duration-300 relative pr-10 rtl:pl-10">
+          <button
+            onClick={() => {
+              setShowSmartImportCard(false);
+              localStorage.setItem("hashresume_hide_smart_import_card", "true");
+            }}
+            className="absolute top-4 right-4 rtl:left-4 rtl:right-auto w-6 h-6 rounded-full bg-slate-950/5 hover:bg-slate-950/10 text-slate-700 hover:text-slate-900 flex items-center justify-center font-bold text-[10px] cursor-pointer border border-transparent hover:border-slate-300/30 transition-all z-20"
+            title={language === "ar" ? "إغلاق" : "Close"}
+          >
+            ✕
+          </button>
           <div className="flex items-center gap-3.5 text-start">
             <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center border border-brand-500/30 shrink-0 shadow-xs">
               <Sparkles className="w-6 h-6 text-brand-500 animate-pulse" />
@@ -1009,13 +1061,25 @@ export default function EditorPage() {
                           <Sparkles size={16} className="text-white animate-pulse" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-0.5">
+                          <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                             <span className="text-[10px] sm:text-xs font-black text-slate-800 dark:text-neutral-800 uppercase tracking-wider">
                               {String(tabs.find((t) => t.id === activeTab)?.label || "")}
                             </span>
                             <span className="text-[10px] text-slate-500 dark:text-neutral-600 font-extrabold bg-slate-100 dark:bg-neutral-200 px-1.5 py-0.5 rounded-md text-slate-400">
                               {activeTabIndex} / {tabs.length}
                             </span>
+                            {activeTab === "basics" && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsLinkedInModalOpen(true);
+                                }}
+                                className="inline-flex items-center gap-1 bg-gradient-to-r from-rose-50 to-rose-100 hover:from-rose-100 hover:to-rose-200 text-[#FF4D2D] text-[9px] font-black px-2 py-0.5 rounded-full border border-rose-200/50 active:scale-95 transition-all cursor-pointer shadow-2xs leading-none"
+                              >
+                                <Sparkles size={8} className="animate-pulse" />
+                                {language === "ar" ? "الاستيراد الذكي ✨" : "Smart Import ✨"}
+                              </button>
+                            )}
                           </div>
                           <h1 className={cn("text-xs sm:text-base font-black text-neutral-900 dark:text-neutral-900 tracking-tight leading-snug", isIntroExpanded ? "whitespace-normal text-balance" : "truncate")}>
                             {isIntroExpanded 

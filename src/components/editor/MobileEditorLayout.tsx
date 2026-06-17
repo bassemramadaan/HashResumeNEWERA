@@ -246,7 +246,6 @@ export default function MobileEditorLayout({
   const [activeTab, setActiveTab] = useState("edit");
   const [showPreviewDrawer, setShowPreviewDrawer] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 375);
-  const [showQuickPreview, setShowQuickPreview] = useState(true);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -254,38 +253,8 @@ export default function MobileEditorLayout({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Listen to capture scroll events on any list/form wrapper (like .editor-form-scrollable)
-  useEffect(() => {
-    const handleScrollCapture = (e: Event) => {
-      const target = e.target as HTMLElement;
-      if (target && typeof target.scrollTop === "number") {
-        if (target.scrollTop > 50) {
-          setShowQuickPreview(false);
-        } else {
-          setShowQuickPreview(true);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScrollCapture, true);
-    return () => {
-      window.removeEventListener("scroll", handleScrollCapture, true);
-    };
-  }, []);
-
-  // Reset visibility when tabs or step sections change
-  useEffect(() => {
-    setShowQuickPreview(true);
-  }, [activeSection, activeTab]);
-
   const sections                  = SECTIONS[lang] ?? SECTIONS.en;
   const isRtl                     = lang === "ar";
-  
-  const stepIds = [
-    "basics", "experience", "education", "skills", "projects", 
-    "certifications", "cover-letter", "finish"
-  ];
-  const currentIndex = stepIds.indexOf(activeSection);
 
   useEffect(() => {
     const tabEl = document.getElementById(`m-tab-${activeSection}`);
@@ -308,8 +277,8 @@ export default function MobileEditorLayout({
 
   const TABS = [
     { id: "edit",     label: t.edit,     icon: Edit3 },
-    { id: "preview",  label: t.preview,  icon: Eye },
     { id: "sections", label: t.sections, icon: Grid },
+    { id: "preview",  label: t.preview,  icon: Eye, isHighlight: true },
     { id: "export",   label: t.export,   icon: Download, isExport: true },
   ];
 
@@ -348,32 +317,15 @@ export default function MobileEditorLayout({
         </div>
       </header>
 
-      {/* ── Proposal 3: Interactive steps progress bar pills ── */}
-      <div className="bg-white border-b border-slate-100 px-4 py-2.5 flex items-center justify-between gap-1 select-none shrink-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
-        <div className="flex items-center gap-1.5 flex-1 justify-center">
-          {stepIds.map((stepId) => {
-            const isActive = activeSection === stepId;
-            const isCompleted = (completionMap[stepId] ?? 0) === 100;
-            const s = sections.find(x => x.id === stepId);
-            return (
-              <button
-                key={stepId}
-                onClick={() => handleSectionChange(stepId)}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  isActive 
-                    ? "w-8 bg-slate-900" 
-                    : isCompleted 
-                      ? "w-2.5 bg-emerald-500" 
-                      : "w-1.5 bg-slate-200 hover:bg-slate-300"
-                }`}
-                title={s?.label || stepId}
-              />
-            );
-          })}
-        </div>
-        <span className="text-[10px] font-black text-slate-400 select-none shrink-0 bg-slate-50 border border-slate-150 px-2 py-0.5 rounded-md">
-          {currentIndex + 1} / {stepIds.length}
-        </span>
+      {/* Overall completeness slim progress line */}
+      <div className="w-full h-1 bg-slate-100/80 relative overflow-hidden shrink-0 select-none">
+        <motion.div
+          initial={{ width: 0 }}
+          animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="absolute top-0 bottom-0 bg-gradient-to-r from-amber-400 via-orange-500 to-[#FF4D2D] rounded-e-full"
+          style={{ [isRtl ? "right" : "left"]: 0 }}
+        />
       </div>
 
       {/* ── Main content area ── */}
@@ -475,6 +427,26 @@ export default function MobileEditorLayout({
           const isActive = activeTab === tab.id;
           const IconComponent = tab.icon;
 
+          if (tab.isHighlight) {
+            return (
+              <div key={tab.id} className="relative flex flex-col items-center justify-center min-w-[70px] -mt-5">
+                <motion.button
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setActiveTab("preview")}
+                  className="w-13 h-13 bg-gradient-to-br from-[#FF4D2D] to-orange-500 text-white rounded-full flex items-center justify-center cursor-pointer shadow-[0_6px_18px_rgba(255,77,45,0.35)] border-2 border-white relative z-20 group"
+                  animate={{ scale: [1, 1.04, 1] }}
+                  transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+                >
+                  <IconComponent className="w-5 h-5 text-white" />
+                </motion.button>
+                <span className="text-[9px] font-black mt-1 text-slate-800 tracking-tight leading-none">
+                  {tab.label}
+                </span>
+              </div>
+            );
+          }
+
           if (tab.isExport) {
             return (
               <div key={tab.id} className="relative flex flex-col items-center justify-center min-w-[64px] min-h-[48px]">
@@ -482,11 +454,11 @@ export default function MobileEditorLayout({
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab("export")}
-                  className="w-11 h-11 bg-slate-900 text-white rounded-xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(255,77,45,0.4)] border border-rose-400/20"
+                  className="w-11 h-11 bg-slate-950 text-white rounded-xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(15,23,42,0.15)] border border-slate-800/20"
                 >
                   <Download className="w-4 h-4 shrink-0" />
                 </motion.button>
-                <span className="text-[9px] font-black mt-1 text-slate-900">
+                <span className="text-[9px] font-black mt-1 text-slate-800">
                   {tab.label}
                 </span>
               </div>
@@ -502,17 +474,19 @@ export default function MobileEditorLayout({
             >
               <div className="relative z-10">
                 {IconComponent && (
-                  <IconComponent className={`w-[18px] h-[18px] transition-colors duration-200 ${isActive ? "text-slate-900" : "text-slate-400"}`} />
+                  <IconComponent className={`w-[18px] h-[18px] transition-colors duration-200 ${isActive ? "text-[#FF4D2D]" : "text-slate-400"}`} />
                 )}
               </div>
-              <span className={`text-[9px] font-bold mt-1 relative z-10 transition-colors duration-200 ${isActive ? "text-slate-900" : "text-slate-400"}`}>
+              <span className={`text-[9px] font-bold mt-1 relative z-10 transition-colors duration-200 ${isActive ? "text-[#FF4D2D]" : "text-slate-400"}`}>
                 {tab.label}
               </span>
               {isActive && (
                 <motion.div 
                   layoutId="activeTabIndicator"
-                  className="absolute inset-0 bg-rose-500/5 border border-rose-500/10 rounded-2xl"
+                  className="absolute inset-0 bg-[#FF4D2D]/5 border border-[#FF4D2D]/10 rounded-2xl"
                   transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                  animate={{ scale: [1, 1.01, 1] }}
+                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
                 />
               )}
             </motion.button>
@@ -520,25 +494,7 @@ export default function MobileEditorLayout({
         })}
       </nav>
 
-      {/* Proposal 2: Floating Circular Live Preview FAB */}
-      {activeTab === "edit" && !showPreviewDrawer && (
-        <AnimatePresence>
-          {showQuickPreview && (
-            <motion.button
-              initial={{ scale: 0, y: 20, opacity: 0 }}
-              animate={{ scale: 1, y: 0, opacity: 1 }}
-              exit={{ scale: 0, y: 20, opacity: 0 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => setShowPreviewDrawer(true)}
-              className="fixed bottom-[140px] z-40 bg-slate-900 text-white shadow-[0_12px_24px_rgba(15,23,42,0.3)] hover:bg-black rounded-full px-4 py-3 flex items-center gap-2 border border-slate-800 text-xs font-black tracking-tight active:scale-95 transition-all cursor-pointer select-none"
-              style={{ right: isRtl ? "auto" : "20px", left: isRtl ? "20px" : "auto" }}
-            >
-              <span>📄</span>
-              <span>{lang === "ar" ? "معاينة فورية" : lang === "fr" ? "Aperçu rapide" : "Quick Preview"}</span>
-            </motion.button>
-          )}
-        </AnimatePresence>
-      )}
+      {/* Proposal 2: Floating Circular Live Preview FAB removed */}
 
       {/* Proposal 2: Bottom Sheet Drawer for Quick Live Preview */}
       <AnimatePresence>
