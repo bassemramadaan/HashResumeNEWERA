@@ -794,6 +794,44 @@ export default React.memo(function SettingsForm() {
               </div>
             </div>
 
+            {/* Active CV Accent Color Picker Segment */}
+            <div className="space-y-2 col-span-1 md:col-span-2 pt-4 border-t border-slate-150">
+              <label className="text-sm font-bold text-slate-700 block">
+                {settings.language === "ar" ? "🎨 لون السيرة الذاتية النشط" : "🎨 Active CV Theme Accent"}
+              </label>
+              <p className="text-xs text-slate-500 mb-2 leading-relaxed">
+                {settings.language === "ar"
+                  ? "اختر طيف الألوان المناسب لمهنتك وصبغ العناوين والرموز بلمسة فندقية مخصصة."
+                  : "Surgically personalize your CV typography, progress gauges, and visual layout lines in one click."}
+              </p>
+              <div className="flex gap-3 flex-wrap p-3.5 bg-white rounded-xl border border-slate-200/80">
+                {["#2563EB", "#FF4D2D", "#10B981", "#8B5CF6", "#F97316", "#0EA5E9", "#BE185D", "#0F766E"].map((c) => {
+                  const isActive = (settings.themeColor || "#2563EB") === c;
+                  return (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => updateSettings({ themeColor: c })}
+                      className={cn(
+                        "w-9 h-9 rounded-full transition-all flex items-center justify-center cursor-pointer relative",
+                        isActive
+                          ? "scale-110 shadow-md ring-2 ring-offset-2 ring-slate-800"
+                          : "hover:scale-105 hover:shadow-xs hover:ring-1 hover:ring-slate-300"
+                      )}
+                      style={{ backgroundColor: c }}
+                      title={c}
+                    >
+                      {isActive && (
+                        <svg className="w-5 h-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Font Family */}
             <div className="space-y-2 col-span-1 md:col-span-2">
               <label className="text-sm font-bold text-slate-700 block">

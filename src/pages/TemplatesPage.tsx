@@ -588,18 +588,30 @@ export default function TemplatesPage() {
                 {/* Color picker */}
                 <div className="mb-6">
                   <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">{labels.colorLabel}</div>
-                  <div className="flex gap-2 flex-wrap">
-                    {THEME_COLORS.map(c => (
-                      <button
-                        key={c}
-                        onClick={() => setPreviewColor(c)}
-                        className={cn(
-                          "w-7 h-7 rounded-full transition-all border-2",
-                          previewColor === c ? "border-slate-900 scale-110 shadow" : "border-transparent hover:scale-105"
-                        )}
-                        style={{ background: c }}
-                      />
-                    ))}
+                  <div className="flex gap-2.5 flex-wrap">
+                    {THEME_COLORS.map(c => {
+                      const isActive = (previewColor || previewTemplate.color) === c;
+                      return (
+                        <button
+                          key={c}
+                          onClick={() => setPreviewColor(c)}
+                          className={cn(
+                            "w-8 h-8 rounded-full transition-all flex items-center justify-center cursor-pointer relative",
+                            isActive 
+                              ? "scale-110 shadow-md ring-2 ring-offset-2 ring-slate-800" 
+                              : "hover:scale-105 hover:shadow-sm"
+                          )}
+                          style={{ background: c }}
+                          title={c}
+                        >
+                          {isActive && (
+                            <svg className="w-4 h-4 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 

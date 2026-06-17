@@ -82,17 +82,28 @@ function Divider() {
 // ── SaveIndicator ─────────────────────────────────────────
 function SaveIndicator({ isSaved, lang }: { isSaved: boolean; lang: AppLang }) {
   const isAr = lang === "ar";
+  const isFr = lang === "fr";
+  
   const cloudTooltip = isAr 
     ? "جميع تعديلاتك محفوظة تلقائياً وبأمان في متصفحك المحلي" 
-    : "All of your changes are automatically synchronized to your secure local storage";
+    : isFr
+      ? "Toutes vos modifications sont automatiquement sauvegardées sur votre stockage local"
+      : "All of your changes are automatically synchronized to your secure local storage";
+
+  const displayText = isSaved 
+    ? (isAr ? "تم الحفظ تلقائياً ✓" : isFr ? "Saisie enregistrée ✓" : "Auto-saved ✓") 
+    : (isAr ? "جاري الحفظ..." : isFr ? "Enregistrement..." : "Saving...");
 
   return (
     <div className="group relative flex items-center">
-      <div className={`flex items-center gap-2 text-[11px] font-bold select-none leading-none px-3 py-1.5 rounded-full transition-all duration-300 ${isSaved ? "text-emerald-600 bg-emerald-50 cursor-help" : "text-amber-500 bg-amber-50"}`}>
+      <div className={`flex items-center gap-2 text-[11px] font-black select-none leading-none px-3.5 py-1.5 rounded-full transition-all duration-500 shadow-3xs ${
+        isSaved 
+          ? "text-emerald-700 bg-emerald-50/75 border border-emerald-100/50 cursor-help" 
+          : "text-amber-600 bg-amber-50 border border-amber-100 animate-pulse"
+      }`}>
         {isSaved ? (
           <span className="relative flex h-2 w-2 shrink-0">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 animate-pulse"></span>
           </span>
         ) : (
           <span className="relative flex h-2 w-2 shrink-0">
@@ -100,10 +111,8 @@ function SaveIndicator({ isSaved, lang }: { isSaved: boolean; lang: AppLang }) {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
           </span>
         )}
-        <span className="text-[11px] font-black tracking-wide flex items-center gap-1">
-          {isSaved 
-            ? (isAr ? "تم الحفظ" : "Saved") 
-            : (isAr ? "جاري الحفظ..." : "Saving...")}
+        <span className="tracking-wide">
+          {displayText}
         </span>
       </div>
 
