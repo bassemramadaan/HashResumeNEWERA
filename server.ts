@@ -299,17 +299,47 @@ async function startServer() {
       });
       const page = await browser.newPage();
       
+      // Emulate screen media to prevent responsive Tailwind breakpoints from collapsing layout into mobile-column formats
+      await page.emulateMediaType('screen');
+
+      // Set a standard desktop viewport so md: and lg: responsive columns display beautifully
+      await page.setViewport({
+        width: 1200,
+        height: 800,
+        deviceScaleFactor: 2
+      });
+
+      // Determine the base URL to resolve relative assets/styles correctly
+      const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+      const host = req.headers['x-forwarded-host'] || req.get('host');
+      const baseUrl = `${protocol}://${host}`;
+      
       // Construct complete HTML document with provided CSS
       const fullHtml = `
         <!DOCTYPE html>
         <html>
           <head>
             <meta charset="UTF-8">
+            <base href="${baseUrl}/">
+            <!-- Ensure Google Fonts are loaded exactly as in index.html -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
             <style>
               @page { size: A4; margin: 0; }
-              body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; background: transparent !important; }
-              ${css || ''}
+              * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+              }
+              body { 
+                margin: 0; 
+                padding: 0; 
+                background: transparent !important; 
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+              }
             </style>
+            ${css || ''}
           </head>
           <body>
             ${html}
@@ -318,6 +348,9 @@ async function startServer() {
       `;
       
       await page.setContent(fullHtml, { waitUntil: 'networkidle0' });
+
+      // Guarantee index.html fonts are fully loaded prior to drawing the PDF stream
+      await page.evaluateHandle('document.fonts.ready');
       
       const pdfBuffer = await page.pdf({
         format: 'A4',
