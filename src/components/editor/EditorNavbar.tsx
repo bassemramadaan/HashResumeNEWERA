@@ -375,62 +375,66 @@ export default function EditorNavbar({
   const isRtl = lang === "ar";
 
   return (
-    <nav className="sticky top-0 z-[100] border-b border-slate-200/60 bg-white/80 backdrop-blur-md px-6 select-none transform-gpu" style={{ direction: isRtl ? "rtl" : "ltr" }}>
-      <div className="h-16 flex items-center justify-between gap-4">
-
-        {/* ── Left group: Logo + Undo + Save ── */}
-        <div className="flex items-center gap-3 shrink-0">
+    <div className="w-full z-[100] pt-4 px-4 sm:px-6 pb-2 bg-transparent pointer-events-none flex justify-center transform-gpu shrink-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+      <nav className="pointer-events-auto bg-white/80 backdrop-blur-2xl border border-white shadow-[0_8px_30px_rgba(15,23,42,0.08)] rounded-2xl px-4 md:px-5 h-16 flex items-center justify-between w-full max-w-7xl transition-all relative">
+        
+        {/* ── Left group: Logo + Command Bar + Save ── */}
+        <div className="flex items-center gap-2 md:gap-3 shrink-0">
           <motion.div 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onBackToHome}
-            className="w-8.5 h-8.5 flex items-center justify-center shrink-0 cursor-pointer"
+            className="w-8 h-8 flex items-center justify-center shrink-0 cursor-pointer"
             title="Back to Home"
           >
             <img 
               src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
               alt="HashResume" 
-              className="w-full h-full object-contain rounded-lg shadow-xs" 
+              className="w-full h-full object-contain drop-shadow-sm" 
             />
           </motion.div>
 
-          <NavBtn onClick={onUndo} title="Undo">
-            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
-          </NavBtn>
+          <div className="hidden sm:block">
+            <NavBtn onClick={onUndo} title="Undo">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+            </NavBtn>
+          </div>
 
           <button 
             onClick={onShowCommandBar} 
             title={lang === "ar" ? "شريط الأوامر السريع (Cmd+K)" : "Universal Command Bar (Cmd+K)"}
-            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200 bg-white shadow-3xs text-xs font-bold transition-all cursor-pointer hover:bg-slate-50 hover:text-rose-500 select-none"
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200/60 bg-white/50 shadow-sm text-xs font-bold transition-all cursor-pointer hover:bg-slate-50 border-b-2 hover:border-b-slate-200 hover:text-[#FF4D2D] select-none"
           >
-            <span className="flex items-center gap-0.5 font-mono text-[9px] font-black text-slate-500">
+            <span className="flex items-center gap-0.5 font-mono text-[10px] font-black text-slate-400">
               <span>⌘</span>
               <span>K</span>
             </span>
           </button>
 
-          <SaveIndicator isSaved={isSaved} lang={lang} />
+          <div className="hidden md:block ml-2 rtl:ml-0 rtl:mr-2">
+            <SaveIndicator isSaved={isSaved} lang={lang} />
+          </div>
         </div>
 
-        {/* ── Center group: Floating Threads Capsule ── */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white border border-slate-200/50 shadow-sm rounded-full px-2 py-1 h-11 flex-row gap-0.5 select-none transition-all">
-          {/* 3. Plus / Templates Icon ➕ */}
+        {/* ── Center group: Floating ATS Capsule ── */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white/90 border border-slate-150 shadow-sm rounded-full px-1.5 py-1 flex-row gap-1 select-none transition-all">
+          {/* Templates/Settings Button */}
           {!isLocked && (
             <motion.button
-              whileHover={{ scale: 1.08 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onShowSettings}
               title={t.templates}
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-colors cursor-pointer text-slate-500 hover:bg-slate-100/80 hover:text-[#FF4D2D]"
+              className="w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center transition-colors cursor-pointer text-slate-500 hover:bg-slate-100 hover:text-[#FF4D2D]"
             >
-              <svg className="w-5.5 h-5.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </motion.button>
           )}
 
-          {/* 4. Heart / ATS Score Widget ❤️ */}
+          {/* ATS Heart Indicator */}
           <ATSScoreWidget
             score={atsScore}
             breakdown={atsBreakdown}
@@ -439,11 +443,13 @@ export default function EditorNavbar({
           />
         </div>
 
-        {/* ── Right group: Lang + Export CTA + Preview Split toggle ── */}
-        <div className="flex items-center gap-2 shrink-0">
+        {/* ── Right group: Lang + Export CTA + Toggles ── */}
+        <div className="flex items-center gap-1.5 md:gap-2.5 shrink-0">
           <LangSwitcher lang={lang} onChange={onLangChange} />
 
-          <Divider />
+          <div className="hidden md:block">
+            <Divider />
+          </div>
 
           <ExportButton
             lang={lang}
@@ -452,20 +458,24 @@ export default function EditorNavbar({
             isReady={atsScore >= 80}
           />
 
-          <Divider />
+          <div className="hidden md:block">
+            <Divider />
+          </div>
 
-          <NavBtn onClick={onToggleFocus} active={focusMode} title={focusMode ? t.exitFocus : t.focusMode}>
-            <span className="text-sm shrink-0 leading-none">👁</span>
-            <span className="hidden sm:inline-block font-bold">{focusMode ? t.exitFocus : t.focusMode}</span>
-          </NavBtn>
+          <div className="hidden lg:flex items-center gap-1.5">
+            <NavBtn onClick={onToggleFocus} active={focusMode} title={focusMode ? t.exitFocus : t.focusMode}>
+              <span className="text-sm shrink-0 leading-none">👁</span>
+              <span className="hidden xl:inline-block font-bold">{focusMode ? t.exitFocus : t.focusMode}</span>
+            </NavBtn>
 
-          <NavBtn onClick={onTogglePreview} active={previewOpen} title={previewOpen ? t.editOnly : t.preview}>
-            <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
-            <span className="hidden sm:inline-block font-bold">{previewOpen ? t.preview : t.editOnly}</span>
-          </NavBtn>
+            <NavBtn onClick={onTogglePreview} active={previewOpen} title={previewOpen ? t.editOnly : t.preview}>
+              <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+              <span className="hidden xl:inline-block font-bold">{previewOpen ? t.preview : t.editOnly}</span>
+            </NavBtn>
+          </div>
         </div>
 
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }
