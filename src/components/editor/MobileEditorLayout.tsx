@@ -1,217 +1,364 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "motion/react";
 import { 
   Edit3, Eye, Grid, Download, 
-  FileText, ChevronRight
+  FileText, ChevronRight, Share2, AlertTriangle
 } from "lucide-react";
 
-// ── i18n ──────────────────────────────────────────────────
+// ── i18n Translation Dictionary ───────────────────────────
 const T: Record<string, Record<string, string>> = {
   ar: {
     edit:     "تعديل",
     preview:  "معاينة",
     sections: "الأقسام",
     export:   "تصدير",
-    exportPDF:  "تصدير PDF",
-    exportWord: "تصدير Word",
-    shareLink:  "نسخ رابط",
-    exportTitle: "سيرتك جاهزة!",
-    exportSub:   "اختر صيغة التحميل المهنية",
-    pdfNote:  "الأنسب لأغلب أنظمة التقديم (ATS)",
-    wordNote: "ملف Word قابل للتعديل بالكامل",
-    linkNote: "شارك سيرتك برابط مباشر وبسيط",
+    exportPDF:  "تحميل ملف PDF",
+    exportWord: "تحميل ملف Word",
+    shareLink:  "نسخ رابط المشاركة",
+    exportTitle: "سيرتك الذاتية جاهزة! ✨",
+    exportSub:   "لقد قمت بعمل رائع؛ اختر صيغة الملف المفضلة لطلب وظيفة أحلامك",
+    pdfNote:  "الأكثر توافقاً وقبولاً لدى أنظمة الفرز (ATS)",
+    wordNote: "ملف Word مرن وقابل للتعديل بالكامل للمستقبل",
+    linkNote: "رابط ويب سريع وتفاعلي للمشاركة المباشرة مع الشركات",
+    recentCompleteness: "نسبة الاكتمال الحالية",
+    whatsNext: "خطوتك التالية",
+    improveScore: "حسّن من نتيجة الـ ATS للحصول على فرص مقابلة أكثر بنسبة 3x!",
+    backToEdit: "تابع التعديل وبناء السيرة",
   },
   en: {
     edit:     "Edit",
     preview:  "Preview",
     sections: "Sections",
     export:   "Export",
-    exportPDF:  "Export as PDF",
-    exportWord: "Export as Word",
-    shareLink:  "Copy Link",
-    exportTitle: "Resume Ready!",
-    exportSub:   "Choose your professional format",
-    pdfNote:  "Best for most ATS filters",
-    wordNote: "Fully editable .docx format",
-    linkNote: "Share with a direct, simple link",
+    exportPDF:  "Download as PDF",
+    exportWord: "Download as Word",
+    shareLink:  "Copy Share Link",
+    exportTitle: "Resume is Ready! ✨",
+    exportSub:   "You've crafted a premium resume; choose your high-performance file format",
+    pdfNote:  "Industry-standard, best for ATS scanning systems",
+    wordNote: "Fully editable format for custom manual adjustments",
+    linkNote: "A snappy public link to share directly with recruiters",
+    recentCompleteness: "Current Completeness",
+    whatsNext: "What's next?",
+    improveScore: "Boost ATS score for 3x higher interview landing rates!",
+    backToEdit: "Continue building",
   },
   fr: {
     edit:     "Modifier",
     preview:  "Aperçu",
     sections: "Sections",
     export:   "Exporter",
-    exportPDF:  "Exporter en PDF",
-    exportWord: "Exporter en Word",
+    exportPDF:  "Télécharger en PDF",
+    exportWord: "Télécharger en Word",
     shareLink:  "Copier le lien",
-    exportTitle: "CV Prêt !",
-    exportSub:   "Choisissez votre format",
-    pdfNote:  "Recommandé pour les filtres ATS",
-    wordNote: "Fichier .docx entièrement modifiable",
-    linkNote: "Partager avec un lien direct",
+    exportTitle: "Votre CV est prêt ! ✨",
+    exportSub:   "Vous avez fait de l'excellent travail ; choisissez le format optimal",
+    pdfNote:  "Standard recommandé pour les systèmes de tri ATS",
+    wordNote: "Format .docx modifiable pour les ajustements",
+    linkNote: "Un lien public fluide et direct pour les recruteurs",
+    recentCompleteness: "Score actuel",
+    whatsNext: "Prochaine étape",
+    improveScore: "Améliorez le score ATS pour tripler vos chances !",
+    backToEdit: "Continuer l'édition",
   },
 };
 
-const SECTIONS: Record<string, { id: string; label: string; emoji: string }[]> = {
+const SECTIONS: Record<string, { id: string; label: string; emoji: string; desc: string }[]> = {
   ar: [
-    { id: "basics",         label: "المعلومات الشخصية", emoji: "👤" },
-    { id: "experience",     label: "الخبرات العملية",   emoji: "💼" },
-    { id: "education",      label: "التعليم والشهادات",   emoji: "🎓" },
-    { id: "skills",         label: "المهارات المهنية",  emoji: "⭐" },
-    { id: "projects",       label: "المشاريع المنجزة",  emoji: "🚀" },
-    { id: "certifications", label: "الشهادات والاعتمادات", emoji: "🏅" },
-    
-    { id: "cover-letter",   label: "خطاب التغطية (AI)", emoji: "📝" },
-    { id: "finish",         label: "مراجعة وتحميل",     emoji: "📄" },
+    { id: "basics",         label: "المعلومات الشخصية", emoji: "👤", desc: "الاسم، التواصل، الرابط المهني والمسمى" },
+    { id: "experience",     label: "الخبرات العملية",   emoji: "💼", desc: "تاريخك الوظيفي وإنجازاتك المعززة بـ AI" },
+    { id: "education",      label: "التعليم والدراسة",   emoji: "🎓", desc: "مؤهلاتك الأكاديمية والجامعات والتدريب" },
+    { id: "skills",         label: "المهارات المهنية",  emoji: "⭐", desc: "مهاراتك التقنية والشخصية الموصى بها" },
+    { id: "projects",       label: "المشاريع المنجزة",  emoji: "🚀", desc: "إنجازات عملية تبرز جدارتك وخبرتك" },
+    { id: "certifications", label: "الشهادات والاعتمادات", emoji: "🏅", desc: "الكورسات والشهادات الداعمة لمؤهلك" },
+    { id: "cover-letter",   label: "خطاب التغطية ذكي", emoji: "📝", desc: "خطاب مهني مخصص ومكتوب بالذكاء الاصطناعي" },
+    { id: "finish",         label: "مراجعة وتحميل",     emoji: "🏁", desc: "التثبت من معايير ATS، وتحميل سيرتك فوراً" },
   ],
   en: [
-    { id: "basics",         label: "Personal Info",    emoji: "👤" },
-    { id: "experience",     label: "Experience",       emoji: "💼" },
-    { id: "education",      label: "Education",        emoji: "🎓" },
-    { id: "skills",         label: "Skills & Expertise",emoji: "⭐" },
-    { id: "projects",       label: "Key Projects",    emoji: "🚀" },
-    { id: "certifications", label: "Certifications",   emoji: "🏅" },
-    
-    { id: "cover-letter",   label: "Cover Letter",       emoji: "📝" },
-    { id: "finish",         label: "Audit & Download", emoji: "📄" },
+    { id: "basics",         label: "Personal Details",  emoji: "👤", desc: "Your contact details, bio, and social handles" },
+    { id: "experience",     label: "Work Experience",   emoji: "💼", desc: "Employment history with smart AI bullets" },
+    { id: "education",      label: "Education",        emoji: "🎓", desc: "Degrees, schools, and academic track" },
+    { id: "skills",         label: "Skills & Keywords", emoji: "⭐", desc: "Core technical strengths & general skills" },
+    { id: "projects",       label: "Projects Portfolio", emoji: "🚀", desc: "Independent or corporate showcase works" },
+    { id: "certifications", label: "Certifications",   emoji: "🏅", desc: "Badges, licenses, and auxiliary learning" },
+    { id: "cover-letter",   label: "AI Cover Letter",   emoji: "📝", desc: "Generate a targeted, matching application letter" },
+    { id: "finish",         label: "Audit & Launch",    emoji: "🏁", desc: "Double check ATS status & download file" },
   ],
   fr: [
-    { id: "basics",         label: "Informations",     emoji: "👤" },
-    { id: "experience",     label: "Expérience",       emoji: "💼" },
-    { id: "education",      label: "Formation",        emoji: "🎓" },
-    { id: "skills",         label: "Compétences",      emoji: "⭐" },
-    { id: "projects",       label: "Projets Clés",     emoji: "🚀" },
-    { id: "certifications", label: "Certifications",   emoji: "🏅" },
-    
-    { id: "cover-letter",   label: "Lettre de Motivation", emoji: "📝" },
-    { id: "finish",         label: "Vérifier & Télécharger", emoji: "📄" },
+    { id: "basics",         label: "Infos Personnelles", emoji: "👤", desc: "Coordonnées, liens pros et biographie" },
+    { id: "experience",     label: "Expériences",       emoji: "💼", desc: "Parcours professionnel illustré par l'IA" },
+    { id: "education",      label: "Cursus Scolaire",     emoji: "🎓", desc: "Diplômes, universités et certifications" },
+    { id: "skills",         label: "Compétences clés",  emoji: "⭐", desc: "Savoir-faire et mots-clés recherchés" },
+    { id: "projects",       label: "Projets et Travaux", emoji: "🚀", desc: "Réalisations et portefeuilles valorisants" },
+    { id: "certifications", label: "Certifications",   emoji: "🏅", desc: "Formations certifiantes additionnelles" },
+    { id: "cover-letter",   label: "Lettre de Motivation", emoji: "📝", desc: "Rédiger une lettre personnalisée via IA" },
+    { id: "finish",         label: "Vérifier & Finir",    emoji: "🏁", desc: "Dernier audit ATS et téléchargement direct" },
   ],
 };
 
-// ── Mini Completion Rating Ring ──────────────────────────
-function MiniRing({ pct }: { pct: number }) {
-  if (pct == null || pct === 0) return null;
-  const size = 18, R = 7, C = 2 * Math.PI * R, dash = (pct / 100) * C;
-  const col  = pct === 100 ? "#10b981" : "#f59e0b";
+// ── Completion Mini Indicator Widget ──────────────────────────
+function InteractiveRing({ pct }: { pct: number }) {
+  const size = 32, R = 12, C = 2 * Math.PI * R, dash = (pct / 100) * C;
+  const col = pct === 100 ? "#10b981" : pct > 40 ? "#FF4D2D" : "#f59e0b";
   return (
-    <svg width={size} height={size} className="-rotate-90 shrink-0">
-      <circle cx={size/2} cy={size/2} r={R} fill="none" stroke="#f1f5f9" strokeWidth={2.5}/>
-      <circle cx={size/2} cy={size/2} r={R} fill="none" stroke={col}
-        strokeWidth={2.5} strokeLinecap="round"
-        strokeDasharray={`${dash} ${C}`}/>
-    </svg>
+    <div className="relative flex items-center justify-center select-none" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90 shrink-0">
+        <circle cx={size/2} cy={size/2} r={R} fill="none" stroke="#f1f5f9" strokeWidth={3}/>
+        <circle cx={size/2} cy={size/2} r={R} fill="none" stroke={col}
+          strokeWidth={3} strokeLinecap="round"
+          strokeDasharray={`${dash} ${C}`}
+          className="transition-all duration-500 ease-out"
+        />
+      </svg>
+      {pct === 100 ? (
+        <span className="absolute text-emerald-500 text-[10px] font-black">✓</span>
+      ) : (
+        <span className="absolute text-[8.5px] font-black tracking-tighter text-slate-500">{pct}%</span>
+      )}
+    </div>
   );
 }
 
 // ── ExportScreen ──────────────────────────────────────────
-function ExportScreen({ lang, onPDF, onWord }: { lang: string; onPDF: () => void; onWord: () => void }) {
+function ExportScreen({ lang, onPDF, onWord, atsScore }: { lang: string; onPDF: () => void; onWord: () => void; atsScore: number }) {
   const t = T[lang] ?? T.en;
+
+  const isHighATS = atsScore >= 75;
 
   const items = [
     { 
-      icon: <FileText className="w-5 h-5 text-rose-600" />, 
+      icon: <FileText className="w-5 h-5 text-rose-500" />, 
       label: t.exportPDF,  
       note: t.pdfNote,  
       bg: "bg-rose-50 border-rose-100",  
+      badge: lang === "ar" ? "موصى به" : "Recommended",
+      badgeColor: "bg-rose-500 text-white",
       action: onPDF 
     },
     { 
-      icon: <Download className="w-5 h-5 text-blue-600" />, 
+      icon: <Download className="w-5 h-5 text-blue-500" />, 
       label: t.exportWord, 
       note: t.wordNote, 
       bg: "bg-blue-50 border-blue-100",  
+      badge: lang === "ar" ? "قابل للتعديل" : "Editable",
+      badgeColor: "bg-slate-200 text-slate-800",
       action: onWord 
     },
   ];
 
   return (
-    <div className="px-4 py-8 space-y-4 max-w-md mx-auto">
-      <div className="text-center pb-4">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-50 mb-3 text-3xl animate-bounce">
-          🎉
-        </div>
-        <h3 className="text-lg font-black text-slate-800">{t.exportTitle}</h3>
-        <p className="text-xs text-slate-400 mt-1">{t.exportSub}</p>
+    <div className="px-4 py-6 md:py-8 space-y-6 max-w-md mx-auto h-full overflow-y-auto scrollbar-none pb-24">
+      {/* Celebration Header */}
+      <div className="text-center pb-2 relative">
+        <motion.div 
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 155, damping: 15 }}
+          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 via-[#FF4D2D]/20 to-amber-100 mb-4 text-4xl shadow-[0_8px_20px_rgba(251,191,36,0.18)]"
+        >
+          🎓
+        </motion.div>
+        
+        <h3 className="text-xl font-black text-slate-900 tracking-tight">{t.exportTitle}</h3>
+        <p className="text-xs text-slate-500 font-medium px-4 mt-1.5 leading-relaxed">{t.exportSub}</p>
       </div>
 
-      <div className="space-y-3">
+      {/* Mini ATS Score Meter Card */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-slate-800 relative overflow-hidden">
+        {/* Ambient colored background circle glow */}
+        <div className="absolute -top-10 -right-10 w-24 h-24 bg-[#FF4D2D]/15 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute -bottom-10 -left-10 w-24 h-24 bg-emerald-500/15 rounded-full blur-xl pointer-events-none" />
+
+        <div className="flex items-center justify-between relative z-10">
+          <div className="text-right ltr:text-left">
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">{t.recentCompleteness}</p>
+            <h4 className="text-lg font-black mt-0.5 text-white flex items-center gap-2">
+              <span>ATS {atsScore}%</span>
+              {isHighATS ? (
+                <span className="text-[9.5px] bg-emerald-500/20 text-emerald-300 font-black px-2 py-0.5 rounded-full border border-emerald-500/30">Excellent</span>
+              ) : (
+                <span className="text-[9.5px] bg-amber-500/20 text-amber-300 font-black px-2 py-0.5 rounded-full border border-amber-500/30">Needs Boost</span>
+              )}
+            </h4>
+          </div>
+          
+          {/* Circular dial meter */}
+          <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
+            <svg width="48" height="48" className="-rotate-90">
+              <circle cx="24" cy="24" r="18" fill="none" stroke="#1e293b" strokeWidth="4" />
+              <circle cx="24" cy="24" r="18" fill="none" stroke={isHighATS ? "#10b981" : "#FF4D2D"} strokeWidth="4" 
+                strokeLinecap="round"
+                strokeDasharray={`${(atsScore / 100) * 2 * Math.PI * 18} ${2 * Math.PI * 18}`}
+              />
+            </svg>
+            <span className="absolute text-[10px] font-black">{atsScore}%</span>
+          </div>
+        </div>
+
+        {!isHighATS && (
+          <div className="mt-3.5 pt-3 border-t border-slate-800 flex items-start gap-2 text-[10.5px] text-amber-200/90 leading-relaxed font-semibold">
+            <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
+            <p>{t.improveScore}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Export Options Custom Buttons */}
+      <div className="space-y-4">
         {items.map((item, i) => (
           <motion.button
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
+            whileHover={{ y: -3, shadow: "0 10px 20px rgba(0,0,0,0.06)" }}
+            whileTap={{ scale: 0.98 }}
             key={i}
             onClick={item.action}
-            className="w-full flex items-center gap-4 p-4 bg-white border border-slate-200/80 rounded-2xl cursor-pointer text-right ltr:text-left transition-all hover:bg-slate-50 shadow-xs"
+            className="w-full flex items-center gap-4 p-4.5 bg-white border border-slate-200/90 rounded-2.5xl cursor-pointer text-right ltr:text-left transition-all hover:border-slate-300 shadow-[0_4px_12px_rgba(0,0,0,0.02)] relative group"
           >
-            <div className={`w-11 h-11 ${item.bg} border rounded-xl flex items-center justify-center shrink-0`}>
+            <div className={`w-12 h-12 ${item.bg} border rounded-2xl flex items-center justify-center shrink-0 shadow-sm transition-all group-hover:scale-105`}>
               {item.icon}
             </div>
+            
             <div className="flex-1 min-w-0">
-              <h4 className="text-sm font-bold text-slate-800">{item.label}</h4>
-              <p className="text-[11px] text-slate-400 mt-0.5 font-medium truncate">{item.note}</p>
+              <div className="flex items-center gap-2">
+                <h4 className="text-sm font-black text-slate-800">{item.label}</h4>
+                {item.badge && (
+                  <span className={`text-[9.5px] font-bold px-2 py-0.5 rounded-full ${item.badgeColor} scale-90 transform origin-left`}>
+                    {item.badge}
+                  </span>
+                )}
+              </div>
+              <p className="text-[11px] text-slate-500 mt-1 font-semibold leading-normal">{item.note}</p>
             </div>
-            <ChevronRight className="w-4 h-4 text-slate-300 rtl:rotate-180 shrink-0" />
+            
+            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 transition-colors group-hover:bg-slate-100 group-hover:text-slate-800 shrink-0">
+              <ChevronRight className="w-4 h-4 rtl:rotate-180" />
+            </div>
           </motion.button>
         ))}
       </div>
+
+      {/* Share Link Clipboard Pill */}
+      <motion.button
+        whileTap={{ scale: 0.95 }}
+        onClick={() => {
+          if (typeof window !== "undefined") {
+            const currentUrl = window.location.href;
+            navigator.clipboard.writeText(currentUrl).then(() => {
+              alert(lang === "ar" ? "تم نسخ الرابط ومشاركته بنجاح!" : "Link copied to clipboard!");
+            });
+          }
+        }}
+        className="w-full py-4.5 bg-slate-100/90 hover:bg-slate-200/70 border border-slate-200 text-slate-700 rounded-2.5xl flex items-center justify-center gap-2.5 text-xs font-black cursor-pointer transition-all"
+      >
+        <Share2 className="w-4 h-4" />
+        <span>{t.shareLink}</span>
+      </motion.button>
     </div>
   );
 }
 
-// ── SectionsScreen ────────────────────────────────────────
+// ── Bento-Style Sections Screen ────────────────────────────
 function SectionsScreen({ _lang, sections, activeSection, onSectionChange, completionMap }: {
   _lang: string;
-  sections: { id: string; label: string; emoji: string }[];
+  sections: { id: string; label: string; emoji: string; desc: string }[];
   activeSection: string;
   onSectionChange: (id: string) => void;
   completionMap: Record<string, number>;
 }) {
   const mainSections = sections.filter((s) => s.id !== "finish");
   const auditSection = sections.find((s) => s.id === "finish");
+  const isRtl = _lang === "ar";
 
   return (
-    <div className="p-4 space-y-2 max-w-md mx-auto">
-      {mainSections.map((s) => {
-        const pct      = completionMap[s.id] ?? 0;
-        const isActive = activeSection === s.id;
-        return (
-          <motion.button
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            key={s.id}
-                    id={`m-tab-nav-${s.id}`}
-            onClick={() => onSectionChange(s.id)}
-            className={`w-full flex items-center gap-3.5 p-4 rounded-2xl border cursor-pointer transition-all ${
-              isActive 
-                ? "bg-rose-500/5 border-rose-500/20 text-slate-900" 
-                : "bg-white border-slate-200/80 hover:bg-slate-50 text-slate-700"
-            }`}
-          >
-            <span className="text-2xl filter drop-shadow-xs shrink-0 select-none">{s.emoji}</span>
-            <span className={`flex-1 text-sm text-right ltr:text-left ${isActive ? "font-bold" : "font-semibold"}`}>
-              {s.label}
-            </span>
-            {pct === 100 ? (
-              <span className="text-emerald-500 font-bold text-sm">✓</span>
-            ) : (
-              <MiniRing pct={pct} />
-            )}
-          </motion.button>
-        );
-      })}
+    <div className="px-4 py-5 space-y-4 max-w-md mx-auto h-full overflow-y-auto scrollbar-none pb-24">
+      
+      {/* Top Welcome Title inside bento */}
+      <div className="pb-1 text-center sm:text-right ltr:sm:text-left">
+        <span className="text-[10px] font-black tracking-wider text-rose-500 uppercase">HashResume Map</span>
+        <h3 className="text-base font-black text-slate-900 mt-0.5 leading-snug">
+          {_lang === "ar" ? "خطوات بناء سيرتك الاحترافية" : _lang === "fr" ? "Étapes de création de votre CV" : "Steps to Build Your Professional Resume"}
+        </h3>
+      </div>
 
+      {/* Visual Vertical Progress Bento Grid */}
+      <div className="grid grid-cols-1 gap-3">
+        {mainSections.map((s, idx) => {
+          const pct = completionMap[s.id] ?? 0;
+          const isActive = activeSection === s.id;
+          
+          return (
+            <motion.div
+              key={s.id}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => onSectionChange(s.id)}
+              className={`p-3.5 rounded-2.5xl border cursor-pointer transition-all flex items-center gap-3.5 relative overflow-hidden group select-none ${
+                isActive 
+                  ? "bg-white border-[#FF4D2D]/30 ring-4 ring-[#FF4D2D]/5 shadow-[0_12px_28px_rgba(255,77,45,0.08)] text-slate-900" 
+                  : "bg-white border-slate-100/90 hover:border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.01)] text-slate-700 hover:bg-slate-50/50"
+              }`}
+            >
+              {/* Highlight background indicator */}
+              {isActive && (
+                <div 
+                  className="absolute top-0 bottom-0 w-1 bg-gradient-to-b from-[#FF4D2D] to-orange-500 rounded-full"
+                  style={{ [isRtl ? "right" : "left"]: 0 }}
+                />
+              )}
+
+              {/* Number indicator count circles */}
+              <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black transition-colors shrink-0 ${
+                isActive
+                  ? "bg-[#FF4D2D]/10 text-[#FF4D2D]"
+                  : "bg-slate-50 border border-slate-150 text-slate-400 group-hover:bg-slate-100"
+              }`}>
+                {idx + 1}
+              </div>
+
+              {/* Icon / Emoji circle widget */}
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 transition-transform group-hover:scale-105 ${
+                isActive
+                  ? "bg-gradient-to-br from-[#FF4D2D]/5 to-orange-500/[0.02]"
+                  : "bg-slate-50 border border-slate-100"
+              }`}>
+                {s.emoji}
+              </div>
+
+              {/* Main titles info body */}
+              <div className="flex-1 min-w-0 px-1 text-right ltr:text-left">
+                <h4 className="text-xs font-black font-sans tracking-tight text-slate-900 leading-none">{s.label}</h4>
+                <p className="text-[10px] text-slate-500 font-semibold truncate mt-1 leading-none">{s.desc}</p>
+              </div>
+
+              {/* Completion interactive percentage ring indicator */}
+              <InteractiveRing pct={pct} />
+            </motion.div>
+          );
+        })}
+      </div>
+
+      {/* Dynamic CTA Launch Segment card button */}
       {auditSection && (
         <div className="pt-2">
-          <div className="h-px bg-slate-200/60 my-3" />
+          <div className="h-px bg-slate-200/60 my-2" />
           <motion.button
             whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
+            whileTap={{ scale: 0.98 }}
             onClick={() => onSectionChange("finish")}
-            className="w-full flex items-center gap-3.5 p-4 bg-gradient-to-r from-slate-700/10 to-slate-900/5 hover:from-slate-700/15 hover:to-slate-900/10 border border-slate-700/20 rounded-2xl cursor-pointer transition-all text-slate-800"
+            className="w-full flex items-center gap-3.5 p-4 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2.5xl cursor-pointer text-white shadow-[0_10px_25px_rgba(15,23,42,0.15)] relative overflow-hidden group"
           >
-            <span className="text-2xl shrink-0 select-none">{auditSection.emoji}</span>
-            <span className="flex-1 text-sm font-bold text-right ltr:text-left">{auditSection.label}</span>
-            <span className="bg-slate-900 text-white text-[10px] font-black px-2.5 py-1 rounded-full shadow-xs leading-none">
-              PDF
+            {/* Soft accent glow overlay */}
+            <div className="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-br from-[#FF4D2D]/20 to-orange-500/0 rounded-full blur-xl pointer-events-none transition-transform group-hover:scale-110" />
+
+            <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center text-xl shrink-0">
+              🏆
+            </div>
+            
+            <div className="flex-1 min-w-0 text-right ltr:text-left">
+              <h4 className="text-xs font-black text-white">{auditSection.label}</h4>
+              <p className="text-[10px] text-slate-300 font-semibold mt-0.5 truncate">{auditSection.desc}</p>
+            </div>
+
+            <span className="bg-[#FF4D2D] text-white text-[9px] font-black px-3 py-1.5 rounded-full shadow-md leading-none tracking-wider">
+              EXPORT
             </span>
           </motion.button>
         </div>
@@ -220,7 +367,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
   );
 }
 
-// ── main MobileEditorLayout ───────────────────────────────
+// ── main COMPONENT ─────────────────────────────────────────
 export default function MobileEditorLayout({
   lang            = "ar",
   atsScore        = 0,
@@ -242,10 +389,11 @@ export default function MobileEditorLayout({
   previewContent?: React.ReactNode;
   children?: React.ReactNode;
 }) {
-  const t                         = T[lang] ?? T.en;
+  const t                             = T[lang] ?? T.en;
   const [activeTab, setActiveTab] = useState("edit");
-  const [showPreviewDrawer, setShowPreviewDrawer] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 375);
+
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
@@ -253,8 +401,8 @@ export default function MobileEditorLayout({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const sections                  = SECTIONS[lang] ?? SECTIONS.en;
-  const isRtl                     = lang === "ar";
+  const sections = SECTIONS[lang] ?? SECTIONS.en;
+  const isRtl = lang === "ar";
 
   useEffect(() => {
     const tabEl = document.getElementById(`m-tab-${activeSection}`);
@@ -279,21 +427,21 @@ export default function MobileEditorLayout({
     { id: "edit",     label: t.edit,     icon: Edit3 },
     { id: "sections", label: t.sections, icon: Grid },
     { id: "preview",  label: t.preview,  icon: Eye, isHighlight: true },
-    { id: "export",   label: t.export,   icon: Download, isExport: true },
+    { id: "export",   label: t.export,   icon: Download },
   ];
 
   const currentSection = sections.find(s => s.id === activeSection);
 
   return (
-    <div className="fixed inset-0 flex flex-col bg-slate-50 text-slate-800 overflow-hidden pb-[calc(76px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="fixed inset-0 flex flex-col bg-[#FAF9F6] text-slate-800 overflow-hidden pb-[calc(84px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header ── */}
-      <header className="sticky top-0 z-50 bg-white border-b border-slate-300/30 px-4 py-3 flex items-center justify-between shrink-0 transform-gpu select-none">
+      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-slate-100 px-4 py-2.5 flex items-center justify-between shrink-0 transform-gpu select-none">
         <div className="flex items-center gap-2.5">
           <motion.div 
-            whileTap={{ scale: 0.92 }}
+            whileTap={{ scale: 0.94 }}
             onClick={() => { window.location.href = "/"; }}
-            className="w-8 h-8 rounded-lg overflow-hidden shrink-0 shadow-xs cursor-pointer hover:opacity-85 transition-opacity"
+            className="w-8.5 h-8.5 rounded-xl bg-slate-50 border border-slate-200/50 p-1 flex items-center justify-center shrink-0 cursor-pointer shadow-3xs"
             title={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
           >
             <img 
@@ -302,34 +450,40 @@ export default function MobileEditorLayout({
               className="w-full h-full object-contain" 
             />
           </motion.div>
-          <span className="text-sm font-black text-slate-800">
-            {currentSection?.emoji} {currentSection?.label}
-          </span>
+          
+          <div className="flex flex-col items-start leading-none">
+            <span className="text-[8.5px] font-black text-[#FF4D2D] tracking-wider uppercase leading-none">HashResume App</span>
+            <span className="text-[12px] font-extrabold text-slate-900 mt-0.5 flex items-center gap-1 leading-none">
+              <span className="text-xs shrink-0">{currentSection?.emoji}</span>
+              <span className="font-extrabold">{currentSection?.label}</span>
+            </span>
+          </div>
         </div>
 
-        {/* Floating live badge with state colors */}
-        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full font-bold text-xs bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 shadow-2xs">
+        {/* Beautiful Floating Glassmorphic ATS Badge */}
+        <div className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full font-black text-[10px] bg-slate-950 text-white shadow-[0_4px_10px_rgba(15,23,42,0.12)] border border-slate-900">
           <span className="relative flex h-1.5 w-1.5 shrink-0">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
             <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
           </span>
-          <span>ATS {atsScore}%</span>
+          <span className="tracking-tight">ATS {atsScore}%</span>
         </div>
       </header>
 
-      {/* Overall completeness slim progress line */}
-      <div className="w-full h-1 bg-slate-100/80 relative overflow-hidden shrink-0 select-none">
+      {/* Sleek Gradient completeness progress micro-line */}
+      <div className="w-full h-[3px] bg-slate-100 relative overflow-hidden shrink-0 select-none">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="absolute top-0 bottom-0 bg-gradient-to-r from-amber-400 via-orange-500 to-[#FF4D2D] rounded-e-full"
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="absolute top-0 bottom-0 bg-gradient-to-r from-[#FF4D2D] via-orange-500 to-amber-500 rounded-full"
           style={{ [isRtl ? "right" : "left"]: 0 }}
         />
       </div>
 
       {/* ── Main content area ── */}
-      <main className="flex-1 overflow-hidden w-full max-w-lg mx-auto relative">
+      <main className="flex-1 overflow-hidden w-full max-w-lg mx-auto relative bg-[#FAF9F7]">
+        
         {/* EDIT TAB */}
         <div className={`h-full w-full ${activeTab === "edit" ? "block" : "hidden"}`}>
           <div className="h-full flex flex-col overflow-hidden relative">
@@ -351,37 +505,32 @@ export default function MobileEditorLayout({
                 scroll-snap-align: start !important;
               }
             `}</style>
-            {/* Horizontal Sections Quick Switcher */}
-            <div className="bg-white border-b border-slate-200/50 px-3 py-2.5 shrink-0 select-none mobile-tabs-container">
+            
+            {/* Horizontal Segmented Switcher List with sleek glass background */}
+            <div className="bg-white/80 backdrop-blur-md border-b border-slate-100 px-3.5 py-3 shrink-0 select-none mobile-tabs-container">
               {sections.map((s) => {
                 const isActive = activeSection === s.id;
                 const pct = completionMap[s.id] ?? 0;
+                
                 return (
                   <button
                     key={s.id}
                     id={`m-tab-${s.id}`}
-                    onClick={() => {
-                      onSectionChange(s.id);
-                      // Scroll form to top
-                      setTimeout(() => {
-                        const scrollable = document.querySelector(".editor-form-scrollable");
-                        if (scrollable) {
-                          scrollable.scrollTo({ top: 0, behavior: "instant" as any });
-                        }
-                      }, 45);
-                    }}
-                    className={`relative flex flex-col items-center justify-center gap-1.5 px-4.5 py-3 min-h-[44px] rounded-lg text-[10px] font-black whitespace-nowrap shrink-0 transition-all border mobile-tab-btn ${
+                    onClick={() => handleSectionChange(s.id)}
+                    className={`relative flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] rounded-full text-xs font-black whitespace-nowrap shrink-0 transition-all border mobile-tab-btn cursor-pointer ${
                       isActive
-                        ? "bg-[#001639] border-[#001639] text-white shadow-xs"
-                        : "bg-transparent border-transparent text-[#6B7280] hover:bg-slate-50"
+                        ? "bg-slate-950 border-slate-950 text-white shadow-[0_4px_12px_rgba(15,23,42,0.12)]"
+                        : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
                     }`}
                   >
-                    <span className="text-sm select-none">{s.emoji}</span>
-                    <span className="text-[9px] font-black tracking-tight leading-none">{s.label}</span>
+                    <span className="text-xs select-none">{s.emoji}</span>
+                    <span className="text-[10.5px] font-black leading-none">{s.label}</span>
+                    
+                    {/* Tiny Completed Pill Badge */}
                     {pct === 100 ? (
-                      <span className="absolute -top-1 -end-1 w-2.5 h-2.5 rounded-full bg-emerald-500 border border-white" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
                     ) : pct > 0 ? (
-                      <span className="absolute -top-1 -end-1 bg-amber-500 text-white font-black text-[7.5px] px-1 py-0.5 rounded-md leading-none border border-white scale-90">
+                      <span className="text-[8px] bg-amber-500 text-white font-black px-1.5 py-0.5 rounded-full leading-none shrink-0 scale-90">
                         {pct}%
                       </span>
                     ) : null}
@@ -389,6 +538,8 @@ export default function MobileEditorLayout({
                 );
               })}
             </div>
+
+            {/* Render active field step components */}
             <div className="flex-1 overflow-hidden relative">
               <div className="h-full w-full overflow-hidden relative">
                 {children}
@@ -398,14 +549,34 @@ export default function MobileEditorLayout({
         </div>
 
         {/* PREVIEW TAB */}
-        <div className={`h-full w-full ${activeTab === "preview" ? "block" : "hidden"}`}>
-          <div className="h-full overflow-hidden relative">
-            {previewContent}
+        <div className={`h-full w-full ${activeTab === "preview" ? "block" : "hidden"} bg-slate-100`}>
+          <div className="h-full flex flex-col overflow-hidden relative">
+            
+            {/* Scale Preview Help tip bar */}
+            <div className="bg-slate-900 text-white/95 px-4 py-2 flex items-center justify-between text-[10px] font-bold shrink-0 select-none">
+              <span>💡 {lang === "ar" ? "اضغط على الشاشة للتكبير ومعاينة ملف الـ PDF" : "Swipe & zoom to inspect clean A4 layout output"}</span>
+              <span className="bg-white/10 px-2 py-0.5 rounded text-[8.5px] font-black uppercase">LIVE PREVIEW</span>
+            </div>
+
+            {/* Fitted Document Frame */}
+            <div className="flex-1 overflow-auto p-4 flex justify-center items-start origin-top bg-slate-200/60 pb-20 scrollbar-none">
+              <div 
+                className="shrink-0 transform-gpu transition-all shadow-[0_12px_45px_rgba(0,0,0,0.12)] rounded-lg border border-slate-300 bg-white" 
+                style={{
+                  width: "210mm",
+                  transform: `scale(${Math.min(0.96, (windowWidth - 32) / 794)})`,
+                  transformOrigin: "top center",
+                  marginBottom: `-${(1 - Math.min(0.96, (windowWidth - 32) / 794)) * 297}mm`
+                }}
+              >
+                {previewContent}
+              </div>
+            </div>
           </div>
         </div>
 
         {/* SECTIONS TAB */}
-        <div className={`h-full w-full overflow-y-auto scrollbar-none pb-4 ${activeTab === "sections" ? "block" : "hidden"}`}>
+        <div className={`h-full w-full pb-6 ${activeTab === "sections" ? "block" : "hidden"} bg-[#fafafa]`}>
           <SectionsScreen
             _lang={lang}
             sections={sections}
@@ -416,152 +587,69 @@ export default function MobileEditorLayout({
         </div>
 
         {/* EXPORT TAB */}
-        <div className={`h-full w-full overflow-y-auto scrollbar-none pb-4 ${activeTab === "export" ? "block" : "hidden"}`}>
-          <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} />
+        <div className={`h-full w-full pb-6 ${activeTab === "export" ? "block" : "hidden"} bg-[#fafafa]`}>
+          <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} atsScore={atsScore} />
         </div>
       </main>
 
-      {/* ── Tactfully Designed Premium Bottom Navigation Bar ── */}
-      <nav className="fixed bottom-0 inset-x-0 z-50 bg-white border-t border-solid border-slate-200 px-3 py-2 pb-[calc(1.2rem+env(safe-area-inset-bottom,0px))] md:pb-3 flex items-center justify-around shrink-0 shadow-[0_-5px_20px_rgba(0,0,0,0.03)] transform-gpu select-none">
-        {TABS.map(tab => {
-          const isActive = activeTab === tab.id;
-          const IconComponent = tab.icon;
+      {/* ── Highly Polished Floating Capsule Dock bottom navigation ── */}
+      <div className="fixed bottom-3 inset-x-0 z-50 px-4 flex justify-center pointer-events-none">
+        <nav 
+          ref={containerRef}
+          className="w-full max-w-sm pointer-events-auto bg-slate-950/95 backdrop-blur-xl border border-slate-800/80 rounded-full py-2.5 px-3 flex items-center justify-around shadow-[0_12px_36px_rgba(0,0,0,0.3)] gap-2 select-none"
+        >
+          {TABS.map(tab => {
+            const isActive = activeTab === tab.id;
+            const IconComponent = tab.icon;
 
-          if (tab.isHighlight) {
-            return (
-              <div key={tab.id} className="relative flex flex-col items-center justify-center min-w-[70px] -mt-5">
-                <motion.button
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setActiveTab("preview")}
-                  className="w-13 h-13 bg-gradient-to-br from-[#FF4D2D] to-orange-500 text-white rounded-full flex items-center justify-center cursor-pointer shadow-[0_6px_18px_rgba(255,77,45,0.35)] border-2 border-white relative z-20 group"
-                  animate={{ scale: [1, 1.04, 1] }}
-                  transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
-                >
-                  <IconComponent className="w-5 h-5 text-white" />
-                </motion.button>
-                <span className="text-[9px] font-black mt-1 text-slate-800 tracking-tight leading-none">
-                  {tab.label}
-                </span>
-              </div>
-            );
-          }
-
-          if (tab.isExport) {
-            return (
-              <div key={tab.id} className="relative flex flex-col items-center justify-center min-w-[64px] min-h-[48px]">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setActiveTab("export")}
-                  className="w-11 h-11 bg-slate-950 text-white rounded-xl flex items-center justify-center cursor-pointer shadow-[0_4px_14px_rgba(15,23,42,0.15)] border border-slate-800/20"
-                >
-                  <Download className="w-4 h-4 shrink-0" />
-                </motion.button>
-                <span className="text-[9px] font-black mt-1 text-slate-800">
-                  {tab.label}
-                </span>
-              </div>
-            );
-          }
-
-          return (
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className="flex flex-col items-center justify-center min-w-[64px] min-h-[48px] py-1 rounded-xl cursor-pointer relative"
-            >
-              <div className="relative z-10">
-                {IconComponent && (
-                  <IconComponent className={`w-[18px] h-[18px] transition-colors duration-200 ${isActive ? "text-[#FF4D2D]" : "text-slate-400"}`} />
-                )}
-              </div>
-              <span className={`text-[9px] font-bold mt-1 relative z-10 transition-colors duration-200 ${isActive ? "text-[#FF4D2D]" : "text-slate-400"}`}>
-                {tab.label}
-              </span>
-              {isActive && (
-                <motion.div 
-                  layoutId="activeTabIndicator"
-                  className="absolute inset-0 bg-[#FF4D2D]/5 border border-[#FF4D2D]/10 rounded-2xl"
-                  transition={{ type: "spring", stiffness: 350, damping: 25 }}
-                  animate={{ scale: [1, 1.01, 1] }}
-                  transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                />
-              )}
-            </motion.button>
-          );
-        })}
-      </nav>
-
-      {/* Proposal 2: Floating Circular Live Preview FAB removed */}
-
-      {/* Proposal 2: Bottom Sheet Drawer for Quick Live Preview */}
-      <AnimatePresence>
-        {showPreviewDrawer && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowPreviewDrawer(false)}
-              className="fixed inset-0 bg-black/60 z-[100] pointer-events-auto"
-            />
-            {/* Drawer */}
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="fixed bottom-0 inset-x-0 h-[82vh] bg-slate-50 rounded-t-[32px] border-t border-slate-200 z-[110] flex flex-col shadow-2xl overflow-hidden shadow-black/10 pb-[env(safe-area-inset-bottom,0px)]"
-              style={{ direction: isRtl ? "rtl" : "ltr" }}
-            >
-              {/* Swipe/Touch pull indicator */}
-              <div 
-                className="w-full h-8 flex items-center justify-center shrink-0 cursor-pointer" 
-                onClick={() => setShowPreviewDrawer(false)}
-              >
-                <div className="w-12 h-1.5 rounded-full bg-slate-300 hover:bg-slate-400 transition-colors" />
-              </div>
-
-              {/* Header */}
-              <div className="px-5 pb-3 border-b border-slate-200/60 flex items-center justify-between shrink-0 select-none">
-                <div className="flex items-center gap-2">
-                  <span className="text-xl">📄</span>
-                  <h3 className="text-sm font-black text-slate-800">
-                    {lang === "ar" ? "المعاينة السريعة للسيرة الذاتية" : lang === "fr" ? "Aperçu rapide du CV" : "Quick Resume Preview"}
-                  </h3>
-                </div>
-                <button
-                  onClick={() => setShowPreviewDrawer(false)}
-                  className="w-8 h-8 rounded-full bg-slate-100 text-slate-600 hover:bg-slate-200 flex items-center justify-center font-bold text-sm cursor-pointer border border-slate-200"
-                >
-                  ✕
-                </button>
-              </div>
-
-              {/* Real-time PDF layout view with correct scaling */}
-              <div className="flex-1 overflow-hidden relative">
-                <div className="absolute inset-0 overflow-y-auto p-4 flex justify-center bg-slate-150/40 pb-16">
-                  <div 
-                    className="origin-top shrink-0 transform-gpu transition-all" 
-                    style={{
-                      width: "210mm",
-                      transform: `scale(${Math.min(0.88, (windowWidth - 32) / 794)})`,
-                      marginBottom: `-${(1 - Math.min(0.88, (windowWidth - 32) / 794)) * 297}mm`
-                    }}
+            if (tab.isHighlight) {
+              return (
+                <div key={tab.id} className="relative flex flex-col items-center justify-center">
+                  <motion.button
+                    whileTap={{ scale: 0.92 }}
+                    onClick={() => setActiveTab("preview")}
+                    className={`w-11 h-11 bg-gradient-to-br from-[#FF4D2D] to-orange-500 text-white rounded-full flex items-center justify-center cursor-pointer shadow-[0_4px_16px_rgba(255,77,45,0.4)] border border-rose-500/10 relative transition-transform z-20 ${
+                      isActive ? "scale-105 shadow-[0_0_12px_#FF4D2D]" : ""
+                    }`}
                   >
-                    <div className="bg-white shadow-[0_12px_40px_rgba(0,0,0,0.08)] rounded-sm overflow-hidden select-none">
-                      {previewContent}
-                    </div>
-                  </div>
+                    <IconComponent className="w-5 h-5 text-white" />
+                  </motion.button>
+                  <span className={`text-[8.5px] font-black mt-1 leading-none tracking-tight transition-colors ${isActive ? "text-rose-400 font-heavy" : "text-slate-400"}`}>
+                    {tab.label}
+                  </span>
                 </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+              );
+            }
+
+            return (
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className="flex flex-col items-center justify-center w-14 h-11 rounded-2xl cursor-pointer relative"
+              >
+                <div className="relative z-10">
+                  {IconComponent && (
+                    <IconComponent className={`w-4.5 h-4.5 transition-colors duration-200 ${isActive ? "text-white" : "text-slate-400"}`} />
+                  )}
+                </div>
+                
+                <span className={`text-[8.5px] font-bold mt-1 relative z-10 transition-colors duration-200 leading-none tracking-tight ${isActive ? "text-white font-black" : "text-slate-400"}`}>
+                  {tab.label}
+                </span>
+
+                {isActive && (
+                  <motion.div 
+                    layoutId="activeDockIndicator"
+                    className="absolute inset-0 bg-white/10 rounded-2xl border border-white/5"
+                    transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                  />
+                )}
+              </motion.button>
+            );
+          })}
+        </nav>
+      </div>
 
     </div>
   );
