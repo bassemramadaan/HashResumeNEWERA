@@ -533,7 +533,7 @@ export default function EditorPage() {
     !data.personalInfo?.fullName && 
     !data.personalInfo?.email &&
     !data.personalInfo?.phone &&
-    !data.personalInfo?.professionalSummary &&
+    !data.personalInfo?.summary &&
     (!data.experience || data.experience.length === 0) && 
     (!data.education || data.education.length === 0) && 
     (!data.skills || data.skills.length === 0);
@@ -552,11 +552,11 @@ export default function EditorPage() {
     return DEFAULT_BREAKDOWN.map((b, i) => {
       let done = false;
       if (i === 0) done = !!(data.personalInfo?.email && data.personalInfo?.phone);
-      else if (i === 1) done = !!(data.personalInfo?.professionalSummary && data.personalInfo.professionalSummary.length > 20);
+      else if (i === 1) done = !!(data.personalInfo?.summary && data.personalInfo.summary.length > 20);
       else if (i === 2) done = !!(data.experience && data.experience.length > 0);
-      else if (i === 3) done = !!(data.skills && data.skills.length >= 3);
+      else if (i === 3) done = !!(data.skills && data.skills.length >= 5);
       else if (i === 4) done = !!(data.education && data.education.length > 0);
-      else if (i === 5) done = !!(data.skills && data.skills.length >= 3 && data.experience && data.experience.length > 0);
+      else if (i === 5) done = !!(data.skills && data.skills.length >= 5 && data.experience && data.experience.length > 0);
       return { ...b, done };
     });
   }, [data]);
