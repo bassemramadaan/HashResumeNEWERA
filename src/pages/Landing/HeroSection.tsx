@@ -178,11 +178,16 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
         }}
       />
 
+      {/* Multi-layered SaaS Ambient glowing grids */}
+      <div className="absolute top-[-5%] left-[10%] w-[400px] h-[400px] bg-amber-400/8 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-[20%] right-[5%] w-[500px] h-[500px] bg-rose-400/6 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[40%] left-[20%] w-[600px] h-[600px] bg-brand-500/5 rounded-full blur-[130px] pointer-events-none" />
+
       {/* Smooth SaaS Radial Ambient Lighting Glow Behind Headlines */}
       <div
-        className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[800px] md:w-[1200px] h-[600px] md:h-[700px] rounded-full pointer-events-none opacity-30 mix-blend-multiply filter blur-[120px] transform-gpu"
+        className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[900px] md:w-[1300px] h-[600px] md:h-[750px] rounded-full pointer-events-none opacity-40 filter blur-[140px] transform-gpu"
         style={{
-          background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, rgba(244,63,94,0.08) 45%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255,77,45,0.15) 0%, rgba(99,102,241,0.1) 40%, rgba(244,63,94,0.05) 60%, transparent 100%)',
         }}
       />
 
@@ -642,6 +647,52 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             </div>
           </TiltCard>
         </motion.div>
+
+        {/* Social Proof Recruiter Trust Indicator & Brand Ticker */}
+        <div className="mt-20 border-t border-b border-slate-100 py-8 overflow-hidden relative max-w-5xl mx-auto">
+          <div className="absolute inset-y-0 start-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 end-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          
+          <div className="text-center text-[11px] font-black tracking-widest text-slate-400 uppercase mb-5 px-4 font-sans leading-relaxed">
+            {lang === "ar"
+              ? "⚡ نماذج متوافقة مع نظم تصفية الموظفين ومُصادق عليها من مديري التوظيف في كبرى الشركات"
+              : lang === "fr"
+              ? "⚡ MODÈLES ADAPTÉS AUX ROBOTS ATS ET APPROUVÉS CHEZ LES PLUS GRANDS RECRUTEURS"
+              : "⚡ ATS-READABLE AND APPROVED BY RECRUITERS AT WORLD-CLASS CORPORATIONS"}
+          </div>
+
+          <div className="relative flex overflow-hidden whitespace-nowrap py-2">
+            <motion.div
+              initial={{ x: 0 }}
+              animate={{ x: "-50%" }}
+              transition={{
+                ease: "linear",
+                duration: 35,
+                repeat: Infinity,
+              }}
+              className="flex gap-16 items-center shrink-0 pr-16"
+            >
+              {[...Array(2)].flatMap(() => [
+                { name: "Google", desc: "Tech" },
+                { name: "Microsoft", desc: "Software" },
+                { name: "Meta", desc: "Social" },
+                { name: "McKinsey", desc: "Consulting" },
+                { name: "Deloitte", desc: "Advisory" },
+                { name: "Amazon", desc: "Retail" },
+                { name: "PwC", desc: "Audit" },
+                { name: "Uber", desc: "Logistics" },
+                { name: "Stripe", desc: "Fintech" },
+                { name: "Accenture", desc: "Enterprise" }
+              ]).map((brand, bIdx) => (
+                <div key={bIdx} className="flex items-center gap-2.5 opacity-40 hover:opacity-85 transition-opacity duration-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
+                  <span className="text-sm font-black tracking-tight text-slate-700 font-sans">{brand.name}</span>
+                  <span className="text-[9px] font-mono font-bold text-slate-400 border border-slate-200/80 px-1.5 py-0.5 rounded-md">{brand.desc}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
       </div>
       
       {/* Bottom fade out gradient */}

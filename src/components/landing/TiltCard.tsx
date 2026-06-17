@@ -26,6 +26,13 @@ export default function TiltCard({
   const rotateX = useSpring(useTransform(y, [0, 1], [8, -8]), springConfig);
   const rotateY = useSpring(useTransform(x, [0, 1], [-8, 8]), springConfig);
 
+  // Dynamic radial spotlight background tracking to create visual depth
+  const spotlightBg = useTransform(
+    [x, y],
+    ([currX, currY]) =>
+      `radial-gradient(500px circle at ${currX * 100}% ${currY * 100}%, rgba(255, 77, 45, 0.07) 0%, rgba(249, 115, 22, 0.03) 40%, transparent 80%)`
+  );
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
@@ -58,6 +65,11 @@ export default function TiltCard({
       }}
       className={className}
     >
+      {/* Interactive mouse reflection spotlight shimmer layer */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none mix-blend-screen z-10"
+        style={{ background: spotlightBg }}
+      />
       {children}
     </motion.div>
   );

@@ -27,13 +27,13 @@ export default function EditorSidebar({
   return (
     <aside 
       className={cn(
-        "w-60 min-w-60 h-full bg-neutral-50 border-neutral-200 flex flex-col overflow-y-auto select-none",
-        isRtl ? "border-l" : "border-r"
+        "w-60 min-w-60 h-[calc(100%-24px)] my-3 bg-white/75 backdrop-blur-md border border-slate-200/70 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] flex flex-col overflow-y-auto select-none rounded-[20px] transition-all duration-300 relative z-20",
+        isRtl ? "mr-4 ml-2" : "ml-4 mr-2"
       )}
       style={{ direction: isRtl ? "rtl" : "ltr" }}
     >
-      <div className="text-[10px] font-extrabold text-neutral-450 tracking-wider uppercase px-4.5 pt-4.5 pb-2">
-        {language === "ar" ? "خطوات العمل" : language === "fr" ? "Étapes" : "Progress"}
+      <div className="text-[10px] font-black tracking-widest text-[#FF4D2D] uppercase px-5.5 pt-5 pb-2.5">
+        {language === "ar" ? "🎯 خطوات البناء" : language === "fr" ? "🎯 ÉTAPES DU PROGRÈS" : "🎯 BUILD STEPS"}
       </div>
 
       <ProgressStepper

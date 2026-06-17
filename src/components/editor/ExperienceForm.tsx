@@ -14,6 +14,7 @@ import SectionTooltip from "./SectionTooltip";
 import AISuggestion from "./AISuggestion";
 import FormSkeleton from "./FormSkeleton";
 import ATSVerbAssistant from "./ATSVerbAssistant";
+import QuickAIAssistPill from "./QuickAIAssistPill";
 
 const ExperienceItem = ({
   exp,
@@ -234,14 +235,49 @@ const ExperienceForm = () => {
     updateData({ ...data, experience: newOrder });
   };
 
+  const handleQuickInject = (text: string) => {
+    let activeId = expandedId;
+    if (!activeId) {
+      if (experience.length === 0) {
+        const newId = crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 9);
+        addExperience({
+          id: newId,
+          company: "",
+          position: "",
+          startDate: "",
+          endDate: "",
+          description: `• ${text}`,
+          currentlyWorking: false,
+        });
+        setExpandedId(newId);
+        return;
+      } else {
+        activeId = experience[0].id;
+        setExpandedId(activeId);
+      }
+    }
+    const targetItem = experience.find(x => x.id === activeId);
+    if (targetItem) {
+      const currentDesc = targetItem.description || "";
+      const spacing = currentDesc ? "\n" : "";
+      updateExperience(activeId, {
+        description: `${currentDesc}${spacing}• ${text}`
+      });
+    }
+  };
+
   return (
     <div className="space-y-6 font-sans">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
           <SectionTooltip
             title={String(t.experience?.title || "")}
             content={String(t.experience?.tooltipDesc || "Add your work experience, starting with the most recent.")}
             example={String(t.experience?.tooltipExample || "e.g., Senior Software Engineer at Google")}
+          />
+          <QuickAIAssistPill
+            section="experience"
+            onInject={handleQuickInject}
           />
         </div>
         <button

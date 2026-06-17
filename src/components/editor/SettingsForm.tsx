@@ -211,42 +211,102 @@ export default React.memo(function SettingsForm() {
             {t.settings.templateStyle}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {TEMPLATES.map((template) => (
-              <button
-                key={template.id}
-                onClick={() => updateSettings({ template: template.id })}
-                className={cn(
-                  "p-4 rounded-xl border text-start transition-all relative overflow-hidden group",
-                  settings.template === template.id
-                    ? "border-brand-500 bg-brand-50/50 shadow-sm"
-                    : "border-slate-200 hover:border-slate-300 hover:bg-slate-50",
-                )}
-              >
-                {settings.template === template.id && (
-                  <div className="absolute top-0 end-0 w-16 h-16 bg-brand-500/10 rounded-bl-full -me-8 -mt-8 transition-transform group-hover:scale-110" />
-                )}
-                <div
+            {TEMPLATES.map((template) => {
+              const TEMPLATE_SUGGESTIONS: Record<string, { ar: string; en: string; color: string; badge: string }> = {
+                modern: {
+                  ar: "💼 يوصى به لقطاعات: التقنية، البرمجة، إدارة المشاريع. لون رائع: الأزرق النيلي أو الكحلي.",
+                  en: "💼 Recommended: Software, Tech, Management. Best match: Teal, Navy, Indigo.",
+                  color: "bg-indigo-50 border-indigo-100 text-indigo-700",
+                  badge: "Tech & Ops"
+                },
+                classic: {
+                  ar: "🏛️ يوصى به لقطاعات: القانون، المالية، والشركات الكبرى. لون رائع: الكحلي الداكن أو الرمادي.",
+                  en: "🏛️ Recommended: Corporate Law, Banking, Finance. Best match: Deep Navy Blue.",
+                  color: "bg-slate-100 border-slate-200 text-slate-700",
+                  badge: "Banking & Law"
+                },
+                creative: {
+                  ar: "🎨 يوصى به لقطاعات: التسويق والتصميم والمنتجات. لون رائع: البرتقالي الفاقع أو الذهبي.",
+                  en: "🎨 Recommended: Marketing, UX/UI Design, Art. Best match: Vibrant Orange / Amber.",
+                  color: "bg-orange-50 border-orange-100 text-orange-700",
+                  badge: "Creative & UX"
+                },
+                minimal: {
+                  ar: "📝 يوصى به لقطاعات: الأبحاث والطب والمجالات الأكاديمية. لون رائع: الرمادي والأسود.",
+                  en: "📝 Recommended: Research, Medical, Academia, Writing. Best match: Pure Charcoal.",
+                  color: "bg-neutral-50 border-neutral-150 text-neutral-700",
+                  badge: "Minimalist"
+                },
+                tech: {
+                  ar: "💻 يوصى به لقطاعات: هندسة البرمجيات، النظم، والسحابة. لون رائع: الأخضر الداكن أو الفولاذي.",
+                  en: "💻 Recommended: DevOps, SysAdmin, Backend. Best match: Steel Gray & Green.",
+                  color: "bg-emerald-50 border-emerald-100 text-emerald-700",
+                  badge: "Developer"
+                },
+                executive: {
+                  ar: "👑 يوصى به لقطاعات: المناصب الإدارية العليا والاستشارات الاستراتيجية. لون رائع: الأرجواني الفاخر.",
+                  en: "👑 Recommended: High Management, C-Suite, Strategy. Best match: Royal Purple.",
+                  color: "bg-purple-50 border-purple-100 text-purple-700",
+                  badge: "Director"
+                }
+              };
+
+              const suggestion = TEMPLATE_SUGGESTIONS[template.id] || {
+                ar: "✨ نوصي به لجميع القطاعات والأدوار المهنية المختلفة.",
+                en: "✨ Recommended for all professional roles seeking pristine readability.",
+                color: "bg-slate-50 border-slate-100 text-slate-600",
+                badge: "Universal"
+              };
+              const adviceText = language === "ar" ? suggestion.ar : suggestion.en;
+
+              return (
+                <button
+                  key={template.id}
+                  onClick={() => updateSettings({ template: template.id })}
                   className={cn(
-                    "font-bold mb-1 transition-colors relative z-10",
+                    "p-4.5 rounded-xl border text-start transition-all relative overflow-hidden group flex flex-col justify-between h-auto min-h-[160px]",
                     settings.template === template.id
-                      ? "text-brand-700"
-                      : "text-slate-900",
+                      ? "border-brand-500 bg-brand-50/50 shadow-sm font-black"
+                      : "border-slate-200 hover:border-slate-300 hover:bg-slate-50",
                   )}
                 >
-                  {template.name}
-                </div>
-                <div
-                  className={cn(
-                    "text-xs transition-colors relative z-10",
-                    settings.template === template.id
-                      ? "text-brand-600/80"
-                      : "text-white0",
+                  {settings.template === template.id && (
+                    <div className="absolute top-0 end-0 w-16 h-16 bg-brand-500/10 rounded-bl-full -me-8 -mt-8 transition-transform group-hover:scale-110" />
                   )}
-                >
-                  {template.description}
-                </div>
-              </button>
-            ))}
+                  <div className="w-full">
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <div
+                        className={cn(
+                          "font-extrabold transition-colors relative z-10 text-xs sm:text-sm",
+                          settings.template === template.id
+                            ? "text-brand-700"
+                            : "text-slate-900",
+                        )}
+                      >
+                        {template.name}
+                      </div>
+                      <span className={cn("text-[9px] font-black px-1.5 py-0.5 rounded-md border shrink-0 tracking-wider", suggestion.color)}>
+                        {suggestion.badge}
+                      </span>
+                    </div>
+                    <div
+                      className={cn(
+                        "text-[11px] leading-relaxed transition-colors relative z-10 mb-3",
+                        settings.template === template.id
+                          ? "text-brand-600/90"
+                          : "text-slate-500",
+                      )}
+                    >
+                      {template.description}
+                    </div>
+                  </div>
+
+                  <div className="text-[10px] w-full bg-white/70 border border-slate-200/50 rounded-lg p-2.5 mt-auto font-bold text-slate-500 tracking-tight leading-relaxed">
+                    {adviceText}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
 

@@ -5,6 +5,7 @@ import { translations } from "../../i18n/translations";
 import { Plus, X, Sparkles, AlertCircle } from "lucide-react";
 import SectionTooltip from "./SectionTooltip";
 import { getJobMatchResults } from "../../utils/ats";
+import QuickAIAssistPill from "./QuickAIAssistPill";
 
 import AISuggestion from "./AISuggestion";
 
@@ -57,7 +58,7 @@ const SkillsForm = () => {
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 transition-colors">
         <form onSubmit={handleAdd} className="mb-6">
           <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
               <label
                 htmlFor="skillInput"
                 className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -68,6 +69,14 @@ const SkillsForm = () => {
                 title={String(t.skills?.tips || "")}
                 content={String(t.skills?.tipsContent || "")}
                 example={String(t.skills?.tipsExample || "")}
+              />
+              <QuickAIAssistPill
+                section="skills"
+                onInject={(skill) => {
+                  if (skill && !skills.includes(skill)) {
+                    addSkill(skill);
+                  }
+                }}
               />
             </div>
             <button
