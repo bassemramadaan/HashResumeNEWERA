@@ -55,6 +55,36 @@ const SkillsForm = () => {
 
   return (
     <div className="space-y-6 font-sans">
+      {/* Live ATS Keyword Assistant bar */}
+      {jobDescription && matchResults && matchResults.missing.length > 0 && (
+        <div className="bg-[#FFF3F0] border border-brand-200 rounded-2xl p-4 md:p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 animate-fade-in text-start">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-[#E63A1A] font-black text-xs">
+              <Sparkles size={14} className="text-[#FF4D2D] animate-bounce shrink-0" />
+              <span>{language === "ar" ? "مساعد كلمات الـ ATS المباشر" : "Live ATS Keyword Assistant"}</span>
+            </div>
+            <p className="text-[10px] text-slate-500 font-semibold leading-relaxed">
+              {language === "ar"
+                ? "دققنا الوصف الوظيفي لشركتك واكتشفنا كلمات مفقودة هامة. اضغط على أي منها لإضافتها فوراً وسيرتفع تقييم الـ ATS Score أمامك تلقائياً:"
+                : "We audited your company job description and found high-impact missing keywords. Click to inject instantly:"}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+            {matchResults.missing.slice(0, 6).map((missingKey) => (
+              <button
+                key={missingKey}
+                type="button"
+                onClick={() => addSkill(missingKey)}
+                className="bg-white hover:bg-[#FFF3F0] text-slate-700 hover:text-[#E63A1A] border border-slate-200 hover:border-brand-300 rounded-lg px-2.5 py-1 text-xs font-black transition-all cursor-pointer shadow-3xs flex items-center gap-1 active:scale-95"
+              >
+                <Plus size={11} className="text-[#FF4D2D]" />
+                <span>{missingKey}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 transition-colors">
         <form onSubmit={handleAdd} className="mb-6">
           <div className="flex items-center justify-between mb-2">
