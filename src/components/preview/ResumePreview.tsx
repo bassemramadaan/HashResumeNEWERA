@@ -121,7 +121,23 @@ const ResumePreview = memo(
     ];
     const hiddenSections = settings.hiddenSections || [];
 
-    const themeColor = settings.themeColor || "#2563EB";
+    const getReadableThemeColor = (hex: string): string => {
+      if (!hex || !hex.startsWith('#')) return hex;
+      const r = parseInt(hex.slice(1, 3), 16);
+      const g = parseInt(hex.slice(3, 5), 16);
+      const b = parseInt(hex.slice(5, 7), 16);
+      const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+      if (luma > 165) {
+        const factor = 0.65;
+        const dr = Math.max(0, Math.floor(r * factor)).toString(16).padStart(2, '0');
+        const dg = Math.max(0, Math.floor(g * factor)).toString(16).padStart(2, '0');
+        const db = Math.max(0, Math.floor(b * factor)).toString(16).padStart(2, '0');
+        return `#${dr}${dg}${db}`;
+      }
+      return hex;
+    };
+
+    const themeColor = getReadableThemeColor(settings.themeColor || "#2563EB");
 
     const t = {
       en: {

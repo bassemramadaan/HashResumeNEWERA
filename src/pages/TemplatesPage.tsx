@@ -234,8 +234,16 @@ export default function TemplatesPage() {
   const [previewColor, setPreviewColor]       = useState<string>("");
   const [hoveredId, setHoveredId]             = useState<string | null>(null);
 
+  const hasActiveDraft = 
+    (data.personalInfo?.fullName || "").trim() !== "" ||
+    (data.personalInfo?.jobTitle || "").trim() !== "" ||
+    (data.experience || []).length > 0 ||
+    (data.education || []).length > 0 ||
+    (data.skills || []).length > 0 ||
+    (data.projects || []).length > 0 ||
+    (data.certifications || []).length > 0;
+
   const handleSelectTemplate = (templateId: ResumeData["settings"]["template"], color?: string) => {
-    resetData();
     updateSettings({ template: templateId, themeColor: color ?? templates.find(t => t.id === templateId)?.color ?? "#2563EB" });
     navigate("/editor");
   };
@@ -319,6 +327,41 @@ export default function TemplatesPage() {
           >
             {labels.sub}
           </motion.p>
+
+          {hasActiveDraft && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="mt-6 inline-flex flex-col sm:flex-row gap-3 justify-center items-center p-3.5 px-5 rounded-2xl bg-orange-50 border border-orange-100/80 text-slate-700 text-xs sm:text-sm font-semibold max-w-lg mx-auto relative overflow-hidden"
+            >
+              <div className="absolute top-0 start-0 w-1 h-full bg-[#FF4D2D]" />
+              <span className="text-start leading-normal text-slate-600">
+                {language === "ar" 
+                  ? "لديك مسودة نشطة محفوظة. سيتم تطبيق التصميم واللون فوراً دون فقدان أي بيانات !" 
+                  : language === "fr"
+                  ? "Brouillon enregistré détecté. Vos modifications seront appliquées directement !"
+                  : "Active draft detected. Design changes will apply directly without losing any text!"}
+              </span>
+              <button
+                onClick={() => {
+                  if (confirm(
+                    language === "ar" 
+                      ? "هل أنت متأكد من مسح كافة البيانات الحالية وبدء سيرة جديدة بالكامل؟" 
+                      : language === "fr"
+                      ? "Êtes-vous sûr de vouloir tout effacer et recommencer à zéro ?"
+                      : "Are you sure you want to erase all current data and start a completely fresh draft?"
+                  )) {
+                    resetData();
+                    navigate("/editor");
+                  }
+                }}
+                className="bg-white hover:bg-[#FF4D2D] hover:text-white border border-slate-200 hover:border-transparent text-slate-800 px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-3xs hover:shadow-xs"
+              >
+                {language === "ar" ? "بدء مسودة جديدة 🗑️" : language === "fr" ? "Nouveau brouillon 🗑️" : "Start Fresh Draft 🗑️"}
+              </button>
+            </motion.div>
+          )}
         </div>
 
         {/* ── Search + Filters ── */}
@@ -389,7 +432,7 @@ export default function TemplatesPage() {
                     onMouseEnter={() => setHoveredId(template.id)}
                     onMouseLeave={() => setHoveredId(null)}
                     className={cn(
-                      "group relative bg-white rounded-2xl overflow-hidden border-2 transition-all duration-300 flex flex-col cursor-pointer",
+                      "group relative bg-white rounded-2xl overflow-hidden border-2 transition-all duration-300 flex flex-col cursor-pointer w-full max-w-[340px] sm:max-w-none mx-auto",
                       isSelected
                         ? "border-[#FF4D2D] shadow-lg shadow-orange-500/10"
                         : "border-slate-200 hover:border-slate-300 hover:shadow-lg"

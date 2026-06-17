@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { useResumeStore, ResumeData, getResumeSignature } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
+import { Link } from "react-router-dom";
 import { translations } from "../i18n/translations";
 import SettingsModal from "../components/SettingsModal";
 import KeyboardShortcutsModal from "../components/KeyboardShortcutsModal";
@@ -444,6 +445,7 @@ export default function EditorPage() {
   const [isTipsOpen, setIsTipsOpen] = useState(true);
   const [isIntroExpanded, setIsIntroExpanded] = useState(false);
   const [showScoreChecklist, setShowScoreChecklist] = useState(false);
+  const [showAIBanner, setShowAIBanner] = useState(true);
 
   const [focusMode, setFocusMode] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
@@ -1236,6 +1238,53 @@ export default function EditorPage() {
                     </div>
                   </motion.div>
                 )}
+
+            {/* Direct Flow AI Integrations Callout Banner */}
+            {showAIBanner && data.personalInfo.fullName && activeTab !== "cover-letter" && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-orange-50 to-orange-100/30 border border-orange-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-start relative"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-[#FF4D2D]/10 rounded-xl text-[#FF4D2D] shrink-0 mt-0.5">
+                    <Sparkles className="w-4 h-4 animate-pulse" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-black text-slate-900">
+                      {language === "ar" 
+                        ? `مرحباً بك ${data.personalInfo.fullName}! تم حفظ بيانات سيرتك الذاتية بنجاح ✅` 
+                        : `Welcome back, ${data.personalInfo.fullName}! Your resume details are saved ✅`}
+                    </h4>
+                    <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-1">
+                      {language === "ar"
+                        ? "هل ترغب في صياغة خطاب تغطية ذكي (Cover Letter) مخصص أو بدء محاكاة المقابلة الشخصية للتدريب مع مدرب الذكاء الاصطناعي بناءً على خبراتك المحفوظة؟"
+                        : "Ready to auto-generate a custom Cover Letter or start simulator-practice with the AI Interview Coach built around your experiences?"}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 self-end sm:self-center">
+                  <button
+                    onClick={() => setActiveTab("cover-letter")}
+                    className="flex-1 sm:flex-none text-[10px] font-black bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 py-2 px-3 rounded-xl transition-all cursor-pointer whitespace-nowrap"
+                  >
+                    {language === "ar" ? "✍️ خطاب التغطية" : "✍️ Cover Letter"}
+                  </button>
+                  <Link
+                    to="/interview-prep"
+                    className="flex-1 sm:flex-none text-center text-[10px] font-black bg-[#FF4D2D] hover:bg-[#E64528] text-white py-2.5 px-3.5 rounded-xl shadow-xs transition-all cursor-pointer whitespace-nowrap"
+                  >
+                    {language === "ar" ? "🤖 مدرب المقابلات" : "🤖 Interview Coach"}
+                  </Link>
+                  <button
+                    onClick={() => setShowAIBanner(false)}
+                    className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg cursor-pointer transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </motion.div>
+            )}
 
                   <AnimatePresence mode="wait">
                     <motion.div
