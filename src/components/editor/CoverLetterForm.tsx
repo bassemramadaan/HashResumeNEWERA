@@ -129,6 +129,57 @@ export default function CoverLetterForm() {
     }
   };
 
+  const reWriteWithTone = async (toneId: string) => {
+    if (!coverLetter.generatedContent) return;
+    
+    setIsGenerating(true);
+    setError(null);
+    
+    const styleDescription = {
+      corporate: 'Highly professional, formal, and authoritative. Focus on business value and metrics.',
+      fresh_graduate: 'Enthusiastic, extremely eager to learn, adaptable, highlighting academic background and training potential.',
+      remote: 'Self-governing, reliable, highlighting asynchronous communication skills and independent delivery.',
+      gulf: 'Respectful, traditional, highlighting professional cultural fit under GCC/Gulf Region business environments.'
+    }[toneId] || toneId;
+
+    const rewritePrompt = `
+      You are an expert executive career writer.
+      Please take the following cover letter and rewrite it to match this style/tone: "${styleDescription}".
+      
+      Requirements:
+      1. Keep the identical sender, recipient, target company, and job details.
+      2. Keep the core facts and experience snippets precisely the same. No hallucinated additions.
+      3. Completely rewrite the phrasing, voice, flow, and vocabulary to fit the requested tone.
+      4. Return ONLY the new rewritten cover letter text. No chat explanations, no conversational markers, no introductory or ending notes.
+      
+      Current Cover Letter Content:
+      """
+      ${coverLetter.generatedContent}
+      """
+    `;
+
+    try {
+      const result = await aiService.generateContent(rewritePrompt);
+      if (result.error) {
+        setError(result.error);
+      } else if (result.text) {
+        updateCoverLetter({ generatedContent: result.text });
+      }
+    } catch (err) {
+      console.error("Error adjusting cover letter tone:", err);
+      setError(language === "ar" ? "تعذر تغيير نبرة الخطاب تلقائياً" : "Failed to rewrite cover letter in the new style.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleStyleSelect = async (styleId: string) => {
+    setSelectedStyle(styleId);
+    if (coverLetter.generatedContent && coverLetter.generatedContent.trim().length > 20) {
+      await reWriteWithTone(styleId);
+    }
+  };
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="bg-brand-50 border border-brand-100 p-4 rounded-xl flex items-start gap-3 mb-2">
@@ -288,7 +339,7 @@ export default function CoverLetterForm() {
             ].map((style) => (
               <button
                 key={style.id}
-                onClick={() => setSelectedStyle(style.id)}
+                onClick={() => handleStyleSelect(style.id)}
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${selectedStyle === style.id ? 'bg-orange-50 border-orange-200 text-orange-700 border-2' : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 border-2'}`}
               >
                 {style.label}

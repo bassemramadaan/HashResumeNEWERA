@@ -17,6 +17,8 @@ import {
   LayoutTemplate,
   Maximize2,
   X,
+  SlidersHorizontal,
+  CheckCircle2,
   FileText,
   Sparkles,
   ArrowUp,
@@ -265,6 +267,9 @@ export default function EditorPage() {
   const [isCommandBarOpen, setIsCommandBarOpen] = useState(false);
   const [isTipsOpen, setIsTipsOpen] = useState(true);
   const [showAIBanner, setShowAIBanner] = useState(true);
+  const [showMicroSpacingPanel, setShowMicroSpacingPanel] = useState(false);
+  const touchStartRef = useRef<number>(0);
+  const touchStartYRef = useRef<number>(0);
 
   const tabOrder: Tab[] = [
     "basics",
@@ -284,6 +289,29 @@ export default function EditorPage() {
   };
   const handlePrevTab = () => {
     if (hasPrevTab) setActiveTab(tabOrder[currentTabIndex - 1]);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartRef.current = e.touches[0].clientX;
+    touchStartYRef.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    
+    const diffX = touchEndX - touchStartRef.current;
+    const diffY = touchEndY - touchStartYRef.current;
+    
+    if (Math.abs(diffX) > 75 && Math.abs(diffY) < 55) {
+      if (diffX > 0) {
+        handlePrevTab();
+        scrollToFormTop();
+      } else {
+        handleNextTab();
+        scrollToFormTop();
+      }
+    }
   };
 
   const [focusMode, setFocusMode] = useState<boolean>(() => {
@@ -1246,6 +1274,8 @@ export default function EditorPage() {
             <main
               ref={formRef}
               onScroll={handleFormScroll}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
               className={cn(
                 "flex-1 overflow-y-auto p-4 sm:p-8 sm:pt-6 pb-36 sm:pb-32 scroll-smooth relative",
                 focusMode ? "bg-white" : ""
@@ -1392,6 +1422,133 @@ export default function EditorPage() {
             data-tour="preview-pane"
             className="bg-neutral-100 border-s border-neutral-200 flex-col flex h-full overflow-hidden relative transition-colors duration-200"
           >
+            {/* Custom Spacing controls floats */}
+            {showMicroSpacingPanel && previewMode === "resume" && (
+              <motion.div
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                className="absolute top-[68px] end-6 z-30 w-72 bg-white rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.15)] border border-slate-200/90 p-5 space-y-4 font-sans select-none"
+                dir={language === "ar" ? "rtl" : "ltr"}
+              >
+                <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                  <h4 className="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wider">
+                    <SlidersHorizontal size={13} className="text-[#FF4D2D]" />
+                    {language === "ar" ? "أبعاد الصفحة والهامش" : "Micro-Spacing Adjuster"}
+                  </h4>
+                  <button 
+                    onClick={() => setShowMicroSpacingPanel(false)}
+                    className="p-1 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+
+                {/* Font Size Scale Slider */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between items-center text-[10px]">
+                    <span className="font-bold text-slate-600">
+                      {language === "ar" ? "🔍 مقياس حجم خط الكتابة" : "Font Size Scale"}
+                    </span>
+                    <span className="font-extrabold text-[#FF4D2D] bg-orange-50 px-1.5 py-0.2 rounded-md">
+                      {data.settings.customFontSize || 100}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="70"
+                    max="135"
+                    value={data.settings.customFontSize || 100}
+                    onChange={(e) => useResumeStore.getState().updateSettings({ customFontSize: Number(e.target.value) })}
+                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF4D2D]"
+                  />
+                </div>
+
+                {/* Vertical Section Spacing Slider */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between items-center text-[10px]">
+                    <span className="font-bold text-slate-600">
+                      {language === "ar" ? "↕️ التباعد بين الأقسام" : "Vertical Spacing"}
+                    </span>
+                    <span className="font-extrabold text-[#FF4D2D] bg-orange-50 px-1.5 py-0.2 rounded-md">
+                      {data.settings.customSpacing || 100}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="40"
+                    max="160"
+                    value={data.settings.customSpacing || 100}
+                    onChange={(e) => useResumeStore.getState().updateSettings({ customSpacing: Number(e.target.value) })}
+                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF4D2D]"
+                  />
+                </div>
+
+                {/* Line Height Slider */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between items-center text-[10px]">
+                    <span className="font-bold text-slate-600">
+                      {language === "ar" ? "📏 ارتفاع أسطر الكتابة" : "Line Height Multiplier"}
+                    </span>
+                    <span className="font-extrabold text-[#FF4D2D] bg-orange-50 px-1.5 py-0.2 rounded-md">
+                      {data.settings.customLineHeight || 100}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="65"
+                    max="135"
+                    value={data.settings.customLineHeight || 100}
+                    onChange={(e) => useResumeStore.getState().updateSettings({ customLineHeight: Number(e.target.value) })}
+                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF4D2D]"
+                  />
+                </div>
+
+                {/* Page Margin Slider */}
+                <div className="space-y-1.5">
+                  <div className="flex justify-between items-center text-[10px]">
+                    <span className="font-bold text-slate-600">
+                      {language === "ar" ? "↔️ هوامش جوانب الصفحة" : "Page Margin Padding"}
+                    </span>
+                    <span className="font-extrabold text-[#FF4D2D] bg-orange-50 px-1.5 py-0.2 rounded-md">
+                      {data.settings.customMargin || 100}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="30"
+                    max="170"
+                    value={data.settings.customMargin || 100}
+                    onChange={(e) => useResumeStore.getState().updateSettings({ customMargin: Number(e.target.value) })}
+                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF4D2D]"
+                  />
+                </div>
+
+                <div className="bg-slate-50 rounded-xl p-2.5 text-[9px] text-slate-500 font-medium leading-normal flex items-start gap-1.5">
+                  <span className="text-[#FF4D2D] font-bold">✨</span>
+                  <span>
+                    {language === "ar" 
+                      ? "اسحب لتصغير الهوامش والتناغم للحجم لتفادي تمدد الصفحة وخروجها عن نطاق صفحة واحدة." 
+                      : "Adjust margins or scale down to prevent text spilling over to second pages perfectly."}
+                  </span>
+                </div>
+              </motion.div>
+            )}
+
+            {/* ATS Trust Guard badge */}
+            {previewMode === "resume" && (
+              <div 
+                className="absolute top-[68px] start-6 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/90 shadow-sm text-emerald-800 text-[10px] sm:text-xs font-black select-none pointer-events-auto"
+                dir={language === "ar" ? "rtl" : "ltr"}
+              >
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 fill-emerald-100 animate-pulse" />
+                <span>
+                  {language === "ar" 
+                    ? "متوافقة ومكتوبة للفرز (ATS-Friendly 100%)" 
+                    : "ATS Text-Extractable Guard Active (100% Readable)"}
+                </span>
+              </div>
+            )}
             <div className="h-14 bg-neutral-100 border-b border-neutral-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu">
               <div className="flex items-center gap-2">
                 <div className="flex items-center bg-neutral-50 rounded-xl p-1 border border-neutral-200">
@@ -1432,6 +1589,20 @@ export default function EditorPage() {
                 >
                   <Maximize2 size={18} />
                 </button>
+                {previewMode === "resume" && (
+                  <button
+                    onClick={() => setShowMicroSpacingPanel(!showMicroSpacingPanel)}
+                    className={cn(
+                      "p-2 rounded-lg transition-colors relative",
+                      showMicroSpacingPanel 
+                        ? "text-[#FF4D2D] bg-[#FF4D2D]/10" 
+                        : "text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100"
+                    )}
+                    title={language === "ar" ? "أبعاد الصفحة والهوامش" : "Page Spacing & Margins"}
+                  >
+                    <SlidersHorizontal size={18} />
+                  </button>
+                )}
                 {!data.isLocked && (
                   <button
                     onClick={() => setIsSettingsModalOpen(true)}

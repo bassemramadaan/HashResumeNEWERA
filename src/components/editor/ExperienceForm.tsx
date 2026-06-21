@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -17,6 +17,7 @@ import FormSkeleton from "./FormSkeleton";
 import ATSVerbAssistant from "./ATSVerbAssistant";
 import QuickAIAssistPill from "./QuickAIAssistPill";
 import EmptyState from "./EmptyState";
+import InlineGhostSuggest from "./InlineGhostSuggest";
 
 const ExperienceItem = ({
   exp,
@@ -28,6 +29,7 @@ const ExperienceItem = ({
   isAr
 }: any) => {
   const controls = useDragControls();
+  const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
 
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
@@ -174,11 +176,19 @@ const ExperienceItem = ({
                   />
                 </div>
                 <textarea
+                  ref={descriptionRef}
                   value={exp.description || ""}
                   onChange={(e) => updateExperience(exp.id, { description: e.target.value })}
                   placeholder={String(t.experience?.descriptionPlaceholder || "Describe your responsibilities...")}
                   rows={5}
                   className="block w-full p-3 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all resize-y placeholder-slate-400 font-medium outline-none"
+                />
+                <InlineGhostSuggest
+                  value={exp.description || ""}
+                  onChange={(val) => updateExperience(exp.id, { description: val })}
+                  isAr={isAr}
+                  textareaRef={descriptionRef}
+                  context={`Company: ${exp.company || ""}, Position: ${exp.position || ""}`}
                 />
               </div>
 

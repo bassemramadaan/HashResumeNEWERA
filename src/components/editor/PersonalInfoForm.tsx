@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { motion } from "motion/react";
 import { ZodIssue } from "zod";
 import { useResumeStore } from "../../store/useResumeStore";
@@ -27,6 +27,7 @@ import SectionTooltip from "./SectionTooltip";
 import { personalInfoSchema } from "../../lib/validation";
 
 import AISuggestion from "./AISuggestion";
+import InlineGhostSuggest from "./InlineGhostSuggest";
 
 const PersonalInfoForm = () => {
   const { language } = useLanguageStore();
@@ -37,6 +38,8 @@ const PersonalInfoForm = () => {
   const [showGCCFields, setShowGCCFields] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [_touched, setTouched] = useState<Record<string, boolean>>({});
+
+  const summaryRef = useRef<HTMLTextAreaElement | null>(null);
 
   const lang = settings.language || "en";
 
@@ -78,7 +81,7 @@ const PersonalInfoForm = () => {
     <div className="space-y-6">
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 font-sans transition-colors">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2">
+        <div className="space-y-2 stagger-item">
           <label
             htmlFor="fullName"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -116,7 +119,7 @@ const PersonalInfoForm = () => {
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 stagger-item">
           <label
             htmlFor="jobTitle"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -154,7 +157,7 @@ const PersonalInfoForm = () => {
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 stagger-item">
           <label htmlFor="email" className="text-[11px] font-semibold text-slate-500 block mb-1">
             {t.email} <span className="text-rose-500">*</span>
           </label>
@@ -189,7 +192,7 @@ const PersonalInfoForm = () => {
           )}
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 stagger-item">
           <label htmlFor="phone" className="text-[11px] font-semibold text-slate-500 block mb-1">
             {t.phone}
           </label>
@@ -209,7 +212,7 @@ const PersonalInfoForm = () => {
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 stagger-item">
           <label
             htmlFor="address"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -232,7 +235,7 @@ const PersonalInfoForm = () => {
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 stagger-item">
           <label
             htmlFor="linkedin"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -255,7 +258,7 @@ const PersonalInfoForm = () => {
           </div>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-2 stagger-item">
           <label
             htmlFor="github"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -343,6 +346,7 @@ const PersonalInfoForm = () => {
 
           <div className="relative">
           <textarea
+            ref={summaryRef}
             id="summary"
             name="summary"
             rows={5}
@@ -350,6 +354,13 @@ const PersonalInfoForm = () => {
             onChange={handleChange}
             className="block w-full p-4 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all resize-y bg-white text-slate-900 placeholder-slate-400 font-medium leading-relaxed"
             placeholder={t.summaryPlaceholder}
+          />
+          <InlineGhostSuggest
+            value={personalInfo.summary || ""}
+            onChange={(val) => updatePersonalInfo({ summary: val })}
+            isAr={language === "ar"}
+            textareaRef={summaryRef}
+            context={`Job Title: ${personalInfo.jobTitle}`}
           />
           <div className="mt-2 text-[10px] text-slate-400 flex items-start sm:items-center justify-between gap-4 px-2 leading-tight flex-col sm:flex-row">
             <div className="flex items-center gap-1 opacity-70">
