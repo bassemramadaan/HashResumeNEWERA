@@ -28,6 +28,7 @@ import {
   Award,
   Lock,
   Folder,
+  Eye,
 } from "lucide-react";
 import { useResumeStore, getResumeSignature } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
