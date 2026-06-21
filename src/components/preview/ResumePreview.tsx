@@ -251,7 +251,7 @@ const ResumePreview = memo(
           style={{ borderColor: themeColor }}
         >
           <h1
-            className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-1"
+            className="text-2.5xl md:text-3.5xl text-3xl font-bold uppercase tracking-tight mb-1"
             style={{ color: themeColor }}
           >
             {renderFullName()}
@@ -521,7 +521,7 @@ const ResumePreview = memo(
         <FreshGradBadge />
         {/* Header */}
         <header className="mb-8 text-center border-b-2 border-neutral-800 pb-6">
-          <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-4 text-slate-900">
+          <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wider mb-4 text-slate-900">
             {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
@@ -740,7 +740,7 @@ const ResumePreview = memo(
         >
           <div className="mb-10">
             <h1
-              className="text-3xl md:text-4xl font-black uppercase tracking-tight mb-2 leading-none"
+              className="text-2xl md:text-3xl font-extrabold uppercase tracking-tight mb-2 leading-none"
               style={{ color: themeColor }}
             >
               {renderFullName()}
@@ -997,7 +997,7 @@ const ResumePreview = memo(
       >
         <FreshGradBadge />
         <header className="mb-12 text-center">
-          <h1 className="text-3xl md:text-4xl font-light tracking-[0.15em] text-slate-900 mb-4 uppercase">
+          <h1 className="text-2xl md:text-3xl font-light tracking-[0.12em] text-slate-900 mb-4 uppercase">
             {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
@@ -1208,7 +1208,7 @@ const ResumePreview = memo(
         <FreshGradBadge />
         <header className="mb-10 border-b-2 border-slate-300 pb-8">
           <h1
-            className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 tracking-tight"
+            className="text-2xl md:text-3xl font-bold text-slate-900 mb-4 tracking-tight"
             style={{ color: themeColor }}
           >
             &gt; {renderFullName()}
@@ -1430,7 +1430,7 @@ const ResumePreview = memo(
           className="mb-10 flex flex-col items-center border-b-[3px] pb-8"
           style={{ borderColor: themeColor }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-widest mb-4 text-center">
+          <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wider mb-4 text-center">
             {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
@@ -1659,7 +1659,7 @@ const ResumePreview = memo(
       >
         <FreshGradBadge />
         <header className="mb-8 border-b-4 border-emerald-600 pb-6">
-          <h1 className="text-3xl md:text-4xl font-bold text-emerald-800 mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-emerald-800 mb-2">
             {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
@@ -1793,7 +1793,7 @@ const ResumePreview = memo(
     const renderLegal = () => (
       <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-[#fdfbf7]">
         <header className="text-center mb-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2 uppercase tracking-widest">
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2 uppercase tracking-wider">
             {renderFullName()}
           </h1>
           <div className="w-24 h-1 bg-neutral-900 mx-auto mb-4"></div>
@@ -1895,7 +1895,7 @@ const ResumePreview = memo(
     const renderAcademic = () => (
       <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-12 max-w-[850px] mx-auto bg-white">
         <header className="mb-8 border-b border-slate-300 pb-6">
-          <h1 className="text-3xl font-bold text-slate-900 mb-1">
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">
             {renderFullName()}
           </h1>
           <div className="text-slate-600 mb-4">{personalInfo.jobTitle}</div>
@@ -2020,7 +2020,7 @@ const ResumePreview = memo(
           style={{ borderColor: themeColor }}
         >
           <div>
-            <h1 className="text-4xl font-black text-slate-900 mb-2">
+            <h1 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-1">
               {renderFullName()}
             </h1>
             <h2 className="text-xl font-bold text-slate-500 uppercase tracking-wider">
@@ -2180,7 +2180,7 @@ const ResumePreview = memo(
     const renderElegant = () => (
       <div className="font-serif text-slate-900 leading-relaxed p-6 md:p-16 max-w-[850px] mx-auto bg-white">
         <header className="text-center mb-12">
-          <h1 className="text-5xl font-light tracking-tighter text-slate-900 mb-4">
+          <h1 className="text-3xl md:text-4xl font-light tracking-tight text-slate-900 mb-3">
             {renderFullName()}
           </h1>
           <div className="flex justify-center items-center gap-4 text-xs uppercase tracking-[0.2em] text-slate-400 font-sans">
@@ -2294,7 +2294,7 @@ const ResumePreview = memo(
           className="border-b-4 pb-6 mb-8"
           style={{ borderColor: themeColor }}
         >
-          <h1 className="text-4xl font-bold text-slate-900 mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2">
             {renderFullName()}
           </h1>
           {personalInfo.jobTitle && (
@@ -2531,7 +2531,7 @@ const ResumePreview = memo(
       >
         <header className="mb-8 flex justify-between items-end border-b-2 border-slate-200 pb-6">
           <div>
-            <h1 className="text-4xl font-black tracking-tight text-slate-900 mb-2 uppercase">
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 mb-2 uppercase">
               {renderFullName()}
             </h1>
             {personalInfo.jobTitle && (
@@ -2718,7 +2718,7 @@ const ResumePreview = memo(
     const renderFinance = () => (
       <div className="font-serif text-slate-900 p-8 md:p-12 max-w-[850px] mx-auto bg-white">
         <header className="text-center border-b-2 border-neutral-900 pb-6 mb-8">
-          <h1 className="text-3xl font-bold uppercase tracking-widest mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold uppercase tracking-wider mb-2">
             {renderFullName()}
           </h1>
           <div className="text-sm font-sans flex flex-wrap justify-center gap-x-4 gap-y-1 text-slate-700">
