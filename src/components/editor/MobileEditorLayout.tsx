@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
+import { cn } from "../../lib/utils";
 import { 
   Edit3, Eye, Grid, Download, 
   FileText, ChevronRight, Share2, AlertTriangle
