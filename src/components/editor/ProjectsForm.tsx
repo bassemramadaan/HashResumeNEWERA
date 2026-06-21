@@ -4,6 +4,7 @@ import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronUp, Copy, Layout } from "lucide-react";
 import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
+import EmptyState from "./EmptyState";
 
 interface ProjectItemProps {
   project: any;
@@ -163,12 +164,13 @@ export const ProjectsForm: React.FC = () => {
       </div>
 
       {data.projects.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-2xl border border-slate-200 border-dashed shadow-3xs">
-          <Layout className="mx-auto h-12 w-12 text-slate-300" />
-          <h3 className="mt-4 text-sm font-semibold text-slate-900">
-            {String(t.projects?.noProjects || "No projects added yet.")}
-          </h3>
-        </div>
+        <EmptyState
+          icon={<Layout size={32} className="stroke-[1.5]" />}
+          title={String(t.projects?.title || "Projects")}
+          description={String(t.projects?.noProjects || "No projects added yet.")}
+          buttonText={String(t.projects?.add || "Add Project")}
+          onAdd={addProject}
+        />
       ) : (
         <Reorder.Group
           axis="y"

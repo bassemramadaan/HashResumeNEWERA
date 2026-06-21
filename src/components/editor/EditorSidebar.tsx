@@ -27,22 +27,24 @@ export default function EditorSidebar({
   return (
     <aside 
       className={cn(
-        "w-60 min-w-60 h-[calc(100%-24px)] my-3 bg-white/75 backdrop-blur-md border border-slate-200/70 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] flex flex-col overflow-y-auto select-none rounded-[20px] transition-all duration-300 relative z-20",
-        isRtl ? "mr-4 ml-2" : "ml-4 mr-2"
+        "w-64 min-w-64 h-[calc(100%-24px)] my-3 bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_-4px_rgba(0,0,0,0.05),inset_0_0_0_1px_rgba(255,255,255,0.4)] flex flex-col overflow-y-auto select-none rounded-[28px] transition-all duration-300 relative z-20 scrollbar-none",
+        isRtl ? "mr-3 ml-2" : "ml-3 mr-2"
       )}
       style={{ direction: isRtl ? "rtl" : "ltr" }}
     >
-      <div className="text-[10px] font-black tracking-widest text-[#FF4D2D] uppercase px-5.5 pt-5 pb-2.5">
-        {language === "ar" ? "🎯 خطوات البناء" : language === "fr" ? "🎯 ÉTAPES DU PROGRÈS" : "🎯 BUILD STEPS"}
+      <div className="text-[10px] font-black tracking-widest text-[#FF4D2D] uppercase px-6 pt-6 pb-2">
+        {language === "ar" ? "🎯 خطة البناء" : language === "fr" ? "🎯 ÉTAPES DU PROGRÈS" : "🎯 BUILD PLAN"}
       </div>
 
-      <ProgressStepper
-        variant="vertical"
-        current={currentIndex}
-        onStepClick={(i) => onTabChange(stepIds[i])}
-        lang={language as "ar" | "en" | "fr"}
-        completionMap={completionMap}
-      />
+      <div className="px-2">
+        <ProgressStepper
+          variant="vertical"
+          current={currentIndex}
+          onStepClick={(i) => onTabChange(stepIds[i])}
+          lang={language as "ar" | "en" | "fr"}
+          completionMap={completionMap}
+        />
+      </div>
     </aside>
   );
 }

@@ -7,7 +7,8 @@ import {
   Trash2,
   GripVertical,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Briefcase
 } from "lucide-react";
 import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
 import SectionTooltip from "./SectionTooltip";
@@ -15,6 +16,7 @@ import AISuggestion from "./AISuggestion";
 import FormSkeleton from "./FormSkeleton";
 import ATSVerbAssistant from "./ATSVerbAssistant";
 import QuickAIAssistPill from "./QuickAIAssistPill";
+import EmptyState from "./EmptyState";
 
 const ExperienceItem = ({
   exp,
@@ -290,9 +292,13 @@ const ExperienceForm = () => {
       </div>
 
       {experience.length === 0 ? (
-        <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500 shadow-3xs">
-          {String(t.experience?.noExperience || "")}
-        </div>
+        <EmptyState
+          icon={<Briefcase size={32} className="stroke-[1.5]" />}
+          title={String(t.experience?.title || "Work Experience")}
+          description={String(t.experience?.noExperience || "You haven't added any experience yet.")}
+          buttonText={String(t.experience?.add || "Add Experience")}
+          onAdd={handleAdd}
+        />
       ) : (
         <Reorder.Group
           axis="y"

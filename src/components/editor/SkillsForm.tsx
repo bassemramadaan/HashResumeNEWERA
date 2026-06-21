@@ -57,27 +57,29 @@ const SkillsForm = () => {
     <div className="space-y-6 font-sans">
       {/* Live ATS Keyword Assistant bar */}
       {jobDescription && matchResults && matchResults.missing.length > 0 && (
-        <div className="bg-[#FFF3F0] border border-brand-200 rounded-2xl p-4 md:p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 animate-fade-in text-start">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-[#E63A1A] font-black text-xs">
-              <Sparkles size={14} className="text-[#FF4D2D] animate-bounce shrink-0" />
+        <div className="bg-gradient-to-tr from-brand-50 to-orange-50/40 border border-brand-200/60 rounded-2.5xl p-5 md:p-6 shadow-[0_8px_20px_-4px_rgba(255,77,45,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 animate-fade-in text-start relative overflow-hidden group">
+          <div className="absolute -top-10 -right-10 w-24 h-24 bg-brand-400/10 rounded-full blur-xl pointer-events-none group-hover:scale-150 transition-transform duration-700" />
+          
+          <div className="space-y-1.5 relative z-10 max-w-sm">
+            <div className="flex items-center gap-2 text-brand-600 font-black text-xs uppercase tracking-wide">
+              <Sparkles size={14} className="text-brand-500 animate-pulse shrink-0" />
               <span>{language === "ar" ? "مساعد كلمات الـ ATS المباشر" : "Live ATS Keyword Assistant"}</span>
             </div>
-            <p className="text-[10px] text-slate-500 font-semibold leading-relaxed">
+            <p className="text-[11px] text-slate-500 font-semibold leading-relaxed">
               {language === "ar"
                 ? "دققنا الوصف الوظيفي لشركتك واكتشفنا كلمات مفقودة هامة. اضغط على أي منها لإضافتها فوراً وسيرتفع تقييم الـ ATS Score أمامك تلقائياً:"
                 : "We audited your company job description and found high-impact missing keywords. Click to inject instantly:"}
             </p>
           </div>
-          <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+          <div className="flex flex-wrap gap-2 max-h-24 overflow-y-auto relative z-10 shrink-0">
             {matchResults.missing.slice(0, 6).map((missingKey) => (
               <button
                 key={missingKey}
                 type="button"
                 onClick={() => addSkill(missingKey)}
-                className="bg-white hover:bg-[#FFF3F0] text-slate-700 hover:text-[#E63A1A] border border-slate-200 hover:border-brand-300 rounded-lg px-2.5 py-1 text-xs font-black transition-all cursor-pointer shadow-3xs flex items-center gap-1 active:scale-95"
+                className="bg-white/80 backdrop-blur-sm hover:bg-brand-500 text-slate-700 hover:text-white border border-slate-200/80 hover:border-brand-500 rounded-xl px-3 py-1.5 text-xs font-black transition-all cursor-pointer shadow-sm flex items-center gap-1.5 active:scale-95 group/btn"
               >
-                <Plus size={11} className="text-[#FF4D2D]" />
+                <Plus size={12} className="text-brand-500 group-hover/btn:text-white transition-colors" />
                 <span>{missingKey}</span>
               </button>
             ))}

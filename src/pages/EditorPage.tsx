@@ -75,9 +75,13 @@ const LinkedInImportModal = lazy(
 );
 
 const FormLoader = () => (
-  <div className="flex flex-col items-center justify-center py-20 space-y-4">
-    <Loader2 className="w-10 h-10 text-brand-500 animate-spin" />
-    <p className="text-neutral-500 font-medium">Loading section...</p>
+  <div className="space-y-6 w-full animate-pulse opacity-60">
+    <div className="flex items-center justify-between">
+      <div className="h-8 w-40 bg-slate-200 rounded-lg"></div>
+      <div className="h-10 w-32 bg-slate-200 rounded-xl"></div>
+    </div>
+    <div className="bg-white border border-slate-200 rounded-2xl h-40 w-full shadow-sm"></div>
+    <div className="bg-white border border-slate-200 rounded-2xl h-40 w-full shadow-sm"></div>
   </div>
 );
 

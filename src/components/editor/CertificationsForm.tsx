@@ -4,11 +4,7 @@ import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronUp, Copy, Award } from "lucide-react";
 import { motion, Reorder, AnimatePresence } from "motion/react";
-
-
-
-
-
+import EmptyState from "./EmptyState";
 
 export const CertificationsForm: React.FC = () => {
   const { language } = useLanguageStore();
@@ -41,12 +37,13 @@ export const CertificationsForm: React.FC = () => {
       </div>
 
       {data.certifications.length === 0 ? (
-        <div className="text-center py-12 bg-white rounded-2xl border border-slate-200 border-dashed shadow-3xs">
-          <Award className="mx-auto h-12 w-12 text-slate-300" />
-          <h3 className="mt-4 text-sm font-semibold text-slate-900">
-            {String(t.certifications.noCertifications || "No certifications added yet.")}
-          </h3>
-        </div>
+        <EmptyState
+          icon={<Award size={32} className="stroke-[1.5]" />}
+          title={String(t.certifications.title || "Certifications")}
+          description={String(t.certifications.noCertifications || "No certifications added yet.")}
+          buttonText={String(t.certifications.add || "Add Certification")}
+          onAdd={() => addCertification({ name: "", issuer: "", date: "" })}
+        />
       ) : (
         <Reorder.Group
           axis="y"

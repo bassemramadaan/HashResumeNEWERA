@@ -7,11 +7,13 @@ import {
   Trash2,
   GripVertical,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  GraduationCap
 } from "lucide-react";
 import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
 import FormSkeleton from "./FormSkeleton";
 import SectionTooltip from "./SectionTooltip";
+import EmptyState from "./EmptyState";
 
 const EducationItem = ({
   edu,
@@ -235,9 +237,13 @@ const EducationForm = () => {
       </div>
 
       {education.length === 0 ? (
-        <div className="bg-white p-8 rounded-2xl border border-slate-200 border-dashed text-center text-slate-500 shadow-3xs">
-          {String(t.education?.noEducation || "")}
-        </div>
+        <EmptyState
+          icon={<GraduationCap size={32} className="stroke-[1.5]" />}
+          title={String(t.education?.title || "Education")}
+          description={String(t.education?.noEducation || "No education history added yet.")}
+          buttonText={String(t.education?.add || "Add Education")}
+          onAdd={handleAdd}
+        />
       ) : (
         <Reorder.Group
           axis="y"
