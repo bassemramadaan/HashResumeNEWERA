@@ -445,6 +445,7 @@ export default function EditorNavbar({
 
         {/* ── Right group: Lang + Export CTA + Toggles ── */}
         <div className="flex items-center gap-1.5 md:gap-2.5 shrink-0">
+
           <LangSwitcher lang={lang} onChange={onLangChange} />
 
           <div className="hidden md:block">

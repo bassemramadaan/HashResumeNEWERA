@@ -510,37 +510,38 @@ export default function MobileEditorLayout({
               }
             `}</style>
             
-            {/* Horizontal Segmented Switcher List with sleek glass background */}
-            <div className="bg-white/80 backdrop-blur-md border-b border-slate-100 px-3.5 py-3 shrink-0 select-none mobile-tabs-container">
-              {sections.map((s) => {
-                const isActive = activeSection === s.id;
-                const pct = completionMap[s.id] ?? 0;
-                
-                return (
-                  <button
-                    key={s.id}
-                    id={`m-tab-${s.id}`}
-                    onClick={() => handleSectionChange(s.id)}
-                    className={`relative flex items-center gap-1.5 px-3 py-1.5 min-h-[36px] rounded-full text-xs font-black whitespace-nowrap shrink-0 transition-all border mobile-tab-btn cursor-pointer ${
-                      isActive
-                        ? "bg-slate-950 border-slate-950 text-white shadow-[0_4px_12px_rgba(15,23,42,0.12)]"
-                        : "bg-slate-50 border-slate-100 text-slate-500 hover:bg-slate-100 hover:text-slate-800"
-                    }`}
-                  >
-                    <span className="text-xs select-none">{s.emoji}</span>
-                    <span className="text-[10.5px] font-black leading-none">{s.label}</span>
-                    
-                    {/* Tiny Completed Pill Badge */}
-                    {pct === 100 ? (
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                    ) : pct > 0 ? (
-                      <span className="text-[8px] bg-amber-500 text-white font-black px-1.5 py-0.5 rounded-full leading-none shrink-0 scale-90">
-                        {pct}%
-                      </span>
-                    ) : null}
-                  </button>
-                );
-              })}
+            {/* Horizontal Segmented Switcher List with sleek glass background (Unified Glassmorphism) */}
+            <div className="bg-[#FAF9F6] border-b border-slate-200/50 px-3.5 py-2.5 shrink-0 select-none mobile-tabs-container">
+              <div className="flex items-center bg-slate-100/40 backdrop-blur-xl border border-slate-200/40 shadow-[0_4px_20px_rgba(0,0,0,0.01)] rounded-full p-0.5 gap-0.5 w-max">
+                {sections.map((s) => {
+                  const isActive = activeSection === s.id;
+                  const pct = completionMap[s.id] ?? 0;
+                  
+                  return (
+                    <button
+                      key={s.id}
+                      id={`m-tab-${s.id}`}
+                      onClick={() => handleSectionChange(s.id)}
+                      className={`relative flex items-center gap-1 px-3 py-2 rounded-full text-xs font-extrabold whitespace-nowrap shrink-0 transition-all border mobile-tab-btn cursor-pointer ${
+                        isActive
+                          ? "bg-slate-900 border-slate-900 text-white shadow-md font-black"
+                          : "bg-transparent border-transparent text-slate-500 hover:bg-slate-100/70"
+                      }`}
+                    >
+                      <span className="text-[11px] select-none leading-none">{s.emoji}</span>
+                      <span className="text-[10px] font-bold leading-none">{s.label}</span>
+                      
+                      {pct === 100 ? (
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                      ) : pct > 0 ? (
+                        <span className="text-[8px] px-1 py-0.5 rounded-md bg-amber-500/10 text-amber-600 font-extrabold leading-none scale-90">
+                          {pct}%
+                        </span>
+                      ) : null}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Render active field step components */}
