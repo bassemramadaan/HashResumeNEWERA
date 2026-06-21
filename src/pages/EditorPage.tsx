@@ -43,7 +43,6 @@ import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import ResumePreview from "../components/preview/ResumePreview";
 import CoverLetterPreview from "../components/preview/CoverLetterPreview";
 import UniversalCommandBar from "../components/editor/UniversalCommandBar";
-import ATSHealthGauge from "../components/editor/ATSHealthGauge";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -55,8 +54,9 @@ const ExperienceForm = lazy(
 const EducationForm = lazy(() => import("../components/editor/EducationForm"));
 const SkillsForm = lazy(() => import("../components/editor/SkillsForm"));
 const ProjectsForm = lazy(() => import("../components/editor/ProjectsForm"));
-const CertificationsForm = lazy(() => import("../components/editor/CertificationsForm"));
-const ATSAudit = lazy(() => import("../components/editor/ATSAudit"));
+const CertificationsForm = lazy(
+  () => import("../components/editor/CertificationsForm"),
+);
 const CoverLetterForm = lazy(
   () => import("../components/editor/CoverLetterForm"),
 );
@@ -454,21 +454,6 @@ export default function EditorPage() {
     }
     return false;
   });
-
-  const [showAtsPanel, setShowAtsPanel] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("hashresume_show_ats_panel") !== "false";
-    }
-    return true;
-  });
-
-  const handleToggleAtsPanel = () => {
-    setShowAtsPanel((prev) => {
-      const next = !prev;
-      localStorage.setItem("hashresume_show_ats_panel", String(next));
-      return next;
-    });
-  };
 
   useEffect(() => {
     localStorage.setItem("focusMode", String(focusMode));
@@ -1346,16 +1331,11 @@ export default function EditorPage() {
                         </section>
                       )}
                       {activeTab === "finish" && (
-                        <div className="space-y-8">
-                          <ATSAudit />
-                          <div className="pt-12 border-t border-neutral-100">
-                            <FinishStep
-                              onPrint={handleProceedToExport}
-                              onExportWord={() => setShowPaymentModal(true)}
-                              onJumpToStep={(step) => setActiveTab(step as Tab)}
-                            />
-                          </div>
-                        </div>
+                        <FinishStep
+                          onPrint={handleProceedToExport}
+                          onExportWord={() => setShowPaymentModal(true)}
+                          onJumpToStep={(step) => setActiveTab(step as Tab)}
+                        />
                       )}
                       </Suspense>
                     </motion.div>
@@ -1757,37 +1737,6 @@ export default function EditorPage() {
                   </Suspense>
                 </div>
               </div>
-
-              {previewMode === "resume" && (
-                <div className="mt-16 mb-12 w-full max-w-[210mm] shrink-0 z-20">
-                  {showAtsPanel ? (
-                    <ATSHealthGauge 
-                      data={data} 
-                      isAr={language === "ar"} 
-                      onClose={handleToggleAtsPanel} 
-                    />
-                  ) : (
-                    <div className="flex justify-center">
-                      <motion.button
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={handleToggleAtsPanel}
-                        className="bg-slate-905 hover:bg-slate-950 text-white border border-slate-800/80 px-5 py-3 rounded-2.5xl flex items-center gap-2.5 shadow-[0_12px_36px_rgba(15,23,42,0.15)] cursor-pointer active:scale-95 transition-all text-xs font-black uppercase tracking-widest"
-                      >
-                        <Sparkles size={14} className="text-amber-400 animate-pulse" />
-                        <span>
-                          {language === "ar" ? "📊 إظهار تحليل الـ ATS المباشر" : "📊 Show Live ATS Audit"}
-                        </span>
-                        <span className="bg-emerald-505 text-white text-xs px-2.5 py-1 rounded-full font-black select-none leading-none ml-1">
-                          {calculateATSScore(data).score}%
-                        </span>
-                      </motion.button>
-                    </div>
-                  )}
-                </div>
-              )}
             </div>
           </div>
         </Panel>

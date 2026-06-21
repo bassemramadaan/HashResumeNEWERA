@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Download, FileText, Share2, Sparkles, ChevronDown } from "lucide-react";
 import ATSScoreWidget from "../ATSScoreWidget";
 import type { AppLang } from "../../hooks/useDirection";
 
@@ -57,17 +56,17 @@ const LANGS = [
 ];
 
 // ── NavBtn Sub-component ──────────────────────────────
-function NavBtn({ onClick, children, title, active = false }: unknown) {
+function NavBtn({ onClick, children, title, active = false }: { onClick?: () => void; children: React.ReactNode; title?: string; active?: boolean }) {
   return (
     <motion.button
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 0.97 }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
       onClick={onClick}
       title={title}
       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
         active 
-          ? "bg-slate-100 border-slate-200 text-slate-800" 
-          : "bg-transparent border-transparent text-slate-600 hover:bg-slate-50 hover:border-slate-200 hover:text-slate-800"
+          ? "bg-neutral-100/80 border-neutral-200/50 text-neutral-800" 
+          : "bg-transparent border-transparent text-neutral-500 hover:bg-neutral-50 hover:border-neutral-200/40 hover:text-neutral-800"
       }`}
     >
       {children}
@@ -76,7 +75,7 @@ function NavBtn({ onClick, children, title, active = false }: unknown) {
 }
 
 function Divider() {
-  return <div className="w-px h-5 bg-slate-200 shrink-0 self-center" />;
+  return <div className="w-px h-5 bg-neutral-200 shrink-0 self-center" />;
 }
 
 // ── SaveIndicator ─────────────────────────────────────────
@@ -96,14 +95,14 @@ function SaveIndicator({ isSaved, lang }: { isSaved: boolean; lang: AppLang }) {
 
   return (
     <div className="group relative flex items-center">
-      <div className={`flex items-center gap-2 text-[11px] font-black select-none leading-none px-3.5 py-1.5 rounded-full transition-all duration-500 shadow-3xs ${
+      <div className={`flex items-center gap-2 text-[11px] font-extrabold select-none leading-none px-3.5 py-1.5 rounded-full transition-all duration-500 ${
         isSaved 
-          ? "text-emerald-700 bg-emerald-50/75 border border-emerald-100/50 cursor-help" 
-          : "text-amber-600 bg-amber-50 border border-amber-100 animate-pulse"
+          ? "text-emerald-650 bg-emerald-500/10 border border-emerald-500/10 cursor-help" 
+          : "text-amber-600 bg-amber-500/10 border border-amber-100/10 animate-pulse"
       }`}>
         {isSaved ? (
           <span className="relative flex h-2 w-2 shrink-0">
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 animate-pulse"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
         ) : (
           <span className="relative flex h-2 w-2 shrink-0">
@@ -182,158 +181,6 @@ function LangSwitcher({ lang, onChange }: { lang: AppLang, onChange: (lang: AppL
   );
 }
 
-// ── ExportButton ──────────────────────────────────────────
-function ExportButton({ lang, onPDF, onWord, isReady = false }: { lang: AppLang; onPDF?: () => void; onWord?: () => void; isReady?: boolean }) {
-  const [open, setOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  const isAr = lang === "ar";
-
-  useEffect(() => {
-    const h = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false); };
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, []);
-
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
-    } catch (err) {
-      console.error("Failed to copy link:", err);
-    }
-  };
-
-  const ctaText = isAr ? "تحميل وتصدير السيرة" : lang === "fr" ? "Télécharger CV" : "Download Resume";
-
-  return (
-    <div ref={ref} className="relative z-50">
-      <motion.button
-        data-tour="export-button"
-        whileHover={{ scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
-        onClick={() => setOpen((o: boolean) => !o)}
-        className="flex items-center gap-2 bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:from-rose-700 hover:to-[#E64528] text-white font-extrabold text-xs sm:text-sm px-4.5 py-2.5 rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer select-none relative group"
-      >
-        <span className="relative flex h-2 w-2 shrink-0">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-        </span>
-        
-        <span className="tracking-wide">{ctaText}</span>
-        
-        <ChevronDown size={14} className={`transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
-
-        {isReady && (
-          <span className="absolute -top-1 -right-1 flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 border border-white"></span>
-          </span>
-        )}
-      </motion.button>
-
-      <AnimatePresence>
-        {open && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 7 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 7 }}
-            transition={{ type: "spring", stiffness: 450, damping: 25 }}
-            className={`absolute top-full mt-2 bg-white border border-slate-200/80 shadow-2xl rounded-2xl overflow-hidden z-[1110] p-2 space-y-1 w-[260px] sm:w-[310px] ${
-              isAr ? "left-0 sm:left-auto sm:-right-4" : "right-0 sm:right-auto sm:-left-4"
-            }`}
-            style={{ direction: isAr ? "rtl" : "ltr" }}
-          >
-            {/* Header Hint */}
-            <div className="px-3 py-2 bg-slate-50 border-b border-slate-100 rounded-xl mb-1.5 flex items-center justify-between">
-              <span className="text-[10px] font-extrabold uppercase tracking-wide text-slate-400">
-                {isAr ? "خيارات الحفظ الفوري" : "Instant Export Actions"}
-              </span>
-              <span className="text-[9px] font-black text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md flex items-center gap-0.5">
-                <Sparkles size={8} />
-                {isAr ? "متوافق مع ATS" : "ATS-Compliant"}
-              </span>
-            </div>
-
-            {/* PDF Item */}
-            <button
-              onClick={() => { onPDF?.(); setOpen(false); }}
-              className="w-full flex items-start gap-3 p-2.5 rounded-xl cursor-pointer text-start transition-all hover:bg-slate-50 group/item active:scale-98"
-            >
-              <div className="w-10 h-10 bg-rose-50 text-[#FF4D2D] rounded-xl flex items-center justify-center shrink-0 group-hover/item:bg-rose-100/70 transition-colors">
-                <FileText size={20} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover/item:text-[#FF4D2D] transition-colors">
-                    {isAr ? "تحميل ملف PDF رسمي" : "Download Official PDF"}
-                  </span>
-                  <span className="text-[8px] font-bold text-[#FF4D2D] bg-rose-50/70 px-1 py-0.2 rounded-md">
-                    {isAr ? "موصى به" : "Best"}
-                  </span>
-                </div>
-                <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
-                  {isAr 
-                    ? "النسخة النموذجية للتقديم المباشر والطباعة الفندقية." 
-                    : "The standard, highly optimized copy for job applications and ATS scanners."}
-                </p>
-              </div>
-            </button>
-
-            {/* Word Item */}
-            <button
-              onClick={() => { onWord?.(); setOpen(false); }}
-              className="w-full flex items-start gap-3 p-2.5 rounded-xl cursor-pointer text-start transition-all hover:bg-slate-50 group/item active:scale-98"
-            >
-              <div className="w-10 h-10 bg-[#185FA5]/5 text-[#185FA5] rounded-xl flex items-center justify-center shrink-0 group-hover/item:bg-[#185FA5]/10 transition-colors">
-                <Download size={18} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover/item:text-[#185FA5] transition-colors block">
-                  {isAr ? "تحميل مستند Word قابل للتعديل" : "Download Word DOCX"}
-                </span>
-                <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
-                  {isAr 
-                    ? "نسخة قابلة للتحرير والتعديل بالكامل في برنامج Word." 
-                    : "Fully editable Microsoft Word file to customize independently later."}
-                </p>
-              </div>
-            </button>
-
-            {/* Share Link Item */}
-            <button
-              onClick={handleCopyLink}
-              className="w-full flex items-start gap-3 p-2.5 rounded-xl cursor-pointer text-start transition-all hover:bg-slate-50 group/item active:scale-98"
-            >
-              <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shrink-0 group-hover/item:bg-emerald-100/70 transition-colors">
-                <Share2 size={18} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs sm:text-sm font-extrabold text-slate-800 group-hover/item:text-emerald-600 transition-colors">
-                    {isAr ? "رابط المشاركة السحابي" : "Get Online Share Link"}
-                  </span>
-                  {copied && (
-                    <span className="text-[8px] font-black text-white bg-emerald-500 px-1.5 py-0.2 rounded-md animate-bounce shrink-0">
-                      {isAr ? "تم النسخ!" : "Copied!"}
-                    </span>
-                  )}
-                </div>
-                <p className="text-[10px] text-slate-400 mt-0.5 line-clamp-2">
-                  {isAr 
-                    ? "رابط مباشر تفاعلي لمشاركته مع مدراء التوظيف." 
-                    : "Live web link to send directly to recruiters or share on LinkedIn."}
-                </p>
-              </div>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
-}
-
 // ── main EditorNavbar ─────────────────────────────────────
 export default function EditorNavbar({
   lang            = "ar",
@@ -342,8 +189,6 @@ export default function EditorNavbar({
   atsBreakdown,
   isSaved         = true,
   onUndo          = () => {},
-  onExportPDF     = () => {},
-  onExportWord    = () => {},
   onTogglePreview = () => {},
   previewOpen     = true,
   isLocked        = false,
@@ -376,7 +221,7 @@ export default function EditorNavbar({
 
   return (
     <div className="w-full z-[100] pt-4 px-4 sm:px-6 pb-2 bg-transparent pointer-events-none flex justify-center transform-gpu shrink-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
-      <nav className="pointer-events-auto bg-white/80 backdrop-blur-2xl border border-white shadow-[0_8px_30px_rgba(15,23,42,0.08)] rounded-2xl px-4 md:px-5 h-16 flex items-center justify-between w-full max-w-7xl transition-all relative">
+      <nav className="pointer-events-auto bg-white/40 backdrop-blur-3xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.02)] rounded-3xl px-4 md:px-5 h-16 flex items-center justify-between w-full max-w-7xl transition-all relative">
         
         {/* ── Left group: Logo + Command Bar + Save ── */}
         <div className="flex items-center gap-2 md:gap-3 shrink-0">
@@ -403,9 +248,9 @@ export default function EditorNavbar({
           <button 
             onClick={onShowCommandBar} 
             title={lang === "ar" ? "شريط الأوامر السريع (Cmd+K)" : "Universal Command Bar (Cmd+K)"}
-            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200/60 bg-white/50 shadow-sm text-xs font-bold transition-all cursor-pointer hover:bg-slate-50 border-b-2 hover:border-b-slate-200 hover:text-[#FF4D2D] select-none"
+            className="hidden md:inline-flex items-center gap-1 py-1.5 px-3 rounded-xl border border-neutral-200/50 bg-white/40 shadow-xs text-xs font-semibold text-neutral-600 transition-all cursor-pointer hover:bg-white/70 select-none"
           >
-            <span className="flex items-center gap-0.5 font-mono text-[10px] font-black text-slate-400">
+            <span className="flex items-center gap-0.5 font-mono text-[10px] font-bold text-neutral-400">
               <span>⌘</span>
               <span>K</span>
             </span>
@@ -417,7 +262,7 @@ export default function EditorNavbar({
         </div>
 
         {/* ── Center group: Floating ATS Capsule ── */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white/90 border border-slate-150 shadow-sm rounded-full px-1.5 py-1 flex-row gap-1 select-none transition-all">
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white/45 border border-white/60 shadow-xs rounded-full px-1.5 py-1 flex-row gap-1 select-none transition-all">
           {/* Templates/Settings Button */}
           {!isLocked && (
             <motion.button
@@ -425,7 +270,7 @@ export default function EditorNavbar({
               whileTap={{ scale: 0.95 }}
               onClick={onShowSettings}
               title={t.templates}
-              className="w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center transition-colors cursor-pointer text-slate-500 hover:bg-slate-100 hover:text-[#FF4D2D]"
+              className="w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center transition-colors cursor-pointer text-neutral-500 hover:bg-white/60 hover:text-[#FF4D2D]"
             >
               <svg className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19" />
@@ -443,21 +288,10 @@ export default function EditorNavbar({
           />
         </div>
 
-        {/* ── Right group: Lang + Export CTA + Toggles ── */}
+        {/* ── Right group: Lang + Toggles ── */}
         <div className="flex items-center gap-1.5 md:gap-2.5 shrink-0">
 
           <LangSwitcher lang={lang} onChange={onLangChange} />
-
-          <div className="hidden md:block">
-            <Divider />
-          </div>
-
-          <ExportButton
-            lang={lang}
-            onPDF={onExportPDF}
-            onWord={onExportWord}
-            isReady={atsScore >= 80}
-          />
 
           <div className="hidden md:block">
             <Divider />
