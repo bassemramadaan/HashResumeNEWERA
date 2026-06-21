@@ -1,10 +1,15 @@
-import { useState } from 'react'
-import { motion } from "motion/react"
-import { Sparkles, Check, Plus, ArrowLeft, ArrowRight, LayoutTemplate, FileText, Wand2, RefreshCw, Star } from 'lucide-react'
+import { motion } from 'motion/react'
+import { 
+  Sparkles, 
+  ArrowLeft, 
+  ArrowRight, 
+  FileCheck2, 
+  Bot,
+  Target
+} from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
 import { trackEvent } from '@/services/analytics'
 import { useNavigate } from 'react-router-dom'
-import TiltCard from '@/components/landing/TiltCard'
 
 interface HeroSectionProps {
   lang: AppLang
@@ -13,704 +18,202 @@ interface HeroSectionProps {
 
 const COPY = {
   ar: {
-    title1:      'سيرتك الاحترافية',
-    titleAccent: 'في 5 دقائق',
-    title2:      'بالعربي أو الإنجليزي',
-    subtitle:    'الذكاء الاصطناعي يكتب، أنت تراجع وتحمّل.\nبدون تسجيل. بدون اشتراك.',
-    cta:         'ابدأ الآن',
-    ctaSec:      'تصفح القوالب',
-    trust: ['بدون بطاقة ائتمان', 'عربي وإنجليزي وفرنسي', 'متوافق مع أنظمة ATS'],
+    badge: 'ثورة في إنشاء السير الذاتية',
+    titleMain: 'اكتب مستقبلك',
+    titleAccent: 'المهني بثقة',
+    subtitle: 'أداة بسيطة وخارقة الذكاء لبناء سيرة ذاتية تلفت الأنظار، تتخطى الفرز الآلي، وتضعك في مقدمة المرشحين. صممها في 3 دقائق فقط.',
+    cta: 'ابـدأ الإنشـاء مجانـاً',
+    ctaSec: 'استكشف الأمثلة',
+    pills: ['خوارزميات AI متقدمة', 'تصاميم معتمدة للتوظيف', 'تصدير فوري بصيغة PDF']
   },
   en: {
-    title1:      'Your professional resume',
-    titleAccent: 'in 5 minutes',
-    title2:      'in Arabic or English',
-    subtitle:    'AI writes it, you review and download.\nNo sign-up. No subscription.',
-    cta:         'Start Now',
-    ctaSec:      'View Templates',
-    trust: ['No credit card', 'Arabic, English & French', 'ATS-optimized'],
+    badge: 'Revolutionizing Resume Creation',
+    titleMain: 'Write Your Professional',
+    titleAccent: 'Future Today',
+    subtitle: 'A beautifully simple yet incredibly smart tool to build an eye-catching resume that beats ATS filters and puts you ahead of the competition. Done in 3 minutes.',
+    cta: 'Start Building Free',
+    ctaSec: 'Explore Examples',
+    pills: ['Advanced AI Algorithms', 'Approved Clean Designs', 'Instant PDF Export']
   },
   fr: {
-    title1:      'Votre CV professionnel',
-    titleAccent: 'en 5 minutes',
-    title2:      'en arabe ou en anglais',
-    subtitle:    "L'IA rédige, vous révisez et téléchargez.\nSans inscription. Sans abonnement.",
-    cta:         'Créer maintenant',
-    ctaSec:      'Voir les modèles',
-    trust: ['Sans carte bancaire', 'Arabe, anglais et français', 'Optimisé ATS'],
-  },
-}
-
-const SANDBOX_COPY = {
-  ar: {
-    fullNameLabel: "الاسم الكامل",
-    jobTitleLabel: "المسمى الوظيفي",
-    summaryLabel: "النبذة التعريفية",
-    skillsLabel: "المهارات المتوفرة (انقر للتنشيط)",
-    aiButton: "تحسين مذهل بالذكاء الاصطناعي 🪄",
-    aiWorking: "صياغة الجُمَل ودمج الكلمات القوية...",
-    atsScoreLabel: "نقاط الـ ATS",
-    atsStatusTitle: "تقرير توافق الروبوتات",
-    atsCheck1: "الاسم والمسمى مُنسّقان جيداً",
-    atsCheck2: "الكلمات الدلالية الموصى بها",
-    atsCheck3: "تضمين أرقام وإحصائيات قوية",
-    genericSummary: "أنا مبرمج عادي، أقوم ببناء مواقع الويب باستخدام لغة رياكت وبعض التصاميم البسيطة وأبحث عن فرصة جديدة.",
-    optimizedSummary: "مهندس برمجيات واجهات وتطوير حلول رياديات بخبرة 5 سنوات في قيادة واجهات الويب فائقة الكفاءة، وابتكار نظم دفع سحابية آمنة خفضت وقت التحميل بنسبة %40 ومعدّل الارتداد بنسبة %15.",
-    skillsPool: ["رياكت", "تايب سكريبت", "CSS", "Node.js", "Docker", "Git", "واجهات الAPI", "التسويق"],
-    resumeLabel: "معاينة حية ومباشرة",
-    liveSec: "الحد الأدنى لـ ATS",
-    resetBtn: "إعادة تعيين 🔄"
-  },
-  en: {
-    fullNameLabel: "Full Name",
-    jobTitleLabel: "Job Title",
-    summaryLabel: "Profile Summary",
-    skillsLabel: "Available Skills (Click to toggle)",
-    aiButton: "Optimize with AI Write Magic 🪄",
-    aiWorking: "Injecting professional action verbs...",
-    atsScoreLabel: "ATS Compatibility Score",
-    atsStatusTitle: "ATS Bot Checker",
-    atsCheck1: "Contact segments parsed",
-    atsCheck2: "Job keywords matching",
-    atsCheck3: "High-impact metric verbs included",
-    genericSummary: "I coordinate simple front-end web apps with React. I am currently seeking an interface development job.",
-    optimizedSummary: "Lead React Architect with 5+ years of production experience crafting type-safe web architectures and multi-tenant platforms, reducing bounce rates by 15% and system response times by 40%.",
-    skillsPool: ["React", "TypeScript", "Tailwind", "Node.js", "Docker", "Git", "Next.js", "APIs"],
-    resumeLabel: "Live Interactive Preview",
-    liveSec: "ATS Friendly Standard",
-    resetBtn: "Reset Sandbox 🔄"
-  },
-  fr: {
-    fullNameLabel: "Nom Complet",
-    jobTitleLabel: "Poste",
-    summaryLabel: "Résumé Professionnel",
-    skillsLabel: "Compétences (Cliquer pour basculer)",
-    aiButton: "Optimiser par IA 🪄",
-    aiWorking: "Optimisation des métriques en cours...",
-    atsScoreLabel: "Score de conformité ATS",
-    atsStatusTitle: "Analyse des bots ATS",
-    atsCheck1: "Données de contact détectées",
-    atsCheck2: "Mots-clés cibles indexés",
-    atsCheck3: "Verbes d'action avec métriques",
-    genericSummary: "Je fais des sites web simples avec React. Je cherche un emploi de développeur frontend.",
-    optimizedSummary: "Developpeur React Senior fort de 5+ ans d'expérience dans la conception d'architectures web typées, réduisant le taux de rebond de 15% et le temps de charge global de 35%.",
-    skillsPool: ["React", "TypeScript", "Tailwind", "Node.js", "Docker", "Git", "Next.js", "APIs"],
-    resumeLabel: "Aperçu interactif direct",
-    liveSec: "Standard optimisé ATS",
-    resetBtn: "Réinitialiser 🔄"
+    badge: 'Révolution dans la création de CV',
+    titleMain: 'Écrivez Votre Avenir',
+    titleAccent: 'Professionnel',
+    subtitle: 'Un outil simple et extrêmement intelligent pour construire un CV accrocheur qui déjoue les filtres ATS et vous met en tête. Fait en 3 minutes.',
+    cta: 'Créer Gratuitement',
+    ctaSec: 'Explorer les exemples',
+    pills: ['Algorithmes IA Avancés', 'Designs Approuvés', 'Export PDF Instantané']
   }
-}
-
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
-}
-const item = {
-  hidden: { opacity: 0, y: 20 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 }
 
 export function HeroSection({ lang, onStart }: HeroSectionProps) {
   const copy = COPY[lang] || COPY['en']
-  const sCopy = SANDBOX_COPY[lang] || SANDBOX_COPY['en']
   const navigate = useNavigate()
-  const [activeTheme, setActiveTheme] = useState(0)
-
-  // Interactive Sandbox states
-  const [fullName, setFullName] = useState(lang === "ar" ? "يوسف أحمد البستاني" : lang === "fr" ? "Youssef Ahmed" : "Youssef Ahmed");
-  const [jobTitle, setJobTitle] = useState(lang === "ar" ? "مهندس برمجيات ريأكت" : lang === "fr" ? "Ingénieur Front-End" : "React Developer");
-  const [summary, setSummary] = useState(sCopy.genericSummary);
-  const [skills, setSkills] = useState(sCopy.skillsPool.slice(0, 5));
-  const [isAIOptimizing, setIsAIOptimizing] = useState(false);
-  const [hasOptimized, setHasOptimized] = useState(false);
-
-  const handleToggleSkill = (skill: string) => {
-    if (skills.includes(skill)) {
-      setSkills(skills.filter(s => s !== skill));
-    } else {
-      if (skills.length < 8) {
-        setSkills([...skills, skill]);
-      }
-    }
-  };
-
-  const handleAIOptimize = () => {
-    if (isAIOptimizing) return;
-    setIsAIOptimizing(true);
-    let iteration = 0;
-    const interval = setInterval(() => {
-      iteration++;
-      if (iteration === 12) {
-        setSummary(sCopy.optimizedSummary);
-        setHasOptimized(true);
-        setIsAIOptimizing(false);
-        clearInterval(interval);
-      }
-    }, 120);
-  };
-
-  const handleResetSandbox = () => {
-    setFullName(lang === "ar" ? "يوسف أحمد البستاني" : lang === "fr" ? "Youssef Ahmed" : "Youssef Ahmed");
-    setJobTitle(lang === "ar" ? "مهندس برمجيات ريأكت" : lang === "fr" ? "Ingénieur Front-End" : "React Developer");
-    setSummary(sCopy.genericSummary);
-    setSkills(sCopy.skillsPool.slice(0, 5));
-    setHasOptimized(false);
-    setIsAIOptimizing(false);
-  };
-
-  // Dynamic ATS Score computation
-  const baseScore = hasOptimized ? 80 : 45;
-  const computedScore = Math.min(99, baseScore + skills.length * 5);
+  const isAr = lang === 'ar'
 
   return (
-    <section className="relative overflow-hidden bg-white pt-10 pb-20 md:pt-16 md:pb-28">
+    <section className="relative pt-24 pb-20 lg:pt-36 lg:pb-32 overflow-hidden" dir={isAr ? 'rtl' : 'ltr'}>
+      {/* Background layer */}
+      <div className="absolute inset-0 bg-slate-50" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-[0.5]" />
+      
+      {/* Soft Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-white rounded-full blur-[120px] opacity-100 pointer-events-none" />
 
-      {/* Fine Blueprint Matrix Grid & Radial Ambient Lighting Background */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-[0.04] pointer-events-none select-none"
-        style={{
-          backgroundImage:
-            'linear-gradient(to right, rgba(0, 22, 57, 0.25) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 22, 57, 0.25) 1px, transparent 1px)',
-          backgroundSize: '30px 30px',
-          maskImage: 'radial-gradient(circle at 50% 30%, black 60%, transparent 100%)',
-          WebkitMaskImage: 'radial-gradient(circle at 50% 30%, black 60%, transparent 100%)',
-        }}
-      />
-
-      {/* Multi-layered SaaS Ambient glowing grids */}
-      <div className="absolute top-[-5%] left-[10%] w-[400px] h-[400px] bg-amber-400/8 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-[20%] right-[5%] w-[500px] h-[500px] bg-rose-400/6 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[40%] left-[20%] w-[600px] h-[600px] bg-brand-500/5 rounded-full blur-[130px] pointer-events-none" />
-
-      {/* Smooth SaaS Radial Ambient Lighting Glow Behind Headlines */}
-      <div
-        className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[900px] md:w-[1300px] h-[600px] md:h-[750px] rounded-full pointer-events-none opacity-40 filter blur-[140px] transform-gpu"
-        style={{
-          background: 'radial-gradient(circle, rgba(255,77,45,0.15) 0%, rgba(99,102,241,0.1) 40%, rgba(244,63,94,0.05) 60%, transparent 100%)',
-        }}
-      />
-
-      <div className="relative container-page z-10-landing-hero">
-        <motion.div
-          variants={container}
-          initial="hidden"
-          animate="show"
-          className="flex flex-col items-center text-center max-w-4xl mx-auto mb-16"
-        >
-          <motion.h1
-            variants={item as any}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-bold text-slate-800 leading-[1.1] mb-6 tracking-tight drop-shadow-sm font-sans"
-            style={{ fontWeight: 700 }}
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 max-w-6xl">
+        <div className="flex flex-col items-center text-center space-y-8">
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200/60 shadow-sm text-xs font-bold text-slate-700 uppercase tracking-widest"
           >
-            {copy.title1}{' '}
-            <span 
-              className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-400 inline-block transform-gpu font-bold"
-              style={{ fontWeight: 700 }}
-            >
+            <Sparkles className="w-4 h-4 text-[#FF4D2D]" />
+            <span>{copy.badge}</span>
+          </motion.div>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1, duration: 0.5 }}
+            className="text-5xl sm:text-6xl md:text-7xl font-black text-slate-900 tracking-tight leading-[1.15] max-w-4xl"
+          >
+            {copy.titleMain} <br className="hidden sm:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-500">
               {copy.titleAccent}
-            </span>
-            <br />
-            <span 
-              className="text-slate-505 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.2] mt-2 block transform-gpu"
-              style={{ fontWeight: 700 }}
-            >
-              {copy.title2}
             </span>
           </motion.h1>
 
           <motion.p
-            variants={item as any}
-            className="text-base md:text-lg text-slate-500 max-w-2xl mb-10 leading-relaxed whitespace-pre-line font-medium transform-gpu"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="text-lg md:text-xl text-slate-500 font-medium max-w-2xl leading-relaxed"
           >
             {copy.subtitle}
           </motion.p>
 
-          <motion.div variants={item as any} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center transform-gpu">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 w-full sm:w-auto"
+          >
             <button
               onClick={() => {
-                trackEvent('resume_started', { source: 'hero_cta' });
-                onStart();
+                trackEvent('hero_started', { component: 'cta_primary' })
+                onStart()
               }}
-              className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white shadow-xl shadow-orange-500/20 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
-              aria-label={copy.cta}
+              className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold text-base transition-all active:scale-95 shadow-xl shadow-slate-900/10 flex items-center justify-center gap-2"
             >
-              <Sparkles className="w-5 h-5 animate-pulse" />
-              {copy.cta}
+              <span>{copy.cta}</span>
+              {isAr ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
             </button>
-
             <button
               onClick={() => navigate('/templates')}
-              className="bg-white border border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50 active:scale-95 inline-flex items-center justify-center gap-2 sm:w-auto w-full px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-[1.03] duration-300 cursor-pointer"
+              className="w-full sm:w-auto bg-white border border-slate-200 hover:border-slate-300 text-slate-800 px-8 py-4 rounded-2xl font-bold text-base transition-all active:scale-95 shadow-sm hover:shadow flex items-center justify-center gap-2"
             >
-              <LayoutTemplate className="w-5 h-5 text-slate-500" />
-              {copy.ctaSec}
-              {lang === 'ar' ? (
-                <ArrowLeft className="w-5 h-5 text-slate-400" />
-              ) : (
-                <ArrowRight className="w-5 h-5 text-slate-400" />
-              )}
+              <span>{copy.ctaSec}</span>
             </button>
           </motion.div>
 
-          <motion.div
-            variants={item as any}
-            className="flex flex-wrap justify-center gap-2.5 sm:gap-6 mt-10 transform-gpu px-4"
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+            className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 mt-8 pt-4 w-full"
           >
-            {copy.trust.map((t) => (
-              <span 
-                key={t} 
-                className="flex items-center gap-2 text-[11px] sm:text-xs md:text-sm font-bold text-slate-600 bg-slate-50 border border-slate-100/80 px-3.5 py-1.5 rounded-full shadow-[0_1px_3px_rgba(0,0,0,0.01)] transition-colors hover:bg-slate-100/50 shrink-0 select-none"
-              >
-                <div className="bg-emerald-100 rounded-full p-0.5 sm:p-1">
-                  <Check className="w-3 h-3 text-emerald-600 font-extrabold" />
-                </div>
-                {t}
-              </span>
+            {copy.pills.map((pill, i) => (
+              <div key={i} className="flex items-center gap-2 text-[13px] sm:text-sm font-bold text-slate-500">
+                <FileCheck2 size={16} className="text-emerald-500" />
+                <span>{pill}</span>
+              </div>
             ))}
           </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8, ease: 'easeOut' }}
-          className="mt-20 w-full max-w-6xl mx-auto relative perspective-1000 transform-gpu animate-fade-in"
-        >
-          {/* Decorative Floaters */}
-          <div 
-            className="absolute -left-6 md:-left-12 top-6 md:top-20 z-20 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden md:flex items-center gap-3 transform hover:-translate-y-1 transition-transform"
-          >
-            <div className="bg-[#FF4D2D]/10 p-3 rounded-xl">
-              <FileText className="w-6 h-6 text-[#FF4D2D]" />
-            </div>
-            <div>
-              <div className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider mb-0.5">{sCopy.atsScoreLabel}</div>
-              <div className="text-xl font-black text-slate-800 flex items-baseline gap-1">
-                <span className="text-2xl font-extrabold text-[#FF4D2D]">{computedScore}</span>
-                <span className="text-xs text-slate-400">/100</span>
-              </div>
-            </div>
-          </div>
-
-          <div 
-            className="absolute -right-6 md:-right-10 bottom-20 md:bottom-32 z-20 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden md:flex items-center gap-3 transform hover:-translate-y-1 transition-transform"
-          >
-            <div className="bg-emerald-100 p-3 rounded-xl">
-              <Star className="w-6 h-6 text-emerald-600 fill-emerald-500" />
-            </div>
-            <div>
-              <div className="text-[10px] text-slate-400 font-extrabold uppercase tracking-wider mb-0.5">ATS Assessment</div>
-              <div className="text-sm font-black text-emerald-600">{computedScore >= 80 ? "Excellent Match!" : "Needs AI Keywords"}</div>
-            </div>
-          </div>
-
-          {/* Render the TiltCard for the entire Sandbox container */}
-          <TiltCard
-            className="relative rounded-2xl md:rounded-[2rem] overflow-hidden border border-slate-200/80 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.12)] bg-white transition-all duration-300"
-          >
-            {/* Window bar */}
-            <div className="flex items-center justify-between px-6 py-4 bg-slate-50/80 backdrop-blur-md border-b border-slate-200/60 transition-colors">
-              <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-rose-400 border border-rose-500/20 shadow-inner" />
-                <span className="w-3 h-3 rounded-full bg-amber-400 border border-amber-500/20 shadow-inner" />
-                <span className="w-3 h-3 rounded-full bg-emerald-400 border border-emerald-500/20 shadow-inner" />
-              </div>
-              <div className="mx-6 flex-1 h-8 rounded-lg bg-white/60 border border-slate-200 shadow-[inset_0_1px_3px_rgb(0,0,0,0.02)] px-3 text-xs font-semibold flex items-center justify-center text-slate-400 font-mono tracking-tight">
-                app.hashresume.com/sandbox
-              </div>
-              <button 
-                onClick={handleResetSandbox}
-                className="text-[10px] font-bold text-slate-500 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg hover:text-[#FF4D2D] transition-all flex items-center gap-1 cursor-pointer active:scale-95"
-              >
-                <span>{sCopy.resetBtn}</span>
-              </button>
-            </div>
-
-            {/* App Layout: Sidebar Sandbox controls + Responsive Resume Output preview */}
-            <div className="flex flex-col md:flex-row h-auto md:h-[720px] bg-slate-100/50" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
-              
-              {/* Sidebar Input Sandbox */}
-              <div className="w-full md:w-[40%] bg-white p-6 md:p-8 border-e border-slate-200/80 overflow-y-auto flex flex-col gap-6 shadow-[15px_0_30px_-5px_rgba(0,0,0,0.03)] z-10 text-start">
-                
-                {/* AI Magic Wand Section */}
-                <div className="bg-gradient-to-br from-orange-50 to-rose-50/50 border border-orange-200/60 rounded-3xl p-5 md:p-6 space-y-4 relative overflow-hidden group">
-                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-400/10 rounded-full blur-2xl pointer-events-none transition-all group-hover:scale-125 duration-500" />
-                  
-                  <div className="flex items-center gap-3 text-[#FF4D2D] font-black text-sm relative z-10">
-                    <div className="p-1.5 bg-orange-500/10 rounded-lg">
-                      <Sparkles className="w-4 h-4 animate-pulse shrink-0" />
-                    </div>
-                    <span>{lang === "ar" ? "تحسين فوري ذكي" : lang === "fr" ? "Amélioration IA" : "Instant AI Enhancement"}</span>
-                  </div>
-                  <p className="text-[11px] text-slate-600 leading-relaxed font-medium relative z-10">
-                    {lang === "ar" 
-                      ? "اضغط لتجربة كيف يقوم الذكاء الاصطناعي بتحسين صياغة النبذة المهنية وتعبئة الكلمات المفتاحية الذكية لرفع نسبة قبول السيرة أمام فحص الـ ATS بشكل فوري."
-                      : "Click to simulate how the resume builder uses AI to target profile summary words, immediately boosting your indexing compatibility score."}
-                  </p>
-                  
-                  <button
-                    type="button"
-                    disabled={isAIOptimizing}
-                    onClick={handleAIOptimize}
-                    className={`w-full py-3.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm relative z-10 ${
-                      isAIOptimizing 
-                        ? "bg-amber-100 text-amber-800 border border-amber-200" 
-                        : hasOptimized 
-                        ? "bg-emerald-50 text-emerald-800 border border-emerald-200 pointer-events-none" 
-                        : "bg-gradient-to-r from-[#FF4D2D] to-rose-600 text-white hover:from-[#E64528] hover:to-rose-700 active:scale-95 shadow-orange-500/20 border border-orange-600/50"
-                    }`}
-                  >
-                    {isAIOptimizing ? (
-                      <>
-                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                        <span>{sCopy.aiWorking}</span>
-                      </>
-                    ) : (
-                      <>
-                        <Wand2 className="w-3.5 h-3.5 shrink-0" />
-                        <span>{hasOptimized ? (lang === "ar" ? "تم التحسين بنجاح 🎉" : "AI Optimized Successfully! 🎉") : sCopy.aiButton}</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {/* Grid Inputs */}
-                <div className="space-y-4">
-                  <div className="group">
-                    <label className="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider group-focus-within:text-orange-500 transition-colors">{sCopy.fullNameLabel}</label>
-                    <input 
-                      type="text"
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      className="w-full px-4 py-2.5 text-xs font-bold border border-slate-200/80 rounded-xl bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:border-orange-300 focus:ring-4 focus:ring-orange-500/10 outline-none text-slate-800 transition-all shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)]"
-                    />
-                  </div>
-                  <div className="group">
-                    <label className="block text-[10px] font-black text-slate-400 mb-1.5 uppercase tracking-wider group-focus-within:text-orange-500 transition-colors">{sCopy.jobTitleLabel}</label>
-                    <input 
-                      type="text"
-                      value={jobTitle}
-                      onChange={(e) => setJobTitle(e.target.value)}
-                      className="w-full px-4 py-2.5 text-xs font-bold border border-slate-200/80 rounded-xl bg-slate-50/50 hover:bg-slate-50 focus:bg-white focus:border-orange-300 focus:ring-4 focus:ring-orange-500/10 outline-none text-slate-800 transition-all shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)]"
-                    />
-                  </div>
-                  <div className="group">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <label className="block text-[10px] font-black text-slate-400 uppercase tracking-wider group-focus-within:text-orange-500 transition-colors">{sCopy.summaryLabel}</label>
-                      {hasOptimized && <span className="text-[9px] font-black text-emerald-500 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">{lang === "ar" ? "محسّن بالذكاء الاصطناعي" : "AI Optimized"}</span>}
-                    </div>
-                    <textarea 
-                      value={summary}
-                      onChange={(e) => setSummary(e.target.value)}
-                      rows={4}
-                      className={`w-full px-4 py-3 text-xs font-semibold border rounded-xl bg-slate-50/50 hover:bg-slate-50 focus:bg-white outline-none text-slate-700 leading-relaxed resize-none transition-all shadow-[inset_0_1px_2px_rgb(0,0,0,0.01)] ${hasOptimized ? 'border-emerald-200 focus:border-emerald-300 focus:ring-4 focus:ring-emerald-500/10 ring-1 ring-emerald-100' : 'border-slate-200/80 focus:border-orange-300 focus:ring-4 focus:ring-orange-500/10'}`}
-                    />
-                  </div>
-                </div>
-
-                {/* Active and Available Skills section */}
-                <div className="space-y-3">
-                  <label className="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-wider">{sCopy.skillsLabel}</label>
-                  <div className="flex flex-wrap gap-2">
-                    {sCopy.skillsPool.map((skill) => {
-                      const isActive = skills.includes(skill);
-                      return (
-                        <button
-                          key={skill}
-                          type="button"
-                          onClick={() => handleToggleSkill(skill)}
-                          className={`px-3 py-1.5 rounded-lg text-[10px] font-bold border transition-all duration-300 cursor-pointer flex items-center gap-1.5 ${
-                            isActive
-                              ? "bg-gradient-to-br from-orange-500 to-[#FF4D2D] text-white border-transparent shadow-[0_4px_12px_rgb(255,77,45,0.2)] hover:shadow-[0_4px_16px_rgb(255,77,45,0.3)] scale-105"
-                              : "bg-white hover:bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300 shadow-sm"
-                          }`}
-                        >
-                          {isActive ? <Check className="w-3 h-3 drop-shadow-sm" /> : <Plus className="w-3 h-3 text-slate-400" />}
-                          <span>{skill}</span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Real-time ATS bot audit rules checklist preview */}
-                <div className="border-t border-slate-100 pt-4 mt-2">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">{sCopy.atsStatusTitle}</span>
-                  <div className="space-y-1.5">
-                    <div className="flex items-center gap-2 text-[11px] text-slate-600 font-semibold">
-                      <div className="w-4 h-4 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
-                        <Check className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
-                      </div>
-                      <span>{sCopy.atsCheck1}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-[11px] text-slate-600 font-semibold">
-                      <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 border transition-all ${
-                        skills.length >= 4 
-                          ? "bg-emerald-50 border-emerald-100" 
-                          : "bg-rose-50 border-rose-100"
-                      }`}>
-                        {skills.length >= 4 ? (
-                          <Check className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
-                        ) : (
-                          <span className="text-[8px] font-extrabold text-rose-600 font-mono">!</span>
-                        )}
-                      </div>
-                      <span className={skills.length >= 4 ? "text-slate-700 font-bold" : "text-slate-450 line-through"}>{sCopy.atsCheck2} ({skills.length}/4)</span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-[11px] text-slate-600 font-semibold">
-                      <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 border transition-all ${
-                        hasOptimized 
-                          ? "bg-emerald-50 border-emerald-100" 
-                          : "bg-rose-50 border-rose-100"
-                      }`}>
-                        {hasOptimized ? (
-                          <Check className="w-2.5 h-2.5 text-emerald-600 shrink-0" />
-                        ) : (
-                          <span className="text-[8px] font-extrabold text-rose-600 font-mono">!</span>
-                        )}
-                      </div>
-                      <span className={hasOptimized ? "text-slate-700 font-extrabold" : "text-slate-450"}>{sCopy.atsCheck3}</span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Document Output Live Preview */}
-              <div className="flex-1 p-6 md:p-10 flex flex-col items-center justify-start overflow-y-auto bg-slate-50 relative min-h-[520px] md:min-h-auto">
-                {/* Subtle grid background pattern */}
-                <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(#CBD5E1 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
-                
-                {/* Layout theme color selection capsules */}
-                <div className="relative z-30 flex justify-center mb-6">
-                  <div className="bg-white/95 backdrop-blur-md p-1 rounded-full border border-slate-200 shadow-md flex items-center gap-1 select-none">
-                    <button
-                      type="button"
-                      onClick={() => setActiveTheme(0)}
-                      className={`px-3 py-1.5 rounded-full text-[10px] md:text-xs font-black transition-all cursor-pointer ${
-                        activeTheme === 0 
-                          ? "bg-[#FF4D2D] text-white shadow-sm" 
-                          : "text-slate-600 hover:bg-slate-100"
-                      }`}
-                    >
-                      {lang === "ar" ? "روبي" : "Ruby Modern"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActiveTheme(1)}
-                      className={`px-3 py-1.5 rounded-full text-[10px] md:text-xs font-black transition-all cursor-pointer ${
-                        activeTheme === 1 
-                          ? "bg-slate-900 text-white shadow-sm" 
-                          : "text-slate-600 hover:bg-slate-100"
-                      }`}
-                    >
-                      {lang === "ar" ? "الفحمي الكلاسيكي" : "Classic Slate"}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActiveTheme(2)}
-                      className={`px-3 py-1.5 rounded-full text-[10px] md:text-xs font-black transition-all cursor-pointer ${
-                        activeTheme === 2 
-                          ? "bg-[#059669] text-white shadow-sm" 
-                          : "text-slate-600 hover:bg-slate-100"
-                      }`}
-                    >
-                      {lang === "ar" ? "الزمردي" : "Creative Emerald"}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Realistic Document Render Sheet */}
-                <div className={`w-full max-w-[490px] aspect-[1/1.414] bg-white shadow-2xl border border-slate-200 p-6 md:p-8 flex flex-col relative transform transition-all duration-300 z-10 text-start overflow-hidden leading-normal hover:scale-[1.01] ${
-                  activeTheme === 1 ? "font-serif" : "font-sans"
-                }`}>
-                  
-                  {/* Watermark/Interactive Ribbon */}
-                  <div className="absolute top-2 right-2 flex items-center gap-1 px-2 py-0.5 rounded border border-amber-200 bg-amber-50 text-neutral-500 font-mono text-[9px]" dir="ltr">
-                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
-                    <span>{sCopy.liveSec}</span>
-                  </div>
-
-                  {/* Header summary of current theme */}
-                  <div className={`pb-4 mb-4 mt-2 transition-all duration-300 ${
-                    activeTheme === 0 
-                      ? "border-b-2 border-[#FF4D2D] text-center" 
-                      : activeTheme === 1 
-                      ? "border-b border-dashed border-slate-900 text-slate-900 text-start pb-3" 
-                      : "border-b-2 border-[#059669] text-start"
-                  }`}>
-                    <h2 className={`text-xl md:text-2xl font-black uppercase tracking-[0.1em] mb-1 transition-all ${
-                      activeTheme === 0 
-                        ? "text-slate-800" 
-                        : activeTheme === 1 
-                        ? "text-slate-900 font-serif normal-case font-extrabold" 
-                        : "text-[#059669]"
-                    }`}>
-                      {fullName || "Youssef Ahmed"}
-                    </h2>
-                    <p className="text-[11px] text-slate-500 font-bold tracking-wider">
-                      {jobTitle || "Software Engineer"}  •  youssef@example.com  •  Cairo, Egypt
-                    </p>
-                  </div>
-
-                  {/* Profile Summary statement details */}
-                  <div className="mb-4">
-                    <h3 className={`text-[12px] font-black border-b border-slate-100 pb-0.5 mb-2 uppercase tracking-widest transition-colors ${
-                      activeTheme === 0 ? "text-[#FF4D2D]" : activeTheme === 1 ? "text-slate-900 font-black" : "text-[#059669]"
-                    }`}>
-                      {lang === "ar" ? "النبذة التعريفية" : "Professional Summary"}
-                    </h3>
-                    <motion.p 
-                      key={summary}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-[10px] leading-relaxed text-slate-600 font-medium"
-                    >
-                      {summary}
-                    </motion.p>
-                  </div>
-
-                  {/* Core Columns content */}
-                  <div className="flex gap-6 flex-1 text-[10px] leading-relaxed text-slate-700">
-                    
-                    {/* Left Column (Main experience block) */}
-                    <div className="w-[65%] space-y-4">
-                      <div>
-                        <h3 className={`text-[11px] md:text-[12px] font-black border-b border-slate-100 pb-0.5 mb-2.5 uppercase tracking-widest transition-colors ${
-                          activeTheme === 0 ? "text-[#FF4D2D]" : activeTheme === 1 ? "text-slate-900 font-black" : "text-[#059669]"
-                        }`}>
-                          {lang === "ar" ? "الخبرات المتميزة" : "Experience"}
-                        </h3>
-                        <div className="space-y-3">
-                          <div>
-                            <div className="flex justify-between font-bold text-slate-900 mb-0.5 text-[11px]">
-                              <span>Senior Frontend Dev — GlobalTech</span>
-                              <span>2022 - Present</span>
-                            </div>
-                            <ul className="list-disc ps-3 space-y-1 text-slate-500 text-[10px] marker:text-slate-300">
-                              <li>Architected interfaces with React & TypeScript, boosting page throughput by 42%.</li>
-                              <li>Engineered clean reusable components saving downstream development velocity.</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <div className="flex justify-between font-bold text-slate-900 mb-0.5 text-[11px]">
-                              <span>Front-End Developer — StartupX</span>
-                              <span>2020 - 2022</span>
-                            </div>
-                            <ul className="list-disc ps-3 space-y-1 text-slate-500 text-[10px] marker:text-slate-300">
-                              <li>Accelerated responsive layouts targeting 5k+ regular daily visitors.</li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Right column (Skills and education details) */}
-                    <div className="w-[35%] space-y-4 border-s border-dotted border-slate-200 ps-4 text-start">
-                      <div>
-                        <h3 className={`text-[11px] md:text-[12px] font-black border-b border-slate-100 pb-0.5 mb-2.5 uppercase tracking-widest transition-colors ${
-                          activeTheme === 0 ? "text-[#FF4D2D]" : activeTheme === 1 ? "text-slate-900 font-black" : "text-[#059669]"
-                        }`}>
-                          {lang === "ar" ? "المهارات والأدوات" : "Core Tech Skills"}
-                        </h3>
-                        <div className="flex flex-wrap gap-1">
-                          {skills.length === 0 ? (
-                            <span className="text-[10px] text-slate-350 italic">None selected</span>
-                          ) : (
-                            skills.map(skill => (
-                              <span 
-                                key={skill} 
-                                className={`px-2 py-0.5 rounded-[4px] text-[9px] font-bold border whitespace-nowrap transition-all duration-300 ${
-                                  activeTheme === 0
-                                    ? "bg-slate-50 text-slate-700 border-slate-200/50"
-                                    : activeTheme === 1
-                                    ? "bg-slate-900 text-white border-slate-800"
-                                    : "bg-emerald-50 text-emerald-800 border-emerald-100"
-                                }`}
-                              >
-                                {skill}
-                              </span>
-                            ))
-                          )}
-                        </div>
-                      </div>
-
-                      <div>
-                        <h3 className={`text-[11px] md:text-[12px] font-black border-b border-slate-100 pb-0.5 mb-2 uppercase tracking-widest transition-colors ${
-                          activeTheme === 0 ? "text-[#FF4D2D]" : activeTheme === 1 ? "text-slate-900 font-black" : "text-[#059669]"
-                        }`}>
-                          {lang === "ar" ? "التعليم الأكاديمي" : "Education"}
-                        </h3>
-                        <div className="text-[10px]">
-                          <div className="font-bold text-slate-850">B.Sc. in Computer Science</div>
-                          <div className="text-slate-400 font-semibold">Cairo University</div>
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          </TiltCard>
-        </motion.div>
-
-        {/* Social Proof Recruiter Trust Indicator & Brand Ticker */}
-        <div className="mt-20 border-t border-b border-slate-100 py-8 overflow-hidden relative max-w-5xl mx-auto">
-          <div className="absolute inset-y-0 start-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 end-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-          
-          <div className="text-center text-[11px] font-black tracking-widest text-slate-400 uppercase mb-5 px-4 font-sans leading-relaxed">
-            {lang === "ar"
-              ? "⚡ نماذج متوافقة مع نظم تصفية الموظفين ومُصادق عليها من مديري التوظيف في كبرى الشركات"
-              : lang === "fr"
-              ? "⚡ MODÈLES ADAPTÉS AUX ROBOTS ATS ET APPROUVÉS CHEZ LES PLUS GRANDS RECRUTEURS"
-              : "⚡ ATS-READABLE AND APPROVED BY RECRUITERS AT WORLD-CLASS CORPORATIONS"}
-          </div>
-
-          <div className="relative flex overflow-hidden whitespace-nowrap py-2">
-            <motion.div
-              initial={{ x: 0 }}
-              animate={{ x: "-50%" }}
-              transition={{
-                ease: "linear",
-                duration: 35,
-                repeat: Infinity,
-              }}
-              className="flex gap-16 items-center shrink-0 pr-16"
-            >
-              {[...Array(2)].flatMap(() => [
-                { name: "Google", desc: "Tech" },
-                { name: "Microsoft", desc: "Software" },
-                { name: "Meta", desc: "Social" },
-                { name: "McKinsey", desc: "Consulting" },
-                { name: "Deloitte", desc: "Advisory" },
-                { name: "Amazon", desc: "Retail" },
-                { name: "PwC", desc: "Audit" },
-                { name: "Uber", desc: "Logistics" },
-                { name: "Stripe", desc: "Fintech" },
-                { name: "Accenture", desc: "Enterprise" }
-              ]).map((brand, bIdx) => (
-                <div key={bIdx} className="flex items-center gap-2.5 opacity-40 hover:opacity-85 transition-opacity duration-300">
-                  <span className="w-1.5 h-1.5 rounded-full bg-orange-400 shrink-0" />
-                  <span className="text-sm font-black tracking-tight text-slate-700 font-sans">{brand.name}</span>
-                  <span className="text-[9px] font-mono font-bold text-slate-400 border border-slate-200/80 px-1.5 py-0.5 rounded-md">{brand.desc}</span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
         </div>
+
+        {/* Abstract Floating UI Hero Graphic */}
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.7 }}
+          className="mt-16 sm:mt-24 mx-auto max-w-5xl relative"
+        >
+          {/* Main Mockup Container */}
+          <div className="bg-white/60 backdrop-blur-md rounded-[2.5rem] p-4 sm:p-6 shadow-2xl ring-1 ring-slate-900/5 border border-white relative z-10 overflow-hidden">
+            <div className="bg-white rounded-3xl border border-slate-100 overflow-hidden relative shadow-sm min-h-[400px] flex items-center justify-center">
+              
+              <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+              
+              <div className="absolute inset-x-0 top-0 h-12 border-b border-slate-100 flex items-center px-6 gap-2 bg-white/80 backdrop-blur-sm z-20">
+                <div className="w-3 h-3 rounded-full bg-slate-200" />
+                <div className="w-3 h-3 rounded-full bg-slate-200" />
+                <div className="w-3 h-3 rounded-full bg-slate-200" />
+              </div>
+              
+              <div className="w-full h-full p-8 pt-20 flex flex-col md:flex-row gap-12 items-center justify-center relative z-10">
+                
+                {/* Visual Representation of Resume Wireframe */}
+                <div className="w-full max-w-sm space-y-6 opacity-80 mix-blend-multiply">
+                  <div className="flex items-center gap-4 border-b border-slate-100 pb-6">
+                    <div className="w-16 h-16 bg-slate-100 rounded-full" />
+                    <div className="space-y-2.5">
+                      <div className="h-5 bg-slate-200 rounded-md w-40" />
+                      <div className="h-3 bg-slate-100 rounded-md w-28" />
+                    </div>
+                  </div>
+                  <div className="space-y-2.5">
+                    <div className="h-4 bg-[#FF4D2D]/20 rounded-md w-24 mb-4" />
+                    <div className="h-2.5 bg-slate-100 rounded-md w-full" />
+                    <div className="h-2.5 bg-slate-100 rounded-md w-full" />
+                    <div className="h-2.5 bg-slate-100 rounded-md w-4/5" />
+                  </div>
+                  <div className="space-y-2.5 pt-4">
+                    <div className="h-4 bg-[#FF4D2D]/20 rounded-md w-32 mb-4" />
+                    <div className="h-2.5 bg-slate-100 rounded-md w-full" />
+                    <div className="h-2.5 bg-slate-100 rounded-md w-full" />
+                    <div className="h-2.5 bg-slate-100 rounded-md w-2/3" />
+                  </div>
+                </div>
+
+                {/* Floating Cards conveying intelligence/optimization */}
+                <div className="w-full max-w-sm relative h-full flex flex-col justify-center gap-6">
+                  <motion.div 
+                    animate={{ y: [-5, 5, -5] }} 
+                    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+                    className="bg-white shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] p-5 rounded-2xl border border-slate-100/80 flex items-center gap-4 self-end mr-4"
+                  >
+                    <div className="bg-orange-50 text-[#FF4D2D] p-3 rounded-xl"><Target size={24} /></div>
+                    <div className="text-start">
+                      <div className="text-sm font-black text-slate-800 tracking-tight">{isAr ? "متوافق مع ATS" : "ATS Optimized"}</div>
+                      <div className="text-xs font-medium text-slate-500 mt-0.5">{isAr ? "تضمين 24 كلمة مفتاحية" : "24 Keywords matched"}</div>
+                    </div>
+                  </motion.div>
+                  
+                  <motion.div 
+                    animate={{ y: [5, -5, 5] }} 
+                    transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+                    className="bg-white shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] p-5 rounded-2xl border border-slate-100/80 flex items-center gap-4 self-start ml-4"
+                  >
+                    <div className="bg-slate-900 text-white p-3 rounded-xl"><Bot size={24} /></div>
+                    <div className="text-start">
+                      <div className="text-sm font-black text-slate-800 tracking-tight">{isAr ? "صياغة فائقة الذكاء" : "AI Enhanced Impact"}</div>
+                      <div className="text-xs font-medium text-slate-500 mt-0.5">{isAr ? "كتابة متطورة بنتائج رقمية" : "Data-driven statements"}</div>
+                    </div>
+                  </motion.div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
+          {/* Decorative shapes behind mockup */}
+          <div className="absolute top-1/2 left-0 -translate-x-12 -translate-y-1/2 w-32 h-32 bg-[#FF4D2D] rounded-full blur-[80px] opacity-20 -z-10" />
+          <div className="absolute top-1/2 right-0 translate-x-12 -translate-y-1/2 w-48 h-48 bg-slate-900 rounded-full blur-[100px] opacity-10 -z-10" />
+        </motion.div>
+
       </div>
-      
-      {/* Bottom fade out gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-50 to-transparent pointer-events-none z-10" />
     </section>
   )
 }
