@@ -21,7 +21,6 @@ import {
   X,
   FileText,
   Sparkles,
-  Loader2,
   ArrowUp,
   Settings,
   ArrowRight,
@@ -469,6 +468,21 @@ export default function EditorPage() {
     }
     return false;
   });
+
+  const [showAtsPanel, setShowAtsPanel] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("hashresume_show_ats_panel") !== "false";
+    }
+    return true;
+  });
+
+  const handleToggleAtsPanel = () => {
+    setShowAtsPanel((prev) => {
+      const next = !prev;
+      localStorage.setItem("hashresume_show_ats_panel", String(next));
+      return next;
+    });
+  };
 
   useEffect(() => {
     localStorage.setItem("focusMode", String(focusMode));
@@ -1982,7 +1996,30 @@ export default function EditorPage() {
             <div className="flex-1 overflow-x-hidden overflow-y-auto p-2 sm:p-4 md:p-12 pt-24 md:pt-24 flex justify-center items-start bg-slate-50/70 relative">
               {previewMode === "resume" && (
                 <div className="absolute top-24 end-6 z-30 hidden xl:block">
-                  <ATSHealthGauge data={data} isAr={language === "ar"} />
+                  {showAtsPanel ? (
+                    <ATSHealthGauge 
+                      data={data} 
+                      isAr={language === "ar"} 
+                      onClose={handleToggleAtsPanel} 
+                    />
+                  ) : (
+                    <motion.button
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={handleToggleAtsPanel}
+                      className="bg-slate-905 hover:bg-slate-950 text-white border border-slate-800/80 px-4 py-2.5 rounded-2xl flex items-center gap-2 shadow-[0_12px_36px_rgba(15,23,42,0.15)] cursor-pointer active:scale-95 transition-all"
+                    >
+                      <Sparkles size={13} className="text-amber-400 animate-pulse" />
+                      <span className="text-[10px] font-black uppercase tracking-widest">
+                        {language === "ar" ? "📊 نقاط الـ ATS" : "📊 ATS Score"}
+                      </span>
+                      <span className="bg-emerald-505 text-white text-[11px] px-2 py-0.5 rounded-full font-black select-none leading-none">
+                        {calculateATSScore(data).score}%
+                      </span>
+                    </motion.button>
+                  )}
                 </div>
               )}
               <div

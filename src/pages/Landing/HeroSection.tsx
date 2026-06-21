@@ -201,13 +201,20 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           <motion.h1
             variants={item as any}
             className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.75rem] font-bold text-slate-800 leading-[1.1] mb-6 tracking-tight drop-shadow-sm font-sans"
+            style={{ fontWeight: 700 }}
           >
             {copy.title1}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-400 inline-block transform-gpu font-bold">
+            <span 
+              className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-400 inline-block transform-gpu font-bold"
+              style={{ fontWeight: 700 }}
+            >
               {copy.titleAccent}
             </span>
             <br />
-            <span className="text-slate-500 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.2] mt-2 block transform-gpu">
+            <span 
+              className="text-slate-505 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-[1.2] mt-2 block transform-gpu"
+              style={{ fontWeight: 700 }}
+            >
               {copy.title2}
             </span>
           </motion.h1>

@@ -102,15 +102,15 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         icon: Sparkles,
         desc: lang === 'ar' ? 'كتابة فورية للخطابات بالصياغة الرسمية' : 'Generate tailor-made cover letters'
       },
+      {
+        label: lang === 'ar' ? 'فرص العمل (هاش هانت)' : lang === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
+        href: '/hash-hunt',
+        badge: lang === 'ar' ? 'جديد' : 'NEW',
+        color: 'brand',
+        icon: Briefcase,
+        desc: lang === 'ar' ? 'تصفح وقدم لفرص العمل المتوافقة' : 'Explore and apply to matched job opportunities'
+      }
     ]
-  };
-
-  const hashHuntItem = {
-    label: lang === 'ar' ? 'فرص العمل (هاش هانت)' : lang === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
-    href: '/hash-hunt',
-    icon: Briefcase,
-    badge: lang === 'ar' ? 'جديد' : 'NEW',
-    badgeColor: 'orange'
   };
 
   const infoMenu = {
@@ -329,20 +329,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               </AnimatePresence>
             </div>
 
-            {/* 3. Hash Hunt Direct Link (Highly Visual with Pulsing badge) */}
-            <Link
-              to={hashHuntItem.href}
-              className="px-3 py-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5 relative group whitespace-nowrap"
-            >
-              <Briefcase className="w-4 h-4 text-orange-500 group-hover:animate-bounce" />
-              <span>{hashHuntItem.label}</span>
-              <span className="bg-[#FF4D2D] text-white text-[8px] font-black px-1.5 py-0.5 rounded-full leading-none transform scale-90 select-none animate-pulse">
-                {hashHuntItem.badge}
-              </span>
-              <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#FF4D2D] transform scale-x-0 group-hover:scale-x-100 transition-transform origin-center duration-250" />
-            </Link>
-
-            {/* 4. Help & Pricing Dropdown (infoMenu) */}
+            {/* 3. Help & Pricing Dropdown (infoMenu) */}
             <div 
               className="relative"
               onMouseEnter={() => { setInfoOpen(true); setResumeOpen(false); setToolsOpen(false); }}
@@ -588,27 +575,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 </div>
               </div>
 
-              {/* 3. Hash Hunt Group */}
-              <div className="pt-2 border-t border-slate-100">
-                <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5 font-bold">
-                  {lang === 'ar' ? 'التوظيف' : 'Careers'}
-                </div>
-                <Link
-                  to={hashHuntItem.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <Briefcase className="w-4.5 h-4.5 text-orange-500 shrink-0" />
-                    <span className="text-slate-700 font-bold">{hashHuntItem.label}</span>
-                  </div>
-                  <span className="bg-[#FF4D2D] text-white text-[8px] font-black px-2 py-0.5 rounded-full leading-none animate-pulse">
-                    {hashHuntItem.badge}
-                  </span>
-                </Link>
-              </div>
-
-              {/* 4. Info & Pricing Group */}
+              {/* 3. Info & Pricing Group */}
               <div className="pt-2 border-t border-slate-100">
                 <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
                   {infoMenu.label}

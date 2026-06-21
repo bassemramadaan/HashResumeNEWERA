@@ -6,6 +6,7 @@ import { calculateATSScore } from "../../utils/ats";
 interface ATSHealthGaugeProps {
   data: ResumeData;
   isAr: boolean;
+  onClose?: () => void;
 }
 
 // Strong ATS verbs list for density checking
@@ -18,7 +19,7 @@ const EXCEL_VERBS = [
   "أسس", "تبنى", "أحيا", "صاغ", "بسط", "ابتكر"
 ];
 
-export default function ATSHealthGauge({ data, isAr }: ATSHealthGaugeProps) {
+export default function ATSHealthGauge({ data, isAr, onClose }: ATSHealthGaugeProps) {
   const [isExpanded, setIsExpanded] = useState(true);
 
   // Sync to application standard ATS Score calculation
@@ -136,7 +137,29 @@ export default function ATSHealthGauge({ data, isAr }: ATSHealthGaugeProps) {
           }`}>
             {unifiedScore}%
           </span>
-          {isExpanded ? <ChevronUp size={14} className="text-slate-400" /> : <ChevronDown size={14} className="text-slate-400" />}
+          <div className="flex items-center gap-1">
+            <span 
+              onClick={(e) => { 
+                e.stopPropagation(); 
+                setIsExpanded(!isExpanded); 
+              }} 
+              className="p-1 hover:bg-slate-100 rounded-md transition-colors cursor-pointer"
+            >
+              {isExpanded ? <ChevronUp size={14} className="text-slate-400" /> : <ChevronDown size={14} className="text-slate-400" />}
+            </span>
+            {onClose && (
+              <span 
+                onClick={(e) => { 
+                  e.stopPropagation(); 
+                  onClose(); 
+                }} 
+                className="p-1 hover:bg-rose-50 hover:text-rose-600 text-slate-400 rounded-md transition-colors cursor-pointer font-bold text-xs leading-none z-10 select-none"
+                title={isAr ? "إخفاء" : "Hide"}
+              >
+                ✕
+              </span>
+            )}
+          </div>
         </div>
       </button>
 
