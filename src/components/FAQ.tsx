@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { motion } from "motion/react";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
@@ -13,7 +12,7 @@ export default function FAQ() {
 
   const toggleIndex = (index: number) => {
     setOpenIndices((prev) =>
-      prev.includes(index) ? [] : [index],
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   };
 
@@ -43,18 +42,21 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-12 bg-slate-50">
+    <section id="faq" className="py-24 sm:py-32 bg-white relative">
       <Helmet>
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
       </Helmet>
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4 font-display">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="text-center mb-16 max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 border border-slate-200 shadow-sm text-xs font-bold text-slate-800 tracking-tight uppercase mb-6">
+            <span>{language === "ar" ? "الأسئلة الشائعة" : "FAQ"}</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-display tracking-tight leading-[1.15]">
             {t.faqsTitle}
           </h2>
-          <p className="text-lg text-slate-600">{t.faqsSubtitle}</p>
+          <p className="text-lg text-slate-500 font-medium">{t.faqsSubtitle}</p>
         </div>
 
         <div className="space-y-4">
@@ -63,56 +65,36 @@ export default function FAQ() {
             return (
               <div
                 key={index}
-                className="bg-slate-50 rounded-2xl shadow-sm border border-slate-100 overflow-hidden transition-colors"
+                className="bg-white rounded-2xl border border-slate-200/60 overflow-hidden hover:border-slate-300 transition-colors shadow-sm"
               >
                 <button
                   onClick={() => toggleIndex(index)}
-                  className="w-full px-6 py-4 text-start flex justify-between items-center hover:bg-slate-50 transition-colors"
+                  className="w-full px-6 py-5 text-start flex justify-between items-center bg-white transition-colors cursor-pointer"
                 >
-                  <span className="font-semibold text-slate-900">
+                  <span className="font-bold text-slate-900 text-[15px] sm:text-base leading-tight">
                     {faq.question}
                   </span>
-                  {isOpen ? (
-                    <ChevronUp className="text-[#ff4d2d]" size={20} />
-                  ) : (
-                    <ChevronDown className="text-slate-500" size={20} />
-                  )}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-[#FF4D2D] text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-slate-100'}`}>
+                    {isOpen ? (
+                      <ChevronUp size={16} strokeWidth={3} />
+                    ) : (
+                      <ChevronDown size={16} strokeWidth={3} />
+                    )}
+                  </div>
                 </button>
                 <motion.div
                   initial={false}
                   animate={{ height: isOpen ? "auto" : 0, opacity: isOpen ? 1 : 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden"
+                  className="overflow-hidden bg-slate-50/50"
                 >
-                  <div className="px-6 pb-4 text-slate-600 leading-relaxed border-t border-slate-50">
+                  <div className="px-6 pb-6 pt-2 text-slate-600 text-[15px] leading-relaxed font-medium">
                     {faq.answer}
                   </div>
                 </motion.div>
               </div>
             );
           })}
-        </div>
-
-        <div className="mt-16 text-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-12 border border-slate-700 shadow-2xl relative overflow-hidden group">
-          <div className="absolute top-0 end-0 w-64 h-64 bg-[#ff4d2d] rounded-full mix-blend-screen filter blur-[80px] opacity-30 group-hover:opacity-50 transition-opacity duration-700 -translate-y-1/2 translate-x-1/2"></div>
-          <div className="absolute bottom-0 start-0 w-64 h-64 bg-indigo-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 group-hover:opacity-50 transition-opacity duration-700 translate-y-1/2 -translate-x-1/2"></div>
-          
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-50/10 text-white text-xs font-bold uppercase tracking-wider mb-6 border border-slate-200/20 backdrop-blur-md">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              {language === "ar" ? "جاهز للبدء؟" : "Ready to start?"}
-            </div>
-            <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 font-display tracking-tight leading-tight max-w-2xl">
-              {t.faqCTA}
-            </h3>
-            <Link
-              to="/templates"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-[#ff4d2d] text-white rounded-full font-bold text-lg hover:bg-[#e63e1d] active:scale-95 transition-all shadow-xl shadow-orange-500/30 ring-4 ring-orange-500/20"
-            >
-              {t.faqCTAButton}
-              <ArrowRight size={24} className="rtl:rotate-180" />
-            </Link>
-          </div>
         </div>
       </div>
     </section>

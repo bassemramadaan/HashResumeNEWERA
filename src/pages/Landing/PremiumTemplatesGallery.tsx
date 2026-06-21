@@ -84,8 +84,8 @@ export function PremiumTemplatesGallery() {
   };
 
   const t = {
-    badge: isAr ? "معاينة حية ومباشرة" : "PRO TEMPLATES PREVIEW",
-    title: isAr ? "تصفح واختر قالبك الاحترافي فوراً" : "Choose Your Ready Premium Layout",
+    badge: isAr ? "قوالب احترافية" : "PROFESSIONAL TEMPLATES",
+    title: isAr ? "اختر قالبك" : "Choose Your Layout",
     desc: isAr 
       ? "ابدأ بتوفير آلاف الساعات لتصميم ملفك. اختر قالبك المناسب بنقرة واحدة، واملأ بياناتك لتبهر مسؤولي التوظيف."
       : "Skip thousands of design iterations. Pre-load your optimal template configuration in one satisfying click.",

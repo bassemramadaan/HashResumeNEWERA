@@ -602,7 +602,7 @@ export default function MobileEditorLayout({
       <div className="fixed bottom-6 inset-x-0 mx-auto z-50 px-3 flex justify-center pointer-events-none w-full max-w-md">
         <nav 
           ref={containerRef}
-          className="pointer-events-auto bg-[#252525]/90 backdrop-blur-3xl border border-white/10 rounded-full py-1.5 px-2 flex items-center justify-start sm:justify-center shadow-[0_20px_50px_rgba(0,0,0,0.4)] select-none gap-0.5 overflow-x-auto scrollbar-none max-w-full"
+          className="pointer-events-auto bg-[#252525]/90 backdrop-blur-3xl border border-white/10 rounded-full py-1.5 px-2 flex items-center justify-start sm:justify-center shadow-[0_12px_40px_rgba(0,0,0,0.25)] select-none gap-0.5 overflow-x-auto scrollbar-none max-w-full"
         >
           {TABS.map((tab, idx) => {
             const isActive = activeTab === tab.id;

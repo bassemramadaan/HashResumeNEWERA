@@ -11,8 +11,7 @@ import {
   Globe, 
   FileText, 
   MessageSquare, 
-  Search,
-  HelpCircle
+  Search
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
@@ -32,9 +31,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   const handleStart = onStartClick || (() => navigate('/editor'))
   const [mobileOpen, setMobileOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
-  const [toolsOpen, setToolsOpen] = useState(false)
-  const [resumeOpen, setResumeOpen] = useState(false)
-  const [infoOpen, setInfoOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -120,30 +116,22 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         label: lang === 'ar' ? 'خطط الأسعار والاشتراك' : lang === 'fr' ? 'Tarifs' : 'Pricing Plans',
         href: '/pricing',
         icon: CreditCard,
-        desc: lang === 'ar' ? 'اشترِك بأسعار مرنة وعادلة لجميع الباحثين عن عمل' : 'Fair and flexible plans for your transition success',
-        isInternal: true
-      },
-      {
-        label: lang === 'ar' ? 'كيف يعمل فحص ATS؟' : lang === 'fr' ? 'Comment ça marche' : 'How ATS works',
-        href: '/how-ats-works',
-        icon: HelpCircle,
-        desc: lang === 'ar' ? 'فهم آلية قراءة ومعالجة السير الذاتية وتجاوز الفحص' : 'Demystify ATS algorithms and maximize interview odds',
-        isInternal: true
+        desc: lang === 'ar' ? 'اشترِك بأسعار مرنة وعادلة لجميع الباحثين عن عمل' : 'Fair and flexible plans for your transition'
       }
     ]
   };
 
-  const ctaLabel = lang === 'ar' ? 'ابدأ المحرر الذكي ⚡' : lang === 'fr' ? 'Créer maintenant' : 'Start Builder ⚡'
+  const ctaLabel = lang === 'ar' ? 'ابدأ إنشاء سيرتك ⚡' : lang === 'fr' ? 'Créer maintenant' : 'Start Builder ⚡';
 
   return (
     <nav className={cn(
       "sticky top-0 z-50 transition-all duration-300 border-b", 
       scrolled 
-        ? "bg-white/70 backdrop-blur-[12px] shadow-[0_8px_32px_rgba(0,0,0,0.03)] border-slate-200/40 py-2" 
-        : "bg-white/95 border-slate-100 py-3"
+        ? "bg-white/70 backdrop-blur-[12px] shadow-[0_8px_32px_rgba(0,0,0,0.03)] border-slate-200/40 py-1" 
+        : "bg-white/95 border-slate-100 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between relative h-16">
+        <div className="flex items-center justify-between relative h-16 sm:h-20">
 
           {/* Left: Logo */}
           <div className="flex items-center shrink-0">
@@ -151,247 +139,25 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <img
                 src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
                 alt="Hash Resume"
-                className="h-[75px] sm:h-[85px] w-auto object-contain"
+                className="h-[65px] sm:h-[80px] w-auto object-contain"
               />
             </Link>
           </div>
 
-          {/* Center: Interactive Nav Items with Premium Minimalist Icons */}
-          <div className="hidden lg:flex items-center justify-center gap-1 flex-1 px-4">
+          {/* Center: Simplified Nav Items */}
+          <div className="hidden lg:flex items-center justify-center gap-2 flex-1 px-4">
             
-            {/* 1. Resume & Templates Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => { setResumeOpen(true); setToolsOpen(false); setInfoOpen(false); }}
-              onMouseLeave={() => setResumeOpen(false)}
-            >
-              <button
-                onClick={() => setResumeOpen(!resumeOpen)}
-                className={cn(
-                  "px-3 py-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5 cursor-pointer",
-                  resumeOpen && "bg-slate-50 text-slate-900"
-                )}
-              >
-                <Layers className="w-4 h-4 text-emerald-500" />
-                <span>{resumeMenu.label}</span>
-                <ChevronDown className={cn('w-3.5 h-3.5 transition-transform duration-250 opacity-70', resumeOpen && 'rotate-180')} />
-              </button>
-
-              <AnimatePresence>
-                {resumeOpen && (
-                  <>
-                    <div className="fixed inset-0 z-35" onClick={() => setResumeOpen(false)} />
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.97 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                      transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="absolute start-0 mt-2 bg-white border border-slate-200/80 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] overflow-hidden w-80 z-45 p-2.5 text-start"
-                    >
-                      {resumeMenu.items.map((item, idx) => {
-                        const IconComponent = item.icon;
-                        const linkClass = "flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50/80 transition-all group cursor-pointer";
-                        
-                        const badgeEl = item.badge && (
-                          <span className={cn(
-                            "text-[8px] uppercase font-black px-1.5 py-0.5 rounded-md leading-none shrink-0",
-                            item.color === 'emerald' 
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100" 
-                              : "bg-[#FF4D2D]/5 text-[#FF4D2D] border border-[#FF4D2D]/10"
-                          )}>
-                            {item.badge}
-                          </span>
-                        );
-
-                        const content = (
-                          <>
-                            <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100/50 flex items-center justify-center text-slate-500 group-hover:text-[#FF4D2D] group-hover:bg-[#FF4D2D]/5 transition-colors shrink-0">
-                              <IconComponent className="w-4 h-4" />
-                            </div>
-                            <div className="flex-1 space-y-0.5 min-w-0">
-                              <div className="flex items-center justify-between gap-1.5">
-                                <span className="text-xs font-black text-slate-800 group-hover:text-[#FF4D2D] transition-colors">{item.label}</span>
-                                {badgeEl}
-                              </div>
-                              <p className="text-[10px] text-slate-400 font-medium leading-normal whitespace-normal">{item.desc}</p>
-                            </div>
-                          </>
-                        );
-
-                        return item.onClickAction ? (
-                          <div
-                            key={idx}
-                            onClick={() => { handleStart(); setResumeOpen(false); }}
-                            className={linkClass}
-                          >
-                            {content}
-                          </div>
-                        ) : (
-                          <Link
-                            key={item.href}
-                            to={item.href || '/'}
-                            onClick={() => setResumeOpen(false)}
-                            className={linkClass}
-                          >
-                            {content}
-                          </Link>
-                        );
-                      })}
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* 2. Custom Tools Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => { setToolsOpen(true); setResumeOpen(false); setInfoOpen(false); }}
-              onMouseLeave={() => setToolsOpen(false)}
-            >
-              <button
-                onClick={() => setToolsOpen(!toolsOpen)}
-                className={cn(
-                  "px-3 py-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5 cursor-pointer",
-                  toolsOpen && "bg-slate-50 text-slate-900"
-                )}
-              >
-                <Sparkles className="w-4 h-4 text-[#FF4D2D] animate-pulse" />
-                <span>{toolsMenu.label}</span>
-                <ChevronDown className={cn('w-3.5 h-3.5 transition-transform duration-250 opacity-70', toolsOpen && 'rotate-180')} />
-              </button>
-
-              <AnimatePresence>
-                {toolsOpen && (
-                  <>
-                    <div className="fixed inset-0 z-35" onClick={() => setToolsOpen(false)} />
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.97 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                      transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="absolute start-0 mt-2 bg-white border border-slate-200/80 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] overflow-hidden w-72 z-45 p-2.5 text-start"
-                    >
-                      {toolsMenu.items.map((item) => {
-                        const isItemInternal = item.href.startsWith('/') && !item.href.includes('#');
-                        const IconComponent = item.icon;
-                        const linkClass = "flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50/80 transition-all group cursor-pointer";
-                        
-                        const badgeEl = item.badge && (
-                          <span className={cn(
-                            "text-[8px] uppercase font-black px-1.5 py-0.5 rounded-md leading-none shrink-0",
-                            item.color === 'emerald' 
-                              ? "bg-emerald-50 text-emerald-600 border border-emerald-100" 
-                              : "bg-[#FF4D2D]/5 text-[#FF4D2D] border border-[#FF4D2D]/10"
-                          )}>
-                            {item.badge}
-                          </span>
-                        );
-
-                        const content = (
-                          <>
-                            <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100/50 flex items-center justify-center text-slate-500 group-hover:text-[#FF4D2D] group-hover:bg-[#FF4D2D]/5 transition-colors shrink-0">
-                              <IconComponent className="w-4 h-4" />
-                            </div>
-                            <div className="flex-1 space-y-0.5 min-w-0">
-                              <div className="flex items-center justify-between gap-1.5">
-                                <span className="text-xs font-black text-slate-800 group-hover:text-[#FF4D2D] transition-colors">{item.label}</span>
-                                {badgeEl}
-                              </div>
-                              <p className="text-[10px] text-slate-400 font-medium leading-normal whitespace-normal">{item.desc}</p>
-                            </div>
-                          </>
-                        );
-
-                        return isItemInternal ? (
-                          <Link
-                            key={item.href}
-                            to={item.href}
-                            onClick={() => setToolsOpen(false)}
-                            className={linkClass}
-                          >
-                            {content}
-                          </Link>
-                        ) : (
-                          <a
-                            key={item.href}
-                            href={item.href}
-                            onClick={() => setToolsOpen(false)}
-                            className={linkClass}
-                          >
-                            {content}
-                          </a>
-                        );
-                      })}
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
-            </div>
-
-            {/* 3. Help & Pricing Dropdown (infoMenu) */}
-            <div 
-              className="relative"
-              onMouseEnter={() => { setInfoOpen(true); setResumeOpen(false); setToolsOpen(false); }}
-              onMouseLeave={() => setInfoOpen(false)}
-            >
-              <button
-                onClick={() => setInfoOpen(!infoOpen)}
-                className={cn(
-                  "px-3 py-2 text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5 cursor-pointer",
-                  infoOpen && "bg-slate-50 text-slate-900"
-                )}
-              >
-                <HelpCircle className="w-4 h-4 text-slate-400" />
-                <span>{infoMenu.label}</span>
-                <ChevronDown className={cn('w-3.5 h-3.5 transition-transform duration-250 opacity-70', infoOpen && 'rotate-180')} />
-              </button>
-
-              <AnimatePresence>
-                {infoOpen && (
-                  <>
-                    <div className="fixed inset-0 z-35" onClick={() => setInfoOpen(false)} />
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.97 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                      transition={{ duration: 0.18, ease: "easeOut" }}
-                      className="absolute start-0 mt-2 bg-white border border-slate-200/80 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.08)] overflow-hidden w-80 z-45 p-2.5 text-start"
-                    >
-                      {infoMenu.items.map((item, idx) => {
-                        const IconComponent = item.icon;
-                        const linkClass = "flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-50/80 transition-all group cursor-pointer";
-                        
-                        const content = (
-                          <>
-                            <div className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-100/50 flex items-center justify-center text-slate-500 group-hover:text-[#FF4D2D] group-hover:bg-[#FF4D2D]/5 transition-colors shrink-0">
-                              <IconComponent className="w-4 h-4" />
-                            </div>
-                            <div className="flex-1 space-y-0.5 min-w-0">
-                              <div className="flex items-center justify-between gap-1.5">
-                                <span className="text-xs font-black text-slate-800 group-hover:text-[#FF4D2D] transition-colors">{item.label}</span>
-                              </div>
-                              <p className="text-[10px] text-slate-400 font-medium leading-normal whitespace-normal">{item.desc}</p>
-                            </div>
-                          </>
-                        );
-
-                        return (
-                          <Link
-                            key={idx}
-                            to={item.href}
-                            onClick={() => setInfoOpen(false)}
-                            className={linkClass}
-                          >
-                            {content}
-                          </Link>
-                        );
-                      })}
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
-            </div>
+            <Link to="/templates" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+              {lang === 'ar' ? 'السير والقوالب' : 'Templates'}
+            </Link>
+            
+            <a href="/#ats-check" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+              {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
+            </a>
+            
+            <Link to="/pricing" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+              {lang === 'ar' ? 'الأسعار' : 'Pricing'}
+            </Link>
 
           </div>
 
@@ -404,7 +170,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 onClick={() => setLangOpen(!langOpen)}
                 className="hover:bg-slate-50 border border-slate-100/40 px-3 py-2 rounded-xl font-bold text-slate-500 hover:text-slate-800 transition-all flex items-center gap-1.5 text-xs sm:text-sm cursor-pointer"
               >
-                <Globe className="w-3.8 h-3.8 text-slate-400" />
+                <Globe className="w-3.5 h-3.5 text-slate-400" />
                 <span>{LANG_LABELS[lang]}</span>
                 <ChevronDown className="w-3 h-3 opacity-60" />
               </button>
@@ -443,7 +209,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleStart}
-              className="bg-[#FF4D2D] hover:bg-[#E03C1C] text-white px-5 py-2.5 rounded-xl font-black text-xs sm:text-sm hidden sm:inline-flex items-center gap-2 transition-all duration-200 shadow-md shadow-[#FF4D2D]/10 active:scale-98 cursor-pointer"
+              className="bg-[#FF4D2D] hover:bg-[#E03C1C] text-white px-5 py-2.5 rounded-xl font-black text-xs sm:text-sm hidden sm:inline-flex items-center gap-2 transition-all duration-200 shadow-md shadow-[#FF4D2D]/20 active:scale-98 cursor-pointer ring-1 ring-[#FF4D2D]/50"
             >
               <span>{ctaLabel}</span>
             </motion.button>

@@ -258,8 +258,8 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
   };
 
   return (
-    <section id="ats-check" className="py-24 bg-slate-50 border-t border-b border-slate-200/60 relative overflow-hidden" dir={isAr ? "rtl" : "ltr"}>
-      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
+    <section id="ats-check" className="py-32 sm:py-40 bg-white border-t border-slate-100 relative overflow-hidden" dir={isAr ? "rtl" : "ltr"}>
+      <div className="absolute inset-0 bg-slate-50/50 pointer-events-none" />
 
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
@@ -268,24 +268,24 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
         transition={{ duration: 0.6 }}
         className="container-page relative z-10 max-w-4xl mx-auto px-4 text-center"
       >
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-50 border border-indigo-100/60 mb-4 animate-bounce">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 shadow-sm text-xs font-bold text-slate-800 tracking-tight uppercase mb-6">
             <Sparkles size={12} className="text-indigo-600" />
-            <span className="text-[10px] md:text-xs font-bold text-indigo-700 tracking-wider uppercase">
+            <span>
               {isAr ? "أداة مجانية فورية" : "Instant Free Testing Tool"}
             </span>
           </div>
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            {isAr ? "اختبر توافق سيرتك مع الـ ATS" : "Instant ATS Drag & Drop Tester"}
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
+            {isAr ? "اختبر توافق سيرتك مع الـ ATS" : "Instant ATS Tester"}
           </h2>
-          <p className="text-slate-500 text-sm md:text-base mt-2">
+          <p className="text-slate-500 text-base md:text-lg mt-6 font-medium leading-relaxed max-w-xl mx-auto">
             {isAr 
               ? "ارفع سيرتك الذاتية بصيغة PDF الآن واحصل على تقييم نقدى مجانًا لمعرفة كيف تراك محركات الفرز الذكية." 
               : "Drop your CV as PDF, evaluate critical formatting issues and compliance metrics instantly."}
           </p>
         </div>
 
-        <div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 md:p-10 text-start max-w-3xl mx-auto">
+        <div className="bg-white rounded-[2.5rem] border border-slate-200/60 shadow-xl shadow-slate-200/40 p-8 md:p-12 text-start max-w-3xl mx-auto">
           {error && (
             <div className="mb-4 bg-rose-50 border border-rose-200/50 rounded-xl p-4 text-xs font-semibold text-rose-600 text-center flex items-center justify-center gap-2">
               <span>⚠️ {error}</span>

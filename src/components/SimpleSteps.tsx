@@ -1,31 +1,30 @@
 import React from "react";
 import { motion } from "motion/react";
-import { FileText, Sparkles, Download, ArrowRight, ArrowLeft } from "lucide-react";
+import { FileText, Sparkles, Download } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 
-// Step 1: Human-crafted input form layout
 const StepOneGraphics = () => (
-  <div className="relative w-full h-32 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group-hover:bg-orange-50/20 transition-all duration-300">
-    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF4D2D]/10 to-[#FF4D2D]/5 border border-[#FF4D2D]/20 shadow-xs">
-      <FileText className="w-8 h-8 text-[#FF4D2D]" strokeWidth={1.5} />
+  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-orange-50/30 transition-all duration-500">
+    <div className="relative flex items-center justify-center w-20 h-20 rounded-[1.5rem] bg-white border border-slate-200/60 shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:shadow-md">
+      <FileText className="w-8 h-8 text-slate-800" strokeWidth={1.5} />
+      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-[#FF4D2D]/10 rounded-full blur-md" />
     </div>
   </div>
 );
 
-// Step 2: Live AI transformation before/after
 const StepTwoGraphics = () => (
-  <div className="relative w-full h-32 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group-hover:bg-orange-50/20 transition-all duration-300">
-    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF4D2D]/10 to-[#FF4D2D]/5 border border-[#FF4D2D]/20 shadow-xs">
-      <Sparkles className="w-8 h-8 text-[#FF4D2D] animate-pulse" strokeWidth={1.5} />
+  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-indigo-50/30 transition-all duration-500">
+    <div className="relative flex items-center justify-center w-20 h-20 rounded-[1.5rem] bg-slate-900 border border-slate-800 shadow-md transition-transform duration-500 group-hover:scale-110 group-hover:shadow-lg">
+      <Sparkles className="w-8 h-8 text-white animate-pulse" strokeWidth={1.5} />
+      <div className="absolute -inset-2 bg-indigo-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     </div>
   </div>
 );
 
-// Step 3: Beautiful polished export
 const StepThreeGraphics = () => (
-  <div className="relative w-full h-32 flex items-center justify-center bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden group-hover:bg-orange-50/20 transition-all duration-300">
-    <div className="relative flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-[#FF4D2D]/10 to-[#FF4D2D]/5 border border-[#FF4D2D]/20 shadow-xs">
+  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-emerald-50/30 transition-all duration-500">
+    <div className="relative flex items-center justify-center w-20 h-20 rounded-[1.5rem] bg-white border border-slate-200/60 shadow-sm transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-md">
       <Download className="w-8 h-8 text-[#FF4D2D]" strokeWidth={1.5} />
     </div>
   </div>
@@ -38,101 +37,70 @@ export default function SimpleSteps() {
   const steps = [
     {
       icon: FileText,
-      num: "01",
+      num: "1",
       title: t.simpleStep1Title || (language === "ar" ? "املأ بياناتك" : "Fill Details"),
       desc: t.simpleStep1Desc || (language === "ar" ? "أدخل مهاراتك وخبراتك بسهولة في واجهة مرنة." : "Enter your experience and skills in a smooth dashboard."),
       graphics: <StepOneGraphics />,
     },
     {
       icon: Sparkles,
-      num: "02",
-      title: t.simpleStep2Title || (language === "ar" ? "حسّن سيرتك بالذكاء الاصطناعي" : "Optimize with AI"),
+      num: "2",
+      title: t.simpleStep2Title || (language === "ar" ? "اضف لمسة الذكاء الاصطناعي" : "Optimize with AI"),
       desc: t.simpleStep2Desc || (language === "ar" ? "بنقرة واحدة ارفع من جودة الصياغة لتبهر مسؤولي التوظيف." : "Rephrase sections using Gemini AI to sound highly professional."),
       graphics: <StepTwoGraphics />,
     },
     {
       icon: Download,
-      num: "03",
+      num: "3",
       title: t.simpleStep3Title || (language === "ar" ? "تنزيل فوري" : "Instant Export"),
       desc: t.simpleStep3Desc || (language === "ar" ? "حمّل سيرتك الذاتية بصيغة PDF أنيقة جاهزة لتجاوز الـ ATS." : "Get an ATS-friendly, outstanding PDF format ready for jobs."),
       graphics: <StepThreeGraphics />,
     },
   ];
 
-  const isRtl = language === "ar";
-
   return (
-    <section className="py-16 sm:py-20 bg-white border-y border-slate-100 relative overflow-hidden select-none">
-      {/* Abstract Grid background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#f1f5f9_1px,transparent_1px),linear-gradient(to_bottom,#f1f5f9_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-35" />
-
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 relative z-10">
+    <section className="py-24 sm:py-32 bg-white relative overflow-hidden select-none">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Header */}
-        <div className="text-center mb-16 max-w-xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FF4D2D]/5 border border-[#FF4D2D]/10 text-[#FF4D2D] text-[10px] font-black uppercase tracking-widest mb-3.5">
-            <span>{language === "ar" ? "كيف يعمل صانع السيرة الذاتية" : "How it works"}</span>
+        <div className="text-center mb-20 max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 border border-slate-200 shadow-sm text-xs font-bold text-slate-800 tracking-tight uppercase mb-6">
+            <span>{language === "ar" ? "كيف يعمل" : "How it works"}</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight font-sans">
-            {t.howItWorksTitle || (language === "ar" ? "خطوات ذكية وبسيطة للغاية" : "Smarter Ways to Build")}
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight font-sans leading-[1.15]">
+            {t.howItWorksTitle || (language === "ar" ? "أسهل طريقة لإنشاء سيرة ذاتية احترافية" : "Smarter Ways to Build")}
           </h2>
-          <p className="text-slate-500 text-[13px] sm:text-sm mt-3 leading-relaxed font-medium">
-            {language === "ar" 
-              ? "خطوات بسيطة وسريعة جداً لصياغة مظهرك المهني وتجاوز أنظمة التوظيف." 
-              : "A polished workflow designed to prepare and export an outstanding ATS-ready resume in seconds."}
-          </p>
         </div>
 
-        {/* Steps Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch relative">
-          
           {steps.map((step, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="group bg-white border border-slate-150 rounded-3xl p-6 shadow-3xs hover:shadow-sm hover:border-slate-250 transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
+              className="group flex flex-col justify-between relative"
             >
-              {/* Card graphics background */}
-              <div className="mb-6 relative">
+              <div className="mb-8 relative">
                 {step.graphics}
-                
-                {/* Floating prominent number badge */}
-                <div className="absolute -top-4 -end-4 w-12 h-12 rounded-full bg-[#FF4D2D] border-4 border-white text-white font-mono flex items-center justify-center text-base font-black shadow-md shadow-orange-500/20 group-hover:scale-110 transition-transform duration-300">
-                  {step.num}
-                </div>
               </div>
 
-              {/* Text Area */}
-              <div className="space-y-2 text-start">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-[#FF4D2D]/5 flex items-center justify-center shrink-0 border border-[#FF4D2D]/10 group-hover:scale-110 transition-transform">
-                    <step.icon size={14} className="text-[#FF4D2D]" />
-                  </div>
-                  <h3 className="font-bold text-slate-900 text-sm sm:text-base tracking-tight leading-tight">
+              <div className="space-y-3 text-start relative">
+                <div className="flex items-center gap-4 mb-2">
+                  <span className="text-4xl font-black text-slate-200 group-hover:text-[#FF4D2D] transition-colors duration-300">
+                    {step.num}
+                  </span>
+                  <h3 className="font-black text-slate-900 text-xl tracking-tight leading-tight">
                     {step.title}
                   </h3>
                 </div>
-                <p className="text-slate-500 text-xs sm:text-[13px] leading-relaxed font-medium pl-0.5">
+                <p className="text-slate-500 text-[15px] leading-relaxed font-medium pl-2 border-l-2 border-slate-100 group-hover:border-[#FF4D2D]/30 transition-colors">
                   {step.desc}
                 </p>
               </div>
 
-              {/* Connecting elements inside grid layout for desktop */}
-              {index < 2 && (
-                <div className="hidden lg:block absolute -right-4 top-1/2 -translate-y-1/2 z-20 text-slate-300">
-                  {isRtl ? (
-                    <ArrowLeft size={16} className="text-[#FF4D2D]/20" />
-                  ) : (
-                    <ArrowRight size={16} className="text-[#FF4D2D]/20" />
-                  )}
-                </div>
-              )}
             </motion.div>
           ))}
-
         </div>
       </div>
     </section>

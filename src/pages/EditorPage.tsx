@@ -15,8 +15,6 @@ import {
   Wrench,
   Download,
   LayoutTemplate,
-  Target,
-  CheckCircle2,
   Maximize2,
   X,
   FileText,
@@ -24,11 +22,12 @@ import {
   ArrowUp,
   Settings,
   ArrowRight,
+  ArrowLeft,
   Award,
   Lock,
   Folder,
 } from "lucide-react";
-import { useResumeStore, ResumeData, getResumeSignature } from "../store/useResumeStore";
+import { useResumeStore, getResumeSignature } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { Link } from "react-router-dom";
 import { translations } from "../i18n/translations";
@@ -103,188 +102,7 @@ interface TabItem {
   tourId?: string;
 }
 
-const ProgressTrackerModal = ({
-  isOpen,
-  onClose,
-  data,
-  activeTab,
-  onJumpToStep,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-  data: ResumeData;
-  activeTab: string;
-  onJumpToStep: (id: string) => void;
-}) => {
-  const { language } = useLanguageStore();
-  const t = translations[language].editor.progressTracker;
-
-  const steps = [
-    {
-      id: "basics",
-      label: String(t.steps.basics || "Basic Info"),
-      icon: User,
-      done: !!(data.personalInfo.fullName && data.personalInfo.email),
-    },
-    {
-      id: "experience",
-      label: String(t.steps.experience || "Experience"),
-      icon: Briefcase,
-      done: data.experience.length > 0,
-    },
-    {
-      id: "education",
-      label: String(t.steps.education || "Education"),
-      icon: GraduationCap,
-      done: data.education.length > 0,
-    },
-    {
-      id: "skills",
-      label: String(t.steps.skills || "Skills"),
-      icon: Wrench,
-      done: data.skills.length > 0,
-    },
-    {
-      id: "finish",
-      label: String(t.steps.polish || "Review & Polish"),
-      icon: Target,
-      done: false,
-    },
-  ];
-
-  const filledCount = steps.filter((s) => s.done).length;
-  const progressPercent = Math.round((filledCount / (steps.length - 1)) * 100);
-  const estimatedTime =
-    progressPercent === 100 ? 0 : progressPercent > 50 ? 2 : 5;
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-neutral-900/60 backdrop-blur-sm"
-            onClick={onClose}
-          />
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg bg-neutral-50 rounded-3xl shadow-2xl overflow-hidden border border-neutral-200"
-          >
-            <div className="absolute top-0 right-0 p-4">
-              <button
-                onClick={onClose}
-                className="p-2 text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 rounded-full transition-all"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="p-8">
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-50 text-brand-600 rounded-2xl mb-4">
-                  <Target size={32} />
-                </div>
-                <h2 className="text-2xl font-black text-neutral-900 mb-2">
-                  {String(t.title || "")}
-                </h2>
-                <p className="text-neutral-500 text-sm">{String(t.subtitle || "")}</p>
-              </div>
-
-              <div className="space-y-6">
-                <div className="flex items-center justify-between text-xs font-black uppercase tracking-widest text-neutral-400 mb-2 px-1">
-                  <span>{progressPercent}% Complete</span>
-                  <span>
-                    {estimatedTime > 0
-                      ? String(t.estimatedTime || "").replace(
-                          "{time}",
-                          estimatedTime.toString(),
-                        )
-                      : String(t.ready || "")}
-                  </span>
-                </div>
-                <div className="h-3 bg-neutral-100 rounded-full overflow-hidden mb-8">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progressPercent}%` }}
-                    className="h-full bg-brand-500"
-                  />
-                </div>
-
-                <div className="grid gap-3">
-                  {steps.map((step) => {
-                    const Icon = step.icon;
-                    const isActive = activeTab === step.id;
-                    return (
-                      <button
-                        key={step.id}
-                        onClick={() => {
-                          onJumpToStep(step.id);
-                          onClose();
-                        }}
-                        className={cn(
-                          "flex items-center gap-4 p-4 rounded-2xl border transition-all text-start group",
-                          isActive
-                            ? "bg-white border-slate-300 shadow-md ring-1 ring-slate-100/50"
-                            : "bg-transparent border-neutral-100 hover:bg-neutral-50 hover:border-neutral-200",
-                        )}
-                      >
-                        <div
-                          className={cn(
-                            "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-                            step.done
-                              ? "bg-emerald-50 text-emerald-600"
-                              : isActive
-                                ? "bg-slate-900 text-white"
-                                : "bg-neutral-100 text-neutral-400 group-hover:bg-neutral-200",
-                          )}
-                        >
-                          {step.done ? (
-                            <CheckCircle2 size={20} />
-                          ) : (
-                            <Icon size={20} />
-                          )}
-                        </div>
-                        <div className="flex-1">
-                          <div className="text-[10px] font-bold uppercase tracking-widest text-neutral-400 mb-0.5">
-                            {step.id}
-                          </div>
-                          <div
-                            className={cn(
-                              "text-sm font-semibold",
-                              isActive ? "text-neutral-900" : "text-neutral-600",
-                            )}
-                          >
-                            {step.label}
-                          </div>
-                        </div>
-                        {isActive && (
-                          <div className="w-2 h-2 rounded-full bg-brand-500 animate-pulse" />
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <button
-                onClick={onClose}
-                className="w-full mt-8 bg-zinc-900 text-white py-4 rounded-2xl font-bold hover:bg-zinc-800 transition-all shadow-xl shadow-zinc-900/10 active:scale-95"
-              >
-                Continue Building
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
-  );
-};
-
+import { ProgressTrackerModal } from "../components/editor/ProgressTrackerModal";
 
 const ATS_SECTION_TIPS: Record<string, Record<string, { title: string; tips: string[] }>> = {
   ar: {
@@ -447,6 +265,26 @@ export default function EditorPage() {
   const [isCommandBarOpen, setIsCommandBarOpen] = useState(false);
   const [isTipsOpen, setIsTipsOpen] = useState(true);
   const [showAIBanner, setShowAIBanner] = useState(true);
+
+  const tabOrder: Tab[] = [
+    "basics",
+    "experience",
+    "education",
+    "skills",
+    "projects",
+    "certifications",
+    "cover-letter",
+  ];
+  const currentTabIndex = tabOrder.indexOf(activeTab);
+  const hasNextTab = currentTabIndex >= 0 && currentTabIndex < tabOrder.length - 1;
+  const hasPrevTab = currentTabIndex > 0;
+
+  const handleNextTab = () => {
+    if (hasNextTab) setActiveTab(tabOrder[currentTabIndex + 1]);
+  };
+  const handlePrevTab = () => {
+    if (hasPrevTab) setActiveTab(tabOrder[currentTabIndex - 1]);
+  };
 
   const [focusMode, setFocusMode] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
@@ -898,7 +736,7 @@ export default function EditorPage() {
     <div className={cn(focusMode ? "max-w-[720px]" : "max-w-4xl", "mx-auto pb-[120px] sm:pb-32 relative")}>
       {data.isLocked && (
         <div className="absolute inset-0 z-[100] bg-white/70 backdrop-blur-md flex items-center justify-center rounded-[2rem] mx-[-1rem] px-4" style={{ height: 'max-content', minHeight: '100%' }}>
-          <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] max-w-md w-full text-center border border-slate-200 relative overflow-hidden mt-20">
+          <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-premium max-w-md w-full text-center border border-slate-200 relative overflow-hidden mt-20">
              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-slate-700 to-slate-900 overflow-hidden" />
              <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 border border-slate-200">
                 <Lock className="w-10 h-10 text-slate-700" />
@@ -1005,6 +843,42 @@ export default function EditorPage() {
               </motion.div>
             )}
 
+            {/* Top Navigation Actions */}
+            <div className="flex items-center justify-between mb-4 w-full px-1">
+              <div className="text-[10px] font-black text-slate-400 uppercase tracking-wider hidden sm:block">
+                {language === "ar" ? "التنقل بين الأقسام" : "Section Navigation"}
+              </div>
+              <div className="flex items-center gap-2 shrink-0">
+                <button
+                  onClick={handlePrevTab}
+                  disabled={!hasPrevTab}
+                  title={language === "ar" ? "السابق" : "Previous"}
+                  className={cn(
+                    "p-2 rounded-xl border transition-all flex items-center justify-center",
+                    hasPrevTab 
+                      ? "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer shadow-sm active:scale-95" 
+                      : "bg-transparent border-slate-100 text-slate-300 cursor-not-allowed opacity-50"
+                  )}
+                >
+                  <ArrowLeft size={16} className="rtl:-scale-x-100" />
+                </button>
+                <button
+                  onClick={handleNextTab}
+                  disabled={!hasNextTab}
+                  title={language === "ar" ? "التالي" : "Next"}
+                  className={cn(
+                    "p-2 py-2 px-4 rounded-xl border transition-all flex items-center gap-2 font-bold text-[11px] uppercase tracking-wider",
+                    hasNextTab 
+                      ? "bg-neutral-900 border-neutral-900 text-white hover:bg-black cursor-pointer shadow-md active:scale-95" 
+                      : "bg-neutral-100 border-neutral-100 text-neutral-400 cursor-not-allowed opacity-50"
+                  )}
+                >
+                   <span>{language === "ar" ? "التالي" : "Next"}</span>
+                   <ArrowRight size={14} className="rtl:-scale-x-100" />
+                </button>
+              </div>
+            </div>
+
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={"tab-" + activeTab}
@@ -1039,20 +913,7 @@ export default function EditorPage() {
                             </div>
                             <PersonalInfoForm />
 
-                            <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-end">
-                              <button
-                                onClick={() => setActiveTab("experience")}
-                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
-                              >
-                                {language === "ar"
-                                  ? "الخطوة التالية: الخبرة"
-                                  : "Next: Experience"}
-                                <ArrowRight
-                                  size={20}
-                                  className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
-                                />
-                              </button>
-                            </div>
+
                           </section>
                         </div>
                       )}
@@ -1082,26 +943,7 @@ export default function EditorPage() {
                               <ExperienceForm />
                             </div>
 
-                            <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
-                              <button
-                                onClick={() => setActiveTab("basics")}
-                                className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
-                              >
-                                {language === "ar" ? "السابق" : "Previous"}
-                              </button>
-                              <button
-                                onClick={() => setActiveTab("education")}
-                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
-                              >
-                                {language === "ar"
-                                  ? "الخطوة التالية: التعليم"
-                                  : "Next: Education"}
-                                <ArrowRight
-                                  size={20}
-                                  className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
-                                />
-                              </button>
-                            </div>
+
                           </section>
                         </div>
                       )}
@@ -1131,26 +973,7 @@ export default function EditorPage() {
                               <EducationForm />
                             </div>
 
-                            <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
-                              <button
-                                onClick={() => setActiveTab("experience")}
-                                className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
-                              >
-                                {language === "ar" ? "السابق" : "Previous"}
-                              </button>
-                              <button
-                                onClick={() => setActiveTab("skills")}
-                                className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
-                              >
-                                {language === "ar"
-                                  ? "الخطوة التالية: المهارات"
-                                  : "Next: Skills"}
-                                <ArrowRight
-                                  size={20}
-                                  className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
-                                />
-                              </button>
-                            </div>
+
                           </section>
                         </div>
                       )}
@@ -1176,26 +999,7 @@ export default function EditorPage() {
                           </div>
                           <SkillsForm />
 
-                          <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
-                            <button
-                              onClick={() => setActiveTab("education")}
-                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
-                            >
-                              {language === "ar" ? "السابق" : "Previous"}
-                            </button>
-                            <button
-                              onClick={() => setActiveTab("projects")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
-                            >
-                              {language === "ar"
-                                ? "الخطوة التالية: المشاريع"
-                                : "Next: Projects"}
-                              <ArrowRight
-                                size={20}
-                                className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
-                              />
-                            </button>
-                          </div>
+
                         </section>
                       )}
                       {activeTab === "projects" && (
@@ -1220,26 +1024,7 @@ export default function EditorPage() {
                           </div>
                           <ProjectsForm />
 
-                          <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
-                            <button
-                              onClick={() => setActiveTab("skills")}
-                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
-                            >
-                              {language === "ar" ? "السابق" : "Previous"}
-                            </button>
-                            <button
-                              onClick={() => setActiveTab("certifications")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
-                            >
-                              {language === "ar"
-                                ? "الخطوة التالية: الشهادات"
-                                : "Next: Certifications"}
-                              <ArrowRight
-                                size={20}
-                                className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
-                              />
-                            </button>
-                          </div>
+
                         </section>
                       )}
                       {activeTab === "certifications" && (
@@ -1264,26 +1049,7 @@ export default function EditorPage() {
                           </div>
                           <CertificationsForm />
 
-                          <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
-                            <button
-                              onClick={() => setActiveTab("projects")}
-                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
-                            >
-                              {language === "ar" ? "السابق" : "Previous"}
-                            </button>
-                            <button
-                              onClick={() => setActiveTab("cover-letter")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
-                            >
-                              {language === "ar"
-                                ? "الخطوة التالية: خطاب التقديم"
-                                : "Next: Cover Letter"}
-                              <ArrowRight
-                                size={20}
-                                className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
-                              />
-                            </button>
-                          </div>
+
                         </section>
                       )}
                       {activeTab === "cover-letter" && (
@@ -1433,6 +1199,15 @@ export default function EditorPage() {
                 )}
               </div>
             </div>
+
+            <button
+               onClick={() => setShowMobilePreview(true)}
+               className="fixed bottom-[96px] end-5 z-[90] bg-[#FF4D2D] text-white hover:bg-[#E64528] shadow-[0_8px_30px_rgba(255,77,45,0.3)] rounded-full px-5 py-3.5 flex items-center justify-center gap-2 font-black text-xs active:scale-95 transition-all md:hidden border-2 border-white/20"
+            >
+               <Eye size={18} />
+               {language === 'ar' ? 'معاينة حية' : 'Live Preview'}
+            </button>
+
           </main>
         </MobileEditorLayout>
       ) : (
@@ -1472,7 +1247,7 @@ export default function EditorPage() {
               ref={formRef}
               onScroll={handleFormScroll}
               className={cn(
-                "flex-1 overflow-y-auto p-4 sm:p-8 sm:pt-6 scroll-smooth relative",
+                "flex-1 overflow-y-auto p-4 sm:p-8 sm:pt-6 pb-36 sm:pb-32 scroll-smooth relative",
                 focusMode ? "bg-white" : ""
               )}
             >
@@ -1514,7 +1289,7 @@ export default function EditorPage() {
                 dir={language === "ar" ? "rtl" : "ltr"}
               >
                 <div 
-                  className="pointer-events-auto bg-[#252525]/90 backdrop-blur-3xl border border-white/10 rounded-full py-2 px-3 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.4)] select-none"
+                  className="pointer-events-auto bg-[#252525]/90 backdrop-blur-3xl border border-white/10 rounded-full py-2 px-3 flex items-center justify-center shadow-[0_12px_40px_rgba(0,0,0,0.25)] select-none"
                 >
                   <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto scrollbar-none relative">
                     {tabs.map((tab, idx) => {
@@ -1722,7 +1497,7 @@ export default function EditorPage() {
               >
                 <div
                   className={cn(
-                    "bg-white shadow-[0_25px_60px_-15px_rgba(15,23,42,0.08),0_0_1px_rgba(15,23,42,0.1)] rounded-md overflow-hidden",
+                    "bg-white shadow-premium rounded-md overflow-hidden",
                     previewMode !== "cover-letter"
                       ? "w-[210mm] min-h-[297mm] shrink-0"
                       : "w-full",
@@ -1743,23 +1518,26 @@ export default function EditorPage() {
         </>
         )}
       </PanelGroup>
+      </>
+      )}
 
+      {/* Mobile Live Preview Overlay */}
       <AnimatePresence>
         {showMobilePreview && (
-          <div key="mobile-preview-container" className="md:hidden fixed inset-0 z-[60] flex flex-col">
+          <div key="mobile-preview-container" className="md:hidden fixed inset-0 z-[100] flex flex-col">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowMobilePreview(false)}
-              className="fixed inset-0 bg-neutral-900/40 backdrop-blur-sm z-[60]"
+              className="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm z-[100]"
             />
             <motion.div
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-x-0 bottom-0 h-[85vh] bg-neutral-100 rounded-t-[2rem] shadow-2xl z-[70] flex flex-col overflow-hidden"
+              className="fixed inset-x-0 bottom-0 top-[10vh] bg-neutral-100 rounded-t-[2rem] shadow-premium z-[110] flex flex-col overflow-hidden"
             >
               <div
                 className="flex items-center justify-between p-3 shrink-0"
@@ -1772,7 +1550,7 @@ export default function EditorPage() {
                   <button
                     onClick={() => setPreviewMode("resume")}
                     className={cn(
-                      "flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black tracking-wider transition-all",
+                      "flex items-center gap-1.5 px-4 py-2 rounded-lg text-[11px] font-black tracking-wider transition-all",
                       language !== "ar" && "uppercase"
                     )}
                     style={previewMode === "resume" ? {
@@ -1781,13 +1559,13 @@ export default function EditorPage() {
                       boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
                     } : { color: 'var(--color-neutral-500)' }}
                   >
-                    <LayoutTemplate size={13} />
-                    {language === "ar" ? "السيرة الذاتية" : t.resumeTab}
+                    <LayoutTemplate size={14} />
+                    {language === "ar" ? "السيرة الذاتية" : "Resume"}
                   </button>
                   <button
                     onClick={() => setPreviewMode("cover-letter")}
                     className={cn(
-                      "flex items-center gap-1.5 px-3 py-2 rounded-lg text-[10px] font-black tracking-wider transition-all",
+                      "flex items-center gap-1.5 px-4 py-2 rounded-lg text-[11px] font-black tracking-wider transition-all",
                       language !== "ar" && "uppercase"
                     )}
                     style={previewMode === "cover-letter" ? {
@@ -1796,24 +1574,23 @@ export default function EditorPage() {
                       boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
                     } : { color: 'var(--color-neutral-500)' }}
                   >
-                    <FileText size={13} />
-                    {language === "ar" ? "خطاب التغطية" : t.coverLetterTab}
+                    <FileText size={14} />
+                    {language === "ar" ? "خطاب التغطية" : "Cover Letter"}
                   </button>
                 </div>
               
                 <button
                   onClick={() => setShowMobilePreview(false)}
-                  className="w-9 h-9 flex items-center justify-center rounded-xl transition-colors"
-                  style={{ background: 'var(--color-neutral-100)', color: 'var(--color-neutral-600)' }}
+                  className="w-10 h-10 flex items-center justify-center rounded-xl transition-colors active:scale-95 bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
                 >
-                  <X size={18} />
+                  <X size={20} />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-neutral-100">
+              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-200/50">
                 <div
                   className={cn(
-                    "origin-top transition-all",
+                    "origin-top transition-all flex justify-center",
                     previewMode !== "cover-letter"
                       ? "scale-[0.4] sm:scale-[0.45] origin-top opacity-100"
                       : "w-full",
@@ -1826,7 +1603,7 @@ export default function EditorPage() {
                 >
                   <div
                     className={cn(
-                      "bg-white shadow-[0_0_40px_rgba(0,0,0,0.1)] rounded-sm overflow-hidden mx-auto",
+                      "bg-white shadow-premium rounded-sm overflow-hidden shrink-0",
                       previewMode !== "cover-letter"
                         ? "w-[210mm] min-h-[297mm]"
                         : "w-full",
@@ -1846,12 +1623,6 @@ export default function EditorPage() {
           </div>
         )}
       </AnimatePresence>
-
-
-
-
-        </>
-      )}
 
       {/* Modals */}
         <SettingsModal
@@ -1889,7 +1660,7 @@ export default function EditorPage() {
                   <div className="flex items-center gap-4">
                     <button
                       onClick={handleExportClick}
-                      className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-2xl hover:scale-105 active:scale-95 uppercase tracking-widest"
+                      className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-premium hover:scale-105 active:scale-95 uppercase tracking-widest"
                     >
                       <Download size={18} />
                       {String(t.exportPdf || "")}
@@ -1903,7 +1674,7 @@ export default function EditorPage() {
                   </div>
                 </div>
 
-                <div className="w-full max-w-[210mm] bg-neutral-50 shadow-[0_50px_100px_rgba(0,0,0,0.5)] rounded-sm overflow-hidden shrink-0 mb-20 ring-1 ring-white/20">
+                <div className="w-full max-w-[210mm] bg-neutral-50 shadow-premium rounded-sm overflow-hidden shrink-0 mb-20 ring-1 ring-white/20">
                   <Suspense fallback={<FormLoader />}>
                     <ResumePreview />
                   </Suspense>
@@ -2013,7 +1784,7 @@ export default function EditorPage() {
                 initial={{ opacity: 0, scale: 0.95, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 15 }}
-                className="bg-white rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.4)] w-full max-w-sm overflow-hidden border border-slate-100 p-8 text-center space-y-6"
+                className="bg-white rounded-3xl shadow-premium w-full max-w-sm overflow-hidden border border-slate-100 p-8 text-center space-y-6"
               >
                 {/* Visual loader matching premium look */}
                 <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
