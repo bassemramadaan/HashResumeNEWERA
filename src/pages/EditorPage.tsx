@@ -26,6 +26,7 @@ import {
   ArrowRight,
   Award,
   Lock,
+  Folder,
 } from "lucide-react";
 import { useResumeStore, ResumeData, getResumeSignature } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -38,7 +39,6 @@ import { calculateATSScore } from "../utils/ats";
 import { generateWord } from "../utils/generateWord";
 import { DEFAULT_BREAKDOWN } from "../constants";
 import EditorNavbar from "../components/editor/EditorNavbar";
-import ProgressStepper from "../components/editor/ProgressStepper";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import ResumePreview from "../components/preview/ResumePreview";
 import CoverLetterPreview from "../components/preview/CoverLetterPreview";
@@ -868,6 +868,13 @@ export default function EditorPage() {
       tourId: "skills-section",
     },
     {
+      id: "projects",
+      label: String(language === "ar" ? "المشاريع" : "Projects"),
+      shortLabel: String(language === "ar" ? "المشاريع" : "Projects"),
+      icon: Folder,
+      tourId: "projects-section",
+    },
+    {
       id: "certifications",
       label: String(language === "ar" ? "الشهادات" : "Certifications"),
       shortLabel: String(language === "ar" ? "الشهادات" : "Certs"),
@@ -1479,26 +1486,8 @@ export default function EditorPage() {
       >
         {/* Editor Area */}
         <Panel defaultSize={55} minSize={30} className="block">
-          <div className={cn("flex flex-col h-full overflow-hidden transition-all duration-300", focusMode ? "bg-white" : "bg-neutral-50")} dir={dir}>
+          <div className={cn("flex flex-col h-full overflow-hidden relative transition-all duration-300", focusMode ? "bg-white" : "bg-neutral-50")} dir={dir}>
             
-            {/* Elegant Translucent Horizontal Navigation Bar inside the Editor workspace panel */}
-            {!focusMode && (
-              <div className="w-full bg-white/60 backdrop-blur-2xl border-b border-slate-200/50 py-3 px-4 sm:px-6 md:px-8 shrink-0 z-30 flex items-center justify-center transition-all duration-300 select-none">
-                <div className="w-full max-w-3xl">
-                  <ProgressStepper
-                    variant="horizontal"
-                    current={["basics", "experience", "education", "skills", "projects", "certifications", "cover-letter", "finish"].indexOf(activeTab)}
-                    onStepClick={(index) => {
-                      const stepIds = ["basics", "experience", "education", "skills", "projects", "certifications", "cover-letter", "finish"];
-                      setActiveTab(stepIds[index] as Tab);
-                    }}
-                    lang={language as "ar" | "en" | "fr"}
-                    completionMap={sidebarCompletionMap}
-                  />
-                </div>
-              </div>
-            )}
-
             <main
               ref={formRef}
               onScroll={handleFormScroll}
@@ -1537,6 +1526,78 @@ export default function EditorPage() {
                   )}
                 </AnimatePresence>
             </main>
+
+            {/* Absolute-positioned Floating Section Dock inside the Editor workspace panel */}
+            {!isMobile && !focusMode && (
+              <div 
+                className="absolute bottom-5 inset-x-0 mx-auto z-40 px-4 flex justify-center pointer-events-none"
+                dir={language === "ar" ? "rtl" : "ltr"}
+              >
+                <div 
+                  className="w-full max-w-2xl pointer-events-auto bg-[#0F172A]/95 backdrop-blur-xl border border-slate-800/90 rounded-[2rem] py-2 px-4 flex items-center justify-between shadow-[0_16px_36px_rgba(2,6,23,0.35)] gap-3 select-none"
+                >
+                  <div className="flex items-center gap-1.5 sm:gap-2.5 overflow-x-auto scrollbar-none flex-1">
+                    {tabs.map((tab) => {
+                      const isActive = activeTab === tab.id;
+                      const IconComponent = tab.icon;
+                      const pct = sidebarCompletionMap[tab.id] ?? 0;
+                      
+                      return (
+                        <div key={tab.id} className="relative group flex flex-col items-center">
+                          {/* Rich Interactive Tooltip */}
+                          <div className="absolute bottom-16 left-1/2 -translate-x-1/2 bg-slate-950 text-white text-[10px] sm:text-xs font-bold py-1.5 px-3 rounded-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 shadow-[0_8px_24px_rgba(0,0,0,0.3)] border border-slate-800 z-50">
+                            {tab.label}
+                          </div>
+                          
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => {
+                              setActiveTab(tab.id as Tab);
+                              scrollToFormTop();
+                            }}
+                            className={cn(
+                              "relative w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200",
+                              isActive 
+                                ? "bg-gradient-to-br from-[#FF4D2D] to-orange-500 text-white shadow-[0_4px_14px_rgba(255,77,45,0.35)]" 
+                                : "text-slate-400 hover:text-slate-100 hover:bg-slate-800/50"
+                            )}
+                          >
+                            <IconComponent className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                            
+                            {/* Visual completion dot */}
+                            {pct === 100 ? (
+                              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-emerald-500 border border-slate-950 shadow-xs" />
+                            ) : pct > 0 ? (
+                              <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-500 border border-slate-950 shadow-xs" />
+                            ) : null}
+                          </motion.button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  
+                  {/* Divider line */}
+                  <div className="h-6 w-[1px] bg-slate-800 shrink-0" />
+                  
+                  {/* Sleek Vibrant Yellow Export Button matching the mockups */}
+                  <motion.button
+                    whileHover={{ scale: 1.03, boxShadow: "0 0 18px rgba(250,204,21,0.4)" }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => {
+                      setActiveTab("finish");
+                      scrollToFormTop();
+                    }}
+                    className={cn(
+                      "shrink-0 bg-[#FACC15] hover:bg-[#EAB308] text-slate-950 font-black text-xs sm:text-sm px-4.5 sm:px-5.5 py-2.5 sm:py-3 rounded-full flex items-center gap-1.5 sm:gap-2 shadow-[0_4px_16px_rgba(250,204,21,0.25)] border border-yellow-400/20 cursor-pointer select-none"
+                    )}
+                  >
+                    <span>{language === "ar" ? "تصدير" : "Export"}</span>
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-0.5 rtl:rotate-180" />
+                  </motion.button>
+                </div>
+              </div>
+            )}
           </div>
         </Panel>
 
