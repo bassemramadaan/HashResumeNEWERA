@@ -194,7 +194,6 @@ export default function EditorNavbar({
   isLocked        = false,
   onBackToHome    = () => {},
   onShowSettings  = () => {},
-  onShowCommandBar = () => {},
   focusMode       = false,
   onToggleFocus   = () => {},
 }: {
@@ -212,7 +211,6 @@ export default function EditorNavbar({
   onBackToHome?: () => void;
   onShowSettings?: () => void;
   onShowShortcuts?: () => void;
-  onShowCommandBar?: () => void;
   focusMode?: boolean;
   onToggleFocus?: () => void;
 }) {
@@ -223,9 +221,22 @@ export default function EditorNavbar({
     <div className="w-full z-[100] pt-4 px-4 sm:px-6 pb-2 bg-transparent pointer-events-none flex justify-center transform-gpu shrink-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
       <nav className="pointer-events-auto bg-white/40 backdrop-blur-3xl border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.02)] rounded-3xl px-4 md:px-5 h-16 flex items-center justify-between w-full max-w-7xl transition-all relative">
         
-        {/* ── Left group: Logo + Command Bar + Save ── */}
+        {/* ── Left group: Undo + Save ── */}
         <div className="flex items-center gap-2 md:gap-3 shrink-0">
-          <motion.div 
+          <div className="hidden sm:block">
+            <NavBtn onClick={onUndo} title="Undo">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
+            </NavBtn>
+          </div>
+
+          <div className="hidden md:block ml-2 rtl:ml-0 rtl:mr-2">
+            <SaveIndicator isSaved={isSaved} lang={lang} />
+          </div>
+        </div>
+
+        {/* ── Center group: Floating Logo + ATS Capsule ── */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white/45 border border-white/60 shadow-xs rounded-full px-1.5 py-1 flex-row gap-1 select-none transition-all">
+           <motion.div 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onBackToHome}
@@ -238,31 +249,7 @@ export default function EditorNavbar({
               className="w-full h-full object-contain drop-shadow-sm" 
             />
           </motion.div>
-
-          <div className="hidden sm:block">
-            <NavBtn onClick={onUndo} title="Undo">
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 14 4 9 9 4"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/></svg>
-            </NavBtn>
-          </div>
-
-          <button 
-            onClick={onShowCommandBar} 
-            title={lang === "ar" ? "شريط الأوامر السريع (Cmd+K)" : "Universal Command Bar (Cmd+K)"}
-            className="hidden md:inline-flex items-center gap-1 py-1.5 px-3 rounded-xl border border-neutral-200/50 bg-white/40 shadow-xs text-xs font-semibold text-neutral-600 transition-all cursor-pointer hover:bg-white/70 select-none"
-          >
-            <span className="flex items-center gap-0.5 font-mono text-[10px] font-bold text-neutral-400">
-              <span>⌘</span>
-              <span>K</span>
-            </span>
-          </button>
-
-          <div className="hidden md:block ml-2 rtl:ml-0 rtl:mr-2">
-            <SaveIndicator isSaved={isSaved} lang={lang} />
-          </div>
-        </div>
-
-        {/* ── Center group: Floating ATS Capsule ── */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center bg-white/45 border border-white/60 shadow-xs rounded-full px-1.5 py-1 flex-row gap-1 select-none transition-all">
+          
           {/* Templates/Settings Button */}
           {!isLocked && (
             <motion.button

@@ -44,7 +44,6 @@ import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import ResumePreview from "../components/preview/ResumePreview";
 import CoverLetterPreview from "../components/preview/CoverLetterPreview";
-import UniversalCommandBar from "../components/editor/UniversalCommandBar";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -265,7 +264,6 @@ export default function EditorPage() {
 
   const formRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<Tab>("basics");
-  const [isCommandBarOpen, setIsCommandBarOpen] = useState(false);
   const [isTipsOpen, setIsTipsOpen] = useState(true);
   const [showAIBanner, setShowAIBanner] = useState(true);
   const [showMicroSpacingPanel, setShowMicroSpacingPanel] = useState(false);
@@ -1256,7 +1254,6 @@ export default function EditorPage() {
         onBackToHome={() => { window.location.href = "/"; }}
         onShowSettings={() => setIsSettingsModalOpen(true)}
         onShowShortcuts={() => setShowKeyboardShortcuts(true)}
-        onShowCommandBar={() => setIsCommandBarOpen(true)}
         focusMode={focusMode}
         onToggleFocus={() => setFocusMode(!focusMode)}
       />
@@ -1886,13 +1883,6 @@ export default function EditorPage() {
           data={data}
           activeTab={activeTab}
           onJumpToStep={(id) => setActiveTab(id as Tab)}
-        />
-
-        <UniversalCommandBar
-          isOpen={isCommandBarOpen}
-          onClose={() => setIsCommandBarOpen(false)}
-          activeTab={activeTab}
-          setActiveTab={(tab) => setActiveTab(tab)}
         />
 
         {/* Action Confirmation Modal */}
