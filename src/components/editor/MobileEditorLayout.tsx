@@ -11,7 +11,7 @@ const T: Record<string, Record<string, string>> = {
     edit:     "تعديل",
     preview:  "معاينة",
     sections: "الأقسام",
-    export:   "تصدير",
+    export:   "تحميل",
     exportPDF:  "تحميل ملف PDF",
     exportWord: "تحميل ملف Word",
     shareLink:  "نسخ رابط المشاركة",
@@ -29,7 +29,7 @@ const T: Record<string, Record<string, string>> = {
     edit:     "Edit",
     preview:  "Preview",
     sections: "Sections",
-    export:   "Export",
+    export:   "Download",
     exportPDF:  "Download as PDF",
     exportWord: "Download as Word",
     shareLink:  "Copy Share Link",
@@ -47,7 +47,7 @@ const T: Record<string, Record<string, string>> = {
     edit:     "Modifier",
     preview:  "Aperçu",
     sections: "Sections",
-    export:   "Exporter",
+    export:   "Télécharger",
     exportPDF:  "Télécharger en PDF",
     exportWord: "Télécharger en Word",
     shareLink:  "Copier le lien",
@@ -358,7 +358,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
             </div>
 
             <span className="bg-[#FF4D2D] text-white text-[9px] font-black px-3 py-1.5 rounded-full shadow-md leading-none tracking-wider">
-              EXPORT
+              {_lang === "ar" ? "تحميل" : "DOWNLOAD"}
             </span>
           </motion.button>
         </div>
@@ -598,59 +598,66 @@ export default function MobileEditorLayout({
       </main>
 
       {/* ── Highly Polished Floating Capsule Dock bottom navigation ── */}
-      <div className="fixed bottom-3 inset-x-0 z-50 px-4 flex justify-center pointer-events-none">
+      <div className="fixed bottom-6 inset-x-0 mx-auto z-50 px-3 flex justify-center pointer-events-none w-full max-w-md">
         <nav 
           ref={containerRef}
-          className="w-full max-w-sm pointer-events-auto bg-slate-950/95 backdrop-blur-xl border border-slate-800/80 rounded-full py-2.5 px-3 flex items-center justify-around shadow-[0_12px_36px_rgba(0,0,0,0.3)] gap-2 select-none"
+          className="pointer-events-auto bg-[#252525]/90 backdrop-blur-3xl border border-white/10 rounded-full py-1.5 px-2 flex items-center justify-start sm:justify-center shadow-[0_20px_50px_rgba(0,0,0,0.4)] select-none gap-0.5 overflow-x-auto scrollbar-none max-w-full"
         >
-          {TABS.map(tab => {
+          {TABS.map((tab, idx) => {
             const isActive = activeTab === tab.id;
             const IconComponent = tab.icon;
 
-            if (tab.isHighlight) {
+            // Simple divider before Download/Export
+            const isLast = idx === TABS.length - 1;
+
+            if (isLast) {
               return (
-                <div key={tab.id} className="relative flex flex-col items-center justify-center">
-                  <motion.button
-                    whileTap={{ scale: 0.92 }}
-                    onClick={() => setActiveTab("preview")}
-                    className={`w-11 h-11 bg-gradient-to-br from-[#FF4D2D] to-orange-500 text-white rounded-full flex items-center justify-center cursor-pointer shadow-[0_4px_16px_rgba(255,77,45,0.4)] border border-rose-500/10 relative transition-transform z-20 ${
-                      isActive ? "scale-105 shadow-[0_0_12px_#FF4D2D]" : ""
-                    }`}
+                <div key={tab.id} className="flex flex-row items-center">
+                  <div className="h-5 w-[1px] bg-white/10 shrink-0 mx-1.5" />
+                  <button
+                    onClick={() => setActiveTab(tab.id)}
+                    className={cn(
+                      "relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none",
+                      isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
+                    )}
                   >
-                    <IconComponent className="w-5 h-5 text-white" />
-                  </motion.button>
-                  <span className={`text-[8.5px] font-black mt-1 leading-none tracking-tight transition-colors ${isActive ? "text-rose-400 font-heavy" : "text-slate-400"}`}>
-                    {tab.label}
-                  </span>
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeDockIndicatorMobile"
+                        className="absolute inset-0 bg-white/20 rounded-full"
+                        transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                      />
+                    )}
+                    <span className="relative z-10 flex items-center justify-center">
+                      <IconComponent strokeWidth={isActive ? 2 : 1.5} className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                    </span>
+                  </button>
                 </div>
               );
             }
 
             return (
-              <motion.button
-                whileTap={{ scale: 0.95 }}
+              <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className="flex flex-col items-center justify-center w-14 h-11 rounded-2xl cursor-pointer relative"
+                className={`relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none shrink-0 ${
+                  isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
+                }`}
               >
-                <div className="relative z-10">
-                  {IconComponent && (
-                    <IconComponent className={`w-4.5 h-4.5 transition-colors duration-200 ${isActive ? "text-white" : "text-slate-400"}`} />
-                  )}
-                </div>
-                
-                <span className={`text-[8.5px] font-bold mt-1 relative z-10 transition-colors duration-200 leading-none tracking-tight ${isActive ? "text-white font-black" : "text-slate-400"}`}>
-                  {tab.label}
-                </span>
-
                 {isActive && (
                   <motion.div 
-                    layoutId="activeDockIndicator"
-                    className="absolute inset-0 bg-white/10 rounded-2xl border border-white/5"
-                    transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                    layoutId="activeDockIndicatorMobile"
+                    className="absolute inset-0 bg-white/20 rounded-full"
+                    transition={{ type: "spring", stiffness: 350, damping: 28 }}
                   />
                 )}
-              </motion.button>
+                
+                <span className="relative z-10 flex items-center justify-center">
+                  {IconComponent && (
+                    <IconComponent strokeWidth={isActive ? 2.5 : 1.5} className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                  )}
+                </span>
+              </button>
             );
           })}
         </nav>
