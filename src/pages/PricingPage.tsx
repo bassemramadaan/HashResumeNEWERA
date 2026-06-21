@@ -20,16 +20,28 @@ export default function PricingPage() {
       
       <div className="min-h-screen bg-slate-50 font-sans selection:bg-orange-100 pb-20" dir={isAr ? "rtl" : "ltr"}>
         <header className="fixed top-0 inset-x-0 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <Link to="/" className="flex items-center gap-2">
-              <span className="text-xl font-black text-slate-800 tracking-tight">Hash Resume</span>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 grid grid-cols-[1fr,auto,1fr] items-center">
+            {/* Spacer/Empty div for grid balance */}
+            <div></div>
+
+            {/* Logo Link centered */}
+            <Link to="/" className="flex justify-center items-center">
+              <img
+                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                alt="Hash Resume"
+                className="h-[80px] sm:h-[100px] w-auto object-contain"
+              />
             </Link>
-            <Link 
-              to="/editor"
-              className="text-sm font-bold text-white bg-slate-900 px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors"
-            >
-              {isAr ? "بناء السيرة الذاتية" : "Build Resume"}
-            </Link>
+
+            {/* Right side CTA */}
+            <div className="flex justify-end">
+              <Link 
+                to="/editor"
+                className="text-sm font-bold text-white bg-slate-900 px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors"
+              >
+                {isAr ? "بناء السيرة الذاتية" : "Build Resume"}
+              </Link>
+            </div>
           </div>
         </header>
 

@@ -121,8 +121,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
     ]
   };
 
-  const ctaLabel = lang === 'ar' ? 'ابدأ إنشاء سيرتك ⚡' : lang === 'fr' ? 'Créer maintenant' : 'Start Builder ⚡';
-
   return (
     <nav className={cn(
       "sticky top-0 z-50 transition-all duration-300 border-b", 
@@ -133,37 +131,42 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between relative h-16 sm:h-20">
 
-          {/* Left: Logo */}
-          <div className="flex items-center shrink-0">
-            <Link to="/" className="flex items-center transform origin-left rtl:origin-right hover:scale-102 transition-all duration-300">
-              <img
-                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
-                alt="Hash Resume"
-                className="h-[65px] sm:h-[80px] w-auto object-contain"
-              />
-            </Link>
-          </div>
-
-          {/* Center: Simplified Nav Items */}
-          <div className="hidden lg:flex items-center justify-center gap-2 flex-1 px-4">
-            
+          {/* Left: Nav items */}
+          <div className="hidden lg:flex flex-1 items-center justify-end gap-2">
             <Link to="/templates" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
               {lang === 'ar' ? 'السير والقوالب' : 'Templates'}
             </Link>
             
-            <a href="/#ats-check" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
-              {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
-            </a>
-            
-            <Link to="/pricing" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
-              {lang === 'ar' ? 'الأسعار' : 'Pricing'}
+            <Link to="/hash-hunt" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5">
+              <span>{lang === 'ar' ? 'هاش هانت' : 'Hash Hunt'}</span>
+              <span className="text-[10px] bg-orange-100 text-[#FF4D2D] px-1.5 py-0.5 rounded-md font-black">NEW</span>
             </Link>
-
           </div>
 
-          {/* Right actions: Language selection and CTA */}
-          <div className="flex items-center justify-end gap-3 shrink-0">
+          {/* Center: Logo */}
+          <div className="flex-1 flex justify-center">
+            <Link to="/" className="flex items-center transform origin-left rtl:origin-right hover:scale-102 transition-all duration-300">
+              <img
+                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                alt="Hash Resume"
+                className="h-[100px] sm:h-[140px] w-auto object-contain"
+              />
+            </Link>
+          </div>
+
+          {/* Right: Nav items and actions */}
+          <div className="flex-1 flex items-center justify-start gap-3 shrink-0">
             
+            <div className="hidden lg:flex items-center justify-start gap-2">
+              <a href="/#ats-check" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+                {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
+              </a>
+              
+              <Link to="/pricing" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+                {lang === 'ar' ? 'الأسعار' : 'Pricing'}
+              </Link>
+            </div>
+
             {/* Language Switcher */}
             <div className="relative">
               <button
@@ -203,16 +206,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 )}
               </AnimatePresence>
             </div>
-
-            {/* Start CTA Button */}
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={handleStart}
-              className="bg-[#FF4D2D] hover:bg-[#E03C1C] text-white px-5 py-2.5 rounded-xl font-black text-xs sm:text-sm hidden sm:inline-flex items-center gap-2 transition-all duration-200 shadow-md shadow-[#FF4D2D]/20 active:scale-98 cursor-pointer ring-1 ring-[#FF4D2D]/50"
-            >
-              <span>{ctaLabel}</span>
-            </motion.button>
 
             {/* Mobile Menu Button toggle */}
             <button
@@ -383,13 +376,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                   </button>
                 ))}
               </div>
-
-              <button
-                onClick={() => { handleStart(); setMobileOpen(false) }}
-                className="bg-[#FF4D2D] text-white hover:bg-[#E03C1C] mt-4 w-full justify-center inline-flex items-center gap-2 py-3 rounded-xl font-black text-sm shadow-md shadow-[#FF4D2D]/10"
-              >
-                <span>{ctaLabel}</span>
-              </button>
             </div>
           </motion.div>
         )}
