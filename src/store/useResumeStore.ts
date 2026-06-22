@@ -258,7 +258,7 @@ type ResumeStore = {
     language: string,
     onStream: (text: string) => void,
   ) => Promise<void>;
-  updateCoverLetter: (content: string) => void;
+  updateCoverLetter: (content: string | Partial<CoverLetter>) => void;
   checkATSCompatibility: (language: string) => Promise<unknown>;
   translateResume: (targetLanguage: string) => Promise<void>;
   unlockPremium: (
@@ -338,13 +338,27 @@ export const useResumeStore = create<ResumeStore>()(
             result.splice(endIndex, 0, removed);
             return { data: { ...state.data, experience: result } };
           }),
-        updateCoverLetter: (content) =>
-          set((state) => ({
-            data: {
-              ...state.data,
-              coverLetter: { ...state.data.coverLetter, generatedContent: content },
-            },
-          })),
+         updateCoverLetter: (content) =>
+           set((state) => {
+             const current = state.data.coverLetter || {
+               fullName: "",
+               jobTitle: "",
+               companyName: "",
+               hiringManager: "",
+               jobDescription: "",
+               skills: "",
+               generatedContent: "",
+             };
+             const merged = typeof content === "string" 
+               ? { ...current, generatedContent: content }
+               : { ...current, ...content };
+             return {
+               data: {
+                 ...state.data,
+                 coverLetter: merged,
+               },
+             };
+           }),
         addExperience: (exp) =>
           set((state) => ({
             data: {

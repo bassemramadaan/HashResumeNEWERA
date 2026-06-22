@@ -53,14 +53,6 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    to="/cover-letter"
-                    className="hover:text-[#FF4D2D] transition-colors"
-                  >
-                    {t.coverLetter || "Cover Letter"}
-                  </Link>
-                </li>
-                <li>
-                  <Link
                     to="/blog"
                     className="hover:text-[#FF4D2D] transition-colors"
                   >

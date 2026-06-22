@@ -3,14 +3,12 @@ import { motion, AnimatePresence } from "motion/react"
 import { 
   Menu, 
   X, 
-  Sparkles, 
   Layers, 
   Briefcase, 
   CreditCard, 
   ChevronDown, 
   Globe, 
   FileText, 
-  MessageSquare, 
   Search
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -81,22 +79,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         color: 'emerald',
         icon: Search,
         desc: lang === 'ar' ? 'تحسين السيرة لمحركات الفحص' : 'Optimize your resume for ATS systems'
-      },
-      { 
-        label: lang === 'ar' ? 'المقابلة الذكية' : lang === 'fr' ? 'Coach Entretien' : 'AI Interview Coach', 
-        href: '/interview-prep', 
-        badge: lang === 'ar' ? 'متقدم' : 'PRO', 
-        color: 'brand',
-        icon: MessageSquare,
-        desc: lang === 'ar' ? 'مستشار تدريبي ذكي مالي وعملي' : 'Practice mock interviews with AI feedback' 
-      },
-      { 
-        label: lang === 'ar' ? 'خطاب التغطية AI' : lang === 'fr' ? 'Lettre de Motivation' : 'AI Cover Letter', 
-        href: '/cover-letter', 
-        badge: lang === 'ar' ? 'هدية' : 'FREE', 
-        color: 'brand',
-        icon: Sparkles,
-        desc: lang === 'ar' ? 'كتابة فورية للخطابات بالصياغة الرسمية' : 'Generate tailor-made cover letters'
       },
       {
         label: lang === 'ar' ? 'فرص العمل (هاش هانت)' : lang === 'fr' ? 'Hash Hunt' : 'Hash Hunt',

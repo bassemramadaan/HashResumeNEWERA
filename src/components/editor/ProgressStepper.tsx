@@ -7,7 +7,6 @@ import {
   Star,
   Rocket,
   Award,
-  FileText,
   Download,
   Check,
 } from "lucide-react";
@@ -40,7 +39,6 @@ const STEP_ICONS: Record<string, React.ElementType> = {
   skills: Star,
   projects: Rocket,
   certifications: Award,
-  "cover-letter": FileText,
   finish: Download,
 };
 
@@ -53,7 +51,6 @@ const STEPS: Record<Locale, Step[]> = {
     { id: "skills",         label: "المهارات والقدرات",  shortLabel: "المهارات",  emoji: "⭐" },
     { id: "projects",       label: "المشاريع المنجزة",  shortLabel: "المشاريع",  emoji: "🚀" },
     { id: "certifications", label: "الشهادات والجوائز",  shortLabel: "الشهادات",  emoji: "🏅" },
-    { id: "cover-letter",   label: "خطاب التغطية (AI)", shortLabel: "الخطاب",    emoji: "📝" },
     { id: "finish",          label: "التدقيق والتحميل",     shortLabel: "تحميل",     emoji: "📄" },
   ],
   en: [
@@ -63,7 +60,6 @@ const STEPS: Record<Locale, Step[]> = {
     { id: "skills",         label: "Skills & Stack",      shortLabel: "Skills",  emoji: "⭐" },
     { id: "projects",       label: "Key Projects",    shortLabel: "Proj",    emoji: "🚀" },
     { id: "certifications", label: "Certifications",       shortLabel: "Certs",   emoji: "🏅" },
-    { id: "cover-letter",   label: "Cover Letter",       shortLabel: "Cover",   emoji: "📝" },
     { id: "finish",          label: "Download Resume",    shortLabel: "Done",    emoji: "📄" },
   ],
   fr: [
@@ -73,7 +69,6 @@ const STEPS: Record<Locale, Step[]> = {
     { id: "skills",         label: "Compétences", shortLabel: "Comp",    emoji: "⭐" },
     { id: "projects",       label: "Projets Clés",     shortLabel: "Proj",    emoji: "🚀" },
     { id: "certifications", label: "Certifications",     shortLabel: "Cert",    emoji: "🏅" },
-    { id: "cover-letter",   label: "Lettre de Motivation",      shortLabel: "Lett",    emoji: "📝" },
     { id: "finish",          label: "Téléchargement", shortLabel: "Fin",     emoji: "📄" },
   ],
 };

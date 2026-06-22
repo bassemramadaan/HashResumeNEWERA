@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { PartyPopper, X, Target, ArrowRight, PenTool } from "lucide-react";
+import { PartyPopper, X, Target, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguageStore } from "../../store/useLanguageStore";
 
@@ -55,28 +55,7 @@ export default function PostDownloadModal({
                 : "Your professional resume is ready."}
             </p>
 
-            <div className="grid sm:grid-cols-2 gap-4 mb-8">
-              <div className="bg-brand-50 rounded-[var(--radius-lg)] p-5 border border-brand-100 flex flex-col justify-between text-start text-brand-900 group">
-                <div>
-                  <h3 className="font-bold flex items-center gap-2 mb-2">
-                    <PenTool size={16} className="text-brand-600" />
-                    {isRtl ? "خطاب تقديم (Cover Letter)" : "Matching Cover Letter"}
-                  </h3>
-                  <p className="text-xs text-brand-800 mb-4 font-semibold">
-                    {isRtl
-                      ? "قم بتوليد خطاب احترافي يطابق تصميم سيرتك الذاتية في ثوانٍ."
-                      : "Generate a professional cover letter matching your new resume in seconds."}
-                  </p>
-                </div>
-                <Link
-                  to="/cover-letter"
-                  className="inline-flex items-center gap-2 w-full bg-white text-brand-600 px-4 py-2 rounded-[var(--radius-md)] font-bold transition-all border border-brand-200 justify-center shadow-sm group-hover:bg-brand-500 group-hover:text-white"
-                >
-                  {isRtl ? "إنشاء الآن" : "Create Now"}
-                  <ArrowRight size={14} className={isRtl ? "rotate-180" : ""} />
-                </Link>
-              </div>
-
+            <div className="max-w-xs mx-auto mb-8">
               <div 
                 className="rounded-[var(--radius-lg)] p-5 flex flex-col justify-between text-start text-neutral-900 group"
                 style={{

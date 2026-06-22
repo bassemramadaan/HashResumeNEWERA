@@ -8,14 +8,12 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 const LandingPage = React.lazy(() => import("./pages/Landing"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
 const HashHuntPage = React.lazy(() => import("./pages/HashHuntPage"));
-const CoverLetterPage = React.lazy(() => import("./pages/CoverLetterPage"));
 const PricingPage = React.lazy(() => import("./pages/PricingPage"));
 const BlogPage = React.lazy(() => import("./pages/BlogPage"));
 const BlogPostPage = React.lazy(() => import("./pages/BlogPostPage"));
 const TemplatesPage = React.lazy(() => import("./pages/TemplatesPage"));
 const SharePage = React.lazy(() => import("./pages/SharePage"));
 const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage"));
-const InterviewCoachPage = React.lazy(() => import("./pages/InterviewCoachPage"));
 const TermsOfServicePage = React.lazy(() => import("./pages/TermsOfServicePage"));
 const HowAtsWorksPage = React.lazy(() => import("./pages/HowAtsWorksPage"));
 const TrustPage = React.lazy(() => import("./pages/TrustPage"));
@@ -73,7 +71,6 @@ export default function App() {
               <Route path="/editor" element={<EditorPage />} />
               <Route path="/templates" element={<TemplatesPage />} />
               <Route path="/hash-hunt" element={<HashHuntPage />} />
-              <Route path="/cover-letter" element={<CoverLetterPage />} />
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:id" element={<BlogPostPage />} />
@@ -83,7 +80,6 @@ export default function App() {
               <Route path="/trust" element={<TrustPage />} />
               <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
               <Route path="/faq" element={<FAQPage />} />
-              <Route path="/interview-prep" element={<InterviewCoachPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <Analytics />

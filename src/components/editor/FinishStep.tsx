@@ -383,7 +383,7 @@ export default function FinishStep({
         )}
       </div>
 
-      {/* ── 3. Next Recommended Steps: AI Coach & roadmap ── */}
+      {/* ── 3. Next Recommended Steps: Job Match & roadmap ── */}
       <div className="bg-gradient-to-tr from-neutral-900 via-neutral-850 to-neutral-950 text-white rounded-3xl p-6 sm:p-8 shadow-sm relative overflow-hidden group">
         <div className="absolute inset-0 bg-radial from-[#FF4D2D]/[0.06] to-transparent pointer-events-none" />
         <div className="absolute top-2 right-2 text-neutral-700/20 animate-pulse">
@@ -394,19 +394,19 @@ export default function FinishStep({
             <Sparkles className="w-4 h-4" />
           </div>
           <h3 className="text-lg font-black tracking-tight">
-            {isAr ? "الخطوة التالية الموصى بها: تجربة محاكاة المقابلات 🎯" : "Next Recommended Step: Simulate Live Interviews 🎯"}
+            {isAr ? "الخطوة التالية الموصى بها: البحث عن فرص عمل متطابقة 🎯" : "Next Recommended Step: Explore Matched Jobs 🎯"}
           </h3>
           <p className="text-[11px] sm:text-xs text-neutral-300 leading-relaxed max-w-lg mx-auto">
             {isAr
-              ? "لقد صممت سيرة ممتازة لتأمين اللقاء! حان الوقت للتدرب المباشر وتجهيز ردودك السلوكية (STAR) بمساعدة خبير المقابلات الذكي بالذكاء الاصطناعي."
-              : "Resume lands you inside the door, but mock prep nets the deal! Access interactive, live simulations styled by recruitment professionals."}
+              ? "لقد صممت سيرة ذاتية ممتازة ومتكاملة للتقييم الآلي! تصفح أفضل الفرص المتاحة التي تتوافق مع خبراتك لتزيد من احتمال الاتصال بك."
+              : "You've crafted a powerful, ATS-optimized resume! Speed up your search and discover matched open positions tailored to your unique qualifications."}
           </p>
           <div className="pt-2 flex justify-center">
             <Link
-              to="/interview-prep"
+              to="/hash-hunt"
               className="flex items-center gap-2 h-10 px-6 bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 transition-all text-white rounded-xl text-xs font-bold cursor-pointer select-none"
             >
-              <span>{isAr ? "دخول مستشار المقابلات الشخصية بالذكاء الاصطناعي" : "Launch AI Interview Coach"}</span>
+              <span>{isAr ? "دخول مستكشف الفرص الذكي (هاش هانت)" : "Explore Jobs (Hash Hunt)"}</span>
               <ArrowRight size={12} className="rtl:rotate-180" />
             </Link>
           </div>

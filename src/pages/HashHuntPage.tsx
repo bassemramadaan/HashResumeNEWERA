@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "motion/react";
 import { 
@@ -29,7 +29,7 @@ export default function HashHuntPage() {
   const isRtl = language === "ar";
 
   const resumeData = useResumeStore((state) => state.data);
-  const hasDesignedResume = resumeData && (resumeData.personalInfo?.fullName || resumeData.personalInfo?.email);
+  const hasDesignedResume = !!(resumeData && (resumeData.personalInfo?.fullName || resumeData.personalInfo?.email));
 
   // Form states
   const [fullName, setFullName] = useState("");
@@ -51,6 +51,16 @@ export default function HashHuntPage() {
   const [_submissionResult, setSubmissionResult] = useState<{ isSimulated?: boolean; fileUrl?: string } | null>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [selectedJobAlert, setSelectedJobAlert] = useState<string | null>(null);
+
+  // Auto-populate from resume data if designed
+  useEffect(() => {
+    if (resumeData && (resumeData.personalInfo?.fullName || resumeData.personalInfo?.email)) {
+      setFullName(resumeData.personalInfo.fullName || "");
+      setPhoneNumber(resumeData.personalInfo.phone || "");
+      setEmail(resumeData.personalInfo.email || "");
+      setJobTitle(resumeData.personalInfo.jobTitle || "");
+    }
+  }, [resumeData]);
 
   // Almosafer Travel Group jobs data
   const almosaferJobs = [
@@ -141,15 +151,7 @@ export default function HashHuntPage() {
   };
   
   // Integrations Guide Panel - show on localhost/development domains by default, or if ?dev=true is appended in production
-  const [showDevGuide] = useState(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("dev") === "true") return true;
-      const host = window.location.hostname;
-      return host === "localhost" || host === "127.0.0.1" || host.includes("ais-dev") || host.includes("ais-pre") || host.includes("run.app");
-    }
-    return false;
-  });
+  const [showDevGuide] = useState(() => false);
   const [copiedCode, setCopiedCode] = useState(false);
 
   // Constant sheet & drive links from Bassem's request
@@ -1194,7 +1196,7 @@ function doPost(e) {
               {/* Unique drag/drop uploader */}
               <div className="space-y-1">
                 <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
-                  {isRtl ? "تحميل ملف السيرة الذاتية (Sertificated ATS Resume) *" : "Your Optimized Resume (PDF/Word) *"}
+                  {isRtl ? "تحميل ملف السيرة الذاتية المبنية بالذكاء الاصطناعي (PDF/Word) *" : "Your AI-Optimized Resume (PDF/Word) *"}
                 </label>
                 
                 <div 

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 
 interface QuickAIAssistPillProps {
-  section: "basics" | "experience" | "education" | "skills" | "projects" | "certifications" | "cover-letter";
+  section: "basics" | "experience" | "education" | "skills" | "projects" | "certifications";
   onInject: (text: string) => void;
 }
 
@@ -46,11 +46,6 @@ const DICTIONARY = {
         "شهادة مدير مشاريع معتمد (PMP) من معهد إدارة المشاريع العالمي.",
         "مطور معتمد لحلول الحوسبة السحابية من Google Cloud Platform (GCP Professional).",
         "ممارس مرن معتمد من Scrum Alliance لتسريع إطلاق المنتجات التقنية.",
-      ],
-      "cover-letter": [
-        "يسعدني التقدم للاضمام إلى فريقكم الإبداعي للمساهمة في تحقيق أهدافكم الريادية.",
-        "موقن بأن خلفيتي التقنية وخبرتي العملية في حل المشكلات تلائم متطلبات هذا الدور بدقة.",
-        "أتطلع لمناقشة السيرة الذاتية وعرض نماذج من منتجاتي السابقة في مقابلة قريبة.",
       ]
     }
   },
@@ -91,11 +86,6 @@ const DICTIONARY = {
         "AWS Certified Solutions Architect – Professional (SAP-C02).",
         "Project Management Professional (PMP) – Project Management Institute.",
         "Certified ScrumMaster (CSM) – Scrum Alliance.",
-      ],
-      "cover-letter": [
-        "I am writing to express my enthusiastic interest in joining your innovative product organization.",
-        "My professional track record aligns seamlessly with the structural requirements of this vacant vacancy.",
-        "I welcome the opportunity to discuss my past system contributions in an upcoming exploratory conversation.",
       ]
     }
   },
@@ -131,10 +121,6 @@ const DICTIONARY = {
       certifications: [
         "AWS Certified Solutions Architect – Associate.",
         "Project Management Professional (PMP).",
-      ],
-      "cover-letter": [
-        "C'est avec beaucoup d'enthousiasme que je postule pour rejoindre votre équipe d'innovation.",
-        "Mon profil correspond rigoureusement aux requis opérationnels de ce poste.",
       ]
     }
   }

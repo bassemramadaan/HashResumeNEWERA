@@ -10,7 +10,6 @@ import {
   Wrench,
   FolderKanban,
   Award,
-  BookOpen,
   Send,
   Loader2,
   Copy,
@@ -83,7 +82,6 @@ export default function UniversalCommandBar({
     { id: "skills", label: isAr ? "المهارات والمؤهلات" : "Skills & Competencies", icon: Wrench, category: isAr ? "الأقسام" : "Sections" },
     { id: "projects", label: isAr ? "المشاريع والإنجازات" : "Portfolio Projects", icon: FolderKanban, category: isAr ? "الأقسام" : "Sections" },
     { id: "certifications", label: isAr ? "الشهادات والكورسات" : "Certifications & Achievements", icon: Award, category: isAr ? "الأقسام" : "Sections" },
-    { id: "cover-letter", label: isAr ? "رسالة التغطية" : "Cover Letter", icon: BookOpen, category: isAr ? "الأقسام" : "Sections" },
     { id: "finish", label: isAr ? "المراجعة والتصدير وتحميل الـ PDF" : "Finish & PDF Export", icon: Zap, category: isAr ? "الأقسام" : "Sections" },
   ];
 

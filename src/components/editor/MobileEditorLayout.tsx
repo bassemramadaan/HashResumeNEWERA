@@ -74,7 +74,6 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string; desc:
     { id: "skills",         label: "المهارات المهنية",  emoji: "⭐", desc: "مهاراتك التقنية والشخصية الموصى بها" },
     { id: "projects",       label: "المشاريع المنجزة",  emoji: "🚀", desc: "إنجازات عملية تبرز جدارتك وخبرتك" },
     { id: "certifications", label: "الشهادات والاعتمادات", emoji: "🏅", desc: "الكورسات والشهادات الداعمة لمؤهلك" },
-    { id: "cover-letter",   label: "خطاب التغطية ذكي", emoji: "📝", desc: "خطاب مهني مخصص ومكتوب بالذكاء الاصطناعي" },
     { id: "finish",         label: "مراجعة وتحميل",     emoji: "🏁", desc: "التثبت من معايير ATS، وتحميل سيرتك فوراً" },
   ],
   en: [
@@ -84,7 +83,6 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string; desc:
     { id: "skills",         label: "Skills & Keywords", emoji: "⭐", desc: "Core technical strengths & general skills" },
     { id: "projects",       label: "Projects Portfolio", emoji: "🚀", desc: "Independent or corporate showcase works" },
     { id: "certifications", label: "Certifications",   emoji: "🏅", desc: "Badges, licenses, and auxiliary learning" },
-    { id: "cover-letter",   label: "AI Cover Letter",   emoji: "📝", desc: "Generate a targeted, matching application letter" },
     { id: "finish",         label: "Audit & Launch",    emoji: "🏁", desc: "Double check ATS status & download file" },
   ],
   fr: [
@@ -94,7 +92,6 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string; desc:
     { id: "skills",         label: "Compétences clés",  emoji: "⭐", desc: "Savoir-faire et mots-clés recherchés" },
     { id: "projects",       label: "Projets et Travaux", emoji: "🚀", desc: "Réalisations et portefeuilles valorisants" },
     { id: "certifications", label: "Certifications",   emoji: "🏅", desc: "Formations certifiantes additionnelles" },
-    { id: "cover-letter",   label: "Lettre de Motivation", emoji: "📝", desc: "Rédiger une lettre personnalisée via IA" },
     { id: "finish",         label: "Vérifier & Finir",    emoji: "🏁", desc: "Dernier audit ATS et téléchargement direct" },
   ],
 };

@@ -43,7 +43,6 @@ import { DEFAULT_BREAKDOWN } from "../constants";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import ResumePreview from "../components/preview/ResumePreview";
-import CoverLetterPreview from "../components/preview/CoverLetterPreview";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -57,9 +56,6 @@ const SkillsForm = lazy(() => import("../components/editor/SkillsForm"));
 const ProjectsForm = lazy(() => import("../components/editor/ProjectsForm"));
 const CertificationsForm = lazy(
   () => import("../components/editor/CertificationsForm"),
-);
-const CoverLetterForm = lazy(
-  () => import("../components/editor/CoverLetterForm"),
 );
 const FinishStep = lazy(() => import("../components/editor/FinishStep"));
 const PaymentModal = lazy(() => import("../components/payment/PaymentModal"));
@@ -92,7 +88,6 @@ type Tab =
   | "skills"
   | "projects"
   | "certifications"
-  | "cover-letter"
   | "finish"
   | "review";
 
@@ -164,14 +159,6 @@ const ATS_SECTION_TIPS: Record<string, Record<string, { title: string; tips: str
         "تأكد من ملاءمة هذا القسم وتوافقه مع ثقافة ونوعية الشركات المستهدفة."
       ]
     },
-    "cover-letter": {
-      title: "💡 نصائح خطاب التقديم لـ ATS متميز",
-      tips: [
-        "تأكد من مخاطبة الشركة أو مسؤول التوظيف بالاسم لزيادة الاهتمام المباشر.",
-        "استخدم الذكاء الاصطناعي المدمج لصياغة خطاب رصين متطابق مع متطلبات الوظيفة.",
-        "وضح شغفك وقدرتك الفريدة على سد ثغرة حقيقية داخل فريق الشركة."
-      ]
-    },
     finish: {
       title: "💡 التدقيق النهائي ومراجعة الـ ATS",
       tips: [
@@ -238,14 +225,6 @@ const ATS_SECTION_TIPS: Record<string, Record<string, { title: string; tips: str
         "Add volunteer achievements to exhibit leadership and community commitment."
       ]
     },
-    "cover-letter": {
-      title: "💡 Cover Letter Tips for ATS Success",
-      tips: [
-        "Tailor the header to directly index the hiring manager or recruiter name.",
-        "Incorporate highly focused role summaries with the built-in generator.",
-        "Briefly declare your long-term goals and direct cultural fit."
-      ]
-    },
     finish: {
       title: "💡 Final Checklist & Export Tips",
       tips: [
@@ -277,7 +256,6 @@ export default function EditorPage() {
     "skills",
     "projects",
     "certifications",
-    "cover-letter",
   ];
   const currentTabIndex = tabOrder.indexOf(activeTab);
   const hasNextTab = currentTabIndex >= 0 && currentTabIndex < tabOrder.length - 1;
@@ -384,13 +362,11 @@ export default function EditorPage() {
   const [overflowLines, setOverflowLines] = useState(0);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
+  const [showAtsAestheticPanel, setShowAtsAestheticPanel] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{
     type: "load" | "clear";
     message: string;
   } | null>(null);
-  const [previewMode, setPreviewMode] = useState<"resume" | "cover-letter">(
-    "resume",
-  );
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
 
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
@@ -732,13 +708,6 @@ export default function EditorPage() {
       tourId: "certifications-section",
     },
     {
-      id: "cover-letter",
-      label: String(language === "ar" ? "خطاب التقديم" : "Cover Letter"),
-      shortLabel: String(language === "ar" ? "الخطاب" : "Cover"),
-      icon: FileText,
-      tourId: "cover-letter-section",
-    },
-    {
       id: "finish",
       label: String(language === "ar" ? "التحميل والتدقيق" : "Audit & Download"),
       shortLabel: String(language === "ar" ? "تحميل" : "Finish"),
@@ -755,7 +724,6 @@ export default function EditorPage() {
     education: data.education && data.education.length > 0 ? 100 : 0,
     skills: data.skills && data.skills.length > 0 ? 100 : 0,
     certifications: data.certifications && data.certifications.length > 0 ? 100 : 0,
-    "cover-letter": data.coverLetter?.generatedContent ? 100 : 0,
     finish: atsScore,
   };
 
@@ -846,7 +814,7 @@ export default function EditorPage() {
                 )}
 
             {/* Direct Flow AI Integrations Callout Banner */}
-            {showAIBanner && data.personalInfo.fullName && activeTab !== "cover-letter" && (
+            {showAIBanner && data.personalInfo.fullName && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -864,23 +832,17 @@ export default function EditorPage() {
                     </h4>
                     <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-1">
                       {language === "ar"
-                        ? "هل ترغب في صياغة خطاب تغطية ذكي (Cover Letter) مخصص أو بدء محاكاة المقابلة الشخصية للتدريب مع مدرب الذكاء الاصطناعي بناءً على خبراتك المحفوظة؟"
-                        : "Ready to auto-generate a custom Cover Letter or start simulator-practice with the AI Interview Coach built around your experiences?"}
+                        ? "هل ترغب في البدء بالبحث عن فرص وتوصيات عمل ذكية متوافقة تماماً مع سيرتك الذاتية؟"
+                        : "Ready to explore live matches and job recommendation lists tailored to your resume?"}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 self-end sm:self-center">
-                  <button
-                    onClick={() => setActiveTab("cover-letter")}
-                    className="flex-1 sm:flex-none text-[10px] font-black bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 py-2 px-3 rounded-xl transition-all cursor-pointer whitespace-nowrap"
-                  >
-                    {language === "ar" ? "✍️ خطاب التغطية" : "✍️ Cover Letter"}
-                  </button>
                   <Link
-                    to="/interview-prep"
+                    to="/hash-hunt"
                     className="flex-1 sm:flex-none text-center text-[10px] font-black bg-[#FF4D2D] hover:bg-[#E64528] text-white py-2.5 px-3.5 rounded-xl shadow-xs transition-all cursor-pointer whitespace-nowrap"
                   >
-                    {language === "ar" ? "🤖 مدرب المقابلات" : "🤖 Interview Coach"}
+                    {language === "ar" ? "💼 ابحث عن وظائف" : "💼 Find Jobs (Hash Hunt)"}
                   </Link>
                   <button
                     onClick={() => setShowAIBanner(false)}
@@ -1098,34 +1060,9 @@ export default function EditorPage() {
                           </div>
                           <CertificationsForm />
 
-
-                        </section>
-                      )}
-                      {activeTab === "cover-letter" && (
-                        <section>
-                          <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
-                              <FileText
-                                size={24}
-                                className="relative z-10 drop-shadow-sm"
-                              />
-                            </div>
-                            <div>
-                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
-                                {String(t.coverLetter?.title || "Cover Letter")}
-                              </h2>
-                              <p className="text-xs text-neutral-500 font-medium">
-                                {language === "ar"
-                                  ? "خطاب تقديمي مخصص بالذكاء الاصطناعي"
-                                  : "AI-powered personalized letter"}
-                              </p>
-                            </div>
-                          </div>
-                          <CoverLetterForm />
-
                           <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
                             <button
-                              onClick={() => setActiveTab("certifications")}
+                              onClick={() => setActiveTab("projects")}
                               className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
                             >
                               {language === "ar" ? "السابق" : "Previous"}
@@ -1135,8 +1072,8 @@ export default function EditorPage() {
                               className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
                             >
                               {language === "ar"
-                                ? "العودة للمراجعة والتحميل"
-                                : "Back to Review & Download"}
+                                ? "الذهاب للمراجعة والتحميل"
+                                : "Go to Review & Download"}
                               <ArrowRight
                                 size={20}
                                 className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
@@ -1205,7 +1142,7 @@ export default function EditorPage() {
               >
                 <div className="bg-white shadow-[0_4px_25px_rgba(0,0,0,0.06)] rounded-sm overflow-hidden w-full h-full">
                   <Suspense fallback={<FormLoader />}>
-                  {previewMode === "cover-letter" ? <CoverLetterPreview /> : <ResumePreview ref={componentRef} />}
+                  <ResumePreview ref={componentRef} />
                   </Suspense>
                 </div>
               </div>
@@ -1452,7 +1389,7 @@ export default function EditorPage() {
             className="bg-neutral-100 border-s border-neutral-200 flex-col flex h-full overflow-hidden relative transition-colors duration-200"
           >
             {/* Custom Spacing controls floats */}
-            {showMicroSpacingPanel && previewMode === "resume" && (
+            {showMicroSpacingPanel && (
               <motion.div
                 initial={{ opacity: 0, y: -10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -1565,49 +1502,135 @@ export default function EditorPage() {
             )}
 
             {/* ATS Trust Guard badge */}
-            {previewMode === "resume" && (
-              <div 
-                className="absolute top-[68px] start-6 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/90 shadow-sm text-emerald-800 text-[10px] sm:text-xs font-black select-none pointer-events-auto"
-                dir={language === "ar" ? "rtl" : "ltr"}
-              >
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 fill-emerald-100 animate-pulse" />
-                <span>
-                  {language === "ar" 
-                    ? "متوافقة ومكتوبة للفرز (ATS-Friendly 100%)" 
-                    : "ATS Text-Extractable Guard Active (100% Readable)"}
-                </span>
-              </div>
-            )}
+            <div 
+              className="absolute top-[68px] start-6 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/90 shadow-sm text-emerald-800 text-[10px] sm:text-xs font-black select-none pointer-events-auto"
+              dir={language === "ar" ? "rtl" : "ltr"}
+            >
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 fill-emerald-100 animate-pulse" />
+              <span>
+                {language === "ar" 
+                  ? "متوافقة ومكتوبة للفرز (ATS-Friendly 100%)" 
+                  : "ATS Text-Extractable Guard Active (100% Readable)"}
+              </span>
+            </div>
             <div className="h-14 bg-white/95 backdrop-blur-sm border-b border-neutral-200/80 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu shadow-xs">
               <div className="flex items-center gap-3">
-                <div className="flex items-center bg-slate-100/80 rounded-xl p-1 border border-slate-200/60 shadow-inner">
-                    <button
-                      onClick={() => setPreviewMode("resume")}
+                <div className="flex items-center gap-2 text-slate-800 bg-slate-100/80 rounded-xl px-3 py-1.5 border border-slate-200/60 shadow-inner">
+                  <LayoutTemplate size={14} className="text-brand-500 animate-pulse" />
+                  <span className="text-xs font-black tracking-wide font-sans">
+                    {language === "ar" ? "المعاينة التفاعلية" : "Live Preview"}
+                  </span>
+                </div>
+
+                {/* ATS Live Icon/Pill Block */}
+                <div className="relative">
+                  <div
+                    onClick={() => setShowAtsAestheticPanel(!showAtsAestheticPanel)}
+                    className={cn(
+                      "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[10px] sm:text-xs font-extrabold cursor-pointer transition-all hover:scale-103 select-none",
+                      atsScore >= 80 
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 shadow-xs shadow-emerald-100/50" 
+                        : atsScore >= 50
+                        ? "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100 shadow-xs shadow-amber-100/50"
+                        : "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100 shadow-xs shadow-rose-100/50"
+                    )}
+                    title={language === "ar" ? "تدقيق الـ ATS المباشر" : "ATS Live Audit"}
+                  >
+                    <span className={cn(
+                      "w-1.5 h-1.5 rounded-full z-10 shrink-0",
+                      atsScore >= 80 ? "bg-emerald-500 animate-pulse" : atsScore >= 50 ? "bg-amber-500 animate-pulse" : "bg-rose-500"
+                    )} />
+                    <span className="font-semibold text-[10px] sm:text-xs hidden mini:inline">{language === "ar" ? "تطابق ATS:" : "ATS Match:"}</span>
+                    <span className="font-extrabold font-mono text-[11px] sm:text-xs z-10 shrink-0">{atsScore}%</span>
+                  </div>
+
+                  {showAtsAestheticPanel && (
+                    <div 
                       className={cn(
-                        "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide transition-all",
-                        previewMode === "resume"
-                          ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/50"
-                          : "text-slate-500 hover:text-slate-700"
+                        "absolute z-30 top-11 mt-1 w-72 sm:w-80 bg-white border border-slate-200 rounded-2xl shadow-xl p-4 text-slate-800 font-sans",
+                        language === "ar" ? "start-0" : "left-0"
                       )}
+                      dir={language === "ar" ? "rtl" : "ltr"}
                     >
-                      <LayoutTemplate size={14} className={previewMode === "resume" ? "text-brand-500" : ""} />
-                      {language === "ar" ? "السيرة الذاتية" : t.resumeTab}
-                    </button>
-                    <button
-                      onClick={() => setPreviewMode("cover-letter")}
-                      className={cn(
-                        "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide transition-all",
-                        previewMode === "cover-letter"
-                          ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/50"
-                          : "text-slate-500 hover:text-slate-700"
-                      )}
-                    >
-                      <FileText size={14} className={previewMode === "cover-letter" ? "text-brand-500" : ""} />
-                      {language === "ar" ? "خطاب التغطية" : t.coverLetterTab}
-                    </button>
+                      <div className="flex items-center justify-between pb-2.5 border-b border-slate-100">
+                        <span className="text-xs font-black text-slate-900">⚡ {language === "ar" ? "تحليل نقاط التطابق المباشر الـ ATS" : "ATS Live Extraction Audit"}</span>
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); setShowAtsAestheticPanel(false); }}
+                          className="p-1 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-900 transition-colors cursor-pointer"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+
+                      <div className="mt-3 space-y-3 font-normal">
+                        {/* Interactive progress bar */}
+                        <div>
+                          <div className="flex justify-between text-[11px] mb-1 font-bold">
+                            <span className="text-slate-500">{language === "ar" ? "مؤشر تطابق المستخرجات" : "Overall Compatibility"}</span>
+                            <span className={atsScore >= 80 ? "text-emerald-600 font-black" : atsScore >= 50 ? "text-amber-600 font-black" : "text-rose-600 font-black"}>{atsScore}%</span>
+                          </div>
+                          <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                            <div 
+                              className={cn(
+                                "h-full rounded-full transition-all duration-500",
+                                atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
+                              )}
+                              style={{ width: `${atsScore}%` }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* Summary rating */}
+                        <p className="text-[10px] text-slate-500 leading-relaxed font-normal">
+                          {language === "ar"
+                            ? atsScore >= 80
+                              ? "تهانينا! سيرتك الذاتية ممتازة ومبنية بأقوى معايير التوظيف والفرز."
+                              : atsScore >= 50
+                              ? "سيرتك جيدة، لكن ننصح بإضافة بضعة أرقام لنتائج عملك وتفاصيل مهاراتك الفنية للارتقاء بها."
+                              : "تحتاج سيرتك لإضافة معلومات اتصال كاملة وخبرة مفصلة لتمكين مراجعتها وجذب المستخرج الآلي."
+                            : atsScore >= 80
+                            ? "Splendid work! Your resume matches industry-standard ATS extraction norms beautifully."
+                            : atsScore >= 50
+                            ? "Good start. We recommend adding quantitative metrics and professional social links to boost extraction score."
+                            : "Provide contact details, summary sentences, and experience items to activate extraction."}
+                        </p>
+
+                        {/* Section Breakdown Mini */}
+                        <div className="border-t border-slate-100 pt-3 space-y-1.5 max-h-36 overflow-y-auto pr-1">
+                          {calculateATSScore(data).sections.map((sect, idx) => (
+                            <div key={idx} className="flex items-center justify-between text-[10px] py-0.5">
+                              <span className="text-slate-500 font-medium">
+                                {sect.title === "Contact Info" 
+                                  ? (language === "ar" ? "بيانات التواصل" : "Contact Details") 
+                                  : sect.title === "Experience Bullet Points" 
+                                  ? (language === "ar" ? "صياغة نقاط وبروتوكولات الخبرة" : "Experience Verbs & Metrics") 
+                                  : sect.title === "Experience Formatting" 
+                                  ? (language === "ar" ? "تنسيق عناصر الخبرة" : "Experience Bullets") 
+                                  : sect.title === "Summary" 
+                                  ? (language === "ar" ? "الملخص المهني" : "Professional Summary") 
+                                  : sect.title === "Skills Section" 
+                                  ? (language === "ar" ? "قسم المهارات الفنية" : "Skills Range") 
+                                  : sect.title}
+                              </span>
+                              <span className="font-black font-mono text-slate-800">{sect.score} / {sect.maxScore}</span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {calculateATSScore(data).tips.length > 0 && (
+                          <div className="border-t border-slate-100 pt-2.5">
+                            <span className="text-[10px] font-black block mb-1 text-slate-800">💡 {language === "ar" ? "توصيات فورية لتحسين النسبة والبروز:" : "Key Recommendation:"}</span>
+                            <p className="text-[10px] text-slate-700 bg-slate-50/80 p-2 rounded-xl border border-slate-100 leading-normal font-sans">
+                              {calculateATSScore(data).tips[0]}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
-                {previewMode === "resume" && !data.isLocked && (
+                {!data.isLocked && (
                   <div className="hidden sm:flex items-center gap-2 border-s border-slate-200/80 ps-3">
                     <button
                       onClick={() => setIsSettingsModalOpen(true)}
@@ -1634,7 +1657,7 @@ export default function EditorPage() {
 
               <div className="flex items-center gap-2">
                 {/* Mobile specific settings button if hidden above */}
-                {previewMode === "resume" && !data.isLocked && (
+                {!data.isLocked && (
                   <button
                     onClick={() => setIsSettingsModalOpen(true)}
                     className="sm:hidden p-2 text-brand-600 bg-brand-50 hover:bg-brand-100 rounded-lg transition-colors border border-brand-200/50"
@@ -1643,19 +1666,17 @@ export default function EditorPage() {
                   </button>
                 )}
                 {/* Mobile specific micro spacing button */}
-                {previewMode === "resume" && (
-                  <button
-                    onClick={() => setShowMicroSpacingPanel(!showMicroSpacingPanel)}
-                    className={cn(
-                      "sm:hidden p-2 rounded-lg transition-colors border",
-                      showMicroSpacingPanel 
-                        ? "bg-slate-900 text-white border-slate-900" 
-                        : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
-                    )}
-                  >
-                    <SlidersHorizontal size={16} />
-                  </button>
-                )}
+                <button
+                  onClick={() => setShowMicroSpacingPanel(!showMicroSpacingPanel)}
+                  className={cn(
+                    "sm:hidden p-2 rounded-lg transition-colors border",
+                    showMicroSpacingPanel 
+                      ? "bg-slate-900 text-white border-slate-900" 
+                      : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
+                  )}
+                >
+                  <SlidersHorizontal size={16} />
+                </button>
                 <button
                   onClick={() => setShowFullPreview(true)}
                   className="flex items-center gap-1.5 p-2 sm:px-3 sm:py-1.5 text-slate-500 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all shadow-sm"
@@ -1669,7 +1690,7 @@ export default function EditorPage() {
 
             {/* Page Overflow Indicator Alert banner */}
             <AnimatePresence>
-              {overflowLines > 0 && previewMode === "resume" && (
+              {overflowLines > 0 && (
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -1711,27 +1732,13 @@ export default function EditorPage() {
 
             <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-12 pt-24 md:pt-24 flex flex-col items-center justify-start bg-slate-50/70 relative">
               <div
-                className={cn(
-                  "origin-top transition-all duration-500 flex justify-center",
-                  previewMode !== "cover-letter"
-                    ? "scale-[0.4] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.8] xl:scale-[0.9] h-[calc(297mm*0.4)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.75)] lg:h-[calc(297mm*0.8)] xl:h-[calc(297mm*0.9)]"
-                    : "w-full max-w-3xl",
-                )}
+                className="origin-top transition-all duration-500 flex justify-center scale-[0.4] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.8] xl:scale-[0.9] h-[calc(297mm*0.4)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.75)] lg:h-[calc(297mm*0.8)] xl:h-[calc(297mm*0.9)]"
               >
                 <div
-                  className={cn(
-                    "bg-white shadow-premium rounded-md overflow-hidden",
-                    previewMode !== "cover-letter"
-                      ? "w-[210mm] min-h-[297mm] shrink-0"
-                      : "w-full",
-                  )}
+                  className="bg-white shadow-premium rounded-md overflow-hidden w-[210mm] min-h-[297mm] shrink-0"
                 >
                   <Suspense fallback={<FormLoader />}>
-                    {previewMode === "cover-letter" ? (
-                      <CoverLetterPreview />
-                    ) : (
-                      <ResumePreview ref={componentRef} />
-                    )}
+                    <ResumePreview ref={componentRef} />
                   </Suspense>
                 </div>
               </div>
@@ -1763,43 +1770,14 @@ export default function EditorPage() {
               className="fixed inset-x-0 bottom-0 top-[10vh] bg-neutral-100 rounded-t-[2rem] shadow-premium z-[110] flex flex-col overflow-hidden"
             >
               <div
-                className="flex items-center justify-between p-3 shrink-0"
+                className="flex items-center justify-between p-4 shrink-0"
                 style={{ background: '#fff', borderBottom: '1px solid var(--color-neutral-100)' }}
               >
-                <div
-                  className="flex items-center rounded-xl p-1"
-                  style={{ background: 'var(--color-neutral-100)' }}
-                >
-                  <button
-                    onClick={() => setPreviewMode("resume")}
-                    className={cn(
-                      "flex items-center gap-1.5 px-4 py-2 rounded-lg text-[11px] font-black tracking-wider transition-all",
-                      language !== "ar" && "uppercase"
-                    )}
-                    style={previewMode === "resume" ? {
-                      background: '#fff',
-                      color: 'var(--color-neutral-900)',
-                      boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                    } : { color: 'var(--color-neutral-500)' }}
-                  >
-                    <LayoutTemplate size={14} />
-                    {language === "ar" ? "السيرة الذاتية" : "Resume"}
-                  </button>
-                  <button
-                    onClick={() => setPreviewMode("cover-letter")}
-                    className={cn(
-                      "flex items-center gap-1.5 px-4 py-2 rounded-lg text-[11px] font-black tracking-wider transition-all",
-                      language !== "ar" && "uppercase"
-                    )}
-                    style={previewMode === "cover-letter" ? {
-                      background: '#fff',
-                      color: 'var(--color-neutral-900)',
-                      boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                    } : { color: 'var(--color-neutral-500)' }}
-                  >
-                    <FileText size={14} />
-                    {language === "ar" ? "خطاب التغطية" : "Cover Letter"}
-                  </button>
+                <div className="flex items-center gap-2">
+                  <LayoutTemplate size={18} className="text-brand-500" />
+                  <span className="text-sm font-black text-neutral-900">
+                    {language === "ar" ? "معاينة السيرة الذاتية" : "Resume Preview"}
+                  </span>
                 </div>
               
                 <button
@@ -1812,32 +1790,18 @@ export default function EditorPage() {
 
               <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-200/50">
                 <div
-                  className={cn(
-                    "origin-top transition-all flex justify-center",
-                    previewMode !== "cover-letter"
-                      ? "scale-[0.4] sm:scale-[0.45] origin-top opacity-100"
-                      : "w-full",
-                  )}
-                  style={previewMode !== "cover-letter" ? { 
+                  className="origin-top transition-all flex justify-center scale-[0.4] sm:scale-[0.45] origin-top opacity-100"
+                  style={{ 
                     width: "210mm",
                     height: "297mm",
                     marginBottom: "-170mm" // roughly 297 * 0.6
-                  } : undefined}
+                  }}
                 >
                   <div
-                    className={cn(
-                      "bg-white shadow-premium rounded-sm overflow-hidden shrink-0",
-                      previewMode !== "cover-letter"
-                        ? "w-[210mm] min-h-[297mm]"
-                        : "w-full",
-                    )}
+                    className="bg-white shadow-premium rounded-sm overflow-hidden shrink-0 w-[210mm] min-h-[297mm]"
                   >
                     <Suspense fallback={<FormLoader />}>
-                      {previewMode === "cover-letter" ? (
-                        <CoverLetterPreview />
-                      ) : (
-                        <ResumePreview ref={componentRef} />
-                      )}
+                      <ResumePreview ref={componentRef} />
                     </Suspense>
                   </div>
                 </div>

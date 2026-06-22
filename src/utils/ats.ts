@@ -141,6 +141,13 @@ const ACTION_VERBS = new Set([
   "initiated",
 ]);
 
+const ARABIC_ACTION_VERBS = new Set([
+  "قاد", "أدار", "صمم", "طور", "أنشأ", "حقق", "نفذ", "أطلق", "حسن", "ساعد", 
+  "أشرف", "أنتج", "حلل", "برمج", "إدارة", "تطوير", "تصميم", "تنفيذ", "تحقيق",
+  "قدت", "أدرت", "صممت", "طورت", "أنشأت", "حققت", "نفذت", "أطلقت", "حسنت",
+  "ساهمت", "شاركت", "أشرفت", "أنتجت", "حللت", "برمجت", "تخطيط", "تحليل"
+]);
+
 const SOFT_SKILLS = new Set([
   "communication",
   "leadership",
@@ -218,35 +225,54 @@ export function calculateATSScore(data: ResumeData): ATSResult {
 
   const sections: ATSResult["sections"] = [];
 
-  // 1. Contact Info (10 points)
+  // 1. Contact Info (10 points max)
   const contact = {
     title: "Contact Info",
     score: 0,
     maxScore: 10,
-    goodPoints: [],
+    goodPoints: [] as string[],
     improvements: [] as string[],
   };
-  if (personalInfo.fullName && personalInfo.fullName.trim().length > 2)
+  if (personalInfo.fullName && personalInfo.fullName.trim().length > 2) {
     contact.score += 3;
-  else contact.improvements.push("Add your full name.");
+    contact.goodPoints.push("Full name is present.");
+  } else contact.improvements.push("Add your full name.");
 
   if (personalInfo.email && personalInfo.email.includes("@")) {
     contact.score += 3;
     contact.goodPoints.push("Email address is present.");
   } else contact.improvements.push("Add a professional email address.");
 
-  if (personalInfo.phone) {
+  if (personalInfo.phone && personalInfo.phone.trim().length > 4) {
     contact.score += 2;
     contact.goodPoints.push("Phone number is present.");
   } else contact.improvements.push("Add your phone number.");
 
-  if (personalInfo.linkedin) {
+  let socialCount = 0;
+  if (personalInfo.linkedin && personalInfo.linkedin.trim().length > 0) {
     contact.score += 2;
+    socialCount++;
     contact.goodPoints.push("LinkedIn profile included.");
-  } else
+  }
+  if (personalInfo.github && personalInfo.github.trim().length > 0) {
+    if (socialCount < 1) contact.score += 2; // award points if linkedin wasn't filled
+    socialCount++;
+    contact.goodPoints.push("GitHub profile included.");
+  }
+  if (personalInfo.portfolio && personalInfo.portfolio.trim().length > 0) {
+    if (socialCount < 1) contact.score += 2; // award points
+    socialCount++;
+    contact.goodPoints.push("Portfolio website included.");
+  }
+
+  // Cap score at 10
+  contact.score = Math.min(10, contact.score);
+
+  if (socialCount === 0) {
     contact.improvements.push(
-      "Add a LinkedIn URL for professional credibility.",
+      "Add a professional online profile (LinkedIn, GitHub, or Portfolio) to build trust.",
     );
+  }
   sections.push(contact);
 
   // 2. Summary (10 points)
@@ -332,7 +358,7 @@ export function calculateATSScore(data: ResumeData): ATSResult {
     title: "Experience Bullet Points",
     score: 0,
     maxScore: 20,
-    goodPoints: [],
+    goodPoints: [] as string[],
     improvements: [] as string[],
   };
   if (experience.length > 0) {
@@ -352,41 +378,54 @@ export function calculateATSScore(data: ResumeData): ATSResult {
           .replace(/^[•*\s-]+/, "")
           .trim()
           .toLowerCase();
-        const firstWord = cleanBullet.split(/\s+/)[0];
-        if (ACTION_VERBS.has(firstWord)) actionVerbCount++;
-        if (/[0-9]+%|\$[0-9]+|[0-9]+\+/.test(cleanBullet)) quantifiedCount++;
+
+        // Match English or Arabic action verbs anywhere in the bullet
+        let hasActionVerb = false;
+        const words = cleanBullet.split(/\s+/);
+        for (const w of words) {
+          if (ACTION_VERBS.has(w) || ARABIC_ACTION_VERBS.has(w)) {
+            hasActionVerb = true;
+            break;
+          }
+        }
+        
+        if (hasActionVerb) actionVerbCount++;
+        // Check for English (0-9) and Arabic/Indic (٠-٩) numerals and percentages
+        if (/[0-9]+%|\$[0-9]+|[0-9]+\+|[٠-٩]+٪|[٠-٩]+\+|[0-9]+/.test(cleanBullet)) quantifiedCount++;
       });
     });
 
     if (totalBullets > 0) {
       const actionVerbRatio = actionVerbCount / totalBullets;
-      if (actionVerbRatio > 0.7) {
+      if (actionVerbRatio > 0.6) {
         bulletQuality.score += 10;
-        bulletQuality.goodPoints.push("Excellent use of action verbs.");
-      } else if (actionVerbRatio > 0.4) {
+        bulletQuality.goodPoints.push("Excellent use of strong action verbs.");
+      } else if (actionVerbRatio > 0.3) {
         bulletQuality.score += 5;
+        bulletQuality.goodPoints.push("Good attempt at using action verbs.");
         bulletQuality.improvements.push(
-          "Start more bullet points with strong action verbs.",
+          "Start more of your bullet points with action verbs to show active leadership and technical execution.",
         );
       } else {
         bulletQuality.improvements.push(
-          "Most bullet points should start with an action verb (e.g., 'Led', 'Developed').",
+          "Most descriptions should include clear action verbs (e.g., 'Led', 'Developed', 'قاد', 'طور') to detail your output.",
         );
       }
 
-      if (quantifiedCount >= 3) {
+      if (quantifiedCount >= 2) {
         bulletQuality.score += 10;
         bulletQuality.goodPoints.push(
-          "Strong use of metrics and data to quantify impact.",
+          "Great job adding numbers and metrics to substantiate impact.",
         );
       } else if (quantifiedCount > 0) {
         bulletQuality.score += 5;
+        bulletQuality.goodPoints.push("Some quantified impact included.");
         bulletQuality.improvements.push(
-          "Try to quantify more achievements with numbers, percentages, or dollar amounts.",
+          "Try to quantify more achievements with numbers, percentages, or scale metrics.",
         );
       } else {
         bulletQuality.improvements.push(
-          "Add numbers to your achievements (e.g., 'Increased efficiency by 15%', 'Managed $10k budget').",
+          "Add metrics/numbers to your accomplishments (e.g., 'Increased efficiency by 15%', 'Managed $10k budget' or 'تقليص التكاليف بنسبة ١٥٪').",
         );
       }
     }
@@ -455,20 +494,24 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   }
   sections.push(skillsSection);
 
-  // 7. Projects (10 points)
+  // 7. Projects (10 points max)
   const projSection = {
     title: "Projects",
     score: 0,
     maxScore: 10,
-    goodPoints: [],
+    goodPoints: [] as string[],
     improvements: [] as string[],
   };
   if (projects.length > 0) {
     projSection.score += 10;
     projSection.goodPoints.push("Projects section included.");
+  } else if (experience.length >= 2) {
+    // Senior/Professional Compensation rule
+    projSection.score += 8;
+    projSection.goodPoints.push("Projects score compensated by extensive professional employment history.");
   } else {
     projSection.improvements.push(
-      "Add projects to demonstrate practical application of your skills.",
+      "Add key projects or case studies to demonstrate hands-on application of your skills.",
     );
   }
   sections.push(projSection);
