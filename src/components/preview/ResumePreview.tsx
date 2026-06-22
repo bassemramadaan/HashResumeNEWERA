@@ -1,5 +1,6 @@
-import React, { forwardRef, memo } from "react";
+import React, { forwardRef, memo, useRef, useEffect } from "react";
 import { useResumeStore, ResumeData } from "../../store/useResumeStore";
+import { useActiveSectionStore } from "../../store/useActiveSectionStore";
 import { Mail, Phone, MapPin, Linkedin, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +13,59 @@ const ResumePreview = memo(
     const storeData = useResumeStore((state) => state.data);
     let data = props.data || storeData;
     
+    const localRef = useRef<HTMLDivElement | null>(null);
+    const activeField = useActiveSectionStore((state) => state.activeField);
+
+    useEffect(() => {
+      const container = localRef.current;
+      if (!container) return;
+      
+      // Clear all existing highlighted items
+      container.querySelectorAll("[data-highlighted]").forEach((el) => {
+        el.removeAttribute("data-highlighted");
+      });
+
+      if (!activeField) return;
+
+      if (activeField === "personalInfo") {
+        const header = container.querySelector("header");
+        if (header) {
+          header.setAttribute("data-highlighted", "true");
+        }
+      } else {
+        const sections = container.querySelectorAll("section");
+        sections.forEach((sec) => {
+          const text = sec.textContent?.toLowerCase() || "";
+          
+          if (activeField === "summary") {
+            if (text.includes("summary") || text.includes("ملخص") || text.includes("الخلاصة") || text.includes("profil") || text.includes("recherche") || text.includes("professional summary") || text.includes("الملخص المهني")) {
+              sec.setAttribute("data-highlighted", "true");
+            }
+          } else if (activeField === "experience") {
+            if (text.includes("experience") || text.includes("الخبرة") || text.includes("الخبرات") || text.includes("العمل") || text.includes("professionnelle") || text.includes("التاريخ المهني") || text.includes("الخبرة المهنية")) {
+              sec.setAttribute("data-highlighted", "true");
+            }
+          } else if (activeField === "education") {
+            if (text.includes("education") || text.includes("التعليم") || text.includes("الدراسة") || text.includes("académique") || text.includes("formation") || text.includes("المسار التعليمي") || text.includes("المؤهلات العلمية")) {
+              sec.setAttribute("data-highlighted", "true");
+            }
+          } else if (activeField === "skills") {
+            if (text.includes("skills") || text.includes("المهارات") || text.includes("competences") || text.includes("compétences") || text.includes("القدرات والمهارات")) {
+              sec.setAttribute("data-highlighted", "true");
+            }
+          } else if (activeField === "projects") {
+            if (text.includes("projects") || text.includes("المشاريع") || text.includes("projets") || text.includes("مشاريعي الشخصية") || text.includes("مشاريع")) {
+              sec.setAttribute("data-highlighted", "true");
+            }
+          } else if (activeField === "certifications") {
+            if (text.includes("certifications") || text.includes("الشهادات") || text.includes("diplômes") || text.includes("certificats") || text.includes("الكورسات والشهادات")) {
+              sec.setAttribute("data-highlighted", "true");
+            }
+          }
+        });
+      }
+    }, [activeField]);
+
     // Check if the resume is entirely empty
     const isEmpty = 
       !data.personalInfo?.fullName && 
@@ -2864,7 +2918,16 @@ const ResumePreview = memo(
 
     return (
       <div
-        ref={ref}
+        ref={(node) => {
+          localRef.current = node;
+          if (ref) {
+            if (typeof ref === "function") {
+              ref(node);
+            } else {
+              (ref as any).current = node;
+            }
+          }
+        }}
         id="resume-preview-container"
         className={cn(
           "w-full h-full bg-white box-border transition-all duration-500 relative", 
@@ -2883,6 +2946,21 @@ const ResumePreview = memo(
       >
         <style dangerouslySetInnerHTML={{
           __html: `
+            #resume-preview-container [data-highlighted="true"] {
+              outline: 2px solid ${themeColor} !important;
+              outline-offset: 4px !important;
+              background-color: ${themeColor}0e !important;
+              border-radius: 6px !important;
+              box-shadow: 0 0 0 0px ${themeColor}33 !important;
+              animation: soft-pulse-highlight 1.8s infinite ease-in-out !important;
+              transition: all 0.3s ease-in-out !important;
+            }
+            @keyframes soft-pulse-highlight {
+              0% { box-shadow: 0 0 0 0px ${themeColor}33; }
+              50% { box-shadow: 0 0 0 8px ${themeColor}0a; }
+              100% { box-shadow: 0 0 0 0px ${themeColor}33; }
+            }
+
             #resume-preview-container {
               --spacing-mult: ${spacingScale};
               --margin-mult: ${marginScale};

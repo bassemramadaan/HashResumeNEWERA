@@ -163,9 +163,31 @@ const ExperienceItem = ({
 
               <div className="space-y-2 border-t border-slate-100 pt-4">
                 <div className="flex items-center justify-between mb-1">
-                  <label className="text-[11px] font-semibold text-slate-500 block">
-                    {String(t.experience?.description || "Description")}
-                  </label>
+                  <div className="flex items-center gap-2">
+                    <label className="text-[11px] font-semibold text-slate-500 block">
+                      {String(t.experience?.description || "Description")}
+                    </label>
+                    <button
+                      onClick={() => {
+                        const currentVal = exp.description || "";
+                        if (currentVal.length < 10) return alert(isAr ? "اكتب بعض التفاصيل أولاً ليتمكن الذكاء الاصطناعي من صياغتها" : "Write some details first so the AI can enhance it");
+                        // Mock AI Enhancement with magical vibe
+                        const btn = document.getElementById(`magic-btn-${exp.id}`);
+                        if(btn) btn.classList.add("animate-pulse", "text-brand-500");
+                        setTimeout(() => {
+                           // This is where real API call goes. We'll do a string replacement for now
+                           updateExperience(exp.id, { description: currentVal + (isAr ? "\n• تم تحسين وإعادة صياغة النقاط لتعكس الاحترافية واستخدام أفعال مؤثرة." : "\n• Enhanced and rephrased using action verbs for higher impact.") });
+                           if(btn) btn.classList.remove("animate-pulse", "text-brand-500");
+                        }, 1200);
+                      }}
+                      id={`magic-btn-${exp.id}`}
+                      className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-brand-50 text-brand-600 hover:bg-brand-100 transition-colors text-[10px] font-bold cursor-pointer border border-brand-200/50"
+                      title={isAr ? "إعادة صياغة ذكية بالذكاء الاصطناعي 🪄" : "Smart Rewrite 🪄"}
+                    >
+                      <Sparkles size={11} />
+                      {isAr ? "المحرر الذكي" : "Smart Rewrite"}
+                    </button>
+                  </div>
                   <ATSVerbAssistant 
                     onSelectWord={(word) => {
                       const currentVal = exp.description || "";

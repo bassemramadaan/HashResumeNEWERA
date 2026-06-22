@@ -161,6 +161,40 @@ export default function ATSScoreWidget({
   
   const { fg, bg, ring } = scoreColor(activeScore);
 
+  // Celebratory Faux-Confetti Gamification Effect
+  interface ConfettiParticle {
+    id: number;
+    x: number;
+    y: number;
+    color: string;
+    size: number;
+    duration: number;
+    rotation: number;
+  }
+  const [confetti, setConfetti] = useState<ConfettiParticle[]>([]);
+  const lastScoreRef = useRef(activeScore);
+
+  useEffect(() => {
+    if (activeScore >= 85 && lastScoreRef.current < 85) {
+      const colors = ["#FF4D2D", "#F59E0B", "#10B981", "#3B82F6", "#EC4899", "#8B5CF6"];
+      const particles: ConfettiParticle[] = Array.from({ length: 35 }).map((_, i) => ({
+        id: Date.now() + i,
+        x: (Math.random() - 0.5) * 160,
+        y: -40 - Math.random() * 120,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        size: Math.random() * 6 + 6,
+        duration: Math.random() * 1.6 + 1.2,
+        rotation: Math.random() * 360,
+      }));
+      setConfetti(particles);
+      const timer = setTimeout(() => {
+        setConfetti([]);
+      }, 3200);
+      return () => clearTimeout(timer);
+    }
+    lastScoreRef.current = activeScore;
+  }, [activeScore]);
+
   useEffect(() => {
     const h = (e: MouseEvent) => { 
       if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false);
@@ -171,6 +205,35 @@ export default function ATSScoreWidget({
 
   return (
     <div ref={wrapRef} className="relative inline-block" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+      {/* Confetti Explosion */}
+      {confetti.map((c) => (
+        <motion.span
+          key={c.id}
+          className="absolute pointer-events-none z-[9999]"
+          initial={{ x: 0, y: 0, scale: 0, rotate: 0 }}
+          animate={{ 
+            x: c.x, 
+            y: c.y, 
+            scale: [0, 1, 1, 0],
+            rotate: c.rotation + 360,
+          }}
+          transition={{
+            duration: c.duration,
+            ease: "easeOut",
+          }}
+          style={{
+            backgroundColor: c.color,
+            width: c.size,
+            height: c.size,
+            borderRadius: Math.random() > 0.5 ? "50%" : "3px",
+            top: "50%",
+            left: "50%",
+            marginTop: -c.size / 2,
+            marginLeft: -c.size / 2,
+          }}
+        />
+      ))}
+
       {variant === "heart" ? (
         <motion.button
           whileHover={{ scale: 1.08 }}

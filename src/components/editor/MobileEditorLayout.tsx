@@ -3,8 +3,10 @@ import { motion } from "motion/react";
 import { cn } from "../../lib/utils";
 import { 
   Edit3, Eye, Grid, Download, 
-  FileText, ChevronRight, Share2, AlertTriangle
+  FileText, ChevronRight, Share2, AlertTriangle,
+  ArrowUp, ArrowDown, Layers
 } from "lucide-react";
+import { useResumeStore } from "../../store/useResumeStore";
 
 // ── i18n Translation Dictionary ───────────────────────────
 const T: Record<string, Record<string, string>> = {
@@ -265,76 +267,214 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
   onSectionChange: (id: string) => void;
   completionMap: Record<string, number>;
 }) {
+  const [isSorting, setIsSorting] = useState(false);
   const mainSections = sections.filter((s) => s.id !== "finish");
   const auditSection = sections.find((s) => s.id === "finish");
   const isRtl = _lang === "ar";
+
+  const sectionOrder = useResumeStore((state) => state.data.settings.sectionOrder) || [
+    "summary",
+    "experience",
+    "education",
+    "skills",
+    "projects",
+    "certifications",
+  ];
+  const updateSettings = useResumeStore((state) => state.updateSettings);
+
+  const labelMapKey: Record<string, string> = {
+    summary: _lang === "ar" ? "الملخص المهني" : _lang === "fr" ? "Résumé" : "Professional Summary",
+    experience: _lang === "ar" ? "الخبرات العملية" : _lang === "fr" ? "Expérience" : "Work Experience",
+    education: _lang === "ar" ? "التعليم والدراسة" : _lang === "fr" ? "Éducation" : "Education",
+    skills: _lang === "ar" ? "المهارات المهنية" : _lang === "fr" ? "Compétences" : "Skills",
+    projects: _lang === "ar" ? "المشاريع المنجزة" : _lang === "fr" ? "Projets" : "Projects",
+    certifications: _lang === "ar" ? "الشهادات والاعتمادات" : _lang === "fr" ? "Certifications" : "Certifications",
+  };
+
+  const emojiMapKey: Record<string, string> = {
+    summary: "👤",
+    experience: "💼",
+    education: "🎓",
+    skills: "⭐",
+    projects: "🚀",
+    certifications: "🏅",
+  };
 
   return (
     <div className="px-4 py-5 space-y-4 max-w-md mx-auto h-full overflow-y-auto scrollbar-none pb-24">
       
       {/* Top Welcome Title inside bento */}
-      <div className="pb-1 text-center sm:text-right ltr:sm:text-left">
-        <span className="text-[10px] font-black tracking-wider text-rose-500 uppercase">HashResume Map</span>
-        <h3 className="text-base font-black text-slate-900 mt-0.5 leading-snug">
-          {_lang === "ar" ? "خطوات بناء سيرتك الاحترافية" : _lang === "fr" ? "Étapes de création de votre CV" : "Steps to Build Your Professional Resume"}
-        </h3>
+      <div className="pb-1 text-center sm:text-right ltr:sm:text-left flex items-center justify-between">
+        <div>
+          <span className="text-[10px] font-black tracking-wider text-rose-500 uppercase">HashResume Map</span>
+          <h3 className="text-base font-black text-slate-900 mt-0.5 leading-snug">
+            {_lang === "ar" ? "خطوات بناء سيرتك الاحترافية" : _lang === "fr" ? "Étapes de création de votre CV" : "Steps to Build Your Professional Resume"}
+          </h3>
+        </div>
       </div>
 
-      {/* Visual Vertical Progress Bento Grid */}
-      <div className="grid grid-cols-1 gap-3">
-        {mainSections.map((s, idx) => {
-          const pct = completionMap[s.id] ?? 0;
-          const isActive = activeSection === s.id;
-          
-          return (
-            <motion.div
-              key={s.id}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => onSectionChange(s.id)}
-              className={`p-3.5 rounded-2.5xl border cursor-pointer transition-all flex items-center gap-3.5 relative overflow-hidden group select-none ${
-                isActive 
-                  ? "bg-white border-[#FF4D2D]/30 ring-4 ring-[#FF4D2D]/5 shadow-[0_12px_28px_rgba(255,77,45,0.08)] text-slate-900" 
-                  : "bg-white border-slate-100/90 hover:border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.01)] text-slate-700 hover:bg-slate-50/50"
-              }`}
-            >
-              {/* Highlight background indicator */}
-              {isActive && (
-                <div 
-                  className="absolute top-0 bottom-0 w-1 bg-gradient-to-b from-[#FF4D2D] to-orange-500 rounded-full"
-                  style={{ [isRtl ? "right" : "left"]: 0 }}
-                />
-              )}
-
-              {/* Number indicator count circles */}
-              <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black transition-colors shrink-0 ${
-                isActive
-                  ? "bg-[#FF4D2D]/10 text-[#FF4D2D]"
-                  : "bg-slate-50 border border-slate-150 text-slate-400 group-hover:bg-slate-100"
-              }`}>
-                {idx + 1}
-              </div>
-
-              {/* Icon / Emoji circle widget */}
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 transition-transform group-hover:scale-105 ${
-                isActive
-                  ? "bg-gradient-to-br from-[#FF4D2D]/5 to-orange-500/[0.02]"
-                  : "bg-slate-50 border border-slate-100"
-              }`}>
-                {s.emoji}
-              </div>
-
-              {/* Main titles info body */}
-              <div className="flex-1 min-w-0 px-1 text-right ltr:text-left">
-                <h4 className="text-xs font-black font-sans tracking-tight text-slate-900 leading-none">{s.label}</h4>
-                <p className="text-[10px] text-slate-500 font-semibold truncate mt-1 leading-none">{s.desc}</p>
-              </div>
-
-              {/* Completion interactive percentage ring indicator */}
-              <InteractiveRing pct={pct} />
-            </motion.div>
-          );
-        })}
+      {/* Reordering view toggle selector */}
+      <div className="flex bg-slate-100 p-1 rounded-2xl border border-slate-200/60 shadow-sm">
+        <button
+          onClick={() => setIsSorting(false)}
+          className={`flex-1 py-2 text-xs font-black rounded-xl transition-all ${
+            !isSorting ? "bg-white text-[#FF4D2D] shadow-sm" : "text-slate-500 hover:text-slate-700"
+          }`}
+        >
+          {_lang === "ar" ? "📍 خطوات البناء" : _lang === "fr" ? "📍 Étapes" : "📍 Edit Steps"}
+        </button>
+        <button
+          onClick={() => setIsSorting(true)}
+          className={`flex-1 py-2 text-xs font-black rounded-xl transition-all flex items-center justify-center gap-1.5 ${
+            isSorting ? "bg-white text-[#FF4D2D] shadow-sm" : "text-slate-500 hover:text-slate-700"
+          }`}
+        >
+          <Layers size={13} />
+          {_lang === "ar" ? "🔄 ترتيب الأقسام" : _lang === "fr" ? "🔄 Réorganiser" : "🔄 Reorder"}
+        </button>
       </div>
+
+      {isSorting ? (
+        <div className="space-y-3">
+          <div className="bg-orange-50/50 border border-orange-100 rounded-2xl p-3 text-xs text-orange-900 font-semibold leading-relaxed mb-4 flex items-center gap-2">
+            <span>💡</span>
+            <span>
+              {_lang === "ar" 
+                ? "اضغط على الأسهم للتحكم في موضع وتدفق الأقسام بداخل صفحة السيرة النهائية!" 
+                : "Tap arrow buttons to arrange and reorder section flows directly on page!"}
+            </span>
+          </div>
+
+          <div className="flex flex-col gap-2.5">
+            {sectionOrder.map((sectionId, index) => {
+              const label = labelMapKey[sectionId] || sectionId;
+              const emoji = emojiMapKey[sectionId] || "📝";
+              
+              const handleUp = () => {
+                if (index === 0) return;
+                const newOrder = [...sectionOrder];
+                const temp = newOrder[index - 1];
+                newOrder[index - 1] = newOrder[index];
+                newOrder[index] = temp;
+                updateSettings({ sectionOrder: newOrder });
+              };
+
+              const handleDown = () => {
+                if (index === sectionOrder.length - 1) return;
+                const newOrder = [...sectionOrder];
+                const temp = newOrder[index + 1];
+                newOrder[index + 1] = newOrder[index];
+                newOrder[index] = temp;
+                updateSettings({ sectionOrder: newOrder });
+              };
+
+              return (
+                <motion.div
+                  layout
+                  key={sectionId}
+                  className="bg-white border border-slate-100/90 rounded-2.5xl p-3 shadow-premium flex items-center justify-between gap-3"
+                  transition={{ type: "spring", stiffness: 450, damping: 30 }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-lg shrink-0 border border-slate-100">
+                      {emoji}
+                    </div>
+                    <div className="text-right ltr:text-left">
+                      <h4 className="text-xs font-black text-slate-800 leading-none">{label}</h4>
+                      <p className="text-[10px] text-[#FF4D2D] font-bold uppercase tracking-wider mt-1.5 leading-none">
+                        {_lang === "ar" ? `موضع: ${index + 1}` : `Pos: ${index + 1}`}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      onClick={handleUp}
+                      disabled={index === 0}
+                      className={`p-2 rounded-xl border transition-all ${
+                        index === 0
+                          ? "opacity-[0.15] text-slate-300 border-slate-100 cursor-not-allowed"
+                          : "text-slate-700 bg-slate-50 border-slate-100 hover:bg-slate-100 active:scale-90"
+                      }`}
+                    >
+                      <ArrowUp size={14} />
+                    </button>
+                    <button
+                      onClick={handleDown}
+                      disabled={index === sectionOrder.length - 1}
+                      className={`p-2 rounded-xl border transition-all ${
+                        index === sectionOrder.length - 1
+                          ? "opacity-[0.15] text-slate-300 border-slate-100 cursor-not-allowed"
+                          : "text-slate-700 bg-slate-50 border-slate-100 hover:bg-slate-100 active:scale-90"
+                      }`}
+                    >
+                      <ArrowDown size={14} />
+                    </button>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Visual Vertical Progress Bento Grid */}
+          <div className="grid grid-cols-1 gap-3">
+            {mainSections.map((s, idx) => {
+              const pct = completionMap[s.id] ?? 0;
+              const isActive = activeSection === s.id;
+              
+              return (
+                <motion.div
+                  key={s.id}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => onSectionChange(s.id)}
+                  className={`p-3.5 rounded-2.5xl border cursor-pointer transition-all flex items-center gap-3.5 relative overflow-hidden group select-none ${
+                    isActive 
+                      ? "bg-white border-[#FF4D2D]/30 ring-4 ring-[#FF4D2D]/5 shadow-[0_12px_28px_rgba(255,77,45,0.08)] text-slate-900" 
+                      : "bg-white border-slate-100/90 hover:border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.01)] text-slate-700 hover:bg-slate-50/50"
+                  }`}
+                >
+                  {/* Highlight background indicator */}
+                  {isActive && (
+                    <div 
+                      className="absolute top-0 bottom-0 w-1 bg-gradient-to-b from-[#FF4D2D] to-orange-500 rounded-full"
+                      style={{ [isRtl ? "right" : "left"]: 0 }}
+                    />
+                  )}
+
+                  {/* Number indicator count circles */}
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black transition-colors shrink-0 ${
+                    isActive
+                      ? "bg-[#FF4D2D]/10 text-[#FF4D2D]"
+                      : "bg-slate-50 border border-slate-150 text-slate-400 group-hover:bg-slate-100"
+                  }`}>
+                    {idx + 1}
+                  </div>
+
+                  {/* Icon / Emoji circle widget */}
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 transition-transform group-hover:scale-105 ${
+                    isActive
+                      ? "bg-gradient-to-br from-[#FF4D2D]/5 to-orange-500/[0.02]"
+                      : "bg-slate-50 border border-slate-100"
+                  }`}>
+                    {s.emoji}
+                  </div>
+
+                  {/* Main titles info body */}
+                  <div className="flex-1 min-w-0 px-1 text-right ltr:text-left">
+                    <h4 className="text-xs font-black font-sans tracking-tight text-slate-900 leading-none">{s.label}</h4>
+                    <p className="text-[10px] text-slate-500 font-semibold truncate mt-1 leading-none">{s.desc}</p>
+                  </div>
+
+                  {/* Completion interactive percentage ring indicator */}
+                  <InteractiveRing pct={pct} />
+                </motion.div>
+              );
+            })}
+          </div>
+        </>
+      )}
 
       {/* Dynamic CTA Launch Segment card button */}
       {auditSection && (

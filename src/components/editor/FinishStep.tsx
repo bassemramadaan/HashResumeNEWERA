@@ -141,7 +141,7 @@ export default function FinishStep({
               onClick={onPrint}
               className="w-full py-3 bg-neutral-950 hover:bg-neutral-900 text-white rounded-xl font-bold text-xs shadow-xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
             >
-              <Download size={14} className="animate-bounce" />
+              <Download size={14} className="animate-bounce text-[#FF4D2D]" />
               <span>{isAr ? "تحميل ملف PDF" : "Download PDF file"}</span>
             </button>
           </div>
@@ -171,7 +171,7 @@ export default function FinishStep({
               onClick={onExportWord}
               className="w-full py-3 bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-250 rounded-xl font-bold text-xs shadow-3xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
             >
-              <Download size={14} />
+              <Download size={14} className="text-[#FF4D2D]" />
               <span>{isAr ? "تصدير بصيغة Word (.docx)" : "Export to Word DOCX"}</span>
             </button>
           </div>
@@ -331,57 +331,56 @@ export default function FinishStep({
                   </div>
 
                 </div>
-
-                {/* Optional Job Description Matcher nested inside details */}
-                <div className="border-t border-neutral-100 pt-5 space-y-4">
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 bg-orange-55 shadow-3xs rounded-lg text-orange-500">
-                      <Wand2 size={14} />
-                    </div>
-                    <div className="space-y-0.5">
-                      <h4 className="text-xs font-bold text-neutral-800">
-                        {isAr ? "مطابقة وتصنيف السيرة مع متطلبات وظيفة معينة" : "Mirror Resume Against Job Description"}
-                      </h4>
-                      <p className="text-[10px] text-neutral-500 leading-none">
-                        {isAr
-                          ? "الصق شروط الوظيفة الشاغرة لتحليل مدى مطابقة سيرتك الذاتية لها"
-                          : "Paste specific vacancy details here to compute direct ATS match scores and tag deficits."}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="relative">
-                    <textarea
-                      value={data.jobDescription || ""}
-                      onChange={(e) => updateJobDescription(e.target.value)}
-                      placeholder={isAr ? "الصق متطلبات ومؤهلات الوظيفة المطلوبة هنا لحساب مطابقة الكلمات المفتاحية..." : "Paste corporate job description terms, requirements or specifications..."}
-                      className="w-full h-24 p-3 border border-neutral-200 hover:border-neutral-300 focus:border-neutral-800 bg-neutral-50/50 hover:bg-white focus:bg-white rounded-xl transition-all text-xs resize-none"
-                    />
-                    {!data.jobDescription && (
-                      <div className={cn(
-                        "absolute bottom-3 flex items-center gap-1.5 text-[9px] font-bold text-neutral-400 pointer-events-none",
-                        isAr ? "left-3" : "right-3"
-                      )}>
-                        <Sparkles size={10} className="text-amber-500 animate-pulse" />
-                        <span>{isAr ? "استرجاع الكلمات المفتاحية الذكي" : "Key tagging extraction active"}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  {data.jobDescription && data.jobDescription.trim().length > 10 && (
-                    <div className="pt-1 animate-in fade-in duration-300">
-                      <ATSAnalyzer
-                        resume={JSON.stringify(data)}
-                        jobDescription={data.jobDescription}
-                      />
-                    </div>
-                  )}
-                </div>
-
               </div>
             </motion.div>
           )}
         </AnimatePresence>
+      </div>
+
+      {/* Standalone Job Description Matcher (Moved outside so it's always visible!) */}
+      <div className="border border-neutral-200/80 bg-white rounded-3xl overflow-hidden shadow-xs p-5 sm:p-6 space-y-4">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 bg-orange-50 shadow-3xs rounded-lg text-orange-500">
+            <Wand2 size={16} />
+          </div>
+          <div className="space-y-0.5">
+            <h4 className="text-sm font-bold text-neutral-800">
+              {isAr ? "مطابقة الوظيفة المستهدفة (Job Matcher)" : "Target Job Matcher"}
+            </h4>
+            <p className="text-[11px] text-neutral-500 leading-none">
+              {isAr
+                ? "الصق الوصف الوظيفي (Job Description)، ليقوم النظام باستخراج الكلمات المفتاحية لمطابقتها مع سيرتك لرفع نسبة الـ ATS!"
+                : "Paste Job Description to extract keywords and identify missing skills to boost ATS match rate!"}
+            </p>
+          </div>
+        </div>
+
+        <div className="relative">
+          <textarea
+            value={data.jobDescription || ""}
+            onChange={(e) => updateJobDescription(e.target.value)}
+            placeholder={isAr ? "الصق متطلبات ومؤهلات الوظيفة المطلوبة هنا لحساب مطابقة الكلمات المفتاحية..." : "Paste corporate job description terms, requirements or specifications..."}
+            className="w-full h-24 p-3 border border-neutral-200 hover:border-neutral-300 focus:border-brand-500 rounded-xl transition-all text-xs resize-none bg-neutral-50 focus:bg-white outline-none"
+          />
+          {!data.jobDescription && (
+            <div className={cn(
+              "absolute bottom-4 flex items-center gap-1.5 text-[10px] font-bold text-neutral-400 pointer-events-none",
+              isAr ? "left-4" : "right-4"
+            )}>
+              <Sparkles size={12} className="text-brand-500 animate-pulse" />
+              <span>{isAr ? "استخراج الكلمات المفتاحية الذكي متوفر" : "AI Keyword Extraction Ready"}</span>
+            </div>
+          )}
+        </div>
+
+        {data.jobDescription && data.jobDescription.trim().length > 10 && (
+          <div className="pt-2 animate-in fade-in duration-300">
+            <ATSAnalyzer
+              resume={JSON.stringify(data)}
+              jobDescription={data.jobDescription}
+            />
+          </div>
+        )}
       </div>
 
       {/* ── 3. Next Recommended Steps: AI Coach & roadmap ── */}

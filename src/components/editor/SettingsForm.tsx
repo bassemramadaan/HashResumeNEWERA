@@ -899,13 +899,15 @@ export default React.memo(function SettingsForm() {
               </label>
               <select
                 value={settings.fontFamily || "inter"}
-                onChange={(e) => updateSettings({ fontFamily: e.target.value as "inter" | "serif" | "mono" })}
+                onChange={(e) => updateSettings({ fontFamily: e.target.value as any })}
                 className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
                 dir={settings.language === "ar" ? "rtl" : "ltr"}
               >
-                <option value="inter">{settings.language === "ar" ? "الحداثة (Sans)" : "Modern (Sans)"}</option>
-                <option value="serif">{settings.language === "ar" ? "الكلاسيكي (Serif)" : "Classic (Serif)"}</option>
-                <option value="mono">{settings.language === "ar" ? "التقني (Mono)" : "Technical (Mono)"}</option>
+                <option value="inter">{settings.language === "ar" ? "مفرد: الحداثة (Sans)" : "Single: Modern (Sans)"}</option>
+                <option value="serif">{settings.language === "ar" ? "مفرد: الكلاسيكي (Serif)" : "Single: Classic (Serif)"}</option>
+                <option value="mono">{settings.language === "ar" ? "مفرد: التقني (Mono)" : "Single: Technical (Mono)"}</option>
+                <option value="serif-inter">{settings.language === "ar" ? "دمج: كلاسيكي للعناوين + حديث للنصوص" : "Pair: Classic Headings + Sans Body"}</option>
+                <option value="mono-inter">{settings.language === "ar" ? "دمج: تقني للعناوين + حديث للنصوص" : "Pair: Tech Headings + Sans Body"}</option>
               </select>
 
               {/* Interactive Visual Font Cards */}
@@ -913,48 +915,62 @@ export default React.memo(function SettingsForm() {
                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">
                   {settings.language === "ar" ? "معاينة بصرية حية للخطوط المختارة" : "Active Typography Preview"}
                 </label>
-                <div className="grid grid-cols-3 gap-2.5">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5">
                   {[
                     {
                       id: "inter",
-                      name: settings.language === "ar" ? "حديث / Sans" : "Modern / Sans",
+                      name: settings.language === "ar" ? "أساسي" : "Standard",
                       fontClass: "font-sans",
                       previewText: "A1 abc",
-                      previewAr: "الاسم الكامل"
+                      previewAr: "الاسم"
                     },
                     {
                       id: "serif",
-                      name: settings.language === "ar" ? "كلاسيكي / Serif" : "Classic / Serif",
+                      name: settings.language === "ar" ? "كلاسيكي" : "Classic",
                       fontClass: "font-serif",
                       previewText: "A1 abc",
-                      previewAr: "الاسم الكامل"
+                      previewAr: "الاسم"
                     },
                     {
                       id: "mono",
-                      name: settings.language === "ar" ? "تقني / Mono" : "Tech / Mono",
+                      name: settings.language === "ar" ? "تقني" : "Tech",
                       fontClass: "font-mono",
                       previewText: "A1 abc",
-                      previewAr: "الاسم الكامل"
+                      previewAr: "الاسم"
+                    },
+                    {
+                      id: "serif-inter",
+                      name: settings.language === "ar" ? "مدمج (كلاسيكي)" : "Pair (Serif)",
+                      fontClass: "font-serif",
+                      previewText: "A1 abc",
+                      previewAr: "الاسم"
+                    },
+                    {
+                      id: "mono-inter",
+                      name: settings.language === "ar" ? "مدمج (تقني)" : "Pair (Tech)",
+                      fontClass: "font-mono",
+                      previewText: "A1 abc",
+                      previewAr: "الاسم"
                     }
                   ].map((f) => (
                     <button
                       key={f.id}
                       type="button"
-                      onClick={() => updateSettings({ fontFamily: f.id as "inter" | "serif" | "mono" })}
+                      onClick={() => updateSettings({ fontFamily: f.id as any })}
                       className={cn(
                         "p-2.5 rounded-xl border text-start transition-all cursor-pointer relative overflow-hidden",
                         settings.fontFamily === f.id
-                          ? "border-brand-500 bg-brand-50/50 ring-2 ring-brand-500/10"
+                          ? "border-brand-500 bg-brand-50/50 ring-2 ring-brand-500/10 shadow-sm"
                           : "border-slate-200 hover:border-slate-300 bg-white"
                       )}
                     >
-                      <div className="text-[10px] font-bold text-slate-500 mb-1 truncate">{f.name}</div>
-                      <div className={cn("space-y-0.5 pointer-events-none leading-none", f.fontClass)}>
-                        <div className="text-sm font-black text-slate-900">{f.previewText}</div>
-                        <div className="text-xs text-slate-800 font-medium">{f.previewAr}</div>
+                      <div className="text-[9px] font-bold text-slate-500 mb-1 truncate leading-none">{f.name}</div>
+                      <div className={cn("space-y-0.5 pointer-events-none leading-none mt-1.5", f.fontClass)}>
+                        <div className="text-xs font-black text-slate-900">{f.previewText}</div>
+                        <div className="text-[10px] text-slate-800 font-medium">{f.previewAr}</div>
                       </div>
                       {settings.fontFamily === f.id && (
-                        <div className="absolute top-1 end-1 w-1.5 h-1.5 rounded-full bg-brand-500" />
+                        <div className="absolute top-1.5 end-1.5 w-1.5 h-1.5 rounded-full bg-brand-500 shadow-[0_0_4px_currentColor]" />
                       )}
                     </button>
                   ))}

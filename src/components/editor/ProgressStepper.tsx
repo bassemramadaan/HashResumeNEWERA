@@ -111,7 +111,7 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
       className={cn(
         "relative flex items-center justify-center rounded-full transition-all duration-300 shrink-0 select-none group focus:outline-hidden",
         isActive 
-          ? "scale-110 shadow-lg shadow-slate-900/10" 
+          ? "scale-110 shadow-lg shadow-[#FF4D2D]/35" 
           : "hover:scale-105"
       )}
       style={{ width: size, height: size }}
@@ -151,7 +151,7 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
               : isDone && completion > 0
                 ? "bg-emerald-50 border-emerald-300 text-emerald-700 font-bold"
                 : isActive
-                  ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
+                  ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-[#FF4D2D]/30"
                   : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
         )}
       >
@@ -210,7 +210,7 @@ function HorizontalStepper({
             className={cn(
               "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all relative shrink-0 cursor-pointer border select-none transformactive active:scale-[0.98]",
               isActive 
-                ? "bg-slate-900 border-slate-900 text-white shadow-sm font-black" 
+                ? "bg-slate-900 border-slate-900 text-white shadow-[0_4px_16px_rgba(255,77,45,0.45)] font-black" 
                 : isDone
                   ? "bg-emerald-500/5 border-emerald-500/10 text-emerald-700 hover:bg-emerald-500/10" 
                   : "bg-transparent border-transparent text-slate-550 hover:bg-slate-100/70 hover:text-slate-800"
@@ -291,7 +291,7 @@ function VerticalStepper({
                  className={cn(
                   "flex-1 flex items-center justify-between text-start px-3 py-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden group",
                   isActive
-                    ? "bg-[#FFF7F5] border-y-transparent border-l-transparent border-r-2 border-r-[#FF4D2D] rounded-r-none rounded-l-xl shadow-2xs"
+                    ? "bg-[#FFF7F5] border-y-transparent border-l-transparent border-r-2 border-r-[#FF4D2D] rounded-r-none rounded-l-xl shadow-[0_4px_16px_rgba(255,77,45,0.15)]"
                     : "bg-transparent border-transparent hover:bg-neutral-100/70"
                 )}
               >

@@ -323,10 +323,10 @@ const PersonalInfoForm = () => {
               type="button"
               onClick={() => setShowAISuggestions(!showAISuggestions)}
               className="text-xs font-bold text-brand-600 flex items-center gap-1 bg-brand-50/50 hover:bg-brand-50 border border-brand-100/30 px-3 py-1.5 rounded-full transition-colors cursor-pointer"
-                          title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
+              title={language === "ar" ? "أعد صياغة النص باحترافية عبر الذكاء الاصطناعي" : "Rewrite to be more professional"}
             >
               <Sparkles size={14} />
-              {language === "ar" ? "تحسين بالذكاء الاصطناعي" : "Improve with AI"}
+              {language === "ar" ? "المحرر الذكي 🪄" : "Smart Rewrite 🪄"}
             </button>
           </div>
 

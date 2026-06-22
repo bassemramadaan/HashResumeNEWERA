@@ -22,7 +22,6 @@ import {
   FileText,
   Sparkles,
   ArrowUp,
-  Settings,
   ArrowRight,
   ArrowLeft,
   Award,
@@ -32,6 +31,7 @@ import {
 } from "lucide-react";
 import { useResumeStore, getResumeSignature } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
+import { useActiveSectionStore } from "../store/useActiveSectionStore";
 import { Link } from "react-router-dom";
 import { translations } from "../i18n/translations";
 import SettingsModal from "../components/SettingsModal";
@@ -760,7 +760,29 @@ export default function EditorPage() {
   };
 
   const formContent = (
-    <div className={cn(focusMode ? "max-w-[720px]" : "max-w-4xl", "mx-auto pb-[120px] sm:pb-32 relative")}>
+    <div 
+      className={cn(focusMode ? "max-w-[720px]" : "max-w-4xl", "mx-auto pb-[120px] sm:pb-32 relative")}
+      onFocusCapture={(e) => {
+        const target = e.target as HTMLElement;
+        let section: string | null = null;
+        const nameOrId = target.name || target.id || "";
+        if (nameOrId === "summary" || nameOrId.includes("summary")) {
+          section = "summary";
+        } else if (target.closest("[id*='fullName'], [id*='email'], [id*='phone'], [id*='address'], [id*='linkedin'], [id*='github'], [id*='portfolio'], [id*='jobTitle'], [id*='nationality'], [id*='drivingLicense'], [id*='birthDate']")) {
+          section = "personalInfo";
+        } else {
+          if (activeTab === "basics") {
+            section = "personalInfo";
+          } else {
+            section = activeTab;
+          }
+        }
+        useActiveSectionStore.getState().setActiveField(section);
+      }}
+      onBlurCapture={() => {
+        useActiveSectionStore.getState().setActiveField(null);
+      }}
+    >
       {data.isLocked && (
         <div className="absolute inset-0 z-[100] bg-white/70 backdrop-blur-md flex items-center justify-center rounded-[2rem] mx-[-1rem] px-4" style={{ height: 'max-content', minHeight: '100%' }}>
           <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-premium max-w-md w-full text-center border border-slate-200 relative overflow-hidden mt-20">
@@ -1136,6 +1158,14 @@ export default function EditorPage() {
                 </div>
   );
 
+  const handleShareLink = () => {
+    const shareId = "demo-premium-link-123";
+    const domain = window.location.origin;
+    const shareUrl = `${domain}/share/${shareId}`;
+    navigator.clipboard.writeText(shareUrl);
+    alert(language === 'ar' ? 'تم نسخ الرابط! (يجب ترقية الحساب للتفعيل)' : 'Link copied to clipboard! (Premium feature)');
+  };
+
   return (
     <div
       className={cn(
@@ -1248,6 +1278,7 @@ export default function EditorPage() {
         onUndo={handleUndo}
         onExportPDF={handleExportClick}
         onExportWord={() => handleProceedToExport("docx")}
+        onShareLink={handleShareLink}
         onTogglePreview={() => setShowFullPreview(!showFullPreview)}
         previewOpen={showFullPreview}
         isLocked={data.isLocked}
@@ -1547,69 +1578,92 @@ export default function EditorPage() {
                 </span>
               </div>
             )}
-            <div className="h-14 bg-neutral-100 border-b border-neutral-200 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center bg-neutral-50 rounded-xl p-1 border border-neutral-200">
+            <div className="h-14 bg-white/95 backdrop-blur-sm border-b border-neutral-200/80 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu shadow-xs">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center bg-slate-100/80 rounded-xl p-1 border border-slate-200/60 shadow-inner">
                     <button
                       onClick={() => setPreviewMode("resume")}
                       className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black tracking-wider transition-all",
+                        "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide transition-all",
                         previewMode === "resume"
-                          ? "bg-neutral-50 text-neutral-900 shadow-sm ring-1 ring-neutral-200"
-                          : "text-neutral-500 hover:text-neutral-700",
-                        language !== "ar" && "uppercase"
+                          ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/50"
+                          : "text-slate-500 hover:text-slate-700"
                       )}
                     >
-                      <LayoutTemplate size={14} />
+                      <LayoutTemplate size={14} className={previewMode === "resume" ? "text-brand-500" : ""} />
                       {language === "ar" ? "السيرة الذاتية" : t.resumeTab}
                     </button>
                     <button
                       onClick={() => setPreviewMode("cover-letter")}
                       className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-black tracking-wider transition-all",
+                        "flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold tracking-wide transition-all",
                         previewMode === "cover-letter"
-                          ? "bg-neutral-50 text-neutral-900 shadow-sm ring-1 ring-neutral-200"
-                          : "text-neutral-500 hover:text-neutral-700",
-                        language !== "ar" && "uppercase"
+                          ? "bg-white text-slate-900 shadow-sm ring-1 ring-slate-200/50"
+                          : "text-slate-500 hover:text-slate-700"
                       )}
                     >
-                      <FileText size={14} />
+                      <FileText size={14} className={previewMode === "cover-letter" ? "text-brand-500" : ""} />
                       {language === "ar" ? "خطاب التغطية" : t.coverLetterTab}
                     </button>
                 </div>
+                
+                {previewMode === "resume" && !data.isLocked && (
+                  <div className="hidden sm:flex items-center gap-2 border-s border-slate-200/80 ps-3">
+                    <button
+                      onClick={() => setIsSettingsModalOpen(true)}
+                      className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-gradient-to-r from-brand-50 to-orange-50 border border-brand-200/60 text-brand-650 hover:shadow hover:-translate-y-px transition-all cursor-pointer"
+                    >
+                      <Sparkles size={13} className="animate-pulse text-orange-500" />
+                      {language === "ar" ? "السمات والقوالب" : "Theme Station"}
+                    </button>
+                    <button
+                      onClick={() => setShowMicroSpacingPanel(!showMicroSpacingPanel)}
+                      className={cn(
+                        "flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all border cursor-pointer",
+                        showMicroSpacingPanel 
+                          ? "bg-slate-900 text-white border-slate-900 shadow-md" 
+                          : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-slate-900 shadow-sm"
+                      )}
+                    >
+                      <SlidersHorizontal size={13} className={showMicroSpacingPanel ? "text-brand-400" : "text-slate-400"} />
+                      {language === "ar" ? "الهوامش والأبعاد" : "Micro-Spacing"}
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowFullPreview(true)}
-                  className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors"
-                  title={String(t.fullPreview || "")}
-                >
-                  <Maximize2 size={18} />
-                </button>
+                {/* Mobile specific settings button if hidden above */}
+                {previewMode === "resume" && !data.isLocked && (
+                  <button
+                    onClick={() => setIsSettingsModalOpen(true)}
+                    className="sm:hidden p-2 text-brand-600 bg-brand-50 hover:bg-brand-100 rounded-lg transition-colors border border-brand-200/50"
+                  >
+                    <Sparkles size={16} />
+                  </button>
+                )}
+                {/* Mobile specific micro spacing button */}
                 {previewMode === "resume" && (
                   <button
                     onClick={() => setShowMicroSpacingPanel(!showMicroSpacingPanel)}
                     className={cn(
-                      "p-2 rounded-lg transition-colors relative",
+                      "sm:hidden p-2 rounded-lg transition-colors border",
                       showMicroSpacingPanel 
-                        ? "text-[#FF4D2D] bg-[#FF4D2D]/10" 
-                        : "text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100"
+                        ? "bg-slate-900 text-white border-slate-900" 
+                        : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
                     )}
-                    title={language === "ar" ? "أبعاد الصفحة والهوامش" : "Page Spacing & Margins"}
                   >
-                    <SlidersHorizontal size={18} />
+                    <SlidersHorizontal size={16} />
                   </button>
                 )}
-                {!data.isLocked && (
-                  <button
-                    onClick={() => setIsSettingsModalOpen(true)}
-                    className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors"
-                    title={String(t.resumeSettings || "")}
-                  >
-                    <Settings size={18} />
-                  </button>
-                )}
+                <button
+                  onClick={() => setShowFullPreview(true)}
+                  className="flex items-center gap-1.5 p-2 sm:px-3 sm:py-1.5 text-slate-500 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all shadow-sm"
+                  title={String(t.fullPreview || "")}
+                >
+                  <Maximize2 size={14} />
+                  <span className="hidden sm:inline text-xs font-bold">{language === "ar" ? "تكبير" : "Expand"}</span>
+                </button>
               </div>
             </div>
 
@@ -1831,7 +1885,7 @@ export default function EditorPage() {
                       onClick={handleExportClick}
                       className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-premium hover:scale-105 active:scale-95 uppercase tracking-widest"
                     >
-                      <Download size={18} />
+                      <Download size={18} className="text-[#FF4D2D]" />
                       {String(t.exportPdf || "")}
                     </button>
                     <button

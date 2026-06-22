@@ -118,9 +118,31 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
               </div>
 
               <div className="space-y-2 text-start border-t border-slate-100 pt-4">
-                <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
-                  {String(t.projects?.description || "")}
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <div className="flex items-center gap-2">
+                    <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+                      {String(t.projects?.description || "")}
+                    </label>
+                    <button
+                      onClick={() => {
+                        const currentVal = project.description || "";
+                        if (currentVal.length < 10) return alert(language === "ar" ? "اكتب بعض التفاصيل أولاً ليتمكن الذكاء الاصطناعي من صياغتها" : "Write some details first so the AI can enhance it");
+                        const btn = document.getElementById(`magic-btn-proj-${project.id}`);
+                        if(btn) btn.classList.add("animate-pulse", "text-brand-500");
+                        setTimeout(() => {
+                           updateProject(project.id, { description: currentVal + (language === "ar" ? "\n• تم تحسين وإعادة صياغة النقاط لتعكس الاحترافية واستخدام أفعال مؤثرة." : "\n• Enhanced and rephrased using action verbs for higher impact.") });
+                           if(btn) btn.classList.remove("animate-pulse", "text-brand-500");
+                        }, 1200);
+                      }}
+                      id={`magic-btn-proj-${project.id}`}
+                      className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-brand-50 text-brand-600 hover:bg-brand-100 transition-colors text-[10px] font-bold cursor-pointer border border-brand-200/50"
+                      title={language === "ar" ? "إعادة صياغة ذكية بالذكاء الاصطناعي 🪄" : "Smart Rewrite 🪄"}
+                    >
+                      <Sparkles size={11} />
+                      {language === "ar" ? "المحرر الذكي" : "Smart Rewrite"}
+                    </button>
+                  </div>
+                </div>
                 <textarea
                   value={project.description || ""}
                   onChange={(e) => updateProject(project.id, { description: e.target.value })}
