@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Plus } from 'lucide-react';
-import { useLanguageStore } from '../../store/useLanguageStore';
 
 interface EmptyStateProps {
   icon?: React.ReactNode;
@@ -12,8 +11,6 @@ interface EmptyStateProps {
 }
 
 const EmptyState = ({ icon, title, description, buttonText, onAdd }: EmptyStateProps) => {
-  const { language } = useLanguageStore();
-  const isAr = language === 'ar';
 
   return (
     <motion.div

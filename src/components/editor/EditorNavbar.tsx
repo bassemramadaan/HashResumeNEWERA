@@ -132,6 +132,7 @@ function SaveIndicator({ isSaved, lang }: { isSaved: boolean; lang: AppLang }) {
 function LangSwitcher({ lang, onChange }: { lang: AppLang, onChange: (lang: AppLang) => void }) {
   const [open, setOpen]   = useState(false);
   const ref               = useRef<HTMLDivElement>(null);
+  const isRtl            = lang === "ar";
   const current           = LANGS.find(l => l.code === lang) ?? LANGS[1];
 
   useEffect(() => {
@@ -155,17 +156,18 @@ function LangSwitcher({ lang, onChange }: { lang: AppLang, onChange: (lang: AppL
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 7 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className="absolute top-full mt-1.5 left-0 bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-[1110] min-w-[130px] p-1"
+            className={`absolute top-full mt-1.5 ${isRtl ? "right-0" : "left-0"} bg-white border border-slate-200 rounded-xl shadow-lg overflow-hidden z-[1110] min-w-[130px] p-1`}
           >
             {LANGS.map(l => (
               <button
                 key={l.code}
                 onClick={() => { onChange(l.code as AppLang); setOpen(false); }}
-                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer text-left transition-colors ${
+                className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold cursor-pointer transition-colors ${isRtl ? "text-right" : "text-left"} ${
                   l.code === lang 
                     ? "bg-rose-500/10 text-[#FF4D2D]" 
                     : "text-slate-700 hover:bg-slate-50"
                 }`}
+                style={{ direction: isRtl ? "rtl" : "ltr" }}
               >
                 <span>{l.flag}</span>
                 <span className="flex-1">{l.label}</span>

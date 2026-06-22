@@ -348,6 +348,12 @@ export default function CoverLetterForm() {
           </div>
         </div>
 
+        {error && (
+          <div className="p-3 bg-red-50 border border-red-100 rounded-xl text-xs text-red-600 font-medium">
+            {error}
+          </div>
+        )}
+
         <div className="relative flex flex-col gap-3">
           <button
             onClick={generateCoverLetter}

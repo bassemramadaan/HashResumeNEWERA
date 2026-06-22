@@ -39,15 +39,12 @@ export default function InlineGhostSuggest({
   onChange,
   isAr,
   textareaRef,
-  context = ""
 }: InlineGhostSuggestProps) {
   const [suggestion, setSuggestion] = useState<string>("");
-  const [activeTrigger, setActiveTrigger] = useState<string>("");
 
   useEffect(() => {
     if (!value || value.length < 3) {
       setSuggestion("");
-      setActiveTrigger("");
       return;
     }
 
@@ -64,7 +61,6 @@ export default function InlineGhostSuggest({
 
     if (matched) {
       setSuggestion(matched.text);
-      setActiveTrigger(matched.trigger);
     } else {
       // If we have some content typed, provide a smart adaptive finishing phrase on pause
       const words = value.split(/\s+/).filter(Boolean);
@@ -74,18 +70,15 @@ export default function InlineGhostSuggest({
           const generalAr = " وتحقيق أهداف المنشأة من خلال تبني أفضل الحلول الهندسية المتطورة.";
           if (!value.endsWith(generalAr.trim())) {
             setSuggestion(generalAr);
-            setActiveTrigger("");
           }
         } else {
           const generalEn = " to deliver high-quality code and support product scaling initiatives.";
           if (!value.endsWith(generalEn.trim())) {
             setSuggestion(generalEn);
-            setActiveTrigger("");
           }
         }
       } else {
         setSuggestion("");
-        setActiveTrigger("");
       }
     }
   }, [value, isAr]);

@@ -19,25 +19,44 @@ export default function PricingPage() {
       </Helmet>
       
       <div className="min-h-screen bg-slate-50 font-sans selection:bg-orange-100 pb-20" dir={isAr ? "rtl" : "ltr"}>
-        <header className="fixed top-0 inset-x-0 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 grid grid-cols-[1fr,auto,1fr] items-center">
-            {/* Spacer/Empty div for grid balance */}
-            <div></div>
+        <header className="fixed top-0 inset-x-0 bg-white/80 backdrop-blur-md border-b border-slate-200/80 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between relative">
+            {/* Left side: Back to home link for visual balance */}
+            <div className="flex items-center select-none">
+              <Link 
+                to="/" 
+                className="text-xs sm:text-sm font-extrabold text-neutral-500 hover:text-neutral-950 transition-colors flex items-center gap-1.5"
+              >
+                {isAr ? (
+                  <>
+                    <span>الرئيسية</span>
+                    <span className="text-[10px] opacity-50">←</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="text-[10px] opacity-50">→</span>
+                    <span>Home</span>
+                  </>
+                )}
+              </Link>
+            </div>
 
-            {/* Logo Link centered */}
-            <Link to="/" className="flex justify-center items-center">
-              <img
-                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
-                alt="Hash Resume"
-                className="h-[80px] sm:h-[100px] w-auto object-contain"
-              />
-            </Link>
+            {/* Logo Link centered absolutely */}
+            <div className="absolute left-1/2 -translate-x-1/2 flex justify-center items-center pointer-events-none">
+              <Link to="/" className="pointer-events-auto flex justify-center items-center">
+                <img
+                  src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                  alt="Hash Resume"
+                  className="h-[60px] sm:h-[75px] w-auto object-contain transition-all duration-300 hover:scale-105 active:scale-95"
+                />
+              </Link>
+            </div>
 
             {/* Right side CTA */}
-            <div className="flex justify-end">
+            <div className="flex items-center">
               <Link 
                 to="/editor"
-                className="text-sm font-bold text-white bg-slate-900 px-4 py-2 rounded-lg hover:bg-slate-800 transition-colors"
+                className="text-xs sm:text-sm font-black text-white bg-slate-900 px-3.5 sm:px-4 py-2 rounded-xl hover:bg-slate-800 transition-all cursor-pointer shadow-xs active:scale-95"
               >
                 {isAr ? "بناء السيرة الذاتية" : "Build Resume"}
               </Link>
