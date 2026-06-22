@@ -46,6 +46,7 @@ export type Certification = {
   name: string;
   issuer: string;
   date: string;
+  certificateId?: string;
 };
 
 export type PersonalInfo = {
@@ -140,7 +141,7 @@ export function getResumeSignature(data: ResumeData | Partial<ResumeData>): stri
     education: (data.education || []).map((e: { institution: string; degree: string; startDate: string; endDate: string; description: string }) => `${e.institution}-${e.degree}-${e.startDate}-${e.endDate}-${e.description}`),
     skills: data.skills || [],
     projects: (data.projects || []).map((p: { name: string; description: string; link: string }) => `${p.name}-${p.description}-${p.link}`),
-    certifications: (data.certifications || []).map((c: { name: string; issuer: string; date: string }) => `${c.name}-${c.issuer}-${c.date}`),
+    certifications: (data.certifications || []).map((c: Certification) => `${c.name}-${c.issuer}-${c.date}-${c.certificateId || ''}`),
     template: data.settings?.template || "",
     themeColor: data.settings?.themeColor || "",
   };
@@ -615,6 +616,7 @@ export const useResumeStore = create<ResumeStore>()(
                   name: "AWS Certified Developer",
                   issuer: "Amazon Web Services",
                   date: "2021-08",
+                  certificateId: "AWS-12345",
                 },
               ],
               settings: {

@@ -533,6 +533,7 @@ const ResumePreview = memo(
                           <span>{cert.issuer}</span>
                           {cert.issuer && cert.date && <span>•</span>}
                           <span>{cert.date}</span>
+                          {cert.certificateId && <><span>•</span> <span>{cert.certificateId}</span></>}
                         </div>
                       </div>
                     ))}
@@ -746,7 +747,7 @@ const ResumePreview = memo(
                         <span className="font-bold text-slate-900">
                           {cert.name}{" "}
                           <span className="font-normal italic text-slate-600">
-                            ({cert.issuer})
+                            ({cert.issuer}{cert.certificateId && `, ${cert.certificateId}`})
                           </span>
                         </span>
                         <span className="italic text-slate-600">
@@ -1224,6 +1225,12 @@ const ResumePreview = memo(
                             <span className="mx-2 text-slate-300">|</span>
                           )}
                           <span>{cert.date}</span>
+                          {cert.certificateId && (
+                            <>
+                              <span className="mx-2 text-slate-300">|</span>
+                              <span>{cert.certificateId}</span>
+                            </>
+                          )}
                         </div>
                       </div>
                     ))}

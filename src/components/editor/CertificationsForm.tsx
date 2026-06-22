@@ -139,6 +139,18 @@ export const CertificationsForm: React.FC = () => {
                             className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
                           />
                         </div>
+                        <div className="space-y-2">
+                          <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+                            {language === 'ar' ? 'رقم الشهادة' : 'Certificate ID'}
+                          </label>
+                          <input
+                            type="text"
+                            value={cert.certificateId || ""}
+                            onChange={(e) => updateCertification(cert.id, { certificateId: e.target.value })}
+                            placeholder="e.g. CERT-12345"
+                            className="block w-full px-4 py-3 border border-slate-200 hover:border-slate-300 bg-white text-slate-900 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all font-medium placeholder-slate-450 outline-none"
+                          />
+                        </div>
                       </div>
                     </div>
                   </motion.div>
