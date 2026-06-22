@@ -348,6 +348,8 @@ export default function EditorPage() {
   const scrollToFormTop = () => {
     formRef.current?.scrollTo({ top: 0, behavior: "smooth" });
   };
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [hasExported, setHasExported] = useState(false); // Track if user exported session
   const [showFullPreview, setShowFullPreview] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
@@ -363,6 +365,7 @@ export default function EditorPage() {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
   const [showAtsAestheticPanel, setShowAtsAestheticPanel] = useState(false);
+  const [showMobileAtsPanel, setShowMobileAtsPanel] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{
     type: "load" | "clear";
     message: string;
@@ -538,6 +541,40 @@ export default function EditorPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [temporalState.canUndo, temporalState.canRedo]);
 
+  // Exit intent & beforeunload logic
+  useEffect(() => {
+    // 1. Browser Native Warning (Only if they've worked on it and haven't exported recently)
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // Don't annoy if it's completely empty or they just downloaded
+      if (!isEmpty && !hasExported && !data.isLocked) {
+        e.preventDefault();
+        e.returnValue = ""; // Standard way to trigger native prompt
+        return "";
+      }
+    };
+
+    // 2. Custom Exit Intent Popup (Mouse leaves top of window)
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (
+        e.clientY <= 0 && // Moved cursor off top edge
+        !isEmpty && // They actually have content
+        !hasExported && // They haven't downloaded this session
+        !showExitModal && // Not already showing
+        !data.isLocked // Resume isn't locked (post-download)
+      ) {
+        setShowExitModal(true);
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    document.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [isEmpty, hasExported, showExitModal, data.isLocked]);
+
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = useReactToPrint({
     contentRef: componentRef,
@@ -613,6 +650,7 @@ export default function EditorPage() {
         await sleep(1200);
 
         setExportStatus(null);
+        setHasExported(true);
         setShowPostDownloadModal(true);
         setTimeout(() => setShowFeedbackModal(true), 2000);
       } catch (err) {
@@ -622,6 +660,7 @@ export default function EditorPage() {
         );
         setExportStatus(null);
         handlePrint();
+        setHasExported(true);
         useResumeStore.getState().lockResume();
       }
     } else if (format === "docx") {
@@ -635,6 +674,7 @@ export default function EditorPage() {
         setExportStatus({ show: true, step: 5, format });
         await sleep(1000);
         setExportStatus(null);
+        setHasExported(true);
       } catch (e) {
         console.error("Word gen err:", e);
         setExportStatus(null);
@@ -657,6 +697,7 @@ export default function EditorPage() {
         setExportStatus({ show: true, step: 5, format });
         await sleep(1000);
         setExportStatus(null);
+        setHasExported(true);
       } catch (e) {
         console.error("Txt gen err:", e);
         setExportStatus(null);
@@ -1128,31 +1169,24 @@ export default function EditorPage() {
           completionMap={sidebarCompletionMap}
           onExportPDF={handleExportClick}
           onExportWord={() => handleProceedToExport("docx")}
-          previewContent={
-            <div className="w-full h-full overflow-y-auto overflow-x-hidden p-2 pb-16 scrollbar-none flex justify-center transform-gpu">
-              <div 
-                className="origin-top transform-gpu transition-all"
-                style={{ 
-                  width: '210mm',
-                  minHeight: "297mm",
-                  transform: `scale(${Math.min(0.46, (windowWidth - 28) / 794)})`,
-                  marginBottom: `-${(1 - Math.min(0.46, (windowWidth - 28) / 794)) * 297}mm`,
-                  WebkitUserSelect: 'none',
-                }}
-              >
-                <div className="bg-white shadow-[0_4px_25px_rgba(0,0,0,0.06)] rounded-sm overflow-hidden w-full h-full">
-                  <Suspense fallback={<FormLoader />}>
-                  <ResumePreview ref={componentRef} />
-                  </Suspense>
-                </div>
-              </div>
-            </div>
-          }
+          onOpenPreview={() => setShowMobilePreview(true)}
+          onOpenAts={() => setShowMobileAtsPanel(true)}
         >
           <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full overflow-y-auto pb-6 relative scrollbar-none editor-form-scrollable">
             <div className="min-h-full flex flex-col">
-              <div className="flex-1">
-                {formContent}
+              <div className="flex-1 px-1">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, x: -8, filter: "blur(2px)" }}
+                    animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, x: 8, filter: "blur(2px)" }}
+                    transition={{ duration: 0.25, ease: "easeInOut" }}
+                    className="w-full h-full"
+                  >
+                    {formContent}
+                  </motion.div>
+                </AnimatePresence>
               </div>
               <div className="mt-8 px-4 py-4 border-t border-slate-100 flex items-center justify-between gap-3">
                 {Object.keys(sidebarCompletionMap).indexOf(activeTab as any) > 0 ? (
@@ -1193,15 +1227,6 @@ export default function EditorPage() {
                 )}
               </div>
             </div>
-
-            <button
-               onClick={() => setShowMobilePreview(true)}
-               className="fixed bottom-[96px] end-5 z-[90] bg-[#FF4D2D] text-white hover:bg-[#E64528] shadow-[0_8px_30px_rgba(255,77,45,0.3)] rounded-full px-5 py-3.5 flex items-center justify-center gap-2 font-black text-xs active:scale-95 transition-all md:hidden border-2 border-white/20"
-            >
-               <Eye size={18} />
-               {language === 'ar' ? 'معاينة حية' : 'Live Preview'}
-            </button>
-
           </main>
         </MobileEditorLayout>
       ) : (
@@ -1247,7 +1272,18 @@ export default function EditorPage() {
                 focusMode ? "bg-white" : ""
               )}
             >
-              {formContent}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeTab}
+                  initial={{ opacity: 0, scale: 0.98, filter: "blur(2px)" }}
+                  animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, scale: 0.98, filter: "blur(2px)" }}
+                  transition={{ duration: 0.2 }}
+                  className="w-full h-full"
+                >
+                  {formContent}
+                </motion.div>
+              </AnimatePresence>
               {focusMode && (
                 <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-500 rounded-full py-2 px-5 shadow-sm flex items-center justify-center gap-2 text-xs font-semibold select-none z-50">
                   <span className="relative flex h-2 w-2 shrink-0">
@@ -1811,6 +1847,99 @@ export default function EditorPage() {
         )}
       </AnimatePresence>
 
+      {/* Mobile ATS Info Panel Overlay */}
+      <AnimatePresence>
+        {showMobileAtsPanel && (
+          <div key="mobile-ats-container" className="md:hidden fixed inset-0 z-[100] flex flex-col justify-end">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowMobileAtsPanel(false)}
+              className="fixed inset-0 bg-neutral-900/40 backdrop-blur-sm z-[100]"
+            />
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="bg-white rounded-t-[2rem] shadow-premium z-[110] flex flex-col overflow-hidden max-h-[85vh] relative"
+            >
+              <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-3 mb-1" />
+              <div
+                className="flex items-center justify-between p-4 shrink-0 border-b border-neutral-100"
+              >
+                <div className="flex items-center gap-2">
+                  <div className={`w-3 h-3 rounded-full ${atsScore >= 80 ? "bg-emerald-500 animate-pulse" : atsScore >= 50 ? "bg-amber-500 animate-pulse" : "bg-rose-500"}`} />
+                  <span className="text-sm font-black text-neutral-900">
+                    {language === "ar" ? "تحليل تطابق ATS المباشر" : "Live ATS Sync Details"}
+                  </span>
+                </div>
+                <button
+                  onClick={() => setShowMobileAtsPanel(false)}
+                  className="w-10 h-10 flex items-center justify-center rounded-xl transition-colors active:scale-95 bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-6 text-slate-800">
+                  <div className="flex justify-between items-end mb-2">
+                    <span className="text-sm font-bold text-slate-500">{language === "ar" ? "مؤشر التوافق الكلي" : "Overall Compatibility"}</span>
+                    <span className={`text-4xl font-black ${atsScore >= 80 ? "text-emerald-500" : atsScore >= 50 ? "text-amber-500" : "text-rose-500"}`}>{atsScore}%</span>
+                  </div>
+                  <div className="w-full bg-slate-100 rounded-full h-2 mb-6 overflow-hidden">
+                    <div 
+                      className={`h-full rounded-full transition-all duration-500 ${atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"}`}
+                      style={{ width: `${atsScore}%` }}
+                    />
+                  </div>
+                  
+                  <p className="text-sm text-slate-600 font-medium leading-relaxed mb-6 bg-slate-50 p-4 rounded-2xl">
+                    {language === "ar"
+                      ? atsScore >= 80
+                        ? "تهانينا! سيرتك الذاتية ممتازة ومبنية بأقوى معايير التوظيف والفرز."
+                        : atsScore >= 50
+                        ? "سيرتك جيدة، لكن ننصح بإضافة بضعة أرقام لنتائج عملك وتفاصيل مهاراتك الفنية للارتقاء بها."
+                        : "تحتاج سيرتك لإضافة معلومات اتصال كاملة وخبرة مفصلة لتمكين مراجعتها وجذب المستخرج الآلي."
+                      : atsScore >= 80
+                      ? "Splendid work! Your resume matches industry-standard ATS extraction norms beautifully."
+                      : atsScore >= 50
+                      ? "Good start. We recommend adding quantitative metrics and professional social links to boost extraction score."
+                      : "Provide contact details, summary sentences, and experience items to activate extraction."}
+                  </p>
+
+                  <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-4">{language === "ar" ? "تفصيل أقسام السيرة" : "Section Breakdown"}</h4>
+                  <div className="space-y-3 mb-8">
+                    {calculateATSScore(data).sections.map((sect, idx) => (
+                      <div key={idx} className="flex items-center justify-between text-sm py-2 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors px-2 rounded-lg">
+                        <span className="text-slate-600 font-medium">
+                          {sect.title === "Contact Info" ? (language === "ar" ? "بيانات التواصل" : "Contact Details") 
+                            : sect.title === "Experience Bullet Points" ? (language === "ar" ? "صياغة نقاط وبروتوكولات الخبرة" : "Experience Verbs") 
+                            : sect.title === "Experience Formatting" ? (language === "ar" ? "تنسيق عناصر الخبرة" : "Experience Details") 
+                            : sect.title === "Summary" ? (language === "ar" ? "الملخص المهني" : "Summary") 
+                            : sect.title === "Skills Section" ? (language === "ar" ? "المهارات الفنية" : "Skills Range") 
+                            : sect.title}
+                        </span>
+                        <span className="font-black text-slate-800 bg-slate-200 px-2 py-0.5 rounded-md">{sect.score} / {sect.maxScore}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {calculateATSScore(data).tips.length > 0 && (
+                    <div className="bg-[#FF4D2D]/5 border border-[#FF4D2D]/20 rounded-2xl p-4 mb-4">
+                      <span className="text-xs font-black block mb-2 text-[#FF4D2D] uppercase tracking-wide">💡 {language === "ar" ? "توصيات فورية" : "Recommendation"}</span>
+                      <p className="text-sm text-slate-700 leading-relaxed font-medium">
+                        {calculateATSScore(data).tips[0]}
+                      </p>
+                    </div>
+                  )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Modals */}
         <SettingsModal
           isOpen={isSettingsModalOpen}
@@ -2026,6 +2155,50 @@ export default function EditorPage() {
         </AnimatePresence>
 
 
+
+        {/* Exit Intent Modal */}
+        <AnimatePresence>
+          {showExitModal && (
+            <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 15 }}
+                className="bg-white rounded-[2rem] shadow-2xl w-full max-w-sm overflow-hidden p-8 text-center border border-slate-100"
+              >
+                <div className="w-16 h-16 bg-brand-50 rounded-full flex items-center justify-center mx-auto mb-5">
+                  <span className="text-2xl">⚠️</span>
+                </div>
+                <h3 className="text-2xl font-black text-slate-900 mb-2">
+                  {language === "ar" ? "سيرتك محفوظة — متنساش تكملها!" : "Your progress is saved!"}
+                </h3>
+                <p className="text-slate-500 mb-8 font-medium">
+                  {language === "ar" 
+                    ? "بياناتك متسجلة على المتصفح ده، تقدر ترجع في أي وقت وتكمل بناء وتنزيل سيرتك، متقلقش." 
+                    : "Your data is safely stored in this browser. You can return anytime to finish and export your resume."}
+                </p>
+                <div className="flex gap-3 flex-col-reverse sm:flex-row">
+                  <button
+                    onClick={() => {
+                      setShowExitModal(false);
+                      // Let them leave natively if they click multiple times?
+                      // We'll just hide the modal, they can figure out closing the tab it again.
+                    }}
+                    className="flex-1 py-3 px-4 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-colors"
+                  >
+                    {language === "ar" ? "فهمت، هقفل" : "Got it, close"}
+                  </button>
+                  <button
+                    onClick={() => setShowExitModal(false)}
+                    className="flex-1 py-3 px-4 bg-brand-500 text-white rounded-xl font-bold hover:bg-brand-600 shadow-md shadow-brand-500/20 transition-all"
+                  >
+                    {language === "ar" ? "خليني أكمل" : "Keep editing"}
+                  </button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
     </div>
   );

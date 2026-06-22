@@ -599,7 +599,7 @@ function doPost(e) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="flex flex-nowrap md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-none">
             {almosaferJobs.map((job, idx) => (
               <motion.div
                 key={job.id}
@@ -608,7 +608,7 @@ function doPost(e) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.15 }}
                 whileHover={{ y: -6 }}
-                className="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-xs hover:shadow-xl hover:border-[#FF4D2D]/35 transition-all flex flex-col justify-between relative"
+                className="w-[85vw] sm:w-[320px] md:w-auto shrink-0 snap-center bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-xs hover:shadow-xl hover:border-[#FF4D2D]/35 transition-all flex flex-col justify-between relative"
               >
                 {/* Brand Tag */}
                 <div className="flex items-center justify-between mb-5">
@@ -1352,7 +1352,7 @@ function doPost(e) {
 
       <Footer />
 
-      {/* ── SUCCESS DIALOG OVERLAY MODERN DESIGN ── */}
+      {/* SUCCESS DIALOG OVERLAY MODERN DESIGN */}
       <AnimatePresence>
         {showSuccess && (
           <div aria-modal="true" role="dialog" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/50 backdrop-blur-xs">
@@ -1398,6 +1398,17 @@ function doPost(e) {
           </div>
         )}
       </AnimatePresence>
+
+      {/* ── MOBILE STICKY CTA ── */}
+      <div className="md:hidden fixed bottom-5 left-0 right-0 px-5 z-40">
+        <a 
+          href="#upload-profile" 
+          className="flex items-center justify-center w-full bg-[#FF4D2D] text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_30px_rgba(255,77,45,0.25)] hover:scale-[1.02] active:scale-95 transition-all text-sm gap-2 border border-white/20 backdrop-blur-md"
+        >
+          {isRtl ? "ارفع سيرتك الذاتية مجاناً" : "Upload Your Resume Now"}
+          <span className="rtl:-scale-x-100">→</span>
+        </a>
+      </div>
     </div>
   );
 }

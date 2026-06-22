@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Navbar }          from '@/components/layout/Navbar'
+import { Helmet } from "react-helmet-async"
 import { HeroSection }     from './HeroSection'
 import { FeaturesSection } from './FeaturesSection'
 import { PricingSection }  from './PricingSection'
@@ -8,6 +9,7 @@ import SimpleSteps from '@/components/SimpleSteps'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import { CTASection } from '@/components/CTASection'
+import { TestimonialsSection } from './TestimonialsSection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import type { AppLang } from '@/hooks/useDirection'
 
@@ -17,20 +19,28 @@ export default function LandingPage() {
   const goToEditor = () => navigate('/editor')
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar onStartClick={goToEditor} />
+    <>
+      <Helmet>
+        <title>Hash Resume — سيرتك الاحترافية في 5 دقائق</title>
+        <meta name="description" content="أنشئ سيرتك الذاتية بالذكاء الاصطناعي في 5 دقائق. يدعم العربية والإنجليزية والفرنسية. ATS-Friendly. بدون تسجيل." />
+        <link rel="canonical" href="https://hashresume.com/" />
+      </Helmet>
+      <div className="min-h-screen flex flex-col">
+        <Navbar onStartClick={goToEditor} />
 
-      <main id="main-content" className="flex-1">
-        <HeroSection lang={lang as AppLang} onStart={goToEditor} />
-        <SimpleSteps />
-        <FeaturesSection lang={lang as AppLang} />
-        <LandingAtsTester lang={lang as AppLang} onStartClick={goToEditor} />
-        <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
-        <FAQ />
-        <CTASection lang={lang as AppLang} />
-      </main>
+        <main id="main-content" className="flex-1">
+          <HeroSection lang={lang as AppLang} onStart={goToEditor} />
+          <SimpleSteps />
+          <FeaturesSection lang={lang as AppLang} />
+          <TestimonialsSection lang={lang as AppLang} />
+          <LandingAtsTester lang={lang as AppLang} onStartClick={goToEditor} />
+          <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
+          <FAQ />
+          <CTASection lang={lang as AppLang} />
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </>
   )
 }

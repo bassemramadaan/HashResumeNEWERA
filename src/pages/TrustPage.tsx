@@ -16,8 +16,9 @@ export default function TrustPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans" dir={dir}>
       <Helmet>
-        <title>{language === "ar" ? "الثقة والشفافية | Hash Resume" : "Trust & Transparency | Hash Resume"}</title>
-        <meta name="description" content="Learn how Hash Resume calculates your ATS score, manages your data, and prioritizes your privacy." />
+        <title>الخصوصية والأمان | Hash Resume</title>
+        <meta name="description" content="بياناتك محفوظة 100% على جهازك فقط. لا قواعد بيانات، لا تتبع، لا مشاركة بيانات." />
+        <link rel="canonical" href="https://hashresume.com/trust" />
       </Helmet>
       
       <Navbar />

@@ -11,11 +11,9 @@ export default function PricingPage() {
   return (
     <>
       <Helmet>
-        <title>{isAr ? "الأسعار - Hash Resume" : "Pricing - Hash Resume"}</title>
-        <meta 
-          name="description" 
-          content={isAr ? "اختر الباقة المناسبة لسيرتك الذاتية. باقات مرنة واقتصادية." : "Choose the right package for your resume. Flexible and affordable pricing."} 
-        />
+        <title>الأسعار والباقات | Hash Resume</title>
+        <meta name="description" content="باقة 50 جنيه للسيرة الواحدة أو 120 جنيه لـ 3 سير ذاتية. بدون اشتراك شهري أو رسوم خفية." />
+        <link rel="canonical" href="https://hashresume.com/pricing" />
       </Helmet>
       
       <div className="min-h-screen bg-slate-50 font-sans selection:bg-orange-100 pb-20" dir={isAr ? "rtl" : "ltr"}>

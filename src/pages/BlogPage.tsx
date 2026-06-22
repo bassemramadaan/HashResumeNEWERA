@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowRight, Calendar, Clock } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { blogPosts } from "../data/blogPosts";
 import { Navbar } from "@/components/layout/Navbar";
@@ -9,8 +10,14 @@ export default function BlogPage() {
   const { language } = useLanguageStore();
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 transition-colors duration-300">
-      <Navbar />
+    <>
+      <Helmet>
+        <title>المدونة | Hash Resume — نصائح CV وسوق العمل</title>
+        <meta name="description" content="مقالات ونصائح لمساعدتك في كتابة CV احترافي يتخطى ATS ويوصلك لأفضل الوظائف." />
+        <link rel="canonical" href="https://hashresume.com/blog" />
+      </Helmet>
+      <div className="min-h-screen bg-slate-50 font-sans text-slate-900 transition-colors duration-300">
+        <Navbar />
 
       {/* Header */}
       <header className="py-20 text-center px-4 mt-20">
@@ -96,5 +103,6 @@ export default function BlogPage() {
         </div>
       </main>
     </div>
+    </>
   );
 }

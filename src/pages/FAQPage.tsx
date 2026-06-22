@@ -15,8 +15,9 @@ export default function FAQPage() {
   return (
     <div className={`min-h-screen bg-slate-50 flex flex-col font-sans ${language === 'ar' ? 'rtl' : 'ltr'}`}>
       <Helmet>
-        <title>{language === 'ar' ? 'الأسئلة الشائعة | Hash Resume' : 'FAQ | Hash Resume'}</title>
-        <meta name="description" content={language === 'ar' ? 'الأسئلة الشائعة وإجاباتها' : 'Frequently Asked Questions'} />
+        <title>الأسئلة الشائعة | Hash Resume</title>
+        <meta name="description" content="إجابات على أكثر الأسئلة شيوعاً حول Hash Resume — التسعير، الخصوصية، دعم العربي، وكيفية عمل ATS." />
+        <link rel="canonical" href="https://hashresume.com/faq" />
       </Helmet>
 
       <Navbar />

@@ -514,7 +514,8 @@ export default function MobileEditorLayout({
   completionMap   = {},
   onExportPDF     = () => {},
   onExportWord    = () => {},
-  previewContent  = null,
+  onOpenPreview   = () => {},
+  onOpenAts       = () => {},
   children,
 }: {
   lang?: string;
@@ -524,7 +525,8 @@ export default function MobileEditorLayout({
   completionMap?: Record<string, number>;
   onExportPDF?: () => void;
   onExportWord?: () => void;
-  previewContent?: React.ReactNode;
+  onOpenPreview?: () => void;
+  onOpenAts?: () => void;
   children?: React.ReactNode;
 }) {
   const t                             = T[lang] ?? T.en;
@@ -691,33 +693,6 @@ export default function MobileEditorLayout({
           </div>
         </div>
 
-        {/* PREVIEW TAB */}
-        <div className={`h-full w-full ${activeTab === "preview" ? "block" : "hidden"} bg-slate-100`}>
-          <div className="h-full flex flex-col overflow-hidden relative">
-            
-            {/* Scale Preview Help tip bar */}
-            <div className="bg-slate-900 text-white/95 px-4 py-2 flex items-center justify-between text-[10px] font-bold shrink-0 select-none">
-              <span>💡 {lang === "ar" ? "اضغط على الشاشة للتكبير ومعاينة ملف الـ PDF" : "Swipe & zoom to inspect clean A4 layout output"}</span>
-              <span className="bg-white/10 px-2 py-0.5 rounded text-[8.5px] font-black uppercase">LIVE PREVIEW</span>
-            </div>
-
-            {/* Fitted Document Frame */}
-            <div className="flex-1 overflow-auto p-4 flex justify-center items-start origin-top bg-slate-200/60 pb-20 scrollbar-none">
-              <div 
-                className="shrink-0 transform-gpu transition-all shadow-[0_12px_45px_rgba(0,0,0,0.12)] rounded-lg border border-slate-300 bg-white" 
-                style={{
-                  width: "210mm",
-                  transform: `scale(${Math.min(0.96, (windowWidth - 32) / 794)})`,
-                  transformOrigin: "top center",
-                  marginBottom: `-${(1 - Math.min(0.96, (windowWidth - 32) / 794)) * 297}mm`
-                }}
-              >
-                {previewContent}
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* SECTIONS TAB */}
         <div className={`h-full w-full pb-6 ${activeTab === "sections" ? "block" : "hidden"} bg-[#fafafa]`}>
           <SectionsScreen
@@ -736,10 +711,21 @@ export default function MobileEditorLayout({
       </main>
 
       {/* ── Highly Polished Floating Capsule Dock bottom navigation ── */}
-      <div className="fixed bottom-6 inset-x-0 mx-auto z-50 px-3 flex justify-center pointer-events-none w-full max-w-md">
+      <div className="fixed bottom-6 inset-x-0 mx-auto z-50 px-3 flex justify-between pointer-events-none w-full">
+        {/* ATS Floating Badge */}
+        <div 
+          onClick={onOpenAts}
+          className="pointer-events-auto h-12 px-3 bg-white border border-slate-200/60 shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-full flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all"
+        >
+          <div className={`w-2.5 h-2.5 rounded-full ${atsScore >= 80 ? "bg-emerald-500 animate-pulse" : atsScore >= 50 ? "bg-amber-500 animate-pulse" : "bg-rose-500"}`} />
+          <span className="font-black text-slate-800 text-xs">ATS</span>
+          <span className="font-bold text-slate-600 text-[10px] bg-slate-100 rounded-md px-1.5 py-0.5">{atsScore}%</span>
+        </div>
+
+        {/* Main Dock */}
         <nav 
           ref={containerRef}
-          className="pointer-events-auto bg-[#252525]/90 backdrop-blur-3xl border border-white/10 rounded-full py-1.5 px-2 flex items-center justify-start sm:justify-center shadow-[0_12px_40px_rgba(0,0,0,0.25)] select-none gap-0.5 overflow-x-auto scrollbar-none max-w-full"
+          className="pointer-events-auto bg-[#252525]/90 backdrop-blur-3xl border border-white/10 rounded-full py-1.5 px-2 flex items-center justify-start sm:justify-center shadow-[0_12px_40px_rgba(0,0,0,0.25)] select-none gap-0.5 overflow-x-auto scrollbar-none max-w-max shrink-0"
         >
           {TABS.map((tab, idx) => {
             const isActive = activeTab === tab.id;
@@ -777,12 +763,18 @@ export default function MobileEditorLayout({
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  if (tab.id === "preview") {
+                    onOpenPreview();
+                  } else {
+                    setActiveTab(tab.id);
+                  }
+                }}
                 className={`relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none shrink-0 ${
                   isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
                 }`}
               >
-                {isActive && (
+                {isActive && tab.id !== "preview" && (
                   <motion.div 
                     layoutId="activeDockIndicatorMobile"
                     className="absolute inset-0 bg-white/20 rounded-full"
@@ -792,7 +784,7 @@ export default function MobileEditorLayout({
                 
                 <span className="relative z-10 flex items-center justify-center">
                   {IconComponent && (
-                    <IconComponent strokeWidth={isActive ? 2.5 : 1.5} className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                    <IconComponent strokeWidth={(isActive && tab.id !== "preview") ? 2.5 : 1.5} className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
                   )}
                 </span>
               </button>

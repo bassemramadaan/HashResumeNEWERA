@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet-async";
 import {
   Target,
   Search,
@@ -14,10 +15,16 @@ export default function HowAtsWorksPage() {
   const isAr = language === "ar";
 
   return (
-    <div
-      className="min-h-screen bg-slate-50 text-slate-900 font-sans"
-      dir={isAr ? "rtl" : "ltr"}
-    >
+    <>
+      <Helmet>
+        <title>كيف يعمل نظام ATS | Hash Resume</title>
+        <meta name="description" content="تعرف على كيفية عمل أنظمة تتبع المتقدمين ATS وكيف تكتب CV يتخطاها بنجاح." />
+        <link rel="canonical" href="https://hashresume.com/how-ats-works" />
+      </Helmet>
+      <div
+        className="min-h-screen bg-slate-50 text-slate-900 font-sans"
+        dir={isAr ? "rtl" : "ltr"}
+      >
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
@@ -110,5 +117,6 @@ export default function HowAtsWorksPage() {
         </div>
       </main>
     </div>
+    </>
   );
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeft, LayoutTemplate, CheckCircle2, Eye, X, Sparkles, Search } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import Logo from "../components/Logo";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore, ResumeData } from "../store/useResumeStore";
@@ -277,6 +278,11 @@ export default function TemplatesPage() {
 
   return (
     <div className={cn("min-h-screen bg-[#FAFAF8] text-slate-900 font-sans", isRtl && "rtl")}>
+      <Helmet>
+        <title>قوالب CV احترافية | Hash Resume</title>
+        <meta name="description" content="اختر من بين قوالب CV احترافية ATS-Friendly بالعربي والإنجليزي. قوالب مجانية جاهزة للتحميل." />
+        <link rel="canonical" href="https://hashresume.com/templates" />
+      </Helmet>
 
       {/* ── Header ── */}
       <header className="bg-[#FAFAF8]/90 border-b border-slate-200/80 sticky top-0 z-40 backdrop-blur-md">
