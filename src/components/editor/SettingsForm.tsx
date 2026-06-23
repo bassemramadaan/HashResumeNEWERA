@@ -887,6 +887,47 @@ export default React.memo(function SettingsForm() {
               </div>
             </div>
 
+            {/* One-Click Print Optimization & Contrast Harmonizer */}
+            <div className="col-span-1 md:col-span-2 pt-6 border-t border-slate-150 space-y-4">
+              <h4 className="text-sm font-extrabold text-[#e24e2c] flex items-center gap-2">
+                <span>🌓</span>
+                <span>{settings.language === "ar" ? "الوضع الصديق للطباعة وتحسين التباين" : "Ink-Friendly Print & High Contrast Mode"}</span>
+              </h4>
+              <p className="text-xs text-slate-500 leading-relaxed">
+                {settings.language === "ar" 
+                  ? "يقوم بنقرة واحدة بتحويل كافة درجات الخطوط الرمادية في السيرة الذاتية إلى أسود داكن عالي التباين، وضبط الأسطر وتكثيف سماكة الفواصل من أجل الطباعة الميكانيكية باللون بالابيض والأسود لتجنب بهتان الخطوط." 
+                  : "Convert all light-grey font variations or dim graphics to 100% thick solid black. Elevates line thickness and optimizes background contrast to keep custom layouts looking professional and sharp on print paper."}
+              </p>
+
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-slate-700 block text-start">
+                      {settings.language === "ar" ? "تفعيل نمط الطباعة عالي التباين" : "Enable Ink-Friendly Contrast Option"}
+                    </span>
+                    <span className="text-[10px] text-slate-450 block text-start">
+                      {settings.language === "ar" ? "يحول كافة النصوص إلى درجات أسود نقية ويعزز وضوح الفواصل" : "Forces all font rendering to pitch-black high readability with zero light opacity gradients."}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => updateSettings({ inkFriendly: !settings.inkFriendly })}
+                    className={cn(
+                      "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
+                      settings.inkFriendly ? "bg-[#FF4D2D]" : "bg-slate-200"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                        settings.inkFriendly ? "translate-x-5" : "translate-x-0"
+                      )}
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+
             {/* Active CV Accent Color Picker Segment */}
             <div className="space-y-2 col-span-1 md:col-span-2 pt-4 border-t border-slate-150">
               <label className="text-sm font-bold text-slate-700 block">

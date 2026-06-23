@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sparkles, X, Check, BookOpen, MessageSquare, ChevronRight, Copy } from "lucide-react";
+import { Sparkles, X, Check, BookOpen, MessageSquare, Copy } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ATSVerbAssistantProps {

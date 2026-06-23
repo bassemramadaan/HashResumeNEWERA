@@ -65,7 +65,7 @@ export const FrictionlessConfetti: React.FC = () => {
       ctx.clearRect(0, 0, width, height);
 
       const activeParticles = [];
-      for (let p of particles) {
+      for (const p of particles) {
         p.y += p.speedY;
         p.x += p.speedX;
         p.rotation += p.rotationSpeed;

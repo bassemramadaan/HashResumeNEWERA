@@ -1236,6 +1236,94 @@ const ResumePreview = memo(
           }
         }}
       >
+        {settings?.inkFriendly && (
+          <style dangerouslySetInnerHTML={{ __html: `
+            /* Ink-Friendly High Contrast Mechanical Print Mode Override Rules */
+            #resume-capture-area {
+              background-color: #ffffff !important;
+              color: #000000 !important;
+            }
+            #resume-capture-area *, 
+            #resume-capture-area h1, 
+            #resume-capture-area h2, 
+            #resume-capture-area h3, 
+            #resume-capture-area h4, 
+            #resume-capture-area h5, 
+            #resume-capture-area h6, 
+            #resume-capture-area span, 
+            #resume-capture-area p, 
+            #resume-capture-area li, 
+            #resume-capture-area div, 
+            #resume-capture-area a {
+              color: #000000 !important;
+              text-shadow: none !important;
+              font-smoothing: antialiased !important;
+              -webkit-font-smoothing: antialiased !important;
+            }
+            /* Override background tones / colors for sidebars, cards, and accent bars */
+            #resume-capture-area div[class*="bg-slate-"],
+            #resume-capture-area div[class*="bg-gray-"],
+            #resume-capture-area div[class*="bg-zinc-"],
+            #resume-capture-area div[class*="bg-blue-"],
+            #resume-capture-area div[class*="bg-brand-"],
+            #resume-capture-area div[class*="bg-indigo-"] {
+              background-color: #ffffff !important;
+              background-image: none !important;
+              border: 1px solid #000000 !important;
+            }
+            /* Treat colored background badges beautifully as outlined with thick borders */
+            #resume-capture-area span[class*="bg-slate-"],
+            #resume-capture-area span[class*="bg-blue-"],
+            #resume-capture-area span[class*="bg-brand-"] {
+              background-color: #ffffff !important;
+              border: 1.5px solid #000000 !important;
+              color: #000000 !important;
+              font-weight: 800 !important;
+              padding: 2px 8px !important;
+            }
+            /* Dark headers, sidebars or banners need to be white background with crisp black text */
+            #resume-capture-area header,
+            #resume-capture-area .bg-slate-900,
+            #resume-capture-area .bg-gray-900,
+            #resume-capture-area .bg-slate-800,
+            #resume-capture-area [style*="background-color"] {
+              background-color: #ffffff !important;
+              color: #000000 !important;
+              border-color: #000000 !important;
+            }
+            /* Solid high-precision line-height spacing for mechanical paper readability */
+            #resume-capture-area p,
+            #resume-capture-area li {
+              line-height: 1.62 !important;
+              letter-spacing: 0.01em !important;
+            }
+            /* Guarantee ultra-high border contrast for divider lines */
+            #resume-capture-area hr,
+            #resume-capture-area div[class*="border-"],
+            #resume-capture-area span[class*="border-"],
+            #resume-capture-area section[class*="border-"],
+            #resume-capture-area [style*="border-color"] {
+              border-color: #000000 !important;
+              border-width: 1.5px !important;
+              opacity: 1 !important;
+            }
+            /* Ensure bullet points and markers is deep graphite/black */
+            #resume-capture-area .text-slate-300,
+            #resume-capture-area .text-slate-400 {
+              color: #111111 !important;
+            }
+            /* Increase baseline font-weight to prevent laser printer toner dropouts */
+            #resume-capture-area .font-bold {
+              font-weight: 850 !important;
+            }
+            #resume-capture-area .font-semibold {
+              font-weight: 750 !important;
+            }
+            #resume-capture-area .font-medium {
+              font-weight: 650 !important;
+            }
+          ` }} />
+        )}
         {/* Dynamic clean template dispatch */}
         {currentTemplate === "classic-professional" && renderClassicProfessional()}
         

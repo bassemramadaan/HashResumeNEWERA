@@ -127,6 +127,7 @@ export type ResumeData = {
     customMargin?: number;
     showQRCode?: boolean;
     qrCodeType?: "linkedin" | "vcard" | "contact";
+    inkFriendly?: boolean;
   };
   jobDescription: string;
   isPremium: boolean;
@@ -210,6 +211,7 @@ const initialData: ResumeData = {
     customMargin: 100,
     showQRCode: false,
     qrCodeType: "linkedin",
+    inkFriendly: false,
   },
   jobDescription: "",
   isPremium: false,
