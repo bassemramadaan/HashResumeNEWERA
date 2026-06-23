@@ -261,6 +261,66 @@ const ResumePreview = memo(
       );
     };
 
+    // ── TEMPLATE 4: "ATS Professional" (Strict) ──
+    const renderATSProfessional = () => {
+      return (
+        <div className="bg-white p-[56px] text-[#000000] font-sans min-h-[297mm] w-[794px] mx-auto text-start leading-[1.15] border border-black/10 select-text">
+          <header className="mb-4">
+            <h1 className="text-[22px] font-bold mb-1 leading-none">{personalInfo.fullName}</h1>
+            <p className="text-[11px] uppercase tracking-[1.5px] font-normal mb-1">{personalInfo.jobTitle}</p>
+            <div className="border-t-[1pt] border-black my-2" />
+            <p className="text-[10px] font-normal">
+              {[personalInfo.address, personalInfo.phone, personalInfo.email, personalInfo.linkedin].filter(Boolean).join(" | ")}
+            </p>
+          </header>
+
+          <div className="space-y-[14px]">
+            {!hiddenSections.includes("summary") && personalInfo.summary && (
+              <section>
+                <div className="border-t-[0.5pt] border-black mb-1" />
+                <h3 className="text-[13px] font-bold uppercase tracking-[1px] mb-2">{labels.summary}</h3>
+                <div className="text-[11px] leading-[1.15] font-normal whitespace-pre-line">{personalInfo.summary}</div>
+              </section>
+            )}
+
+            {!hiddenSections.includes("skills") && skills.length > 0 && (
+              <section>
+                <div className="border-t-[0.5pt] border-black mb-1" />
+                <h3 className="text-[13px] font-bold uppercase tracking-[1px] mb-2">{labels.skills}</h3>
+                <p className="text-[11px] leading-[1.15] font-normal">{skills.map(s => s.name).join(" · ")}</p>
+              </section>
+            )}
+
+            {!hiddenSections.includes("experience") && experience.length > 0 && (
+              <section>
+                <div className="border-t-[0.5pt] border-black mb-1" />
+                <h3 className="text-[13px] font-bold uppercase tracking-[1px] mb-2">{labels.experience}</h3>
+                <div className="space-y-[10px]">
+                  {experience.map((exp) => (
+                    <div key={exp.id}>
+                      <div className="flex justify-between items-baseline font-bold text-[11px]">
+                        <span>{exp.company}</span>
+                        <span>{exp.startDate} – {exp.current ? "Present" : exp.endDate}</span>
+                      </div>
+                      <div className="italic text-[11px] mb-1">{exp.position}</div>
+                      <div className="text-[11px] leading-[1.15] font-normal pl-[14px]">
+                        {exp.description.split("\n").map((line, i) => (
+                          <div key={i} className="mb-[4px] flex">
+                            <span className="mr-[5px] inline-block">–</span>
+                            <span>{line.replace(/^[•\-*]\s*/, "")}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+          </div>
+        </div>
+      );
+    };
+
     // ── TEMPLATE: "Classic Professional" (New) ──
     const renderClassicProfessional = () => {
       const isRtl = settings.language === "ar";
@@ -1326,6 +1386,7 @@ const ResumePreview = memo(
         )}
         {/* Dynamic clean template dispatch */}
         {currentTemplate === "classic-professional" && renderClassicProfessional()}
+        {currentTemplate === "ats-professional" && renderATSProfessional()}
         
         {currentTemplate === "arabic" && renderArabic()}
         

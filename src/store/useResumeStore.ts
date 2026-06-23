@@ -110,7 +110,8 @@ export type ResumeData = {
       | "arabic"
       | "engineering"
       | "finance"
-      | "classic-professional";
+      | "classic-professional"
+      | "ats-professional";
     themeColor: string;
     language: "en" | "ar" | "fr";
     isFreshGrad: boolean;

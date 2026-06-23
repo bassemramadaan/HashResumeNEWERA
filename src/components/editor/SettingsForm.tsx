@@ -38,6 +38,11 @@ export default React.memo(function SettingsForm() {
       description: language === "ar" ? "تصميم ذو خط Serif الفاخر وعمود واحد وخط عريض أسود تحت العناوين ومناسب للبنوك والقانون" : "Elegant serif headings with thick bottom borders, single column, best for banking and law",
     },
     {
+      id: "ats-professional",
+      name: language === "ar" ? "احترافي (ATS Optimized - Strict)" : "ATS Professional (Strict)",
+      description: language === "ar" ? "نظام مقيد صارم (أبيض وأسود، خط كاليبري، عمود واحد) مصمم خصيصاً لاجتياز فحص الـ ATS" : "Strict single-column (black & white, Arial/Calibri) designed for 100% ATS pass-through.",
+    },
+    {
       id: "classic",
       name: language === "ar" ? "الكلاسيكي التقليدي (Classic Traditional)" : "Classic Traditional",
       description: language === "ar" ? "الرسمي التقليدي الأكثر قبولاً في الشركات الكبرى" : "Traditional layout accepted by corporations",
