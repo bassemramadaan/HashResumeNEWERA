@@ -199,7 +199,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       
       const result = await response.json();
       if (result.success === true) {
-        useResumeStore.getState().unlockPremium();
+        useResumeStore.getState().unlockPremium("", "", "");
         onSuccess();
       } else {
         setError(result.message || (isAr ? "كود غير صالح أو مستخدم من قبل" : "Invalid or already used code"));
@@ -295,7 +295,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       if (result.success === true && result.status === "approved") {
         localStorage.removeItem("pending_payment_ref");
         setPendingRef("");
-        useResumeStore.getState().unlockPremium();
+        useResumeStore.getState().unlockPremium("", "", "");
 
         let isBundlePackage = selectedPackage === "bundle";
         if (result.amount) {
