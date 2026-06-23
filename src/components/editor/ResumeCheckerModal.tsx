@@ -113,7 +113,7 @@ export default function ResumeCheckerModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
-            className="relative w-full max-w-[500px] bg-white rounded-3xl shadow-[0_24px_50px_rgba(18,18,16,0.12)] border border-neutral-100/80 overflow-hidden flex flex-col max-h-[85vh] z-10 font-sans"
+            className="relative w-full max-w-[500px] bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl shadow-neutral-100 border border-white/20 overflow-hidden flex flex-col max-h-[85vh] z-10 font-sans"
           >
             {/* Minimal Brand Gradient Top Decorator */}
             <div className="absolute top-0 inset-x-0 h-[4px] bg-gradient-to-r from-brand-500 via-brand-600 to-amber-500" />

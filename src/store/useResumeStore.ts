@@ -280,6 +280,8 @@ type ResumeStore = {
   loadExampleData: () => void;
   lockResume: () => void;
   updateJobDescription: (jd: string) => void;
+  focusedSection: string | null;
+  setFocusedSection: (section: string | null) => void;
 }
 
 export const useResumeStore = create<ResumeStore>()(
@@ -294,8 +296,10 @@ export const useResumeStore = create<ResumeStore>()(
       isGeneratingMap: {},
       aiSuggestions: [],
       atsResult: null,
+      focusedSection: null,
 
       setHydrated: (isHydrated) => set({ isHydrated }),
+      setFocusedSection: (section) => set({ focusedSection: section }),
       updatePersonalInfo: (info) =>
         set((state) => ({
           data: {

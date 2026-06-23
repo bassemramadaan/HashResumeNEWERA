@@ -135,7 +135,7 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
-  background-color: var(--color-neutral-0);
+  background-color: #FCFCFC;
   color: var(--color-neutral-800);
   font-family: var(--font-sans);
   font-size: 16px;
