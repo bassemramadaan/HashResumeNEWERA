@@ -8,7 +8,8 @@ import {
   GripVertical,
   ChevronDown,
   ChevronUp,
-  Briefcase
+  Briefcase,
+  Sparkles
 } from "lucide-react";
 import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
 import SectionTooltip from "./SectionTooltip";
