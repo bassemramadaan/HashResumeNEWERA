@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { useResumeStore } from "../../store/useResumeStore";
+import { useResumeStore, Project } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { Plus, Trash2, GripVertical, ChevronDown, ChevronUp, Copy, Layout } from "lucide-react";
 import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
 import EmptyState from "./EmptyState";
+import ATSVerbAssistant from "./ATSVerbAssistant";
 
 interface ProjectItemProps {
-  project: any;
+  project: Project;
   expandedId: string | null;
   setExpandedId: (id: string | null) => void;
-  t: any;
-  updateProject: any;
-  removeProject: any;
-  duplicateProject: any;
+  t: Record<string, string>;
+  updateProject: (id: string, updated: Partial<Project>) => void;
+  removeProject: (id: string) => void;
+  duplicateProject: (id: string) => void;
 }
 
 const ProjectItem: React.FC<ProjectItemProps> = ({
@@ -141,6 +142,14 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                       <Sparkles size={11} />
                       {language === "ar" ? "المحرر الذكي" : "Smart Rewrite"}
                     </button>
+                    <ATSVerbAssistant 
+                      onSelectWord={(word) => {
+                        const currentVal = project.description || "";
+                        const newVal = currentVal ? `${currentVal}\n• ${word} ` : `• ${word} `;
+                        updateProject(project.id, { description: newVal });
+                      }}
+                      isAr={language === "ar"}
+                    />
                   </div>
                 </div>
                 <textarea

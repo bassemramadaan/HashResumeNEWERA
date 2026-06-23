@@ -112,12 +112,12 @@
 
   /* Typography */
   --font-sans:   'Plus Jakarta Sans', sans-serif;
-  --font-arabic: 'Cairo', sans-serif;
-  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-arabic: 'Tajawal', 'Cairo', sans-serif;
+  --font-display: 'Tajawal', 'Cairo', sans-serif;
 
   /* Shadows */
-  --shadow-soft: 0 8px 30px rgba(0,0,0,0.04);
-  --shadow-premium: 0 12px 40px rgba(0,0,0,0.06);
+  --shadow-soft: 0 4px 20px -2px rgba(15, 23, 42, 0.02), 0 12px 32px -4px rgba(15, 23, 42, 0.03);
+  --shadow-premium: 0 10px 30px -10px rgba(15, 23, 42, 0.04), 0 24px 60px -15px rgba(15, 23, 42, 0.07);
 
   /* Border radius */
   --radius-sm:   6px;
@@ -154,8 +154,8 @@ body {
 }
 
 [dir="rtl"], html[dir="rtl"] {
-  --font-sans: 'Cairo', sans-serif;
-  --font-display: 'Cairo', sans-serif;
+  --font-sans: 'Tajawal', 'Cairo', sans-serif;
+  --font-display: 'Tajawal', 'Cairo', sans-serif;
 }
 
 /* ============================================================
@@ -237,6 +237,29 @@ textarea:focus {
 /* Premium Stroke Width for Icons */
 .lucide {
   stroke-width: 1.75;
+}
+
+[data-highlighted="true"] {
+  outline: 2px dashed #FF4D2D !important;
+  outline-offset: 6px;
+  background-color: rgba(255, 77, 45, 0.03) !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 0 25px rgba(255, 77, 45, 0.08) !important;
+}
+
+#resume-capture-area header, 
+#resume-capture-area section {
+  cursor: pointer;
+  transition: background-color 0.25s ease, outline 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 4px;
+}
+
+#resume-capture-area header:hover, 
+#resume-capture-area section:hover {
+  background-color: rgba(255, 77, 45, 0.02) !important;
+  outline: 1.5px dashed rgba(255, 77, 45, 0.2) !important;
+  outline-offset: 4px;
 }
 
 h1, h2, h3, h4, h5, h6 {

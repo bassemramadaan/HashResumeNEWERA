@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useResumeStore } from "../../store/useResumeStore";
+import { useResumeStore, Experience } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import {
@@ -19,6 +19,16 @@ import QuickAIAssistPill from "./QuickAIAssistPill";
 import EmptyState from "./EmptyState";
 import InlineGhostSuggest from "./InlineGhostSuggest";
 
+interface ExperienceItemProps {
+  exp: Experience;
+  expandedId: string | null;
+  setExpandedId: (id: string | null) => void;
+  t: Record<string, string>;
+  removeExperience: (id: string) => void;
+  updateExperience: (id: string, updated: Partial<Experience>) => void;
+  isAr: boolean;
+}
+
 const ExperienceItem = ({
   exp,
   expandedId,
@@ -27,7 +37,7 @@ const ExperienceItem = ({
   removeExperience,
   updateExperience,
   isAr
-}: any) => {
+}: ExperienceItemProps) => {
   const controls = useDragControls();
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
 

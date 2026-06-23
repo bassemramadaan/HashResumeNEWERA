@@ -7,7 +7,6 @@ export default function EditorNavbar({
 }: {
   lang?: AppLang;
   onBackToHome?: () => void;
-  [key: string]: any;
 }) {
   const isRtl = lang === "ar";
 

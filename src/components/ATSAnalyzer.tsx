@@ -110,7 +110,7 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
         const parsed: ATSResult = JSON.parse(response.text);
         setResult(parsed);
       }
-    } catch (err: any) {
+    } catch (err) {
       console.error("ATS Analyzer err:", err);
       setError(language === "ar" ? "حدث خطأ أثناء الاتصال بالمخدم." : "Failed to parse analysis result. Using estimated mirror values.");
       // Fallback to our incredibly high fidelity estimate so the experience never breaks

@@ -41,6 +41,7 @@ import { DEFAULT_BREAKDOWN } from "../constants";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import ResumePreview from "../components/preview/ResumePreview";
+import { FrictionlessConfetti } from "../components/FrictionlessConfetti";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -334,6 +335,56 @@ export default function EditorPage() {
     }
   }, [activeTab]);
   
+  useEffect(() => {
+    const handlePreviewSectionClick = (e: Event) => {
+      const customEvent = e as CustomEvent<{ tab: Tab; field: string }>;
+      if (customEvent && customEvent.detail) {
+        const { tab, field } = customEvent.detail;
+        
+        // Update tab state
+        setActiveTab(tab);
+        
+        // Hide overlays if open
+        setShowFullPreview(false);
+        setShowMobilePreview(false);
+        
+        // Track actively focused field
+        useActiveSectionStore.getState().setActiveField(field);
+
+        // Let layout settle, then target the specific form section and scroll smoothly
+        setTimeout(() => {
+          let element: HTMLElement | null = null;
+          if (field === "personalInfo" || field === "fullName") {
+            element = document.getElementById("fullName") || document.querySelector("[data-form-basics-personal]");
+          } else if (field === "summary") {
+            element = document.getElementById("summary") || document.querySelector("[data-form-basics-summary]");
+          } else {
+            element = document.querySelector(`[data-form-section="${field}"]`);
+          }
+
+          if (!element) {
+            element = document.querySelector(".editor-form-scrollable input, .editor-form-scrollable textarea");
+          }
+
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "center" });
+            
+            // Premium visual feedback ring
+            element.classList.add("ring-2", "ring-[#FF4D2D]", "ring-offset-4");
+            setTimeout(() => {
+              element?.classList.remove("ring-2", "ring-[#FF4D2D]", "ring-offset-4");
+            }, 1800);
+          }
+        }, 180);
+      }
+    };
+
+    window.addEventListener("preview-section-clicked", handlePreviewSectionClick);
+    return () => {
+      window.removeEventListener("preview-section-clicked", handlePreviewSectionClick);
+    };
+  }, []);
+  
 
 
   const [showMobilePreview, setShowMobilePreview] = useState(false);
@@ -410,6 +461,36 @@ export default function EditorPage() {
     }
   }, [data, isEmpty]);
 
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [hasCelebratedScore, setHasCelebratedScore] = useState(false);
+
+  useEffect(() => {
+    if (atsScore >= 90) {
+      if (!hasCelebratedScore) {
+        setHasCelebratedScore(true);
+        setShowConfetti(true);
+        setTimeout(() => {
+          setShowConfetti(false);
+        }, 4000);
+      }
+    } else if (atsScore < 85) {
+      // Allow resets if score falls back, so they can re-trigger when upgrading
+      setHasCelebratedScore(false);
+    }
+  }, [atsScore, hasCelebratedScore]);
+
+  useEffect(() => {
+    (window as any).triggerFrictionlessConfetti = () => {
+      setShowConfetti(true);
+      setTimeout(() => {
+        setShowConfetti(false);
+      }, 4000);
+    };
+    return () => {
+      delete (window as any).triggerFrictionlessConfetti;
+    };
+  }, []);
+
   const breakdown = React.useMemo(() => {
     return DEFAULT_BREAKDOWN.map((b, i) => {
       let done = false;
@@ -457,12 +538,10 @@ export default function EditorPage() {
   }, [data]);
   
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
-      setWindowWidth(window.innerWidth);
     };
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -642,6 +721,8 @@ export default function EditorPage() {
         useResumeStore.getState().lockResume();
 
         setExportStatus({ show: true, step: 5, format }); // "SUCCESS!"
+        // Trigger confetti celebration!
+        (window as any).triggerFrictionlessConfetti?.();
         await sleep(1200);
 
         setExportStatus(null);
@@ -667,9 +748,12 @@ export default function EditorPage() {
         generateWord(useResumeStore.getState().data);
         useResumeStore.getState().lockResume();
         setExportStatus({ show: true, step: 5, format });
+        // Trigger confetti celebration!
+        (window as any).triggerFrictionlessConfetti?.();
         await sleep(1000);
         setExportStatus(null);
         setHasExported(true);
+        setShowPostDownloadModal(true);
       } catch (e) {
         console.error("Word gen err:", e);
         setExportStatus(null);
@@ -965,7 +1049,7 @@ export default function EditorPage() {
                         </div>
                       )}
                       {activeTab === "experience" && (
-                        <div className="space-y-12">
+                        <div className="space-y-12" data-form-section="experience">
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start px-1">
                               <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-neutral-200/50 flex items-center justify-center text-brand-500 relative overflow-hidden group border border-neutral-100/50 shrink-0">
@@ -995,7 +1079,7 @@ export default function EditorPage() {
                         </div>
                       )}
                       {activeTab === "education" && (
-                        <div className="space-y-12">
+                        <div className="space-y-12" data-form-section="education">
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start px-1">
                               <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-neutral-200/50 flex items-center justify-center text-brand-500 relative overflow-hidden group border border-neutral-100/50 shrink-0">
@@ -1025,7 +1109,7 @@ export default function EditorPage() {
                         </div>
                       )}
                       {activeTab === "skills" && (
-                        <section>
+                        <section data-form-section="skills">
                           <div className="flex items-center gap-4 mb-6 text-start">
                             <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
                               <Wrench
@@ -1050,7 +1134,7 @@ export default function EditorPage() {
                         </section>
                       )}
                       {activeTab === "projects" && (
-                        <section>
+                        <section data-form-section="projects">
                           <div className="flex items-center gap-4 mb-6 text-start">
                             <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
                               <LayoutTemplate
@@ -1075,7 +1159,7 @@ export default function EditorPage() {
                         </section>
                       )}
                       {activeTab === "certifications" && (
-                        <section>
+                        <section data-form-section="certifications">
                           <div className="flex items-center gap-4 mb-6 text-start">
                             <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
                               <Award
@@ -2092,15 +2176,25 @@ export default function EditorPage() {
               >
                 {/* Visual loader matching premium look */}
                 <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
-                  <div className="absolute inset-0 rounded-full border-4 border-brand-50/50" />
+                  <div className="absolute inset-0 rounded-full border-4 border-slate-100" />
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                    className="absolute inset-0 rounded-full border-4 border-brand-500 border-t-transparent"
+                    className="absolute inset-0 rounded-full border-4 border-[#FF4D2D] border-t-transparent"
                   />
-                  <span className="text-xl font-black text-brand-600">
+                  <span className="text-xl font-black text-slate-900">
                     {Math.min(100, exportStatus.step * 20)}%
                   </span>
+                </div>
+
+                {/* Premium Step-by-Step Linear Progress Track */}
+                <div className="w-full bg-slate-100 rounded-full h-3 overflow-hidden relative border border-slate-200/40 p-0.5">
+                  <motion.div
+                    initial={{ width: "0%" }}
+                    animate={{ width: `${Math.min(100, exportStatus.step * 20)}%` }}
+                    transition={{ type: "spring", stiffness: 60, damping: 15 }}
+                    className="h-full bg-gradient-to-r from-[#FF4D2D] to-orange-500 rounded-full"
+                  />
                 </div>
 
                 <div className="space-y-2">
@@ -2195,6 +2289,7 @@ export default function EditorPage() {
           )}
         </AnimatePresence>
 
+        {showConfetti && <FrictionlessConfetti />}
     </div>
   );
 }

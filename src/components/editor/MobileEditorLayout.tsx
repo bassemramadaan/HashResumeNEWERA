@@ -531,15 +531,7 @@ export default function MobileEditorLayout({
 }) {
   const t                             = T[lang] ?? T.en;
   const [activeTab, setActiveTab] = useState("edit");
-  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 375);
-
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleResize = () => setWindowWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const sections = SECTIONS[lang] ?? SECTIONS.en;
   const isRtl = lang === "ar";
@@ -558,7 +550,7 @@ export default function MobileEditorLayout({
     setTimeout(() => {
       const scrollable = document.querySelector(".editor-form-scrollable");
       if (scrollable) {
-        scrollable.scrollTo({ top: 0, behavior: "instant" as any });
+        scrollable.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
       }
     }, 45);
   };

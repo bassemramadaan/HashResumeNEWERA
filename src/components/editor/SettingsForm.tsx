@@ -813,6 +813,80 @@ export default React.memo(function SettingsForm() {
               </div>
             </div>
 
+            {/* Embedded Contact QR Code Configuration */}
+            <div className="col-span-1 md:col-span-2 pt-6 border-t border-slate-150 space-y-4">
+              <h4 className="text-sm font-extrabold text-[#e24e2c] flex items-center gap-2">
+                <span>🔗</span>
+                <span>{settings.language === "ar" ? "الباركود الذكي المدمج بتذييل السيرة (Contact QR Code)" : "Embedded Contact QR Code"}</span>
+              </h4>
+              <p className="text-xs text-slate-500">
+                {settings.language === "ar" 
+                  ? "قم بتوليد كود استجابة سريعة (QR Code) مطبوع تلقائياً في تذييل سيرتك الذاتية ليمكّن مسؤولي التوظيف من مسحه بجوالاتهم لفتح حسابك على LinkedIn أو إضافتك لجهات الاتصال." 
+                  : "Generate a scanable QR Code pre-rendered directly in your printed resume's footer. Recruitees can scan this on their mobile devices to instantly open your online LinkedIn profiles."}
+              </p>
+
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <span className="text-xs font-bold text-slate-700 block text-start">
+                      {settings.language === "ar" ? "تفعيل الباركود في التذييل" : "Enable QR Code in Footer"}
+                    </span>
+                    <span className="text-[10px] text-slate-450 block text-start">
+                      {settings.language === "ar" ? "يعرض الباركود مدمجاً بأسفل الصفحة للتواصل السريع" : "Appends an interactive QR block to your resume bottom."}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => updateSettings({ showQRCode: !settings.showQRCode })}
+                    className={cn(
+                      "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
+                      settings.showQRCode ? "bg-[#FF4D2D]" : "bg-slate-200"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
+                        settings.showQRCode ? "translate-x-5" : "translate-x-0"
+                      )}
+                    />
+                  </button>
+                </div>
+
+                {settings.showQRCode && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-200">
+                    <div className="space-y-1.5 text-start">
+                      <label className="text-xs font-bold text-slate-600 block">
+                        {settings.language === "ar" ? "محتوى ونوع الباركود" : "QR Code Target Content"}
+                      </label>
+                      <select
+                        value={settings.qrCodeType || "linkedin"}
+                        onChange={(e) => updateSettings({ qrCodeType: e.target.value as any })}
+                        className="w-full text-xs p-2 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500"
+                      >
+                        <option value="linkedin">{settings.language === "ar" ? "رابط حساب لينكد إن (LinkedIn)" : "LinkedIn URL"}</option>
+                        <option value="contact">{settings.language === "ar" ? "بيانات التواصل الكاملة (VCard)" : "Full Contact Card (VCard)"}</option>
+                      </select>
+                    </div>
+                    <div className="text-xs text-slate-500 bg-white p-3 rounded-lg border border-slate-150 flex items-center justify-center text-center">
+                      {settings.qrCodeType === "linkedin" ? (
+                        <span>
+                          {settings.language === "ar" 
+                            ? `سيتم ربط الباركود بـ: ${data.personalInfo.linkedin || "رابط لينكد إن الفارغ!"}` 
+                            : `Will encode: ${data.personalInfo.linkedin || "Empty LinkedIn Link!"}`}
+                        </span>
+                      ) : (
+                        <span>
+                          {settings.language === "ar" 
+                            ? "سيجمع البيانات: الاسم والهاتف والبريد الإلكتروني والمهنة داخل كود الاتصال." 
+                            : "Encodes: Full Name, Email, Phone Number, and Title in contact payload."}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Active CV Accent Color Picker Segment */}
             <div className="space-y-2 col-span-1 md:col-span-2 pt-4 border-t border-slate-150">
               <label className="text-sm font-bold text-slate-700 block">

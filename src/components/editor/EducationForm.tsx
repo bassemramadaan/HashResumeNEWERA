@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useResumeStore } from "../../store/useResumeStore";
+import { useResumeStore, Education } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import {
@@ -15,6 +15,17 @@ import FormSkeleton from "./FormSkeleton";
 import SectionTooltip from "./SectionTooltip";
 import EmptyState from "./EmptyState";
 
+interface EducationItemProps {
+  edu: Education;
+  expandedId: string | null;
+  setExpandedId: (id: string | null) => void;
+  t: Record<string, string>;
+  removeEducation: (id: string) => void;
+  updateEducation: (id: string, updated: Partial<Education>) => void;
+  eduSuggestions?: string[];
+  isAr: boolean;
+}
+
 const EducationItem = ({
   edu,
   expandedId,
@@ -24,7 +35,7 @@ const EducationItem = ({
   updateEducation,
   eduSuggestions,
   isAr
-}: any) => {
+}: EducationItemProps) => {
   const controls = useDragControls();
 
   const toggleExpand = (id: string) => {

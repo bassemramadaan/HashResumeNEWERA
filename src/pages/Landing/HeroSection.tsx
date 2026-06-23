@@ -98,24 +98,37 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 w-full sm:w-auto"
+            className="flex flex-col items-center gap-4 pt-4 w-full"
           >
-            <button
-              onClick={() => {
-                trackEvent('hero_started', { component: 'cta_primary' })
-                onStart()
-              }}
-              className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold text-base transition-all active:scale-95 shadow-xl shadow-slate-900/10 flex items-center justify-center gap-2"
-            >
-              <span>{copy.cta}</span>
-              {isAr ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
-            </button>
-            <button
-              onClick={() => navigate('/editor')}
-              className="w-full sm:w-auto bg-white border border-slate-200 hover:border-slate-300 text-slate-800 px-8 py-4 rounded-2xl font-bold text-base transition-all active:scale-95 shadow-sm hover:shadow flex items-center justify-center gap-2"
-            >
-              <span>{copy.ctaSec}</span>
-            </button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <button
+                onClick={() => {
+                  trackEvent('hero_started', { component: 'cta_primary' })
+                  onStart()
+                }}
+                className="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-2xl font-bold text-base transition-all active:scale-95 shadow-xl shadow-slate-900/10 flex items-center justify-center gap-2"
+              >
+                <span>{copy.cta}</span>
+                {isAr ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+              </button>
+              <button
+                onClick={() => navigate('/editor')}
+                className="w-full sm:w-auto bg-white border border-slate-200 hover:border-slate-300 text-slate-800 px-8 py-4 rounded-2xl font-bold text-base transition-all active:scale-95 shadow-sm hover:shadow flex items-center justify-center gap-2"
+              >
+                <span>{copy.ctaSec}</span>
+              </button>
+            </div>
+            {/* Elegant No-Login Frictionless Notice */}
+            <div className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-black shadow-3xs cursor-default">
+              <span className="text-[#FF4D2D] text-sm leading-none animate-bounce">⚡</span>
+              <span>
+                {lang === 'ar' 
+                  ? 'ابدأ فوراً: لا حاجة لتسجيل حساب أو إدخال أي بطاقة دفع ✨' 
+                  : lang === 'fr'
+                  ? 'Démarrez instantanément : sans inscription ni carte requise ✨'
+                  : 'Start instantly: no account registration or credit card required ✨'}
+              </span>
+            </div>
           </motion.div>
 
           <motion.div 

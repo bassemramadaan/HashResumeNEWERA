@@ -1,4 +1,5 @@
-import React, { forwardRef, memo, useRef, useEffect } from "react";
+import React, { forwardRef, memo, useRef, useEffect, useState } from "react";
+import QRCode from "qrcode";
 import { useResumeStore, ResumeData } from "../../store/useResumeStore";
 import { useActiveSectionStore } from "../../store/useActiveSectionStore";
 import { cn } from "@/lib/utils";
@@ -170,6 +171,34 @@ const ResumePreview = memo(
       projects: settings.language === "ar" ? "المشاريع" : "Projects",
       certifications: settings.language === "ar" ? "الشهادات والاعتمادات" : "Certifications",
     };
+
+    const [qrSrc, setQrSrc] = useState<string>("");
+
+    useEffect(() => {
+      if (settings?.showQRCode) {
+        let payload = "";
+        if (settings.qrCodeType === "linkedin") {
+          payload = personalInfo?.linkedin || "https://linkedin.com";
+        } else {
+          // VCard format payload
+          payload = `BEGIN:VCARD\nVERSION:3.0\nN:${personalInfo?.fullName || "Resume Owner"}\nTITLE:${personalInfo?.jobTitle || ""}\nTEL:${personalInfo?.phone || ""}\nEMAIL:${personalInfo?.email || ""}\nURL:${personalInfo?.linkedin || ""}\nEND:VCARD`;
+        }
+
+        QRCode.toDataURL(payload, { margin: 1, width: 80, color: { dark: "#0f172a", light: "#ffffff" } }, (err, url) => {
+          if (!err) {
+            setQrSrc(url);
+          }
+        });
+      }
+    }, [
+      settings?.showQRCode,
+      settings?.qrCodeType,
+      personalInfo?.linkedin,
+      personalInfo?.fullName,
+      personalInfo?.email,
+      personalInfo?.phone,
+      personalInfo?.jobTitle,
+    ]);
 
     // Reusable intelligent description formatter that converts plain text or bullet strings with clear margins
     const renderDescriptionText = (text: string, isRtl: boolean) => {
@@ -1117,6 +1146,95 @@ const ResumePreview = memo(
         }}
         className="w-full relative bg-white overflow-hidden shadow-sm"
         id="resume-capture-area"
+        onClick={(e) => {
+          const target = e.target as HTMLElement;
+          const section = target.closest("section");
+          const header = target.closest("header");
+
+          // Avoid catching click events on print or non-meaningful nodes
+          if (target.closest(".print\\:hidden")) return;
+
+          if (header) {
+            window.dispatchEvent(
+              new CustomEvent("preview-section-clicked", {
+                detail: { tab: "basics", field: "personalInfo" },
+              })
+            );
+          } else if (section) {
+            const text = section.textContent?.toLowerCase() || "";
+            if (
+              text.includes("summary") ||
+              text.includes("ملخص") ||
+              text.includes("الخلاصة") ||
+              text.includes("profil") ||
+              text.includes("professional summary") ||
+              text.includes("الملخص المهني")
+            ) {
+              window.dispatchEvent(
+                new CustomEvent("preview-section-clicked", {
+                  detail: { tab: "basics", field: "summary" },
+                })
+              );
+            } else if (
+              text.includes("experience") ||
+              text.includes("الخبرة") ||
+              text.includes("الخبرات") ||
+              text.includes("العمل") ||
+              text.includes("التاريخ المهني") ||
+              text.includes("الخبرة المهنية")
+            ) {
+              window.dispatchEvent(
+                new CustomEvent("preview-section-clicked", {
+                  detail: { tab: "experience", field: "experience" },
+                })
+              );
+            } else if (
+              text.includes("education") ||
+              text.includes("التعليم") ||
+              text.includes("الدراسة") ||
+              text.includes("المسار التعليمي") ||
+              text.includes("المؤهلات العلمية")
+            ) {
+              window.dispatchEvent(
+                new CustomEvent("preview-section-clicked", {
+                  detail: { tab: "education", field: "education" },
+                })
+              );
+            } else if (
+              text.includes("skills") ||
+              text.includes("المهارات") ||
+              text.includes("compétences") ||
+              text.includes("القدرات والمهارات")
+            ) {
+              window.dispatchEvent(
+                new CustomEvent("preview-section-clicked", {
+                  detail: { tab: "skills", field: "skills" },
+                })
+              );
+            } else if (
+              text.includes("projects") ||
+              text.includes("المشاريع") ||
+              text.includes("مشاريعي الشخصية") ||
+              text.includes("مشاريع")
+            ) {
+              window.dispatchEvent(
+                new CustomEvent("preview-section-clicked", {
+                  detail: { tab: "projects", field: "projects" },
+                })
+              );
+            } else if (
+              text.includes("certifications") ||
+              text.includes("الشهادات") ||
+              text.includes("الكورسات والشهادات")
+            ) {
+              window.dispatchEvent(
+                new CustomEvent("preview-section-clicked", {
+                  detail: { tab: "certifications", field: "certifications" },
+                })
+              );
+            }
+          }
+        }}
       >
         {/* Dynamic clean template dispatch */}
         {currentTemplate === "classic-professional" && renderClassicProfessional()}
@@ -1138,6 +1256,30 @@ const ResumePreview = memo(
           currentTemplate === "finance" || 
           currentTemplate === "professional" ||
           currentTemplate === "elegant") && renderClassic()}
+
+        {settings?.showQRCode && qrSrc && (
+          <div className={cn(
+            "mt-8 pt-4 border-t border-slate-100 flex items-center justify-between font-sans print:flex px-6 sm:px-[0.75in] mb-4 pb-2",
+            settings.language === "ar" ? "flex-row-reverse" : "flex-row"
+          )} dir={settings.language === "ar" ? "rtl" : "ltr"}>
+            <div className="text-start space-y-1">
+              <h5 className="text-[11px] sm:text-xs font-bold text-slate-800">
+                {settings.language === "ar" ? "معلومات التواصل والشبكات الرقمية" : "Connect & Verify Portfolio"}
+              </h5>
+              <p className="text-[9px] sm:text-[10px] text-slate-500 leading-relaxed max-w-[200px] sm:max-w-xs">
+                {settings.language === "ar"
+                  ? "امسح رمز الاستجابة السريعة (QR Code) بجوالك لزيارة ملفي الرقمي والاطلاع على التحديثات وأعمالي أولاً بأول."
+                  : "Scan the QR code with your mobile device to view my live professional profile, portfolio, and verify credentials."}
+              </p>
+            </div>
+            <div className="shrink-0 bg-white p-1 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center gap-1">
+              <img src={qrSrc} alt="Contact QR Code" className="w-[60px] h-[60px] sm:w-[72px] sm:h-[72px]" />
+              <span className="text-[7px] sm:text-[8px] font-bold text-slate-400 uppercase tracking-widest leading-none">
+                {settings.qrCodeType === "linkedin" ? "LinkedIn CV" : "vCard Contact"}
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Minimal Watermark */}
         <div className="mt-8 pb-4 text-center text-xs text-slate-300 font-medium opacity-60 print:hidden select-none">

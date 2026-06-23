@@ -53,7 +53,10 @@ export default function ATSHealthGauge({ data, isAr, onClose }: ATSHealthGaugePr
     // Skills
     data.skills?.forEach(s => {
       if (typeof s === "string") textBlocks.push(s);
-      else if (s && typeof s === "object") textBlocks.push((s as any).name || "");
+      else if (s && typeof s === "object") {
+        const item = s as { name?: string };
+        textBlocks.push(item.name || "");
+      }
     });
 
     // Projects
