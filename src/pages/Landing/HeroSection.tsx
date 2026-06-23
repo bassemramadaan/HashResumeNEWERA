@@ -111,7 +111,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
               {isAr ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
             </button>
             <button
-              onClick={() => navigate('/templates')}
+              onClick={() => navigate('/editor')}
               className="w-full sm:w-auto bg-white border border-slate-200 hover:border-slate-300 text-slate-800 px-8 py-4 rounded-2xl font-bold text-base transition-all active:scale-95 shadow-sm hover:shadow flex items-center justify-center gap-2"
             >
               <span>{copy.ctaSec}</span>

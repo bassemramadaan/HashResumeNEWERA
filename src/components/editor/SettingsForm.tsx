@@ -33,64 +33,29 @@ export default React.memo(function SettingsForm() {
 
   const TEMPLATES = [
     {
-      id: "modern",
-      name: t.settings.templates.modern.name,
-      description: t.settings.templates.modern.desc,
+      id: "classic-professional",
+      name: language === "ar" ? "الكلاسيكي الاحترافي (Classic Professional)" : "Classic Professional",
+      description: language === "ar" ? "تصميم ذو خط Serif الفاخر وعمود واحد وخط عريض أسود تحت العناوين ومناسب للبنوك والقانون" : "Elegant serif headings with thick bottom borders, single column, best for banking and law",
     },
     {
       id: "classic",
-      name: t.settings.templates.classic.name,
-      description: t.settings.templates.classic.desc,
+      name: language === "ar" ? "الكلاسيكي التقليدي (Classic Traditional)" : "Classic Traditional",
+      description: language === "ar" ? "الرسمي التقليدي الأكثر قبولاً في الشركات الكبرى" : "Traditional layout accepted by corporations",
     },
     {
-      id: "creative",
-      name: t.settings.templates.creative.name,
-      description: t.settings.templates.creative.desc,
-    },
-    {
-      id: "minimal",
-      name: t.settings.templates.minimal.name,
-      description: t.settings.templates.minimal.desc,
-    },
-    {
-      id: "tech",
-      name: t.settings.templates.tech.name,
-      description: t.settings.templates.tech.desc,
+      id: "modern",
+      name: language === "ar" ? "الحديث النظيف (Modern Clean)" : "Modern Clean",
+      description: language === "ar" ? "الحديث والأنيق بنقوش ناعمة مناسب للتقنية والمشاريع الناشئة" : "Modern elegant layout best for tech & startups",
     },
     {
       id: "executive",
-      name: t.settings.templates.executive.name,
-      description: t.settings.templates.executive.desc,
-    },
-    {
-      id: "medical",
-      name: t.settings.templates.medical.name,
-      description: t.settings.templates.medical.desc,
-    },
-    {
-      id: "legal",
-      name: t.settings.templates.legal.name,
-      description: t.settings.templates.legal.desc,
-    },
-    {
-      id: "academic",
-      name: t.settings.templates.academic.name,
-      description: t.settings.templates.academic.desc,
+      name: language === "ar" ? "التنفيذي الفخم (Executive)" : "Executive",
+      description: language === "ar" ? "المظهر القيادي ذو الهوية الفاخرة للرؤساء التنفيذيين والمدراء" : "Luxury gold/navy accent template for managers & executives",
     },
     {
       id: "arabic",
-      name: t.settings.templates.arabic.name,
-      description: t.settings.templates.arabic.desc,
-    },
-    {
-      id: "engineering",
-      name: t.settings.templates.engineering.name,
-      description: t.settings.templates.engineering.desc,
-    },
-    {
-      id: "finance",
-      name: t.settings.templates.finance.name,
-      description: t.settings.templates.finance.desc,
+      name: language === "ar" ? "العربي الأول (Arabic First)" : "Arabic First (RTL)",
+      description: language === "ar" ? "بإدارة عربية وتنسيق يمين يدعم الحقول الإقليمية كالجنسية والمواليد" : "Default RTL layout supporting local regional fields",
     },
   ] as const;
 
@@ -213,41 +178,35 @@ export default React.memo(function SettingsForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {TEMPLATES.map((template) => {
               const TEMPLATE_SUGGESTIONS: Record<string, { ar: string; en: string; color: string; badge: string }> = {
-                modern: {
-                  ar: "💼 يوصى به لقطاعات: التقنية، البرمجة، إدارة المشاريع. لون رائع: الأزرق النيلي أو الكحلي.",
-                  en: "💼 Recommended: Software, Tech, Management. Best match: Teal, Navy, Indigo.",
-                  color: "bg-indigo-50 border-indigo-100 text-indigo-700",
-                  badge: "Tech & Ops"
+                "classic-professional": {
+                  ar: "⚖️ يوصى به لقطاعات: البنوك والاستثمار، الجهات الحكومية، والقانون.",
+                  en: "⚖️ Recommended: Investment Banking, Government, Corporate Law, Consulting.",
+                  color: "bg-emerald-50 border-emerald-250 text-emerald-800",
+                  badge: "Corporate Elite"
                 },
                 classic: {
-                  ar: "🏛️ يوصى به لقطاعات: القانون، المالية، والشركات الكبرى. لون رائع: الكحلي الداكن أو الرمادي.",
-                  en: "🏛️ Recommended: Corporate Law, Banking, Finance. Best match: Deep Navy Blue.",
+                  ar: "🏛️ يوصى به لقطاعات: القانون، المالية، والشركات الكبرى وبنوك الاستثمار الكلاسيكية.",
+                  en: "🏛️ Recommended: Corporate Law, Banking, Finance. Best match: Deep Charcoal Blue.",
                   color: "bg-slate-100 border-slate-200 text-slate-700",
                   badge: "Banking & Law"
                 },
-                creative: {
-                  ar: "🎨 يوصى به لقطاعات: التسويق والتصميم والمنتجات. لون رائع: البرتقالي الفاقع أو الذهبي.",
-                  en: "🎨 Recommended: Marketing, UX/UI Design, Art. Best match: Vibrant Orange / Amber.",
-                  color: "bg-orange-50 border-orange-100 text-orange-700",
-                  badge: "Creative & UX"
-                },
-                minimal: {
-                  ar: "📝 يوصى به لقطاعات: الأبحاث والطب والمجالات الأكاديمية. لون رائع: الرمادي والأسود.",
-                  en: "📝 Recommended: Research, Medical, Academia, Writing. Best match: Pure Charcoal.",
-                  color: "bg-neutral-50 border-neutral-150 text-neutral-700",
-                  badge: "Minimalist"
-                },
-                tech: {
-                  ar: "💻 يوصى به لقطاعات: هندسة البرمجيات، النظم، والسحابة. لون رائع: الأخضر الداكن أو الفولاذي.",
-                  en: "💻 Recommended: DevOps, SysAdmin, Backend. Best match: Steel Gray & Green.",
-                  color: "bg-emerald-50 border-emerald-100 text-emerald-700",
-                  badge: "Developer"
+                modern: {
+                  ar: "💼 يوصى به لقطاعات: البرمجة والتقنية والمشاريع الإدارية الحديثة وريادة الأعمال.",
+                  en: "💼 Recommended: Software, Tech, Management. Best match: Royal Blue Accent.",
+                  color: "bg-indigo-50 border-indigo-100 text-indigo-700",
+                  badge: "Tech & Ops"
                 },
                 executive: {
-                  ar: "👑 يوصى به لقطاعات: المناصب الإدارية العليا والاستشارات الاستراتيجية. لون رائع: الأرجواني الفاخر.",
-                  en: "👑 Recommended: High Management, C-Suite, Strategy. Best match: Royal Purple.",
-                  color: "bg-purple-50 border-purple-100 text-purple-700",
-                  badge: "Director"
+                  ar: "👑 يوصى به لقطاعات: المناصب الإدارية العليا، الاستشارات الاستراتيجية، والمسؤولين التنفيذيين.",
+                  en: "👑 Recommended: High Management, C-Suite, Senior Director Roles.",
+                  color: "bg-amber-50 border-amber-100 text-amber-705",
+                  badge: "Executive"
+                },
+                arabic: {
+                  ar: "🌍 يوصى به لأسواق: التوظيف المحلي والإقليمي في منطقة الشرق الأوسط وشبه الجزيرة العربية.",
+                  en: "🌍 Recommended: Local Middle Eastern and Gulf recruitment markets.",
+                  color: "bg-emerald-50 border-emerald-110 text-emerald-700",
+                  badge: "Gulf & MENA"
                 }
               };
 

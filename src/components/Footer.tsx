@@ -45,7 +45,7 @@ export default function Footer() {
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link
-                    to="/templates"
+                    to="/editor"
                     className="hover:text-[#FF4D2D] transition-colors"
                   >
                     {t.resumeBuilder || "Resume Builder"}

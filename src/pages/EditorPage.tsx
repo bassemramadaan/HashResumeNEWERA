@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
-import { useReactToPrint } from "react-to-print";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Panel,
@@ -27,7 +26,6 @@ import {
   Award,
   Lock,
   Folder,
-  Eye,
 } from "lucide-react";
 import { useResumeStore, getResumeSignature } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -576,14 +574,11 @@ export default function EditorPage() {
   }, [isEmpty, hasExported, showExitModal, data.isLocked]);
 
   const componentRef = useRef<HTMLDivElement>(null);
-  const handlePrint = useReactToPrint({
-    contentRef: componentRef,
-    documentTitle: `${fullName || "Resume"}_CV`,
-    onAfterPrint: () => {
-      setShowPostDownloadModal(true);
-      setTimeout(() => setShowFeedbackModal(true), 2000);
-    },
-  });
+  const handlePrint = () => {
+    if (typeof window !== "undefined") {
+      window.print();
+    }
+  };
 
   const handleExportClick = () => {
     setShowResumeChecker(true);

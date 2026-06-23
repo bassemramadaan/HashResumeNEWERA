@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "motion/react"
 import { 
   Menu, 
   X, 
-  Layers, 
   Briefcase, 
   CreditCard, 
   ChevronDown, 
@@ -47,17 +46,8 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   }, []);
 
   const resumeMenu = {
-    label: lang === 'ar' ? 'السير والقوالب' : lang === 'fr' ? 'Modèles & CV' : 'Resumes & Templates',
+    label: lang === 'ar' ? 'السير الذاتية' : lang === 'fr' ? 'Mon CV' : 'Resumes',
     items: [
-      {
-        label: lang === 'ar' ? 'قوالب السيرة الذاتية' : lang === 'fr' ? 'Modèles de CV' : 'Resume Templates',
-        href: '/templates',
-        icon: Layers,
-        badge: lang === 'ar' ? 'مميز' : 'PRO',
-        color: 'emerald',
-        desc: lang === 'ar' ? 'قوالب مهنية مجهزة ومصممة لتجاوز فحص ATS' : 'ATS-friendly premium layouts and modern designs',
-        isInternal: true
-      },
       {
         label: lang === 'ar' ? 'إنشاء سيرة جديدة ✨' : lang === 'fr' ? 'Créer un CV' : 'Create New Resume ✨',
         onClickAction: true,
@@ -115,8 +105,8 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
 
           {/* Left: Nav items */}
           <div className="hidden lg:flex flex-1 items-center justify-end gap-2">
-            <Link to="/templates" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
-              {lang === 'ar' ? 'السير والقوالب' : 'Templates'}
+            <Link to="/editor" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+              {lang === 'ar' ? 'إنشاء سيرة' : 'Create Resume'}
             </Link>
             
             <Link to="/hash-hunt" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5">

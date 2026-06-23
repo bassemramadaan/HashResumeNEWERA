@@ -51,7 +51,7 @@ export function CTASection({ lang }: { lang: AppLang }) {
             </p>
 
             <Link
-              to="/templates"
+              to="/editor"
               className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-black text-lg transition-all shadow-xl shadow-orange-500/25"
             >
               <span>{c.cta}</span>

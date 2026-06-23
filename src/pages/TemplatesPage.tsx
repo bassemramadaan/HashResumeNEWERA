@@ -107,6 +107,14 @@ const templates: Template[] = [
     color: "#1E293B", categories: ["Business", "Healthcare", "Academic"],
   },
   {
+    id: "classic-professional",
+    name: "Classic Professional", nameAr: "الكلاسيكي الاحترافي", nameFr: "Classique Professionnel",
+    description: "Elegant serif headings with thick bottom borders, single column, best for banking and law.",
+    descriptionAr: "تصميم كلاسيكي مميز بخلفية بيضاء وخط Serif الفاخر للعناوين وعمود واحد فقط، متوافق مع أنظمة الـ ATS ومناسب للبنوك، القانون، والقطاع الحكومي.",
+    descriptionFr: "Mise en page épurée avec en-têtes serif et bordures épaisses, idéale pour la banque et le droit.",
+    color: "#111111", categories: ["Business", "Legal", "Finance"], isNew: true,
+  },
+  {
     id: "creative",
     name: "Creative", nameAr: "إبداعي", nameFr: "Créatif",
     description: "Stand out with a unique layout designed for creative fields.",

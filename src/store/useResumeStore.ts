@@ -109,7 +109,8 @@ export type ResumeData = {
       | "elegant"
       | "arabic"
       | "engineering"
-      | "finance";
+      | "finance"
+      | "classic-professional";
     themeColor: string;
     language: "en" | "ar" | "fr";
     isFreshGrad: boolean;
@@ -533,7 +534,7 @@ export const useResumeStore = create<ResumeStore>()(
           set((state) => ({
             data: {
               ...state.data,
-              isLocked: true,
+              isLocked: false,
             },
           })),
         resetData: () => set({ data: initialData }),
