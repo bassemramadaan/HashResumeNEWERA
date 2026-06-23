@@ -1205,7 +1205,7 @@ export default function EditorPage() {
                       {activeTab === "finish" && (
                         <FinishStep
                           onPrint={handleProceedToExport}
-                          onExportWord={() => setShowPaymentModal(true)}
+                          onExportWord={() => handleProceedToExport("docx")}
                           onJumpToStep={(step) => setActiveTab(step as Tab)}
                         />
                       )}

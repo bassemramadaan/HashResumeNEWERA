@@ -138,6 +138,7 @@ export default function FinishStep({
             </div>
             
             <button
+              type="button"
               onClick={onPrint}
               className="w-full py-3 bg-neutral-950 hover:bg-neutral-900 text-white rounded-xl font-bold text-xs shadow-xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
             >
@@ -168,6 +169,7 @@ export default function FinishStep({
             </div>
             
             <button
+              type="button"
               onClick={onExportWord}
               className="w-full py-3 bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-250 rounded-xl font-bold text-xs shadow-3xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
             >
