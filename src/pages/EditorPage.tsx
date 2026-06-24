@@ -378,9 +378,15 @@ export default function EditorPage() {
       }
     };
 
+    const handleOpenImportModal = () => {
+      setIsLinkedInModalOpen(true);
+    };
+
     window.addEventListener("preview-section-clicked", handlePreviewSectionClick);
+    window.addEventListener("open-import-modal", handleOpenImportModal);
     return () => {
       window.removeEventListener("preview-section-clicked", handlePreviewSectionClick);
+      window.removeEventListener("open-import-modal", handleOpenImportModal);
     };
   }, []);
   

@@ -107,40 +107,157 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
   };
 
   const extractTextFromPDF = async (file: File): Promise<string> => {
-    try {
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-      let fullText = "";
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    let fullText = '';
+    
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items
+        .map((item: any) => item.str)
+        .join(' ');
+      fullText += pageText + '\n';
+    }
+    
+    return fullText;
+  };
 
-      // Process first 10 pages max to prevent abuse
-      const numPages = Math.min(pdf.numPages, 10);
+  const parseWithGemini = async (cvText: string) => {
+    const prompt = `
+أنت محلل سير ذاتية محترف. استخرج البيانات من النص التالي وأرجعها كـ JSON فقط بدون أي نص إضافي.
 
-      for (let i = 1; i <= numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        const pageText = textContent.items
-          .map((item) => (item as TextItem).str)
-          .join(" ");
-        fullText += pageText + "\n";
-        setProgress(Math.round((i / numPages) * 30)); // 30% progress for PDF parsing
-      }
+النص:
+${cvText}
 
-      return fullText;
-    } catch (e) {
-      console.warn("PDF extraction in modal failed, executing high-fidelity fallback:", e);
-      // Construct rich fallback keywords based on filename and contents to avoid blocking the user
-      let fallbackText = `Resume file: ${file.name}. Size: ${file.size} bytes. `;
-      const nameLower = file.name.toLowerCase();
-      if (nameLower.includes("cv") || nameLower.includes("resume") || nameLower.includes("sira") || nameLower.includes("سيرة")) {
-        fallbackText += "experience education skills projects languages summary ";
-      }
-      if (nameLower.includes("dev") || nameLower.includes("frontend") || nameLower.includes("backend") || nameLower.includes("react") || nameLower.includes("web") || nameLower.includes("software")) {
-        fallbackText += "software developer frontend programmer react javascript node.js git sql systems engineering ";
-      }
-      if (nameLower.includes("design") || nameLower.includes("ui") || nameLower.includes("ux") || nameLower.includes("figma") || nameLower.includes("creative")) {
-        fallbackText += "ui ux designer figma prototyping user research visual layout creative wireframing ";
-      }
-      return fallbackText;
+أرجع JSON بالهيكل ده بالظبط:
+{
+  "personalInfo": {
+    "fullName": "",
+    "jobTitle": "",
+    "email": "",
+    "phone": "",
+    "address": "",
+    "linkedin": "",
+    "github": "",
+    "website": "",
+    "summary": ""
+  },
+  "workExperience": [
+    {
+      "company": "",
+      "position": "",
+      "startDate": "",
+      "endDate": "",
+      "current": false,
+      "description": ""
+    }
+  ],
+  "education": [
+    {
+      "institution": "",
+      "degree": "",
+      "field": "",
+      "startDate": "",
+      "endDate": "",
+      "gpa": ""
+    }
+  ],
+  "skills": [""],
+  "certifications": [
+    {
+      "name": "",
+      "issuer": "",
+      "date": "",
+      "credentialId": ""
+    }
+  ],
+  "projects": [
+    {
+      "name": "",
+      "description": "",
+      "technologies": [""]
+    }
+  ]
+}
+
+قواعد مهمة:
+- لو حاجة مش موجودة في النص، حطها string فاضي "" أو array فاضي []
+- الـ dates بالصيغة MM/YYYY
+- لو في أكتر من وظيفة أو تعليم، حطهم كلهم في الـ array
+- أرجع JSON فقط بدون markdown أو backticks
+`;
+
+    const response = await aiService.generateContent(prompt);
+    
+    const text = response.text;
+    
+    // تنظيف الـ response لو فيه markdown
+    const cleanJson = text
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+    
+    return JSON.parse(cleanJson);
+  };
+
+  const fillFormWithData = (parsedData: any) => {
+    // Personal Info
+    if (parsedData.personalInfo) {
+      updatePersonalInfo({
+        ...useResumeStore.getState().data.personalInfo,
+        fullName: parsedData.personalInfo.fullName || '',
+        jobTitle: parsedData.personalInfo.jobTitle || '',
+        email: parsedData.personalInfo.email || '',
+        phone: parsedData.personalInfo.phone || '',
+        location: parsedData.personalInfo.address || '',
+        linkedin: parsedData.personalInfo.linkedin || '',
+        github: parsedData.personalInfo.github || '',
+        website: parsedData.personalInfo.website || '',
+        summary: parsedData.personalInfo.summary || '',
+      });
+    }
+
+    // Work Experience
+    if (parsedData.workExperience?.length > 0) {
+      clearExperience();
+      parsedData.workExperience.forEach((exp: any) => {
+        const safeId = (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
+        addExperience({
+          id: safeId,
+          company: exp.company || '',
+          role: exp.position || '',
+          startDate: exp.startDate || '',
+          endDate: exp.endDate || '',
+          current: exp.current || false,
+          description: exp.description || '',
+          location: '',
+        });
+      });
+    }
+
+    // Education
+    if (parsedData.education?.length > 0) {
+      clearEducation();
+      parsedData.education.forEach((edu: any) => {
+        const safeId = (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
+        addEducation({
+          id: safeId,
+          institution: edu.institution || '',
+          degree: edu.degree || '',
+          field: edu.field || '',
+          startDate: edu.startDate || '',
+          endDate: edu.endDate || '',
+          description: edu.gpa ? `GPA: ${edu.gpa}` : '',
+        });
+      });
+    }
+
+    // Skills
+    if (parsedData.skills?.length > 0) {
+      parsedData.skills.forEach((skill: any) => {
+        if (typeof skill === 'string' && skill.trim()) addSkill(skill);
+      });
     }
   };
 
@@ -150,56 +267,24 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
     try {
       setIsProcessing(true);
       setError(null);
-      setProgress(10);
-
+      setProgress(10); // "جاري قراءة الملف..."
+      
+      // Step 1: Extract text
       const text = await extractTextFromPDF(selectedFile);
-      setProgress(40); // PDF parsing done
-
-      // Use Gemini to parse resume text into JSON
-      const response = await aiService.importResume(text);
+      setProgress(40);
+      
+      if (!text || text.trim().length < 50) {
+        throw new Error('الملف يبدو صورة — جرب ترفع PDF نصي أو LinkedIn profile بدلاً منه');
+      }
+      
+      setProgress(50); // "جاري تحليل السيرة الذاتية بالذكاء الاصطناعي..."
+      // Step 2: Parse with Gemini
+      const parsedData = await parseWithGemini(text);
       setProgress(90);
-
-      if (response.error) {
-        throw new Error(response.error);
-      }
-
-      const parsedData: ParsedResume = JSON.parse(
-        response.text.replace(/```json/g, "").replace(/```/g, "")
-      );
-
-      // Apply parsed data to store
-      if (parsedData.personalInfo) {
-        updatePersonalInfo(parsedData.personalInfo);
-      }
-
-      if (parsedData.experience && parsedData.experience.length > 0) {
-        clearExperience();
-        parsedData.experience.forEach((exp) => {
-          const safeId = exp.id || (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
-          addExperience({
-            ...exp,
-            id: safeId,
-          });
-        });
-      }
-
-      if (parsedData.education && parsedData.education.length > 0) {
-        clearEducation();
-        parsedData.education.forEach((edu) => {
-          const safeId = edu.id || (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
-          addEducation({
-            ...edu,
-            id: safeId,
-          });
-        });
-      }
-
-      if (parsedData.skills && parsedData.skills.length > 0) {
-        parsedData.skills.forEach((skill) => {
-          if (typeof skill === "string") addSkill(skill);
-        });
-      }
-
+      
+      // Step 3: Fill form
+      fillFormWithData(parsedData);
+      
       setProgress(100);
       setSuccess(true);
 
@@ -209,16 +294,13 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
         setSelectedFile(null);
         setProgress(0);
       }, 2000);
-    } catch (err: unknown) {
+    } catch (err: any) {
       console.error(err);
-      const errorMessage =
-        err instanceof Error ? err.message : String(err);
-      setError(
-        errorMessage ||
-          (language === "ar"
-            ? "فشل تحليل الملف. الرجاء المحاولة مرة أخرى."
-            : "Failed to parse file. Please try again.")
-      );
+      if (err.message?.includes('صورة')) {
+        setError(language === "ar" ? "الملف يبدو صورة — جرب ترفع PDF نصي أو LinkedIn profile بدلاً منه" : "The file appears to be an image. Please upload a text-based PDF or LinkedIn profile instead.");
+      } else {
+        setError(language === "ar" ? "❌ حدث خطأ — تأكد إن الملف PDF نصي وليس صورة" : "❌ Error occurred — make sure the PDF is text-based and not an image.");
+      }
     } finally {
       setIsProcessing(false);
     }
@@ -277,10 +359,10 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
                   <CheckCircle2 size={40} />
                 </div>
                 <h4 className="text-xl font-bold text-slate-900">
-                  {language === "ar" ? "تم الاستيراد بنجاح!" : "Imported Successfully!"}
+                  {language === "ar" ? "تم استيراد بياناتك بنجاح!" : "Imported Successfully!"}
                 </h4>
                 <p className="text-slate-500 max-w-xs mx-auto">
-                  {language === "ar" ? "تم تعبئة بيانات سيرتك الذاتية بنجاح." : "Your resume data has been populated."}
+                  {language === "ar" ? "راجع المعلومات وعدّل أي حاجة" : "Review the info and make any edits needed."}
                 </p>
               </motion.div>
             ) : (
@@ -371,7 +453,9 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
                     <div className="flex justify-between text-sm text-slate-500">
                       <span className="flex items-center gap-2">
                         <Loader2 size={14} className="animate-spin" />
-                        {language === "ar" ? "جاري معالجة البيانات..." : "Processing data..."}
+                        {progress <= 40
+                          ? (language === "ar" ? "جاري قراءة الملف..." : "Reading file...")
+                          : (language === "ar" ? "جاري تحليل السيرة الذاتية بالذكاء الاصطناعي..." : "Parsing resume with AI...")}
                       </span>
                       <span>{progress}%</span>
                     </div>

@@ -30,7 +30,6 @@ export default function EditorNavbar({
             />
           </motion.div>
         </div>
-
       </nav>
     </div>
   );

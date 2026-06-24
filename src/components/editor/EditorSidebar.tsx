@@ -2,18 +2,21 @@ import React from "react";
 import ProgressStepper from "./ProgressStepper";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { cn } from "../../lib/utils";
+import { FileUp } from "lucide-react";
 
 interface EditorSidebarProps {
   activeTab?: string;
   onTabChange?: (id: string) => void;
   lang?: "ar" | "en" | "fr";
   completionMap?: Record<string, number>;
+  onImportClick?: () => void;
 }
 
 export default function EditorSidebar({
   activeTab = "basics",
   onTabChange = () => {},
   completionMap = {},
+  onImportClick = () => {},
 }: EditorSidebarProps) {
   const { language } = useLanguageStore();
   const isRtl = language === "ar";
@@ -36,7 +39,7 @@ export default function EditorSidebar({
         {language === "ar" ? "🎯 خطة البناء" : language === "fr" ? "🎯 ÉTAPES DU PROGRÈS" : "🎯 BUILD PLAN"}
       </div>
 
-      <div className="px-2">
+      <div className="px-2 flex-1">
         <ProgressStepper
           variant="vertical"
           current={currentIndex}
@@ -44,6 +47,16 @@ export default function EditorSidebar({
           lang={language as "ar" | "en" | "fr"}
           completionMap={completionMap}
         />
+      </div>
+
+      <div className="p-4 mt-auto border-t border-slate-100">
+        <button
+          onClick={onImportClick}
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-colors shadow-sm font-semibold text-sm group"
+        >
+          <FileUp size={16} className="text-slate-400 group-hover:text-white transition-colors" />
+          {language === "ar" ? "استيراد السيرة الذاتية" : "Import CV / LinkedIn"}
+        </button>
       </div>
     </aside>
   );
