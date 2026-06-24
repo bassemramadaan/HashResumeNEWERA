@@ -429,7 +429,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                   className={`p-3.5 rounded-2.5xl border cursor-pointer transition-all flex items-center gap-3.5 relative overflow-hidden group select-none ${
                     isActive 
                       ? "bg-white border-[#FF4D2D]/30 ring-4 ring-[#FF4D2D]/5 shadow-[0_12px_28px_rgba(255,77,45,0.08)] text-slate-900" 
-                      : "bg-white border-slate-100/90 hover:border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.01)] text-slate-700 hover:bg-slate-50/50"
+                      : "bg-white border-slate-200 hover:border-slate-350 shadow-sm text-slate-700 hover:bg-slate-50"
                   }`}
                 >
                   {/* Highlight background indicator */}
@@ -565,7 +565,7 @@ export default function MobileEditorLayout({
   const currentSection = sections.find(s => s.id === activeSection);
 
   return (
-    <div className="fixed inset-0 flex flex-col bg-[#FAF9F6] text-slate-800 overflow-hidden pb-[calc(84px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="fixed inset-0 flex flex-col bg-[#F9FAFB] text-slate-800 overflow-hidden pb-[calc(68px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header (Floating Pill like Desktop) ── */}
       <div className="w-full z-50 pt-3 px-3 pb-1 bg-transparent pointer-events-none flex justify-center shrink-0 transform-gpu select-none">
@@ -702,55 +702,26 @@ export default function MobileEditorLayout({
         </div>
       </main>
 
-      {/* ── Highly Polished Floating Capsule Dock bottom navigation ── */}
-      <div className="fixed bottom-6 inset-x-0 mx-auto z-50 px-3 flex justify-between pointer-events-none w-full">
+      {/* ── Highly Polished Bottom Navigation ── */}
+      <div className="fixed bottom-0 inset-x-0 z-50 pointer-events-auto bg-white border-t border-slate-200 h-16 flex items-center justify-between px-4 pb-safe select-none shadow-[0_-4px_16px_rgba(0,0,0,0.02)]">
         {/* ATS Floating Badge */}
         <div 
           onClick={onOpenAts}
-          className="pointer-events-auto h-12 px-3 bg-white border border-slate-200/60 shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-full flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all"
+          className="pointer-events-auto h-10 px-2.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
         >
-          <div className={`w-2.5 h-2.5 rounded-full ${atsScore >= 80 ? "bg-emerald-500 animate-pulse" : atsScore >= 50 ? "bg-amber-500 animate-pulse" : "bg-rose-500"}`} />
-          <span className="font-black text-slate-800 text-xs">ATS</span>
-          <span className="font-bold text-slate-600 text-[10px] bg-slate-100 rounded-md px-1.5 py-0.5">{atsScore}%</span>
+          <div className={`w-2 h-2 rounded-full ${atsScore >= 80 ? "bg-emerald-500 animate-pulse" : atsScore >= 50 ? "bg-amber-500 animate-pulse" : "bg-rose-500"}`} />
+          <span className="font-bold text-slate-700 text-xs">ATS</span>
+          <span className="font-semibold text-slate-500 text-[10px] bg-slate-100 rounded-md px-1.5 py-0.5">{atsScore}%</span>
         </div>
 
         {/* Main Dock */}
         <nav 
           ref={containerRef}
-          className="pointer-events-auto bg-[#252525]/90 backdrop-blur-3xl border border-white/10 rounded-full py-1.5 px-2 flex items-center justify-start sm:justify-center shadow-[0_12px_40px_rgba(0,0,0,0.25)] select-none gap-0.5 overflow-x-auto scrollbar-none max-w-max shrink-0"
+          className="flex-1 flex items-center justify-end h-full gap-1.5"
         >
-          {TABS.map((tab, idx) => {
+          {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             const IconComponent = tab.icon;
-
-            // Simple divider before Download/Export
-            const isLast = idx === TABS.length - 1;
-
-            if (isLast) {
-              return (
-                <div key={tab.id} className="flex flex-row items-center">
-                  <div className="h-5 w-[1px] bg-white/10 shrink-0 mx-1.5" />
-                  <button
-                    onClick={() => setActiveTab(tab.id)}
-                    className={cn(
-                      "relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none",
-                      isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
-                    )}
-                  >
-                    {isActive && (
-                      <motion.div
-                        layoutId="activeDockIndicatorMobile"
-                        className="absolute inset-0 bg-white/20 rounded-full"
-                        transition={{ type: "spring", stiffness: 350, damping: 28 }}
-                      />
-                    )}
-                    <span className="relative z-10 flex items-center justify-center">
-                      <IconComponent strokeWidth={isActive ? 2 : 1.5} className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
-                    </span>
-                  </button>
-                </div>
-              );
-            }
 
             return (
               <button
@@ -762,21 +733,18 @@ export default function MobileEditorLayout({
                     setActiveTab(tab.id);
                   }
                 }}
-                className={`relative w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none shrink-0 ${
-                  isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
-                }`}
+                className={cn(
+                  "relative h-full px-4 flex flex-col items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-hidden shrink-0 text-[#9CA3AF]",
+                  isActive ? "text-[#111827]" : "hover:text-[#374151]"
+                )}
               >
-                {isActive && tab.id !== "preview" && (
-                  <motion.div 
-                    layoutId="activeDockIndicatorMobile"
-                    className="absolute inset-0 bg-white/20 rounded-full"
-                    transition={{ type: "spring", stiffness: 350, damping: 28 }}
-                  />
+                {isActive && (
+                  <div className="absolute top-0 inset-x-1.5 h-[2px] bg-[#FF4D2D] rounded-full" />
                 )}
                 
                 <span className="relative z-10 flex items-center justify-center">
                   {IconComponent && (
-                    <IconComponent strokeWidth={(isActive && tab.id !== "preview") ? 2.5 : 1.5} className="w-4.5 h-4.5 sm:w-5 sm:h-5" />
+                    <IconComponent strokeWidth={isActive ? 2.2 : 1.5} className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
                   )}
                 </span>
               </button>

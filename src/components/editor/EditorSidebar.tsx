@@ -30,12 +30,12 @@ export default function EditorSidebar({
   return (
     <aside 
       className={cn(
-        "w-64 min-w-64 h-[calc(100%-24px)] my-3 bg-white/70 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_-4px_rgba(0,0,0,0.05),inset_0_0_0_1px_rgba(255,255,255,0.4)] flex flex-col overflow-y-auto select-none rounded-[28px] transition-all duration-300 relative z-20 scrollbar-none",
+        "w-64 min-w-64 h-[calc(100%-24px)] my-3 bg-white border border-slate-200 shadow-sm flex flex-col overflow-y-auto select-none rounded-[20px] transition-all duration-300 relative z-20 scrollbar-none",
         isRtl ? "mr-3 ml-2" : "ml-3 mr-2"
       )}
       style={{ direction: isRtl ? "rtl" : "ltr" }}
     >
-      <div className="text-[10px] font-black tracking-widest text-[#FF4D2D] uppercase px-6 pt-6 pb-2">
+      <div className="text-[10px] font-black tracking-widest text-[#374151] uppercase px-6 pt-6 pb-2">
         {language === "ar" ? "🎯 خطة البناء" : language === "fr" ? "🎯 ÉTAPES DU PROGRÈS" : "🎯 BUILD PLAN"}
       </div>
 

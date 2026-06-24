@@ -925,7 +925,7 @@ export default function EditorPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-6"
                   >
-                    <div className="bg-orange-50/20 backdrop-blur-xs rounded-2xl border border-slate-700/15 p-4 transition-all overflow-hidden shadow-2xs">
+                    <div className="bg-white rounded-2xl border border-slate-200 p-4 transition-all overflow-hidden shadow-xs">
                       <button
                         onClick={() => setIsTipsOpen(!isTipsOpen)}
                         className="w-full flex items-center justify-between font-bold text-xs text-slate-900 hover:opacity-85 transition-opacity"
@@ -961,7 +961,7 @@ export default function EditorPage() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-orange-50 to-orange-100/30 border border-orange-200/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-start relative"
+                className="mb-6 p-4 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-start relative shadow-xs"
               >
                 <div className="flex items-start gap-3">
                   <div className="p-2 bg-[#FF4D2D]/10 rounded-xl text-[#FF4D2D] shrink-0 mt-0.5">
@@ -1047,18 +1047,17 @@ export default function EditorPage() {
 
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start">
-                              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
+                              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#F3F4F6] text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
                                 <User
-                                  size={24}
-                                  className="relative z-10 drop-shadow-sm"
+                                  size={22}
+                                  className="relative z-10"
                                 />
-                                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                               </div>
                               <div>
-                                <h2 className="text-xl font-black text-neutral-900 tracking-tight">
+                                <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
                                   {String(typeof t.personalInfo === 'string' ? t.personalInfo : "Personal Information")}
                                 </h2>
-                                <p className="text-xs text-neutral-500 font-medium">
+                                <p className="text-[12px] text-[#9CA3AF] font-medium">
                                   {language === "ar"
                                     ? "بياناتك الأساسية ومعلومات التواصل"
                                     : "Basic details and contact info"}
@@ -1075,18 +1074,17 @@ export default function EditorPage() {
                         <div className="space-y-12" data-form-section="experience">
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start px-1">
-                              <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-neutral-200/50 flex items-center justify-center text-brand-500 relative overflow-hidden group border border-neutral-100/50 shrink-0">
-                                <div className="absolute inset-0 bg-gradient-to-br from-brand-50 to-rose-50 opacity-50" />
+                              <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
                                 <Briefcase
-                                  size={28}
-                                  className="relative z-10 drop-shadow-sm"
+                                  size={22}
+                                  className="relative z-10"
                                 />
                               </div>
                               <div>
-                                <h2 className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">
+                                <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
                                   {String(t.experience?.title || "Experience")}
                                 </h2>
-                                <p className="text-[10px] sm:text-xs text-neutral-400 font-bold uppercase tracking-wider">
+                                <p className="text-[12px] text-[#9CA3AF] font-medium">
                                   {language === "ar"
                                     ? "تاريخك المهني وإنجازاتك"
                                     : "Work history and achievements"}
@@ -1105,18 +1103,17 @@ export default function EditorPage() {
                         <div className="space-y-12" data-form-section="education">
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start px-1">
-                              <div className="w-14 h-14 rounded-3xl bg-white shadow-xl shadow-neutral-200/50 flex items-center justify-center text-brand-500 relative overflow-hidden group border border-neutral-100/50 shrink-0">
-                                <div className="absolute inset-0 bg-gradient-to-br from-brand-50 to-rose-50 opacity-50" />
+                              <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
                                 <GraduationCap
-                                  size={28}
-                                  className="relative z-10 drop-shadow-sm"
+                                  size={22}
+                                  className="relative z-10"
                                 />
                               </div>
                               <div>
-                                <h2 className="text-xl sm:text-2xl font-black text-neutral-900 tracking-tight">
+                                <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
                                   {String(t.education?.title || "Education")}
                                 </h2>
-                                <p className="text-[10px] sm:text-xs text-neutral-400 font-bold uppercase tracking-wider">
+                                <p className="text-[12px] text-[#9CA3AF] font-medium">
                                   {language === "ar"
                                     ? "خلفيتك الأكاديمية والتعليمية"
                                     : "Academic background"}
@@ -1134,17 +1131,17 @@ export default function EditorPage() {
                       {activeTab === "skills" && (
                         <section data-form-section="skills">
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
+                            <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
                               <Wrench
-                                size={24}
-                                className="relative z-10 drop-shadow-sm"
+                                size={22}
+                                className="relative z-10"
                               />
                             </div>
                             <div>
-                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
+                              <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
                                 {String(typeof t.skills?.title === 'string' ? t.skills.title : "Skills")}
                               </h2>
-                              <p className="text-xs text-neutral-500 font-medium">
+                              <p className="text-[12px] text-[#9CA3AF] font-medium">
                                 {language === "ar"
                                   ? "مهاراتك التقنية والشخصية"
                                   : "Tech & soft skills"}
@@ -1159,17 +1156,17 @@ export default function EditorPage() {
                       {activeTab === "projects" && (
                         <section data-form-section="projects">
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
+                            <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
                               <LayoutTemplate
-                                size={24}
-                                className="relative z-10 drop-shadow-sm"
+                                size={22}
+                                className="relative z-10"
                               />
                             </div>
                             <div>
-                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
+                              <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
                                 {String(t.projects?.title || "Projects")}
                               </h2>
-                              <p className="text-xs text-neutral-500 font-medium">
+                              <p className="text-[12px] text-[#9CA3AF] font-medium">
                                 {language === "ar"
                                   ? "أرنا أفضل أعمالك ومشاريعك"
                                   : "Showcase your best work and projects"}
@@ -1184,17 +1181,17 @@ export default function EditorPage() {
                       {activeTab === "certifications" && (
                         <section data-form-section="certifications">
                           <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl flex items-center justify-center text-white relative overflow-hidden" style={{ backgroundColor: '#FF4D2D', boxShadow: '0 8px 20px rgba(15, 23, 42, 0.3)' }}>
+                            <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
                               <Award
-                                size={24}
-                                className="relative z-10 drop-shadow-sm"
+                                size={22}
+                                className="relative z-10"
                               />
                             </div>
                             <div>
-                              <h2 className="text-xl font-black text-neutral-900 tracking-tight">
+                              <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
                                 {String(t.certifications?.title || "Certifications")}
                               </h2>
-                              <p className="text-xs text-neutral-500 font-medium">
+                              <p className="text-[12px] text-[#9CA3AF] font-medium">
                                 {language === "ar"
                                   ? "الشهادات والإنجازات المهنية"
                                   : "Certifications and professional achievements"}
@@ -1249,7 +1246,7 @@ export default function EditorPage() {
   return (
     <div
       className={cn(
-        "flex flex-col h-[100dvh] bg-neutral-50 overflow-hidden transition-colors duration-200",
+        "flex flex-col h-[100dvh] bg-[#F9FAFB] overflow-hidden transition-colors duration-200",
         language === "ar" ? "font-editor-ar" : "font-editor-en",
       )}
       dir={dir}
@@ -1362,7 +1359,7 @@ export default function EditorPage() {
       >
         {/* Editor Area */}
         <Panel defaultSize={65} minSize={30} className="block">
-          <div className={cn("flex flex-col h-full overflow-hidden relative transition-all duration-300", focusMode ? "bg-white" : "bg-neutral-50")} dir={dir}>
+          <div className={cn("flex flex-col h-full overflow-hidden relative transition-all duration-300", focusMode ? "bg-white" : "bg-[#F9FAFB]")} dir={dir}>
             
             <main
               ref={formRef}
@@ -1818,7 +1815,7 @@ export default function EditorPage() {
               )}
             </AnimatePresence>
 
-            <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-12 pt-24 md:pt-24 flex flex-col items-center justify-start bg-slate-50/70 relative">
+            <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-12 pt-24 md:pt-24 flex flex-col items-center justify-start bg-[#F3F4F6] relative">
               <div
                 className="origin-top transition-all duration-500 flex justify-center scale-[0.4] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.8] xl:scale-[0.9] h-[calc(297mm*0.4)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.75)] lg:h-[calc(297mm*0.8)] xl:h-[calc(297mm*0.9)]"
               >

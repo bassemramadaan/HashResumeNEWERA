@@ -139,15 +139,11 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
       <div 
         className={cn(
           "w-full h-full rounded-full flex items-center justify-center font-bold text-xs border-2 transition-all duration-300",
-          completion === 100
-            ? "bg-emerald-600 border-emerald-600 text-white shadow-xs"
-            : isDone && completion === 0
-              ? "bg-emerald-50/70 border-emerald-250 text-emerald-600"
-              : isDone && completion > 0
-                ? "bg-emerald-50 border-emerald-300 text-emerald-700 font-bold"
-                : isActive
-                  ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-[#FF4D2D]/30"
-                  : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
+          completion === 100 || isDone
+            ? "bg-[#F3F4F6] border-[#F3F4F6] text-[#374151]"
+            : isActive
+              ? "bg-[#FF4D2D] border-[#FF4D2D] text-white shadow-md shadow-[#FF4D2D]/20"
+              : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
         )}
       >
         {completion === 100 ? (
@@ -286,8 +282,11 @@ function VerticalStepper({
                  className={cn(
                   "flex-1 flex items-center justify-between text-start px-3 py-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden group",
                   isActive
-                    ? "bg-[#FFF7F5] border-y-transparent border-l-transparent border-r-2 border-r-[#FF4D2D] rounded-r-none rounded-l-xl shadow-[0_4px_16px_rgba(255,77,45,0.15)]"
-                    : "bg-transparent border-transparent hover:bg-neutral-100/70"
+                    ? (isRtl 
+                        ? "bg-[#F9FAFB] border-y-transparent border-l-transparent border-r-2 border-r-[#FF4D2D] rounded-r-none rounded-l-xl shadow-xs"
+                        : "bg-[#F9FAFB] border-y-transparent border-r-transparent border-l-2 border-l-[#FF4D2D] rounded-l-none rounded-r-xl shadow-xs"
+                      )
+                    : "bg-transparent border-transparent hover:bg-slate-50"
                 )}
               >
                 <div className="flex flex-col text-start">
@@ -295,8 +294,8 @@ function VerticalStepper({
                     className={cn(
                       "text-[13px] leading-tight transition-colors duration-200",
                       isActive 
-                        ? "text-[#001639] font-bold" 
-                        : "text-[#6B7280] group-hover:text-[#001639] font-medium"
+                        ? "text-[#111827] font-bold" 
+                        : "text-[#9CA3AF] group-hover:text-[#111827] font-medium"
                     )}
                   >
                     {step.label}

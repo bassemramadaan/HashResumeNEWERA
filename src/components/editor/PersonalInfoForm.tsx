@@ -79,9 +79,9 @@ const PersonalInfoForm = () => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-gradient-to-r from-brand-50 to-brand-100/50 p-5 rounded-2xl shadow-sm border border-brand-200/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center shrink-0">
+          <div className="w-10 h-10 bg-[#FF4D2D]/10 text-[#FF4D2D] rounded-xl flex items-center justify-center shrink-0">
             <Sparkles size={20} />
           </div>
           <div>
