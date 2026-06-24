@@ -36,7 +36,6 @@ import SettingsModal from "../components/SettingsModal";
 import KeyboardShortcutsModal from "../components/KeyboardShortcutsModal";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../utils/ats";
-import { generateWord } from "../utils/generateWord";
 import { DEFAULT_BREAKDOWN } from "../constants";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
@@ -670,39 +669,44 @@ export default function EditorPage() {
         setExportStatus({ show: true, step: 2, format }); // "Optimizing premium typography..."
         await sleep(1000);
 
-        const htmlContent = document.getElementById('resume-capture-area')?.innerHTML;
-        const styles = Array.from(
-          document.head.querySelectorAll('style, link[rel="stylesheet"]'),
-        )
-          .map((el) => el.outerHTML)
-          .join("\n");
+        const resumeElement = document.getElementById('resume-capture-area');
+        if (!resumeElement) throw new Error("Resume element not found");
 
         setExportStatus({ show: true, step: 3, format }); // "Assembling PDF stream..."
-        await sleep(1000);
+        
+        // Dynamically import to avoid SSR issues
+        const [html2canvasModule, jsPDFModule] = await Promise.all([
+          import('html2canvas'),
+          import('jspdf')
+        ]);
+        
+        const html2canvas = html2canvasModule.default;
+        const jsPDF = jsPDFModule.default;
 
-        const response = await fetch("/api/pdf/generate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            html: htmlContent,
-            css: styles,
-          }),
+        const canvas = await html2canvas(resumeElement, {
+          scale: 2, // High quality
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          windowWidth: resumeElement.scrollWidth,
+          windowHeight: resumeElement.scrollHeight,
         });
 
-        if (!response.ok) throw new Error("PDF generation failed");
-
         setExportStatus({ show: true, step: 4, format }); // "Finalizing file encoding..."
-        await sleep(600);
-
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `${fullName || "Resume"}_CV.pdf`;
-        link.click();
         
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: 'a4',
+        });
+        
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(`${fullName || "Resume"}_CV.pdf`);
+
         useResumeStore.getState().lockResume();
 
         setExportStatus({ show: true, step: 5, format }); // "SUCCESS!"
@@ -716,7 +720,7 @@ export default function EditorPage() {
         setTimeout(() => setShowFeedbackModal(true), 2000);
       } catch (err) {
         console.error(
-          "Server PDF Generation Failed. Falling back to client-side. Error:",
+          "PDF Generation Failed. Falling back to print method. Error:",
           err,
         );
         setExportStatus(null);
@@ -730,7 +734,35 @@ export default function EditorPage() {
         await sleep(800);
         setExportStatus({ show: true, step: 3, format });
         await sleep(800);
-        generateWord(useResumeStore.getState().data);
+        
+        const resumeElement = document.getElementById('resume-capture-area');
+        if (!resumeElement) throw new Error("Resume element not found");
+
+        const htmlContent = `
+          <!DOCTYPE html>
+          <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+              <meta charset="UTF-8">
+              <style>
+                body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+              </style>
+            </head>
+            <body>${resumeElement.innerHTML}</body>
+          </html>
+        `;
+        
+        // Use standard MS Word Blob application type
+        const converted = new Blob(['\ufeff', htmlContent], {
+            type: 'application/msword'
+        });
+        
+        const url = URL.createObjectURL(converted);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${fullName || 'CV'}_HashResume.doc`;
+        a.click();
+        URL.revokeObjectURL(url);
+
         useResumeStore.getState().lockResume();
         setExportStatus({ show: true, step: 5, format });
         // Trigger confetti celebration!
@@ -1500,7 +1532,7 @@ export default function EditorPage() {
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                   <h4 className="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wider">
                     <SlidersHorizontal size={13} className="text-[#FF4D2D]" />
-                    {language === "ar" ? "أبعاد الصفحة والهامش" : "Micro-Spacing Adjuster"}
+                    {language === "ar" ? "خيارات المسافات" : "Spacing Options"}
                   </h4>
                   <button 
                     onClick={() => setShowMicroSpacingPanel(false)}
@@ -1510,93 +1542,43 @@ export default function EditorPage() {
                   </button>
                 </div>
 
-                {/* Font Size Scale Slider */}
-                <div className="space-y-1.5">
-                  <div className="flex justify-between items-center text-[10px]">
-                    <span className="font-bold text-slate-600">
-                      {language === "ar" ? "🔍 مقياس حجم خط الكتابة" : "Font Size Scale"}
-                    </span>
-                    <span className="font-extrabold text-[#FF4D2D] bg-orange-50 px-1.5 py-0.2 rounded-md">
-                      {data.settings.customFontSize || 100}%
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="70"
-                    max="135"
-                    value={data.settings.customFontSize || 100}
-                    onChange={(e) => useResumeStore.getState().updateSettings({ customFontSize: Number(e.target.value) })}
-                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF4D2D]"
-                  />
-                </div>
-
-                {/* Vertical Section Spacing Slider */}
-                <div className="space-y-1.5">
-                  <div className="flex justify-between items-center text-[10px]">
-                    <span className="font-bold text-slate-600">
-                      {language === "ar" ? "↕️ التباعد بين الأقسام" : "Vertical Spacing"}
-                    </span>
-                    <span className="font-extrabold text-[#FF4D2D] bg-orange-50 px-1.5 py-0.2 rounded-md">
-                      {data.settings.customSpacing || 100}%
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="40"
-                    max="160"
-                    value={data.settings.customSpacing || 100}
-                    onChange={(e) => useResumeStore.getState().updateSettings({ customSpacing: Number(e.target.value) })}
-                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF4D2D]"
-                  />
-                </div>
-
-                {/* Line Height Slider */}
-                <div className="space-y-1.5">
-                  <div className="flex justify-between items-center text-[10px]">
-                    <span className="font-bold text-slate-600">
-                      {language === "ar" ? "📏 ارتفاع أسطر الكتابة" : "Line Height Multiplier"}
-                    </span>
-                    <span className="font-extrabold text-[#FF4D2D] bg-orange-50 px-1.5 py-0.2 rounded-md">
-                      {data.settings.customLineHeight || 100}%
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="65"
-                    max="135"
-                    value={data.settings.customLineHeight || 100}
-                    onChange={(e) => useResumeStore.getState().updateSettings({ customLineHeight: Number(e.target.value) })}
-                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF4D2D]"
-                  />
-                </div>
-
-                {/* Page Margin Slider */}
-                <div className="space-y-1.5">
-                  <div className="flex justify-between items-center text-[10px]">
-                    <span className="font-bold text-slate-600">
-                      {language === "ar" ? "↔️ هوامش جوانب الصفحة" : "Page Margin Padding"}
-                    </span>
-                    <span className="font-extrabold text-[#FF4D2D] bg-orange-50 px-1.5 py-0.2 rounded-md">
-                      {data.settings.customMargin || 100}%
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="30"
-                    max="170"
-                    value={data.settings.customMargin || 100}
-                    onChange={(e) => useResumeStore.getState().updateSettings({ customMargin: Number(e.target.value) })}
-                    className="w-full h-1.5 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-[#FF4D2D]"
-                  />
-                </div>
-
-                <div className="bg-slate-50 rounded-xl p-2.5 text-[9px] text-slate-500 font-medium leading-normal flex items-start gap-1.5">
-                  <span className="text-[#FF4D2D] font-bold">✨</span>
-                  <span>
-                    {language === "ar" 
-                      ? "اسحب لتصغير الهوامش والتناغم للحجم لتفادي تمدد الصفحة وخروجها عن نطاق صفحة واحدة." 
-                      : "Adjust margins or scale down to prevent text spilling over to second pages perfectly."}
-                  </span>
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={() => {
+                      localStorage.setItem('cv-spacing', 'compact');
+                      window.dispatchEvent(new Event('cv-spacing-changed'));
+                    }}
+                    className="w-full text-start p-3 rounded-xl border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition-colors"
+                  >
+                    <div className="font-bold text-sm text-slate-800">Compact</div>
+                    <div className="text-xs text-slate-500">
+                      {language === "ar" ? "لو السيرة طويلة وعايز تضغطها في صفحة واحدة" : "If the resume is long and you want to fit it on one page"}
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => {
+                      localStorage.setItem('cv-spacing', 'standard');
+                      window.dispatchEvent(new Event('cv-spacing-changed'));
+                    }}
+                    className="w-full text-start p-3 rounded-xl border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition-colors"
+                  >
+                    <div className="font-bold text-sm text-slate-800">Standard</div>
+                    <div className="text-xs text-slate-500">
+                      {language === "ar" ? "الافتراضي" : "Default"}
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => {
+                      localStorage.setItem('cv-spacing', 'spacious');
+                      window.dispatchEvent(new Event('cv-spacing-changed'));
+                    }}
+                    className="w-full text-start p-3 rounded-xl border border-slate-200 hover:border-brand-500 hover:bg-brand-50 transition-colors"
+                  >
+                    <div className="font-bold text-sm text-slate-800">Spacious</div>
+                    <div className="text-xs text-slate-500">
+                      {language === "ar" ? "لو السيرة قصيرة وعايز تملا الصفحة" : "If the resume is short and you want to fill the page"}
+                    </div>
+                  </button>
                 </div>
               </motion.div>
             )}
@@ -1867,7 +1849,7 @@ export default function EditorPage() {
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-x-0 bottom-0 top-[10vh] bg-neutral-100 rounded-t-[2rem] shadow-premium z-[110] flex flex-col overflow-hidden"
+              className="fixed inset-0 bg-neutral-100 shadow-premium z-[110] flex flex-col overflow-hidden"
             >
               <div
                 className="flex items-center justify-between p-4 shrink-0"

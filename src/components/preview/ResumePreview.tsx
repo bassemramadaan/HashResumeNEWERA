@@ -151,33 +151,52 @@ const ResumePreview = memo(
 
     const {
       personalInfo = { fullName: "", jobTitle: "", email: "", phone: "", address: "", summary: "" },
-      experience = [],
-      education = [],
-      skills: rawSkills = [],
-      projects = [],
-      certifications = [],
       settings = { template: "classic", language: "en" },
     } = data;
 
-    const skills = (rawSkills || []).map((skill: any, idx: number) => {
-      if (typeof skill === "string") {
-        return { id: String(idx), name: skill };
-      }
-      return { id: skill?.id || String(idx), name: skill?.name || "" };
-    });
+    const [qrSrc, setQrSrc] = useState<string>("");
+    const [spacingOption, setSpacingOption] = useState<"compact" | "standard" | "spacious">("standard");
 
-    const hiddenSections = settings.hiddenSections || [];
+    useEffect(() => {
+      // Check initial spacing
+      const initialSpacing = localStorage.getItem('cv-spacing') as "compact" | "standard" | "spacious";
+      if (initialSpacing) setSpacingOption(initialSpacing);
 
-    const labels = {
-      summary: settings.language === "ar" ? "الملخص المهني" : "Professional Summary",
-      experience: settings.language === "ar" ? "الخبرات العملية" : "Experience",
-      education: settings.language === "ar" ? "التعليم" : "Education",
-      skills: settings.language === "ar" ? "المهارات" : "Skills",
-      projects: settings.language === "ar" ? "المشاريع" : "Projects",
-      certifications: settings.language === "ar" ? "الشهادات والاعتمادات" : "Certifications",
+      // Listen for changes
+      const handleSpacingChange = () => {
+        const newSpacing = localStorage.getItem('cv-spacing') as "compact" | "standard" | "spacious";
+        if (newSpacing) setSpacingOption(newSpacing);
+      };
+      
+      window.addEventListener('cv-spacing-changed', handleSpacingChange);
+      return () => window.removeEventListener('cv-spacing-changed', handleSpacingChange);
+    }, []);
+
+    const spacingOptions = {
+      compact: {
+        lineHeight: '1.2',
+        sectionGap: '8px',
+        itemGap: '4px',
+        fontSize: '10px',
+        padding: '16px',
+      },
+      standard: {
+        lineHeight: '1.5',
+        sectionGap: '14px',
+        itemGap: '8px',
+        fontSize: '11px',
+        padding: '24px',
+      },
+      spacious: {
+        lineHeight: '1.8',
+        sectionGap: '20px',
+        itemGap: '12px',
+        fontSize: '12px',
+        padding: '32px',
+      },
     };
 
-    const [qrSrc, setQrSrc] = useState<string>("");
+    const currentSpacing = spacingOptions[spacingOption] || spacingOptions.standard;
 
     useEffect(() => {
       if (settings?.showQRCode) {
@@ -204,67 +223,6 @@ const ResumePreview = memo(
       personalInfo?.phone,
       personalInfo?.jobTitle,
     ]);
-
-    // Reusable intelligent description formatter that converts plain text or bullet strings with clear margins
-    const renderDescriptionText = (text: string, isRtl: boolean) => {
-      if (!text) return null;
-      const lines = text.split("\n");
-      return (
-        <div className="space-y-1 mt-1 text-[11px] sm:text-xs">
-          {lines.map((line, idx) => {
-            const trimmed = line.trim();
-            if (!trimmed) return null;
-            
-            const bulletRegex = /^[•\-*]\s*/;
-            const isBullet = bulletRegex.test(trimmed);
-            const cleanContent = trimmed.replace(bulletRegex, "");
-
-            if (isBullet) {
-              return (
-                <div key={idx} className="flex items-start text-slate-650 leading-relaxed font-normal">
-                  <span className={cn(
-                    "inline-block text-slate-400 select-none", 
-                    isRtl ? "ml-2.5" : "mr-2.5"
-                  )}>•</span>
-                  <span className="flex-1">{cleanContent}</span>
-                </div>
-              );
-            } else {
-              return (
-                <p key={idx} className="text-slate-650 leading-relaxed font-normal whitespace-pre-line">
-                  {line}
-                </p>
-              );
-            }
-          })}
-        </div>
-      );
-    };
-
-    const DynamicGCCRecruitmentData = () => {
-      const isRtl = settings.language === "ar";
-      const hasGCCData = personalInfo.nationality || personalInfo.maritalStatus || personalInfo.birthDate;
-      if (!hasGCCData) return null;
-
-      const items = [
-        { label: isRtl ? "الجنسية" : "Nationality", value: personalInfo.nationality },
-        { label: isRtl ? "الحالة الاجتماعية" : "Marital Status", value: personalInfo.maritalStatus },
-        { label: isRtl ? "تاريخ الميلاد" : "Date of Birth", value: personalInfo.birthDate },
-      ].filter(item => item.value && item.value.trim() !== "");
-
-      if (items.length === 0) return null;
-
-      return (
-        <div className={cn("flex flex-wrap gap-2.5 font-sans mt-3.5 pb-1 text-xs justify-center md:justify-start", isRtl ? "text-right" : "text-left")}>
-          {items.map((item, idx) => (
-            <div key={idx} className="flex items-center gap-1.5 px-3 py-1 bg-neutral-50 text-neutral-600 rounded-lg border border-neutral-200">
-              <span className="font-bold text-[10px] text-neutral-400 uppercase tracking-widest">{item.label}:</span>
-              <span className="font-semibold text-neutral-800">{item.value}</span>
-            </div>
-          ))}
-        </div>
-      );
-    };
 
     const tWatermark = {
       en: "Created with Hash Resume",
@@ -464,6 +422,20 @@ const ResumePreview = memo(
             }
           ` }} />
         )}
+        <style dangerouslySetInnerHTML={{ __html: `
+          #resume-capture-area > div {
+            padding: ${currentSpacing.padding} !important;
+          }
+          #resume-capture-area section {
+            margin-bottom: ${currentSpacing.sectionGap} !important;
+          }
+          #resume-capture-area section > div, #resume-capture-area ul {
+            margin-bottom: ${currentSpacing.itemGap} !important;
+          }
+          #resume-capture-area p, #resume-capture-area li, #resume-capture-area span, #resume-capture-area div {
+            line-height: ${currentSpacing.lineHeight} !important;
+          }
+        ` }} />
         {/* Dynamic clean template dispatch */}
         <div id="resume-capture-area">
           {currentTemplate === "classic" && <TemplateClassic data={data} />}

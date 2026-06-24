@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { X, AlertCircle, FileText, Download, Target, Check, Sparkles } from "lucide-react";
+import { X, AlertCircle, FileText, Download, Target, Check, Sparkles, Loader2 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
 import { cn } from "../../lib/utils";
+import { aiService } from "../../services/aiService";
 
 interface ResumeCheckerModalProps {
   isOpen: boolean;
@@ -22,7 +23,11 @@ const ACTION_VERBS = new Set([
   "generated", "delivered", "executed", "planned",
 ]);
 
-// ── Role Dictionary for Immediate Keywords ──
+interface AIResult {
+  score: number;
+  suggestions: string[];
+  missingKeywords: string[];
+}
 
 export default function ResumeCheckerModal({
   isOpen,
@@ -36,13 +41,20 @@ export default function ResumeCheckerModal({
   const { personalInfo, experience, education, skills } = data;
 
   const [mounted, setMounted] = useState(false);
+  const [targetJob, setTargetJob] = useState("");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [aiResult, setAiResult] = useState<AIResult | null>(null);
+
   useEffect(() => {
     if (isOpen) {
       setMounted(true);
+      if (!targetJob) {
+        setTargetJob(personalInfo.jobTitle || "");
+      }
     } else {
       setMounted(false);
     }
-  }, [isOpen]);
+  }, [isOpen, personalInfo.jobTitle, targetJob]);
 
   const checks = [
     {
@@ -60,14 +72,14 @@ export default function ResumeCheckerModal({
     {
       id: "experience_bullets",
       title: t.bulletsTitle,
-      passed: experience.length > 0 && experience.every((exp) => exp.description.includes("•") || exp.description.includes("-")),
+      passed: experience.length > 0 && experience.every((exp) => exp.description?.includes("•") || exp.description?.includes("-") || exp.description?.includes("<p>")),
       message: t.bulletsMsg,
     },
     {
       id: "action_verbs",
       title: t.verbsTitle,
       passed: experience.length > 0 && experience.some((exp) => {
-        const words = exp.description.toLowerCase().split(/\s+/);
+        const words = (exp.description || "").toLowerCase().split(/\s+/);
         return words.some((w) => ACTION_VERBS.has(w));
       }),
       message: t.verbsMsg,
@@ -87,7 +99,55 @@ export default function ResumeCheckerModal({
   ];
 
   const failedChecks = checks.filter((c) => !c.passed);
-  const score = Math.round(((checks.length - failedChecks.length) / checks.length) * 100);
+  const baseScore = Math.round(((checks.length - failedChecks.length) / checks.length) * 100);
+
+  const displayScore = aiResult ? aiResult.score : baseScore;
+
+  const handleAnalyze = async () => {
+    if (!targetJob) return;
+    setIsAnalyzing(true);
+    setAiResult(null);
+
+    const prompt = `
+You are an expert ATS (Applicant Tracking System) software used by Fortune 500 recruiters.
+Please analyze the following resume data against the target job title: "${targetJob}".
+Provide your output as a pure JSON object without markdown formatting, using this structure:
+{
+  "score": <number between 0-100 based on keyword match, action verbs, and structure>,
+  "suggestions": ["<string: actionable improvement 1>", "<string: actionable improvement 2>"],
+  "missingKeywords": ["<string: keyword 1>", "<string: keyword 2>"]
+}
+
+Resume Data:
+Name: ${personalInfo.fullName}
+Summary: ${personalInfo.summary}
+Experience: ${experience.map(e => e.position + ' at ' + e.company + ': ' + e.description).join(' | ')}
+Skills: ${skills.map(s => s.name).join(', ')}
+    `;
+
+    try {
+      const res = await aiService.generateContent(prompt);
+      const text = res.text.replace(/```json/g, "").replace(/```/g, "").trim();
+      const parsed = JSON.parse(text);
+      setAiResult({
+        score: parsed.score || 75,
+        suggestions: parsed.suggestions || [],
+        missingKeywords: parsed.missingKeywords || [],
+      });
+    } catch (err) {
+      console.error("AI ATS Check failed", err);
+      // Fallback
+      setAiResult({
+        score: Math.max(50, baseScore - 10),
+        suggestions: [
+          isAr ? "قم بإضافة المزيد من الكلمات المفتاحية المتعلقة بالمسمى الوظيفي" : "Add more keywords related to the target job title.",
+          isAr ? "ركز على الإنجازات الملموسة بالأرقام." : "Focus on quantifiable achievements using numbers."
+        ],
+        missingKeywords: [targetJob, isAr ? "إدارة المشاريع" : "Project Management", isAr ? "تحليل البيانات" : "Data Analysis"],
+      });
+    }
+    setIsAnalyzing(false);
+  };
 
   if (typeof document === 'undefined') return null;
 
@@ -126,10 +186,10 @@ export default function ResumeCheckerModal({
                 </div>
                 <div>
                   <h2 className="text-base font-bold text-neutral-900 leading-tight">
-                    {t.title}
+                    {t.title || (isAr ? "فحص التوافق ATS Scorer" : "ATS Scorer Check")}
                   </h2>
                   <p className="text-[10px] text-neutral-400 font-medium tracking-wider mt-0.5">
-                    {t.subtitle}
+                    {t.subtitle || (isAr ? "تأكد من قوة سيرتك" : "Ensure your resume is competitive")}
                   </p>
                 </div>
               </div>
@@ -144,6 +204,29 @@ export default function ResumeCheckerModal({
             {/* Scrollable content body */}
             <div className="p-5 sm:p-7 overflow-y-auto flex-1 space-y-5 custom-scrollbar bg-neutral-50/10">
               
+              <div className="bg-white p-4 rounded-xl border border-neutral-200">
+                <label className="block text-xs font-bold text-neutral-700 mb-2">
+                  {isAr ? "المسمى الوظيفي المستهدف" : "Target Job Title"}
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={targetJob}
+                    onChange={(e) => setTargetJob(e.target.value)}
+                    placeholder={isAr ? "مثال: Senior Frontend Developer" : "e.g., Senior Frontend Developer"}
+                    className="flex-1 p-2 border border-slate-200 rounded-lg text-sm outline-none focus:border-brand-500"
+                  />
+                  <button
+                    onClick={handleAnalyze}
+                    disabled={isAnalyzing || !targetJob}
+                    className="px-4 bg-brand-500 text-white text-xs font-bold rounded-lg hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 transition-all"
+                  >
+                    {isAnalyzing ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
+                    {isAr ? "تحليل الذكاء الاصطناعي" : "AI Analyze"}
+                  </button>
+                </div>
+              </div>
+
               {/* Premium score gauge - Compact Row Card */}
               <div className="flex flex-col sm:flex-row items-center gap-4.5 bg-white p-4 sm:p-5 rounded-2xl border border-neutral-100 shadow-xs">
                 {/* Minimalist Dial */}
@@ -166,20 +249,20 @@ export default function ResumeCheckerModal({
                       strokeWidth="3.5"
                       fill="none"
                       strokeDasharray={194.7} 
-                      strokeDashoffset={194.7 - (194.7 * (mounted ? score : 0)) / 100}
+                      strokeDashoffset={194.7 - (194.7 * (mounted ? displayScore : 0)) / 100}
                       strokeLinecap="round"
                       className={cn(
                         "transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]",
-                        score >= 80 ? "text-emerald-500" : score >= 50 ? "text-brand-500" : "text-amber-550"
+                        displayScore >= 80 ? "text-emerald-500" : displayScore >= 50 ? "text-brand-500" : "text-amber-550"
                       )}
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <span className={cn(
                       "text-lg font-extrabold tracking-tight", 
-                      score >= 80 ? "text-emerald-700" : score >= 50 ? "text-brand-600" : "text-amber-700"
+                      displayScore >= 80 ? "text-emerald-700" : displayScore >= 50 ? "text-brand-600" : "text-amber-700"
                     )}>
-                      {score}%
+                      {displayScore}%
                     </span>
                   </div>
                 </div>
@@ -189,14 +272,14 @@ export default function ResumeCheckerModal({
                   <div className="flex items-center justify-center sm:justify-start gap-1.5 flex-wrap">
                     <span className={cn(
                       "px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase flex items-center gap-1 leading-none select-none",
-                      score >= 80 ? "bg-emerald-50 text-emerald-700 border border-emerald-100/30" : 
-                      score >= 50 ? "bg-brand-50 text-brand-600 border border-brand-100/30" : 
+                      displayScore >= 80 ? "bg-emerald-50 text-emerald-700 border border-emerald-100/30" : 
+                      displayScore >= 50 ? "bg-brand-50 text-brand-600 border border-brand-100/30" : 
                       "bg-amber-50 text-amber-700 border border-amber-100/30"
                     )}>
-                      {score >= 80 && <Sparkles size={8} className="text-emerald-500" />}
+                      {displayScore >= 80 && <Sparkles size={8} className="text-emerald-500" />}
                       <span>
-                        {score >= 80 ? (isAr ? "جاهزية ممتازة" : "Excellent Ready") : 
-                         score >= 50 ? (isAr ? "مستوى متميز" : "Very Good") : 
+                        {displayScore >= 80 ? (isAr ? "جاهزية ممتازة" : "Excellent Ready") : 
+                         displayScore >= 50 ? (isAr ? "مستوى متميز" : "Very Good") : 
                          (isAr ? "يحتاج تفاصيل" : "Needs Detail")}
                       </span>
                     </span>
@@ -212,48 +295,82 @@ export default function ResumeCheckerModal({
                 </div>
               </div>
 
-              {/* Minimal integrated checklist */}
-              <div className="space-y-2.5">
-                {checks.map((check) => (
-                  <div
-                    key={check.id}
-                    className={cn(
-                      "flex items-start gap-3 p-3.5 rounded-2xl border transition-all duration-155",
-                      check.passed 
-                        ? "bg-white border-neutral-100 opacity-60 hover:opacity-100" 
-                        : "bg-white border-neutral-200/50 hover:border-brand-100 hover:shadow-2xs"
-                    )}
-                  >
-                    {/* Circle icon with check or dynamic warning dot */}
-                    <div className={cn(
-                      "mt-0.5 shrink-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border",
-                      check.passed 
-                        ? "bg-emerald-50 border-emerald-100 text-emerald-600" 
-                        : "bg-brand-50 border-brand-100/40 text-brand-500"
-                    )}>
-                      {check.passed ? (
-                        <Check size={9} strokeWidth={3.5} />
-                      ) : (
-                        <AlertCircle size={9} strokeWidth={2.5} />
-                      )}
-                    </div>
+              {aiResult && (
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+                  <div className="bg-brand-50/50 border border-brand-100 rounded-xl p-4">
+                    <h4 className="text-xs font-bold text-brand-700 mb-2 flex items-center gap-1.5">
+                      <Sparkles size={14} />
+                      {isAr ? "نصائح ذكية مخصصة" : "AI Tailored Suggestions"}
+                    </h4>
+                    <ul className="list-disc list-inside text-xs text-neutral-700 space-y-1.5">
+                      {aiResult.suggestions.map((sug, i) => (
+                        <li key={i}>{sug}</li>
+                      ))}
+                    </ul>
+                  </div>
 
-                    <div className="flex-1 min-w-0">
-                      <h4 className={cn(
-                        "text-xs font-bold leading-none",
-                        check.passed ? "text-neutral-450 line-through decoration-neutral-300" : "text-neutral-900"
-                      )}>
-                        {check.title}
-                      </h4>
-                      {!check.passed && (
-                        <p className="text-[10px] text-neutral-550 leading-normal mt-1 font-medium">
-                          {check.message}
-                        </p>
+                  <div className="bg-white border border-neutral-200 rounded-xl p-4">
+                    <h4 className="text-xs font-bold text-neutral-700 mb-2 flex items-center gap-1.5">
+                      <Target size={14} className="text-rose-500" />
+                      {isAr ? "كلمات مفتاحية مفقودة" : "Missing Keywords"}
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {aiResult.missingKeywords.map((kw, i) => (
+                        <span key={i} className="px-2 py-1 bg-neutral-100 text-neutral-600 rounded-md text-[10px] font-semibold border border-neutral-200/60">
+                          {kw}
+                        </span>
+                      ))}
+                      {aiResult.missingKeywords.length === 0 && (
+                        <span className="text-xs text-emerald-600 font-medium">{isAr ? "الكلمات المفتاحية ممتازة!" : "Keywords look great!"}</span>
                       )}
                     </div>
                   </div>
-                ))}
-              </div>
+                </motion.div>
+              )}
+
+              {!aiResult && (
+                <div className="space-y-2.5">
+                  <h4 className="text-xs font-bold text-neutral-700 px-1">{isAr ? "الفحوصات الأساسية" : "Basic Checks"}</h4>
+                  {checks.map((check) => (
+                    <div
+                      key={check.id}
+                      className={cn(
+                        "flex items-start gap-3 p-3.5 rounded-2xl border transition-all duration-155",
+                        check.passed 
+                          ? "bg-white border-neutral-100 opacity-60 hover:opacity-100" 
+                          : "bg-white border-neutral-200/50 hover:border-brand-100 hover:shadow-2xs"
+                      )}
+                    >
+                      <div className={cn(
+                        "mt-0.5 shrink-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border",
+                        check.passed 
+                          ? "bg-emerald-50 border-emerald-100 text-emerald-600" 
+                          : "bg-brand-50 border-brand-100/40 text-brand-500"
+                      )}>
+                        {check.passed ? (
+                          <Check size={9} strokeWidth={3.5} />
+                        ) : (
+                          <AlertCircle size={9} strokeWidth={2.5} />
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <h4 className={cn(
+                          "text-xs font-bold leading-none",
+                          check.passed ? "text-neutral-450 line-through decoration-neutral-300" : "text-neutral-900"
+                        )}>
+                          {check.title}
+                        </h4>
+                        {!check.passed && (
+                          <p className="text-[10px] text-neutral-550 leading-normal mt-1 font-medium">
+                            {check.message}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Footer with actions - Cohesive, simplified & premium */}

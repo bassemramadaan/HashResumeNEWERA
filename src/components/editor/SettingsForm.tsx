@@ -15,15 +15,14 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { createPortal } from "react-dom";
 
 export default React.memo(function SettingsForm() {
   const { language } = useLanguageStore();
   const t = translations[language].editor;
-  const { data, updateSettings, updateData, resetData } = useResumeStore();
+  const { data, updateSettings, resetData } = useResumeStore();
   const { settings } = data;
-  const fileInputRef = useRef<HTMLInputElement>(null);
   
   const [fitAppliedMode, setFitAppliedMode] = useState<"one" | "two" | null>(null);
 
@@ -462,7 +461,7 @@ export default React.memo(function SettingsForm() {
                 "projects",
                 "certifications",
               ];
-              const isHidden = (settings.hiddenSections || []).includes(sectionId as any);
+              const isHidden = (settings.hiddenSections || []).includes(sectionId);
               
               const SECTION_NAMES: Record<string, { en: string; ar: string; fr: string }> = {
                 summary: { en: "Summary / Profile Summary", ar: "الملخص وبطاقة التعريف", fr: "Résumé " },
@@ -483,14 +482,14 @@ export default React.memo(function SettingsForm() {
                 const temp = newOrder[index];
                 newOrder[index] = newOrder[targetIdx];
                 newOrder[targetIdx] = temp;
-                updateSettings({ sectionOrder: newOrder as any[] });
+                updateSettings({ sectionOrder: newOrder as string[] });
               };
 
               const handleToggleVisibility = (e: React.MouseEvent) => {
                 e.preventDefault();
                 const currentHidden = settings.hiddenSections || [];
-                let newHidden: any[];
-                if (currentHidden.includes(sectionId as any)) {
+                let newHidden: string[];
+                if (currentHidden.includes(sectionId)) {
                   newHidden = currentHidden.filter((id) => id !== sectionId);
                 } else {
                   newHidden = [...currentHidden, sectionId];
