@@ -55,23 +55,26 @@ export function TestimonialsSection({ lang }: { lang: AppLang }) {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
               key={idx}
-              className="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/60 flex flex-col"
+              className="bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-sm border border-slate-200/50 hover:border-[#FF4D2D]/30 hover:shadow-lg hover:shadow-orange-500/[0.03] hover:-translate-y-1.5 transition-all duration-300 flex flex-col relative overflow-hidden group"
             >
-              <div className="flex text-amber-400 mb-4">
+              {/* Ambient micro border glow line */}
+              <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-orange-400 to-[#FF4D2D] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              
+              <div className="flex text-[#FF4D2D] mb-4 gap-0.5">
                 {[...Array(t.rating)].map((_, i) => (
-                  <Star key={i} size={18} fill="currentColor" stroke="none" />
+                  <Star key={i} size={16} fill="currentColor" stroke="none" />
                 ))}
               </div>
-              <p className="text-slate-700 italic flex-1 mb-6 leading-relaxed font-medium">
+              <p className="text-slate-700 italic flex-1 mb-6 leading-relaxed font-semibold">
                 "{isRtl ? t.textAr : t.textEn}"
               </p>
-              <div className="flex items-center gap-4 border-t border-slate-100 pt-4">
-                <div className="w-10 h-10 rounded-full bg-brand-500/10 text-brand-600 flex items-center justify-center font-black shrink-0">
+              <div className="flex items-center gap-4 border-t border-slate-100/80 pt-4">
+                <div className="w-10 h-10 rounded-full bg-[#FF4D2D]/10 text-[#FF4D2D] flex items-center justify-center font-black shrink-0 text-sm">
                   {t.initials}
                 </div>
                 <div>
                   <h4 className="font-bold text-slate-900 text-sm">{t.name}</h4>
-                  <p className="text-xs text-slate-500 font-medium">{t.role}</p>
+                  <p className="text-xs text-slate-500 font-semibold">{t.role}</p>
                 </div>
               </div>
             </motion.div>
