@@ -5,7 +5,7 @@ import {
   User, Briefcase, GraduationCap, Award, FolderHeart, Trophy, CheckCircle,
   Edit3, Eye, Grid, Download, 
   FileText, ChevronRight, Share2, AlertTriangle,
-  ArrowUp, ArrowDown, Layers
+  ArrowUp, ArrowDown, Layers, Sparkles
 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 
@@ -579,6 +579,140 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
   );
 }
 
+// Section hints for Arabic mobile users to improve ATS compatibility
+const SECTION_HINTS: Record<string, string[]> = {
+  basics: [
+    "💡 نصيحة: تأكد من تطابق المسمى الوظيفي بدقة مع متطلبات الوظيفة المستهدفة.",
+    "💡 نصيحة: استخدم بريدًا مهنيًا مثل name@domain.com لرفع درجة موثوقيتك.",
+    "💡 نصيحة: أضف رابط حسابك على LinkedIn لتسهيل تواصل مسؤولي التوظيف معك."
+  ],
+  summary: [
+    "💡 نصيحة: ابدأ ملخصك بعبارات حيوية وقوية تلخص إنجازاتك وخبرتك الأساسية بالأرقام.",
+    "💡 نصيحة: حافظ على طول الملخص بين 3 إلى 4 أسطر كحد أقصى لسهولة القراءة السريعة.",
+    "💡 نصيحة: ضمّن 2-3 كلمات مفتاحية هامة من صلب الوصف الوظيفي."
+  ],
+  experience: [
+    "💡 نصيحة: ابدأ كل نقطة بفعل قوي مثل (قدت، طورت، صممت) وتجنب التكرار.",
+    "💡 نصيحة: حوّل مهامك إلى أرقام وإنجازات ملموسة (مثل: تقليل التكاليف بنسبة 15%).",
+    "💡 نصيحة: رتب خبراتك ترتيباً زمنياً عكسياً من الأحدث إلى الأقدم."
+  ],
+  education: [
+    "💡 نصيحة: اذكر التخصص والدرجة العلمية والجهة المانحة وتاريخ التخرج بوضوح تام.",
+    "💡 نصيحة: إذا كنت خريجاً جديداً، ركز على مشاريع التخرج والتميز الأكاديمي."
+  ],
+  skills: [
+    "💡 نصيحة: ادمج المهارات التقنية والمهارات الشخصية الأكثر طلباً في مجالك.",
+    "💡 نصيحة: وزع الكلمات المفتاحية الذكية المطلوبة في إعلان الوظيفة داخل قائمة المهارات."
+  ],
+  projects: [
+    "💡 نصيحة: وضّح دورك الفعلي، والتقنيات المستخدمة، والنتائج النهائية لكل مشروع.",
+    "💡 نصيحة: أرفق روابط مباشرة للمشاريع الحية لإبراز مهاراتك العملية."
+  ],
+  certifications: [
+    "💡 نصيحة: اذكر الشهادات المهنية المعتمدة مع اسم الجهة المانحة وتاريخ الصلاحية.",
+    "💡 نصيحة: تساهم الشهادات التخصصية في تعزيز فرصك وتخطيك لمرشحي المنافسة."
+  ],
+  finish: [
+    "💡 نصيحة: راجع جميع الحقول لغوياً وإملائياً للتأكد من خلوها من الأخطاء تماماً.",
+    "💡 نصيحة: سارع بتحميل سيرتك الذاتية بصيغة PDF لضمان الحفاظ على التنسيق والمظهر."
+  ]
+};
+
+// Section hints for English mobile users
+const SECTION_HINTS_EN: Record<string, string[]> = {
+  basics: [
+    "💡 Tip: Ensure your job title matches the targeted role requirements.",
+    "💡 Tip: Use a professional email structure like name@domain.com.",
+    "💡 Tip: Adding your LinkedIn profile link can double recruiter engagement."
+  ],
+  summary: [
+    "💡 Tip: Start with strong action verbs showcasing your core competencies.",
+    "💡 Tip: Keep the summary between 3-4 lines for optimal screening readability.",
+    "💡 Tip: Include 2-3 essential keywords from the target job description."
+  ],
+  experience: [
+    "💡 Tip: Use powerful active verbs (e.g., Led, Developed, Optimized) instead of passive descriptions.",
+    "💡 Tip: Quantify achievements wherever possible (e.g., 'Increased team efficiency by 25%').",
+    "💡 Tip: List roles in reverse chronological order, starting with the current one."
+  ],
+  education: [
+    "💡 Tip: Mention majors, universities, and graduation dates clearly for ATS parsers.",
+    "💡 Tip: Highlight relevant academic achievements and capstone projects if junior."
+  ],
+  skills: [
+    "💡 Tip: Mix technical (Hard) and interpersonal (Soft) skills evenly.",
+    "💡 Tip: Directly list software/tools requested in the job description."
+  ],
+  projects: [
+    "💡 Tip: Define the problem solved, technologies leveraged, and key results.",
+    "💡 Tip: Add live links or code repository references to show practical work."
+  ],
+  certifications: [
+    "💡 Tip: List certified organizations along with valid credential IDs.",
+    "💡 Tip: Professional certificates validate continuous learning drive."
+  ],
+  finish: [
+    "💡 Tip: Carefully proofread for minor spelling and translation errors.",
+    "💡 Tip: Download your final CV in standard PDF format to keep layouts intact."
+  ]
+};
+
+function FloatingAtsHint({ section, lang }: { section: string; lang: string }) {
+  const isAr = lang === "ar";
+  const hints = isAr ? SECTION_HINTS[section] : SECTION_HINTS_EN[section];
+  const [currentHint, setCurrentHint] = useState("");
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!hints || hints.length === 0) return;
+    
+    // Choose random hint from the section
+    const rand = hints[Math.floor(Math.random() * hints.length)];
+    setCurrentHint(rand);
+    
+    // Smooth delay before showing
+    const showTimeout = setTimeout(() => {
+      setVisible(true);
+    }, 2500);
+
+    // Auto dismiss after 7.5 seconds
+    const hideTimeout = setTimeout(() => {
+      setVisible(false);
+    }, 10000);
+
+    return () => {
+      clearTimeout(showTimeout);
+      clearTimeout(hideTimeout);
+      setVisible(false);
+    };
+  }, [section, lang]);
+
+  if (!visible || !currentHint) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 35, scale: 0.95 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 35, scale: 0.95 }}
+      className={cn(
+        "fixed bottom-[74px] left-4 right-4 z-[9999] p-3.5 rounded-xl bg-slate-900/95 backdrop-blur-md text-white text-[11.5px] font-semibold shadow-[0_12px_40px_rgba(0,0,0,0.3)] border border-slate-800 flex items-center justify-between gap-3 select-none transform-gpu",
+        isAr ? "text-right" : "text-left"
+      )}
+    >
+      <div className="flex items-center gap-2.5">
+        <Sparkles className="w-4 h-4 text-amber-400 shrink-0 animate-pulse" />
+        <span className="leading-relaxed text-slate-100">{currentHint}</span>
+      </div>
+      <button 
+        onClick={() => setVisible(false)} 
+        className="text-slate-400 hover:text-white transition-colors p-1"
+      >
+        ✕
+      </button>
+    </motion.div>
+  );
+}
+
 // ── main COMPONENT ─────────────────────────────────────────
 export default function MobileEditorLayout({
   lang            = "ar",
@@ -875,6 +1009,9 @@ export default function MobileEditorLayout({
           })}
         </nav>
       </div>
+      
+      {/* Floating dynamic micro-hints based on active section */}
+      <FloatingAtsHint section={activeSection} lang={lang} />
 
     </div>
   );

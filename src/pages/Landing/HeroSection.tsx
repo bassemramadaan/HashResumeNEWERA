@@ -5,8 +5,7 @@ import {
   ArrowLeft, 
   ArrowRight, 
   FileCheck2, 
-  Bot,
-  Target
+  Bot
 } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
 import { trackEvent } from '@/services/analytics'
@@ -72,6 +71,200 @@ const COPY = {
   }
 }
 
+const ROTATING_WORDS = {
+  ar: [
+    'بثقة واحترافية',
+    'بذكاء اصطناعي',
+    'لتخطي الـ ATS',
+    'لتأمين وظيفة أحلامك'
+  ],
+  en: [
+    'with total confidence',
+    'with smart AI power',
+    'to beat the ATS filters',
+    'for your dream job'
+  ],
+  fr: [
+    'avec une confiance totale',
+    'avec la puissance de l\'IA',
+    'pour passer les filtres ATS',
+    'pour le job de vos rêves'
+  ]
+}
+
+function AtsScanSimulator({ lang, isAr }: { lang: AppLang; isAr: boolean }) {
+  const [scanStep, setScanStep] = useState(0)
+  const [atsScore, setAtsScore] = useState(35)
+  const [isCelebrated, setIsCelebrated] = useState(false)
+
+  useEffect(() => {
+    const timer1 = setTimeout(() => {
+      setScanStep(1)
+      setAtsScore(58)
+    }, 2000)
+
+    const timer2 = setTimeout(() => {
+      setScanStep(2)
+      setAtsScore(79)
+    }, 4000)
+
+    const timer3 = setTimeout(() => {
+      setScanStep(3)
+      setAtsScore(96)
+      setIsCelebrated(true)
+    }, 6000)
+
+    const resetTimer = setTimeout(() => {
+      setScanStep(0)
+      setAtsScore(35)
+      setIsCelebrated(false)
+    }, 10000)
+
+    return () => {
+      clearTimeout(timer1)
+      clearTimeout(timer2)
+      clearTimeout(timer3)
+      clearTimeout(resetTimer)
+    }
+  }, [scanStep])
+
+  const steps = {
+    ar: [
+      { text: "🔍 تحليل الكلمات الدلالية وربطها...", done: scanStep >= 1 },
+      { text: "🤖 قياس جودة المحتوى ومقروئية الخطوط...", done: scanStep >= 2 },
+      { text: "⚡ فحص التوافق مع أنظمة الفرز الآلي (ATS)...", done: scanStep >= 3 }
+    ],
+    en: [
+      { text: "🔍 Analyzing core role-specific keywords...", done: scanStep >= 1 },
+      { text: "🤖 Evaluating professional formatting structures...", done: scanStep >= 2 },
+      { text: "⚡ Running deep ATS compatibility parser...", done: scanStep >= 3 }
+    ],
+    fr: [
+      { text: "🔍 Analyse des mots-clés spécifiques au rôle...", done: scanStep >= 1 },
+      { text: "🤖 Évaluation des structures de mise en forme...", done: scanStep >= 2 },
+      { text: "⚡ Exécution du parseur de compatibilité ATS...", done: scanStep >= 3 }
+    ]
+  }
+
+  const currentSteps = steps[lang] || steps['en']
+
+  return (
+    <div className="w-full h-full p-6 pt-16 flex flex-col md:flex-row gap-8 items-center justify-center relative z-10">
+      {/* Resume Scan Panel */}
+      <div className="w-full max-w-sm bg-white border border-slate-100 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+        {/* Dynamic scan line laser */}
+        <motion.div
+          animate={{ top: ["0%", "100%", "0%"] }}
+          transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-[#FF4D2D] to-transparent shadow-[0_0_15px_rgba(255,77,45,0.9)] z-10"
+        />
+
+        <div className="flex items-center gap-4 border-b border-slate-100 pb-4 mb-4">
+          <div className="w-12 h-12 bg-slate-50 border border-slate-100 rounded-full flex items-center justify-center font-black text-slate-400">
+            {isAr ? "سيرة" : "CV"}
+          </div>
+          <div className="space-y-1.5">
+            <div className="h-4 bg-slate-200 rounded-md w-36" />
+            <div className="h-2.5 bg-slate-100 rounded-md w-24" />
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <div className="h-3 bg-slate-100 rounded-md w-full" />
+          <div className="h-3 bg-slate-100 rounded-md w-11/12" />
+          <div className="h-3 bg-slate-100/70 rounded-md w-10/12" />
+          <div className="h-3 bg-slate-100/50 rounded-md w-4/5" />
+        </div>
+
+        <div className="border-t border-slate-100 pt-4 mt-4 space-y-3">
+          <div className="h-3 bg-[#FF4D2D]/10 rounded-md w-3/5" />
+          <div className="h-3 bg-slate-100 rounded-md w-full" />
+          <div className="h-3 bg-slate-100 rounded-md w-11/12" />
+        </div>
+      </div>
+
+      {/* Simulator Logging & Score Meter */}
+      <div className="w-full max-w-sm flex flex-col justify-between gap-5 text-right ltr:text-left h-full">
+        {/* Real-time scan logger */}
+        <div className="bg-slate-900/95 backdrop-blur-md rounded-2xl p-5 border border-slate-800 text-slate-100 space-y-3.5 shadow-xl">
+          <div className="flex items-center gap-2 border-b border-slate-800 pb-2 mb-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping shrink-0" />
+            <span className="text-xs font-black uppercase text-slate-400 tracking-wider">
+              {isAr ? "محلل السير الذاتية بالذكاء الاصطناعي" : "AI RESUME PARSER ACTIVE"}
+            </span>
+          </div>
+
+          <div className="space-y-2 text-xs">
+            {currentSteps.map((step, idx) => (
+              <div key={idx} className="flex items-center gap-2.5 min-h-[22px]">
+                {step.done ? (
+                  <span className="text-emerald-400 font-extrabold shrink-0">✓</span>
+                ) : scanStep === idx ? (
+                  <span className="text-[#FF4D2D] font-extrabold shrink-0 animate-pulse">●</span>
+                ) : (
+                  <span className="text-slate-600 shrink-0">○</span>
+                )}
+                <span className={step.done ? "text-slate-300 font-semibold" : scanStep === idx ? "text-[#FF4D2D] font-black" : "text-slate-500 font-medium"}>
+                  {step.text}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ATS score card */}
+        <motion.div
+          animate={isCelebrated ? { scale: [1, 1.05, 1], rotate: [0, 1, -1, 0] } : {}}
+          transition={{ duration: 0.5 }}
+          className="bg-white shadow-lg p-5 rounded-2xl border border-slate-150 flex items-center justify-between gap-4 relative overflow-hidden"
+        >
+          {isCelebrated && (
+            <div className="absolute inset-0 bg-emerald-500/[0.03] pointer-events-none" />
+          )}
+
+          <div className="flex items-center gap-3">
+            <div className={`p-3 rounded-xl shrink-0 ${isCelebrated ? "bg-emerald-50 text-emerald-500" : "bg-orange-50 text-[#FF4D2D]"}`}>
+              <Bot size={24} className={isCelebrated ? "animate-bounce" : ""} />
+            </div>
+            <div>
+              <div className="text-sm font-black text-slate-800 tracking-tight">
+                {isCelebrated 
+                  ? (isAr ? "متوافق ومحسن بالكامل! 🎉" : "ATS Approved! 🎉") 
+                  : (isAr ? "فحص وتحسين الفرز..." : "Optimizing ATS Score...")}
+              </div>
+              <div className="text-[11px] font-semibold text-slate-400 mt-0.5">
+                {isCelebrated
+                  ? (isAr ? "جاهز للتنزيل بنسبة 100%!" : "Ready for download!")
+                  : (isAr ? "تضمين الكلمات المفتاحية الذكية..." : "Matching premium keywords...")}
+              </div>
+            </div>
+          </div>
+
+          {/* Animated score circle */}
+          <div className="relative flex items-center justify-center w-14 h-14 rounded-full border-4 border-slate-100 shrink-0">
+            <svg className="absolute w-full h-full transform -rotate-90">
+              <circle
+                cx="28"
+                cy="28"
+                r="24"
+                stroke={isCelebrated ? "#10b981" : "#FF4D2D"}
+                strokeWidth="4"
+                fill="transparent"
+                strokeDasharray={`${2 * Math.PI * 24}`}
+                strokeDashoffset={`${2 * Math.PI * 24 * (1 - atsScore / 100)}`}
+                className="transition-all duration-1000 ease-out"
+              />
+            </svg>
+            <span className={`text-sm font-black tracking-tighter ${isCelebrated ? "text-emerald-600" : "text-[#FF4D2D]"}`}>
+              {atsScore}%
+            </span>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
 export function HeroSection({ lang, onStart }: HeroSectionProps) {
   const copy = COPY[lang] || COPY['en']
   const navigate = useNavigate()
@@ -84,6 +277,17 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
     const y = ((e.clientY - rect.top) / rect.height) * 100
     setMousePos({ x, y })
   }
+
+  // Rotating words states
+  const words = ROTATING_WORDS[lang] || ROTATING_WORDS['en']
+  const [wordIndex, setWordIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % words.length)
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [words])
 
   return (
     <section 
@@ -131,8 +335,17 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             className="text-5xl sm:text-6xl md:text-7xl font-black text-slate-900 tracking-tight leading-[1.15] max-w-4xl relative z-10"
           >
             {copy.titleMain} <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-500">
-              {copy.titleAccent}
+            <span className="inline-block min-w-[280px] text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D2D] to-orange-500 relative transition-all duration-500">
+              <motion.span
+                key={wordIndex}
+                initial={{ y: 25, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -25, opacity: 0 }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="inline-block"
+              >
+                {words[wordIndex]}
+              </motion.span>
             </span>
           </motion.h1>
 
@@ -268,59 +481,8 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                 <div className="w-3 h-3 rounded-full bg-slate-200" />
               </div>
               
-              <div className="w-full h-full p-8 pt-20 flex flex-col md:flex-row gap-12 items-center justify-center relative z-10">
-                
-                {/* Visual Representation of Resume Wireframe */}
-                <div className="w-full max-w-sm space-y-6 opacity-80 mix-blend-multiply">
-                  <div className="flex items-center gap-4 border-b border-slate-100 pb-6">
-                    <div className="w-16 h-16 bg-slate-100 rounded-full" />
-                    <div className="space-y-2.5">
-                      <div className="h-5 bg-slate-200 rounded-md w-40" />
-                      <div className="h-3 bg-slate-100 rounded-md w-28" />
-                    </div>
-                  </div>
-                  <div className="space-y-2.5">
-                    <div className="h-4 bg-[#FF4D2D]/20 rounded-md w-24 mb-4" />
-                    <div className="h-2.5 bg-slate-100 rounded-md w-full" />
-                    <div className="h-2.5 bg-slate-100 rounded-md w-full" />
-                    <div className="h-2.5 bg-slate-100 rounded-md w-4/5" />
-                  </div>
-                  <div className="space-y-2.5 pt-4">
-                    <div className="h-4 bg-[#FF4D2D]/20 rounded-md w-32 mb-4" />
-                    <div className="h-2.5 bg-slate-100 rounded-md w-full" />
-                    <div className="h-2.5 bg-slate-100 rounded-md w-full" />
-                    <div className="h-2.5 bg-slate-100 rounded-md w-2/3" />
-                  </div>
-                </div>
-
-                {/* Floating Cards conveying intelligence/optimization */}
-                <div className="w-full max-w-sm relative h-full flex flex-col justify-center gap-6">
-                  <motion.div 
-                    animate={{ y: [-5, 5, -5] }} 
-                    transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                    className="bg-white shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] p-5 rounded-2xl border border-slate-100/80 flex items-center gap-4 self-end mr-4"
-                  >
-                    <div className="bg-orange-50 text-[#FF4D2D] p-3 rounded-xl"><Target size={24} /></div>
-                    <div className="text-start">
-                      <div className="text-sm font-black text-slate-800 tracking-tight">{isAr ? "متوافق مع ATS" : "ATS Optimized"}</div>
-                      <div className="text-xs font-medium text-slate-500 mt-0.5">{isAr ? "تضمين 24 كلمة مفتاحية" : "24 Keywords matched"}</div>
-                    </div>
-                  </motion.div>
-                  
-                  <motion.div 
-                    animate={{ y: [5, -5, 5] }} 
-                    transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-                    className="bg-white shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] p-5 rounded-2xl border border-slate-100/80 flex items-center gap-4 self-start ml-4"
-                  >
-                    <div className="bg-slate-900 text-white p-3 rounded-xl"><Bot size={24} /></div>
-                    <div className="text-start">
-                      <div className="text-sm font-black text-slate-800 tracking-tight">{isAr ? "صياغة فائقة الذكاء" : "AI Enhanced Impact"}</div>
-                      <div className="text-xs font-medium text-slate-500 mt-0.5">{isAr ? "كتابة متطورة بنتائج رقمية" : "Data-driven statements"}</div>
-                    </div>
-                  </motion.div>
-                </div>
-                
-              </div>
+              <AtsScanSimulator lang={lang} isAr={isAr} />
+              
             </div>
           </div>
           
