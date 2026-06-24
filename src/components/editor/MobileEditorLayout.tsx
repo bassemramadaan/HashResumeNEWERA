@@ -2,11 +2,76 @@ import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { cn } from "../../lib/utils";
 import { 
+  User, Briefcase, GraduationCap, Award, FolderHeart, Trophy, CheckCircle,
   Edit3, Eye, Grid, Download, 
   FileText, ChevronRight, Share2, AlertTriangle,
   ArrowUp, ArrowDown, Layers
 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
+
+// Section Icon mapping for beautiful vector designs
+const SECTION_ICONS: Record<string, React.ComponentType<any>> = {
+  basics: User,
+  summary: User,
+  experience: Briefcase,
+  education: GraduationCap,
+  skills: Award,
+  projects: FolderHeart,
+  certifications: Trophy,
+  finish: CheckCircle,
+};
+
+// Section Colors for premium gradient/vibrant look
+const SECTION_COLORS: Record<string, { bg: string; text: string; border: string; glow: string }> = {
+  basics: {
+    bg: "bg-blue-50/70",
+    text: "text-blue-500",
+    border: "border-blue-150",
+    glow: "rgba(59,130,246,0.15)"
+  },
+  summary: {
+    bg: "bg-blue-50/70",
+    text: "text-blue-500",
+    border: "border-blue-150",
+    glow: "rgba(59,130,246,0.15)"
+  },
+  experience: {
+    bg: "bg-indigo-50/70",
+    text: "text-indigo-500",
+    border: "border-indigo-150",
+    glow: "rgba(99,102,241,0.15)"
+  },
+  education: {
+    bg: "bg-purple-50/70",
+    text: "text-purple-500",
+    border: "border-purple-150",
+    glow: "rgba(168,85,247,0.15)"
+  },
+  skills: {
+    bg: "bg-amber-50/70",
+    text: "text-amber-500",
+    border: "border-amber-150",
+    glow: "rgba(245,158,11,0.15)"
+  },
+  projects: {
+    bg: "bg-emerald-50/70",
+    text: "text-emerald-500",
+    border: "border-emerald-150",
+    glow: "rgba(16,185,129,0.15)"
+  },
+  certifications: {
+    bg: "bg-rose-50/70",
+    text: "text-rose-500",
+    border: "border-rose-150",
+    glow: "rgba(244,63,94,0.15)"
+  },
+  finish: {
+    bg: "bg-orange-50/70",
+    text: "text-orange-500",
+    border: "border-orange-150",
+    glow: "rgba(249,115,22,0.15)"
+  },
+};
 
 // ── i18n Translation Dictionary ───────────────────────────
 const T: Record<string, Record<string, string>> = {
@@ -345,7 +410,6 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
           <div className="flex flex-col gap-2.5">
             {sectionOrder.map((sectionId, index) => {
               const label = labelMapKey[sectionId] || sectionId;
-              const emoji = emojiMapKey[sectionId] || "📝";
               
               const handleUp = () => {
                 if (index === 0) return;
@@ -373,9 +437,15 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                   transition={{ type: "spring", stiffness: 450, damping: 30 }}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-lg shrink-0 border border-slate-100">
-                      {emoji}
-                    </div>
+                    {(() => {
+                      const Icon = SECTION_ICONS[sectionId] || User;
+                      const colors = SECTION_COLORS[sectionId] || { bg: "bg-slate-50", text: "text-slate-500", border: "border-slate-100" };
+                      return (
+                        <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border", `${colors.bg} ${colors.text} ${colors.border}`)}>
+                          <Icon className="w-5 h-5" strokeWidth={2.2} />
+                        </div>
+                      );
+                    })()}
                     <div className="text-right ltr:text-left">
                       <h4 className="text-xs font-black text-slate-800 leading-none">{label}</h4>
                       <p className="text-[10px] text-[#FF4D2D] font-bold uppercase tracking-wider mt-1.5 leading-none">
@@ -449,14 +519,18 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                     {idx + 1}
                   </div>
 
-                  {/* Icon / Emoji circle widget */}
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-xl shrink-0 transition-transform group-hover:scale-105 ${
-                    isActive
-                      ? "bg-gradient-to-br from-[#FF4D2D]/5 to-orange-500/[0.02]"
-                      : "bg-slate-50 border border-slate-100"
-                  }`}>
-                    {s.emoji}
-                  </div>
+                  {/* Icon / Emoji circle widget with colorful tints */}
+                  {(() => {
+                    const Icon = SECTION_ICONS[s.id] || User;
+                    const colors = SECTION_COLORS[s.id] || { bg: "bg-slate-50", text: "text-slate-500", border: "border-slate-100" };
+                    return (
+                      <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all group-hover:scale-105 border", 
+                        isActive ? "bg-[#FF4D2D]/10 text-[#FF4D2D] border-[#FF4D2D]/20 animate-pulse" : `${colors.bg} ${colors.text} ${colors.border}`
+                      )}>
+                        <Icon className="w-5 h-5" strokeWidth={2.2} />
+                      </div>
+                    );
+                  })()}
 
                   {/* Main titles info body */}
                   <div className="flex-1 min-w-0 px-1 text-right ltr:text-left">
@@ -486,8 +560,8 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
             {/* Soft accent glow overlay */}
             <div className="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-br from-[#FF4D2D]/20 to-orange-500/0 rounded-full blur-xl pointer-events-none transition-transform group-hover:scale-110" />
 
-            <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center text-xl shrink-0">
-              🏆
+            <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/5">
+              <CheckCircle className="w-5 h-5 text-amber-400" strokeWidth={2.4} />
             </div>
             
             <div className="flex-1 min-w-0 text-right ltr:text-left">
@@ -586,8 +660,12 @@ export default function MobileEditorLayout({
             
             <div className="flex flex-col items-start leading-none">
               <span className="text-[8.5px] font-black text-[#FF4D2D] tracking-wider uppercase leading-none">HashResume</span>
-              <span className="text-[12px] font-extrabold text-slate-900 mt-0.5 flex items-center gap-1 leading-none">
-                <span className="text-xs shrink-0">{currentSection?.emoji}</span>
+              <span className="text-[12px] font-extrabold text-slate-900 mt-0.5 flex items-center gap-1.5 leading-none">
+                {currentSection && (() => {
+                  const Icon = SECTION_ICONS[currentSection.id] || User;
+                  const colors = SECTION_COLORS[currentSection.id] || { text: "text-slate-500" };
+                  return <Icon className={cn("w-3.5 h-3.5 shrink-0", colors.text)} strokeWidth={2.5} />;
+                })()}
                 <span className="font-extrabold">{currentSection?.label}</span>
               </span>
             </div>
@@ -640,6 +718,45 @@ export default function MobileEditorLayout({
               .mobile-tab-btn {
                 scroll-snap-align: start !important;
               }
+
+              /* Elegant mobile form spacing and padding coordination overrides */
+              .editor-form-scrollable {
+                padding: 12px 12px 32px 12px !important;
+              }
+              .editor-form-scrollable .bg-white {
+                padding: 16px !important;
+                border-radius: 20px !important;
+                border-color: rgba(226, 232, 240, 0.7) !important;
+                box-shadow: 0 4px 14px rgba(15, 23, 42, 0.015) !important;
+              }
+              .editor-form-scrollable .space-y-6 > * + * {
+                margin-top: 14px !important;
+              }
+              .editor-form-scrollable .space-y-4 > * + * {
+                margin-top: 10px !important;
+              }
+              .editor-form-scrollable .grid {
+                gap: 12px !important;
+              }
+              .editor-form-scrollable input, 
+              .editor-form-scrollable select, 
+              .editor-form-scrollable textarea {
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
+                font-size: 12.5px !important;
+                border-radius: 10px !important;
+              }
+              .editor-form-scrollable label {
+                font-size: 10.5px !important;
+                margin-bottom: 3px !important;
+              }
+              .editor-form-scrollable .mt-8 {
+                margin-top: 16px !important;
+              }
+              .editor-form-scrollable h3 {
+                font-size: 14px !important;
+                margin-bottom: 8px !important;
+              }
             `}</style>
             
             {/* Horizontal Segmented Switcher List with sleek glass background (Unified Glassmorphism) */}
@@ -654,14 +771,18 @@ export default function MobileEditorLayout({
                       key={s.id}
                       id={`m-tab-${s.id}`}
                       onClick={() => handleSectionChange(s.id)}
-                      className={`relative flex items-center gap-1 px-3 py-2 rounded-full text-xs font-extrabold whitespace-nowrap shrink-0 transition-all border mobile-tab-btn cursor-pointer ${
+                      className={`relative flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold whitespace-nowrap shrink-0 transition-all border mobile-tab-btn cursor-pointer ${
                         isActive
                           ? "bg-slate-900 border-slate-900 text-white shadow-md font-black"
-                          : "bg-transparent border-transparent text-slate-500 hover:bg-slate-100/70"
+                          : "bg-white border-slate-200/50 text-slate-600 hover:bg-slate-100/70"
                       }`}
                     >
-                      <span className="text-[11px] select-none leading-none">{s.emoji}</span>
-                      <span className="text-[10px] font-bold leading-none">{s.label}</span>
+                      {(() => {
+                        const Icon = SECTION_ICONS[s.id] || User;
+                        const colors = SECTION_COLORS[s.id] || { text: "text-slate-400" };
+                        return <Icon className={cn("w-3.5 h-3.5", isActive ? "text-white" : colors.text)} strokeWidth={2.4} />;
+                      })()}
+                      <span className="text-[10px] font-black leading-none">{s.label}</span>
                       
                       {pct === 100 ? (
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
