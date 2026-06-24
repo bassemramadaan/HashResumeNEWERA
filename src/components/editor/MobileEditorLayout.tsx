@@ -734,8 +734,10 @@ export default function MobileEditorLayout({
                   }
                 }}
                 className={cn(
-                  "relative h-full px-4 flex flex-col items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-hidden shrink-0 text-[#9CA3AF]",
-                  isActive ? "text-[#111827]" : "hover:text-[#374151]"
+                  "relative h-full px-4 flex flex-col items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-hidden shrink-0",
+                  tab.id === "export"
+                    ? (isActive ? "text-[#FF4D2D]" : "text-[#FF4D2D]/70 hover:text-[#FF4D2D]")
+                    : (isActive ? "text-[#111827]" : "text-[#9CA3AF] hover:text-[#374151]")
                 )}
               >
                 {isActive && (
@@ -744,7 +746,7 @@ export default function MobileEditorLayout({
                 
                 <span className="relative z-10 flex items-center justify-center">
                   {IconComponent && (
-                    <IconComponent strokeWidth={isActive ? 2.2 : 1.5} className="w-5 h-5 sm:w-5.5 sm:h-5.5" />
+                    <IconComponent strokeWidth={isActive ? 2.2 : 1.5} className={cn("w-5 h-5 sm:w-5.5 sm:h-5.5", tab.id === "export" && "text-[#FF4D2D]")} />
                   )}
                 </span>
               </button>

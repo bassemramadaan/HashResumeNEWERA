@@ -1209,7 +1209,7 @@ export default function EditorPage() {
                             </button>
                             <button
                               onClick={() => setActiveTab("finish")}
-                              className="group flex items-center gap-3 bg-neutral-950 text-white px-8 py-4 rounded-2xl font-bold border border-slate-700 shadow-lg hover:bg-black transition-all active:scale-95"
+                              className="group flex items-center gap-3 bg-[#FF4D2D] hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all active:scale-95 cursor-pointer"
                             >
                               {language === "ar"
                                 ? "الذهاب للمراجعة والتحميل"
@@ -1445,19 +1445,19 @@ export default function EditorPage() {
                               }}
                               className={cn(
                                 "relative w-12 h-10 sm:w-14 sm:h-11 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none ml-1",
-                                isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
+                                isActive ? "text-[#FF4D2D]" : "text-[#FF4D2D]/70 hover:text-[#FF4D2D] hover:bg-white/5"
                               )}
                               title={tab.label}
                             >
                               {isActive && (
                                 <motion.div
                                   layoutId="activeTabIndicatorDesktop"
-                                  className="absolute inset-0 bg-white/20 rounded-full"
+                                  className="absolute inset-0 bg-white/15 rounded-full"
                                   transition={{ type: "spring", stiffness: 350, damping: 28 }}
                                 />
                               )}
                               <span className="relative z-10 flex items-center justify-center">
-                                <IconComponent strokeWidth={isActive ? 2 : 1.5} className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
+                                <IconComponent strokeWidth={isActive ? 2.2 : 1.8} className="w-5 h-5 sm:w-[22px] sm:h-[22px] text-[#FF4D2D]" />
                               </span>
                             </button>
                           </div>
@@ -2025,9 +2025,9 @@ export default function EditorPage() {
                   <div className="flex items-center gap-4">
                     <button
                       onClick={handleExportClick}
-                      className="bg-brand-500 hover:bg-brand-600 text-white px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-premium hover:scale-105 active:scale-95 uppercase tracking-widest"
+                      className="bg-white hover:bg-neutral-100 text-neutral-950 px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-premium hover:scale-105 active:scale-95 uppercase tracking-widest cursor-pointer"
                     >
-                      <Download size={18} className="text-[#FF4D2D]" />
+                      <Download size={18} className="text-[#FF4D2D] stroke-[2.5]" />
                       {String(t.exportPdf || "")}
                     </button>
                     <button
