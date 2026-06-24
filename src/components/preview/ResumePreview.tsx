@@ -242,7 +242,7 @@ const ResumePreview = memo(
             ref.current = el;
           }
         }}
-        className="w-full relative bg-white overflow-hidden shadow-sm"
+        className="w-full relative bg-white overflow-hidden shadow-sm cv-preview"
         id="resume-capture-area"
         onClick={(e) => {
           const target = e.target as HTMLElement;
@@ -422,7 +422,7 @@ const ResumePreview = memo(
             }
           ` }} />
         )}
-        <style dangerouslySetInnerHTML={{ __html: `
+         <style dangerouslySetInnerHTML={{ __html: `
           #resume-capture-area > div {
             padding: ${currentSpacing.padding} !important;
           }
@@ -435,9 +435,54 @@ const ResumePreview = memo(
           #resume-capture-area p, #resume-capture-area li, #resume-capture-area span, #resume-capture-area div {
             line-height: ${currentSpacing.lineHeight} !important;
           }
+
+          /* على كل عناصر الـ CV */
+          .cv-preview * {
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            word-break: normal !important;
+            white-space: normal !important;
+            box-sizing: border-box !important;
+          }
+
+          /* الـ container الرئيسي */
+          .cv-preview {
+            width: 100% !important;
+            max-width: 794px !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+          }
+
+          /* النصوص */
+          .cv-preview p,
+          .cv-preview span,
+          .cv-preview li,
+          .cv-preview div {
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            white-space: pre-wrap !important;
+            max-width: 100% !important;
+          }
+
+          /* الـ header section */
+          .cv-preview h1,
+          .cv-preview h2,
+          .cv-preview h3 {
+            word-break: break-word !important;
+            overflow-wrap: break-word !important;
+            white-space: normal !important;
+          }
+
+          /* contact info في سطر واحد */
+          .cv-contact-row {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+            width: 100% !important;
+          }
         ` }} />
         {/* Dynamic clean template dispatch */}
-        <div id="resume-capture-area">
+        <div id="resume-capture-area" className="cv-preview">
           {currentTemplate === "classic" && <TemplateClassic data={data} />}
           {currentTemplate === "modern" && <TemplateModern data={data} />}
           {currentTemplate === "executive" && <TemplateExecutive data={data} />}
