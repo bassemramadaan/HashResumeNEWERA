@@ -5,11 +5,7 @@ import {
   LayoutTemplate,
   Globe,
   GraduationCap,
-  Download,
-  Upload,
-  Save,
   AlertTriangle,
-  Settings2,
   Wand2,
   Eye,
   EyeOff,
@@ -33,80 +29,34 @@ export default React.memo(function SettingsForm() {
 
   const TEMPLATES = [
     {
-      id: "classic-professional",
-      name: language === "ar" ? "الكلاسيكي الاحترافي (Classic Professional)" : "Classic Professional",
-      description: language === "ar" ? "تصميم ذو خط Serif الفاخر وعمود واحد وخط عريض أسود تحت العناوين ومناسب للبنوك والقانون" : "Elegant serif headings with thick bottom borders, single column, best for banking and law",
-    },
-    {
-      id: "ats-professional",
-      name: language === "ar" ? "احترافي (ATS Optimized - Strict)" : "ATS Professional (Strict)",
-      description: language === "ar" ? "نظام مقيد صارم (أبيض وأسود، خط كاليبري، عمود واحد) مصمم خصيصاً لاجتياز فحص الـ ATS" : "Strict single-column (black & white, Arial/Calibri) designed for 100% ATS pass-through.",
-    },
-    {
       id: "classic",
-      name: language === "ar" ? "الكلاسيكي التقليدي (Classic Traditional)" : "Classic Traditional",
-      description: language === "ar" ? "الرسمي التقليدي الأكثر قبولاً في الشركات الكبرى" : "Traditional layout accepted by corporations",
+      name: language === "ar" ? "كلاسيكي (Classic)" : "Classic",
+      description: language === "ar" ? "الرسمي التقليدي الكلاسيكي بخطوط واضحة" : "Traditional classic layout with clean borders",
     },
     {
       id: "modern",
-      name: language === "ar" ? "الحديث النظيف (Modern Clean)" : "Modern Clean",
-      description: language === "ar" ? "الحديث والأنيق بنقوش ناعمة مناسب للتقنية والمشاريع الناشئة" : "Modern elegant layout best for tech & startups",
+      name: language === "ar" ? "الحديث (Modern)" : "Modern",
+      description: language === "ar" ? "الحديث والأنيق بمسافات واضحة مناسب للتقنية والمشاريع الناشئة" : "Modern elegant layout best for tech & startups",
     },
     {
       id: "executive",
-      name: language === "ar" ? "التنفيذي الفخم (Executive)" : "Executive",
-      description: language === "ar" ? "المظهر القيادي ذو الهوية الفاخرة للرؤساء التنفيذيين والمدراء" : "Luxury gold/navy accent template for managers & executives",
+      name: language === "ar" ? "التنفيذي (Executive)" : "Executive",
+      description: language === "ar" ? "المظهر القيادي ذو الهوية الفاخرة للرؤساء التنفيذيين والمدراء" : "Professional layout with a strong header for managers & executives",
     },
     {
-      id: "arabic",
-      name: language === "ar" ? "العربي الأول (Arabic First)" : "Arabic First (RTL)",
-      description: language === "ar" ? "بإدارة عربية وتنسيق يمين يدعم الحقول الإقليمية كالجنسية والمواليد" : "Default RTL layout supporting local regional fields",
+      id: "minimal",
+      name: language === "ar" ? "مينيمال (Minimal)" : "Minimal",
+      description: language === "ar" ? "مظهر بسيط وخالي من التكلف يركز على المحتوى بدون خطوط" : "Clean and uncluttered layout with focus on content",
+    },
+    {
+      id: "timeline",
+      name: language === "ar" ? "جدول زمني (Timeline)" : "Timeline",
+      description: language === "ar" ? "تصميم يعرض الخبرات التعليمية والعملية بشكل جدول زمني" : "Displays experience and education in a timeline format",
     },
   ] as const;
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
-
-  const handleExportJson = () => {
-    const dataStr = JSON.stringify(data, null, 2);
-    const dataUri =
-      "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
-    const exportFileDefaultName = `${data.personalInfo.fullName || "resume"}_backup.json`;
-
-    const linkElement = document.createElement("a");
-    linkElement.setAttribute("href", dataUri);
-    linkElement.setAttribute("download", exportFileDefaultName);
-    linkElement.click();
-  };
-
-  const handleImportJson = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const importedData = JSON.parse(e.target?.result as string);
-        if (
-          importedData &&
-          importedData.personalInfo &&
-          importedData.experience
-        ) {
-          updateData(importedData);
-          setAlertMessage(t.settings.importSuccess);
-        } else {
-          setAlertMessage(t.settings.importInvalid);
-        }
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
-        setAlertMessage(t.settings.importFailed);
-      }
-    };
-    reader.readAsText(file);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
 
   const AlertModal = () => {
     if (!alertMessage || typeof document === 'undefined') return null;
@@ -183,35 +133,35 @@ export default React.memo(function SettingsForm() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {TEMPLATES.map((template) => {
               const TEMPLATE_SUGGESTIONS: Record<string, { ar: string; en: string; color: string; badge: string }> = {
-                "classic-professional": {
-                  ar: "⚖️ يوصى به لقطاعات: البنوك والاستثمار، الجهات الحكومية، والقانون.",
-                  en: "⚖️ Recommended: Investment Banking, Government, Corporate Law, Consulting.",
-                  color: "bg-emerald-50 border-emerald-250 text-emerald-800",
-                  badge: "Corporate Elite"
-                },
                 classic: {
-                  ar: "🏛️ يوصى به لقطاعات: القانون، المالية، والشركات الكبرى وبنوك الاستثمار الكلاسيكية.",
-                  en: "🏛️ Recommended: Corporate Law, Banking, Finance. Best match: Deep Charcoal Blue.",
+                  ar: "🏛️ يوصى به لقطاعات: القانون، المالية، والشركات الكبرى والبنوك.",
+                  en: "🏛️ Recommended: Corporate Law, Banking, Finance.",
                   color: "bg-slate-100 border-slate-200 text-slate-700",
                   badge: "Banking & Law"
                 },
                 modern: {
                   ar: "💼 يوصى به لقطاعات: البرمجة والتقنية والمشاريع الإدارية الحديثة وريادة الأعمال.",
-                  en: "💼 Recommended: Software, Tech, Management. Best match: Royal Blue Accent.",
-                  color: "bg-indigo-50 border-indigo-100 text-indigo-700",
+                  en: "💼 Recommended: Software, Tech, Management.",
+                  color: "bg-slate-100 border-slate-200 text-slate-700",
                   badge: "Tech & Ops"
                 },
                 executive: {
                   ar: "👑 يوصى به لقطاعات: المناصب الإدارية العليا، الاستشارات الاستراتيجية، والمسؤولين التنفيذيين.",
                   en: "👑 Recommended: High Management, C-Suite, Senior Director Roles.",
-                  color: "bg-amber-50 border-amber-100 text-amber-705",
+                  color: "bg-slate-100 border-slate-200 text-slate-700",
                   badge: "Executive"
                 },
-                arabic: {
-                  ar: "🌍 يوصى به لأسواق: التوظيف المحلي والإقليمي في منطقة الشرق الأوسط وشبه الجزيرة العربية.",
-                  en: "🌍 Recommended: Local Middle Eastern and Gulf recruitment markets.",
-                  color: "bg-emerald-50 border-emerald-110 text-emerald-700",
-                  badge: "Gulf & MENA"
+                minimal: {
+                  ar: "✨ يوصى به لقطاعات: التصميم، الفنون، والمجالات الإبداعية.",
+                  en: "✨ Recommended: Design, Arts, Creative Fields.",
+                  color: "bg-slate-100 border-slate-200 text-slate-700",
+                  badge: "Creative"
+                },
+                timeline: {
+                  ar: "⏱️ يوصى به لمن لديهم تسلسل زمني طويل من الخبرات المتعددة.",
+                  en: "⏱️ Recommended: Long history of experience and multiple roles.",
+                  color: "bg-slate-100 border-slate-200 text-slate-700",
+                  badge: "Experienced"
                 }
               };
 
@@ -222,6 +172,107 @@ export default React.memo(function SettingsForm() {
                 badge: "Universal"
               };
               const adviceText = language === "ar" ? suggestion.ar : suggestion.en;
+
+              const renderThumbnail = (id: string) => {
+                switch (id) {
+                  case 'classic':
+                    return (
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-sm mx-auto mb-3">
+                        <div className="h-1.5 w-8 bg-slate-800 mx-auto mb-0.5"></div>
+                        <div className="h-0.5 w-12 bg-slate-400 mx-auto mb-1.5"></div>
+                        <div className="h-0.5 w-full bg-slate-800 mb-1"></div>
+                        <div className="h-1 w-6 bg-slate-800 mb-0.5"></div>
+                        <div className="h-1 w-full bg-slate-300 mb-0.5"></div>
+                        <div className="h-1 w-5/6 bg-slate-300 mb-1.5"></div>
+                        <div className="h-1 w-6 bg-slate-800 mb-0.5"></div>
+                        <div className="h-1 w-full bg-slate-300 mb-0.5"></div>
+                        <div className="h-1 w-4/6 bg-slate-300 mb-0.5"></div>
+                      </div>
+                    );
+                  case 'modern':
+                    return (
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-sm mx-auto mb-3">
+                        <div className="h-2 w-10 bg-slate-800 mb-0.5"></div>
+                        <div className="h-[0.5px] w-full bg-slate-300 mb-0.5"></div>
+                        <div className="h-0.5 w-12 bg-slate-400 mb-1.5"></div>
+                        <div className="h-1 w-6 bg-slate-800 mb-0.5 border-b-[0.5px] border-slate-300 pb-[1px]"></div>
+                        <div className="h-1 w-full bg-slate-300 mb-0.5 mt-0.5"></div>
+                        <div className="h-1 w-5/6 bg-slate-300 mb-1.5"></div>
+                        <div className="h-1 w-6 bg-slate-800 mb-0.5 border-b-[0.5px] border-slate-300 pb-[1px]"></div>
+                        <div className="h-1 w-full bg-slate-300 mb-0.5 mt-0.5"></div>
+                      </div>
+                    );
+                  case 'executive':
+                    return (
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col shadow-sm mx-auto mb-3">
+                        <div className="bg-slate-100 p-1 border-b border-slate-800 mb-1">
+                          <div className="h-1.5 w-10 bg-slate-800 mb-0.5"></div>
+                          <div className="h-0.5 w-6 bg-slate-600 mb-0.5"></div>
+                          <div className="h-0.5 w-8 bg-slate-400"></div>
+                        </div>
+                        <div className="px-1.5">
+                          <div className="flex gap-1 mb-1.5">
+                            <div className="w-0.5 h-2 bg-slate-800"></div>
+                            <div className="flex-1">
+                              <div className="h-0.5 w-6 bg-slate-800 mb-0.5"></div>
+                              <div className="h-0.5 w-full bg-slate-300 mb-0.5"></div>
+                              <div className="h-0.5 w-5/6 bg-slate-300"></div>
+                            </div>
+                          </div>
+                          <div className="flex gap-1 mb-1">
+                            <div className="w-0.5 h-2 bg-slate-800"></div>
+                            <div className="flex-1">
+                              <div className="h-0.5 w-6 bg-slate-800 mb-0.5"></div>
+                              <div className="h-0.5 w-full bg-slate-300 mb-0.5"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  case 'minimal':
+                    return (
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-sm mx-auto mb-3">
+                        <div className="h-1 w-8 bg-slate-800 mx-auto mb-0.5 tracking-widest uppercase"></div>
+                        <div className="h-0.5 w-10 bg-slate-400 mx-auto mb-2"></div>
+                        <div className="h-0.5 w-6 bg-slate-600 mx-auto mb-1"></div>
+                        <div className="h-0.5 w-full bg-slate-300 mb-0.5"></div>
+                        <div className="h-0.5 w-5/6 bg-slate-300 mb-1.5 mx-auto"></div>
+                        <div className="h-0.5 w-6 bg-slate-600 mx-auto mb-1"></div>
+                        <div className="flex justify-between mb-0.5">
+                          <div className="h-0.5 w-4 bg-slate-800"></div>
+                          <div className="h-0.5 w-4 bg-slate-400"></div>
+                        </div>
+                        <div className="h-0.5 w-full bg-slate-300 mb-0.5"></div>
+                      </div>
+                    );
+                  case 'timeline':
+                    return (
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-sm mx-auto mb-3">
+                        <div className="h-1.5 w-10 bg-slate-800 mb-0.5"></div>
+                        <div className="h-0.5 w-12 bg-slate-400 mb-1"></div>
+                        <div className="h-0.5 w-full bg-slate-800 mb-1.5"></div>
+                        
+                        <div className="h-0.5 w-6 bg-slate-800 mb-1"></div>
+                        
+                        <div className="relative pl-2 mb-1.5">
+                          <div className="absolute left-0 top-0.5 w-0.5 h-0.5 rounded-full bg-slate-600"></div>
+                          <div className="absolute left-[0.5px] top-1 bottom-[-2px] w-[0.5px] bg-slate-300"></div>
+                          <div className="h-0.5 w-6 bg-slate-800 mb-0.5"></div>
+                          <div className="h-0.5 w-10 bg-slate-400 mb-0.5"></div>
+                          <div className="h-0.5 w-full bg-slate-300"></div>
+                        </div>
+                        
+                        <div className="relative pl-2">
+                          <div className="absolute left-0 top-0.5 w-0.5 h-0.5 rounded-full bg-slate-600"></div>
+                          <div className="h-0.5 w-6 bg-slate-800 mb-0.5"></div>
+                          <div className="h-0.5 w-8 bg-slate-400"></div>
+                        </div>
+                      </div>
+                    );
+                  default:
+                    return null;
+                }
+              };
 
               return (
                 <button
@@ -238,6 +289,7 @@ export default React.memo(function SettingsForm() {
                     <div className="absolute top-0 end-0 w-16 h-16 bg-brand-500/10 rounded-bl-full -me-8 -mt-8 transition-transform group-hover:scale-110" />
                   )}
                   <div className="w-full">
+                    {renderThumbnail(template.id)}
                     <div className="flex items-center justify-between gap-2 mb-1.5">
                       <div
                         className={cn(
@@ -637,463 +689,6 @@ export default React.memo(function SettingsForm() {
                 </div>
               </button>
             </div>
-          </div>
-
-        {/* Styling & Spacing Panel */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-              <Settings2 size={20} className="text-slate-500" />
-              {settings.language === "ar" ? "تنسيق المسافات والخطوط (متقدم)" : "Advanced Styling & Spacing"}
-            </h3>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Font Size */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 block">
-                {settings.language === "ar" ? "حجم الخط" : "Font Size"}
-              </label>
-              <select
-                value={settings.fontSize || "medium"}
-                onChange={(e) => updateSettings({ fontSize: e.target.value as "small" | "medium" | "large" })}
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
-                dir={settings.language === "ar" ? "rtl" : "ltr"}
-              >
-                <option value="small">{settings.language === "ar" ? "صغير" : "Small"}</option>
-                <option value="medium">{settings.language === "ar" ? "متوسط" : "Medium"}</option>
-                <option value="large">{settings.language === "ar" ? "كبير" : "Large"}</option>
-              </select>
-            </div>
-
-            {/* Line Height */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 block">
-                {settings.language === "ar" ? "تباعد الأسطر" : "Line Height"}
-              </label>
-              <select
-                value={settings.lineHeight || "normal"}
-                onChange={(e) => updateSettings({ lineHeight: e.target.value as "tight" | "normal" | "relaxed" })}
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
-                dir={settings.language === "ar" ? "rtl" : "ltr"}
-              >
-                <option value="tight">{settings.language === "ar" ? "ضيق" : "Tight"}</option>
-                <option value="normal">{settings.language === "ar" ? "طبيعي" : "Normal"}</option>
-                <option value="relaxed">{settings.language === "ar" ? "مريح" : "Relaxed"}</option>
-              </select>
-            </div>
-
-            {/* Section Spacing */}
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 block">
-                {settings.language === "ar" ? "المسافات بين الأقسام" : "Section Spacing"}
-              </label>
-              <select
-                value={settings.sectionSpacing || "normal"}
-                onChange={(e) => updateSettings({ sectionSpacing: e.target.value as "compact" | "normal" | "relaxed" })}
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
-                dir={settings.language === "ar" ? "rtl" : "ltr"}
-              >
-                <option value="compact">{settings.language === "ar" ? "مضغوط" : "Compact"}</option>
-                <option value="normal">{settings.language === "ar" ? "طبيعي" : "Normal"}</option>
-                <option value="relaxed">{settings.language === "ar" ? "واسع" : "Relaxed"}</option>
-              </select>
-            </div>
-
-            {/* Empty Spot */}
-            <div className="hidden md:block" />
-
-            {/* Fine-Tuning Spacing & Density Controllers */}
-            <div className="col-span-1 md:col-span-2 pt-4 border-t border-slate-100 space-y-4">
-              <h4 className="text-sm font-extrabold text-[#e24e2c] flex items-center gap-2">
-                <span>🎛️</span>
-                <span>{settings.language === "ar" ? "التحكم الدقيق والمخصص بمسافات وهوامش الصفحة" : "Fine-Tuning & Content Density Sliders"}</span>
-              </h4>
-              <p className="text-xs text-slate-500">
-                {settings.language === "ar" 
-                  ? "اسحب لتعديل المسافات والهوامش وحجم الخط بدقة متناهية لاحتواء السيرة في صفحة واحدة ومنع التداخل." 
-                  : "Drag the sliders below to fine-tune section packing, margins, and content sizing to perfectly fit your content on exactly 1 page."}
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Font Size Slider */}
-                <div className="bg-white p-4 rounded-xl border border-slate-200/60 space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-bold text-slate-700">
-                      {settings.language === "ar" ? "🔍 مقياس حجم الخط والكتابة" : "Font Size Scale"}
-                    </span>
-                    <span className="text-xs font-black text-brand-650 bg-brand-50 px-2 py-0.5 rounded-full">
-                      {settings.customFontSize || 100}%
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="70"
-                    max="135"
-                    value={settings.customFontSize || 100}
-                    onChange={(e) => updateSettings({ customFontSize: Number(e.target.value) })}
-                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-brand-500"
-                  />
-                  <div className="flex justify-between text-[10px] text-slate-400 font-medium">
-                    <span>{settings.language === "ar" ? "أصغر (70%)" : "Smaller (70%)"}</span>
-                    <span>{settings.language === "ar" ? "طبيعي (100%)" : "Normal (100%)"}</span>
-                    <span>{settings.language === "ar" ? "أكبر (135%)" : "Larger (135%)"}</span>
-                  </div>
-                </div>
-
-                {/* Section Spacing Slider */}
-                <div className="bg-white p-4 rounded-xl border border-slate-200/60 space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-bold text-slate-700">
-                      {settings.language === "ar" ? "↕️ التباعد العمودي بين الأقسام" : "Vertical Section Spacing"}
-                    </span>
-                    <span className="text-xs font-black text-brand-650 bg-brand-50 px-2 py-0.5 rounded-full">
-                      {settings.customSpacing || 100}%
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="40"
-                    max="160"
-                    value={settings.customSpacing || 100}
-                    onChange={(e) => updateSettings({ customSpacing: Number(e.target.value) })}
-                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-brand-500"
-                  />
-                  <div className="flex justify-between text-[10px] text-slate-400 font-medium">
-                    <span>{settings.language === "ar" ? "مضغوط (40%)" : "Compact (40%)"}</span>
-                    <span>{settings.language === "ar" ? "طبيعي (100%)" : "Normal (100%)"}</span>
-                    <span>{settings.language === "ar" ? "متباعد (160%)" : "Relaxed (160%)"}</span>
-                  </div>
-                </div>
-
-                {/* Line Height Slider */}
-                <div className="bg-white p-4 rounded-xl border border-slate-200/60 space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-bold text-slate-700">
-                      {settings.language === "ar" ? "📏 ارتفاع أسطر الكتابة" : "Line Height Multiplier"}
-                    </span>
-                    <span className="text-xs font-black text-brand-650 bg-brand-50 px-2 py-0.5 rounded-full">
-                      {settings.customLineHeight || 100}%
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="65"
-                    max="135"
-                    value={settings.customLineHeight || 100}
-                    onChange={(e) => updateSettings({ customLineHeight: Number(e.target.value) })}
-                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-brand-500"
-                  />
-                  <div className="flex justify-between text-[10px] text-slate-400 font-medium">
-                    <span>{settings.language === "ar" ? "ضيق (65%)" : "Tight (65%)"}</span>
-                    <span>{settings.language === "ar" ? "طبيعي (100%)" : "Normal (100%)"}</span>
-                    <span>{settings.language === "ar" ? "مريح (135%)" : "Relaxed (135%)"}</span>
-                  </div>
-                </div>
-
-                {/* Outer Margins Slider */}
-                <div className="bg-white p-4 rounded-xl border border-slate-200/60 space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-bold text-slate-700">
-                      {settings.language === "ar" ? "↔️ هوامش وحواف صفحة الـ PDF" : "Page Margin Padding"}
-                    </span>
-                    <span className="text-xs font-black text-brand-650 bg-brand-50 px-2 py-0.5 rounded-full">
-                      {settings.customMargin || 100}%
-                    </span>
-                  </div>
-                  <input
-                    type="range"
-                    min="30"
-                    max="170"
-                    value={settings.customMargin || 100}
-                    onChange={(e) => updateSettings({ customMargin: Number(e.target.value) })}
-                    className="w-full h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-brand-500"
-                  />
-                  <div className="flex justify-between text-[10px] text-slate-400 font-medium">
-                    <span>{settings.language === "ar" ? "صغير جداً (30%)" : "Micro (30%)"}</span>
-                    <span>{settings.language === "ar" ? "طبيعي (100%)" : "Normal (100%)"}</span>
-                    <span>{settings.language === "ar" ? "عريض (170%)" : "Relaxed (170%)"}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Embedded Contact QR Code Configuration */}
-            <div className="col-span-1 md:col-span-2 pt-6 border-t border-slate-150 space-y-4">
-              <h4 className="text-sm font-extrabold text-[#e24e2c] flex items-center gap-2">
-                <span>🔗</span>
-                <span>{settings.language === "ar" ? "الباركود الذكي المدمج بتذييل السيرة (Contact QR Code)" : "Embedded Contact QR Code"}</span>
-              </h4>
-              <p className="text-xs text-slate-500">
-                {settings.language === "ar" 
-                  ? "قم بتوليد كود استجابة سريعة (QR Code) مطبوع تلقائياً في تذييل سيرتك الذاتية ليمكّن مسؤولي التوظيف من مسحه بجوالاتهم لفتح حسابك على LinkedIn أو إضافتك لجهات الاتصال." 
-                  : "Generate a scanable QR Code pre-rendered directly in your printed resume's footer. Recruitees can scan this on their mobile devices to instantly open your online LinkedIn profiles."}
-              </p>
-
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-xs font-bold text-slate-700 block text-start">
-                      {settings.language === "ar" ? "تفعيل الباركود في التذييل" : "Enable QR Code in Footer"}
-                    </span>
-                    <span className="text-[10px] text-slate-450 block text-start">
-                      {settings.language === "ar" ? "يعرض الباركود مدمجاً بأسفل الصفحة للتواصل السريع" : "Appends an interactive QR block to your resume bottom."}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => updateSettings({ showQRCode: !settings.showQRCode })}
-                    className={cn(
-                      "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
-                      settings.showQRCode ? "bg-[#FF4D2D]" : "bg-slate-200"
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
-                        settings.showQRCode ? "translate-x-5" : "translate-x-0"
-                      )}
-                    />
-                  </button>
-                </div>
-
-                {settings.showQRCode && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-200">
-                    <div className="space-y-1.5 text-start">
-                      <label className="text-xs font-bold text-slate-600 block">
-                        {settings.language === "ar" ? "محتوى ونوع الباركود" : "QR Code Target Content"}
-                      </label>
-                      <select
-                        value={settings.qrCodeType || "linkedin"}
-                        onChange={(e) => updateSettings({ qrCodeType: e.target.value as any })}
-                        className="w-full text-xs p-2 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500"
-                      >
-                        <option value="linkedin">{settings.language === "ar" ? "رابط حساب لينكد إن (LinkedIn)" : "LinkedIn URL"}</option>
-                        <option value="contact">{settings.language === "ar" ? "بيانات التواصل الكاملة (VCard)" : "Full Contact Card (VCard)"}</option>
-                      </select>
-                    </div>
-                    <div className="text-xs text-slate-500 bg-white p-3 rounded-lg border border-slate-150 flex items-center justify-center text-center">
-                      {settings.qrCodeType === "linkedin" ? (
-                        <span>
-                          {settings.language === "ar" 
-                            ? `سيتم ربط الباركود بـ: ${data.personalInfo.linkedin || "رابط لينكد إن الفارغ!"}` 
-                            : `Will encode: ${data.personalInfo.linkedin || "Empty LinkedIn Link!"}`}
-                        </span>
-                      ) : (
-                        <span>
-                          {settings.language === "ar" 
-                            ? "سيجمع البيانات: الاسم والهاتف والبريد الإلكتروني والمهنة داخل كود الاتصال." 
-                            : "Encodes: Full Name, Email, Phone Number, and Title in contact payload."}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* One-Click Print Optimization & Contrast Harmonizer */}
-            <div className="col-span-1 md:col-span-2 pt-6 border-t border-slate-150 space-y-4">
-              <h4 className="text-sm font-extrabold text-[#e24e2c] flex items-center gap-2">
-                <span>🌓</span>
-                <span>{settings.language === "ar" ? "الوضع الصديق للطباعة وتحسين التباين" : "Ink-Friendly Print & High Contrast Mode"}</span>
-              </h4>
-              <p className="text-xs text-slate-500 leading-relaxed">
-                {settings.language === "ar" 
-                  ? "يقوم بنقرة واحدة بتحويل كافة درجات الخطوط الرمادية في السيرة الذاتية إلى أسود داكن عالي التباين، وضبط الأسطر وتكثيف سماكة الفواصل من أجل الطباعة الميكانيكية باللون بالابيض والأسود لتجنب بهتان الخطوط." 
-                  : "Convert all light-grey font variations or dim graphics to 100% thick solid black. Elevates line thickness and optimizes background contrast to keep custom layouts looking professional and sharp on print paper."}
-              </p>
-
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-xs font-bold text-slate-700 block text-start">
-                      {settings.language === "ar" ? "تفعيل نمط الطباعة عالي التباين" : "Enable Ink-Friendly Contrast Option"}
-                    </span>
-                    <span className="text-[10px] text-slate-450 block text-start">
-                      {settings.language === "ar" ? "يحول كافة النصوص إلى درجات أسود نقية ويعزز وضوح الفواصل" : "Forces all font rendering to pitch-black high readability with zero light opacity gradients."}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => updateSettings({ inkFriendly: !settings.inkFriendly })}
-                    className={cn(
-                      "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none",
-                      settings.inkFriendly ? "bg-[#FF4D2D]" : "bg-slate-200"
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out",
-                        settings.inkFriendly ? "translate-x-5" : "translate-x-0"
-                      )}
-                    />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Active CV Accent Color Picker Segment */}
-            <div className="space-y-2 col-span-1 md:col-span-2 pt-4 border-t border-slate-150">
-              <label className="text-sm font-bold text-slate-700 block">
-                {settings.language === "ar" ? "🎨 لون السيرة الذاتية النشط" : "🎨 Active CV Theme Accent"}
-              </label>
-              <p className="text-xs text-slate-500 mb-2 leading-relaxed">
-                {settings.language === "ar"
-                  ? "اختر طيف الألوان المناسب لمهنتك وصبغ العناوين والرموز بلمسة فندقية مخصصة."
-                  : "Surgically personalize your CV typography, progress gauges, and visual layout lines in one click."}
-              </p>
-              <div className="flex gap-3 flex-wrap p-3.5 bg-white rounded-xl border border-slate-200/80">
-                {["#2563EB", "#FF4D2D", "#10B981", "#8B5CF6", "#F97316", "#0EA5E9", "#BE185D", "#0F766E"].map((c) => {
-                  const isActive = (settings.themeColor || "#2563EB") === c;
-                  return (
-                    <button
-                      key={c}
-                      type="button"
-                      onClick={() => updateSettings({ themeColor: c })}
-                      className={cn(
-                        "w-9 h-9 rounded-full transition-all flex items-center justify-center cursor-pointer relative",
-                        isActive
-                          ? "scale-110 shadow-md ring-2 ring-offset-2 ring-slate-800"
-                          : "hover:scale-105 hover:shadow-xs hover:ring-1 hover:ring-slate-300"
-                      )}
-                      style={{ backgroundColor: c }}
-                      title={c}
-                    >
-                      {isActive && (
-                        <svg className="w-5 h-5 text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.4)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Font Family */}
-            <div className="space-y-2 col-span-1 md:col-span-2">
-              <label className="text-sm font-bold text-slate-700 block">
-                {settings.language === "ar" ? "نوع الخط الفاخر" : "Premium Font"}
-              </label>
-              <select
-                value={settings.fontFamily || "inter"}
-                onChange={(e) => updateSettings({ fontFamily: e.target.value as any })}
-                className="w-full p-2.5 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-colors"
-                dir={settings.language === "ar" ? "rtl" : "ltr"}
-              >
-                <option value="inter">{settings.language === "ar" ? "مفرد: الحداثة (Sans)" : "Single: Modern (Sans)"}</option>
-                <option value="serif">{settings.language === "ar" ? "مفرد: الكلاسيكي (Serif)" : "Single: Classic (Serif)"}</option>
-                <option value="mono">{settings.language === "ar" ? "مفرد: التقني (Mono)" : "Single: Technical (Mono)"}</option>
-                <option value="serif-inter">{settings.language === "ar" ? "دمج: كلاسيكي للعناوين + حديث للنصوص" : "Pair: Classic Headings + Sans Body"}</option>
-                <option value="mono-inter">{settings.language === "ar" ? "دمج: تقني للعناوين + حديث للنصوص" : "Pair: Tech Headings + Sans Body"}</option>
-              </select>
-
-              {/* Interactive Visual Font Cards */}
-              <div className="mt-3">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mb-1.5">
-                  {settings.language === "ar" ? "معاينة بصرية حية للخطوط المختارة" : "Active Typography Preview"}
-                </label>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-2.5">
-                  {[
-                    {
-                      id: "inter",
-                      name: settings.language === "ar" ? "أساسي" : "Standard",
-                      fontClass: "font-sans",
-                      previewText: "A1 abc",
-                      previewAr: "الاسم"
-                    },
-                    {
-                      id: "serif",
-                      name: settings.language === "ar" ? "كلاسيكي" : "Classic",
-                      fontClass: "font-serif",
-                      previewText: "A1 abc",
-                      previewAr: "الاسم"
-                    },
-                    {
-                      id: "mono",
-                      name: settings.language === "ar" ? "تقني" : "Tech",
-                      fontClass: "font-mono",
-                      previewText: "A1 abc",
-                      previewAr: "الاسم"
-                    },
-                    {
-                      id: "serif-inter",
-                      name: settings.language === "ar" ? "مدمج (كلاسيكي)" : "Pair (Serif)",
-                      fontClass: "font-serif",
-                      previewText: "A1 abc",
-                      previewAr: "الاسم"
-                    },
-                    {
-                      id: "mono-inter",
-                      name: settings.language === "ar" ? "مدمج (تقني)" : "Pair (Tech)",
-                      fontClass: "font-mono",
-                      previewText: "A1 abc",
-                      previewAr: "الاسم"
-                    }
-                  ].map((f) => (
-                    <button
-                      key={f.id}
-                      type="button"
-                      onClick={() => updateSettings({ fontFamily: f.id as any })}
-                      className={cn(
-                        "p-2.5 rounded-xl border text-start transition-all cursor-pointer relative overflow-hidden",
-                        settings.fontFamily === f.id
-                          ? "border-brand-500 bg-brand-50/50 ring-2 ring-brand-500/10 shadow-sm"
-                          : "border-slate-200 hover:border-slate-300 bg-white"
-                      )}
-                    >
-                      <div className="text-[9px] font-bold text-slate-500 mb-1 truncate leading-none">{f.name}</div>
-                      <div className={cn("space-y-0.5 pointer-events-none leading-none mt-1.5", f.fontClass)}>
-                        <div className="text-xs font-black text-slate-900">{f.previewText}</div>
-                        <div className="text-[10px] text-slate-800 font-medium">{f.previewAr}</div>
-                      </div>
-                      {settings.fontFamily === f.id && (
-                        <div className="absolute top-1.5 end-1.5 w-1.5 h-1.5 rounded-full bg-brand-500 shadow-[0_0_4px_currentColor]" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-
-        {/* Data Backup & Restore */}
-        <div className="space-y-4 p-6 bg-slate-50 rounded-2xl border border-slate-200/85">
-          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <Save size={20} className="text-slate-600" />
-            {t.settings.dataBackup}
-          </h3>
-          <p className="text-sm text-slate-600">
-            {t.settings.dataBackupDesc}
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <button
-              onClick={handleExportJson}
-              className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 transition-colors text-sm font-bold shadow-sm"
-            >
-              <Download size={16} />
-              {t.settings.exportData}
-            </button>
-            <label className="flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 transition-colors text-sm font-bold shadow-sm cursor-pointer">
-              <Upload size={16} />
-              {t.settings.importData}
-              <input
-                type="file"
-                accept=".json"
-                className="hidden"
-                onChange={handleImportJson}
-                ref={fileInputRef}
-              />
-            </label>
-            <button
-              onClick={() => setShowResetConfirm(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-red-50 border border-red-200 text-red-600 rounded-xl hover:bg-red-100 transition-colors text-sm font-bold shadow-sm ms-auto"
-            >
-              {t.settings.resetAll}
-            </button>
           </div>
         </div>
       </div>

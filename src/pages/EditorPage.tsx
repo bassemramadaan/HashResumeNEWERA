@@ -630,27 +630,12 @@ export default function EditorPage() {
       }
     };
 
-    // 2. Custom Exit Intent Popup (Mouse leaves top of window)
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (
-        e.clientY <= 0 && // Moved cursor off top edge
-        !isEmpty && // They actually have content
-        !hasExported && // They haven't downloaded this session
-        !showExitModal && // Not already showing
-        !data.isLocked // Resume isn't locked (post-download)
-      ) {
-        setShowExitModal(true);
-      }
-    };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
-    document.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
-      document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [isEmpty, hasExported, showExitModal, data.isLocked]);
+  }, [isEmpty, hasExported, data.isLocked]);
 
   const componentRef = useRef<HTMLDivElement>(null);
   const handlePrint = () => {
@@ -685,7 +670,7 @@ export default function EditorPage() {
         setExportStatus({ show: true, step: 2, format }); // "Optimizing premium typography..."
         await sleep(1000);
 
-        const htmlContent = componentRef.current?.innerHTML;
+        const htmlContent = document.getElementById('resume-capture-area')?.innerHTML;
         const styles = Array.from(
           document.head.querySelectorAll('style, link[rel="stylesheet"]'),
         )
@@ -701,7 +686,7 @@ export default function EditorPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            html: `<div class="p-8">${htmlContent}</div>`,
+            html: htmlContent,
             css: styles,
           }),
         });

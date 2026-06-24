@@ -98,20 +98,9 @@ export type ResumeData = {
     template:
       | "modern"
       | "classic"
-      | "creative"
-      | "minimal"
-      | "tech"
       | "executive"
-      | "medical"
-      | "legal"
-      | "academic"
-      | "professional"
-      | "elegant"
-      | "arabic"
-      | "engineering"
-      | "finance"
-      | "classic-professional"
-      | "ats-professional";
+      | "minimal"
+      | "timeline";
     themeColor: string;
     language: "en" | "ar" | "fr";
     isFreshGrad: boolean;
