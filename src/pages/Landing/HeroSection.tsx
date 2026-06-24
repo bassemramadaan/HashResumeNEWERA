@@ -46,7 +46,7 @@ const COPY = {
     badge: 'ثورة في إنشاء السير الذاتية',
     titleMain: 'اكتب مستقبلك',
     titleAccent: 'المهني بثقة',
-    subtitle: 'أداة بسيطة وخارقة الذكاء لبناء سيرة ذاتية تلفت الأنظار، تتخطى الفرز الآلي، وتضعك في مقدمة المرشحين. صممها في 3 دقائق فقط.',
+    subtitle: 'اصنع سيرة ذاتية استثنائية ومتوافقة تماماً مع أنظمة الفرز (ATS) خلال دقائق، مدعومة بإرشادات ذكاء اصطناعي ذكية تبرز مهاراتك وتسرّع توظيفك.',
     cta: 'ابـدأ الإنشـاء مجانـاً',
     ctaSec: 'استكشف الأمثلة',
     pills: ['خوارزميات AI متقدمة', 'تصاميم معتمدة للتوظيف', 'تصدير فوري بصيغة PDF']
@@ -55,7 +55,7 @@ const COPY = {
     badge: 'Revolutionizing Resume Creation',
     titleMain: 'Write Your Professional',
     titleAccent: 'Future Today',
-    subtitle: 'A beautifully simple yet incredibly smart tool to build an eye-catching resume that beats ATS filters and puts you ahead of the competition. Done in 3 minutes.',
+    subtitle: 'Create an outstanding, ATS-optimized resume in minutes with intelligent AI guidance that showcases your true potential and gets you hired faster.',
     cta: 'Start Building Free',
     ctaSec: 'Explore Examples',
     pills: ['Advanced AI Algorithms', 'Approved Clean Designs', 'Instant PDF Export']
@@ -64,7 +64,7 @@ const COPY = {
     badge: 'Révolution dans la création de CV',
     titleMain: 'Écrivez Votre Avenir',
     titleAccent: 'Professionnel',
-    subtitle: 'Un outil simple et extrêmement intelligent pour construire un CV accrocheur qui déjoue les filtres ATS et vous met en tête. Fait en 3 minutes.',
+    subtitle: 'Créez un CV exceptionnel et optimisé pour l\'ATS en quelques minutes grâce à des conseils d\'IA intelligents qui propulsent votre carrière.',
     cta: 'Créer Gratuitement',
     ctaSec: 'Explorer les exemples',
     pills: ['Algorithmes IA Avancés', 'Designs Approuvés', 'Export PDF Instantané']
