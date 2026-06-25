@@ -17,6 +17,7 @@ export default function TermsOfServicePage() {
       <Helmet>
         <title>{isAr ? "شروط الخدمة - هاش ريزيومي" : "Terms of Service - Hash Resume"}</title>
         <meta name="description" content={isAr ? "شروط الخدمة الخاصة باستخدام موقع هاش ريزيومي لبناء السير الذاتية." : "Terms of Service for using Hash Resume builder."} />
+        <link rel="canonical" href="https://hashresume.com/terms" />
       </Helmet>
       <Navbar />
 

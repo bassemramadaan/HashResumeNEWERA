@@ -689,6 +689,15 @@ export default function EditorPage() {
         const html2canvas = html2canvasModule.default;
         const jsPDF = jsPDFModule.default;
 
+        // Ensure web fonts are completely ready in document context
+        if (typeof document !== 'undefined' && (document as any).fonts) {
+          try {
+            await (document as any).fonts.ready;
+          } catch (e) {
+            console.warn("Fonts loading deferred", e);
+          }
+        }
+
         const canvas = await html2canvas(resumeElement, {
           scale: 2, // High quality
           useCORS: true,
@@ -703,6 +712,17 @@ export default function EditorPage() {
           scrollY: -window.scrollY,
           windowWidth: resumeElement.scrollWidth,
           windowHeight: resumeElement.scrollHeight,
+          waitForWebFonts: true,
+          onclone: (clonedDoc) => {
+            const el = clonedDoc.getElementById('resume-capture-area');
+            if (el) {
+              const all = el.querySelectorAll('*');
+              all.forEach((node: any) => {
+                node.style.letterSpacing = 'normal';
+                node.style.textRendering = 'geometricPrecision';
+              });
+            }
+          }
         });
 
         setExportStatus({ show: true, step: 4, format }); // "Finalizing file encoding..."
@@ -1292,6 +1312,7 @@ export default function EditorPage() {
           name="description"
           content="Build your professional resume with our AI-powered editor."
         />
+        <link rel="canonical" href="https://hashresume.com/editor" />
       </Helmet>
 
       {isMobile ? (

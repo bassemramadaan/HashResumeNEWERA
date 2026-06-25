@@ -112,8 +112,8 @@
 
   /* Typography */
   --font-sans:   'Plus Jakarta Sans', sans-serif;
-  --font-arabic: 'Tajawal', 'Cairo', sans-serif;
-  --font-display: 'Tajawal', 'Cairo', sans-serif;
+  --font-arabic: 'Cairo', sans-serif;
+  --font-display: 'Cairo', sans-serif;
 
   /* Shadows */
   --shadow-soft: 0 4px 20px -2px rgba(15, 23, 42, 0.02), 0 12px 32px -4px rgba(15, 23, 42, 0.03);
@@ -154,8 +154,8 @@ body {
 }
 
 [dir="rtl"], html[dir="rtl"] {
-  --font-sans: 'Tajawal', 'Cairo', sans-serif;
-  --font-display: 'Tajawal', 'Cairo', sans-serif;
+  --font-sans: 'Cairo', sans-serif;
+  --font-display: 'Cairo', sans-serif;
 }
 
 /* ============================================================
@@ -440,10 +440,10 @@ input, button, textarea, select {
 [dir="rtl"] [data-font-family="mono"] *, [dir="rtl"][data-font-family="mono"] * { font-family: 'Cairo', sans-serif !important; }
 
 [dir="rtl"] [data-font-family="serif-inter"] *, [dir="rtl"][data-font-family="serif-inter"] * { font-family: 'Cairo', sans-serif !important; }
-[dir="rtl"] [data-font-family="serif-inter"] h1, [dir="rtl"] [data-font-family="serif-inter"] h2, [dir="rtl"] [data-font-family="serif-inter"] h3, [dir="rtl"] [data-font-family="serif-inter"] h4, [dir="rtl"] [data-font-family="serif-inter"] h5, [dir="rtl"] [data-font-family="serif-inter"] h6, [dir="rtl"] [data-font-family="serif-inter"] .heading { font-family: 'Amiri', serif !important; }
+[dir="rtl"] [data-font-family="serif-inter"] h1, [dir="rtl"] [data-font-family="serif-inter"] h2, [dir="rtl"] [data-font-family="serif-inter"] h3, [dir="rtl"] [data-font-family="serif-inter"] h4, [dir="rtl"] [data-font-family="serif-inter"] h5, [dir="rtl"] [data-font-family="serif-inter"] h6, [dir="rtl"] [data-font-family="serif-inter"] .heading { font-family: 'Cairo', serif !important; }
 
 [dir="rtl"] [data-font-family="mono-inter"] *, [dir="rtl"][data-font-family="mono-inter"] * { font-family: 'Cairo', sans-serif !important; }
-[dir="rtl"] [data-font-family="mono-inter"] h1, [dir="rtl"] [data-font-family="mono-inter"] h2, [dir="rtl"] [data-font-family="mono-inter"] h3, [dir="rtl"] [data-font-family="mono-inter"] h4, [dir="rtl"] [data-font-family="mono-inter"] h5, [dir="rtl"] [data-font-family="mono-inter"] h6, [dir="rtl"] [data-font-family="mono-inter"] .heading { font-family: 'Tajawal', sans-serif !important; }
+[dir="rtl"] [data-font-family="mono-inter"] h1, [dir="rtl"] [data-font-family="mono-inter"] h2, [dir="rtl"] [data-font-family="mono-inter"] h3, [dir="rtl"] [data-font-family="mono-inter"] h4, [dir="rtl"] [data-font-family="mono-inter"] h5, [dir="rtl"] [data-font-family="mono-inter"] h6, [dir="rtl"] [data-font-family="mono-inter"] .heading { font-family: 'Cairo', sans-serif !important; }
 
 /* ============================================================
    INFINITE MARQUEE KEYFRAMES

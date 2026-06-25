@@ -56,6 +56,7 @@ export default function BlogPostPage() {
       <Helmet>
         <title>{post.title[language]} | Hash Resume</title>
         <meta name="description" content={post.excerpt[language]} />
+        <link rel="canonical" href={`https://hashresume.com/blog/${id}`} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </Helmet>
       <Navbar />

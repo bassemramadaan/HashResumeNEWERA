@@ -2,6 +2,7 @@ import React from "react";
 import { Shield, Lock, EyeOff, Server, FileText } from "lucide-react";
 import { Navbar } from "@/components/layout/Navbar";
 import { useLanguageStore } from "../store/useLanguageStore";
+import { Helmet } from "react-helmet-async";
 
 export default function PrivacyPage() {
   const { language } = useLanguageStore();
@@ -12,6 +13,11 @@ export default function PrivacyPage() {
       className="min-h-screen bg-slate-50 text-slate-900 font-sans"
       dir={isAr ? "rtl" : "ltr"}
     >
+      <Helmet>
+        <title>{isAr ? "سياسة الخصوصية - هاش ريزيومي" : "Privacy Policy - Hash Resume"}</title>
+        <meta name="description" content={isAr ? "تعرف على سياسة الخصوصية الخاصة بموقع هاش ريزيومي لبناء السير الذاتية وكيفية حمايتنا لبياناتك." : "Learn about the Privacy Policy of Hash Resume builder and how we protect your personal data."} />
+        <link rel="canonical" href="https://hashresume.com/privacy" />
+      </Helmet>
       <Navbar />
 
       <main className="max-w-4xl mx-auto px-6 sm:px-6 lg:px-8 py-24 md:py-32">
