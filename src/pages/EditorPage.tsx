@@ -694,6 +694,13 @@ export default function EditorPage() {
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
+          logging: false,
+          imageTimeout: 0,
+          removeContainer: true,
+          width: resumeElement.scrollWidth,
+          height: resumeElement.scrollHeight,
+          scrollX: 0,
+          scrollY: -window.scrollY,
           windowWidth: resumeElement.scrollWidth,
           windowHeight: resumeElement.scrollHeight,
         });
@@ -744,16 +751,44 @@ export default function EditorPage() {
         const resumeElement = document.getElementById('resume-capture-area');
         if (!resumeElement) throw new Error("Resume element not found");
 
+        // Get all active styles to inject into exported document
+        const styles = Array.from(document.styleSheets)
+          .map(sheet => {
+            try {
+              return Array.from(sheet.cssRules || [])
+                .map(rule => rule.cssText)
+                .join('\n');
+            } catch {
+              return '';
+            }
+          })
+          .join('\n');
+
         const htmlContent = `
           <!DOCTYPE html>
-          <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+          <html dir="${document.documentElement.dir || 'ltr'}" xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
             <head>
               <meta charset="UTF-8">
               <style>
-                body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+                ${styles}
+                /* Force proper rendering */
+                * {
+                  word-wrap: break-word !important;
+                  overflow-wrap: break-word !important;
+                  white-space: normal !important;
+                  box-sizing: border-box !important;
+                }
+                body {
+                  margin: 0;
+                  padding: 0;
+                  width: 794px;
+                  font-family: Arial, sans-serif;
+                }
               </style>
             </head>
-            <body>${resumeElement.innerHTML}</body>
+            <body>
+              ${resumeElement.outerHTML}
+            </body>
           </html>
         `;
         
