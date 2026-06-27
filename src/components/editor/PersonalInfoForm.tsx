@@ -79,35 +79,60 @@ const PersonalInfoForm = () => {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#FF4D2D]/10 text-[#FF4D2D] rounded-xl flex items-center justify-center shrink-0">
-            <Sparkles size={20} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-[#FF4D2D]/10 text-[#FF4D2D] rounded-xl flex items-center justify-center shrink-0">
+              <Sparkles size={20} />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-800">
+                {language === "ar" ? "وفر وقتك واستورد بياناتك" : "Save time and import your data"}
+              </h3>
+              <p className="text-xs text-slate-500 mt-0.5">
+                {language === "ar" ? "ارفع سيرتك الذاتية (PDF) أو لينكد إن" : "Upload an old CV (PDF) or LinkedIn"}
+              </p>
+            </div>
           </div>
-          <div>
-            <h3 className="text-sm font-bold text-slate-800">
-              {language === "ar" ? "وفر وقتك واستورد بياناتك" : "Save time and import your data"}
-            </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
-              {language === "ar" ? "ارفع سيرتك الذاتية القديمة (PDF) أو حساب لينكد إن" : "Upload an old CV (PDF) or LinkedIn profile"}
-            </p>
+          <div className="relative w-full">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new Event('open-import-modal'))}
+              className="w-full px-5 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-sm whitespace-nowrap"
+            >
+              {language === "ar" ? "استيراد السيرة الذاتية" : "Import CV / LinkedIn"}
+            </button>
+            
+            {/* Contextual Onboarding Tooltip */}
+            {(!personalInfo.fullName || personalInfo.fullName.length === 0) && (
+              <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] sm:text-xs font-bold px-3 py-2 rounded-lg shadow-lg whitespace-nowrap animate-bounce pointer-events-none z-10 before:content-[''] before:absolute before:-bottom-2 before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-t-blue-600">
+                {language === "ar" ? "ابدأ برفع ملف LinkedIn هنا 🚀" : "Start by importing LinkedIn 🚀"}
+              </div>
+            )}
           </div>
         </div>
-        <div className="relative w-full sm:w-auto">
+
+        <div className="bg-gradient-to-br from-purple-50 to-indigo-50 p-5 rounded-2xl shadow-sm border border-purple-100 flex flex-col justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-purple-600 text-white rounded-xl flex items-center justify-center shrink-0">
+              <Sparkles size={20} />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-purple-900">
+                {language === "ar" ? "السحر بكلمة واحدة 🪄" : "One-Click Magic 🪄"}
+              </h3>
+              <p className="text-xs text-purple-700/80 mt-0.5">
+                {language === "ar" ? "توليد سيرة وهمية كاملة بمجرد إدخال المسمى" : "Generate a full mock CV from just a job title"}
+              </p>
+            </div>
+          </div>
           <button
             type="button"
-            onClick={() => window.dispatchEvent(new Event('open-import-modal'))}
-            className="w-full sm:w-auto px-5 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-sm whitespace-nowrap"
+            onClick={() => window.dispatchEvent(new Event('open-magic-modal'))}
+            className="w-full px-5 py-2.5 bg-purple-600 text-white text-xs font-bold rounded-xl hover:bg-purple-700 transition-colors shadow-sm whitespace-nowrap"
           >
-            {language === "ar" ? "استيراد السيرة الذاتية" : "Import CV / LinkedIn"}
+            {language === "ar" ? "جرب السحر الآن" : "Try Magic Now"}
           </button>
-          
-          {/* Contextual Onboarding Tooltip */}
-          {(!personalInfo.fullName || personalInfo.fullName.length === 0) && (
-            <div className="absolute -top-12 left-1/2 -translate-x-1/2 md:-top-1/2 md:translate-y-[-50%] md:-translate-x-0 md:-left-4 md:-translate-x-full bg-blue-600 text-white text-xs font-bold px-3 py-2 rounded-lg shadow-lg whitespace-nowrap animate-bounce pointer-events-none z-10 before:content-[''] before:absolute before:-bottom-2 before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-t-blue-600 md:before:top-1/2 md:before:-translate-y-1/2 md:before:-right-2 md:before:left-auto md:before:translate-x-0 md:before:border-t-transparent md:before:border-l-blue-600">
-              {language === "ar" ? "ابدأ برفع ملف LinkedIn هنا لاختصار الوقت 🚀" : "Start by importing LinkedIn to save time 🚀"}
-            </div>
-          )}
         </div>
       </div>
 

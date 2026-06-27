@@ -41,6 +41,7 @@ import { calculateATSScore } from "../utils/ats";
 import { DEFAULT_BREAKDOWN } from "../constants";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
+import LiveAtsScoreWidget from "../components/editor/LiveAtsScoreWidget";
 import ResumePreview from "../components/preview/ResumePreview";
 import { FrictionlessConfetti } from "../components/FrictionlessConfetti";
 
@@ -68,6 +69,9 @@ const ResumeCheckerModal = lazy(
 );
 const LinkedInImportModal = lazy(
   () => import("../components/editor/LinkedInImportModal"),
+);
+const OneClickMagicModal = lazy(
+  () => import("../components/editor/OneClickMagicModal"),
 );
 
 const FormLoader = () => (
@@ -384,11 +388,17 @@ export default function EditorPage() {
       setIsLinkedInModalOpen(true);
     };
 
+    const handleOpenMagicModal = () => {
+      setIsMagicModalOpen(true);
+    };
+
     window.addEventListener("preview-section-clicked", handlePreviewSectionClick);
     window.addEventListener("open-import-modal", handleOpenImportModal);
+    window.addEventListener("open-magic-modal", handleOpenMagicModal);
     return () => {
       window.removeEventListener("preview-section-clicked", handlePreviewSectionClick);
       window.removeEventListener("open-import-modal", handleOpenImportModal);
+      window.removeEventListener("open-magic-modal", handleOpenMagicModal);
     };
   }, []);
   
@@ -420,6 +430,7 @@ export default function EditorPage() {
   const [overflowLines, setOverflowLines] = useState(0);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
+  const [isMagicModalOpen, setIsMagicModalOpen] = useState(false);
   const [showAtsAestheticPanel, setShowAtsAestheticPanel] = useState(false);
   const [showMobileAtsPanel, setShowMobileAtsPanel] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{
@@ -2068,6 +2079,11 @@ export default function EditorPage() {
           isOpen={isLinkedInModalOpen}
           onClose={() => setIsLinkedInModalOpen(false)}
         />
+        <OneClickMagicModal
+          isOpen={isMagicModalOpen}
+          onClose={() => setIsMagicModalOpen(false)}
+        />
+        <LiveAtsScoreWidget />
 
         {/* Mobile Quick Toggle FAB */}
         {isMobile && (
