@@ -656,10 +656,106 @@ export default function EditorPage() {
   }, [isEmpty, hasExported, data.isLocked]);
 
   const componentRef = useRef<HTMLDivElement>(null);
-  const handlePrint = () => {
-    if (typeof window !== "undefined") {
-      window.print();
+  const [isLocked, setIsLocked] = useState(false);
+
+  const lockCVAfterDownload = () => {
+    // حفظ snapshot
+    const snapshot = JSON.stringify({
+      personalInfo: data.personalInfo,
+      workExperience: data.experience,
+      education: data.education,
+      skills: data.skills,
+      certifications: data.certifications,
+      projects: data.projects,
+    });
+    localStorage.setItem('cv-locked-snapshot', snapshot);
+    localStorage.setItem('cv-locked', 'true');
+
+    // update الـ state
+    setIsLocked(true);
+    useResumeStore.getState().lockResume();
+  };
+
+  // في الـ useEffect عند load الصفحة
+  useEffect(() => {
+    const locked = localStorage.getItem('cv-locked');
+    if (locked === 'true') setIsLocked(true);
+  }, []);
+
+  const downloadPDF = async () => {
+    const setIsExporting = (val: boolean) => { /* handle export state */ };
+    setIsExporting(true);
+
+    // انتظر الـ fonts
+    await document.fonts.ready;
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // الـ CV element — غيّر الـ selector للـ ID الصح
+    const element = document.querySelector('#cv-preview') as HTMLElement
+      || document.querySelector('.cv-preview') as HTMLElement
+      || document.querySelector('[data-cv-preview]') as HTMLElement;
+
+    if (!element) {
+      console.error('CV element not found');
+      setIsExporting(false);
+      return;
     }
+
+    const html2canvas = (await import('html2canvas')).default;
+    const jsPDF = (await import('jspdf')).default;
+
+    const canvas = await html2canvas(element, {
+      scale: 2.5,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      logging: false,
+      onclone: (_doc, clonedEl: any) => {
+        clonedEl.style.cssText = `
+          width: 794px !important;
+          padding: 40px !important;
+          box-sizing: border-box !important;
+          overflow: visible !important;
+          word-wrap: break-word !important;
+          overflow-wrap: break-word !important;
+          white-space: normal !important;
+          letter-spacing: normal !important;
+          word-spacing: normal !important;
+        `;
+        // إصلاح كل العناصر الداخلية
+        clonedEl.querySelectorAll('*').forEach((el: any) => {
+          el.style.letterSpacing = 'normal';
+          el.style.wordSpacing = 'normal';
+          el.style.wordBreak = 'normal';
+          el.style.overflowWrap = 'break-word';
+          el.style.whiteSpace = 'normal';
+        });
+      },
+    });
+
+    const pdf = new jsPDF({
+      orientation: 'portrait',
+      unit: 'mm',
+      format: 'a4',
+      compress: true,
+    });
+
+    const pdfWidth = 210;
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+    pdf.addImage(
+      canvas.toDataURL('image/jpeg', 0.95),
+      'JPEG',
+      0, 0,
+      pdfWidth,
+      pdfHeight
+    );
+
+    pdf.save(`CV_HashResume.pdf`);
+    setIsExporting(false);
+
+    // Lock بعد التحميل
+    lockCVAfterDownload();
   };
 
   const handleExportClick = () => {
@@ -967,7 +1063,7 @@ export default function EditorPage() {
         useActiveSectionStore.getState().setActiveField(null);
       }}
     >
-      {data.isLocked && (
+      {isLocked && (
         <div className="mb-6 rounded-2xl overflow-hidden border border-amber-500/30 bg-amber-50 shadow-xs">
           <div className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-start gap-3">
@@ -976,23 +1072,19 @@ export default function EditorPage() {
               </div>
               <div>
                 <h3 className="text-sm font-bold text-amber-900">
-                  {language === 'ar' ? 'تم تحميل سيرتك — البيانات محمية' : 'Resume Downloaded — Data Locked'}
+                  {language === 'ar' ? '🔒 السيرة محمية بعد التحميل' : '🔒 Resume Locked After Download'}
                 </h3>
-                <p className="text-xs text-amber-700 mt-1 font-medium">
-                  {language === 'ar' ? 'يمكنك تغيير شكل القالب فقط. لتعديل البيانات يجب فتح القفل.' : 'You can only change the template. To edit data, you must unlock it.'}
-                </p>
               </div>
             </div>
             <button
               onClick={() => {
-                localStorage.removeItem('cv-is-locked');
-                useResumeStore.getState().updateData({ ...data, isLocked: false });
-                alert(language === 'ar' ? 'تنبيه: التعديل سيستلزم تحميل سيرتك مرة أخرى للحصول على النسخة المحدثة' : 'Alert: Editing will require you to download your resume again to get the updated version.');
+                localStorage.removeItem('cv-locked');
+                setIsLocked(false);
               }}
               className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors shrink-0 flex items-center gap-2"
             >
               <span>✏️</span>
-              {language === 'ar' ? 'تعديل السيرة' : 'Unlock to Edit'}
+              {language === 'ar' ? 'تعديل (يتطلب تحميل جديد)' : 'Edit (Requires new download)'}
             </button>
           </div>
         </div>

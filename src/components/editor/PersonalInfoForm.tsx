@@ -155,6 +155,7 @@ const PersonalInfoForm = () => {
               type="text"
               id="fullName"
               name="fullName"
+              disabled={data.isLocked}
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}

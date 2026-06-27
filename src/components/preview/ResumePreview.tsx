@@ -379,79 +379,82 @@ const ResumePreview = memo(
               font-weight: 800 !important;
               padding: 2px 8px !important;
             }
-            /* Dark headers, sidebars or banners need to be white background with crisp black text */
-            #resume-capture-area header,
-            #resume-capture-area .bg-slate-900,
-            #resume-capture-area .bg-gray-900,
-            #resume-capture-area .bg-slate-800,
-            #resume-capture-area [style*="background-color"] {
-              background-color: #ffffff !important;
-              color: #000000 !important;
-              border-color: #000000 !important;
+
+            #resume-capture-area,
+            .cv-preview {
+              font-kerning: none !important;
+              text-rendering: geometricPrecision !important;
+              -webkit-font-smoothing: antialiased !important;
+              letter-spacing: 0 !important;
+              word-spacing: 0 !important;
             }
-            /* Solid high-precision line-height spacing for mechanical paper readability */
-            #resume-capture-area p,
-            #resume-capture-area li {
-              line-height: 1.62 !important;
-              letter-spacing: 0.01em !important;
+
+            #resume-capture-area *,
+            .cv-preview * {
+              box-sizing: border-box !important;
+              word-wrap: break-word !important;
+              overflow-wrap: break-word !important;
+              white-space: normal !important;
+              letter-spacing: inherit !important;
+              word-spacing: inherit !important;
             }
-            /* Guarantee ultra-high border contrast for divider lines */
-            #resume-capture-area hr,
-            #resume-capture-area div[class*="border-"],
-            #resume-capture-area span[class*="border-"],
-            #resume-capture-area section[class*="border-"],
-            #resume-capture-area [style*="border-color"] {
-              border-color: #000000 !important;
-              border-width: 1.5px !important;
-              opacity: 1 !important;
+
+            #resume-capture-area > div {
+              padding: ${currentSpacing.padding} !important;
             }
-            /* Ensure bullet points and markers is deep graphite/black */
-            #resume-capture-area .text-slate-300,
-            #resume-capture-area .text-slate-400 {
-              color: #111111 !important;
+            #resume-capture-area section {
+              margin-bottom: ${currentSpacing.sectionGap} !important;
             }
-            /* Increase baseline font-weight to prevent laser printer toner dropouts */
-            #resume-capture-area .font-bold {
-              font-weight: 850 !important;
+            #resume-capture-area section > div, #resume-capture-area ul {
+              margin-bottom: ${currentSpacing.itemGap} !important;
             }
-            #resume-capture-area .font-semibold {
-              font-weight: 750 !important;
+            #resume-capture-area p, #resume-capture-area li, #resume-capture-area span, #resume-capture-area div {
+              line-height: ${currentSpacing.lineHeight} !important;
             }
-            #resume-capture-area .font-medium {
-              font-weight: 650 !important;
+
+            /* الـ container الرئيسي */
+            .cv-preview {
+              width: 100% !important;
+              max-width: 794px !important;
+              overflow: hidden !important;
+              box-sizing: border-box !important;
+            }
+
+            /* النصوص */
+            .cv-preview p,
+            .cv-preview span,
+            .cv-preview li,
+            .cv-preview div {
+              word-wrap: break-word !important;
+              overflow-wrap: break-word !important;
+              white-space: pre-wrap !important;
+              max-width: 100% !important;
+            }
+
+            /* الـ header section */
+            .cv-preview h1,
+            .cv-preview h2,
+            .cv-preview h3 {
+              word-break: break-word !important;
+              overflow-wrap: break-word !important;
+              white-space: normal !important;
+            }
+
+            /* contact info في سطر واحد */
+            .cv-contact-row {
+              display: flex !important;
+              flex-wrap: wrap !important;
+              gap: 8px !important;
+              width: 100% !important;
+            }
+            /* الـ container الرئيسي */
+            .cv-preview {
+              width: 100% !important;
+              max-width: 794px !important;
+              overflow: hidden !important;
+              box-sizing: border-box !important;
             }
           ` }} />
-        )}
-         <style dangerouslySetInnerHTML={{ __html: `
-          #resume-capture-area > div {
-            padding: ${currentSpacing.padding} !important;
-          }
-          #resume-capture-area section {
-            margin-bottom: ${currentSpacing.sectionGap} !important;
-          }
-          #resume-capture-area section > div, #resume-capture-area ul {
-            margin-bottom: ${currentSpacing.itemGap} !important;
-          }
-          #resume-capture-area p, #resume-capture-area li, #resume-capture-area span, #resume-capture-area div {
-            line-height: ${currentSpacing.lineHeight} !important;
-          }
-
-          /* على كل عناصر الـ CV */
-          .cv-preview * {
-            word-wrap: break-word !important;
-            overflow-wrap: break-word !important;
-            word-break: normal !important;
-            white-space: normal !important;
-            box-sizing: border-box !important;
-          }
-
-          /* الـ container الرئيسي */
-          .cv-preview {
-            width: 100% !important;
-            max-width: 794px !important;
-            overflow: hidden !important;
-            box-sizing: border-box !important;
-          }
 
           /* النصوص */
           .cv-preview p,
