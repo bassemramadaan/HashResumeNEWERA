@@ -93,13 +93,22 @@ const PersonalInfoForm = () => {
             </p>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={() => window.dispatchEvent(new Event('open-import-modal'))}
-          className="w-full sm:w-auto px-5 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-sm whitespace-nowrap"
-        >
-          {language === "ar" ? "استيراد السيرة الذاتية" : "Import CV / LinkedIn"}
-        </button>
+        <div className="relative w-full sm:w-auto">
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('open-import-modal'))}
+            className="w-full sm:w-auto px-5 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-sm whitespace-nowrap"
+          >
+            {language === "ar" ? "استيراد السيرة الذاتية" : "Import CV / LinkedIn"}
+          </button>
+          
+          {/* Contextual Onboarding Tooltip */}
+          {(!personalInfo.fullName || personalInfo.fullName.length === 0) && (
+            <div className="absolute -top-12 left-1/2 -translate-x-1/2 md:-top-1/2 md:translate-y-[-50%] md:-translate-x-0 md:-left-4 md:-translate-x-full bg-blue-600 text-white text-xs font-bold px-3 py-2 rounded-lg shadow-lg whitespace-nowrap animate-bounce pointer-events-none z-10 before:content-[''] before:absolute before:-bottom-2 before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-t-blue-600 md:before:top-1/2 md:before:-translate-y-1/2 md:before:-right-2 md:before:left-auto md:before:translate-x-0 md:before:border-t-transparent md:before:border-l-blue-600">
+              {language === "ar" ? "ابدأ برفع ملف LinkedIn هنا لاختصار الوقت 🚀" : "Start by importing LinkedIn to save time 🚀"}
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 font-sans transition-colors">

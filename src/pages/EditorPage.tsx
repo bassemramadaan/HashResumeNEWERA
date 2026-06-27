@@ -26,6 +26,8 @@ import {
   Award,
   Lock,
   Folder,
+  Eye,
+  FileEdit,
 } from "lucide-react";
 import { useResumeStore, getResumeSignature } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -2066,6 +2068,21 @@ export default function EditorPage() {
           isOpen={isLinkedInModalOpen}
           onClose={() => setIsLinkedInModalOpen(false)}
         />
+
+        {/* Mobile Quick Toggle FAB */}
+        {isMobile && (
+          <div className="fixed bottom-24 right-4 z-[90]">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setShowFullPreview(!showFullPreview)}
+              className="bg-slate-900 text-white w-14 h-14 rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.2)] flex items-center justify-center border border-slate-700"
+            >
+              {showFullPreview ? <FileEdit size={24} /> : <Eye size={24} />}
+            </motion.button>
+          </div>
+        )}
+
         {/* Full Page Preview Modal */}
         <AnimatePresence>
           {showFullPreview && (

@@ -685,7 +685,7 @@ function FloatingAtsHint({ section, lang }: { section: string; lang: string }) {
       clearTimeout(hideTimeout);
       setVisible(false);
     };
-  }, [section, lang]);
+  }, [section, lang, hints]);
 
   if (!visible || !currentHint) return null;
 
