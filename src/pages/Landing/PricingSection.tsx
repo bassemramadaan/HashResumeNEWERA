@@ -137,27 +137,21 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
         
         {/* Card 1: Single CV */}
         <TiltCard
-          className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-md bg-white border border-slate-200 hover:border-slate-350 hover:shadow-lg transition-all transform-gpu"
+          className="relative rounded-[2.5rem] p-8 sm:p-10 flex flex-col justify-between shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] bg-white border border-slate-100 hover:border-orange-200 hover:shadow-[0_20px_40px_-10px_rgba(255,237,233,0.5)] transition-all transform-gpu"
         >
-          <div className="absolute top-0 end-8 -translate-y-1/2">
-            <span className="px-4 py-1.5 rounded-full text-xs font-black text-rose-600 border border-rose-100 tracking-wider uppercase bg-rose-50">
-              {c.planSingle.popular}
-            </span>
-          </div>
-
           <div className="flex flex-col flex-1">
-            <div className="mb-6 text-center md:text-start">
-              <div className="text-xs font-black text-slate-405 text-slate-500 mb-2 tracking-widest uppercase">{c.planSingle.name}</div>
+            <div className="mb-8 text-center md:text-start">
+              <div className="text-[11px] font-black text-slate-400 mb-2 tracking-[0.2em] uppercase">{c.planSingle.name}</div>
               <div className="flex items-baseline justify-center md:justify-start gap-2">
-                <span className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{c.planSingle.price}</span>
-                <span className="text-xs font-semibold text-slate-500">{c.planSingle.period}</span>
+                <span className="text-5xl font-extrabold text-slate-950 tracking-tighter" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{c.planSingle.price}</span>
+                <span className="text-sm font-medium text-slate-500">{c.planSingle.period}</span>
               </div>
             </div>
 
-            <ul className="space-y-3.5 text-start flex-1 border-t border-slate-100 pt-6">
+            <ul className="space-y-4 text-start flex-1 border-t border-slate-50 pt-8">
               {c.planSingle.features.map((f) => (
-                <li key={f} className="flex items-start gap-3 text-sm text-[#374151] font-semibold">
-                  <Check className="w-4 h-4 flex-shrink-0 text-[#FF4D2D] mt-0.5" />
+                <li key={f} className="flex items-start gap-4 text-sm text-slate-700 font-medium">
+                  <Check className="w-5 h-5 flex-shrink-0 text-orange-500 mt-0.5" />
                   <span>{f}</span>
                 </li>
               ))}
@@ -166,7 +160,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
 
           <button
             onClick={onPaidClick}
-            className="bg-transparent hover:bg-slate-55 border-2 border-slate-900 hover:bg-slate-50 active:scale-95 text-slate-900 rounded-full font-bold text-sm px-6 py-4 mt-8 w-full justify-center inline-flex items-center gap-2 transition-all cursor-pointer group"
+            className="bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-orange-200 active:scale-[0.98] text-slate-900 rounded-2xl font-bold text-sm px-8 py-5 mt-10 w-full justify-center inline-flex items-center gap-3 transition-all cursor-pointer group"
           >
             {c.planSingle.cta}
             <span className="group-hover:translate-x-1 transition-transform">
@@ -175,39 +169,23 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
           </button>
         </TiltCard>
 
-        {/* Card 2: 3-Codes Saver Package */}
+        {/* Card 2: Bundle Package */}
         <TiltCard
-          className="relative rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between shadow-lg bg-gradient-to-b from-slate-900 to-slate-950 border border-[#FF4D2D]/60 hover:border-[#FF4D2D] hover:shadow-xl transition-all transform-gpu"
+          className="relative rounded-[2.5rem] p-8 sm:p-10 flex flex-col justify-between shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] bg-white border-2 border-orange-500 hover:border-orange-600 hover:shadow-[0_20px_40px_-10px_rgba(255,237,233,0.5)] transition-all transform-gpu"
         >
-          {/* Subtle gold glow behind the card */}
-          <div className="absolute inset-0 pointer-events-none rounded-[2rem] opacity-25 transform-gpu" style={{ background: 'radial-gradient(circle at top right, #FF4D2D 0%, transparent 60%)' }} />
-
-          <div className="absolute top-0 end-8 -translate-y-1/2 z-20">
-            <div className="relative hover:-translate-y-1 transition-transform transform-gpu">
-              <div className="absolute inset-0 blur-sm opacity-55 rounded-full bg-[#FF4D2D]" />
-              <div className="relative px-5 py-2 rounded-full text-xs font-black text-white shadow-sm border border-white/20 flex items-center gap-2 uppercase tracking-wider bg-[#FF4D2D]">
-                <Sparkles className="w-3.5 h-3.5 text-white hover:rotate-12 transition-transform" />
-                {c.planBundle.popular}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col flex-1 relative z-10">
-            <div className="mb-6 text-center md:text-start">
-              <div className="text-xs font-black text-amber-400 mb-2 tracking-widest uppercase flex items-center justify-center md:justify-start gap-1">
-                <Gift size={12} className="text-amber-400 animate-pulse" />
-                {c.planBundle.name}
-              </div>
+          <div className="flex flex-col flex-1">
+            <div className="mb-8 text-center md:text-start">
+              <div className="text-[11px] font-black text-orange-500 mb-2 tracking-[0.2em] uppercase">{c.planBundle.name}</div>
               <div className="flex items-baseline justify-center md:justify-start gap-2">
-                <span className="text-4xl sm:text-5xl font-black text-white tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{c.planBundle.price}</span>
-                <span className="text-xs font-semibold text-slate-400">{c.planBundle.period}</span>
+                <span className="text-5xl font-extrabold text-slate-950 tracking-tighter" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{c.planBundle.price}</span>
+                <span className="text-sm font-medium text-slate-500">{c.planBundle.period}</span>
               </div>
             </div>
 
-            <ul className="space-y-3.5 text-start flex-1 border-t border-slate-800 pt-6">
+            <ul className="space-y-4 text-start flex-1 border-t border-orange-50 pt-8">
               {c.planBundle.features.map((f) => (
-                <li key={f} className="flex items-start gap-3 text-sm text-slate-200 font-bold">
-                  <Check className="w-4 h-4 flex-shrink-0 text-amber-400 mt-0.5" />
+                <li key={f} className="flex items-start gap-4 text-sm text-slate-700 font-medium">
+                  <Check className="w-5 h-5 flex-shrink-0 text-orange-500 mt-0.5" />
                   <span>{f}</span>
                 </li>
               ))}
@@ -216,7 +194,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
 
           <button
             onClick={onPaidClick}
-            className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white rounded-full font-black text-sm px-6 py-4 mt-8 w-full justify-center inline-flex items-center gap-2 shadow-xl shadow-orange-500/25 transition-transform cursor-pointer group"
+            className="bg-orange-500 hover:bg-orange-600 active:scale-[0.98] text-white rounded-2xl font-bold text-sm px-8 py-5 mt-10 w-full justify-center inline-flex items-center gap-3 shadow-[0_10px_20px_-5px_rgba(249,115,22,0.3)] transition-all cursor-pointer group"
           >
             {c.planBundle.cta}
             <span className="group-hover:translate-x-1 transition-transform">

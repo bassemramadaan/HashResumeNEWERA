@@ -5,27 +5,27 @@ import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 
 const StepOneGraphics = () => (
-  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-orange-50/30 transition-all duration-500">
+  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-slate-100/50 transition-all duration-500">
     <div className="relative flex items-center justify-center w-20 h-20 rounded-[1.5rem] bg-white border border-slate-200/60 shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:shadow-md">
       <FileText className="w-8 h-8 text-slate-800" strokeWidth={1.5} />
-      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-[#FF4D2D]/10 rounded-full blur-md" />
+      <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-slate-200/50 rounded-full blur-md" />
     </div>
   </div>
 );
 
 const StepTwoGraphics = () => (
-  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-indigo-50/30 transition-all duration-500">
+  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-purple-50/30 transition-all duration-500">
     <div className="relative flex items-center justify-center w-20 h-20 rounded-[1.5rem] bg-slate-900 border border-slate-800 shadow-md transition-transform duration-500 group-hover:scale-110 group-hover:shadow-lg">
       <Sparkles className="w-8 h-8 text-white animate-pulse" strokeWidth={1.5} />
-      <div className="absolute -inset-2 bg-indigo-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute -inset-2 bg-purple-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     </div>
   </div>
 );
 
 const StepThreeGraphics = () => (
-  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-emerald-50/30 transition-all duration-500">
+  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-orange-50/30 transition-all duration-500">
     <div className="relative flex items-center justify-center w-20 h-20 rounded-[1.5rem] bg-white border border-slate-200/60 shadow-sm transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-md">
-      <Download className="w-8 h-8 text-[#FF4D2D]" strokeWidth={1.5} />
+      <Download className="w-8 h-8 text-orange-500" strokeWidth={1.5} />
     </div>
   </div>
 );
@@ -87,14 +87,14 @@ export default function SimpleSteps() {
 
               <div className="space-y-3 text-start relative">
                 <div className="flex items-center gap-4 mb-2">
-                  <span className="text-4xl font-black text-slate-200 group-hover:text-[#FF4D2D] transition-colors duration-300">
+                  <span className="text-4xl font-black text-slate-200 group-hover:text-orange-500 transition-colors duration-300">
                     {step.num}
                   </span>
                   <h3 className="font-black text-slate-900 text-xl tracking-tight leading-tight">
                     {step.title}
                   </h3>
                 </div>
-                <p className="text-slate-500 text-[15px] leading-relaxed font-medium pl-2 border-l-2 border-slate-100 group-hover:border-[#FF4D2D]/30 transition-colors">
+                <p className="text-slate-500 text-[15px] leading-relaxed font-medium pl-2 border-l-2 border-slate-100 group-hover:border-orange-500/30 transition-colors">
                   {step.desc}
                 </p>
               </div>

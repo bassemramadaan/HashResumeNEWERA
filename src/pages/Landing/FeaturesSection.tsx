@@ -56,7 +56,7 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as any } }
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
 }
 
 export function FeaturesSection({ lang }: FeaturesSectionProps) {
@@ -64,7 +64,7 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
   const heading = HEADINGS[lang] || HEADINGS['en']
 
   return (
-    <section id="features" className="py-24 sm:py-32 px-4 md:px-6 w-full bg-slate-50 relative overflow-hidden select-none border-t border-slate-100">
+    <section id="features" className="py-24 sm:py-32 px-4 md:px-6 w-full bg-white relative overflow-hidden select-none border-t border-slate-50">
       <div className="max-w-6xl mx-auto relative z-10">
         
         <div className="text-center mb-16 max-w-2xl mx-auto">
@@ -84,7 +84,7 @@ export function FeaturesSection({ lang }: FeaturesSectionProps) {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8"
         >
           {currentFeatures.map((f, i) => {
             return <FeatureCard key={i} {...f} />;
@@ -105,13 +105,13 @@ function FeatureCard({ icon, title, desc, tag }: {
 
   return (
     <motion.div
-      variants={itemVariants as any}
-      className="bg-white border border-slate-200/60 rounded-3xl p-8 hover:border-[#FF4D2D]/35 transition-all duration-300 relative overflow-hidden group hover:shadow-xl hover:shadow-slate-200/50 flex flex-col h-full"
+      variants={itemVariants}
+      className="bg-white border border-slate-200/60 rounded-3xl p-8 hover:border-purple-500/30 transition-all duration-300 relative overflow-hidden group hover:shadow-xl hover:shadow-purple-500/5 flex flex-col h-full"
     >
       <div className="flex items-center justify-between mb-8">
-        <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 group-hover:bg-[#FF4D2D]/5 group-hover:border-[#FF4D2D]/10 transition-all duration-500">
+        <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 group-hover:bg-purple-50 group-hover:border-purple-100 transition-all duration-500">
           {IconComponent && (
-            <IconComponent className="w-5 h-5 text-slate-700 group-hover:text-[#FF4D2D] transition-colors duration-500" strokeWidth={2} />
+            <IconComponent className="w-5 h-5 text-slate-700 group-hover:text-purple-600 transition-colors duration-500" strokeWidth={2} />
           )}
         </div>
         <span className="text-[10px] font-black tracking-wider uppercase px-3 py-1 rounded-full text-slate-400 bg-slate-50 border border-slate-100">

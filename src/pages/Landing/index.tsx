@@ -9,7 +9,6 @@ import SimpleSteps from '@/components/SimpleSteps'
 import Footer from '@/components/Footer'
 import FAQ from '@/components/FAQ'
 import { CTASection } from '@/components/CTASection'
-import { TestimonialsSection } from './TestimonialsSection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import type { AppLang } from '@/hooks/useDirection'
 
@@ -28,11 +27,10 @@ export default function LandingPage() {
       <div className="min-h-screen flex flex-col">
         <Navbar onStartClick={goToEditor} />
 
-        <main id="main-content" className="flex-1">
+        <main id="main-content" className="flex-1 bg-white">
           <HeroSection lang={lang as AppLang} onStart={goToEditor} />
           <SimpleSteps />
           <FeaturesSection lang={lang as AppLang} />
-          <TestimonialsSection lang={lang as AppLang} />
           <LandingAtsTester lang={lang as AppLang} onStartClick={goToEditor} />
           <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
           <FAQ />

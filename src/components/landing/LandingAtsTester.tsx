@@ -535,8 +535,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                 <div className="flex flex-col sm:flex-row gap-3 pt-4">
                   <button
                     onClick={onStartClick}
-                    style={{ backgroundColor: "#FF4D2D", color: "#fff" }}
-                    className="flex-1 py-4 px-6 rounded-xl font-bold text-xs sm:text-sm shadow-lg shadow-rose-500/15 hover:shadow-xl transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-2 cursor-pointer select-none"
+                    className="flex-1 py-4 px-6 rounded-xl font-bold text-xs sm:text-sm shadow-lg shadow-orange-500/15 hover:shadow-xl transition-all hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-2 cursor-pointer select-none bg-orange-500 text-white"
                   >
                     <Sparkles size={16} />
                     {isAr ? "ابنِ سيرتك الذاتية متوافقة ١٠٠٪ مجاناً الآن" : "Build a 100% Compliant Resume Free Now"}
