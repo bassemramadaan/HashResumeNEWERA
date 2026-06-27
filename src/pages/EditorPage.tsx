@@ -698,46 +698,51 @@ export default function EditorPage() {
           }
         }
 
+
+        // Force a layout recalculation and wait for it to stabilize
+        await new Promise(resolve => setTimeout(resolve, 300));
+
         const canvas = await html2canvas(resumeElement, {
-          scale: 2, // High quality
+          scale: 3, // High quality
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           logging: false,
-          imageTimeout: 0,
-          removeContainer: true,
-          width: resumeElement.scrollWidth,
-          height: resumeElement.scrollHeight,
-          scrollX: 0,
-          scrollY: -window.scrollY,
-          windowWidth: resumeElement.scrollWidth,
-          windowHeight: resumeElement.scrollHeight,
-          waitForWebFonts: true,
           onclone: (clonedDoc) => {
             const el = clonedDoc.getElementById('resume-capture-area');
             if (el) {
-              const all = el.querySelectorAll('*');
-              all.forEach((node: any) => {
-                node.style.letterSpacing = 'normal';
-                node.style.textRendering = 'geometricPrecision';
-              });
+              el.style.width = '794px';
+              el.style.minHeight = '1123px';
+              el.style.padding = '40px';
+              el.style.boxSizing = 'border-box';
+              el.style.overflow = 'visible';
+              el.style.wordWrap = 'break-word';
+              el.style.overflowWrap = 'break-word';
+              el.style.whiteSpace = 'normal';
             }
           }
         });
 
         setExportStatus({ show: true, step: 4, format }); // "Finalizing file encoding..."
         
-        const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF({
           orientation: 'portrait',
           unit: 'mm',
           format: 'a4',
         });
         
-        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfWidth = 210; // A4 width in mm
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
         
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.addImage(
+          canvas.toDataURL('image/png', 1.0),
+          'PNG',
+          0, 0,
+          pdfWidth,
+          pdfHeight,
+          undefined,
+          'FAST'
+        );
         pdf.save(`${fullName || "Resume"}_CV.pdf`);
 
         useResumeStore.getState().lockResume();
@@ -950,26 +955,32 @@ export default function EditorPage() {
       }}
     >
       {data.isLocked && (
-        <div className="absolute inset-0 z-[100] bg-white/70 backdrop-blur-md flex items-center justify-center rounded-[2rem] mx-[-1rem] px-4" style={{ height: 'max-content', minHeight: '100%' }}>
-          <div className="bg-white p-8 sm:p-10 rounded-3xl shadow-premium max-w-md w-full text-center border border-slate-200 relative overflow-hidden mt-20">
-             <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-slate-700 to-slate-900 overflow-hidden" />
-             <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-5 border border-slate-200">
-                <Lock className="w-10 h-10 text-slate-700" />
-             </div>
-             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 tracking-tight">
-               {language === 'ar' ? 'تم تأمين السيرة الذاتية' : 'Resume Locked'}
-             </h2>
-             <p className="text-sm text-slate-500 mb-8 font-semibold leading-relaxed">
-               {language === 'ar' 
-                 ? 'لقد قمت بتصدير وتحميل هذه السيرة الذاتية بنجاح. لضمان الموثوقية ولاستخدام لمرة واحدة، تم تأمين هذا الملف ولا يمكن العودة لتعديله مرة أخرى. إذا كنت بحاجة لإنشاء ملف جديد والمزيد من التعديلات، يرجى مسح البيانات والبدء من جديد.' 
-                 : 'You have successfully exported this resume. To ensure integrity for a one-time export, this file is permanently locked and cannot be edited. If you need to make new edits or create another resume, please reset your data and start fresh.'}
-             </p>
-             <button 
-               onClick={() => setConfirmAction({ type: "clear", message: t.clearConfirm })} 
-               className="bg-slate-900 hover:bg-black text-white font-black text-sm px-6 py-3.5 rounded-xl w-full transition-all active:scale-95 shadow-md shadow-slate-900/20"
-             >
-               {language === 'ar' ? 'مسح البيانات والبدء من جديد (Reset)' : 'Reset Data and Start Fresh'}
-             </button>
+        <div className="mb-6 rounded-2xl overflow-hidden border border-amber-500/30 bg-amber-50 shadow-xs">
+          <div className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center shrink-0">
+                <Lock className="w-5 h-5 text-amber-600" />
+              </div>
+              <div>
+                <h3 className="text-sm font-bold text-amber-900">
+                  {language === 'ar' ? 'تم تحميل سيرتك — البيانات محمية' : 'Resume Downloaded — Data Locked'}
+                </h3>
+                <p className="text-xs text-amber-700 mt-1 font-medium">
+                  {language === 'ar' ? 'يمكنك تغيير شكل القالب فقط. لتعديل البيانات يجب فتح القفل.' : 'You can only change the template. To edit data, you must unlock it.'}
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => {
+                localStorage.removeItem('cv-is-locked');
+                useResumeStore.getState().updateData({ ...data, isLocked: false });
+                alert(language === 'ar' ? 'تنبيه: التعديل سيستلزم تحميل سيرتك مرة أخرى للحصول على النسخة المحدثة' : 'Alert: Editing will require you to download your resume again to get the updated version.');
+              }}
+              className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors shrink-0 flex items-center gap-2"
+            >
+              <span>✏️</span>
+              {language === 'ar' ? 'تعديل السيرة' : 'Unlock to Edit'}
+            </button>
           </div>
         </div>
       )}
@@ -1095,6 +1106,7 @@ export default function EditorPage() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
                       transition={{ duration: 0.2 }}
+                      className={cn(data.isLocked && "pointer-events-none opacity-50 select-none")}
                     >
                       <Suspense fallback={<FormLoader />}>
                         {activeTab === "basics" && (

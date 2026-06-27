@@ -76,9 +76,31 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ title: string; description: string; tip: string } | null>(null);
   const [success, setSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const getErrorMessage = (error: Error) => {
+    if (error.message.includes('image') || error.message.includes('صورة')) {
+      return {
+        title: 'الملف صورة مسكانة',
+        description: 'جرب: LinkedIn PDF → Profile → More → Save to PDF',
+        tip: 'أو ارفع CV نصي من Word أو Google Docs'
+      };
+    }
+    if (error.message.includes('كبير') || error.message.includes('size')) {
+      return {
+        title: 'الملف كبير جداً',
+        description: 'الحد الأقصى 10MB — حجم الملف الحالي: ' + (selectedFile ? (selectedFile.size / 1024 / 1024).toFixed(1) : 0) + 'MB',
+        tip: 'جرب تضغط الـ PDF أو استخدم نسخة أخف'
+      };
+    }
+    return {
+      title: 'خطأ في قراءة الملف',
+      description: 'تأكد إن الملف PDF نصي وليس صورة',
+      tip: 'جرب ملف تاني أو تواصل معنا'
+    };
+  };
 
   const handleDragEnter = (e: React.DragEvent) => {
     e.preventDefault();
@@ -99,28 +121,55 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
       if (file.type === "application/pdf") {
         setSelectedFile(file);
       } else {
-        setError(
-          language === "ar" ? "الرجاء رفع ملف PDF" : "Please upload a PDF file"
-        );
+        setError({
+          title: language === "ar" ? "نوع الملف غير مدعوم" : "Unsupported File Type",
+          description: language === "ar" ? "الرجاء رفع ملف PDF" : "Please upload a PDF file",
+          tip: ""
+        });
       }
     }
   };
 
   const extractTextFromPDF = async (file: File): Promise<string> => {
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-    let fullText = '';
-    
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const textContent = await page.getTextContent();
-      const pageText = textContent.items
-        .map((item: any) => item.str)
-        .join(' ');
-      fullText += pageText + '\n';
+    if (file.size > 10 * 1024 * 1024) {
+      throw new Error('size');
     }
-    
-    return fullText;
+
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const loadingTask = pdfjsLib.getDocument({
+        data: arrayBuffer,
+        cMapUrl: 'https://unpkg.com/pdfjs-dist/cmaps/',
+        cMapPacked: true,
+      });
+
+      const pdf = await loadingTask.promise;
+      let fullText = '';
+      
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items
+          .filter((item: any) => item.str && item.str.trim())
+          .map((item: any) => item.str)
+          .join(' ');
+        fullText += pageText + '\n';
+      }
+      
+      if (fullText.trim().length < 100) {
+        throw new Error('image-based');
+      }
+
+      return fullText;
+    } catch (error: any) {
+      if (error.message === 'image-based') {
+        throw new Error('image');
+      }
+      if (error.message === 'size') {
+        throw error;
+      }
+      throw new Error('read_error');
+    }
   };
 
   const parseWithGemini = async (cvText: string) => {
@@ -296,11 +345,7 @@ ${cvText}
       }, 2000);
     } catch (err: any) {
       console.error(err);
-      if (err.message?.includes('صورة')) {
-        setError(language === "ar" ? "الملف يبدو صورة — جرب ترفع PDF نصي أو LinkedIn profile بدلاً منه" : "The file appears to be an image. Please upload a text-based PDF or LinkedIn profile instead.");
-      } else {
-        setError(language === "ar" ? "❌ حدث خطأ — تأكد إن الملف PDF نصي وليس صورة" : "❌ Error occurred — make sure the PDF is text-based and not an image.");
-      }
+      setError(getErrorMessage(err));
     } finally {
       setIsProcessing(false);
     }
@@ -442,9 +487,19 @@ ${cvText}
                 </div>
 
                 {error && (
-                  <div className="mt-4 p-3 bg-rose-50 text-rose-600 text-sm rounded-xl border border-rose-100 flex items-start gap-2">
-                    <X size={16} className="mt-0.5 shrink-0" />
-                    <p>{error}</p>
+                  <div className="mt-4 p-4 bg-rose-50 rounded-xl border border-rose-100 flex items-start gap-3">
+                    <div className="w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center shrink-0">
+                      <X size={16} className="text-rose-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-rose-900 text-sm">{error.title}</h4>
+                      <p className="text-rose-700 text-xs mt-1 mb-2 font-medium">{error.description}</p>
+                      {error.tip && (
+                        <div className="text-rose-600/80 text-[11px] font-semibold bg-rose-100/50 p-2 rounded-lg inline-block">
+                          💡 {error.tip}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
 

@@ -26,6 +26,81 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    id: "how-to-write-ats-cv-2026",
+    title: {
+      en: "How to Write an ATS-Friendly Resume in 2026",
+      ar: "كيف تكتب CV يعدي ATS في 2026",
+    },
+    excerpt: {
+      en: "A comprehensive guide on creating an ATS-friendly resume in 2026, optimized for the Middle East job market.",
+      ar: "دليل شامل ومفصل لكتابة سيرة ذاتية تتخطى أنظمة التتبع (ATS) في عام 2026، مع التركيز على متطلبات سوق العمل العربي والخليجي.",
+    },
+    content: {
+      en: `
+## What is an ATS and Why Does it Matter in 2026?
+
+Applicant Tracking Systems (ATS) have evolved significantly. In 2026, they are no longer just simple keyword scanners; they are AI-driven platforms that understand context, semantic meaning, and career progression. If your resume isn't optimized for these modern systems, it might never be seen by a human recruiter.
+
+## 1. The Right File Format is Crucial
+Always stick to standard formats like PDF or DOCX. While PDFs are excellent for preserving your layout, you must ensure the text is highlightable and readable. Avoid exporting your CV as an image or a flattened vector file.
+
+## 2. Standardized Headings
+AI systems look for predictable patterns. Use standard headings such as "Experience", "Education", and "Skills". Avoid creative titles like "My Journey" or "What I Bring to the Table".
+
+## 3. Contextual Keyword Optimization
+Gone are the days of invisible white text or keyword stuffing. Modern ATS tools will flag such behavior. Instead, weave keywords naturally into your achievement bullet points. Show *how* you used a skill, rather than just listing it.
+
+## 4. Keep the Design Clean
+Avoid complex tables, multi-column layouts (if they break reading order), and heavy graphics. A clean, minimalist design with clear hierarchy (H1, H2) is your best bet for 2026.
+      `,
+      ar: `
+## ما هو نظام ATS ولماذا أصبح حتمياً في 2026؟
+
+في عام 2026، تطورت أنظمة تتبع المتقدمين (ATS) بشكل مذهل. لم تعد مجرد برامج غبية تبحث عن تطابق الكلمات المفتاحية، بل أصبحت منصات مدعومة بالذكاء الاصطناعي قادرة على فهم السياق والمعنى الدلالي والتقدم الوظيفي للمرشح. في سوق العمل العربي والخليجي، تعتمد أكثر من 90% من الشركات الكبرى على هذه الأنظمة لفلترة آلاف السير الذاتية التي تصلهم يومياً. إذا لم تكن سيرتك الذاتية مهيأة لهذه الأنظمة، فلن تصل أبداً لشاشة مدير التوظيف.
+
+## 1. بساطة التصميم هي سر النجاح
+
+أكبر خطأ يقع فيه الباحثون عن عمل هو استخدام تصاميم معقدة مليئة بالألوان، الرسومات البيانية (Charts)، والجداول المتداخلة. برامج ATS تواجه صعوبة بالغة في قراءة هذه العناصر. 
+**الحل:** استخدم تصميماً نظيفاً وبسيطاً يعتمد على التدرج الهرمي الواضح للنصوص. ابتعد عن الأعمدة المتعددة المعقدة، واستخدم نصوصاً واضحة يمكن تظليلها (Highlightable Text). موقع **Hash Resume** يضمن لك قوالب تم اختبارها برمجياً لتتوافق بنسبة 100% مع أنظمة ATS.
+
+## 2. العناوين القياسية لا غنى عنها
+
+الأنظمة مبرمجة للبحث عن أقسام محددة. لا تحاول أن تكون مبدعاً في تسمية الأقسام.
+* **استخدم:** "الخبرة المهنية"، "التعليم"، "المهارات"، "الملخص المهني".
+* **تجنب:** "رحلتي المهنية"، "ماذا أقدم"، "محطات حياتي".
+
+## 3. التوظيف الذكي للكلمات المفتاحية (Keywords)
+
+في الماضي، كان البعض يلجأ لحيلة كتابة الكلمات المفتاحية بخط أبيض صغير لتخطي النظام. في 2026، هذه الحيلة ستؤدي إلى رفض سيرتك فوراً بل وحظر ملفك.
+**الطريقة الصحيحة:** اقرأ الوصف الوظيفي (Job Description) بعناية، واستخرج المهارات الأساسية. ثم قم بدمج هذه المهارات بشكل طبيعي داخل إنجازاتك. على سبيل المثال، بدلاً من سرد كلمة "إدارة المشاريع" وحدها، اكتب: "نجحت في إدارة المشاريع التقنية باستخدام منهجية Agile مما أدى لتسليم المشاريع قبل موعدها بـ 15 يوماً".
+
+## 4. الإنجازات بالأرقام
+
+أنظمة الذكاء الاصطناعي ومديرو التوظيف يبحثون عن التأثير الفعلي. تحويل مهامك إلى إنجازات رقمية يرفع تقييم سيرتك بشكل هائل.
+* **تعبير ضعيف:** "كنت مسؤولاً عن زيادة المبيعات".
+* **تعبير قوي (ATS-Optimized):** "قدت فريق المبيعات لزيادة الإيرادات بنسبة 25% خلال الربع الثالث من العام من خلال استراتيجيات تسويق جديدة".
+
+## 5. صيغة الملف (PDF vs Word)
+
+دائماً ما يُنصح باستخدام صيغة PDF لأنها تحفظ التنسيق، لكن يجب أن تتأكد أن الـ PDF الخاص بك قابل للقراءة (Text-based) وليس صورة (Image-based). يمكنك اختبار ذلك بمحاولة تظليل ونسخ النص من الملف.
+
+**الخلاصة:**
+تخطي نظام ATS لا يعني كتابة سيرة ذاتية مملة، بل يعني تقديم معلوماتك بطريقة منظمة ومنطقية تفهمها الآلة ويقدرها الإنسان. استخدم الذكاء الاصطناعي في Hash Resume لصياغة إنجازاتك وتأكد من أن سيرتك جاهزة لاقتناص فرصتك القادمة في 2026.
+      `,
+    },
+    date: "2026-06-25",
+    author: {
+      en: "Hash Resume Team",
+      ar: "فريق Hash Resume",
+    },
+    image:
+      "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?auto=format&fit=crop&q=80&w=800",
+    readTime: {
+      en: "5 min read",
+      ar: "5 دقائق قراءة",
+    },
+  },
+  {
     id: "ready-arabic-cv-templates-2026",
     title: {
       en: "Ready-to-Use Arabic Resume Templates for 2026",

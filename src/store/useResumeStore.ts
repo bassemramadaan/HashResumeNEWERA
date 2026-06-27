@@ -530,13 +530,27 @@ export const useResumeStore = create<ResumeStore>()(
           }));
           return true;
         },
-        lockResume: () =>
+        lockResume: () => {
+          const currentData = get().data;
+          const lockedData = {
+            personalInfo: currentData.personalInfo,
+            workExperience: currentData.experience,
+            education: currentData.education,
+            skills: currentData.skills,
+            certifications: currentData.certifications,
+            projects: currentData.projects,
+            lockedAt: new Date().toISOString(),
+          };
+          localStorage.setItem('cv-locked-data', JSON.stringify(lockedData));
+          localStorage.setItem('cv-is-locked', 'true');
+          
           set((state) => ({
             data: {
               ...state.data,
-              isLocked: false,
+              isLocked: true,
             },
-          })),
+          }));
+        },
         resetData: () => set({ data: initialData }),
         loadData: (data) => set({ data }),
         updateData: (data) => set({ data }),
