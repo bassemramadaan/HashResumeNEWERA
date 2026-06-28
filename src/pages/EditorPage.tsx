@@ -683,79 +683,81 @@ export default function EditorPage() {
   }, []);
 
   const downloadPDF = async () => {
-    const setIsExporting = (val: boolean) => { /* handle export state */ };
-    setIsExporting(true);
+    try {
+      setIsExporting(true);
 
-    // انتظر الـ fonts
-    await document.fonts.ready;
-    await new Promise(resolve => setTimeout(resolve, 500));
+      // انتظر الـ fonts
+      await document.fonts.ready;
+      await new Promise(resolve => setTimeout(resolve, 800));
 
-    // الـ CV element — غيّر الـ selector للـ ID الصح
-    const element = document.querySelector('#cv-preview') as HTMLElement
-      || document.querySelector('.cv-preview') as HTMLElement
-      || document.querySelector('[data-cv-preview]') as HTMLElement;
+      // ابحث عن الـ CV element
+      const element = (
+        document.getElementById('cv-preview') ||
+        document.querySelector('.cv-preview') ||
+        document.querySelector('[data-cv-preview]')
+      ) as HTMLElement;
 
-    if (!element) {
-      console.error('CV element not found');
+      if (!element) {
+        console.error('CV element not found');
+        setIsExporting(false);
+        return;
+      }
+
+      const { default: html2canvas } = await import('html2canvas');
+      const { default: jsPDF } = await import('jspdf');
+
+      const canvas = await html2canvas(element, {
+        scale: 2.5,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+        onclone: (_doc: Document, clonedEl: HTMLElement) => {
+          clonedEl.style.width = '794px';
+          clonedEl.style.padding = '40px';
+          clonedEl.style.boxSizing = 'border-box';
+          clonedEl.style.overflow = 'visible';
+
+          clonedEl.querySelectorAll<HTMLElement>('*').forEach(el => {
+            el.style.letterSpacing = 'normal';
+            el.style.wordSpacing = 'normal';
+            el.style.wordBreak = 'normal';
+            el.style.overflowWrap = 'break-word';
+            el.style.whiteSpace = 'normal';
+          });
+        },
+      });
+
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+        compress: true,
+      });
+
+      const pdfWidth = 210;
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(
+        canvas.toDataURL('image/jpeg', 0.95),
+        'JPEG',
+        0, 0,
+        pdfWidth,
+        pdfHeight
+      );
+
+      const userName = element.querySelector('h1')?.textContent || 'CV';
+      pdf.save(`${userName}_HashResume.pdf`);
+
+      // Lock بعد التحميل
+      localStorage.setItem('cv-locked', 'true');
+      setIsLocked(true);
+
+    } catch (error) {
+      console.error('Export error:', error);
+    } finally {
       setIsExporting(false);
-      return;
     }
-
-    const html2canvas = (await import('html2canvas')).default;
-    const jsPDF = (await import('jspdf')).default;
-
-    const canvas = await html2canvas(element, {
-      scale: 2.5,
-      useCORS: true,
-      allowTaint: true,
-      backgroundColor: '#ffffff',
-      logging: false,
-      onclone: (_doc, clonedEl: any) => {
-        clonedEl.style.cssText = `
-          width: 794px !important;
-          padding: 40px !important;
-          box-sizing: border-box !important;
-          overflow: visible !important;
-          word-wrap: break-word !important;
-          overflow-wrap: break-word !important;
-          white-space: normal !important;
-          letter-spacing: normal !important;
-          word-spacing: normal !important;
-        `;
-        // إصلاح كل العناصر الداخلية
-        clonedEl.querySelectorAll('*').forEach((el: any) => {
-          el.style.letterSpacing = 'normal';
-          el.style.wordSpacing = 'normal';
-          el.style.wordBreak = 'normal';
-          el.style.overflowWrap = 'break-word';
-          el.style.whiteSpace = 'normal';
-        });
-      },
-    });
-
-    const pdf = new jsPDF({
-      orientation: 'portrait',
-      unit: 'mm',
-      format: 'a4',
-      compress: true,
-    });
-
-    const pdfWidth = 210;
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-    pdf.addImage(
-      canvas.toDataURL('image/jpeg', 0.95),
-      'JPEG',
-      0, 0,
-      pdfWidth,
-      pdfHeight
-    );
-
-    pdf.save(`CV_HashResume.pdf`);
-    setIsExporting(false);
-
-    // Lock بعد التحميل
-    lockCVAfterDownload();
   };
 
   const handleExportClick = () => {
