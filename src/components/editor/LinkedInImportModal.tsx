@@ -24,10 +24,6 @@ interface Props {
   onClose: () => void;
 }
 
-interface TextItem {
-  str: string;
-}
-
 interface ParsedExperience {
   id?: string;
   role: string;
@@ -45,20 +41,6 @@ interface ParsedEducation {
   startDate: string;
   endDate: string;
   description: string;
-}
-
-interface ParsedResume {
-  personalInfo?: {
-    fullName: string;
-    email: string;
-    phone: string;
-    location: string;
-    jobTitle: string;
-    summary: string;
-  };
-  experience?: ParsedExperience[];
-  education?: ParsedEducation[];
-  skills?: string[];
 }
 
 export default function LinkedInImportModal({ isOpen, onClose }: Props) {

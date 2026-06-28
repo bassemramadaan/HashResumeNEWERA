@@ -40,6 +40,7 @@ import KeyboardShortcutsModal from "../components/KeyboardShortcutsModal";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../utils/ats";
 import { DEFAULT_BREAKDOWN } from "../constants";
+import EmptyState from "../components/editor/EmptyState";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import LiveAtsScoreWidget from "../components/editor/LiveAtsScoreWidget";
@@ -1074,6 +1075,17 @@ export default function EditorPage() {
         useActiveSectionStore.getState().setActiveField(null);
       }}
     >
+      {isEmpty ? (
+        <div className="h-[60vh] flex items-center justify-center">
+            <EmptyState 
+                title={language === 'ar' ? 'ابدأ سيرتك الذاتية' : 'Start your Resume'}
+                description={language === 'ar' ? 'ابدأ ببناء سيرتك الذاتية بإدخال بياناتك' : 'Begin building your resume by entering your data'}
+                buttonText={language === 'ar' ? 'ابدأ الآن' : 'Start Now'}
+                onAdd={() => setActiveTab('basics')}
+            />
+        </div>
+      ) : (
+        <>
       {isLocked && (
         <div className="mb-6 rounded-2xl overflow-hidden border border-amber-500/30 bg-amber-50 shadow-xs">
           <div className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -1415,7 +1427,9 @@ export default function EditorPage() {
                       </Suspense>
                     </motion.div>
                   </AnimatePresence>
-                </div>
+        </>
+      )}
+    </div>
   );
 
   const handleShareLink = () => {
