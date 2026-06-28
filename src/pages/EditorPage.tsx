@@ -1519,6 +1519,12 @@ export default function EditorPage() {
         previewOpen={showFullPreview}
         isLocked={data.isLocked}
         onBackToHome={() => { window.location.href = "/"; }}
+        onReset={() => {
+            if (confirm("هل أنت متأكد من مسح جميع البيانات؟")) {
+                useResumeStore.getState().resetData();
+                useResumeStore.getState().unlockResume();
+            }
+        }}
         onShowSettings={() => setIsSettingsModalOpen(true)}
         onShowShortcuts={() => setShowKeyboardShortcuts(true)}
         focusMode={focusMode}

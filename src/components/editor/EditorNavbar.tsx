@@ -1,15 +1,17 @@
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, RotateCcw } from "lucide-react";
 import type { AppLang } from "../../hooks/useDirection";
 
 export default function EditorNavbar({
   lang = "ar",
   isSaved = true,
   onBackToHome = () => {},
+  onReset = () => {},
 }: {
   lang?: AppLang;
   isSaved?: boolean;
   onBackToHome?: () => void;
+  onReset?: () => void;
   // allow other props without breaking TS
   [key: string]: any;
 }) {
@@ -19,8 +21,16 @@ export default function EditorNavbar({
     <div className="w-full z-[100] pt-4 px-4 sm:px-6 pb-2 bg-transparent pointer-events-none flex justify-center transform-gpu shrink-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
       <nav className="pointer-events-auto bg-white border border-slate-200 shadow-sm rounded-[20px] px-4 md:px-5 h-16 flex items-center justify-between w-full max-w-7xl transition-all relative">
         
-        {/* Left side spacer */}
-        <div className="flex-1 hidden md:flex" />
+        {/* Left side: Reset */}
+        <div className="flex-1 hidden md:flex items-center">
+            <button 
+              onClick={onReset} 
+              className="text-slate-400 hover:text-red-500 transition-colors"
+              title={lang === 'ar' ? 'مسح كل شيء' : 'Reset all'}
+            >
+              <RotateCcw className="w-5 h-5" />
+            </button>
+        </div>
 
         {/* ── Center group: Floating Logo & Auto-save ── */}
         <div className="flex items-center justify-center select-none transition-all gap-4">

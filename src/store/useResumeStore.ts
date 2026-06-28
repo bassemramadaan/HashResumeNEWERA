@@ -551,7 +551,7 @@ export const useResumeStore = create<ResumeStore>()(
             },
           }));
         },
-        resetData: () => set({ data: initialData }),
+        resetData: () => set({ data: { ...initialData, isLocked: false } }),
         loadData: (data) => set({ data }),
         updateData: (data) => set({ data }),
         loadExampleData: () =>
