@@ -269,6 +269,7 @@ type ResumeStore = {
   updateData: (data: ResumeData) => void;
   loadExampleData: () => void;
   lockResume: () => void;
+  unlockResume: () => void;
   updateJobDescription: (jd: string) => void;
   focusedSection: string | null;
   setFocusedSection: (section: string | null) => void;
@@ -548,6 +549,16 @@ export const useResumeStore = create<ResumeStore>()(
             data: {
               ...state.data,
               isLocked: true,
+            },
+          }));
+        },
+        unlockResume: () => {
+          localStorage.removeItem('cv-locked-data');
+          localStorage.removeItem('cv-is-locked');
+          set((state) => ({
+            data: {
+              ...state.data,
+              isLocked: false,
             },
           }));
         },

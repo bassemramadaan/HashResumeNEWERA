@@ -28,6 +28,7 @@ import {
   Folder,
   Eye,
   FileEdit,
+  Loader2,
 } from "lucide-react";
 import { useResumeStore, getResumeSignature } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -547,6 +548,7 @@ export default function EditorPage() {
   }, [data.settings?.template]);
 
   const [isSaving, setIsSaving] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   useEffect(() => {
     setIsSaving(true);
     const endTimer = setTimeout(() => {
@@ -555,7 +557,14 @@ export default function EditorPage() {
     return () => clearTimeout(endTimer);
   }, [data]);
   
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -2460,6 +2469,16 @@ export default function EditorPage() {
           )}
         </AnimatePresence>
 
+        {isExporting && (
+          <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-white/80 backdrop-blur-sm">
+            <div className="bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex flex-col items-center gap-4">
+              <Loader2 className="w-8 h-8 text-brand-500 animate-spin" />
+              <p className="font-bold text-slate-800">
+                {language === "ar" ? "جاري تجهيز وتصدير الـ PDF..." : "Preparing and exporting PDF..."}
+              </p>
+            </div>
+          </div>
+        )}
         {showConfetti && <FrictionlessConfetti />}
     </div>
   );
