@@ -564,6 +564,8 @@ export const useResumeStore = create<ResumeStore>()(
         },
         resetData: async () => {
           localStorage.removeItem("hash-resume-storage");
+          localStorage.removeItem('cv-locked-data');
+          localStorage.removeItem('cv-is-locked');
           await useResumeStore.persist.clearStorage();
           set({ data: { ...initialData, isLocked: false } });
         },

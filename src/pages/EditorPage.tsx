@@ -1546,6 +1546,7 @@ export default function EditorPage() {
             if (confirm("هل أنت متأكد من مسح جميع البيانات؟")) {
                 await useResumeStore.getState().resetData();
                 useResumeStore.getState().unlockResume();
+                window.location.reload();
             }
         }}
         onShowSettings={() => setIsSettingsModalOpen(true)}
