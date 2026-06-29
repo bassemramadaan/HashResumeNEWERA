@@ -563,7 +563,7 @@ export const useResumeStore = create<ResumeStore>()(
           }));
         },
         resetData: () => {
-          localStorage.removeItem("hash-resume-storage");
+          useResumeStore.persist.clearStorage();
           set({ data: { ...initialData, isLocked: false } });
         },
         loadData: (data) => set({ data }),

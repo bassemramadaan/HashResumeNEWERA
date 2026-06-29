@@ -1,4 +1,4 @@
-import { Check, Sparkles, Gift } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { PageSection, SectionHeading } from '@/components/layout/PageSection'
 import type { AppLang } from '@/hooks/useDirection'
 import TiltCard from '@/components/landing/TiltCard'

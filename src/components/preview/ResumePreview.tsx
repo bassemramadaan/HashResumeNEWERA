@@ -16,7 +16,7 @@ interface ResumePreviewProps {
 const ResumePreview = memo(
   forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref) => {
     const storeData = useResumeStore((state) => state.data);
-    let data = props.data || storeData;
+    const data = props.data || storeData;
     
     const localRef = useRef<HTMLDivElement | null>(null);
     const activeField = useActiveSectionStore((state) => state.activeField);
@@ -71,16 +71,6 @@ const ResumePreview = memo(
       }
     }, [activeField]);
 
-    // Check if the resume is entirely empty
-    const isEmpty = 
-      !data.personalInfo?.fullName && 
-      !data.personalInfo?.jobTitle && 
-      (!data.experience || data.experience.length === 0) && 
-      (!data.education || data.education.length === 0) &&
-      (!data.skills || data.skills.length === 0);
-
-    const isAr = data.settings?.language === "ar";
-
     const {
       personalInfo = { fullName: "", jobTitle: "", email: "", phone: "", address: "", summary: "" },
       settings = { template: "classic", language: "en" },
@@ -127,8 +117,6 @@ const ResumePreview = memo(
         padding: '32px',
       },
     };
-
-    const currentSpacing = spacingOptions[spacingOption] || spacingOptions.standard;
 
     useEffect(() => {
       if (settings?.showQRCode) {

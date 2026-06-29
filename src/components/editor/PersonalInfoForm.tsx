@@ -112,28 +112,7 @@ const PersonalInfoForm = () => {
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-50 to-indigo-50 p-5 rounded-2xl shadow-sm border border-purple-100 flex flex-col justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-purple-600 text-white rounded-xl flex items-center justify-center shrink-0">
-              <Sparkles size={20} />
-            </div>
-            <div>
-              <h3 className="text-sm font-bold text-purple-900">
-                {language === "ar" ? "السحر بكلمة واحدة 🪄" : "One-Click Magic 🪄"}
-              </h3>
-              <p className="text-xs text-purple-700/80 mt-0.5">
-                {language === "ar" ? "توليد سيرة وهمية كاملة بمجرد إدخال المسمى" : "Generate a full mock CV from just a job title"}
-              </p>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new Event('open-magic-modal'))}
-            className="w-full px-5 py-2.5 bg-purple-600 text-white text-xs font-bold rounded-xl hover:bg-purple-700 transition-colors shadow-sm whitespace-nowrap"
-          >
-            {language === "ar" ? "جرب السحر الآن" : "Try Magic Now"}
-          </button>
-        </div>
+
       </div>
 
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 font-sans transition-colors">

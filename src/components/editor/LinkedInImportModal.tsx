@@ -15,25 +15,6 @@ interface Props {
   onClose: () => void;
 }
 
-interface ParsedExperience {
-  id?: string;
-  role: string;
-  company: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  location: string;
-}
-
-interface ParsedEducation {
-  id?: string;
-  degree: string;
-  institution: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-}
-
 export default function LinkedInImportModal({ isOpen, onClose }: Props) {
   const { language } = useLanguageStore();
   const {
@@ -120,7 +101,7 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
       const page = await pdf.getPage(i);
       const textContent = await page.getTextContent();
       const pageText = textContent.items
-        .map((item: any) => 'str' in item ? item.str : '')
+        .map((item) => ('str' in item ? (item as { str: string }).str : ''))
         .join(' ');
       fullText += pageText + '\n';
     }
@@ -214,7 +195,36 @@ ${cvText}
     return JSON.parse(cleanJson);
   };
 
-  const fillFormWithData = (parsedData: any) => {
+  const fillFormWithData = (parsedData: {
+    personalInfo?: {
+      fullName: string;
+      jobTitle: string;
+      email: string;
+      phone: string;
+      address: string;
+      linkedin: string;
+      github: string;
+      website: string;
+      summary: string;
+    };
+    workExperience?: {
+      company: string;
+      position: string;
+      startDate: string;
+      endDate: string;
+      current: boolean;
+      description: string;
+    }[];
+    education?: {
+      institution: string;
+      degree: string;
+      field: string;
+      startDate: string;
+      endDate: string;
+      gpa: string;
+    }[];
+    skills?: string[];
+  }) => {
     // Personal Info
     if (parsedData.personalInfo) {
       updatePersonalInfo({
@@ -232,9 +242,9 @@ ${cvText}
     }
 
     // Work Experience
-    if (parsedData.workExperience?.length > 0) {
+    if (parsedData.workExperience && parsedData.workExperience.length > 0) {
       clearExperience();
-      parsedData.workExperience.forEach((exp: any) => {
+      parsedData.workExperience.forEach((exp) => {
         const safeId = (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
         addExperience({
           id: safeId,
@@ -250,9 +260,9 @@ ${cvText}
     }
 
     // Education
-    if (parsedData.education?.length > 0) {
+    if (parsedData.education && parsedData.education.length > 0) {
       clearEducation();
-      parsedData.education.forEach((edu: any) => {
+      parsedData.education.forEach((edu) => {
         const safeId = (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
         addEducation({
           id: safeId,
@@ -267,8 +277,8 @@ ${cvText}
     }
 
     // Skills
-    if (parsedData.skills?.length > 0) {
-      parsedData.skills.forEach((skill: any) => {
+    if (parsedData.skills && parsedData.skills.length > 0) {
+      parsedData.skills.forEach((skill) => {
         if (typeof skill === 'string' && skill.trim()) addSkill(skill);
       });
     }
@@ -307,9 +317,13 @@ ${cvText}
         setSelectedFile(null);
         setProgress(0);
       }, 2000);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setError(getErrorMessage(err));
+      if (err instanceof Error) {
+        setError(getErrorMessage(err));
+      } else {
+        setError({ title: "خطأ غير معروف", description: "حدث خطأ غير متوقع", tip: "" });
+      }
     } finally {
       setIsProcessing(false);
     }
