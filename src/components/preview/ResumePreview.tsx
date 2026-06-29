@@ -77,46 +77,6 @@ const ResumePreview = memo(
     } = data;
 
     const [qrSrc, setQrSrc] = useState<string>("");
-    const [spacingOption, setSpacingOption] = useState<"compact" | "standard" | "spacious">("standard");
-
-    useEffect(() => {
-      // Check initial spacing
-      const initialSpacing = localStorage.getItem('cv-spacing') as "compact" | "standard" | "spacious";
-      if (initialSpacing) setSpacingOption(initialSpacing);
-
-      // Listen for changes
-      const handleSpacingChange = () => {
-        const newSpacing = localStorage.getItem('cv-spacing') as "compact" | "standard" | "spacious";
-        if (newSpacing) setSpacingOption(newSpacing);
-      };
-      
-      window.addEventListener('cv-spacing-changed', handleSpacingChange);
-      return () => window.removeEventListener('cv-spacing-changed', handleSpacingChange);
-    }, []);
-
-    const spacingOptions = {
-      compact: {
-        lineHeight: '1.2',
-        sectionGap: '8px',
-        itemGap: '4px',
-        fontSize: '10px',
-        padding: '16px',
-      },
-      standard: {
-        lineHeight: '1.5',
-        sectionGap: '14px',
-        itemGap: '8px',
-        fontSize: '11px',
-        padding: '24px',
-      },
-      spacious: {
-        lineHeight: '1.8',
-        sectionGap: '20px',
-        itemGap: '12px',
-        fontSize: '12px',
-        padding: '32px',
-      },
-    };
 
     useEffect(() => {
       if (settings?.showQRCode) {
