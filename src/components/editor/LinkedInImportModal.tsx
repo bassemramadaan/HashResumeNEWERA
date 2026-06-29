@@ -8,16 +8,7 @@ import { aiService } from "../../services/aiService";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Configure PDF.js worker
-try {
-  const version = pdfjsLib.version || "5.7.284";
-  const workerUrl = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
-  const blob = new Blob([`importScripts('${workerUrl}');`], { type: "application/javascript" });
-  pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(blob);
-} catch (e) {
-  console.warn("Setting up Blob worker in modal failed, using static fallback:", e);
-  const version = pdfjsLib.version || "5.7.284";
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
-}
+pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
 interface Props {
   isOpen: boolean;
@@ -113,45 +104,35 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
   };
 
   const extractTextFromPDF = async (file: File): Promise<string> => {
-    if (file.size > 10 * 1024 * 1024) {
-      throw new Error('size');
+    const arrayBuffer = await file.arrayBuffer();
+
+    const loadingTask = pdfjsLib.getDocument({
+      data: new Uint8Array(arrayBuffer),
+      cMapUrl: `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/cmaps/`,
+      cMapPacked: true,
+      standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/standard_fonts/`,
+    });
+
+    const pdf = await loadingTask.promise;
+    let fullText = '';
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items
+        .map((item: any) => 'str' in item ? item.str : '')
+        .join(' ');
+      fullText += pageText + '\n';
     }
 
-    try {
-      const arrayBuffer = await file.arrayBuffer();
-      const loadingTask = pdfjsLib.getDocument({
-        data: arrayBuffer,
-        cMapUrl: 'https://unpkg.com/pdfjs-dist/cmaps/',
-        cMapPacked: true,
-      });
+    console.log('Extracted text length:', fullText.trim().length);
+    console.log('First 200 chars:', fullText.substring(0, 200));
 
-      const pdf = await loadingTask.promise;
-      let fullText = '';
-      
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        const pageText = textContent.items
-          .filter((item: any) => item.str && item.str.trim())
-          .map((item: any) => item.str)
-          .join(' ');
-        fullText += pageText + '\n';
-      }
-      
-      if (fullText.trim().length < 100) {
-        throw new Error('image-based');
-      }
-
-      return fullText;
-    } catch (error: any) {
-      if (error.message === 'image-based') {
-        throw new Error('image');
-      }
-      if (error.message === 'size') {
-        throw error;
-      }
-      throw new Error('read_error');
+    if (fullText.trim().length < 50) {
+      throw new Error('image-based');
     }
+
+    return fullText.trim();
   };
 
   const parseWithGemini = async (cvText: string) => {
