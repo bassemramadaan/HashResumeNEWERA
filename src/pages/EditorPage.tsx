@@ -1542,11 +1542,10 @@ export default function EditorPage() {
         previewOpen={showFullPreview}
         isLocked={data.isLocked}
         onBackToHome={() => { window.location.href = "/"; }}
-        onReset={() => {
+        onReset={async () => {
             if (confirm("هل أنت متأكد من مسح جميع البيانات؟")) {
-                useResumeStore.getState().resetData();
+                await useResumeStore.getState().resetData();
                 useResumeStore.getState().unlockResume();
-                window.location.reload();
             }
         }}
         onShowSettings={() => setIsSettingsModalOpen(true)}
