@@ -566,7 +566,6 @@ export const useResumeStore = create<ResumeStore>()(
           localStorage.removeItem("hash-resume-storage");
           await useResumeStore.persist.clearStorage();
           set({ data: { ...initialData, isLocked: false } });
-          window.location.reload();
         },
         loadData: (data) => set({ data }),
         updateData: (data) => set({ data }),
