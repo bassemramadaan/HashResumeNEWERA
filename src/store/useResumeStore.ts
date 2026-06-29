@@ -213,7 +213,18 @@ const initialData: ResumeData = {
 type ResumeStore = {
   data: ResumeData;
   isHydrated: boolean;
+  isGeneratingText: boolean;
+  isTranslating: boolean;
+  isCheckingATS: boolean;
+  isGeneratingMap: Record<string, boolean>;
+  isStarted: boolean; // Add this
+  aiSuggestions: string[];
+  atsResult: unknown;
+  focusedSection: string | null;
+
   setHydrated: (isHydrated: boolean) => void;
+  setIsStarted: (isStarted: boolean) => void; // Add this
+  setFocusedSection: (section: string | null) => void;
   updatePersonalInfo: (info: Partial<PersonalInfo>) => void;
   addExperience: (exp: Omit<Experience, "id">) => void;
   updateExperience: (id: string, exp: Partial<Experience>) => void;
@@ -271,8 +282,6 @@ type ResumeStore = {
   lockResume: () => void;
   unlockResume: () => void;
   updateJobDescription: (jd: string) => void;
-  focusedSection: string | null;
-  setFocusedSection: (section: string | null) => void;
 }
 
 export const useResumeStore = create<ResumeStore>()(
@@ -285,11 +294,13 @@ export const useResumeStore = create<ResumeStore>()(
       isTranslating: false,
       isCheckingATS: false,
       isGeneratingMap: {},
+      isStarted: false, // Add this
       aiSuggestions: [],
       atsResult: null,
       focusedSection: null,
 
       setHydrated: (isHydrated) => set({ isHydrated }),
+      setIsStarted: (isStarted) => set({ isStarted }), // Add this
       setFocusedSection: (section) => set({ focusedSection: section }),
       updatePersonalInfo: (info) =>
         set((state) => ({
@@ -567,7 +578,7 @@ export const useResumeStore = create<ResumeStore>()(
           localStorage.removeItem('cv-locked-data');
           localStorage.removeItem('cv-is-locked');
           await useResumeStore.persist.clearStorage();
-          set({ data: { ...initialData, isLocked: false } });
+          set({ data: { ...initialData, isLocked: false }, isStarted: false });
         },
         loadData: (data) => set({ data }),
         updateData: (data) => set({ data }),

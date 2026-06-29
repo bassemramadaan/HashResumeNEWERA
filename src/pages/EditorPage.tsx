@@ -443,6 +443,8 @@ export default function EditorPage() {
 
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
   const data = useResumeStore((state) => state.data);
+  const isStarted = useResumeStore((state) => state.isStarted);
+  const setIsStarted = useResumeStore((state) => state.setIsStarted);
   const isPremium = React.useMemo(() => {
     if (!data.isPremium) return false;
     
@@ -1075,13 +1077,13 @@ export default function EditorPage() {
         useActiveSectionStore.getState().setActiveField(null);
       }}
     >
-      {isEmpty ? (
+      {!isStarted ? (
         <div className="h-[60vh] flex items-center justify-center">
             <EmptyState 
                 title={language === 'ar' ? 'ابدأ سيرتك الذاتية' : 'Start your Resume'}
                 description={language === 'ar' ? 'ابدأ ببناء سيرتك الذاتية بإدخال بياناتك' : 'Begin building your resume by entering your data'}
                 buttonText={language === 'ar' ? 'ابدأ الآن' : 'Start Now'}
-                onAdd={() => setActiveTab('basics')}
+                onAdd={() => setIsStarted(true)}
             />
         </div>
       ) : (
