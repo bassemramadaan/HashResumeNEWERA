@@ -5,19 +5,19 @@ import { translations } from "../../i18n/translations";
 import {
   Plus,
   Trash2,
-  GripVertical,
   ChevronDown,
   ChevronUp,
   Briefcase,
   Sparkles
 } from "lucide-react";
-import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import SectionTooltip from "./SectionTooltip";
 import AISuggestion from "./AISuggestion";
 import FormSkeleton from "./FormSkeleton";
 import ATSVerbAssistant from "./ATSVerbAssistant";
 import QuickAIAssistPill from "./QuickAIAssistPill";
 import EmptyState from "./EmptyState";
+import { SortableList, SortableItem, DragHandle } from "../ui/SortableList";
 
 import RichTextEditor from "./RichTextEditor";
 
@@ -40,31 +40,15 @@ const ExperienceItem = ({
   updateExperience,
   isAr
 }: ExperienceItemProps) => {
-  const controls = useDragControls();
-
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
   return (
-    <Reorder.Item
-      value={exp}
-      dragListener={false}
-      dragControls={controls}
-      className="bg-white border border-slate-200/60 rounded-xl overflow-hidden transition-colors"
-    >
+    <div className="bg-white border border-slate-200/60 rounded-xl overflow-hidden transition-colors">
       <div className="flex items-center px-4 md:px-5 py-3 bg-transparent border-b border-slate-100 justify-between">
         <div className="flex items-center flex-1 min-w-0 mr-3 ml-3">
-          <div
-            onPointerDown={(e) => {
-              e.stopPropagation();
-              controls.start(e);
-            }}
-            className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-[#FF4D2D]/10 text-slate-500 hover:text-[#FF4D2D] hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-[#FF4D2D]/15 transition-all shadow-3xs flex items-center justify-center shrink-0 mr-2 ml-2"
-            title="Drag to reorder"
-          >
-            <GripVertical size={16} style={{ strokeWidth: 2.2 }} />
-          </div>
+          <DragHandle />
           <button
             onClick={() => toggleExpand(exp.id)}
             className="flex-1 text-left rtl:text-right font-bold text-slate-900 truncate tracking-tight cursor-pointer hover:text-brand-500 transition-colors block"
@@ -224,7 +208,7 @@ const ExperienceItem = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </Reorder.Item>
+    </div>
   );
 };
 
@@ -333,15 +317,12 @@ const ExperienceForm = () => {
           onAdd={handleAdd}
         />
       ) : (
-        <Reorder.Group
-          axis="y"
-          values={experience}
+        <SortableList
+          items={experience}
           onReorder={handleReorder}
-          className="space-y-4"
-        >
-          {experience.map((exp) => (
+          keyExtractor={(item) => item.id}
+          renderItem={(exp) => (
             <ExperienceItem
-              key={exp.id}
               exp={exp}
               expandedId={expandedId}
               setExpandedId={setExpandedId}
@@ -350,8 +331,8 @@ const ExperienceForm = () => {
               updateExperience={updateExperience}
               isAr={isAr}
             />
-          ))}
-        </Reorder.Group>
+          )}
+        />
       )}
     </div>
   );

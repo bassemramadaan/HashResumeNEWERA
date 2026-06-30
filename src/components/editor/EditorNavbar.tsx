@@ -1,21 +1,89 @@
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, Loader2, RotateCcw } from "lucide-react";
+import { CheckCircle2, Loader2, RotateCcw, AlertCircle, CloudOff } from "lucide-react";
 import type { AppLang } from "../../hooks/useDirection";
+
+export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 
 export default function EditorNavbar({
   lang = "ar",
-  isSaved = true,
+  saveStatus = 'idle',
   onBackToHome = () => {},
   onReset = () => {},
 }: {
   lang?: AppLang;
-  isSaved?: boolean;
+  saveStatus?: SaveStatus;
   onBackToHome?: () => void;
   onReset?: () => void;
   // allow other props without breaking TS
   [key: string]: any;
 }) {
   const isRtl = lang === "ar";
+
+  const renderStatus = () => {
+    switch (saveStatus) {
+      case 'saving':
+        return (
+          <motion.div
+            key="saving"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="flex items-center gap-1.5 text-slate-500"
+          >
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            <span className="text-[11px] font-bold">
+              {lang === 'ar' ? 'جاري الحفظ...' : lang === 'fr' ? 'Enregistrement...' : 'Saving...'}
+            </span>
+          </motion.div>
+        );
+      case 'saved':
+        return (
+          <motion.div
+            key="saved"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="flex items-center gap-1.5 text-emerald-600"
+          >
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span className="text-[11px] font-bold">
+              {lang === 'ar' ? 'تم الحفظ' : lang === 'fr' ? 'Sauvegardé' : 'Saved'}
+            </span>
+          </motion.div>
+        );
+      case 'error':
+        return (
+          <motion.div
+            key="error"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="flex items-center gap-1.5 text-rose-500"
+          >
+            <AlertCircle className="w-3.5 h-3.5" />
+            <span className="text-[11px] font-bold">
+              {lang === 'ar' ? 'فشل الحفظ' : lang === 'fr' ? 'Échec' : 'Save failed'}
+            </span>
+          </motion.div>
+        );
+      case 'idle':
+      default:
+        return (
+          <motion.div
+            key="idle"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="flex items-center gap-1.5 text-slate-400"
+          >
+            <CloudOff className="w-3.5 h-3.5" />
+            <span className="text-[11px] font-bold">
+              {lang === 'ar' ? 'جميع التغييرات محفوظة' : lang === 'fr' ? 'Toutes modifications enregistrées' : 'All changes saved'}
+            </span>
+          </motion.div>
+        );
+    }
+  };
 
   return (
     <div className="w-full z-[100] pt-4 px-4 sm:px-6 pb-2 bg-transparent pointer-events-none flex justify-center transform-gpu shrink-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
@@ -50,33 +118,7 @@ export default function EditorNavbar({
           
           <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-full px-3 py-1.5 hidden sm:flex">
              <AnimatePresence mode="wait">
-               {isSaved ? (
-                 <motion.div
-                   key="saved"
-                   initial={{ opacity: 0, scale: 0.8 }}
-                   animate={{ opacity: 1, scale: 1 }}
-                   exit={{ opacity: 0, scale: 0.8 }}
-                   className="flex items-center gap-1.5 text-emerald-600"
-                 >
-                   <CheckCircle2 className="w-3.5 h-3.5" />
-                   <span className="text-[11px] font-bold">
-                     {lang === 'ar' ? 'تم الحفظ محلياً' : lang === 'fr' ? 'Sauvegardé' : 'Saved locally'}
-                   </span>
-                 </motion.div>
-               ) : (
-                 <motion.div
-                   key="saving"
-                   initial={{ opacity: 0, scale: 0.8 }}
-                   animate={{ opacity: 1, scale: 1 }}
-                   exit={{ opacity: 0, scale: 0.8 }}
-                   className="flex items-center gap-1.5 text-slate-500"
-                 >
-                   <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                   <span className="text-[11px] font-bold">
-                     {lang === 'ar' ? 'جاري الحفظ...' : lang === 'fr' ? 'Enregistrement...' : 'Saving...'}
-                   </span>
-                 </motion.div>
-               )}
+               {renderStatus()}
              </AnimatePresence>
           </div>
         </div>

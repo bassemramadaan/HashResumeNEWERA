@@ -52,6 +52,11 @@ export default React.memo(function SettingsForm() {
       name: language === "ar" ? "جدول زمني (Timeline)" : "Timeline",
       description: language === "ar" ? "تصميم يعرض الخبرات التعليمية والعملية بشكل جدول زمني" : "Displays experience and education in a timeline format",
     },
+    {
+      id: "two-column",
+      name: language === "ar" ? "عمودين (Two-Column)" : "Two-Column",
+      description: language === "ar" ? "مظهر عصري بعمود جانبي للمهارات والاتصال وعمود رئيسي للخبرات" : "Modern layout with a sidebar for skills and a main column for experience",
+    },
   ] as const;
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
@@ -161,6 +166,12 @@ export default React.memo(function SettingsForm() {
                   en: "⏱️ Recommended: Long history of experience and multiple roles.",
                   color: "bg-slate-100 border-slate-200 text-slate-700",
                   badge: "Experienced"
+                },
+                "two-column": {
+                  ar: "📑 يوصى به لقطاعات: التصميم، التسويق، والسير الذاتية الحديثة.",
+                  en: "📑 Recommended: Design, Marketing, and modern resumes.",
+                  color: "bg-slate-100 border-slate-200 text-slate-700",
+                  badge: "Modern"
                 }
               };
 
@@ -268,6 +279,27 @@ export default React.memo(function SettingsForm() {
                         </div>
                       </div>
                     );
+                  case 'two-column':
+                    return (
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex shadow-sm mx-auto mb-3 overflow-hidden">
+                        <div className="w-1/3 bg-slate-100 h-full p-1 border-r border-slate-200">
+                          <div className="h-2 w-full bg-slate-800 rounded-sm mb-1"></div>
+                          <div className="h-1 w-full bg-slate-400 mb-1 rounded-sm"></div>
+                          <div className="h-0.5 w-full bg-slate-300 mb-0.5"></div>
+                          <div className="h-0.5 w-full bg-slate-300 mb-1.5"></div>
+                          <div className="h-1 w-3/4 bg-slate-400 mb-0.5 rounded-sm"></div>
+                          <div className="h-0.5 w-full bg-slate-300 mb-0.5"></div>
+                        </div>
+                        <div className="w-2/3 p-1">
+                          <div className="h-1.5 w-full bg-slate-800 mb-1"></div>
+                          <div className="h-1 w-1/2 bg-slate-600 mb-1"></div>
+                          <div className="h-0.5 w-full bg-slate-300 mb-0.5"></div>
+                          <div className="h-0.5 w-full bg-slate-300 mb-1"></div>
+                          <div className="h-1 w-1/2 bg-slate-600 mb-1"></div>
+                          <div className="h-0.5 w-full bg-slate-300 mb-0.5"></div>
+                        </div>
+                      </div>
+                    );
                   default:
                     return null;
                 }
@@ -322,6 +354,71 @@ export default React.memo(function SettingsForm() {
                 </button>
               );
             })}
+          </div>
+        </div>
+
+        {/* Design Customization */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+            <Sparkles size={20} className="text-slate-500" />
+            {language === "ar" ? "تخصيص التصميم" : "Design Customization"}
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Typography */}
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-slate-700">
+                {language === "ar" ? "نوع الخط" : "Typography"}
+              </label>
+              <div className="flex bg-slate-100 p-1 rounded-xl">
+                {[
+                  { id: "sans", label: "Sans", font: "font-sans" },
+                  { id: "serif", label: "Serif", font: "font-serif" },
+                  { id: "mono", label: "Mono", font: "font-mono" }
+                ].map(option => (
+                  <button
+                    key={option.id}
+                    onClick={() => updateSettings({ fontFamily: option.id })}
+                    className={cn(
+                      "flex-1 py-1.5 text-xs sm:text-sm rounded-lg transition-all",
+                      option.font,
+                      (settings.fontFamily || "sans") === option.id
+                        ? "bg-white text-slate-900 shadow-sm font-bold"
+                        : "text-slate-600 hover:text-slate-900 font-medium"
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Spacing Density */}
+            <div className="space-y-3">
+              <label className="text-sm font-bold text-slate-700">
+                {language === "ar" ? "كثافة المسافات" : "Spacing Density"}
+              </label>
+              <div className="flex bg-slate-100 p-1 rounded-xl">
+                {[
+                  { id: "compact", label: language === "ar" ? "مضغوط" : "Compact" },
+                  { id: "normal", label: language === "ar" ? "قياسي" : "Standard" },
+                  { id: "relaxed", label: language === "ar" ? "واسع" : "Spacious" }
+                ].map(option => (
+                  <button
+                    key={option.id}
+                    onClick={() => updateSettings({ sectionSpacing: option.id as any })}
+                    className={cn(
+                      "flex-1 py-1.5 text-xs sm:text-sm rounded-lg transition-all font-medium",
+                      (settings.sectionSpacing || "normal") === option.id
+                        ? "bg-white text-slate-900 shadow-sm font-bold"
+                        : "text-slate-600 hover:text-slate-900"
+                    )}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 

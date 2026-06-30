@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronUp, ChevronDown, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ChevronUp, ChevronDown, CheckCircle2, AlertCircle, Info, Star } from 'lucide-react';
 import { useLanguageStore } from '../../store/useLanguageStore';
 import { calculateATSScore } from '../../utils/ats';
 import { useResumeStore } from '../../store/useResumeStore';
@@ -10,19 +10,33 @@ export default function LiveAtsScoreWidget() {
   const { language } = useLanguageStore();
   const [isOpen, setIsOpen] = useState(false);
 
-  const { score, tips } = React.useMemo(() => {
+  const { score, sections } = React.useMemo(() => {
     try {
       return calculateATSScore(data);
     } catch {
-      return { score: 0, criticalFailures: [], tips: [] };
+      return { score: 0, sections: [], tips: [], criticalFailures: [] };
     }
   }, [data]);
 
   const isRtl = language === 'ar';
   
-  // Choose color based on score
+  // Categorize tips
+  const requiredTips: string[] = [];
+  const recommendedTips: string[] = [];
+  const niceToHaveTips: string[] = [];
+
+  sections?.forEach((section) => {
+    if (section.title === "Job Match") {
+       niceToHaveTips.push(...section.improvements);
+    } else if (section.score < section.maxScore * 0.4) {
+       requiredTips.push(...section.improvements);
+    } else if (section.improvements.length > 0) {
+       recommendedTips.push(...section.improvements);
+    }
+  });
+
   const scoreColor = score >= 80 ? 'text-emerald-500' : score >= 50 ? 'text-amber-500' : 'text-rose-500';
-  const strokeDashoffset = 125.6 - (125.6 * score) / 100;
+  const progressBg = score >= 80 ? 'bg-emerald-500' : score >= 50 ? 'bg-amber-500' : 'bg-rose-500';
 
   if (!data.personalInfo.fullName && !data.experience.length) return null; // Don't show if empty
 
@@ -34,31 +48,93 @@ export default function LiveAtsScoreWidget() {
             initial={{ opacity: 0, y: 10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            className="absolute bottom-full mb-4 w-72 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden"
+            className="absolute bottom-full mb-4 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[60vh]"
           >
-            <div className="bg-slate-900 text-white p-4">
-              <h3 className="font-bold text-sm">
-                {language === 'ar' ? 'تقييم ATS المباشر' : 'Live ATS Score'}
-              </h3>
-              <p className="text-xs text-slate-300 mt-1">
-                {language === 'ar' ? 'يتم التحديث مع كل حرف تكتبه' : 'Updates with every keystroke'}
+            <div className="bg-slate-900 text-white p-5 shrink-0">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-bold text-sm">
+                  {language === 'ar' ? 'مؤشر اكتمال السيرة الذاتية' : 'Resume Completion Tracker'}
+                </h3>
+                <span className={`text-xs font-black px-2 py-1 rounded-lg bg-white/10 ${scoreColor}`}>
+                  {score}%
+                </span>
+              </div>
+              <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                <motion.div 
+                  className={`h-full ${progressBg}`}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${score}%` }}
+                  transition={{ duration: 0.5 }}
+                />
+              </div>
+              <p className="text-[10px] text-slate-300 mt-2 font-medium">
+                {language === 'ar' 
+                  ? 'يعتمد التقييم على جودة واكتمال الحقول الأساسية' 
+                  : 'Score is based on quality and completion of essential fields'}
               </p>
             </div>
-            <div className="p-4 max-h-60 overflow-y-auto">
-              {tips.length === 0 ? (
-                <div className="flex items-center gap-2 text-emerald-600 text-sm font-medium">
-                  <CheckCircle2 size={16} />
-                  {language === 'ar' ? 'سيرتك الذاتية ممتازة!' : 'Your resume looks great!'}
+            
+            <div className="p-5 overflow-y-auto space-y-6 bg-slate-50/50 flex-1">
+              {requiredTips.length === 0 && recommendedTips.length === 0 && niceToHaveTips.length === 0 ? (
+                <div className="flex flex-col items-center text-center gap-2 text-emerald-600 py-6">
+                  <CheckCircle2 size={32} />
+                  <span className="font-bold text-sm">
+                    {language === 'ar' ? 'سيرتك الذاتية ممتازة ومكتملة!' : 'Your resume is excellent and complete!'}
+                  </span>
                 </div>
               ) : (
-                <ul className="space-y-3">
-                  {tips.slice(0, 3).map((tip: string, i: number) => (
-                    <li key={i} className="flex items-start gap-2 text-xs text-slate-600 leading-relaxed">
-                      <AlertCircle size={14} className="shrink-0 mt-0.5 text-amber-500" />
-                      <span>{tip}</span>
-                    </li>
-                  ))}
-                </ul>
+                <>
+                  {requiredTips.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-rose-500 flex items-center gap-1.5">
+                        <AlertCircle size={12} />
+                        {language === 'ar' ? 'تعديلات ضرورية' : 'Required Fixes'}
+                      </h4>
+                      <ul className="space-y-2">
+                        {requiredTips.map((tip, i) => (
+                          <li key={i} className="flex items-start gap-2 text-[11px] text-slate-700 font-medium leading-relaxed bg-rose-50 p-2.5 rounded-lg border border-rose-100">
+                            <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0 mt-1.5" />
+                            <span>{tip}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {recommendedTips.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-500 flex items-center gap-1.5">
+                        <Info size={12} />
+                        {language === 'ar' ? 'تحسينات موصى بها' : 'Recommended'}
+                      </h4>
+                      <ul className="space-y-2">
+                        {recommendedTips.map((tip, i) => (
+                          <li key={i} className="flex items-start gap-2 text-[11px] text-slate-700 font-medium leading-relaxed bg-amber-50 p-2.5 rounded-lg border border-amber-100">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 mt-1.5" />
+                            <span>{tip}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {niceToHaveTips.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-500 flex items-center gap-1.5">
+                        <Star size={12} />
+                        {language === 'ar' ? 'لمسات إضافية' : 'Nice to Have'}
+                      </h4>
+                      <ul className="space-y-2">
+                        {niceToHaveTips.map((tip, i) => (
+                          <li key={i} className="flex items-start gap-2 text-[11px] text-slate-700 font-medium leading-relaxed bg-brand-50 p-2.5 rounded-lg border border-brand-100">
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand-400 shrink-0 mt-1.5" />
+                            <span>{tip}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </motion.div>
@@ -86,28 +162,28 @@ export default function LiveAtsScoreWidget() {
               className={scoreColor}
               strokeWidth="4"
               strokeDasharray="125.6"
-              strokeDashoffset={strokeDashoffset}
+              strokeDashoffset={125.6 - (125.6 * score) / 100}
               strokeLinecap="round"
               stroke="currentColor"
               fill="transparent"
               r="20"
               cx="22"
               cy="22"
-              animate={{ strokeDashoffset }}
+              animate={{ strokeDashoffset: 125.6 - (125.6 * score) / 100 }}
               transition={{ duration: 0.5, ease: "easeOut" }}
             />
           </svg>
           <div className={`absolute inset-0 flex items-center justify-center font-bold text-sm ${scoreColor}`}>
-            {score}
+            {score}%
           </div>
         </div>
-        <div className="pr-2 flex items-center gap-2">
+        <div className="pr-2 flex items-center gap-2 text-start">
           <div className="flex flex-col items-start">
             <span className="text-xs font-bold text-slate-900">
-              {language === 'ar' ? 'فحص ATS' : 'ATS Check'}
+              {language === 'ar' ? 'نسبة الاكتمال' : 'Completion'}
             </span>
             <span className="text-[10px] text-slate-500 font-medium">
-              {language === 'ar' ? 'تحديث لحظي' : 'Live update'}
+              {language === 'ar' ? 'اضغط للتفاصيل' : 'Click for details'}
             </span>
           </div>
           {isOpen ? <ChevronDown size={16} className="text-slate-400" /> : <ChevronUp size={16} className="text-slate-400" />}

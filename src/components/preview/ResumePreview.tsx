@@ -8,6 +8,7 @@ import TemplateModern from "./TemplateModern";
 import TemplateExecutive from "./TemplateExecutive";
 import TemplateMinimal from "./TemplateMinimal";
 import TemplateTimeline from "./TemplateTimeline";
+import TemplateTwoColumn from "./TemplateTwoColumn";
 
 interface ResumePreviewProps {
   data?: ResumeData;
@@ -264,11 +265,44 @@ const ResumePreview = memo(
 
 
         {/* Dynamic clean template dispatch */}
-        <div id="resume-capture-area" className="cv-preview">
+        <div 
+          id="resume-capture-area" 
+          className={cn(
+            "cv-preview min-h-[1056px]",
+            settings.fontFamily === 'serif' ? 'font-serif' : settings.fontFamily === 'mono' ? 'font-mono' : 'font-sans'
+          )}
+          style={{
+            ['--spacing-multiplier' as any]: settings.sectionSpacing === 'compact' ? 0.75 : settings.sectionSpacing === 'relaxed' ? 1.5 : 1
+          }}
+        >
           <style dangerouslySetInnerHTML={{ __html: `
             .cv-preview * {
               letter-spacing: normal !important;
               word-spacing: normal !important;
+            }
+            .cv-preview {
+              overflow-wrap: break-word;
+              word-wrap: break-word;
+              hyphens: auto;
+            }
+            .cv-preview * {
+              min-width: 0;
+            }
+            .cv-preview a, .cv-preview .break-all {
+              word-break: break-all;
+            }
+            .cv-preview section {
+              margin-bottom: calc(1.5rem * var(--spacing-multiplier)) !important;
+            }
+            @media print {
+              .cv-preview section, .cv-preview .avoid-break {
+                page-break-inside: avoid;
+                break-inside: avoid;
+              }
+              .cv-preview h1, .cv-preview h2, .cv-preview h3 {
+                page-break-after: avoid;
+                break-after: avoid;
+              }
             }
           `}} />
           {currentTemplate === "classic" && <TemplateClassic data={data} />}
@@ -276,6 +310,7 @@ const ResumePreview = memo(
           {currentTemplate === "executive" && <TemplateExecutive data={data} />}
           {currentTemplate === "minimal" && <TemplateMinimal data={data} />}
           {currentTemplate === "timeline" && <TemplateTimeline data={data} />}
+          {currentTemplate === "two-column" && <TemplateTwoColumn data={data} />}
         </div>
 
         {settings?.showQRCode && qrSrc && (

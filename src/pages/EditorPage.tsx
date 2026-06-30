@@ -30,7 +30,7 @@ import {
   FileEdit,
   Loader2,
 } from "lucide-react";
-import { useResumeStore, getResumeSignature } from "../store/useResumeStore";
+import { useResumeStore } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useActiveSectionStore } from "../store/useActiveSectionStore";
 import { Link } from "react-router-dom";
@@ -39,7 +39,6 @@ import SettingsModal from "../components/SettingsModal";
 import KeyboardShortcutsModal from "../components/KeyboardShortcutsModal";
 import { cn } from "@/lib/utils";
 import { calculateATSScore } from "../utils/ats";
-import { DEFAULT_BREAKDOWN } from "../constants";
 import EmptyState from "../components/editor/EmptyState";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
@@ -87,234 +86,47 @@ const FormLoader = () => (
   </div>
 );
 
-type Tab =
-  | "basics"
-  | "experience"
-  | "education"
-  | "skills"
-  | "projects"
-  | "certifications"
-  | "finish"
-  | "review";
-
-interface TabItem {
-  id: Tab;
-  label: string;
-  shortLabel: string;
-  icon: React.ElementType;
-  tourId?: string;
-}
-
+import { Tab, TabItem } from "../types/editor.types";
+import { ATS_SECTION_TIPS } from "../constants/editor.constants";
 import { ProgressTrackerModal } from "../components/editor/ProgressTrackerModal";
 
-const ATS_SECTION_TIPS: Record<string, Record<string, { title: string; tips: string[] }>> = {
-  ar: {
-    basics: {
-      title: "💡 نصائح المعلومات الشخصية لـ ATS متميز",
-      tips: [
-        "استخدم بريداً إلكترونياً مهنياً ومباشراً.",
-        "احرص على إضافة رابط ملفك على LinkedIn ومعرض أعمالك.",
-        "تجنب تضمين معلومات زائدة مثل الحالة الاجتماعية أو الديانة لضمان المهنية."
-      ]
-    },
-    experience: {
-      title: "💡 نصائح الخبرة العملية لـ ATS متميز",
-      tips: [
-        "ابدأ كل نقطة عمل بفعل حركة قوي (طوّرت، أدرت، حققت) وتجنب 'كنت مسؤولا عن'.",
-        "أضف أرقاماً ونتائج ملموسة تُظهر حجم إنجازاتك (مثال: زيادة الأداء بنسبة 25%).",
-        "رتب خبراتك من الأحدث إلى الأقدم بشكل تسلسلي واضح."
-      ]
-    },
-    education: {
-      title: "💡 نصائح التعليم لـ ATS متميز",
-      tips: [
-        "اذكر المسمى الرسمي للشهادة والتخصص والجامعة بدقة كامة.",
-        "إذا كان معدلك التراكمي متميزاً (جيّد جداً فما فوق)، قم بتضمينه.",
-        "أضف أي مشاريع تخرج مميزة أو مساقات أكاديمية متقدمة ذات صلة."
-      ]
-    },
-    skills: {
-      title: "💡 نصائح المهارات لـ ATS متميز",
-      tips: [
-        "احرص على إدراج الكلمات المفتاحية الصريحة المطلوبة للوظيفة ليتجاوز الـ ATS بسهولة.",
-        "قم بتصنيف مهاراتك بشكل متوازن بين تقنية متخصصة وشخصية تفاعلية.",
-        "اكتب أسماء المهارات والتقنيات بصيغتها الرسمية المتعارف عليها صناعياً."
-      ]
-    },
-    projects: {
-      title: "💡 نصائح المشاريع لـ ATS متميز",
-      tips: [
-        "وضح المشكلة التي قمت بحلها، المعمارية والتقنيات الأساسية بوضوح.",
-        "أضف روابط برمجية حية لمستودع الكود (GitHub/GitLab) لتسهيل مراجعتها.",
-        "ركز على المشاريع التي تبرز عملك الفردي والجماعي وتكامل التقنيات."
-      ]
-    },
-    certifications: {
-      title: "💡 نصائح الشهادات لـ ATS متميز",
-      tips: [
-        "اذكر الجهة المانحة الرسمية المعتمدة (مثل Google, AWS, Cisco, Microsoft).",
-        "اكتب تاريخ الحصول والمسمى الكامل للشهادة بدقة تامة لزيادة الموثوقية.",
-        "أعطِ الأولوية للشهادات المرتبطة مباشرة بالشاغر الوظيفي المستهدف."
-      ]
-    },
-    custom: {
-      title: "💡 نصائح الأقسام المخصصة لـ ATS متميز",
-      tips: [
-        "اجعل عناوين الأقسام احترافية ومباشرة (مثل اللغات، العمل التطوعي، الأنشطة القيادية).",
-        "استغل هذا القسم لعرض اللغات التي تجيدها ومستوى الطلاقة الخاص بك فيه.",
-        "تأكد من ملاءمة هذا القسم وتوافقه مع ثقافة ونوعية الشركات المستهدفة."
-      ]
-    },
-    finish: {
-      title: "💡 التدقيق النهائي ومراجعة الـ ATS",
-      tips: [
-        "تأكد التام خلو سيرتك من أي أخطاء إملائية أو لغوية (قم بقراءتها أكثر من مرة).",
-        "احرص أن تكون السيرة مضغوطة في صفحة واحدة ممتلئة وغنية (أو صفحتين كحد أقصى).",
-        "قم بالتصدير بصيغة PDF لضمان بقاء الخطوط والتصميم دون أي خلل بالمخابرات والـ ATS."
-      ]
-    }
-  },
-  en: {
-    basics: {
-      title: "💡 Personal Info Tips for ATS Success",
-      tips: [
-        "Use a professional, clean email address (e.g., name@domain.com).",
-        "Be sure to include active links to your LinkedIn profile and portfolio.",
-        "Excluding redundant facts like marital status ensures maximum professional focus."
-      ]
-    },
-    experience: {
-      title: "💡 Experience Tips for ATS Success",
-      tips: [
-        "Always initiate descriptions with active verb directives (e.g., Developed, Optimized, Promoted).",
-        "Quantify your career successes with metrics (e.g., cut operating costs by 15%).",
-        "Maintain strict reverse-chronological structuring (newest first)."
-      ]
-    },
-    education: {
-      title: "💡 Education Tips for ATS Success",
-      tips: [
-        "Document exact degree designations, concentrations, and the educational institution.",
-        "Reference honors, excellent GPA scores, or research accomplishments.",
-        "Mention academic course paths aligned with target keywords."
-      ]
-    },
-    skills: {
-      title: "💡 Skills & Expertise Tips for ATS Success",
-      tips: [
-        "Focus on exact domain terms from the target job post.",
-        "Provide a rich mix of specialized technical skills and behavioral soft skills.",
-        "State technical names in standard industry format (e.g., TypeScript, SQL)."
-      ]
-    },
-    projects: {
-      title: "💡 Projects Tips for ATS Success",
-      tips: [
-        "Outline the concrete challenges solved, toolsets utilized, and final outcomes.",
-        "Supply reachable URL resources to production hosts or GitHub codebases.",
-        "Emphasize projects exhibiting advanced backend/frontend capability."
-      ]
-    },
-    certifications: {
-      title: "💡 Certifications Tips for ATS Success",
-      tips: [
-        "Highlight certifications from recognized authorities (AWS, Cisco, Google, etc.).",
-        "State the exact official certification titles and completion dates.",
-        "Filter out basic coursework to spotlight high-value credentials."
-      ]
-    },
-    custom: {
-      title: "💡 Custom Sections Tips for ATS Success",
-      tips: [
-        "Keep section headings concise, direct, and globally understood.",
-        "Highly recommended for languages with corresponding fluency targets.",
-        "Add volunteer achievements to exhibit leadership and community commitment."
-      ]
-    },
-    finish: {
-      title: "💡 Final Checklist & Export Tips",
-      tips: [
-        "Review closely to catch and eliminate grammar and spacing discrepancies.",
-        "Optimize page real estate to fit cleanly into 1 or 2 standard A4 pages.",
-        "Export in PDF to verify styling persists on recruiter screening tools."
-      ]
-    }
-  }
-};
 
+import { useResumeEditorState } from "../hooks/editor/useResumeEditorState";
+import { useResumeValidation } from "../hooks/editor/useResumeValidation";
+import { useAutoSave } from "../hooks/editor/useAutoSave";
+import { useFocusMode } from "../hooks/editor/useFocusMode";
+import { useDeviceState } from "../hooks/useDeviceState";
 
 export default function EditorPage() {
   const { language, dir, setLanguage } = useLanguageStore();
   const t = (translations[language as keyof typeof translations] || translations.en).editor;
 
-  const formRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState<Tab>("basics");
+  const {
+    activeTab,
+    setActiveTab,
+    formRef,
+    handleTouchStart,
+    handleTouchEnd,
+    scrollToFormTop,
+    hasNextTab,
+    hasPrevTab,
+    handleNextTab,
+    handlePrevTab,
+  } = useResumeEditorState();
+
   const [isTipsOpen, setIsTipsOpen] = useState(true);
   const [showAIBanner, setShowAIBanner] = useState(true);
   const [showMicroSpacingPanel, setShowMicroSpacingPanel] = useState(false);
-  const touchStartRef = useRef<number>(0);
-  const touchStartYRef = useRef<number>(0);
 
-  const tabOrder: Tab[] = [
-    "basics",
-    "experience",
-    "education",
-    "skills",
-    "projects",
-    "certifications",
-  ];
-  const currentTabIndex = tabOrder.indexOf(activeTab);
-  const hasNextTab = currentTabIndex >= 0 && currentTabIndex < tabOrder.length - 1;
-  const hasPrevTab = currentTabIndex > 0;
+  const { focusMode, setFocusMode } = useFocusMode();
 
-  const handleNextTab = () => {
-    if (hasNextTab) setActiveTab(tabOrder[currentTabIndex + 1]);
-  };
-  const handlePrevTab = () => {
-    if (hasPrevTab) setActiveTab(tabOrder[currentTabIndex - 1]);
-  };
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartRef.current = e.touches[0].clientX;
-    touchStartYRef.current = e.touches[0].clientY;
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    const touchEndX = e.changedTouches[0].clientX;
-    const touchEndY = e.changedTouches[0].clientY;
-    
-    const diffX = touchEndX - touchStartRef.current;
-    const diffY = touchEndY - touchStartYRef.current;
-    
-    if (Math.abs(diffX) > 75 && Math.abs(diffY) < 55) {
-      if (diffX > 0) {
-        handlePrevTab();
-        scrollToFormTop();
-      } else {
-        handleNextTab();
-        scrollToFormTop();
-      }
-    }
-  };
-
-  const [focusMode, setFocusMode] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("focusMode") === "true";
-    }
-    return false;
-  });
+  const { isMobile, isDesktop } = useDeviceState();
 
   useEffect(() => {
-    localStorage.setItem("focusMode", String(focusMode));
-  }, [focusMode]);
-
-  // Keyboard shortcuts for undo/redo
-  useEffect(() => {
     if (typeof window !== "undefined") {
-      const isDesktop = window.innerWidth > 768;
       setIsTipsOpen(isDesktop);
     }
-  }, []);
+  }, [isDesktop]);
 
   // Keyboard-Aware dynamic focus auto-scrolling for mobile devices
   useEffect(() => {
@@ -412,10 +224,6 @@ export default function EditorPage() {
   const handleFormScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setShowScrollTop(e.currentTarget.scrollTop > 300);
   };
-
-  const scrollToFormTop = () => {
-    formRef.current?.scrollTo({ top: 0, behavior: "smooth" });
-  };
   const [showExitModal, setShowExitModal] = useState(false);
   const [hasExported, setHasExported] = useState(false); // Track if user exported session
   const [showFullPreview, setShowFullPreview] = useState(false);
@@ -424,6 +232,7 @@ export default function EditorPage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showProgressTracker, setShowProgressTracker] = useState(false);
+  const [previewFocusMode, setPreviewFocusMode] = useState(false);
   const [exportStatus, setExportStatus] = useState<{
     show: boolean;
     step: number;
@@ -445,43 +254,12 @@ export default function EditorPage() {
   const data = useResumeStore((state) => state.data);
   const isStarted = useResumeStore((state) => state.isStarted);
   const setIsStarted = useResumeStore((state) => state.setIsStarted);
-  const isPremium = React.useMemo(() => {
-    if (!data.isPremium) return false;
-    
-    // Check if we have an unlocked signature stored. If we do, do a total data matching.
-    if (data.unlockedSignature) {
-      return getResumeSignature(data) === data.unlockedSignature;
-    }
-    
-    // Fallback comparison for name & email
-    const nameMatch = !data.unlockedName || 
-      data.unlockedName.trim().toLowerCase() === (data.personalInfo.fullName || "").trim().toLowerCase();
-    const emailMatch = !data.unlockedEmail || 
-      data.unlockedEmail.trim().toLowerCase() === (data.personalInfo.email || "").trim().toLowerCase();
-      
-    return nameMatch && emailMatch;
-  }, [data]);
+  
+  const { isPremium, isEmpty, atsScore, breakdown } = useResumeValidation(data);
+  const { saveStatus } = useAutoSave(data);
+
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
   const resetData = useResumeStore((state) => state.resetData);
-
-  const isEmpty = 
-    !data.personalInfo?.fullName && 
-    !data.personalInfo?.email &&
-    !data.personalInfo?.phone &&
-    !data.personalInfo?.summary &&
-    (!data.experience || data.experience.length === 0) && 
-    (!data.education || data.education.length === 0) && 
-    (!data.skills || data.skills.length === 0);
-
-  const { score: atsScore } = React.useMemo(() => {
-    if (isEmpty) return { score: 0, criticalFailures: [], tips: [] };
-    try {
-      return calculateATSScore(data);
-    } catch (e) {
-      console.error("ATS Audit failed", e);
-      return { score: 0, criticalFailures: [], tips: [] };
-    }
-  }, [data, isEmpty]);
 
   const [showConfetti, setShowConfetti] = useState(false);
   const [hasCelebratedScore, setHasCelebratedScore] = useState(false);
@@ -513,19 +291,6 @@ export default function EditorPage() {
     };
   }, []);
 
-  const breakdown = React.useMemo(() => {
-    return DEFAULT_BREAKDOWN.map((b, i) => {
-      let done = false;
-      if (i === 0) done = !!(data.personalInfo?.email && data.personalInfo?.phone);
-      else if (i === 1) done = !!(data.personalInfo?.summary && data.personalInfo.summary.length > 20);
-      else if (i === 2) done = !!(data.experience && data.experience.length > 0);
-      else if (i === 3) done = !!(data.skills && data.skills.length >= 5);
-      else if (i === 4) done = !!(data.education && data.education.length > 0);
-      else if (i === 5) done = !!(data.skills && data.skills.length >= 5 && data.experience && data.experience.length > 0);
-      return { ...b, done };
-    });
-  }, [data]);
-
   useEffect(() => {
     trackEvent(FUNNEL_EVENTS.EDITOR_START, { language });
   }, [language]);
@@ -550,32 +315,7 @@ export default function EditorPage() {
     }
   }, [data.settings?.template]);
 
-  const [isSaving, setIsSaving] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
-  useEffect(() => {
-    setIsSaving(true);
-    const endTimer = setTimeout(() => {
-      setIsSaving(false);
-    }, 800);
-    return () => clearTimeout(endTimer);
-  }, [data]);
-  
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   // Safe temporal subscription
   const [temporalState, setTemporalState] = useState({
@@ -631,6 +371,11 @@ export default function EditorPage() {
   // Keyboard shortcuts for undo/redo
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        if (previewFocusMode) {
+          setPreviewFocusMode(false);
+        }
+      }
       if ((e.ctrlKey || e.metaKey) && e.key === "z") {
         e.preventDefault();
         if (e.shiftKey) {
@@ -646,7 +391,7 @@ export default function EditorPage() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [temporalState.canUndo, temporalState.canRedo]);
+  }, [temporalState.canUndo, temporalState.canRedo, previewFocusMode]);
 
   // Exit intent & beforeunload logic
   useEffect(() => {
@@ -1535,7 +1280,7 @@ export default function EditorPage() {
         onLangChange={setLanguage}
         atsScore={atsScore}
         atsBreakdown={breakdown}
-        isSaved={!isSaving}
+        saveStatus={saveStatus}
         onUndo={handleUndo}
         onExportPDF={handleExportClick}
         onExportWord={() => handleProceedToExport("docx")}
@@ -1565,6 +1310,7 @@ export default function EditorPage() {
         dir="ltr"
       >
         {/* Editor Area */}
+        {!previewFocusMode && (
         <Panel defaultSize={65} minSize={30} className="block">
           <div className={cn("flex flex-col h-full overflow-hidden relative transition-all duration-300", focusMode ? "bg-white" : "bg-[#F9FAFB]")} dir={dir}>
             
@@ -1711,21 +1457,24 @@ export default function EditorPage() {
             )}
           </div>
         </Panel>
+        )}
 
-        {!isMobile && !focusMode && (
+        {!isMobile && !focusMode && !previewFocusMode && (
           <>
             <PanelResizeHandle className="w-1.5 focus:outline-none bg-neutral-200 hover:bg-brand-500 active:bg-brand-600 transition-colors group z-50">
               <div className="h-full w-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                 <div className="h-12 w-1 bg-white rounded-full" />
               </div>
             </PanelResizeHandle>
+          </>
+        )}
 
-            {/* Preview Area / Bottom Sheet for Mobile */}
-            <Panel
-              defaultSize={35}
-              minSize={25}
-              className="w-full h-full"
-            >
+        {!isMobile && !focusMode && (
+          <Panel
+            defaultSize={previewFocusMode ? 100 : 35}
+            minSize={25}
+            className="w-full h-full"
+          >
           <div
             data-tour="preview-pane"
             className="bg-neutral-100 border-s border-neutral-200 flex-col flex h-full overflow-hidden relative transition-colors duration-200"
@@ -1970,12 +1719,17 @@ export default function EditorPage() {
                   <SlidersHorizontal size={16} />
                 </button>
                 <button
-                  onClick={() => setShowFullPreview(true)}
-                  className="flex items-center gap-1.5 p-2 sm:px-3 sm:py-1.5 text-slate-500 hover:text-slate-900 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl transition-all shadow-sm"
+                  onClick={() => setPreviewFocusMode(!previewFocusMode)}
+                  className={cn(
+                    "flex items-center gap-1.5 p-2 sm:px-3 sm:py-1.5 hover:text-slate-900 border transition-all rounded-xl shadow-sm",
+                    previewFocusMode 
+                      ? "bg-brand-50 text-brand-700 border-brand-200 hover:bg-brand-100 shadow-brand-100/50" 
+                      : "bg-white text-slate-500 hover:bg-slate-50 border-slate-200"
+                  )}
                   title={String(t.fullPreview || "")}
                 >
-                  <Maximize2 size={14} />
-                  <span className="hidden sm:inline text-xs font-bold">{language === "ar" ? "تكبير" : "Expand"}</span>
+                  <Maximize2 size={14} className={previewFocusMode ? "text-brand-500" : ""} />
+                  <span className="hidden sm:inline text-xs font-bold">{previewFocusMode ? (language === "ar" ? "تصغير" : "Shrink") : (language === "ar" ? "تكبير" : "Expand")}</span>
                 </button>
               </div>
             </div>
@@ -2037,7 +1791,6 @@ export default function EditorPage() {
             </div>
           </div>
         </Panel>
-        </>
         )}
       </PanelGroup>
       </>

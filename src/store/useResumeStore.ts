@@ -100,7 +100,8 @@ export type ResumeData = {
       | "classic"
       | "executive"
       | "minimal"
-      | "timeline";
+      | "timeline"
+      | "two-column";
     themeColor: string;
     language: "en" | "ar" | "fr";
     isFreshGrad: boolean;

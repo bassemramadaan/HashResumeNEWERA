@@ -5,15 +5,16 @@ import { translations } from "../../i18n/translations";
 import {
   Plus,
   Trash2,
-  GripVertical,
   ChevronDown,
   ChevronUp,
   GraduationCap
 } from "lucide-react";
-import { motion, Reorder, AnimatePresence, useDragControls } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import FormSkeleton from "./FormSkeleton";
 import SectionTooltip from "./SectionTooltip";
 import EmptyState from "./EmptyState";
+import RichTextEditor from "./RichTextEditor";
+import { SortableList, SortableItem, DragHandle } from "../ui/SortableList";
 
 interface EducationItemProps {
   edu: Education;
@@ -36,31 +37,15 @@ const EducationItem = ({
   eduSuggestions,
   isAr
 }: EducationItemProps) => {
-  const controls = useDragControls();
-
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
   return (
-    <Reorder.Item
-      value={edu}
-      dragListener={false}
-      dragControls={controls}
-      className="bg-white border border-slate-200/60 rounded-xl overflow-hidden transition-colors"
-    >
+    <div className="bg-white border border-slate-200/60 rounded-xl overflow-hidden transition-colors">
       <div className="flex items-center px-4 md:px-5 py-3 bg-transparent border-b border-slate-100 justify-between">
         <div className="flex items-center flex-1 min-w-0 mr-3 ml-3">
-          <div
-            onPointerDown={(e) => {
-              e.stopPropagation();
-              controls.start(e);
-            }}
-            className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-[#FF4D2D]/10 text-slate-500 hover:text-[#FF4D2D] hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-[#FF4D2D]/15 transition-all shadow-3xs flex items-center justify-center shrink-0 mr-2 ml-2"
-            title="Drag to reorder"
-          >
-            <GripVertical size={16} style={{ strokeWidth: 2.2 }} />
-          </div>
+          <DragHandle />
           <button
             onClick={() => toggleExpand(edu.id)}
             className="flex-1 text-left rtl:text-right font-bold text-slate-900 truncate tracking-tight cursor-pointer hover:text-brand-500 transition-colors block"
@@ -152,12 +137,10 @@ const EducationItem = ({
                 <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                   {String(t.education?.description || "Description")}
                 </label>
-                <textarea
+                <RichTextEditor
                   value={edu.description || ""}
-                  onChange={(e) => updateEducation(edu.id, { description: e.target.value })}
+                  onChange={(val) => updateEducation(edu.id, { description: val })}
                   placeholder={String(t.education?.descriptionPlaceholder || "Describe your studies...")}
-                  rows={4}
-                  className="block w-full p-3 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all resize-y placeholder-slate-400 font-medium outline-none"
                 />
               </div>
 
@@ -188,7 +171,7 @@ const EducationItem = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </Reorder.Item>
+    </div>
   );
 };
 
@@ -256,15 +239,12 @@ const EducationForm = () => {
           onAdd={handleAdd}
         />
       ) : (
-        <Reorder.Group
-          axis="y"
-          values={education}
+        <SortableList
+          items={education}
           onReorder={handleReorder}
-          className="space-y-4"
-        >
-          {education.map((edu) => (
+          keyExtractor={(item) => item.id}
+          renderItem={(edu) => (
             <EducationItem
-              key={edu.id}
               edu={edu}
               expandedId={expandedId}
               setExpandedId={setExpandedId}
@@ -274,8 +254,8 @@ const EducationForm = () => {
               eduSuggestions={eduSuggestions}
               isAr={isAr}
             />
-          ))}
-        </Reorder.Group>
+          )}
+        />
       )}
     </div>
   );
