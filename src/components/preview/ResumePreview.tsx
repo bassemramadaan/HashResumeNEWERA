@@ -265,6 +265,12 @@ const ResumePreview = memo(
 
         {/* Dynamic clean template dispatch */}
         <div id="resume-capture-area" className="cv-preview">
+          <style dangerouslySetInnerHTML={{ __html: `
+            .cv-preview * {
+              letter-spacing: normal !important;
+              word-spacing: normal !important;
+            }
+          `}} />
           {currentTemplate === "classic" && <TemplateClassic data={data} />}
           {currentTemplate === "modern" && <TemplateModern data={data} />}
           {currentTemplate === "executive" && <TemplateExecutive data={data} />}
