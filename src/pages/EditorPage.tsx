@@ -435,6 +435,14 @@ export default function EditorPage() {
     useResumeStore.getState().lockResume();
   };
 
+  const handlePrint = () => {
+    try {
+      window.print();
+    } catch (err) {
+      console.error("Print failed:", err);
+    }
+  };
+
   // في الـ useEffect عند load الصفحة
   useEffect(() => {
     const locked = localStorage.getItem('cv-locked');
@@ -462,7 +470,8 @@ export default function EditorPage() {
       setIsLocked(true);
 
     } catch (error) {
-      console.error('Export error:', error);
+      console.error('Export error, falling back to print:', error);
+      handlePrint();
     } finally {
       setIsExporting(false);
     }

@@ -496,11 +496,59 @@ svg.lucide, .lucide svg, svg[class*="lucide-"] {
 .stagger-item:nth-child(6) { animation-delay: 240ms; }
 .stagger-item:nth-child(7) { animation-delay: 280ms; }
 .stagger-item:nth-child(8) { animation-delay: 320ms; }
-.stagger-item:nth-child(n+9) { animation-delay: 360ms; }
+.stagger-item:nth-child(n+9) { animation-delay: 360ms; }/* ============================================================
+   PRINT STYLES FOR NATIVE BROWSER PDF EXPORT
+   ============================================================ */
+@media print {
+  /* Hide all elements by default */
+  body * {
+    visibility: hidden !important;
+    background: none !important;
+  }
+  
+  /* Show only the CV capture area and its children */
+  #resume-capture-area,
+  #resume-capture-area * {
+    visibility: visible !important;
+  }
 
+  /* Reset positioning, margins, and layout of the print target */
+  #resume-capture-area {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
 
+  /* Hide print buttons, editor panels, wrappers */
+  .no-print,
+  button,
+  nav,
+  aside,
+  dialog,
+  .modal,
+  [role="dialog"] {
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
 
-
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 0mm;
+  }
+}
 
 
 
