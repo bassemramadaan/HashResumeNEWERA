@@ -17,7 +17,7 @@ import FormSkeleton from "./FormSkeleton";
 import ATSVerbAssistant from "./ATSVerbAssistant";
 import QuickAIAssistPill from "./QuickAIAssistPill";
 import EmptyState from "./EmptyState";
-import { SortableList, SortableItem, DragHandle } from "../ui/SortableList";
+import { SortableList, DragHandle } from "../ui/SortableList";
 
 import RichTextEditor from "./RichTextEditor";
 

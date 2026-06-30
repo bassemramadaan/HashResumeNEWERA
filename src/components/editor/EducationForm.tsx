@@ -14,7 +14,7 @@ import FormSkeleton from "./FormSkeleton";
 import SectionTooltip from "./SectionTooltip";
 import EmptyState from "./EmptyState";
 import RichTextEditor from "./RichTextEditor";
-import { SortableList, SortableItem, DragHandle } from "../ui/SortableList";
+import { SortableList, DragHandle } from "../ui/SortableList";
 
 interface EducationItemProps {
   edu: Education;

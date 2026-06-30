@@ -16,7 +16,7 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, ChevronUp, ChevronDown, Trash2 } from 'lucide-react';
+import { GripVertical } from 'lucide-react';
 
 interface SortableItemContextType {
   attributes: Record<string, any>;

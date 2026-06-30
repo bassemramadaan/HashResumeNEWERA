@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "motion/react";
 import EmptyState from "./EmptyState";
 import ATSVerbAssistant from "./ATSVerbAssistant";
 import RichTextEditor from "./RichTextEditor";
-import { SortableList, SortableItem, DragHandle } from "../ui/SortableList";
+import { SortableList, DragHandle } from "../ui/SortableList";
 
 interface ProjectItemProps {
   project: Project;

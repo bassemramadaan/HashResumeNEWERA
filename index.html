@@ -56,6 +56,19 @@
           document.documentElement.setAttribute('dir', dir);
         } catch (e) {}
       })();
+
+      // معالجة أخطاء تحميل الملفات البرمجية المجزأة (Chunks) لتفادي ظهور صفحة بيضاء عند تحديث الموقع
+      window.addEventListener('vite:preloadError', function (event) {
+        console.warn('Preload chunk error detected, reloading page...', event);
+        window.location.reload();
+      });
+
+      window.addEventListener('error', function (e) {
+        if (e && e.message && (e.message.indexOf('dynamically imported module') !== -1 || e.message.indexOf('Failed to fetch dynamically imported module') !== -1)) {
+          console.warn('Dynamic import chunk error detected, reloading page...', e);
+          window.location.reload();
+        }
+      }, true);
     </script>
   </head>
   <body>

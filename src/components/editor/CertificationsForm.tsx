@@ -5,7 +5,7 @@ import { translations } from "../../i18n/translations";
 import { Plus, Trash2, ChevronDown, ChevronUp, Copy, Award } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import EmptyState from "./EmptyState";
-import { SortableList, SortableItem, DragHandle } from "../ui/SortableList";
+import { SortableList, DragHandle } from "../ui/SortableList";
 
 export const CertificationsForm: React.FC = () => {
   const { language } = useLanguageStore();
