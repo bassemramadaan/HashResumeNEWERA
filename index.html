@@ -1,6 +1,24 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
+    <script>
+      (function () {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function (registrations) {
+            registrations.forEach(function (registration) {
+              registration.unregister();
+            });
+          });
+        }
+        if ('caches' in window) {
+          caches.keys().then(function (cacheNames) {
+            cacheNames.forEach(function (cacheName) {
+              caches.delete(cacheName);
+            });
+          });
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="google-site-verification" content="FNDGqqeRW_j7ERB2itgwpEN1EpREdzo2CckGGMrrBiI" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
