@@ -76,67 +76,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     build: {
-      chunkSizeWarningLimit: 800,
-      modulePreload: {
-        resolveDependencies: (filename, deps, { hostId, hostType }) => {
-          return deps.filter(dep => !dep.includes('markdown-libs') && !dep.includes('pdf-libs'));
-        }
-      },
-      rollupOptions: {
-        output: {
-          manualChunks(id) {
-            if (id.includes('node_modules')) {
-              if (
-                id.includes('react') ||
-                id.includes('react-dom') ||
-                id.includes('scheduler') ||
-                id.includes('framer-motion') ||
-                id.includes('motion') ||
-                id.includes('zustand') ||
-                id.includes('zundo') ||
-                id.includes('react-router') ||
-                id.includes('react-router-dom') ||
-                id.includes('react-helmet-async') ||
-                id.includes('lucide-react') ||
-                id.includes('@radix-ui') ||
-                id.includes('react-joyride')
-              ) {
-                return 'react-core';
-              }
-              if (
-                id.includes('pdfjs-dist') ||
-                id.includes('react-to-print') ||
-                id.includes('jspdf') ||
-                id.includes('html2canvas')
-              ) {
-                return 'pdf-libs';
-              }
-              if (id.includes('docx')) {
-                return 'docx-libs';
-              }
-              if (
-                id.includes('react-markdown') ||
-                id.includes('micromark') ||
-                id.includes('mdast') ||
-                id.includes('unist') ||
-                id.includes('vfile') ||
-                id.includes('parse5') ||
-                id.includes('remark') ||
-                id.includes('rehype')
-              ) {
-                return 'markdown-libs';
-              }
-              return 'vendor-others';
-            }
-            if (id.includes('/components/editor/')) {
-              return 'editor-components';
-            }
-            if (id.includes('/components/preview/')) {
-              return 'preview-components';
-            }
-          }
-        }
-      }
+      chunkSizeWarningLimit: 1500,
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
