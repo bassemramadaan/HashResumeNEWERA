@@ -111,9 +111,9 @@
   --color-info:          #1565C0;
 
   /* Typography */
-  --font-sans:   'Outfit', sans-serif;
-  --font-arabic: 'Outfit', sans-serif;
-  --font-display: 'Outfit', sans-serif;
+  --font-sans:   'Plus Jakarta Sans', sans-serif;
+  --font-arabic: 'Cairo', sans-serif;
+  --font-display: 'Plus Jakarta Sans', sans-serif;
 
   /* Shadows */
   --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);

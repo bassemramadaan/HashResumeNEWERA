@@ -266,7 +266,10 @@ const ResumePreview = memo(
 
         {/* Dynamic clean template dispatch */}
         <div 
-          id="resume-capture-area" 
+          data-font-family={settings.fontFamily || "inter"}
+          data-spacing={settings.sectionSpacing || "normal"}
+          data-font-size={settings.fontSize || "medium"}
+          data-line-height={settings.lineHeight || "normal"}
           className={cn(
             "cv-preview min-h-[1056px]",
             settings.fontFamily === 'serif' ? 'font-serif' : settings.fontFamily === 'mono' ? 'font-mono' : 'font-sans'
