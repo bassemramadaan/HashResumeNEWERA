@@ -45,6 +45,8 @@ import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import LiveAtsScoreWidget from "../components/editor/LiveAtsScoreWidget";
 import ResumePreview from "../components/preview/ResumePreview";
 import { FrictionlessConfetti } from "../components/FrictionlessConfetti";
+import { pdf } from '@react-pdf/renderer';
+import { PDFRenderer } from '../pdf/PDFRenderer';
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -443,70 +445,19 @@ export default function EditorPage() {
     try {
       setIsExporting(true);
 
-      // انتظر الـ fonts
-      await document.fonts.ready;
-      await new Promise(resolve => setTimeout(resolve, 800));
+      const selectedTemplate = settings.template || "classic";
+      const resumeData = useResumeStore.getState().data;
 
-      // ابحث عن الـ CV element
-      const element = (
-        document.getElementById('cv-preview') ||
-        document.querySelector('.cv-preview') ||
-        document.querySelector('[data-cv-preview]')
-      ) as HTMLElement;
+      const doc = <PDFRenderer templateId={selectedTemplate} data={resumeData} />;
+      const blob = await pdf(doc).toBlob();
 
-      if (!element) {
-        console.error('CV element not found');
-        setIsExporting(false);
-        return;
-      }
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${fullName || "Resume"}_CV.pdf`;
+      link.click();
+      URL.revokeObjectURL(url);
 
-      const { default: html2canvas } = await import('html2canvas');
-      const { default: jsPDF } = await import('jspdf');
-
-      const canvas = await html2canvas(element, {
-        scale: 2.5,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff',
-        logging: false,
-        onclone: (_doc: Document, clonedEl: HTMLElement) => {
-          clonedEl.style.width = '794px';
-          clonedEl.style.padding = '40px';
-          clonedEl.style.boxSizing = 'border-box';
-          clonedEl.style.overflow = 'visible';
-
-          clonedEl.querySelectorAll<HTMLElement>('*').forEach(el => {
-            el.style.letterSpacing = 'normal';
-            el.style.wordSpacing = 'normal';
-            el.style.wordBreak = 'normal';
-            el.style.overflowWrap = 'break-word';
-            el.style.whiteSpace = 'normal';
-          });
-        },
-      });
-
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: 'a4',
-        compress: true,
-      });
-
-      const pdfWidth = 210;
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      pdf.addImage(
-        canvas.toDataURL('image/jpeg', 0.95),
-        'JPEG',
-        0, 0,
-        pdfWidth,
-        pdfHeight
-      );
-
-      const userName = element.querySelector('h1')?.textContent || 'CV';
-      pdf.save(`${userName}_HashResume.pdf`);
-
-      // Lock بعد التحميل
       localStorage.setItem('cv-locked', 'true');
       setIsLocked(true);
 
@@ -547,75 +498,23 @@ export default function EditorPage() {
         setExportStatus({ show: true, step: 2, format }); // "Optimizing premium typography..."
         await sleep(1000);
 
-        const resumeElement = document.getElementById('resume-capture-area');
-        if (!resumeElement) throw new Error("Resume element not found");
-
         setExportStatus({ show: true, step: 3, format }); // "Assembling PDF stream..."
         
-        // Dynamically import to avoid SSR issues
-        const [html2canvasModule, jsPDFModule] = await Promise.all([
-          import('html2canvas'),
-          import('jspdf')
-        ]);
-        
-        const html2canvas = html2canvasModule.default;
-        const jsPDF = jsPDFModule.default;
+        const selectedTemplate = settings.template || "classic";
+        const resumeData = useResumeStore.getState().data;
 
-        // Ensure web fonts are completely ready in document context
-        if (typeof document !== 'undefined' && (document as any).fonts) {
-          try {
-            await (document as any).fonts.ready;
-          } catch (e) {
-            console.warn("Fonts loading deferred", e);
-          }
-        }
-
-
-        // Force a layout recalculation and wait for it to stabilize
-        await new Promise(resolve => setTimeout(resolve, 300));
-
-        const canvas = await html2canvas(resumeElement, {
-          scale: 3, // High quality
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          logging: false,
-          onclone: (clonedDoc) => {
-            const el = clonedDoc.getElementById('resume-capture-area');
-            if (el) {
-              el.style.width = '794px';
-              el.style.minHeight = '1123px';
-              el.style.padding = '40px';
-              el.style.boxSizing = 'border-box';
-              el.style.overflow = 'visible';
-              el.style.wordWrap = 'break-word';
-              el.style.overflowWrap = 'break-word';
-              el.style.whiteSpace = 'normal';
-            }
-          }
-        });
+        const doc = <PDFRenderer templateId={selectedTemplate} data={resumeData} />;
+        const blob = await pdf(doc).toBlob();
 
         setExportStatus({ show: true, step: 4, format }); // "Finalizing file encoding..."
-        
-        const pdf = new jsPDF({
-          orientation: 'portrait',
-          unit: 'mm',
-          format: 'a4',
-        });
-        
-        const pdfWidth = 210; // A4 width in mm
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        
-        pdf.addImage(
-          canvas.toDataURL('image/png', 1.0),
-          'PNG',
-          0, 0,
-          pdfWidth,
-          pdfHeight,
-          undefined,
-          'FAST'
-        );
-        pdf.save(`${fullName || "Resume"}_CV.pdf`);
+        await sleep(500);
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${fullName || "Resume"}_CV.pdf`;
+        link.click();
+        URL.revokeObjectURL(url);
 
         useResumeStore.getState().lockResume();
 
