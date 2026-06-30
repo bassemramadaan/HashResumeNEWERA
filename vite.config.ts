@@ -85,15 +85,25 @@ export default defineConfig(({ mode }) => {
               if (
                 id.includes('react') ||
                 id.includes('react-dom') ||
+                id.includes('scheduler') ||
+                id.includes('framer-motion') ||
+                id.includes('motion') ||
+                id.includes('zustand') ||
+                id.includes('zundo') ||
                 id.includes('react-router') ||
                 id.includes('react-router-dom') ||
-                id.includes('react-helmet-async')
+                id.includes('react-helmet-async') ||
+                id.includes('lucide-react') ||
+                id.includes('@radix-ui') ||
+                id.includes('react-joyride')
               ) {
                 return 'react-core';
               }
               if (
                 id.includes('pdfjs-dist') ||
-                id.includes('react-to-print')
+                id.includes('react-to-print') ||
+                id.includes('jspdf') ||
+                id.includes('html2canvas')
               ) {
                 return 'pdf-libs';
               }
@@ -106,25 +116,11 @@ export default defineConfig(({ mode }) => {
                 id.includes('mdast') ||
                 id.includes('unist') ||
                 id.includes('vfile') ||
-                id.includes('parse5')
+                id.includes('parse5') ||
+                id.includes('remark') ||
+                id.includes('rehype')
               ) {
                 return 'markdown-libs';
-              }
-              if (
-                id.includes('lucide-react') ||
-                id.includes('framer-motion') ||
-                id.includes('motion') ||
-                id.includes('react-joyride')
-              ) {
-                return 'ui-vendors';
-              }
-              if (
-                id.includes('date-fns') ||
-                id.includes('papaparse') ||
-                id.includes('zundo') ||
-                id.includes('zustand')
-              ) {
-                return 'utils';
               }
               return 'vendor-others';
             }
