@@ -522,12 +522,8 @@ export default function EditorPage() {
   };
 
   const handleProceedToExport = async (
-    formatParam: "pdf" | "docx" | "txt" | any = "pdf",
+    format: "pdf" | "docx" | "txt" = "pdf",
   ) => {
-    const format = (typeof formatParam === "string" && ["pdf", "docx", "txt"].includes(formatParam))
-      ? formatParam
-      : "pdf";
-
     setShowResumeChecker(false);
     if (!isPremium) {
       setShowPaymentModal(true);
@@ -1170,7 +1166,7 @@ export default function EditorPage() {
                       )}
                       {activeTab === "finish" && (
                         <FinishStep
-                          onPrint={() => handleProceedToExport("pdf")}
+                          onPrint={handleProceedToExport}
                           onExportWord={() => handleProceedToExport("docx")}
                           onJumpToStep={(step) => setActiveTab(step as Tab)}
                         />
