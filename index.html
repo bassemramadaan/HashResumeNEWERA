@@ -8,9 +8,9 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />
 
-    <title>Hash Resume — سيرتك الاحترافية في 5 دقائق | AI Resume Builder</title>
-    <meta name="description" content="أنشئ سيرتك الذاتية بالذكاء الاصطناعي في 5 دقائق. ATS-Friendly. يدعم العربي والإنجليزي والفرنسي. بدون تسجيل." />
-    <meta name="keywords" content="resume builder, cv maker, ai resume, ats friendly, hash resume, job hunting, سيرة ذاتية، CV بالعربي، بناء سيرة ذاتية" />
+    <title>Hash Resume – سيرتك الاحترافية في 5 دقائق | AI Resume Builder</title>
+    <meta name="description" content="أنشئ سيرتك الذاتية بالذكاء الاصطناعي في 5 دقائق. ATS-Friendly. بدون تسجيل. يدعم العربية والإنجليزية والفرنسية." />
+    <meta name="keywords" content="resume builder, cv maker, ai resume, ats friendly, hash resume, job hunting, بالعربي, بناء سيرة ذاتية CV سيرة ذاتية" />
     <meta name="robots" content="index, follow" />
 
     <!-- Fonts preconnect -->
@@ -19,37 +19,37 @@
 
     <!-- All Application Fonts -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,300..800;1,300..800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://hashresume.com/" />
-    <meta property="og:title" content="Hash Resume — سيرتك الاحترافية في 5 دقائق" />
-    <meta property="og:description" content="أنشئ سيرتك الذاتية بالذكاء الاصطناعي لتتخطى أنظمة ATS. يدعم العربية، الإنجليزية والفرنسية. لا يتطلب تسجيل الدخول." />
+    <meta property="og:title" content="Hash Resume – سيرتك الاحترافية في 5 دقائق" />
+    <meta property="og:description" content="أنشئ سيرتك الذاتية بالذكاء الاصطناعي لتغطية أنظمة ATS. لا يتطلب تسجيل الدخول." />
     <meta property="og:image" content="https://hashresume.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:type" content="image/png" />
     <meta property="og:site_name" content="Hash Resume" />
+    <meta property="og:locale" content="ar_EG" />
+    <meta property="og:locale:alternate" content="en_US" />
 
-    <!-- Twitter -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://hashresume.com/" />
-    <meta name="twitter:title" content="Hash Resume — سيرتك الاحترافية في 5 دقائق" />
-    <meta name="twitter:description" content="أنشئ سيرتك الذاتية بالذكاء الاصطناعي لتتخطى أنظمة ATS. يدعم العربية، الإنجليزية والفرنسية. لا يتطلب تسجيل الدخول." />
+    <meta name="twitter:title" content="Hash Resume – سيرتك الاحترافية في 5 دقائق" />
+    <meta name="twitter:description" content="أنشئ سيرتك الذاتية بالذكاء الاصطناعي لتغطية أنظمة ATS." />
     <meta name="twitter:image" content="https://hashresume.com/og-image.png" />
 
-    <!-- يمنع FOUC — يقرأ اللغة المحفوظة قبل ما React يشتغل -->
+    <!-- يقرأ React باللغة المحفوظة قبل ما ينبث – يمنع FOUC -->
     <script>
       (function () {
         try {
           var stored = localStorage.getItem('language-storage');
           var lang = 'ar';
           if (stored) {
-             var parsed = JSON.parse(stored);
-             lang = parsed.state.language || 'en';
+            var parsed = JSON.parse(stored);
+            lang = parsed.state.language || 'en';
           }
           var dir = lang === 'ar' ? 'rtl' : 'ltr';
           document.documentElement.setAttribute('lang', lang);
@@ -57,18 +57,38 @@
         } catch (e) {}
       })();
 
-      // معالجة أخطاء تحميل الملفات البرمجية المجزأة (Chunks) لتفادي ظهور صفحة بيضاء عند تحديث الموقع
-      window.addEventListener('vite:preloadError', function (event) {
-        console.warn('Preload chunk error detected, reloading page...', event);
-        window.location.reload();
-      });
+      // تفادي ظهور صفحة بيضاء عند تحديث الموقع (Chunks) معالجة أخطاء تحميل الملفات البرمجية المجزأة //
+      (function () {
+        var RELOAD_KEY = 'chunk_reload_attempted';
+        var MAX_RELOADS = 1;
 
-      window.addEventListener('error', function (e) {
-        if (e && e.message && (e.message.indexOf('dynamically imported module') !== -1 || e.message.indexOf('Failed to fetch dynamically imported module') !== -1)) {
-          console.warn('Dynamic import chunk error detected, reloading page...', e);
-          window.location.reload();
+        function safeReload() {
+          try {
+            var count = parseInt(sessionStorage.getItem(RELOAD_KEY) || '0', 10);
+            if (count < MAX_RELOADS) {
+              sessionStorage.setItem(RELOAD_KEY, String(count + 1));
+              window.location.reload();
+            } else {
+              sessionStorage.removeItem(RELOAD_KEY);
+              console.error('Chunk load error persists after reload. Please check the deployment.');
+            }
+          } catch (err) {
+            // sessionStorage not available
+          }
         }
-      }, true);
+
+        window.addEventListener('vite:preloadError', function (event) {
+          console.warn('Preload chunk error detected, reloading page...', event);
+          safeReload();
+        });
+
+        window.addEventListener('error', function (e) {
+          if (e && e.message && (e.message.indexOf('dynamically imported module') !== -1 || e.message.indexOf('Failed to fetch dynamically imported module') !== -1)) {
+            console.warn('Dynamic import chunk error detected, reloading page...', e);
+            safeReload();
+          }
+        }, true);
+      })();
     </script>
   </head>
   <body>
