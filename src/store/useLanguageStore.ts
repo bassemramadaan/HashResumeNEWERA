@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
+import { safeLocalStorage } from "../utils/safeStorage";
 
 type Language = "en" | "ar" | "fr";
 
@@ -11,7 +12,7 @@ interface LanguageState {
 
 const getInitialLang = (): Language => {
   try {
-    const stored = localStorage.getItem("language-storage");
+    const stored = safeLocalStorage.getItem("language-storage");
     if (stored) {
       const parsed = JSON.parse(stored);
       return parsed?.state?.language || "en";
@@ -43,6 +44,7 @@ export const useLanguageStore = create<LanguageState>()(
     }),
     {
       name: "language-storage",
+      storage: createJSONStorage(() => safeLocalStorage),
     }
   )
 );

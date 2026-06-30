@@ -3,17 +3,18 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { temporal } from "zundo";
 import { nanoid } from "nanoid";
 import debounce from "lodash.debounce";
+import { safeLocalStorage } from "../utils/safeStorage";
 
 // Debounced storage to prevent excessive writes
 const debouncedStorage: Storage = {
-  getItem: (name: string) => localStorage.getItem(name),
+  getItem: (name: string) => safeLocalStorage.getItem(name),
   setItem: debounce((name: string, value: string) => {
-    localStorage.setItem(name, value);
+    safeLocalStorage.setItem(name, value);
   }, 1000) as (name: string, value: string) => void,
-  removeItem: (name: string) => localStorage.removeItem(name),
-  clear: () => localStorage.clear(),
-  key: (index: number) => localStorage.key(index),
-  length: localStorage.length,
+  removeItem: (name: string) => safeLocalStorage.removeItem(name),
+  clear: () => safeLocalStorage.clear(),
+  key: (index: number) => safeLocalStorage.key(index),
+  get length() { return safeLocalStorage.length; },
 };
 
 export type Experience = {
@@ -554,8 +555,8 @@ export const useResumeStore = create<ResumeStore>()(
             projects: currentData.projects,
             lockedAt: new Date().toISOString(),
           };
-          localStorage.setItem('cv-locked-data', JSON.stringify(lockedData));
-          localStorage.setItem('cv-is-locked', 'true');
+          safeLocalStorage.setItem('cv-locked-data', JSON.stringify(lockedData));
+          safeLocalStorage.setItem('cv-is-locked', 'true');
           
           set((state) => ({
             data: {
@@ -565,8 +566,8 @@ export const useResumeStore = create<ResumeStore>()(
           }));
         },
         unlockResume: () => {
-          localStorage.removeItem('cv-locked-data');
-          localStorage.removeItem('cv-is-locked');
+          safeLocalStorage.removeItem('cv-locked-data');
+          safeLocalStorage.removeItem('cv-is-locked');
           set((state) => ({
             data: {
               ...state.data,
@@ -575,9 +576,9 @@ export const useResumeStore = create<ResumeStore>()(
           }));
         },
         resetData: async () => {
-          localStorage.removeItem("hash-resume-storage");
-          localStorage.removeItem('cv-locked-data');
-          localStorage.removeItem('cv-is-locked');
+          safeLocalStorage.removeItem("hash-resume-storage");
+          safeLocalStorage.removeItem('cv-locked-data');
+          safeLocalStorage.removeItem('cv-is-locked');
           await useResumeStore.persist.clearStorage();
           set({ data: { ...initialData, isLocked: false }, isStarted: false });
         },
