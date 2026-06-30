@@ -1,6 +1,30 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
   <head>
+        <!-- SW Unregister: مسح الـ service worker القديم لمنع الصفحة البيضاء -->
+    <script>
+      (function () {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function (registrations) {
+            var hadSW = registrations.length > 0;
+            var unregisterPromises = registrations.map(function (r) { return r.unregister(); });
+            Promise.all(unregisterPromises).then(function () {
+              if (hadSW && 'caches' in window) {
+                caches.keys().then(function (keys) {
+                  return Promise.all(keys.map(function (k) { return caches.delete(k); }));
+                }).then(function () {
+                  var key = 'sw_unregister_reload';
+                  if (!sessionStorage.getItem(key)) {
+                    sessionStorage.setItem(key, '1');
+                    window.location.reload();
+                  }
+                });
+              }
+            });
+          });
+        }
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="google-site-verification" content="FNDGqqeRW_j7ERB2itgwpEN1EpREdzo2CckGGMrrBiI" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
