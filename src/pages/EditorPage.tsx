@@ -437,9 +437,37 @@ export default function EditorPage() {
 
   const handlePrint = () => {
     try {
-      window.print();
+      const resumeElement = document.getElementById("resume-capture-area");
+      if (!resumeElement) {
+        console.error("Resume capture area not found for print");
+        window.print();
+        return;
+      }
+
+      // Check if already exists
+      let printContainer = document.getElementById("resume-print-container");
+      if (!printContainer) {
+        printContainer = document.createElement("div");
+        printContainer.id = "resume-print-container";
+        const clone = resumeElement.cloneNode(true) as HTMLElement;
+        clone.id = "resume-print-capture-area";
+        printContainer.appendChild(clone);
+        document.body.appendChild(printContainer);
+      }
+      
+      document.body.classList.add("printing-resume-active");
+
+      setTimeout(() => {
+        window.print();
+        
+        // Clean up
+        const pc = document.getElementById("resume-print-container");
+        if (pc) pc.remove();
+        document.body.classList.remove("printing-resume-active");
+      }, 50);
     } catch (err) {
       console.error("Print failed:", err);
+      window.print();
     }
   };
 
@@ -447,6 +475,37 @@ export default function EditorPage() {
   useEffect(() => {
     const locked = localStorage.getItem('cv-locked');
     if (locked === 'true') setIsLocked(true);
+
+    const handleBeforePrint = () => {
+      if (!document.getElementById("resume-print-container")) {
+        const resumeElement = document.getElementById("resume-capture-area");
+        if (resumeElement) {
+          const printContainer = document.createElement("div");
+          printContainer.id = "resume-print-container";
+          const clone = resumeElement.cloneNode(true) as HTMLElement;
+          clone.id = "resume-print-capture-area";
+          printContainer.appendChild(clone);
+          document.body.appendChild(printContainer);
+          document.body.classList.add("printing-resume-active");
+        }
+      }
+    };
+
+    const handleAfterPrint = () => {
+      const printContainer = document.getElementById("resume-print-container");
+      if (printContainer) {
+        printContainer.remove();
+      }
+      document.body.classList.remove("printing-resume-active");
+    };
+
+    window.addEventListener("beforeprint", handleBeforePrint);
+    window.addEventListener("afterprint", handleAfterPrint);
+
+    return () => {
+      window.removeEventListener("beforeprint", handleBeforePrint);
+      window.removeEventListener("afterprint", handleAfterPrint);
+    };
   }, []);
 
   const downloadPDF = async () => {
