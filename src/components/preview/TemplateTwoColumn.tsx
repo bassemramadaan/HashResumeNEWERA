@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResumeData } from '../../store/useResumeStore';
 import { cn } from '@/lib/utils';
-import Markdown from 'react-markdown';
+import { SafeDescription } from './SafeDescription';
 import { Mail, Phone, MapPin, Globe, Linkedin } from 'lucide-react';
 
 export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
@@ -102,7 +102,7 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
               {isRtl ? "الملخص المهني" : "Summary"}
             </h3>
             <div className="text-[11px] text-slate-600 leading-relaxed markdown-body">
-              <Markdown>{personalInfo.summary}</Markdown>
+              <SafeDescription text={personalInfo.summary} />
             </div>
           </section>
         )}
@@ -124,7 +124,7 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
                   </div>
                   <div className="text-[11px] font-medium text-slate-700 mb-2">{exp.company}</div>
                   <div className="text-[10px] text-slate-600 leading-relaxed markdown-body">
-                    <Markdown>{exp.description}</Markdown>
+                    <SafeDescription text={exp.description} />
                   </div>
                 </div>
               ))}
@@ -150,7 +150,7 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
                     )}
                   </div>
                   <div className="text-[10px] text-slate-600 leading-relaxed markdown-body">
-                    <Markdown>{proj.description}</Markdown>
+                    <SafeDescription text={proj.description} />
                   </div>
                 </div>
               ))}
@@ -176,7 +176,7 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
                   <div className="text-[11px] font-medium text-slate-700">{edu.institution}</div>
                   {edu.description && (
                     <div className="text-[10px] text-slate-600 leading-relaxed mt-1 markdown-body">
-                      <Markdown>{edu.description}</Markdown>
+                      <SafeDescription text={edu.description} />
                     </div>
                   )}
                 </div>

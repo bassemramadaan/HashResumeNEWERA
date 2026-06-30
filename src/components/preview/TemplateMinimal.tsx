@@ -1,6 +1,6 @@
 import React from "react";
 import type { ResumeData } from "../../store/useResumeStore";
-import Markdown from 'react-markdown';
+import { SafeDescription } from "./SafeDescription";
 
 const TemplateMinimal: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, experience, education, skills, certifications, projects, settings } = data;
@@ -22,7 +22,7 @@ const TemplateMinimal: React.FC<{ data: ResumeData }> = ({ data }) => {
               {isRtl ? "الملخص المهني" : "Summary"}
             </h2>
             <div className="text-[11px] leading-[1.5] text-[#374151] markdown-body">
-              <Markdown>{personalInfo.summary}</Markdown>
+              <SafeDescription text={personalInfo.summary} />
             </div>
           </section>
         )}
@@ -40,7 +40,7 @@ const TemplateMinimal: React.FC<{ data: ResumeData }> = ({ data }) => {
                     <span>{exp.startDate} {exp.startDate && (exp.current ? (isRtl ? 'الحاضر' : 'Present') : exp.endDate) ? "–" : ""} {exp.current ? (isRtl ? 'الحاضر' : 'Present') : exp.endDate}</span>
                 </div>
                 <div className="text-[11px] text-[#374151] leading-[1.5] mt-1 markdown-body">
-                  <Markdown>{exp.description}</Markdown>
+                  <SafeDescription text={exp.description} />
                 </div>
               </div>
             ))}
@@ -61,7 +61,7 @@ const TemplateMinimal: React.FC<{ data: ResumeData }> = ({ data }) => {
                 <p className="text-[11px] text-[#374151]">{edu.degree}</p>
                 {edu.description && (
                   <div className="text-[11px] text-[#374151] leading-[1.5] mt-1 markdown-body">
-                    <Markdown>{edu.description}</Markdown>
+                    <SafeDescription text={edu.description} />
                   </div>
                 )}
               </div>
@@ -103,7 +103,7 @@ const TemplateMinimal: React.FC<{ data: ResumeData }> = ({ data }) => {
                     {proj.link && <span className="text-[11px] text-[#6B7280]">{proj.link}</span>}
                   </div>
                   <div className="text-[11px] text-[#374151] leading-[1.5] markdown-body">
-                    <Markdown>{proj.description}</Markdown>
+                    <SafeDescription text={proj.description} />
                   </div>
               </div>
             ))}
