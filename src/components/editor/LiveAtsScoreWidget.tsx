@@ -48,7 +48,7 @@ export default function LiveAtsScoreWidget() {
             initial={{ opacity: 0, y: 10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
-            className="absolute bottom-full mb-4 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[60vh]"
+            className={`absolute bottom-full mb-4 w-80 bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[60vh] ${isRtl ? 'left-0' : 'right-0'}`}
           >
             <div className="bg-slate-900 text-white p-5 shrink-0">
               <div className="flex items-center justify-between mb-3">
