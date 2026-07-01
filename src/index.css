@@ -563,5 +563,58 @@ body.printing-resume-active #resume-print-capture-area * {
   -webkit-font-smoothing: antialiased !important;
 }
 
+/* ============================================================
+   PREMIUM POLISHED FORM INPUTS & ACTIVE FIELD FOCUS
+   ============================================================ */
+.stagger-item input[type="text"],
+.stagger-item input[type="email"],
+.stagger-item input[type="tel"],
+.stagger-item input[type="url"],
+.stagger-item input[type="date"],
+.stagger-item select,
+.stagger-item textarea,
+.space-y-2 input[type="text"],
+.space-y-2 input[type="email"],
+.space-y-2 input[type="tel"],
+.space-y-2 input[type="url"],
+.space-y-2 input[type="date"],
+.space-y-2 select,
+.space-y-2 textarea,
+.bg-white p-6 input[type="text"],
+.bg-white p-6 textarea,
+.bg-white p-8 input[type="text"],
+.bg-white p-8 textarea,
+.bg-white p-6 select,
+.bg-white p-8 select {
+  padding-top: 0.72rem !important;
+  padding-bottom: 0.72rem !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border-radius: 0.75rem !important; /* Elegant 12px rounded-xl look */
+}
+
+/* Intelligent glow focus state using brand-500 theme color */
+.stagger-item input:focus,
+.stagger-item textarea:focus,
+.stagger-item select:focus,
+.space-y-2 input:focus,
+.space-y-2 textarea:focus,
+.space-y-2 select:focus,
+.bg-white p-6 input:focus,
+.bg-white p-6 textarea:focus,
+.bg-white p-8 input:focus,
+.bg-white p-8 textarea:focus {
+  border-color: #FF4D2D !important;
+  box-shadow: 0 0 0 4px rgba(255, 77, 45, 0.12) !important;
+  background-color: #ffffff !important;
+}
+
+/* Also style TipTap RichTextEditor focus-within state */
+div[class*="focus-within:ring-brand-500"],
+div[class*="focus-within:ring-orange-500"] {
+  border-color: #FF4D2D !important;
+  box-shadow: 0 0 0 4px rgba(255, 77, 45, 0.12) !important;
+}
+
+
 
 

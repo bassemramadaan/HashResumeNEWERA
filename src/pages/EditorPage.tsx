@@ -1189,9 +1189,11 @@ export default function EditorPage() {
                             >
                               {language === "ar" ? "السابق" : "Previous"}
                             </button>
-                            <button
+                            <motion.button
+                              whileHover={{ y: -1 }}
+                              whileTap={{ scale: 0.985 }}
                               onClick={() => setActiveTab("finish")}
-                              className="group flex items-center gap-3 bg-[#FF4D2D] hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all active:scale-95 cursor-pointer"
+                              className="group flex items-center gap-3 bg-[#FF4D2D] hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all cursor-pointer"
                             >
                               {language === "ar"
                                 ? "الذهاب للمراجعة والتحميل"
@@ -1200,7 +1202,7 @@ export default function EditorPage() {
                                 size={20}
                                 className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
                               />
-                            </button>
+                            </motion.button>
                           </div>
                         </section>
                       )}
@@ -1275,40 +1277,46 @@ export default function EditorPage() {
               </div>
               <div className="mt-8 px-4 py-4 border-t border-slate-100 flex items-center justify-between gap-3">
                 {Object.keys(sidebarCompletionMap).indexOf(activeTab as any) > 0 ? (
-                  <button
+                  <motion.button
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.985 }}
                     onClick={() => {
                       const allTabs = Object.keys(sidebarCompletionMap);
                       const currentIndex = allTabs.indexOf(activeTab as any);
                       setActiveTab(allTabs[currentIndex - 1] as any);
                     }}
-                    className="flex-1 py-3.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 bg-white font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-1.5 shadow-sm"
+                    className="flex-1 py-3.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 bg-white font-bold text-sm transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
                   >
                     <ArrowRight size={16} className="rtl:-scale-x-100 ltr:rotate-180" />
                     {language === "ar" ? "السابق" : language === "fr" ? "Précédent" : "Previous"}
-                  </button>
+                  </motion.button>
                 ) : (
                   <div className="flex-1" />
                 )}
                 {Object.keys(sidebarCompletionMap).indexOf(activeTab as any) < Object.keys(sidebarCompletionMap).length - 1 ? (
-                  <button
+                  <motion.button
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.985 }}
                     onClick={() => {
                       const allTabs = Object.keys(sidebarCompletionMap);
                       const currentIndex = allTabs.indexOf(activeTab as any);
                       setActiveTab(allTabs[currentIndex + 1] as any);
                     }}
-                    className="flex-1 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-black transition-all active:scale-95 flex items-center justify-center gap-1.5 shadow-sm shadow-slate-900/10"
+                    className="flex-1 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-black transition-all flex items-center justify-center gap-1.5 shadow-sm shadow-slate-900/10 cursor-pointer"
                   >
                     {language === "ar" ? "التالي" : language === "fr" ? "Suivant" : "Next"}
                     <ArrowRight size={16} className="rtl:-scale-x-100" />
-                  </button>
+                  </motion.button>
                 ) : (
-                  <button
+                  <motion.button
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.985 }}
                     onClick={() => handleProceedToExport("pdf")}
-                    className="flex-1 py-3.5 px-4 rounded-xl bg-orange-600 border border-orange-500 text-white font-bold text-sm hover:bg-orange-700 transition-all active:scale-95 flex items-center justify-center gap-1.5 shadow-sm"
+                    className="flex-1 py-3.5 px-4 rounded-xl bg-orange-600 border border-orange-500 text-white font-bold text-sm hover:bg-orange-700 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
                   >
                     {language === "ar" ? "تصدير" : language === "fr" ? "Exporter" : "Export"}
                     <ArrowRight size={16} className="rtl:-scale-x-100" />
-                  </button>
+                  </motion.button>
                 )}
               </div>
             </div>
@@ -1818,12 +1826,12 @@ export default function EditorPage() {
               )}
             </AnimatePresence>
 
-            <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-12 pt-24 md:pt-24 flex flex-col items-center justify-start bg-[#F3F4F6] relative">
+            <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-12 pt-24 md:pt-24 flex flex-col items-center justify-start bg-slate-50/60 backdrop-blur-xs relative border-l border-slate-200/40">
               <div
                 className="origin-top transition-all duration-500 flex justify-center scale-[0.4] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.8] xl:scale-[0.9] h-[calc(297mm*0.4)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.75)] lg:h-[calc(297mm*0.8)] xl:h-[calc(297mm*0.9)]"
               >
                 <div
-                  className="bg-white shadow-premium rounded-md overflow-hidden w-[210mm] min-h-[297mm] shrink-0"
+                  className="bg-white shadow-[0_20px_50px_rgba(0,0,0,0.04)] ring-1 ring-slate-100 rounded-md overflow-hidden w-[210mm] min-h-[297mm] shrink-0"
                 >
                   <Suspense fallback={<FormLoader />}>
                     <ResumePreview ref={componentRef} />
@@ -1875,7 +1883,7 @@ export default function EditorPage() {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-200/50">
+              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-50/60">
                 <div
                   className="origin-top transition-all flex justify-center scale-[0.4] sm:scale-[0.45] origin-top opacity-100"
                   style={{ 
@@ -1885,7 +1893,7 @@ export default function EditorPage() {
                   }}
                 >
                   <div
-                    className="bg-white shadow-premium rounded-sm overflow-hidden shrink-0 w-[210mm] min-h-[297mm]"
+                    className="bg-white shadow-[0_20px_50px_rgba(0,0,0,0.04)] ring-1 ring-slate-100 rounded-sm overflow-hidden shrink-0 w-[210mm] min-h-[297mm]"
                   >
                     <Suspense fallback={<FormLoader />}>
                       <ResumePreview ref={componentRef} />

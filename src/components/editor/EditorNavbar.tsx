@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
-import { CheckCircle2, Loader2, RotateCcw, AlertCircle, CloudOff } from "lucide-react";
+import { Loader2, RotateCcw, AlertCircle, Eye, EyeOff } from "lucide-react";
 import type { AppLang } from "../../hooks/useDirection";
+import { cn } from "../../lib/utils";
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 
@@ -9,11 +10,15 @@ export default function EditorNavbar({
   saveStatus = 'idle',
   onBackToHome = () => {},
   onReset = () => {},
+  focusMode = false,
+  onToggleFocus = () => {},
 }: {
   lang?: AppLang;
   saveStatus?: SaveStatus;
   onBackToHome?: () => void;
   onReset?: () => void;
+  focusMode?: boolean;
+  onToggleFocus?: () => void;
   // allow other props without breaking TS
   [key: string]: any;
 }) {
@@ -43,11 +48,14 @@ export default function EditorNavbar({
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="flex items-center gap-1.5 text-emerald-600"
+            className="flex items-center gap-2 text-emerald-600 font-sans"
           >
-            <CheckCircle2 className="w-3.5 h-3.5" />
+            <div className="relative flex h-2 w-2 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-450 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </div>
             <span className="text-[11px] font-bold">
-              {lang === 'ar' ? 'تم الحفظ' : lang === 'fr' ? 'Sauvegardé' : 'Saved'}
+              {lang === 'ar' ? 'تم الحفظ تلقائياً' : lang === 'fr' ? 'Enregistré' : 'Auto-saved'}
             </span>
           </motion.div>
         );
@@ -58,7 +66,7 @@ export default function EditorNavbar({
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="flex items-center gap-1.5 text-rose-500"
+            className="flex items-center gap-1.5 text-rose-500 font-sans"
           >
             <AlertCircle className="w-3.5 h-3.5" />
             <span className="text-[11px] font-bold">
@@ -74,11 +82,14 @@ export default function EditorNavbar({
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="flex items-center gap-1.5 text-slate-400"
+            className="flex items-center gap-2 text-emerald-600 font-sans"
           >
-            <CloudOff className="w-3.5 h-3.5" />
+            <div className="relative flex h-2 w-2 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </div>
             <span className="text-[11px] font-bold">
-              {lang === 'ar' ? 'جميع التغييرات محفوظة' : lang === 'fr' ? 'Toutes modifications enregistrées' : 'All changes saved'}
+              {lang === 'ar' ? 'مزامنة السحابة نشطة' : lang === 'fr' ? 'Synchro active' : 'Cloud sync active'}
             </span>
           </motion.div>
         );
@@ -123,8 +134,51 @@ export default function EditorNavbar({
           </div>
         </div>
         
-        {/* Right side spacer */}
-        <div className="flex-1 hidden md:flex" />
+        {/* Right side: Focus Mode Toggle */}
+        <div className="flex-1 hidden md:flex items-center justify-end gap-3">
+          <motion.button
+            whileHover={{ scale: 1.02, y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onToggleFocus}
+            className={cn(
+              "flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-bold transition-all cursor-pointer shadow-xs",
+              focusMode
+                ? "bg-emerald-50 border-emerald-200 text-emerald-700 shadow-[0_2px_10px_rgba(16,185,129,0.06)]"
+                : "bg-white border-slate-200 text-slate-500 hover:text-slate-700 hover:border-slate-300"
+            )}
+            title={
+              lang === "ar"
+                ? "نمط التركيز (إخفاء المشتتات)"
+                : lang === "fr"
+                ? "Mode Focus (masquer les distractions)"
+                : "Focus Mode (hide distractions)"
+            }
+          >
+            {focusMode ? (
+              <>
+                <Eye className="w-3.5 h-3.5" />
+                <span>
+                  {lang === "ar"
+                    ? "نمط التركيز: نشط"
+                    : lang === "fr"
+                    ? "Mode Focus : Actif"
+                    : "Focus Mode: Active"}
+                </span>
+              </>
+            ) : (
+              <>
+                <EyeOff className="w-3.5 h-3.5" />
+                <span>
+                  {lang === "ar"
+                    ? "نمط التركيز"
+                    : lang === "fr"
+                    ? "Mode Focus"
+                    : "Focus Mode"}
+                </span>
+              </>
+            )}
+          </motion.button>
+        </div>
       </nav>
     </div>
   );

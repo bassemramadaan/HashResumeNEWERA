@@ -3,6 +3,7 @@ import QRCode from "qrcode";
 import { useResumeStore, ResumeData } from "../../store/useResumeStore";
 import { useActiveSectionStore } from "../../store/useActiveSectionStore";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "motion/react";
 import TemplateClassic from "./TemplateClassic";
 import TemplateModern from "./TemplateModern";
 import TemplateExecutive from "./TemplateExecutive";
@@ -308,12 +309,23 @@ const ResumePreview = memo(
               }
             }
           `}} />
-          {currentTemplate === "classic" && <TemplateClassic data={data} />}
-          {currentTemplate === "modern" && <TemplateModern data={data} />}
-          {currentTemplate === "executive" && <TemplateExecutive data={data} />}
-          {currentTemplate === "minimal" && <TemplateMinimal data={data} />}
-          {currentTemplate === "timeline" && <TemplateTimeline data={data} />}
-          {currentTemplate === "two-column" && <TemplateTwoColumn data={data} />}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentTemplate}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.22, ease: "easeInOut" }}
+              className="w-full h-full"
+            >
+              {currentTemplate === "classic" && <TemplateClassic data={data} />}
+              {currentTemplate === "modern" && <TemplateModern data={data} />}
+              {currentTemplate === "executive" && <TemplateExecutive data={data} />}
+              {currentTemplate === "minimal" && <TemplateMinimal data={data} />}
+              {currentTemplate === "timeline" && <TemplateTimeline data={data} />}
+              {currentTemplate === "two-column" && <TemplateTwoColumn data={data} />}
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {settings?.showQRCode && qrSrc && (

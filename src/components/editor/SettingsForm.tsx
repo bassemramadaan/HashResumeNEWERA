@@ -15,6 +15,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 
@@ -306,11 +307,13 @@ export default React.memo(function SettingsForm() {
               };
 
               return (
-                <button
+                <motion.button
                   key={template.id}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.99 }}
                   onClick={() => updateSettings({ template: template.id })}
                   className={cn(
-                    "p-4.5 rounded-xl border text-start transition-all relative overflow-hidden group flex flex-col justify-between h-auto min-h-[160px]",
+                    "p-4.5 rounded-xl border text-start transition-all relative overflow-hidden group flex flex-col justify-between h-auto min-h-[160px] cursor-pointer",
                     settings.template === template.id
                       ? "border-brand-500 bg-brand-50/50 shadow-sm font-black"
                       : "border-slate-200 hover:border-slate-300 hover:bg-slate-50",
@@ -351,7 +354,7 @@ export default React.memo(function SettingsForm() {
                   <div className="text-[10px] w-full bg-white/70 border border-slate-200/50 rounded-lg p-2.5 mt-auto font-bold text-slate-500 tracking-tight leading-relaxed">
                     {adviceText}
                   </div>
-                </button>
+                </motion.button>
               );
             })}
           </div>
