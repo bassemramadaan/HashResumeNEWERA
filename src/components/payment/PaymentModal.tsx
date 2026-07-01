@@ -199,6 +199,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       
       const result = await response.json();
       if (result.success === true) {
+        localStorage.setItem('cv-last-used-code', code.trim().toUpperCase());
         useResumeStore.getState().unlockPremium("", "", "");
         onSuccess();
       } else {
@@ -295,6 +296,10 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       if (result.success === true && result.status === "approved") {
         localStorage.removeItem("pending_payment_ref");
         setPendingRef("");
+        const codeToSave = (result.codes && result.codes[0]) || result.code || targetRef;
+        if (codeToSave) {
+          localStorage.setItem('cv-last-used-code', codeToSave);
+        }
         useResumeStore.getState().unlockPremium("", "", "");
 
         let isBundlePackage = selectedPackage === "bundle";

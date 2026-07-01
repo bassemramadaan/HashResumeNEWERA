@@ -73,8 +73,8 @@ async function startServer() {
 
       // Proxy the verification to the actual Google Apps Script privately
       let scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
-      if (!scriptUrl || !scriptUrl.includes("AKfycbxEwZA")) {
-          scriptUrl = "https://script.google.com/macros/s/AKfycbxEwZAiv_ja3Tlpno6HWp-OL1ur2WPkRq_9V4BTqquWsfX1gAEacB9vu-iRowF9FxDI-A/exec";
+      if (!scriptUrl || !scriptUrl.includes("AKfycbwnnZ5")) {
+          scriptUrl = "https://script.google.com/macros/s/AKfycbwnnZ5RzPxDXeuPDIL1oIOka0SCfZ7SwZEx1mT23sUB8klZXcE4KEbDRNraU42Jp_-qUA/exec";
       }
       if (!scriptUrl) {
           throw new Error("Payment script URL not configured");
@@ -167,8 +167,8 @@ async function startServer() {
       const { reference, senderInfo, email, amount } = req.method === "POST" ? req.body : req.query;
 
       let scriptUrl = process.env.GOOGLE_SCRIPT_URL || process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
-      if (!scriptUrl || !scriptUrl.includes("AKfycbxEwZA")) {
-        scriptUrl = "https://script.google.com/macros/s/AKfycbxEwZAiv_ja3Tlpno6HWp-OL1ur2WPkRq_9V4BTqquWsfX1gAEacB9vu-iRowF9FxDI-A/exec";
+      if (!scriptUrl || !scriptUrl.includes("AKfycbwnnZ5")) {
+        scriptUrl = "https://script.google.com/macros/s/AKfycbwnnZ5RzPxDXeuPDIL1oIOka0SCfZ7SwZEx1mT23sUB8klZXcE4KEbDRNraU42Jp_-qUA/exec";
       }
 
       const params = new URLSearchParams({

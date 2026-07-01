@@ -417,22 +417,88 @@ export default function EditorPage() {
   const componentRef = useRef<HTMLDivElement>(null);
   const [isLocked, setIsLocked] = useState(false);
 
-  const lockCVAfterDownload = () => {
-    // حفظ snapshot
-    const snapshot = JSON.stringify({
-      personalInfo: data.personalInfo,
-      workExperience: data.experience,
-      education: data.education,
-      skills: data.skills,
-      certifications: data.certifications,
-      projects: data.projects,
+  const generateFingerprint = (cvData: typeof data): string => {
+    const str = JSON.stringify({
+      personalInfo: cvData.personalInfo,
+      workExperience: cvData.experience,
+      education: cvData.education,
+      skills: cvData.skills,
     });
-    localStorage.setItem('cv-locked-snapshot', snapshot);
-    localStorage.setItem('cv-locked', 'true');
+    // Simple hash
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash;
+    }
+    return hash.toString(36);
+  };
 
-    // update الـ state
+  // بعد كل Download ناجح
+  const onSuccessfulDownload = () => {
+    const fingerprint = generateFingerprint(data);
+    const snapshot = JSON.stringify(data);
+    localStorage.setItem('cv-last-download-fingerprint', fingerprint);
+    localStorage.setItem('cv-last-download-snapshot', snapshot);
+    localStorage.setItem('cv-locked', 'true');
     setIsLocked(true);
     useResumeStore.getState().lockResume();
+  };
+
+  // قبل كل Download
+  const checkCanDownload = (): 'free' | 'needs-code' | 'first-time' => {
+    const savedFingerprint = localStorage.getItem('cv-last-download-fingerprint');
+    if (!savedFingerprint) return 'first-time';
+    
+    const currentFingerprint = generateFingerprint(data);
+    if (currentFingerprint === savedFingerprint) return 'free';
+    
+    return 'needs-code';
+  };
+
+  const handleUndoChanges = () => {
+    const snapshot = localStorage.getItem('cv-last-download-snapshot');
+    if (snapshot) {
+      try {
+        const parsed = JSON.parse(snapshot);
+        useResumeStore.getState().loadData(parsed);
+      } catch (e) {
+        console.error("Failed to restore snapshot:", e);
+      }
+    }
+  };
+
+  const renderWarningBanner = () => {
+    if (checkCanDownload() !== "needs-code") return null;
+
+    return (
+      <div id="cv-needs-code-banner" className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm animate-fade-in z-40" dir={language === "ar" ? "rtl" : "ltr"}>
+        <div className="flex items-center gap-3">
+          <span className="text-xl">⚠️</span>
+          <p className="text-sm font-semibold text-amber-800">
+            {language === "ar" 
+              ? "قمت بتعديل سيرتك — تحتاج كود جديد لتحميل النسخة المحدثة" 
+              : "You modified your resume — you need a new code to download the updated version"}
+          </p>
+        </div>
+        <div className="flex items-center gap-2.5 w-full md:w-auto shrink-0">
+          <button
+            id="btn-revert-changes"
+            onClick={handleUndoChanges}
+            className="flex-1 md:flex-none px-4 py-2 bg-white hover:bg-neutral-50 border border-neutral-200 text-neutral-700 text-xs font-bold rounded-xl transition-all active:scale-95 cursor-pointer"
+          >
+            {language === "ar" ? "التراجع عن التعديلات" : "Undo changes"}
+          </button>
+          <button
+            id="btn-new-code"
+            onClick={() => setShowPaymentModal(true)}
+            className="flex-1 md:flex-none px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-sm shadow-amber-600/10 transition-all active:scale-95 cursor-pointer"
+          >
+            {language === "ar" ? "تحميل بكود جديد" : "Download with new code"}
+          </button>
+        </div>
+      </div>
+    );
   };
 
   const handlePrint = () => {
@@ -508,34 +574,6 @@ export default function EditorPage() {
     };
   }, []);
 
-  const downloadPDF = async () => {
-    try {
-      setIsExporting(true);
-
-      const selectedTemplate = settings.template || "classic";
-      const resumeData = useResumeStore.getState().data;
-
-      const doc = <PDFRenderer templateId={selectedTemplate} data={resumeData} />;
-      const blob = await pdf(doc).toBlob();
-
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${fullName || "Resume"}_CV.pdf`;
-      link.click();
-      URL.revokeObjectURL(url);
-
-      localStorage.setItem('cv-locked', 'true');
-      setIsLocked(true);
-
-    } catch (error) {
-      console.error('Export error, falling back to print:', error);
-      handlePrint();
-    } finally {
-      setIsExporting(false);
-    }
-  };
-
   const handleExportClick = () => {
     setShowResumeChecker(true);
   };
@@ -548,7 +586,15 @@ export default function EditorPage() {
       : "pdf";
 
     setShowResumeChecker(false);
-    if (!isPremium) {
+
+    const canDownloadState = checkCanDownload();
+    const isFreeDownload = canDownloadState === "free";
+
+    // We allow downloading if they didn't change the resume (isFreeDownload),
+    // OR if it's their first time and they are premium.
+    const allowed = isFreeDownload || (isPremium && canDownloadState === "first-time");
+
+    if (!allowed) {
       setShowPaymentModal(true);
       return;
     }
@@ -584,7 +630,7 @@ export default function EditorPage() {
         link.click();
         URL.revokeObjectURL(url);
 
-        useResumeStore.getState().lockResume();
+        onSuccessfulDownload();
 
         setExportStatus({ show: true, step: 5, format }); // "SUCCESS!"
         // Trigger confetti celebration!
@@ -603,7 +649,7 @@ export default function EditorPage() {
         setExportStatus(null);
         handlePrint();
         setHasExported(true);
-        useResumeStore.getState().lockResume();
+        onSuccessfulDownload();
       }
     } else if (format === "docx") {
       try {
@@ -668,7 +714,7 @@ export default function EditorPage() {
         a.click();
         URL.revokeObjectURL(url);
 
-        useResumeStore.getState().lockResume();
+        onSuccessfulDownload();
         setExportStatus({ show: true, step: 5, format });
         // Trigger confetti celebration!
         (window as any).triggerFrictionlessConfetti?.();
@@ -694,7 +740,7 @@ export default function EditorPage() {
         link.href = url;
         link.download = `${data.personalInfo.fullName || "resume"}.txt`;
         link.click();
-        useResumeStore.getState().lockResume();
+        onSuccessfulDownload();
         setExportStatus({ show: true, step: 5, format });
         await sleep(1000);
         setExportStatus(null);
@@ -1190,6 +1236,7 @@ export default function EditorPage() {
           <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full overflow-y-auto pb-6 relative scrollbar-none editor-form-scrollable">
             <div className="min-h-full flex flex-col">
               <div className="flex-1 px-1">
+                {renderWarningBanner()}
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
@@ -1295,6 +1342,7 @@ export default function EditorPage() {
                 focusMode ? "bg-white" : ""
               )}
             >
+              {renderWarningBanner()}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
