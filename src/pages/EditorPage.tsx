@@ -614,7 +614,7 @@ export default function EditorPage() {
 
         setExportStatus({ show: true, step: 3, format }); // "Assembling PDF stream..."
         
-        const selectedTemplate = settings.template || "classic";
+        const selectedTemplate = data.settings?.template || "classic";
         const resumeData = useResumeStore.getState().data;
 
         const doc = <PDFRenderer templateId={selectedTemplate} data={resumeData} />;

@@ -289,7 +289,7 @@ type ResumeStore = {
 export const useResumeStore = create<ResumeStore>()(
   temporal(
     persist(
-      (set) => ({
+      (set, get) => ({
       data: initialData,
       isHydrated: false,
       isGeneratingText: false,
