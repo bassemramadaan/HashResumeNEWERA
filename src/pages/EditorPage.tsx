@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
+import React, { useState, useRef, useEffect, Suspense, lazy, useCallback } from "react";
 import { Helmet } from "react-helmet-async";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import { motion, AnimatePresence } from "motion/react";
@@ -254,6 +254,10 @@ export default function EditorPage() {
 
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
   const data = useResumeStore((state) => state.data);
+  const personalInfo = useResumeStore((state) => state.data.personalInfo);
+  const experience = useResumeStore((state) => state.data.experience);
+  const education = useResumeStore((state) => state.data.education);
+  const skills = useResumeStore((state) => state.data.skills);
   const isStarted = useResumeStore((state) => state.isStarted);
   const setIsStarted = useResumeStore((state) => state.setIsStarted);
   
@@ -416,8 +420,9 @@ export default function EditorPage() {
 
   const componentRef = useRef<HTMLDivElement>(null);
   const [isLocked, setIsLocked] = useState(false);
+  const [showEditWarning, setShowEditWarning] = useState(false);
 
-  const generateFingerprint = (cvData: typeof data): string => {
+  const generateFingerprint = useCallback((cvData: typeof data): string => {
     const str = JSON.stringify({
       personalInfo: cvData.personalInfo,
       workExperience: cvData.experience,
@@ -432,7 +437,7 @@ export default function EditorPage() {
       hash = hash & hash;
     }
     return hash.toString(36);
-  };
+  }, []);
 
   // بعد كل Download ناجح
   const onSuccessfulDownload = () => {
@@ -442,6 +447,7 @@ export default function EditorPage() {
     localStorage.setItem('cv-last-download-snapshot', snapshot);
     localStorage.setItem('cv-locked', 'true');
     setIsLocked(true);
+    setShowEditWarning(false);
     useResumeStore.getState().lockResume();
   };
 
@@ -462,14 +468,31 @@ export default function EditorPage() {
       try {
         const parsed = JSON.parse(snapshot);
         useResumeStore.getState().loadData(parsed);
+        setShowEditWarning(false);
       } catch (e) {
         console.error("Failed to restore snapshot:", e);
       }
     }
   };
 
+  useEffect(() => {
+    const savedFingerprint = localStorage.getItem('cv-last-download-fingerprint');
+    if (!savedFingerprint) {
+      setShowEditWarning(false);
+      return; // لو لسه ما حملش قبل كده — مش محتاج warning
+    }
+
+    const currentFingerprint = generateFingerprint(data);
+
+    if (currentFingerprint !== savedFingerprint) {
+      setShowEditWarning(true); // اعرض الـ banner
+    } else {
+      setShowEditWarning(false); // اخفيه لو رجع للبيانات الأصلية
+    }
+  }, [data, personalInfo, experience, education, skills, generateFingerprint]); // مهم جداً — نراقب التغييرات بكل الـ fields
+
   const renderWarningBanner = () => {
-    if (checkCanDownload() !== "needs-code") return null;
+    if (!showEditWarning) return null;
 
     return (
       <div id="cv-needs-code-banner" className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm animate-fade-in z-40" dir={language === "ar" ? "rtl" : "ltr"}>
@@ -2269,7 +2292,7 @@ export default function EditorPage() {
           </div>
         )}
         {showConfetti && <FrictionlessConfetti />}
-        <div className="text-center text-xs text-slate-400 pb-4">version 2.0.6</div>
+        <div className="text-center text-xs text-slate-400 pb-4">version 2.0.7</div>
     </div>
   );
 }

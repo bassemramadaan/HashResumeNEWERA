@@ -241,7 +241,7 @@ async function startServer() {
   app.post("/api/hashhunt/submit", async (req, res) => {
     try {
       const submissionData = req.body;
-      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbzuViPQd8dgGJ7MEprD972A1Henp55Q_ypyzoMbwIA5H_lpFnq2Ed3EnOwH4Gc12HvD/exec";
+      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbyl7ro7BiwATXekxNHoO79D1DyVGfQEIfQGY5_nodXMu0KeZA2kXUxTSbqK7wlg3xGyHw/exec";
       
       console.log("Sending submission to Google Apps Script Web App url:", scriptUrl);
 

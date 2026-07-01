@@ -382,7 +382,7 @@ function doPost(e) {
       // We use text/plain;charset=utf-8 to bypass CORS preflight OPTIONS blockages by browsers (simple request rule)
       if (!hasSucceeded) {
         console.log("Using direct Apps Script client-side fallback...");
-        const fallbackUrl = "https://script.google.com/macros/s/AKfycbxJESRR_cobA9II5E2MgBi4Iov7Imw0TlUt7N1PLCVof7Gsq8BfXQCsecgIiOZfh3XF/exec";
+        const fallbackUrl = "https://script.google.com/macros/s/AKfycbyl7ro7BiwATXekxNHoO79D1DyVGfQEIfQGY5_nodXMu0KeZA2kXUxTSbqK7wlg3xGyHw/exec";
         
         const directResp = await fetch(fallbackUrl, {
           method: "POST",
