@@ -3,19 +3,22 @@
   <head>
     <script>
       (function () {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(function (registrations) {
-            registrations.forEach(function (registration) {
-              registration.unregister();
+        if (!localStorage.getItem('sw-cleared')) {
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function (registrations) {
+              registrations.forEach(function (registration) {
+                registration.unregister();
+              });
             });
-          });
-        }
-        if ('caches' in window) {
-          caches.keys().then(function (cacheNames) {
-            cacheNames.forEach(function (cacheName) {
-              caches.delete(cacheName);
+          }
+          if ('caches' in window) {
+            caches.keys().then(function (cacheNames) {
+              cacheNames.forEach(function (cacheName) {
+                caches.delete(cacheName);
+              });
             });
-          });
+          }
+          localStorage.setItem('sw-cleared', '1');
         }
       })();
     </script>
