@@ -4,11 +4,13 @@ import { ChevronUp, ChevronDown, CheckCircle2, AlertCircle, Info, Star } from 'l
 import { useLanguageStore } from '../../store/useLanguageStore';
 import { calculateATSScore } from '../../utils/ats';
 import { useResumeStore } from '../../store/useResumeStore';
+import GamifiedJourney from './GamifiedJourney';
 
 export default function LiveAtsScoreWidget() {
   const data = useResumeStore(state => state.data);
   const { language } = useLanguageStore();
   const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'checklist' | 'journey'>('checklist');
 
   const { score, sections } = React.useMemo(() => {
     try {
@@ -73,68 +75,98 @@ export default function LiveAtsScoreWidget() {
                   : 'Score is based on quality and completion of essential fields'}
               </p>
             </div>
+
+            {/* Premium Dual Tabs Selector */}
+            <div className="flex border-b border-slate-150 shrink-0 bg-white shadow-xs z-10" dir={isRtl ? 'rtl' : 'ltr'}>
+              <button
+                type="button"
+                onClick={() => setActiveTab('checklist')}
+                className={`flex-1 text-center py-2.5 text-[11px] font-black tracking-wide transition-all border-b-2 cursor-pointer ${
+                  activeTab === 'checklist'
+                    ? 'border-brand-500 text-brand-600 font-extrabold'
+                    : 'border-transparent text-slate-450 hover:text-slate-800'
+                }`}
+              >
+                {language === 'ar' ? '📋 مؤشر التوافق' : '📋 ATS Audit'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('journey')}
+                className={`flex-1 text-center py-2.5 text-[11px] font-black tracking-wide transition-all border-b-2 cursor-pointer ${
+                  activeTab === 'journey'
+                    ? 'border-brand-500 text-brand-600 font-extrabold'
+                    : 'border-transparent text-slate-450 hover:text-slate-800'
+                }`}
+              >
+                {language === 'ar' ? '🧭 خريطة الإنجاز' : '🧭 Journey Map'}
+              </button>
+            </div>
             
             <div className="p-5 overflow-y-auto space-y-6 bg-slate-50/50 flex-1">
-              {requiredTips.length === 0 && recommendedTips.length === 0 && niceToHaveTips.length === 0 ? (
-                <div className="flex flex-col items-center text-center gap-2 text-emerald-600 py-6">
-                  <CheckCircle2 size={32} />
-                  <span className="font-bold text-sm">
-                    {language === 'ar' ? 'سيرتك الذاتية ممتازة ومكتملة!' : 'Your resume is excellent and complete!'}
-                  </span>
-                </div>
+              {activeTab === 'checklist' ? (
+                requiredTips.length === 0 && recommendedTips.length === 0 && niceToHaveTips.length === 0 ? (
+                  <div className="flex flex-col items-center text-center gap-2 text-emerald-600 py-6">
+                    <CheckCircle2 size={32} />
+                    <span className="font-bold text-sm">
+                      {language === 'ar' ? 'سيرتك الذاتية ممتازة ومكتملة!' : 'Your resume is excellent and complete!'}
+                    </span>
+                  </div>
+                ) : (
+                  <>
+                    {requiredTips.length > 0 && (
+                      <div className="space-y-3">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-rose-500 flex items-center gap-1.5">
+                          <AlertCircle size={12} />
+                          {language === 'ar' ? 'تعديلات ضرورية' : 'Required Fixes'}
+                        </h4>
+                        <ul className="space-y-2">
+                          {requiredTips.map((tip, i) => (
+                            <li key={i} className="flex items-start gap-2 text-[11px] text-slate-700 font-medium leading-relaxed bg-rose-50 p-2.5 rounded-lg border border-rose-100">
+                              <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0 mt-1.5" />
+                              <span>{tip}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {recommendedTips.length > 0 && (
+                      <div className="space-y-3">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-500 flex items-center gap-1.5">
+                          <Info size={12} />
+                          {language === 'ar' ? 'تحسينات موصى بها' : 'Recommended'}
+                        </h4>
+                        <ul className="space-y-2">
+                          {recommendedTips.map((tip, i) => (
+                            <li key={i} className="flex items-start gap-2 text-[11px] text-slate-700 font-medium leading-relaxed bg-amber-50 p-2.5 rounded-lg border border-amber-100">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 mt-1.5" />
+                              <span>{tip}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {niceToHaveTips.length > 0 && (
+                      <div className="space-y-3">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-500 flex items-center gap-1.5">
+                          <Star size={12} />
+                          {language === 'ar' ? 'لمسات إضافية' : 'Nice to Have'}
+                        </h4>
+                        <ul className="space-y-2">
+                          {niceToHaveTips.map((tip, i) => (
+                            <li key={i} className="flex items-start gap-2 text-[11px] text-slate-700 font-medium leading-relaxed bg-brand-50 p-2.5 rounded-lg border border-brand-100">
+                              <span className="w-1.5 h-1.5 rounded-full bg-brand-400 shrink-0 mt-1.5" />
+                              <span>{tip}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </>
+                )
               ) : (
-                <>
-                  {requiredTips.length > 0 && (
-                    <div className="space-y-3">
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-rose-500 flex items-center gap-1.5">
-                        <AlertCircle size={12} />
-                        {language === 'ar' ? 'تعديلات ضرورية' : 'Required Fixes'}
-                      </h4>
-                      <ul className="space-y-2">
-                        {requiredTips.map((tip, i) => (
-                          <li key={i} className="flex items-start gap-2 text-[11px] text-slate-700 font-medium leading-relaxed bg-rose-50 p-2.5 rounded-lg border border-rose-100">
-                            <span className="w-1.5 h-1.5 rounded-full bg-rose-400 shrink-0 mt-1.5" />
-                            <span>{tip}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {recommendedTips.length > 0 && (
-                    <div className="space-y-3">
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-500 flex items-center gap-1.5">
-                        <Info size={12} />
-                        {language === 'ar' ? 'تحسينات موصى بها' : 'Recommended'}
-                      </h4>
-                      <ul className="space-y-2">
-                        {recommendedTips.map((tip, i) => (
-                          <li key={i} className="flex items-start gap-2 text-[11px] text-slate-700 font-medium leading-relaxed bg-amber-50 p-2.5 rounded-lg border border-amber-100">
-                            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0 mt-1.5" />
-                            <span>{tip}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {niceToHaveTips.length > 0 && (
-                    <div className="space-y-3">
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-brand-500 flex items-center gap-1.5">
-                        <Star size={12} />
-                        {language === 'ar' ? 'لمسات إضافية' : 'Nice to Have'}
-                      </h4>
-                      <ul className="space-y-2">
-                        {niceToHaveTips.map((tip, i) => (
-                          <li key={i} className="flex items-start gap-2 text-[11px] text-slate-700 font-medium leading-relaxed bg-brand-50 p-2.5 rounded-lg border border-brand-100">
-                            <span className="w-1.5 h-1.5 rounded-full bg-brand-400 shrink-0 mt-1.5" />
-                            <span>{tip}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </>
+                <GamifiedJourney />
               )}
             </div>
           </motion.div>

@@ -2,10 +2,11 @@ import React, { useState, useMemo } from "react";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
-import { Plus, X, Sparkles, AlertCircle } from "lucide-react";
+import { Plus, X, Sparkles, AlertCircle, Star, Tag } from "lucide-react";
 import SectionTooltip from "./SectionTooltip";
 import { getJobMatchResults } from "../../utils/ats";
 import QuickAIAssistPill from "./QuickAIAssistPill";
+import SkillsRadarGraph, { getSkillCategoryFallback } from "./SkillsRadarGraph";
 
 import AISuggestion from "./AISuggestion";
 
@@ -38,6 +39,54 @@ const SkillsForm = () => {
   const [inputValue, setInputValue] = useState("");
   const [showAISuggestions, setShowAISuggestions] = useState(false);
 
+  // Load and save skill levels persistently
+  const [skillLevels, setSkillLevels] = useState<Record<string, number>>(() => {
+    try {
+      const saved = localStorage.getItem(`cv-skill-levels-${personalInfo.fullName || 'default'}`);
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      return {};
+    }
+  });
+
+  // Load and save skill categories persistently
+  const [skillCategories, setSkillCategories] = useState<Record<string, string>>(() => {
+    try {
+      const saved = localStorage.getItem(`cv-skill-categories-${personalInfo.fullName || 'default'}`);
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      return {};
+    }
+  });
+
+  const getSkillLevel = (skillName: string) => {
+    return skillLevels[skillName] ?? 4; // default to 4/5
+  };
+
+  const setAndSaveSkillLevel = (skillName: string, level: number) => {
+    const updated = { ...skillLevels, [skillName]: level };
+    setSkillLevels(updated);
+    try {
+      localStorage.setItem(`cv-skill-levels-${personalInfo.fullName || 'default'}`, JSON.stringify(updated));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const getSkillCategory = (skillName: string) => {
+    return skillCategories[skillName] ?? getSkillCategoryFallback(skillName);
+  };
+
+  const setAndSaveSkillCategory = (skillName: string, category: string) => {
+    const updated = { ...skillCategories, [skillName]: category };
+    setSkillCategories(updated);
+    try {
+      localStorage.setItem(`cv-skill-categories-${personalInfo.fullName || 'default'}`, JSON.stringify(updated));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const matchResults = useMemo(() => getJobMatchResults(data), [data]);
 
   const handleAdd = (e?: React.FormEvent) => {
@@ -55,6 +104,14 @@ const SkillsForm = () => {
 
   return (
     <div className="space-y-6 font-sans">
+      {/* 📊 Interactive 3D Skills Radar Chart */}
+      <SkillsRadarGraph
+        skills={skills.map(s => typeof s === 'string' ? s : s.name)}
+        skillLevels={skillLevels}
+        skillCategories={skillCategories}
+        language={language}
+      />
+
       {/* Live ATS Keyword Assistant bar */}
       {jobDescription && matchResults && matchResults.missing.length > 0 && (
         <div className="bg-gradient-to-tr from-brand-50 to-orange-50/40 border border-brand-200/60 rounded-2.5xl p-5 md:p-6 shadow-[0_8px_20px_-4px_rgba(255,77,45,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 animate-fade-in text-start relative overflow-hidden group">
@@ -228,7 +285,7 @@ const SkillsForm = () => {
         </form>
 
         <div className="mb-6">
-          <h3 className="text-[11px] font-semibold text-slate-500 block mb-1 mb-4">
+          <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-4">
             {String(t.skills?.yourSkills || "Your Skills")}
           </h3>
           {skills.length === 0 ? (
@@ -236,23 +293,75 @@ const SkillsForm = () => {
               {String(t.skills?.noSkills || "")}
             </p>
           ) : (
-            <div className="flex flex-wrap gap-2">
+            <div className="space-y-3">
               {skills.map((skill) => {
                 const skillName = typeof skill === 'string' ? skill : skill.name;
+                const level = getSkillLevel(skillName);
+                const category = getSkillCategory(skillName);
+
                 return (
-                <span
-                  key={skillName}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-150 text-slate-700 hover:text-slate-900 text-xs sm:text-sm font-semibold transition-all shadow-3xs hover:border-slate-300 group"
-                >
-                  {skillName}
-                  <button
-                    onClick={() => removeSkill(skill)}
-                    className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-0.5 rounded-md focus:outline-none transition-all cursor-pointer"
-                    aria-label={`Remove ${skillName}`}
+                  <div
+                    key={skillName}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-slate-150 bg-slate-50/40 hover:bg-slate-50 transition-all shadow-3xs"
                   >
-                    <X size={14} />
-                  </button>
-                </span>
+                    {/* Left: Skill Name and Category Dropdown */}
+                    <div className="flex flex-col gap-1.5 text-start">
+                      <span className="font-extrabold text-sm text-slate-800">
+                        {skillName}
+                      </span>
+                      
+                      {/* Interactive Category Selector */}
+                      <div className="flex items-center gap-1.5">
+                        <Tag size={12} className="text-slate-400" />
+                        <select
+                          value={category}
+                          onChange={(e) => setAndSaveSkillCategory(skillName, e.target.value)}
+                          className="bg-transparent text-[10px] font-bold text-slate-500 border-none hover:text-brand-650 focus:text-brand-650 outline-none p-0 cursor-pointer transition-colors"
+                        >
+                          <option value="tech">{language === 'ar' ? '🔧 خبرة تقنية' : '🔧 Tech Skill'}</option>
+                          <option value="collab">{language === 'ar' ? '🤝 عمل جماعي' : '🤝 Collaboration'}</option>
+                          <option value="strategy">{language === 'ar' ? '📈 قيادة وتخطيط' : '📈 Strategy'}</option>
+                          <option value="problem">{language === 'ar' ? '💡 حل مشكلات' : '💡 Problem Solv'}</option>
+                          <option value="creative">{language === 'ar' ? '🎨 تصميم وابتكار' : '🎨 Creative'}</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Right: Stars Level Controls & Delete Button */}
+                    <div className="flex items-center gap-4 justify-between sm:justify-end shrink-0">
+                      {/* 5-Dots Interactive Rating Selector */}
+                      <div className="flex items-center gap-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            onClick={() => setAndSaveSkillLevel(skillName, star)}
+                            className="p-1 cursor-pointer group focus:outline-none transition-transform active:scale-90"
+                            title={`${language === 'ar' ? 'مستوى' : 'Level'} ${star}/5`}
+                          >
+                            <Star
+                              size={15}
+                              className={`transition-all duration-300 ${
+                                star <= level
+                                  ? 'fill-brand-500 text-brand-500 scale-110 drop-shadow-[0_0_2px_rgba(255,77,45,0.4)]'
+                                  : 'text-slate-300 hover:text-brand-400 hover:scale-105'
+                              }`}
+                            />
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Delete Action button */}
+                      <button
+                        type="button"
+                        onClick={() => removeSkill(skill)}
+                        className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-lg border border-transparent hover:border-red-100 transition-all cursor-pointer"
+                        aria-label={`Remove ${skillName}`}
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                  </div>
                 );
               })}
             </div>
