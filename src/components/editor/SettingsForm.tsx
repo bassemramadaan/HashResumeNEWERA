@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
+import TemplateComparisonModal from "./TemplateComparisonModal";
 
 export default React.memo(function SettingsForm() {
   const { language } = useLanguageStore();
@@ -61,6 +62,7 @@ export default React.memo(function SettingsForm() {
   ] as const;
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   const AlertModal = () => {
@@ -127,14 +129,36 @@ export default React.memo(function SettingsForm() {
     <div className="space-y-6 font-sans relative">
       <AlertModal />
       <ResetConfirmModal />
+      <TemplateComparisonModal 
+        isOpen={showComparison}
+        onClose={() => setShowComparison(false)}
+        data={data}
+        onSelectTemplate={(id) => {
+          updateSettings({ template: id });
+          setShowComparison(false);
+        }}
+        currentTemplateId={settings.template || "classic"}
+      />
 
       <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 space-y-8 transition-colors">
         {/* Template Selection */}
         <div className="space-y-4">
-          <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-            <LayoutTemplate size={20} className="text-slate-500" />
-            {t.settings.templateStyle}
-          </h3>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
+              <LayoutTemplate size={20} className="text-slate-500" />
+              {t.settings.templateStyle}
+            </h3>
+            <motion.button
+              whileHover={{ scale: 1.02, y: -1 }}
+              whileTap={{ scale: 0.98 }}
+              type="button"
+              onClick={() => setShowComparison(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black shadow-md cursor-pointer transition-all self-start sm:self-auto"
+            >
+              <Eye size={14} className="text-[#FF4D2D]" />
+              <span>{language === "ar" ? "🔍 مقارنة القوالب الفورية" : "🔍 Instant Template Side-by-Side"}</span>
+            </motion.button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {TEMPLATES.map((template) => {
               const TEMPLATE_SUGGESTIONS: Record<string, { ar: string; en: string; color: string; badge: string }> = {
