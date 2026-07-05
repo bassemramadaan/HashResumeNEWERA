@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from "react";
 import { motion } from "motion/react";
-import { classifySkill } from "../../utils/skillClassifier";
 import { Sparkles, Info, Star } from "lucide-react";
 
 // Helper function to classify any skill name if we don't have a classifier file yet

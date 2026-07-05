@@ -615,6 +615,21 @@ div[class*="focus-within:ring-orange-500"] {
   box-shadow: 0 0 0 4px rgba(255, 77, 45, 0.12) !important;
 }
 
+/* 📱 Dynamic Mobile Editor Layout helper classes */
+.mobile-editor-container {
+  height: 100dvh !important;
+  height: -webkit-fill-available !important;
+}
+
+.safe-padding-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 16px) !important;
+}
+
+.safe-padding-top {
+  padding-top: env(safe-area-inset-top, 12px) !important;
+}
+
+
 
 
 

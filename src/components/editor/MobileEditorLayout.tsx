@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { cn } from "../../lib/utils";
 import { 
@@ -739,7 +739,6 @@ export default function MobileEditorLayout({
 }) {
   const t                             = T[lang] ?? T.en;
   const [activeTab, setActiveTab] = useState("edit");
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const sections = SECTIONS[lang] ?? SECTIONS.en;
   const isRtl = lang === "ar";
@@ -763,17 +762,10 @@ export default function MobileEditorLayout({
     }, 45);
   };
 
-  const TABS = [
-    { id: "edit",     label: t.edit,     icon: Edit3 },
-    { id: "sections", label: t.sections, icon: Grid },
-    { id: "preview",  label: t.preview,  icon: Eye, isHighlight: true },
-    { id: "export",   label: t.export,   icon: Download },
-  ];
-
   const currentSection = sections.find(s => s.id === activeSection);
 
   return (
-    <div className="fixed inset-0 flex flex-col bg-[#F9FAFB] text-slate-800 overflow-hidden pb-[calc(68px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="mobile-editor-container fixed inset-0 flex flex-col bg-[#F9FAFB] text-slate-800 overflow-hidden pb-[calc(88px+env(safe-area-inset-bottom,16px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header (Floating Pill like Desktop) ── */}
       <div className="w-full z-50 pt-3 px-3 pb-1 bg-transparent pointer-events-none flex justify-center shrink-0 transform-gpu select-none">
@@ -957,57 +949,94 @@ export default function MobileEditorLayout({
         </div>
       </main>
 
-      {/* ── Highly Polished Bottom Navigation ── */}
-      <div className="fixed bottom-0 inset-x-0 z-50 pointer-events-auto bg-white border-t border-slate-200 h-16 flex items-center justify-between px-4 pb-safe select-none shadow-[0_-4px_16px_rgba(0,0,0,0.02)]">
-        {/* ATS Floating Badge */}
-        <div 
-          onClick={onOpenAts}
-          className="pointer-events-auto h-10 px-2.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center gap-1.5 cursor-pointer active:scale-95 transition-all shrink-0"
-        >
-          <div className={`w-2 h-2 rounded-full ${atsScore >= 80 ? "bg-emerald-500 animate-pulse" : atsScore >= 50 ? "bg-amber-500 animate-pulse" : "bg-rose-500"}`} />
-          <span className="font-bold text-slate-700 text-xs">ATS</span>
-          <span className="font-semibold text-slate-500 text-[10px] bg-slate-100 rounded-md px-1.5 py-0.5">{atsScore}%</span>
+      {/* ── Highly Polished Glassmorphic Floating Bottom Navigation ── */}
+      <div className="fixed bottom-4 inset-x-4 z-50 pointer-events-auto flex flex-col items-center select-none max-w-md mx-auto pb-safe">
+        {/* Mini Progress Line above the bar */}
+        <div className="w-full h-1 bg-slate-900/45 rounded-full overflow-hidden mb-2 relative backdrop-blur-md border border-slate-800/10 shadow-sm">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#FF4D2D] via-orange-500 to-emerald-500 rounded-full"
+            style={{ [isRtl ? "right" : "left"]: 0 }}
+          />
         </div>
 
-        {/* Main Dock */}
-        <nav 
-          ref={containerRef}
-          className="flex-1 flex items-center justify-end h-full gap-1.5"
-        >
-          {TABS.map((tab) => {
-            const isActive = activeTab === tab.id;
-            const IconComponent = tab.icon;
+        {/* The Glassmorphic Dock Container */}
+        <div className="w-full bg-slate-950/92 backdrop-blur-2xl border border-slate-850/90 rounded-2.5xl px-3 py-2 flex items-center justify-between gap-1 shadow-[0_16px_36px_-6px_rgba(0,0,0,0.5)] pointer-events-auto relative">
+          
+          {/* Tab 1: Form Edit */}
+          <button
+            onClick={() => setActiveTab("edit")}
+            className={cn(
+              "flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl transition-all cursor-pointer relative",
+              activeTab === "edit" ? "text-white font-bold" : "text-slate-400 hover:text-slate-200"
+            )}
+          >
+            {activeTab === "edit" && (
+              <motion.div layoutId="mobileActiveIndicator" className="absolute inset-0 bg-white/5 rounded-xl border border-white/5" />
+            )}
+            <Edit3 size={18} className="relative z-10 shrink-0" strokeWidth={activeTab === "edit" ? 2.5 : 1.8} />
+            <span className="text-[9px] font-bold mt-1 relative z-10">{lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}</span>
+          </button>
 
-            return (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  if (tab.id === "preview") {
-                    onOpenPreview();
-                  } else {
-                    setActiveTab(tab.id);
-                  }
-                }}
-                className={cn(
-                  "relative h-full px-4 flex flex-col items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-hidden shrink-0",
-                  tab.id === "export"
-                    ? (isActive ? "text-[#FF4D2D]" : "text-[#FF4D2D]/70 hover:text-[#FF4D2D]")
-                    : (isActive ? "text-[#111827]" : "text-[#9CA3AF] hover:text-[#374151]")
-                )}
-              >
-                {isActive && (
-                  <div className="absolute top-0 inset-x-1.5 h-[2px] bg-[#FF4D2D] rounded-full" />
-                )}
-                
-                <span className="relative z-10 flex items-center justify-center">
-                  {IconComponent && (
-                    <IconComponent strokeWidth={isActive ? 2.2 : 1.5} className={cn("w-5 h-5 sm:w-5.5 sm:h-5.5", tab.id === "export" && "text-[#FF4D2D]")} />
-                  )}
-                </span>
-              </button>
-            );
-          })}
-        </nav>
+          {/* Tab 2: Sections */}
+          <button
+            onClick={() => setActiveTab("sections")}
+            className={cn(
+              "flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl transition-all cursor-pointer relative",
+              activeTab === "sections" ? "text-white font-bold" : "text-slate-400 hover:text-slate-200"
+            )}
+          >
+            {activeTab === "sections" && (
+              <motion.div layoutId="mobileActiveIndicator" className="absolute inset-0 bg-white/5 rounded-xl border border-white/5" />
+            )}
+            <Grid size={18} className="relative z-10 shrink-0" strokeWidth={activeTab === "sections" ? 2.5 : 1.8} />
+            <span className="text-[9px] font-bold mt-1 relative z-10">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
+          </button>
+
+          {/* Central Button: Direct Download FAB */}
+          <div className="relative -mt-6 px-1 flex flex-col items-center">
+            <motion.button
+              whileTap={{ scale: 0.90 }}
+              onClick={onExportPDF}
+              className="w-13 h-13 rounded-full bg-gradient-to-tr from-[#FF4D2D] to-orange-500 text-white flex items-center justify-center shadow-[0_8px_24px_rgba(255,77,45,0.45)] border border-brand-400/40 relative group cursor-pointer focus:outline-none"
+              title={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
+            >
+              {/* Subtle pulsing background ring */}
+              <div className="absolute inset-0 rounded-full bg-brand-500/30 animate-ping opacity-60 scale-105 pointer-events-none" />
+              <Download size={22} className="relative z-10 text-white" strokeWidth={2.5} />
+            </motion.button>
+            <span className="text-[8px] text-brand-400 font-extrabold mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
+          </div>
+
+          {/* Tab 3: Preview */}
+          <button
+            onClick={onOpenPreview}
+            className="flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
+          >
+            <Eye size={18} className="shrink-0" strokeWidth={1.8} />
+            <span className="text-[9px] font-bold mt-1">{lang === "ar" ? "المعاينة" : lang === "fr" ? "Aperçu" : "Preview"}</span>
+          </button>
+
+          {/* Tab 4: ATS Audit */}
+          <button
+            onClick={onOpenAts}
+            className="flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition-all cursor-pointer relative"
+          >
+            <div className="relative">
+              <CheckCircle size={18} className="shrink-0" strokeWidth={1.8} />
+              <span className={cn(
+                "absolute -top-1 -right-2 text-[7.5px] font-extrabold px-1 py-0.2 rounded-md leading-none text-white",
+                atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
+              )}>
+                {atsScore}%
+              </span>
+            </div>
+            <span className="text-[9px] font-bold mt-1">ATS</span>
+          </button>
+
+        </div>
       </div>
       
       {/* Floating dynamic micro-hints based on active section */}

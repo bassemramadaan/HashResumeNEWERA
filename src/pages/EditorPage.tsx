@@ -1849,41 +1849,54 @@ export default function EditorPage() {
       {/* Mobile Live Preview Overlay */}
       <AnimatePresence>
         {showMobilePreview && (
-          <div key="mobile-preview-container" className="md:hidden fixed inset-0 z-[100] flex flex-col">
+          <div key="mobile-preview-container" className="md:hidden fixed inset-0 z-[100] flex flex-col justify-end">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowMobilePreview(false)}
-              className="fixed inset-0 bg-neutral-900/60 backdrop-blur-sm z-[100]"
+              className="fixed inset-0 bg-neutral-950/60 backdrop-blur-sm z-[100]"
             />
             <motion.div
+              drag="y"
+              dragConstraints={{ top: 0 }}
+              dragElastic={{ top: 0.1, bottom: 0.8 }}
+              onDragEnd={(event, info) => {
+                if (info.offset.y > 150 || info.velocity.y > 600) {
+                  setShowMobilePreview(false);
+                }
+              }}
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed inset-0 bg-neutral-100 shadow-premium z-[110] flex flex-col overflow-hidden"
+              transition={{ type: "spring", damping: 30, stiffness: 240 }}
+              className="fixed inset-x-0 bottom-0 h-[88dvh] bg-white rounded-t-[2rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] z-[110] flex flex-col overflow-hidden"
             >
+              {/* iOS Drag Handle */}
+              <div className="w-14 h-1.5 bg-slate-200 rounded-full mx-auto mt-3 mb-2 shrink-0 cursor-grab active:cursor-grabbing" />
+              
               <div
-                className="flex items-center justify-between p-4 shrink-0"
-                style={{ background: '#fff', borderBottom: '1px solid var(--color-neutral-100)' }}
+                className="flex items-center justify-between px-5 pb-3 pt-1 shrink-0 border-b border-slate-100"
               >
                 <div className="flex items-center gap-2">
-                  <LayoutTemplate size={18} className="text-brand-500" />
-                  <span className="text-sm font-black text-neutral-900">
-                    {language === "ar" ? "معاينة السيرة الذاتية" : "Resume Preview"}
+                  <LayoutTemplate size={18} className="text-[#FF4D2D]" />
+                  <span className="text-sm font-black text-slate-900">
+                    {language === "ar" ? "درج المعاينة التفاعلي" : "Interactive Resume Preview"}
+                  </span>
+                  <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded-full text-slate-500 font-semibold">
+                    {language === "ar" ? "اسحب لأسفل للإغلاق" : "Swipe down to close"}
                   </span>
                 </div>
               
                 <button
                   onClick={() => setShowMobilePreview(false)}
-                  className="w-10 h-10 flex items-center justify-center rounded-xl transition-colors active:scale-95 bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                  className="w-8 h-8 flex items-center justify-center rounded-full transition-colors active:scale-95 bg-slate-100 text-slate-500 hover:bg-slate-200"
                 >
-                  <X size={20} />
+                  <X size={16} />
                 </button>
               </div>
-
-              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-50/60">
+ 
+              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-50/60 scrollbar-none pb-12">
                 <div
                   className="origin-top transition-all flex justify-center scale-[0.4] sm:scale-[0.45] origin-top opacity-100"
                   style={{ 
@@ -1915,18 +1928,26 @@ export default function EditorPage() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowMobileAtsPanel(false)}
-              className="fixed inset-0 bg-neutral-900/40 backdrop-blur-sm z-[100]"
+              className="fixed inset-0 bg-neutral-950/60 backdrop-blur-sm z-[100]"
             />
             <motion.div
+              drag="y"
+              dragConstraints={{ top: 0 }}
+              dragElastic={{ top: 0.1, bottom: 0.8 }}
+              onDragEnd={(event, info) => {
+                if (info.offset.y > 150 || info.velocity.y > 600) {
+                  setShowMobileAtsPanel(false);
+                }
+              }}
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
               exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="bg-white rounded-t-[2rem] shadow-premium z-[110] flex flex-col overflow-hidden max-h-[85vh] relative"
+              transition={{ type: "spring", damping: 30, stiffness: 240 }}
+              className="bg-white rounded-t-[2rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] z-[110] flex flex-col overflow-hidden max-h-[85vh] relative"
             >
-              <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mt-3 mb-1" />
+              <div className="w-14 h-1.5 bg-slate-200 rounded-full mx-auto mt-3 mb-1 shrink-0 cursor-grab active:cursor-grabbing" />
               <div
-                className="flex items-center justify-between p-4 shrink-0 border-b border-neutral-100"
+                className="flex items-center justify-between px-5 py-3 shrink-0 border-b border-slate-100"
               >
                 <div className="flex items-center gap-2">
                   <div className={`w-3 h-3 rounded-full ${atsScore >= 80 ? "bg-emerald-500 animate-pulse" : atsScore >= 50 ? "bg-amber-500 animate-pulse" : "bg-rose-500"}`} />
@@ -1936,9 +1957,9 @@ export default function EditorPage() {
                 </div>
                 <button
                   onClick={() => setShowMobileAtsPanel(false)}
-                  className="w-10 h-10 flex items-center justify-center rounded-xl transition-colors active:scale-95 bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
+                  className="w-8 h-8 flex items-center justify-center rounded-full transition-colors active:scale-95 bg-slate-100 text-slate-500 hover:bg-slate-200"
                 >
-                  <X size={20} />
+                  <X size={16} />
                 </button>
               </div>
 

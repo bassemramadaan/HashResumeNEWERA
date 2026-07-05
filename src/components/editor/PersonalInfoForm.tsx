@@ -211,6 +211,8 @@ const PersonalInfoForm = () => {
               value={personalInfo.email}
               onChange={handleChange}
               onBlur={handleBlur}
+              autoComplete="email"
+              enterKeyHint="next"
               className={`block w-full ps-9 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.email
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
@@ -228,7 +230,7 @@ const PersonalInfoForm = () => {
             <p className="text-xs text-rose-500 mt-1">{errors.email}</p>
           )}
         </div>
-
+ 
         <div className="space-y-2 stagger-item">
           <label htmlFor="phone" className="text-[11px] font-semibold text-slate-500 block mb-1">
             {t.phone}
@@ -243,6 +245,9 @@ const PersonalInfoForm = () => {
               name="phone"
               value={personalInfo.phone}
               onChange={handleChange}
+              autoComplete="tel"
+              pattern="[0-9]*"
+              enterKeyHint="next"
               className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.phone}
             />
