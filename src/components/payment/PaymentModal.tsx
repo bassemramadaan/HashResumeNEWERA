@@ -300,19 +300,11 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
         if (codeToSave) {
           localStorage.setItem('cv-last-used-code', codeToSave);
         }
-        useResumeStore.getState().unlockPremium("", "", "");
 
         let isBundlePackage = selectedPackage === "bundle";
         if (result.amount) {
            isBundlePackage = String(result.amount).includes("120") || String(result.amount).includes("3");
         }
-
-        if (!isBundlePackage) {
-           onSuccess();
-           return;
-        }
-
-        setIsApproved(true);
 
         // Claim codes from Google sheet response, with a smart deterministic fallback so they are NEVER empty
         let codesList: string[] = [];
@@ -321,12 +313,18 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
         } else if (result.code) {
           codesList = [result.code];
         } else {
-          const isBundle = selectedPackage === "bundle";
-          codesList = generateDeterministicCodes(targetRef, isBundle);
+          codesList = generateDeterministicCodes(targetRef, isBundlePackage);
         }
 
         setApprovedCodes(codesList);
         localStorage.setItem("hashresume_approved_codes", JSON.stringify(codesList));
+
+        // Unlock premium!
+        useResumeStore.getState().unlockPremium("", "", "");
+
+        // Trigger download and close modal instantly!
+        onSuccess();
+        return;
       } else {
         if (!isSilent) {
           const defaultMsg = isAr
@@ -519,8 +517,63 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                 </motion.div>
               ) : (
                 <>
-                  
-                  {step === 1 && (
+                  {pendingRef ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="space-y-5 text-center relative overflow-hidden"
+                    >
+                      <VoucherTicket
+                        language={language}
+                        type={selectedPackage}
+                        isPending={true}
+                        pendingRef={pendingRef}
+                        selectedMethod={selectedMethod}
+                      />
+
+                      <div className="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 space-y-2 mt-2">
+                        <h3 className="text-sm font-black text-orange-950 flex items-center justify-center gap-1.5">
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                          </span>
+                          {isAr ? "جاري مطابقة المعاملة تلقائياً" : "Verifying Transaction State"}
+                        </h3>
+                        <p className="text-[#FF4D2D]/85 text-[11px] font-semibold leading-normal max-w-xs mx-auto">
+                          {isAr 
+                            ? "نسجل ونطابق الرقم المرجعي للمعاملة حالياً مع النظام، سيتم تفعيل حسابك وتحميل الملف مباشرة فور الاعتماد." 
+                            : "We are actively tracing your submitted reference. High-quality exports will unlock and download shortly."}
+                        </p>
+                      </div>
+
+                      <div className="space-y-2 pt-1">
+                        <button
+                          onClick={() => handleCheckApproval()}
+                          disabled={checkingApproval}
+                          className="w-full h-11 flex items-center justify-center gap-2 rounded-xl font-black text-xs bg-[#FF4D2D] hover:bg-[#E64528] text-white transition-all shadow-md shadow-orange-500/20 active:scale-95 disabled:opacity-40 cursor-pointer"
+                        >
+                          {checkingApproval ? (
+                            <Loader2 size={15} className="animate-spin text-white" />
+                          ) : (
+                            <>
+                              <RefreshCw size={12} className="animate-spin-slow" />
+                              {isAr ? "تحقق من حالة الدفع فوراً" : "Re-Check Status Now"}
+                            </>
+                          )}
+                        </button>
+                        
+                        <button
+                          type="button"
+                          onClick={handleClearPending}
+                          className="text-[10px] font-bold text-slate-400 hover:text-slate-600 block mx-auto py-1 cursor-pointer"
+                        >
+                          {isAr ? "إلغاء المطابقة وإدخال معاملة جديدة" : "Cancel and enter another transfer"}
+                        </button>
+                      </div>
+                    </motion.div>
+                  ) : (
+                    <>
+                      {step === 1 && (
                     <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-4">
                       {/* Top Header Block */}
                       <div className="flex flex-col items-center text-center mt-2 mb-5">
@@ -593,7 +646,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                     </motion.div>
                   )}
 
-                  {step === 2 && !pendingRef && (
+                  {step === 2 && (
                     <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} className="space-y-4">
                       {/* Step Header */}
                       <div className="flex items-center gap-3 mb-4 text-[#FF4D2D]">
@@ -634,62 +687,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
 
                       {/* Dynamic Content Panels */}
                       <div className="relative">
-                        {pendingRef && (
-                          <motion.div
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="space-y-5 text-center relative overflow-hidden"
-                      >
-                        <VoucherTicket
-                          language={language}
-                          type={selectedPackage}
-                          isPending={true}
-                          pendingRef={pendingRef}
-                          selectedMethod={selectedMethod}
-                        />
-
-                        <div className="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 space-y-2 mt-2">
-                          <h3 className="text-sm font-black text-orange-950 flex items-center justify-center gap-1.5">
-                            <span className="relative flex h-2 w-2">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
-                            </span>
-                            {isAr ? "جاري مطابقة المعاملة تلقائياً" : "Verifying Transaction State"}
-                          </h3>
-                          <p className="text-[#FF4D2D]/85 text-[11px] font-semibold leading-normal max-w-xs mx-auto">
-                            {isAr 
-                              ? "نسجل ونطابق الرقم المرجعي للمعاملة حالياً مع النظام، سيتم تفعيل حسابك مباشرة فور الاعتماد." 
-                              : "We are actively tracing your submitted reference. High-quality exports will unlock shortly."}
-                          </p>
-                        </div>
-
-                        <div className="space-y-2 pt-1">
-                          <button
-                            onClick={() => handleCheckApproval()}
-                            disabled={checkingApproval}
-                            className="w-full h-11 flex items-center justify-center gap-2 rounded-xl font-black text-xs bg-[#FF4D2D] hover:bg-[#E64528] text-white transition-all shadow-md shadow-orange-500/20 active:scale-95 disabled:opacity-40 cursor-pointer"
-                          >
-                            {checkingApproval ? (
-                              <Loader2 size={15} className="animate-spin text-white" />
-                            ) : (
-                              <>
-                                <RefreshCw size={12} className="animate-spin-slow" />
-                                {isAr ? "تحقق من حالة الدفع فوراً" : "Re-Check Status Now"}
-                              </>
-                            )}
-                          </button>
-                          
-                          <button
-                            type="button"
-                            onClick={handleClearPending}
-                            className="text-[10px] font-bold text-slate-400 hover:text-slate-600 block mx-auto py-1 cursor-pointer"
-                          >
-                            {isAr ? "إلغاء المطابقة وإدخال معاملة جديدة" : "Cancel and enter another transfer"}
-                          </button>
-                        </div>
-                      </motion.div>
-                    )}
-                    {step === 2 && !pendingRef && (selectedMethod === "instapay" || selectedMethod === "vodafone") && (
+                        {(selectedMethod === "instapay" || selectedMethod === "vodafone") && (
                       <motion.div
                         key={selectedMethod}
                         initial={{ opacity: 0, y: 8 }}
@@ -946,6 +944,8 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         </div>
                       </motion.div>
                     )}
+                    </>
+                  )}
 
                   {/* Dynamic Error display with robust icon and styling */}
                   {error && (

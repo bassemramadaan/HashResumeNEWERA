@@ -314,6 +314,12 @@ export default function EditorPage() {
   }, [showPaymentModal, language]);
 
   useEffect(() => {
+    if (activeTab === "finish" && !isPremium) {
+      setShowPaymentModal(true);
+    }
+  }, [activeTab, isPremium]);
+
+  useEffect(() => {
     if (data.settings?.template) {
       trackEvent(FUNNEL_EVENTS.TEMPLATE_CHOSEN, {
         templateId: data.settings.template,
@@ -891,6 +897,7 @@ export default function EditorPage() {
               onClick={() => {
                 localStorage.removeItem('cv-locked');
                 setIsLocked(false);
+                useResumeStore.getState().unlockResume();
               }}
               className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors shrink-0 flex items-center gap-2"
             >

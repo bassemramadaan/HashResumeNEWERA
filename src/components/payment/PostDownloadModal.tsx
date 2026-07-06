@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { PartyPopper, X, Target, ArrowRight, Sparkles, Trophy, CheckCircle } from "lucide-react";
+import { PartyPopper, X, Target, ArrowRight, Sparkles, Trophy, CheckCircle, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { useResumeStore } from "../../store/useResumeStore";
@@ -38,6 +38,34 @@ export default function PostDownloadModal({
   }, [data]);
 
   const score = atsResult?.score || 75;
+
+  const [copiedCode, setCopiedCode] = useState<string>("");
+  const [bundleCodes, setBundleCodes] = useState<string[]>(() => {
+    try {
+      const stored = localStorage.getItem("hashresume_approved_codes");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const handleCopyCode = (code: string) => {
+    navigator.clipboard.writeText(code);
+    setCopiedCode(code);
+    setTimeout(() => setCopiedCode(""), 2000);
+  };
+
+  // Re-read bundle codes whenever modal is opened
+  useEffect(() => {
+    if (isOpen) {
+      try {
+        const stored = localStorage.getItem("hashresume_approved_codes");
+        setBundleCodes(stored ? JSON.parse(stored) : []);
+      } catch {
+        setBundleCodes([]);
+      }
+    }
+  }, [isOpen]);
 
   // Initialize confetti particles on mount
   useEffect(() => {
@@ -224,6 +252,49 @@ export default function PostDownloadModal({
                 </p>
               </div>
             </div>
+
+            {bundleCodes.length > 0 && (
+              <div className="w-full mb-8 bg-orange-50/50 border border-orange-100 rounded-2xl p-5 text-start relative overflow-hidden">
+                <h4 className="font-black text-sm flex items-center gap-1.5 mb-2.5 text-orange-950">
+                  <Sparkles size={16} className="text-[#FF4D2D] animate-pulse" />
+                  <span>{isRtl ? "أكواد تفعيل الباقة الخاصة بك" : "Your Bundle Activation Codes"}</span>
+                </h4>
+                <p className="text-[11px] font-semibold text-slate-500 mb-4 leading-normal">
+                  {isRtl 
+                    ? "لقد اشتريت باقة الـ 3 أكواد! يمكنك استخدام هذه الأكواد لتصدير أو تعديل أي سير ذاتية أخرى مجاناً:"
+                    : "You bought the 3-codes bundle! Use these codes to unlock and download other resumes or edits for free:"}
+                </p>
+                <div className="space-y-2">
+                  {bundleCodes.map((codeStr, idx) => (
+                    <div 
+                      key={idx} 
+                      className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-2xs hover:border-[#FF4D2D]/35 transition-colors group"
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-black text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100">
+                          {isRtl ? `كود ${idx + 1}` : `Code ${idx + 1}`}
+                        </span>
+                        <span className="font-mono font-black text-xs text-slate-800 select-all tracking-wider">{codeStr}</span>
+                      </div>
+                      <button
+                        onClick={() => handleCopyCode(codeStr)}
+                        className="p-1.5 bg-slate-50 text-slate-400 hover:text-[#FF4D2D] border border-slate-100 rounded-lg transition-all cursor-pointer flex items-center justify-center min-w-[70px]"
+                      >
+                        {copiedCode === codeStr ? (
+                          <span className="flex items-center gap-0.5 text-[9px] font-black text-[#FF4D2D] px-1">
+                            <Check size={12} /> {isRtl ? "نسخ" : "Copied"}
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-extrabold text-slate-500 group-hover:text-[#FF4D2D] flex items-center gap-1 px-1">
+                            {isRtl ? "نسخ الكود" : "Copy"}
+                          </span>
+                        )}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Job platform promotion card: Hash Hunt Platform Link */}
             <div className="w-full mb-8">
