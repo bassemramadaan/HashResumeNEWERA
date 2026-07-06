@@ -5,7 +5,7 @@ import {
   User, Briefcase, GraduationCap, Award, FolderHeart, Trophy, CheckCircle,
   Edit3, Eye, Grid, Download, 
   FileText, ChevronRight, Share2, AlertTriangle,
-  ArrowUp, ArrowDown, Layers, Sparkles
+  ArrowUp, ArrowDown, Layers, ArrowLeft, ArrowRight, Settings
 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 
@@ -353,15 +353,6 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
     certifications: _lang === "ar" ? "الشهادات والاعتمادات" : _lang === "fr" ? "Certifications" : "Certifications",
   };
 
-  const emojiMapKey: Record<string, string> = {
-    summary: "👤",
-    experience: "💼",
-    education: "🎓",
-    skills: "⭐",
-    projects: "🚀",
-    certifications: "🏅",
-  };
-
   return (
     <div className="px-4 py-5 space-y-4 max-w-md mx-auto h-full overflow-y-auto scrollbar-none pb-24">
       
@@ -579,140 +570,6 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
   );
 }
 
-// Section hints for Arabic mobile users to improve ATS compatibility
-const SECTION_HINTS: Record<string, string[]> = {
-  basics: [
-    "💡 نصيحة: تأكد من تطابق المسمى الوظيفي بدقة مع متطلبات الوظيفة المستهدفة.",
-    "💡 نصيحة: استخدم بريدًا مهنيًا مثل name@domain.com لرفع درجة موثوقيتك.",
-    "💡 نصيحة: أضف رابط حسابك على LinkedIn لتسهيل تواصل مسؤولي التوظيف معك."
-  ],
-  summary: [
-    "💡 نصيحة: ابدأ ملخصك بعبارات حيوية وقوية تلخص إنجازاتك وخبرتك الأساسية بالأرقام.",
-    "💡 نصيحة: حافظ على طول الملخص بين 3 إلى 4 أسطر كحد أقصى لسهولة القراءة السريعة.",
-    "💡 نصيحة: ضمّن 2-3 كلمات مفتاحية هامة من صلب الوصف الوظيفي."
-  ],
-  experience: [
-    "💡 نصيحة: ابدأ كل نقطة بفعل قوي مثل (قدت، طورت، صممت) وتجنب التكرار.",
-    "💡 نصيحة: حوّل مهامك إلى أرقام وإنجازات ملموسة (مثل: تقليل التكاليف بنسبة 15%).",
-    "💡 نصيحة: رتب خبراتك ترتيباً زمنياً عكسياً من الأحدث إلى الأقدم."
-  ],
-  education: [
-    "💡 نصيحة: اذكر التخصص والدرجة العلمية والجهة المانحة وتاريخ التخرج بوضوح تام.",
-    "💡 نصيحة: إذا كنت خريجاً جديداً، ركز على مشاريع التخرج والتميز الأكاديمي."
-  ],
-  skills: [
-    "💡 نصيحة: ادمج المهارات التقنية والمهارات الشخصية الأكثر طلباً في مجالك.",
-    "💡 نصيحة: وزع الكلمات المفتاحية الذكية المطلوبة في إعلان الوظيفة داخل قائمة المهارات."
-  ],
-  projects: [
-    "💡 نصيحة: وضّح دورك الفعلي، والتقنيات المستخدمة، والنتائج النهائية لكل مشروع.",
-    "💡 نصيحة: أرفق روابط مباشرة للمشاريع الحية لإبراز مهاراتك العملية."
-  ],
-  certifications: [
-    "💡 نصيحة: اذكر الشهادات المهنية المعتمدة مع اسم الجهة المانحة وتاريخ الصلاحية.",
-    "💡 نصيحة: تساهم الشهادات التخصصية في تعزيز فرصك وتخطيك لمرشحي المنافسة."
-  ],
-  finish: [
-    "💡 نصيحة: راجع جميع الحقول لغوياً وإملائياً للتأكد من خلوها من الأخطاء تماماً.",
-    "💡 نصيحة: سارع بتحميل سيرتك الذاتية بصيغة PDF لضمان الحفاظ على التنسيق والمظهر."
-  ]
-};
-
-// Section hints for English mobile users
-const SECTION_HINTS_EN: Record<string, string[]> = {
-  basics: [
-    "💡 Tip: Ensure your job title matches the targeted role requirements.",
-    "💡 Tip: Use a professional email structure like name@domain.com.",
-    "💡 Tip: Adding your LinkedIn profile link can double recruiter engagement."
-  ],
-  summary: [
-    "💡 Tip: Start with strong action verbs showcasing your core competencies.",
-    "💡 Tip: Keep the summary between 3-4 lines for optimal screening readability.",
-    "💡 Tip: Include 2-3 essential keywords from the target job description."
-  ],
-  experience: [
-    "💡 Tip: Use powerful active verbs (e.g., Led, Developed, Optimized) instead of passive descriptions.",
-    "💡 Tip: Quantify achievements wherever possible (e.g., 'Increased team efficiency by 25%').",
-    "💡 Tip: List roles in reverse chronological order, starting with the current one."
-  ],
-  education: [
-    "💡 Tip: Mention majors, universities, and graduation dates clearly for ATS parsers.",
-    "💡 Tip: Highlight relevant academic achievements and capstone projects if junior."
-  ],
-  skills: [
-    "💡 Tip: Mix technical (Hard) and interpersonal (Soft) skills evenly.",
-    "💡 Tip: Directly list software/tools requested in the job description."
-  ],
-  projects: [
-    "💡 Tip: Define the problem solved, technologies leveraged, and key results.",
-    "💡 Tip: Add live links or code repository references to show practical work."
-  ],
-  certifications: [
-    "💡 Tip: List certified organizations along with valid credential IDs.",
-    "💡 Tip: Professional certificates validate continuous learning drive."
-  ],
-  finish: [
-    "💡 Tip: Carefully proofread for minor spelling and translation errors.",
-    "💡 Tip: Download your final CV in standard PDF format to keep layouts intact."
-  ]
-};
-
-function FloatingAtsHint({ section, lang }: { section: string; lang: string }) {
-  const isAr = lang === "ar";
-  const hints = isAr ? SECTION_HINTS[section] : SECTION_HINTS_EN[section];
-  const [currentHint, setCurrentHint] = useState("");
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (!hints || hints.length === 0) return;
-    
-    // Choose random hint from the section
-    const rand = hints[Math.floor(Math.random() * hints.length)];
-    setCurrentHint(rand);
-    
-    // Smooth delay before showing
-    const showTimeout = setTimeout(() => {
-      setVisible(true);
-    }, 2500);
-
-    // Auto dismiss after 7.5 seconds
-    const hideTimeout = setTimeout(() => {
-      setVisible(false);
-    }, 10000);
-
-    return () => {
-      clearTimeout(showTimeout);
-      clearTimeout(hideTimeout);
-      setVisible(false);
-    };
-  }, [section, lang, hints]);
-
-  if (!visible || !currentHint) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 35, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 35, scale: 0.95 }}
-      className={cn(
-        "fixed bottom-[74px] left-4 right-4 z-[9999] p-3.5 rounded-xl bg-slate-900/95 backdrop-blur-md text-white text-[11.5px] font-semibold shadow-[0_12px_40px_rgba(0,0,0,0.3)] border border-slate-800 flex items-center justify-between gap-3 select-none transform-gpu",
-        isAr ? "text-right" : "text-left"
-      )}
-    >
-      <div className="flex items-center gap-2.5">
-        <Sparkles className="w-4 h-4 text-amber-400 shrink-0 animate-pulse" />
-        <span className="leading-relaxed text-slate-100">{currentHint}</span>
-      </div>
-      <button 
-        onClick={() => setVisible(false)} 
-        className="text-slate-400 hover:text-white transition-colors p-1"
-      >
-        ✕
-      </button>
-    </motion.div>
-  );
-}
-
 // ── main COMPONENT ─────────────────────────────────────────
 export default function MobileEditorLayout({
   lang            = "ar",
@@ -724,6 +581,7 @@ export default function MobileEditorLayout({
   onExportWord    = () => {},
   onOpenPreview   = () => {},
   onOpenAts       = () => {},
+  onOpenSettings  = () => {},
   children,
 }: {
   lang?: string;
@@ -735,9 +593,9 @@ export default function MobileEditorLayout({
   onExportWord?: () => void;
   onOpenPreview?: () => void;
   onOpenAts?: () => void;
+  onOpenSettings?: () => void;
   children?: React.ReactNode;
 }) {
-  const t                             = T[lang] ?? T.en;
   const [activeTab, setActiveTab] = useState("edit");
 
   const sections = SECTIONS[lang] ?? SECTIONS.en;
@@ -763,6 +621,17 @@ export default function MobileEditorLayout({
   };
 
   const currentSection = sections.find(s => s.id === activeSection);
+  const currentSectionIndex = sections.findIndex(s => s.id === activeSection);
+  const handlePrevSection = () => {
+    if (currentSectionIndex > 0) {
+      handleSectionChange(sections[currentSectionIndex - 1].id);
+    }
+  };
+  const handleNextSection = () => {
+    if (currentSectionIndex < sections.length - 1) {
+      handleSectionChange(sections[currentSectionIndex + 1].id);
+    }
+  };
 
   return (
     <div className="mobile-editor-container fixed inset-0 flex flex-col bg-[#F9FAFB] text-slate-800 overflow-hidden pb-[calc(88px+env(safe-area-inset-bottom,16px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
@@ -797,13 +666,25 @@ export default function MobileEditorLayout({
             </div>
           </div>
 
-          {/* Floating Glassmorphic ATS Badge */}
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full font-black text-[10px] bg-slate-950 text-white shadow-[0_4px_10px_rgba(15,23,42,0.12)] border border-slate-900">
-            <span className="relative flex h-1.5 w-1.5 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4D2D] opacity-75" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF4D2D]" />
-            </span>
-            <span className="tracking-tight">ATS {atsScore}%</span>
+          <div className="flex items-center gap-1.5">
+            {/* Elegant Header Preview Button */}
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              onClick={onOpenPreview}
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#FF4D2D]/10 hover:bg-[#FF4D2D]/20 text-[#FF4D2D] border border-[#FF4D2D]/20 shadow-xs font-black text-[10px] cursor-pointer transition-all shrink-0 active:scale-95"
+            >
+              <Eye size={12} strokeWidth={2.5} />
+              <span>{lang === "ar" ? "المعاينة" : "Preview"}</span>
+            </motion.button>
+
+            {/* Floating Glassmorphic ATS Badge */}
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full font-black text-[10px] bg-slate-950 text-white shadow-[0_4px_10px_rgba(15,23,42,0.12)] border border-slate-900">
+              <span className="relative flex h-1.5 w-1.5 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4D2D] opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF4D2D]" />
+              </span>
+              <span className="tracking-tight">ATS {atsScore}%</span>
+            </div>
           </div>
         </header>
       </div>
@@ -847,7 +728,7 @@ export default function MobileEditorLayout({
 
               /* Elegant mobile form spacing and padding coordination overrides */
               .editor-form-scrollable {
-                padding: 12px 12px 32px 12px !important;
+                padding: 12px 12px 76px 12px !important;
               }
               .editor-form-scrollable .bg-white {
                 padding: 16px !important;
@@ -885,48 +766,48 @@ export default function MobileEditorLayout({
               }
             `}</style>
             
-            {/* Horizontal Segmented Switcher List with sleek glass background (Unified Glassmorphism) */}
-            <div className="bg-[#FAF9F6] border-b border-slate-200/50 px-3.5 py-2.5 shrink-0 select-none mobile-tabs-container">
-              <div className="flex items-center bg-slate-100/40 backdrop-blur-xl border border-slate-200/40 shadow-[0_4px_20px_rgba(0,0,0,0.01)] rounded-full p-0.5 gap-0.5 w-max">
-                {sections.map((s) => {
-                  const isActive = activeSection === s.id;
-                  const pct = completionMap[s.id] ?? 0;
-                  
-                  return (
-                    <button
-                      key={s.id}
-                      id={`m-tab-${s.id}`}
-                      onClick={() => handleSectionChange(s.id)}
-                      className={`relative flex items-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-extrabold whitespace-nowrap shrink-0 transition-all border mobile-tab-btn cursor-pointer ${
-                        isActive
-                          ? "bg-slate-900 border-slate-900 text-white shadow-md font-black"
-                          : "bg-white border-slate-200/50 text-slate-600 hover:bg-slate-100/70"
-                      }`}
-                    >
-                      {(() => {
-                        const Icon = SECTION_ICONS[s.id] || User;
-                        const colors = SECTION_COLORS[s.id] || { text: "text-slate-400" };
-                        return <Icon className={cn("w-3.5 h-3.5", isActive ? "text-white" : colors.text)} strokeWidth={2.4} />;
-                      })()}
-                      <span className="text-[10px] font-black leading-none">{s.label}</span>
-                      
-                      {pct === 100 ? (
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
-                      ) : pct > 0 ? (
-                        <span className="text-[8px] px-1 py-0.5 rounded-md bg-amber-500/10 text-amber-600 font-extrabold leading-none scale-90">
-                          {pct}%
-                        </span>
-                      ) : null}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
             {/* Render active field step components */}
-            <div className="flex-1 overflow-hidden relative">
-              <div className="h-full w-full overflow-hidden relative">
+            <div className="flex-1 overflow-hidden relative flex flex-col justify-between">
+              <div className="flex-1 overflow-hidden relative">
                 {children}
+              </div>
+
+              {/* Dynamic Step-by-Step Mini Stepper Navigation */}
+              <div className="absolute bottom-3 inset-x-3 z-30 px-3 py-2.5 bg-white/94 backdrop-blur-md border border-slate-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-2xl flex items-center justify-between gap-3 select-none pointer-events-auto">
+                <button
+                  type="button"
+                  onClick={handlePrevSection}
+                  disabled={currentSectionIndex <= 0}
+                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                >
+                  <ArrowLeft size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
+                  <span>{lang === "ar" ? "السابق" : "Prev"}</span>
+                </button>
+
+                <div className="flex flex-col items-center leading-tight">
+                  <div className="text-[9px] text-slate-400 font-extrabold tracking-widest uppercase">
+                    {lang === "ar" ? `الخطوة ${currentSectionIndex + 1} من ${sections.length}` : `STEP ${currentSectionIndex + 1} OF ${sections.length}`}
+                  </div>
+                  {currentSectionIndex < sections.length - 1 && (
+                    <div className="text-[10px] text-slate-500 font-bold mt-0.5 max-w-[120px] truncate text-center">
+                      {lang === "ar" ? `التالي: ${sections[currentSectionIndex + 1].label}` : `Next: ${sections[currentSectionIndex + 1].label}`}
+                    </div>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleNextSection}
+                  disabled={currentSectionIndex >= sections.length - 1}
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-black bg-[#FF4D2D] hover:bg-[#e24e2c] text-white shadow-sm disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                >
+                  <span>
+                    {currentSectionIndex === sections.length - 1 
+                      ? (lang === "ar" ? "الأخير" : "Final")
+                      : (lang === "ar" ? "التالي" : "Next")}
+                  </span>
+                  <ArrowRight size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
+                </button>
               </div>
             </div>
           </div>
@@ -1010,13 +891,13 @@ export default function MobileEditorLayout({
             <span className="text-[8px] text-brand-400 font-extrabold mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
           </div>
 
-          {/* Tab 3: Preview */}
+          {/* Tab 3: Settings */}
           <button
-            onClick={onOpenPreview}
+            onClick={onOpenSettings}
             className="flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
           >
-            <Eye size={18} className="shrink-0" strokeWidth={1.8} />
-            <span className="text-[9px] font-bold mt-1">{lang === "ar" ? "المعاينة" : lang === "fr" ? "Aperçu" : "Preview"}</span>
+            <Settings size={18} className="shrink-0" strokeWidth={1.8} />
+            <span className="text-[9px] font-bold mt-1">{lang === "ar" ? "الإعدادات" : "Settings"}</span>
           </button>
 
           {/* Tab 4: ATS Audit */}
@@ -1039,8 +920,7 @@ export default function MobileEditorLayout({
         </div>
       </div>
       
-      {/* Floating dynamic micro-hints based on active section */}
-      <FloatingAtsHint section={activeSection} lang={lang} />
+      {/* Floating dynamic micro-hints disabled on mobile */}
 
     </div>
   );

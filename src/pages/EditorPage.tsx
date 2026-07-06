@@ -26,8 +26,6 @@ import {
   Award,
   Lock,
   Folder,
-  Eye,
-  FileEdit,
   Loader2,
 } from "lucide-react";
 import { useResumeStore } from "../store/useResumeStore";
@@ -266,6 +264,8 @@ export default function EditorPage() {
 
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
   const resetData = useResumeStore((state) => state.resetData);
+  const settings = useResumeStore((state) => state.data.settings);
+  const updateSettings = useResumeStore((state) => state.updateSettings);
 
   const [showConfetti, setShowConfetti] = useState(false);
   const [hasCelebratedScore, setHasCelebratedScore] = useState(false);
@@ -603,6 +603,7 @@ export default function EditorPage() {
 
   const handleProceedToExport = async (
     formatInput: "pdf" | "docx" | "txt" | any = "pdf",
+    forceAllow = false,
   ) => {
     const format: "pdf" | "docx" | "txt" = (typeof formatInput === "string" && ["pdf", "docx", "txt"].includes(formatInput))
       ? formatInput
@@ -614,8 +615,8 @@ export default function EditorPage() {
     const isFreeDownload = canDownloadState === "free";
 
     // We allow downloading if they didn't change the resume (isFreeDownload),
-    // OR if it's their first time and they are premium.
-    const allowed = isFreeDownload || (isPremium && canDownloadState === "first-time");
+    // OR if it's their first time and they are premium, OR if forceAllow is true.
+    const allowed = forceAllow || isFreeDownload || (isPremium && canDownloadState === "first-time");
 
     if (!allowed) {
       setShowPaymentModal(true);
@@ -1257,6 +1258,7 @@ export default function EditorPage() {
           onExportWord={() => handleProceedToExport("docx")}
           onOpenPreview={() => setShowMobilePreview(true)}
           onOpenAts={() => setShowMobileAtsPanel(true)}
+          onOpenSettings={() => setIsSettingsModalOpen(true)}
         >
           <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full overflow-y-auto pb-6 relative scrollbar-none editor-form-scrollable">
             <div className="min-h-full flex flex-col">
@@ -1895,6 +1897,80 @@ export default function EditorPage() {
                   <X size={16} />
                 </button>
               </div>
+
+              {/* Dynamic Quick Template & Theme Switcher on Mobile Preview */}
+              <div className="bg-slate-50 border-b border-slate-100 px-4 py-2.5 shrink-0 flex flex-col gap-2 select-none">
+                {/* Horizontal scroll for templates */}
+                <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-0.5">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">
+                    {language === "ar" ? "القالب:" : "Template:"}
+                  </span>
+                  <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+                    {[
+                      { id: "classic", name: language === "ar" ? "🏛️ كلاسيكي" : "🏛️ Classic" },
+                      { id: "modern", name: language === "ar" ? "💼 حديث" : "💼 Modern" },
+                      { id: "executive", name: language === "ar" ? "👑 تنفيذي" : "👑 Executive" },
+                      { id: "minimal", name: language === "ar" ? "✨ بسيط" : "✨ Minimal" },
+                      { id: "timeline", name: language === "ar" ? "⏱️ زمني" : "⏱️ Timeline" },
+                      { id: "two-column", name: language === "ar" ? "📑 عمودين" : "📑 Two-Col" },
+                    ].map((temp) => {
+                      const isSelected = settings.template === temp.id;
+                      return (
+                        <button
+                          key={temp.id}
+                          onClick={() => updateSettings({ template: temp.id as any })}
+                          className={cn(
+                            "px-3 py-1 rounded-full text-xs font-extrabold whitespace-nowrap transition-all border cursor-pointer",
+                            isSelected
+                              ? "bg-slate-900 border-slate-900 text-white shadow-xs font-black"
+                              : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+                          )}
+                        >
+                          {temp.name}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Horizontal row for Theme Colors */}
+                <div className="flex items-center gap-3">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">
+                    {language === "ar" ? "اللون المهني:" : "Color Theme:"}
+                  </span>
+                  <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+                    {[
+                      { hex: "#475569", name: language === "ar" ? "رمادي" : "Slate" },
+                      { hex: "#2563EB", name: language === "ar" ? "أزرق" : "Blue" },
+                      { hex: "#10B981", name: language === "ar" ? "أخضر" : "Emerald" },
+                      { hex: "#EF4444", name: language === "ar" ? "أحمر" : "Coral" },
+                      { hex: "#8B5CF6", name: language === "ar" ? "بنفسجي" : "Purple" },
+                      { hex: "#F97316", name: language === "ar" ? "برتقالي" : "Orange" },
+                      { hex: "#1E293B", name: language === "ar" ? "فحمي" : "Charcoal" },
+                    ].map((col) => {
+                      const isSelected = settings.themeColor === col.hex;
+                      return (
+                        <button
+                          key={col.hex}
+                          onClick={() => updateSettings({ themeColor: col.hex })}
+                          className={cn(
+                            "w-5.5 h-5.5 rounded-full border flex items-center justify-center transition-all relative cursor-pointer",
+                            isSelected
+                              ? "scale-110 border-slate-400 ring-2 ring-offset-1 ring-[#FF4D2D]"
+                              : "border-slate-200 hover:scale-105"
+                          )}
+                          style={{ backgroundColor: col.hex }}
+                          title={col.name}
+                        >
+                          {isSelected && (
+                            <div className="w-1.5 h-1.5 rounded-full bg-white shadow-xs" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
  
               <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-50/60 scrollbar-none pb-12">
                 <div
@@ -2035,19 +2111,7 @@ export default function EditorPage() {
         />
         <LiveAtsScoreWidget />
 
-        {/* Mobile Quick Toggle FAB */}
-        {isMobile && (
-          <div className="fixed bottom-24 right-4 z-[90]">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setShowFullPreview(!showFullPreview)}
-              className="bg-slate-900 text-white w-14 h-14 rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.2)] flex items-center justify-center border border-slate-700"
-            >
-              {showFullPreview ? <FileEdit size={24} /> : <Eye size={24} />}
-            </motion.button>
-          </div>
-        )}
+
 
         {/* Full Page Preview Modal */}
         <AnimatePresence>
@@ -2112,7 +2176,7 @@ export default function EditorPage() {
           onSuccess={() => {
             trackEvent(FUNNEL_EVENTS.PAID_DOWNLOAD, { language });
             setShowPaymentModal(false);
-            handlePrint();
+            handleProceedToExport("pdf", true);
           }}
         />
         <PostDownloadModal
