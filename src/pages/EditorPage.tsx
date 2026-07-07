@@ -497,39 +497,6 @@ export default function EditorPage() {
     }
   }, [data, personalInfo, experience, education, skills, generateFingerprint]); // مهم جداً — نراقب التغييرات بكل الـ fields
 
-  const renderWarningBanner = () => {
-    if (!showEditWarning) return null;
-
-    return (
-      <div id="cv-needs-code-banner" className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm animate-fade-in z-40" dir={language === "ar" ? "rtl" : "ltr"}>
-        <div className="flex items-center gap-3">
-          <span className="text-xl">⚠️</span>
-          <p className="text-sm font-semibold text-amber-800">
-            {language === "ar" 
-              ? "قمت بتعديل سيرتك — تحتاج كود جديد لتحميل النسخة المحدثة" 
-              : "You modified your resume — you need a new code to download the updated version"}
-          </p>
-        </div>
-        <div className="flex items-center gap-2.5 w-full md:w-auto shrink-0">
-          <button
-            id="btn-revert-changes"
-            onClick={handleUndoChanges}
-            className="flex-1 md:flex-none px-4 py-2 bg-white hover:bg-neutral-50 border border-neutral-200 text-neutral-700 text-xs font-bold rounded-xl transition-all active:scale-95 cursor-pointer"
-          >
-            {language === "ar" ? "التراجع عن التعديلات" : "Undo changes"}
-          </button>
-          <button
-            id="btn-new-code"
-            onClick={() => setShowPaymentModal(true)}
-            className="flex-1 md:flex-none px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-xl shadow-sm shadow-amber-600/10 transition-all active:scale-95 cursor-pointer"
-          >
-            {language === "ar" ? "تحميل بكود جديد" : "Download with new code"}
-          </button>
-        </div>
-      </div>
-    );
-  };
-
   const handlePrint = () => {
     try {
       const resumeElement = document.getElementById("resume-capture-area");
@@ -895,18 +862,27 @@ export default function EditorPage() {
                 <h3 className="text-sm font-bold text-amber-900">
                   {language === 'ar' ? '🔒 السيرة محمية بعد التحميل' : '🔒 Resume Locked After Download'}
                 </h3>
+                <p className="text-xs text-amber-700 mt-1">
+                  {language === 'ar' 
+                    ? 'لا يمكن تعديل السيرة الذاتية مرة أخرى بعد تحميلها.' 
+                    : 'The resume cannot be edited again after downloading.'}
+                </p>
+                <p className="text-[11px] text-amber-600/80 mt-0.5 font-medium">
+                  {language === 'ar' 
+                    ? 'إذا أردت تعديل بسيط، أرسل لنا رسالة عبر واتساب.' 
+                    : 'If you want a minor edit, send us a WhatsApp message.'}
+                </p>
               </div>
             </div>
-            <button
-              onClick={() => {
-                localStorage.removeItem('cv-locked');
-                useResumeStore.getState().unlockResume();
-              }}
-              className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors shrink-0 flex items-center gap-2"
+            <a
+              href={`https://wa.me/201101007965?text=${encodeURIComponent(language === 'ar' ? 'أهلاً، أحتاج إلى إجراء تعديل بسيط على سيرتي الذاتية التي قمت بتحميلها من Hash Resume.' : 'Hello, I need to make a minor edit to my resume downloaded from Hash Resume.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shrink-0 flex items-center gap-2 shadow-sm shadow-[#25D366]/20"
             >
-              <span>✏️</span>
-              {language === 'ar' ? 'تعديل (يتطلب تحميل جديد)' : 'Edit (Requires new download)'}
-            </button>
+              <span>💬</span>
+              {language === 'ar' ? 'تواصل عبر واتساب' : 'Contact via WhatsApp'}
+            </a>
           </div>
         </div>
       )}
@@ -1273,7 +1249,7 @@ export default function EditorPage() {
           <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full overflow-y-auto pb-6 relative scrollbar-none editor-form-scrollable">
             <div className="min-h-full flex flex-col">
               <div className="flex-1 px-1">
-                {renderWarningBanner()}
+                {/* Banner removed */}
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
@@ -1385,7 +1361,7 @@ export default function EditorPage() {
                 focusMode ? "bg-white" : ""
               )}
             >
-              {renderWarningBanner()}
+                {/* Banner removed */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
@@ -2144,14 +2120,16 @@ export default function EditorPage() {
           isOpen={isSettingsModalOpen}
           onClose={() => setIsSettingsModalOpen(false)}
         />
-        <LinkedInImportModal
-          isOpen={isLinkedInModalOpen}
-          onClose={() => setIsLinkedInModalOpen(false)}
-        />
-        <OneClickMagicModal
-          isOpen={isMagicModalOpen}
-          onClose={() => setIsMagicModalOpen(false)}
-        />
+        <Suspense fallback={null}>
+          <LinkedInImportModal
+            isOpen={isLinkedInModalOpen}
+            onClose={() => setIsLinkedInModalOpen(false)}
+          />
+          <OneClickMagicModal
+            isOpen={isMagicModalOpen}
+            onClose={() => setIsMagicModalOpen(false)}
+          />
+        </Suspense>
         <LiveAtsScoreWidget />
 
 
@@ -2207,29 +2185,31 @@ export default function EditorPage() {
           )}
         </AnimatePresence>
 
-        <ResumeCheckerModal
-          isOpen={showResumeChecker}
-          onClose={() => setShowResumeChecker(false)}
-          onProceed={handleProceedToExport}
-        />
+        <Suspense fallback={null}>
+          <ResumeCheckerModal
+            isOpen={showResumeChecker}
+            onClose={() => setShowResumeChecker(false)}
+            onProceed={handleProceedToExport}
+          />
 
-        <PaymentModal
-          isOpen={showPaymentModal}
-          onClose={() => setShowPaymentModal(false)}
-          onSuccess={() => {
-            trackEvent(FUNNEL_EVENTS.PAID_DOWNLOAD, { language });
-            setShowPaymentModal(false);
-            handleProceedToExport("pdf", true);
-          }}
-        />
-        <PostDownloadModal
-          isOpen={showPostDownloadModal}
-          onClose={() => setShowPostDownloadModal(false)}
-        />
-        <FeedbackModal
-          isOpen={showFeedbackModal}
-          onClose={() => setShowFeedbackModal(false)}
-        />
+          <PaymentModal
+            isOpen={showPaymentModal}
+            onClose={() => setShowPaymentModal(false)}
+            onSuccess={() => {
+              trackEvent(FUNNEL_EVENTS.PAID_DOWNLOAD, { language });
+              setShowPaymentModal(false);
+              handleProceedToExport("pdf", true);
+            }}
+          />
+          <PostDownloadModal
+            isOpen={showPostDownloadModal}
+            onClose={() => setShowPostDownloadModal(false)}
+          />
+          <FeedbackModal
+            isOpen={showFeedbackModal}
+            onClose={() => setShowFeedbackModal(false)}
+          />
+        </Suspense>
 
         {/* Hidden resume container to guarantee DOM availability of #resume-capture-area for PDF/DOCX export and Printing fallback on all viewports */}
         <div className="absolute pointer-events-none opacity-0 select-none overflow-hidden h-0 w-0 -top-[9999px] -left-[9999px] invisible" aria-hidden="true">

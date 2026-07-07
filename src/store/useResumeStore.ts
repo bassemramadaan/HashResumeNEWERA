@@ -576,11 +576,29 @@ export const useResumeStore = create<ResumeStore>()(
           }));
         },
         resetData: async () => {
+          // Cancel any pending debounced writes to prevent them from overwriting our reset state
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          if (debouncedStorage && debouncedStorage.setItem && typeof (debouncedStorage.setItem as any).cancel === "function") {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (debouncedStorage.setItem as any).cancel();
+          }
+
           safeLocalStorage.removeItem("hash-resume-storage");
           safeLocalStorage.removeItem('cv-locked-data');
           safeLocalStorage.removeItem('cv-is-locked');
+          safeLocalStorage.removeItem('cv-locked');
+          safeLocalStorage.removeItem('cv-last-download-fingerprint');
+          safeLocalStorage.removeItem('cv-last-download-snapshot');
+
           await useResumeStore.persist.clearStorage();
           set({ data: { ...initialData, isLocked: false }, isStarted: false });
+
+          // Flush the storage immediately to ensure the clean state is saved to disk before any potential page reload
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          if (debouncedStorage && debouncedStorage.setItem && typeof (debouncedStorage.setItem as any).flush === "function") {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (debouncedStorage.setItem as any).flush();
+          }
         },
         loadData: (data) => set({ data }),
         updateData: (data) => set({ data }),
