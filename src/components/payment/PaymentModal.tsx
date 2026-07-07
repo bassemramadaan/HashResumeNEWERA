@@ -36,7 +36,7 @@ const generateDeterministicCodes = (ref: string, isBundle: boolean): string[] =>
 interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: () => void;
+  onSuccess: (codes?: string[]) => void;
 }
 
 type PaymentMethod = "instapay" | "vodafone" | "code";
@@ -230,7 +230,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       if (result.success === true) {
         localStorage.setItem('cv-last-used-code', code.trim().toUpperCase());
         useResumeStore.getState().unlockPremium("", "", "");
-        onSuccess();
+        onSuccess([code.trim().toUpperCase()]);
       } else {
         setError(result.message || (isAr ? "كود غير صالح أو مستخدم من قبل" : "Invalid or already used code"));
       }
@@ -352,7 +352,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
         useResumeStore.getState().unlockPremium("", "", "");
 
         // Trigger download and close modal instantly!
-        onSuccess();
+        onSuccess(codesList);
         return;
       } else {
         if (!isSilent) {
@@ -492,7 +492,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                           : "Save the formal print-ready PDF file directly to your file system for quick uploading to job portals."}
                       </p>
                       <button
-                        onClick={onSuccess}
+                        onClick={() => onSuccess([])}
                         className="w-full h-11 flex items-center justify-center gap-2 text-white bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:from-rose-700 hover:to-[#E64528] active:scale-95 transition-all rounded-xl text-xs font-black shadow-md shadow-orange-500/10 cursor-pointer select-none"
                       >
                         {isAr ? "حفظ ملف الـ PDF على الجهاز" : "Save PDF to Device"}

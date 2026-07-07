@@ -9,6 +9,7 @@ import { useEffect, useState, useMemo } from "react";
 interface PostDownloadModalProps {
   isOpen: boolean;
   onClose: () => void;
+  purchasedCodes?: string[];
 }
 
 // Generate simple randomized floating particles for a luxury confetti celebration
@@ -26,6 +27,7 @@ interface ConfettiParticle {
 export default function PostDownloadModal({
   isOpen,
   onClose,
+  purchasedCodes = [],
 }: PostDownloadModalProps) {
   const { language } = useLanguageStore();
   const { data } = useResumeStore();
@@ -40,14 +42,7 @@ export default function PostDownloadModal({
   const score = atsResult?.score || 75;
 
   const [copiedCode, setCopiedCode] = useState<string>("");
-  const [bundleCodes, setBundleCodes] = useState<string[]>(() => {
-    try {
-      const stored = localStorage.getItem("hashresume_approved_codes");
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [bundleCodes, setBundleCodes] = useState<string[]>([]);
 
   const handleCopyCode = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -55,17 +50,12 @@ export default function PostDownloadModal({
     setTimeout(() => setCopiedCode(""), 2000);
   };
 
-  // Re-read bundle codes whenever modal is opened
+  // Set bundle codes whenever modal is opened
   useEffect(() => {
     if (isOpen) {
-      try {
-        const stored = localStorage.getItem("hashresume_approved_codes");
-        setBundleCodes(stored ? JSON.parse(stored) : []);
-      } catch {
-        setBundleCodes([]);
-      }
+      setBundleCodes(purchasedCodes || []);
     }
-  }, [isOpen]);
+  }, [isOpen, purchasedCodes]);
 
   // Initialize confetti particles on mount
   useEffect(() => {
@@ -253,7 +243,7 @@ export default function PostDownloadModal({
               </div>
             </div>
 
-            {bundleCodes.length > 0 && (
+            {bundleCodes.length > 1 && (
               <div className="w-full mb-8 bg-orange-50/50 border border-orange-100 rounded-2xl p-5 text-start relative overflow-hidden">
                 <h4 className="font-black text-sm flex items-center gap-1.5 mb-2.5 text-orange-950">
                   <Sparkles size={16} className="text-[#FF4D2D] animate-pulse" />

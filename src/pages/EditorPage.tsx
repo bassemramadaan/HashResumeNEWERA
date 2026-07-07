@@ -268,6 +268,7 @@ export default function EditorPage() {
   const [showFullPreview, setShowFullPreview] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
+  const [currentPurchasedCodes, setCurrentPurchasedCodes] = useState<string[]>([]);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showProgressTracker, setShowProgressTracker] = useState(false);
@@ -2216,7 +2217,12 @@ export default function EditorPage() {
           <PaymentModal
             isOpen={showPaymentModal}
             onClose={() => setShowPaymentModal(false)}
-            onSuccess={() => {
+            onSuccess={(codes) => {
+              if (codes && codes.length > 0) {
+                setCurrentPurchasedCodes(codes);
+              } else {
+                setCurrentPurchasedCodes([]);
+              }
               trackEvent(FUNNEL_EVENTS.PAID_DOWNLOAD, { language });
               setShowPaymentModal(false);
               handleProceedToExport("pdf", true);
@@ -2224,7 +2230,11 @@ export default function EditorPage() {
           />
           <PostDownloadModal
             isOpen={showPostDownloadModal}
-            onClose={() => setShowPostDownloadModal(false)}
+            onClose={() => {
+              setShowPostDownloadModal(false);
+              setCurrentPurchasedCodes([]);
+            }}
+            purchasedCodes={currentPurchasedCodes}
           />
           <FeedbackModal
             isOpen={showFeedbackModal}
