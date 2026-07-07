@@ -141,6 +141,17 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pendingRef]);
 
+  // Reset key states when modal is closed
+  useEffect(() => {
+    if (!isOpen) {
+      setIsApproved(false);
+      setCode("");
+      setError("");
+      setStep(1);
+      setRefNum("");
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleCopy = (text: string, label: string) => {
@@ -231,7 +242,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       const result = await response.json();
       if (result.success === true) {
         localStorage.setItem('cv-last-used-code', code.trim().toUpperCase());
-        useResumeStore.getState().unlockPremium("", "", "");
+        useResumeStore.getState().unlockPremium(userFullName, userFullEmail, "");
         setIsApproved(true);
         onSuccess([code.trim().toUpperCase()]);
       } else {
@@ -352,7 +363,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
         localStorage.setItem("hashresume_approved_codes", JSON.stringify(codesList));
 
         // Unlock premium!
-        useResumeStore.getState().unlockPremium("", "", "");
+        useResumeStore.getState().unlockPremium(userFullName, userFullEmail, "");
 
         setIsApproved(true);
 

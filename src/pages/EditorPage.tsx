@@ -598,7 +598,7 @@ export default function EditorPage() {
     const canDownloadState = checkCanDownload();
     const isFreeDownload = canDownloadState === "free";
 
-    const allowed = forceAllow || isFreeDownload || (isPremium && canDownloadState === "first-time");
+    const allowed = forceAllow || isPremium || isFreeDownload;
 
     if (!allowed) {
       setShowPaymentModal(true);
