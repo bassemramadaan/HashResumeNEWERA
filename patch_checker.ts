@@ -1,0 +1,10 @@
+import fs from "fs";
+const file = "src/components/editor/ResumeCheckerModal.tsx";
+let code = fs.readFileSync(file, "utf8");
+code = code.replace(/experience\.length > 0/g, "(experience && experience.length > 0)");
+code = code.replace(/experience\.every/g, "experience?.every");
+code = code.replace(/experience\.some/g, "experience?.some");
+code = code.replace(/skills\.length >= 5/g, "(skills && skills.length >= 5)");
+code = code.replace(/education\.length > 0/g, "(education && education.length > 0)");
+code = code.replace(/personalInfo\./g, "personalInfo?.");
+fs.writeFileSync(file, code);

@@ -49,36 +49,36 @@ export default function ResumeCheckerModal({
     if (isOpen) {
       setMounted(true);
       if (!targetJob) {
-        setTargetJob(personalInfo.jobTitle || "");
+        setTargetJob(personalInfo?.jobTitle || "");
       }
     } else {
       setMounted(false);
     }
-  }, [isOpen, personalInfo.jobTitle, targetJob]);
+  }, [isOpen, personalInfo?.jobTitle, targetJob]);
 
   const checks = [
     {
       id: "contact",
       title: t.contactTitle,
-      passed: !!(personalInfo.email && personalInfo.phone && personalInfo.address),
+      passed: !!(personalInfo?.email && personalInfo?.phone && personalInfo?.address),
       message: t.contactMsg,
     },
     {
       id: "summary",
       title: t.summaryTitle,
-      passed: !!(personalInfo.summary && personalInfo.summary.length > 50),
+      passed: !!(personalInfo?.summary && personalInfo?.summary.length > 50),
       message: t.summaryMsg,
     },
     {
       id: "experience_bullets",
       title: t.bulletsTitle,
-      passed: experience.length > 0 && experience.every((exp) => exp.description?.includes("•") || exp.description?.includes("-") || exp.description?.includes("<p>")),
+      passed: (experience && experience.length > 0) && experience?.every((exp) => exp.description?.includes("•") || exp.description?.includes("-") || exp.description?.includes("<p>")),
       message: t.bulletsMsg,
     },
     {
       id: "action_verbs",
       title: t.verbsTitle,
-      passed: experience.length > 0 && experience.some((exp) => {
+      passed: (experience && experience.length > 0) && experience?.some((exp) => {
         const words = (exp.description || "").toLowerCase().split(/\s+/);
         return words.some((w) => ACTION_VERBS.has(w));
       }),
@@ -87,13 +87,13 @@ export default function ResumeCheckerModal({
     {
       id: "skills",
       title: t.skillsTitle,
-      passed: skills.length >= 5,
+      passed: (skills && skills.length >= 5),
       message: t.skillsMsg,
     },
     {
       id: "education",
       title: t.educationTitle,
-      passed: education.length > 0,
+      passed: (education && education.length > 0),
       message: t.educationMsg,
     },
   ];
@@ -119,8 +119,8 @@ Provide your output as a pure JSON object without markdown formatting, using thi
 }
 
 Resume Data:
-Name: ${personalInfo.fullName}
-Summary: ${personalInfo.summary}
+Name: ${personalInfo?.fullName}
+Summary: ${personalInfo?.summary}
 Experience: ${experience.map(e => e.position + ' at ' + e.company + ': ' + e.description).join(' | ')}
 Skills: ${skills.map(s => s.name).join(', ')}
     `;
