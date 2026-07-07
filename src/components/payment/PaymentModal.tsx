@@ -68,6 +68,8 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
     }
   });
 
+  const [isApproved, setIsApproved] = useState(false);
+
   // Approval flow status and custom sharing features after approval is granted
   const [sharingPdf, setSharingPdf] = useState(false);
   const [userPhone, setUserPhone] = useState(resumeData.personalInfo?.phone || "");
@@ -230,6 +232,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
       if (result.success === true) {
         localStorage.setItem('cv-last-used-code', code.trim().toUpperCase());
         useResumeStore.getState().unlockPremium("", "", "");
+        setIsApproved(true);
         onSuccess([code.trim().toUpperCase()]);
       } else {
         setError(result.message || (isAr ? "كود غير صالح أو مستخدم من قبل" : "Invalid or already used code"));
@@ -350,6 +353,8 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
 
         // Unlock premium!
         useResumeStore.getState().unlockPremium("", "", "");
+
+        setIsApproved(true);
 
         // Trigger download and close modal instantly!
         onSuccess(codesList);
