@@ -17,7 +17,7 @@ export function useAutoSave(data: ResumeData) {
         setTimeout(() => {
           setSaveStatus(current => current === 'saved' ? 'idle' : current);
         }, 2500);
-      } catch (error) {
+      } catch {
         setSaveStatus('error');
       }
     }, 600);

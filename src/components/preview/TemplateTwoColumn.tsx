@@ -5,7 +5,7 @@ import { SafeDescription } from './SafeDescription';
 import { Mail, Phone, MapPin, Globe, Linkedin } from 'lucide-react';
 
 export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
-  const { personalInfo, experience, education, skills, projects, certifications, settings, summary } = data;
+  const { personalInfo, experience, education, skills, projects, certifications, settings } = data;
   const isRtl = settings.language === 'ar';
   
   const themeColor = settings.themeColor || '#2563eb';

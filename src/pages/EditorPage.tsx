@@ -26,7 +26,8 @@ import {
   Award,
   Lock,
   Folder,
-  Loader2,
+  ExternalLink,
+  Info,
 } from "lucide-react";
 import { useResumeStore } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -287,13 +288,19 @@ export default function EditorPage() {
     message: string;
   } | null>(null);
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
+  const [isIframe, setIsIframe] = useState(false);
+  const [showIframeBanner, setShowIframeBanner] = useState(true);
+
+  useEffect(() => {
+    try {
+      setIsIframe(window.self !== window.top);
+    } catch {
+      setIsIframe(true);
+    }
+  }, []);
 
   const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
   const data = useResumeStore((state) => state.data);
-  const personalInfo = useResumeStore((state) => state.data.personalInfo);
-  const experience = useResumeStore((state) => state.data.experience);
-  const education = useResumeStore((state) => state.data.education);
-  const skills = useResumeStore((state) => state.data.skills);
   const isStarted = useResumeStore((state) => state.isStarted);
   const setIsStarted = useResumeStore((state) => state.setIsStarted);
   
@@ -364,8 +371,6 @@ export default function EditorPage() {
       });
     }
   }, [data.settings?.template]);
-
-  const [isExporting, setIsExporting] = useState(false);
 
   // Safe temporal subscription
   const [temporalState, setTemporalState] = useState({
@@ -464,7 +469,6 @@ export default function EditorPage() {
 
   const componentRef = useRef<HTMLDivElement>(null);
   const isLocked = data.isLocked || false;
-  const [showEditWarning, setShowEditWarning] = useState(false);
 
   const generateFingerprint = useCallback((cvData: typeof data): string => {
     const str = JSON.stringify({
@@ -489,9 +493,6 @@ export default function EditorPage() {
     const snapshot = JSON.stringify(data);
     localStorage.setItem('cv-last-download-fingerprint', fingerprint);
     localStorage.setItem('cv-last-download-snapshot', snapshot);
-    localStorage.setItem('cv-locked', 'true');
-    setShowEditWarning(false);
-    useResumeStore.getState().lockResume();
   };
 
   // قبل كل Download
@@ -504,35 +505,6 @@ export default function EditorPage() {
     
     return 'needs-code';
   };
-
-  const handleUndoChanges = () => {
-    const snapshot = localStorage.getItem('cv-last-download-snapshot');
-    if (snapshot) {
-      try {
-        const parsed = JSON.parse(snapshot);
-        useResumeStore.getState().loadData(parsed);
-        setShowEditWarning(false);
-      } catch (e) {
-        console.error("Failed to restore snapshot:", e);
-      }
-    }
-  };
-
-  useEffect(() => {
-    const savedFingerprint = localStorage.getItem('cv-last-download-fingerprint');
-    if (!savedFingerprint) {
-      setShowEditWarning(false);
-      return; // لو لسه ما حملش قبل كده — مش محتاج warning
-    }
-
-    const currentFingerprint = generateFingerprint(data);
-
-    if (currentFingerprint !== savedFingerprint) {
-      setShowEditWarning(true); // اعرض الـ banner
-    } else {
-      setShowEditWarning(false); // اخفيه لو رجع للبيانات الأصلية
-    }
-  }, [data, personalInfo, experience, education, skills, generateFingerprint]); // مهم جداً — نراقب التغييرات بكل الـ fields
 
   const handlePrint = () => {
     try {
@@ -572,12 +544,9 @@ export default function EditorPage() {
 
   // في الـ useEffect عند load الصفحة
   useEffect(() => {
-    const locked = localStorage.getItem('cv-locked');
-    if (locked === 'true') {
-      useResumeStore.getState().lockResume();
-    } else {
-      useResumeStore.getState().unlockResume();
-    }
+    localStorage.removeItem('cv-locked');
+    localStorage.removeItem('cv-is-locked');
+    useResumeStore.getState().unlockResume();
 
     const handleBeforePrint = () => {
       if (!document.getElementById("resume-print-container")) {
@@ -638,24 +607,124 @@ export default function EditorPage() {
     setExportStatus({ show: true, step: 0, format });
     const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    try {
-      setExportStatus({ show: true, step: 1, format }); 
-      await sleep(1000);
-      setExportStatus({ show: true, step: 2, format }); 
-      await sleep(1000);
-      setExportStatus({ show: true, step: 3, format }); 
-      
-      setExportStatus(null);
-      await handlePrint();
-      
-      setHasExported(true);
-      onSuccessfulDownload();
-      
-      setTimeout(() => setShowPostDownloadModal(true), 300);
-    } catch (err: any) {
-      console.error("Export failed:", err);
-      alert(language === "ar" ? "حدث خطأ أثناء التصدير. يرجى المحاولة مرة أخرى." : "Export failed. Please try again.");
-      setExportStatus(null);
+    if (format === "pdf") {
+      try {
+        setExportStatus({ show: true, step: 1, format }); 
+        await sleep(1000);
+        setExportStatus({ show: true, step: 2, format }); 
+        await sleep(1000);
+        setExportStatus({ show: true, step: 3, format }); 
+        
+        setExportStatus(null);
+        await handlePrint();
+        
+        setHasExported(true);
+        onSuccessfulDownload();
+        
+        setTimeout(() => setShowPostDownloadModal(true), 300);
+      } catch (err: any) {
+        console.error("Export failed:", err);
+        alert(language === "ar" ? "حدث خطأ أثناء التصدير. يرجى المحاولة مرة أخرى." : "Export failed. Please try again.");
+        setExportStatus(null);
+      }
+    } else if (format === "docx") {
+      try {
+        setExportStatus({ show: true, step: 1, format });
+        await sleep(800);
+        setExportStatus({ show: true, step: 3, format });
+        await sleep(800);
+        
+        const resumeElement = document.getElementById('resume-capture-area');
+        if (!resumeElement) throw new Error("Resume element not found");
+
+        // Get all active styles to inject into exported document
+        const styles = Array.from(document.styleSheets)
+          .map(sheet => {
+            try {
+              return Array.from(sheet.cssRules || [])
+                .map(rule => rule.cssText)
+                .join('\n');
+            } catch {
+              return '';
+            }
+          })
+          .join('\n');
+
+        const htmlContent = `
+          <!DOCTYPE html>
+          <html dir="${document.documentElement.dir || 'ltr'}" xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+              <meta charset="UTF-8">
+              <style>
+                ${styles}
+                /* Force proper rendering */
+                * {
+                  word-wrap: break-word !important;
+                  overflow-wrap: break-word !important;
+                  white-space: normal !important;
+                  box-sizing: border-box !important;
+                }
+                body {
+                  margin: 0;
+                  padding: 0;
+                  width: 794px;
+                  font-family: Arial, sans-serif;
+                }
+              </style>
+            </head>
+            <body>
+              ${resumeElement.outerHTML}
+            </body>
+          </html>
+        `;
+        
+        // Use standard MS Word Blob application type
+        const converted = new Blob(['\ufeff', htmlContent], {
+            type: 'application/msword'
+        });
+        
+        const url = URL.createObjectURL(converted);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${fullName || 'CV'}_HashResume.doc`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        onSuccessfulDownload();
+        setExportStatus({ show: true, step: 5, format });
+        // Trigger confetti celebration!
+        (window as any).triggerFrictionlessConfetti?.();
+        await sleep(1000);
+        setExportStatus(null);
+        setHasExported(true);
+        setShowPostDownloadModal(true);
+      } catch (e) {
+        console.error("Word gen err:", e);
+        setExportStatus(null);
+      }
+    } else if (format === "txt") {
+      try {
+        setExportStatus({ show: true, step: 1, format });
+        await sleep(550);
+        const data = useResumeStore.getState().data;
+        const text = `${data.personalInfo.fullName}\n${data.personalInfo.email}\n${data.personalInfo.phone}\n\nEXPERIENCE\n${data.experience
+          .map((exp) => `${exp.role} at ${exp.company}\n${exp.description}`)
+          .join("\n\n")}`;
+        const blob = new Blob([text], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${data.personalInfo.fullName || "resume"}.txt`;
+        link.click();
+        onSuccessfulDownload();
+        setExportStatus({ show: true, step: 5, format });
+        await sleep(1000);
+        setExportStatus(null);
+        setHasExported(true);
+      } catch (e) {
+        console.error("Txt gen err:", e);
+        setExportStatus(null);
+      }
     }
   };
 
@@ -1268,7 +1337,52 @@ export default function EditorPage() {
                 focusMode ? "bg-white" : ""
               )}
             >
-                {/* Banner removed */}
+              <AnimatePresence>
+                {isIframe && showIframeBanner && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="mb-6 bg-indigo-50/95 backdrop-blur-md border border-indigo-200/80 text-indigo-950 rounded-2xl p-4.5 shadow-[0_4px_20px_rgba(99,102,241,0.08)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                    dir={language === "ar" ? "rtl" : "ltr"}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="bg-indigo-100 p-2 rounded-xl text-indigo-600 shrink-0">
+                        <Info className="w-5 h-5" />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="text-sm font-black tracking-tight">
+                          {language === "ar"
+                            ? "💡 الحل الموصى به لتصدير بأعلى جودة"
+                            : "💡 Recommended for Best PDF Quality"}
+                        </h4>
+                        <p className="text-xs text-indigo-800 leading-relaxed font-medium">
+                          {language === "ar"
+                            ? "لتجنب أي قيود برمجية للمتصفح عند توليد ملف الـ PDF بأعلى جودة واحترافية، يُفضل دائماً فتح المحرر في نافذة مستقلة جديدة (عبر زر 'فتح في نافذة مستقلة' المتوفر في المتصفح). سيقوم نظام المزامنة التلقائية بعرض كافة بياناتك فوراً ويتيح لك تحميل السيرة بنقرة واحدة وبدون أي قيود طباعية."
+                            : "To avoid browser restrictions and ensure the absolute highest print quality, we highly recommend opening this editor in an independent window. Your work will auto-sync instantly, and you can download your PDF with a single click."}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-center">
+                      <button
+                        onClick={() => {
+                          window.open(window.location.href, '_blank');
+                        }}
+                        className="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer shadow-sm active:scale-95 flex items-center gap-1.5"
+                      >
+                        <span>{language === "ar" ? "فتح في نافذة جديدة" : "Open in New Window"}</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        onClick={() => setShowIframeBanner(false)}
+                        className="p-2 hover:bg-indigo-100 rounded-xl text-indigo-400 hover:text-indigo-600 transition-colors cursor-pointer"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeTab}
@@ -2309,18 +2423,8 @@ export default function EditorPage() {
           )}
         </AnimatePresence>
 
-        {isExporting && (
-          <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-white/80 backdrop-blur-sm">
-            <div className="bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex flex-col items-center gap-4">
-              <Loader2 className="w-8 h-8 text-brand-500 animate-spin" />
-              <p className="font-bold text-slate-800">
-                {language === "ar" ? "جاري تجهيز وتصدير الـ PDF..." : "Preparing and exporting PDF..."}
-              </p>
-            </div>
-          </div>
-        )}
         {showConfetti && <FrictionlessConfetti />}
-        <div className="text-center text-xs text-slate-400 pb-4">version 2.0.7</div>
+        <div className="text-center text-xs text-slate-400 pb-4">version 2.0.8</div>
     </div>
   );
 }

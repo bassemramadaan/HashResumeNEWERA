@@ -13,7 +13,7 @@ try {
     window.localStorage.removeItem(testKey);
     isStorageSupported = true;
   }
-} catch (e) {
+} catch {
   isStorageSupported = false;
 }
 

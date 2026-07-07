@@ -44,7 +44,7 @@ const SkillsForm = () => {
     try {
       const saved = localStorage.getItem(`cv-skill-levels-${personalInfo.fullName || 'default'}`);
       return saved ? JSON.parse(saved) : {};
-    } catch (e) {
+    } catch {
       return {};
     }
   });
@@ -54,7 +54,7 @@ const SkillsForm = () => {
     try {
       const saved = localStorage.getItem(`cv-skill-categories-${personalInfo.fullName || 'default'}`);
       return saved ? JSON.parse(saved) : {};
-    } catch (e) {
+    } catch {
       return {};
     }
   });

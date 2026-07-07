@@ -289,7 +289,7 @@ type ResumeStore = {
 export const useResumeStore = create<ResumeStore>()(
   temporal(
     persist(
-      (set, get) => ({
+      (set, _get) => ({
       data: initialData,
       isHydrated: false,
       isGeneratingText: false,
@@ -545,23 +545,12 @@ export const useResumeStore = create<ResumeStore>()(
           return true;
         },
         lockResume: () => {
-          const currentData = get().data;
-          const lockedData = {
-            personalInfo: currentData.personalInfo,
-            workExperience: currentData.experience,
-            education: currentData.education,
-            skills: currentData.skills,
-            certifications: currentData.certifications,
-            projects: currentData.projects,
-            lockedAt: new Date().toISOString(),
-          };
-          safeLocalStorage.setItem('cv-locked-data', JSON.stringify(lockedData));
-          safeLocalStorage.setItem('cv-is-locked', 'true');
-          
+          safeLocalStorage.removeItem('cv-locked-data');
+          safeLocalStorage.removeItem('cv-is-locked');
           set((state) => ({
             data: {
               ...state.data,
-              isLocked: true,
+              isLocked: false,
             },
           }));
         },
