@@ -23,6 +23,7 @@ export const ProgressTrackerModal: React.FC<ProgressTrackerModalProps> = ({
 }) => {
   const { language } = useLanguageStore();
   const t = translations[language].editor.progressTracker;
+  const isRtl = language === 'ar';
 
   const steps = [
     {
@@ -120,66 +121,81 @@ export const ProgressTrackerModal: React.FC<ProgressTrackerModalProps> = ({
                   />
                 </div>
 
-                <div className="grid gap-3">
-                  {steps.map((step) => {
-                    const Icon = step.icon;
-                    const isActive = activeTab === step.id;
-                    return (
-                      <button
-                        key={step.id}
-                        onClick={() => {
-                          onJumpToStep(step.id);
-                          onClose();
-                        }}
-                        className={cn(
-                          "flex items-center gap-4 p-4 rounded-2xl border transition-all text-start group",
-                          isActive
-                            ? "bg-white border-slate-300 shadow-md ring-1 ring-slate-100/50"
-                            : "bg-transparent border-neutral-100 hover:bg-neutral-50 hover:border-neutral-200",
-                        )}
-                      >
-                        <div
+                <div className="relative">
+                  {/* Decorative timeline connecting line running through icon centers */}
+                  <div className={cn(
+                    "absolute top-9 bottom-9 w-1 bg-neutral-200 rounded-full z-0",
+                    isRtl ? "right-9" : "left-9"
+                  )}>
+                    <motion.div 
+                      className="w-full bg-gradient-to-b from-[#FF4D2D] to-orange-400 rounded-full origin-top"
+                      initial={{ height: "0%" }}
+                      animate={{ height: `${linePercent}%` }}
+                      transition={{ type: "spring", stiffness: 50, damping: 15 }}
+                    />
+                  </div>
+
+                  <div className="grid gap-4.5 relative z-10">
+                    {steps.map((step) => {
+                      const Icon = step.icon;
+                      const isActive = activeTab === step.id;
+                      return (
+                        <button
+                          key={step.id}
+                          onClick={() => {
+                            onJumpToStep(step.id);
+                            onClose();
+                          }}
                           className={cn(
-                            "w-10 h-10 rounded-xl flex items-center justify-center transition-colors",
-                            step.done
-                              ? "bg-emerald-50 text-emerald-600"
-                              : isActive
-                                ? "bg-slate-900 text-white"
-                                : "bg-neutral-100 text-neutral-400 group-hover:bg-neutral-200",
+                            "flex items-center gap-4 p-4 rounded-2xl border transition-all text-start group relative z-10",
+                            isActive
+                              ? "bg-white border-slate-300 shadow-md ring-1 ring-slate-100/50"
+                              : "bg-white/90 backdrop-blur-xs border-neutral-100 hover:bg-neutral-50 hover:border-neutral-200",
                           )}
                         >
-                          {step.done ? (
-                            <CheckCircle2 size={20} />
-                          ) : (
-                            <Icon size={20} />
-                          )}
-                        </div>
-                        <div className="flex-1">
-                          <h3
+                          <div
                             className={cn(
-                              "font-bold text-sm",
-                              isActive
-                                ? "text-neutral-900"
-                                : "text-neutral-600 group-hover:text-neutral-900",
+                              "w-10 h-10 rounded-xl flex items-center justify-center transition-colors shrink-0",
+                              step.done
+                                ? "bg-emerald-50 text-emerald-600"
+                                : isActive
+                                  ? "bg-slate-900 text-white"
+                                  : "bg-neutral-100 text-neutral-400 group-hover:bg-neutral-200",
                             )}
                           >
-                            {step.label}
-                          </h3>
-                        </div>
-                        <div className="text-neutral-300 pointer-events-none">
-                          <CheckCircle2
-                            size={16}
-                            className={cn(
-                              "transition-all",
-                              step.done
-                                ? "text-emerald-500 opacity-100"
-                                : "opacity-0",
+                            {step.done ? (
+                              <CheckCircle2 size={20} />
+                            ) : (
+                              <Icon size={20} />
                             )}
-                          />
-                        </div>
-                      </button>
-                    );
-                  })}
+                          </div>
+                          <div className="flex-1">
+                            <h3
+                              className={cn(
+                                "font-bold text-sm",
+                                isActive
+                                  ? "text-neutral-900"
+                                  : "text-neutral-600 group-hover:text-neutral-900",
+                              )}
+                            >
+                              {step.label}
+                            </h3>
+                          </div>
+                          <div className="text-neutral-300 pointer-events-none">
+                            <CheckCircle2
+                              size={16}
+                              className={cn(
+                                "transition-all",
+                                step.done
+                                  ? "text-emerald-500 opacity-100"
+                                  : "opacity-0",
+                              )}
+                            />
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
 
                 <button

@@ -69,7 +69,6 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
   });
 
   // Approval flow status and custom sharing features after approval is granted
-  const [isApproved, setIsApproved] = useState(false);
   const [sharingPdf, setSharingPdf] = useState(false);
   const [userPhone, setUserPhone] = useState(resumeData.personalInfo?.phone || "");
 
@@ -83,6 +82,36 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
 
   // Retrieve pending reference from localStorage if exists
   const [pendingRef, setPendingRef] = useState<string>(() => localStorage.getItem("pending_payment_ref") || "");
+
+  // Progressive verification state & steps
+  const [verificationProgress, setVerificationProgress] = useState(15);
+  const [verificationStepIndex, setVerificationStepIndex] = useState(0);
+
+  // Auto-advance verification logs simulator
+  useEffect(() => {
+    if (!pendingRef) {
+      setVerificationProgress(15);
+      setVerificationStepIndex(0);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setVerificationProgress((prev) => {
+        if (prev >= 98) return 98;
+        const increment = Math.floor(Math.random() * 8) + 3;
+        const next = prev + increment;
+        
+        if (next < 30) setVerificationStepIndex(0);
+        else if (next < 60) setVerificationStepIndex(1);
+        else if (next < 85) setVerificationStepIndex(2);
+        else setVerificationStepIndex(3);
+
+        return next > 98 ? 98 : next;
+      });
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [pendingRef]);
 
   // Update fields if store loads values later
   useEffect(() => {
@@ -531,19 +560,58 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         selectedMethod={selectedMethod}
                       />
 
-                      <div className="bg-orange-50/50 p-4 rounded-2xl border border-orange-100 space-y-2 mt-2">
-                        <h3 className="text-sm font-black text-orange-950 flex items-center justify-center gap-1.5">
-                          <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                      <div className="bg-slate-50 border border-slate-200/75 p-4 rounded-2xl space-y-4 text-start">
+                        <div className="flex items-center justify-between gap-2">
+                          <h3 className="text-xs font-black text-slate-700 flex items-center gap-1.5">
+                            <span className="relative flex h-2.5 w-2.5">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF4D2D]"></span>
+                            </span>
+                            {isAr ? "حالة فحص وتتبع المعاملة" : "Transaction Audit Stream"}
+                          </h3>
+                          <span className="text-xs font-black text-[#FF4D2D] bg-orange-50 px-2 py-0.5 rounded-md">
+                            {verificationProgress}%
                           </span>
-                          {isAr ? "جاري مطابقة المعاملة تلقائياً" : "Verifying Transaction State"}
-                        </h3>
-                        <p className="text-[#FF4D2D]/85 text-[11px] font-semibold leading-normal max-w-xs mx-auto">
-                          {isAr 
-                            ? "نسجل ونطابق الرقم المرجعي للمعاملة حالياً مع النظام، سيتم تفعيل حسابك وتحميل الملف مباشرة فور الاعتماد." 
-                            : "We are actively tracing your submitted reference. High-quality exports will unlock and download shortly."}
-                        </p>
+                        </div>
+
+                        {/* Glowing Progress Bar */}
+                        <div className="w-full bg-slate-200/60 rounded-full h-2 overflow-hidden relative">
+                          <motion.div 
+                            className="bg-gradient-to-r from-orange-500 to-[#FF4D2D] h-full rounded-full"
+                            animate={{ width: `${verificationProgress}%` }}
+                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                          />
+                        </div>
+
+                        {/* Step logs list */}
+                        <div className="space-y-2.5 pt-1">
+                          {([
+                            isAr ? "الاتصال الآمن بخادم الدفع والتحقق" : "Establishing secure verification gateway",
+                            isAr ? "البحث في كشوفات بنوك الكاش المستلمة" : "Scanning receiver bank statement logs",
+                            isAr ? "مطابقة الرقم المرجعي للمعاملة الرقمية" : "Matching transfer reference signature",
+                            isAr ? "ترقية الاشتراك وبدء تصدير المستند" : "Finalizing membership & clearing download"
+                          ]).map((stepLabel, idx) => {
+                            const isDone = idx < verificationStepIndex;
+                            const isActive = idx === verificationStepIndex;
+                            return (
+                              <div key={idx} className="flex items-center gap-2.5 text-[11px] font-bold">
+                                {isDone ? (
+                                  <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
+                                ) : isActive ? (
+                                  <Loader2 size={14} className="text-[#FF4D2D] animate-spin shrink-0" />
+                                ) : (
+                                  <div className="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white shrink-0" />
+                                )}
+                                <span className={cn(
+                                  "transition-all",
+                                  isDone ? "text-slate-400 font-medium" : isActive ? "text-slate-800 font-black" : "text-slate-400"
+                                )}>
+                                  {stepLabel}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
 
                       <div className="space-y-2 pt-1">
@@ -659,8 +727,8 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                       {/* Redesigned Payment Method Tabs (Extremely Cohesive & Simplified) */}
                       <div className="grid grid-cols-3 gap-1 bg-slate-100/50 p-1 rounded-2xl border border-slate-200/50 mb-6">
                         {[
-                          { id: "instapay", label: isAr ? "انستاباي" : "InstaPay", icon: Zap },
-                          { id: "vodafone", label: isAr ? "فودافون كاش" : "Vodafone", icon: Smartphone },
+                          { id: "instapay", label: isAr ? "انستاباي" : "InstaPay", icon: Zap, brandBadge: "IPN", brandColor: "bg-pink-500 text-white" },
+                          { id: "vodafone", label: isAr ? "فودافون كاش" : "Vodafone", icon: Smartphone, brandBadge: "Cash", brandColor: "bg-red-600 text-white" },
                           { id: "code", label: isAr ? "كود تفعيل" : "Verification Code", icon: CreditCard },
                         ].map((item) => {
                           const Icon = item.icon;
@@ -670,13 +738,21 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                               key={item.id}
                               onClick={() => { setSelectedMethod(item.id as PaymentMethod); setError(""); }}
                               className={cn(
-                                "flex flex-col items-center justify-center py-2 px-1 rounded-xl text-center transition-all duration-200 cursor-pointer relative",
+                                "flex flex-col items-center justify-center py-2.5 px-1 rounded-xl text-center transition-all duration-200 cursor-pointer relative overflow-hidden",
                                 isSelected 
                                   ? "bg-white text-slate-800 shadow-xs border border-slate-200/40" 
                                   : "text-slate-400 hover:text-slate-600"
                               )}
                             >
-                              <Icon size={14} className={cn("mb-1 transition-transform duration-200", isSelected ? "text-[#FF4D2D] scale-105" : "text-slate-400")} />
+                              {item.brandBadge && (
+                                <span className={cn(
+                                  "absolute top-0.5 right-0.5 text-[6.5px] font-black uppercase px-1 py-[0.5px] rounded-[2px] tracking-wide",
+                                  item.brandColor
+                                )}>
+                                  {item.brandBadge}
+                                </span>
+                              )}
+                              <Icon size={14} className={cn("mb-1 transition-transform duration-200", isSelected ? (item.id === "vodafone" ? "text-red-600 scale-105" : "text-[#FF4D2D] scale-105") : "text-slate-400")} />
                               <span className="text-[10px] sm:text-[11px] font-semibold tracking-tight leading-none animate-fade-in">
                                 {item.label}
                               </span>

@@ -152,7 +152,7 @@ export default function EditorPage() {
     if (formRef.current) {
       formRef.current.scrollTo({ top: 0, behavior: "instant" as any });
     }
-  }, [activeTab]);
+  }, [activeTab, formRef]);
   
   useEffect(() => {
     const handlePreviewSectionClick = (e: Event) => {
@@ -214,11 +214,12 @@ export default function EditorPage() {
       window.removeEventListener("open-import-modal", handleOpenImportModal);
       window.removeEventListener("open-magic-modal", handleOpenMagicModal);
     };
-  }, []);
+  }, [setActiveTab]);
   
 
 
   const [showMobilePreview, setShowMobilePreview] = useState(false);
+  const [mobileZoom, setMobileZoom] = useState(0.45);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const handleFormScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -425,7 +426,7 @@ export default function EditorPage() {
   }, [isEmpty, hasExported, data.isLocked]);
 
   const componentRef = useRef<HTMLDivElement>(null);
-  const [isLocked, setIsLocked] = useState(false);
+  const isLocked = data.isLocked || false;
   const [showEditWarning, setShowEditWarning] = useState(false);
 
   const generateFingerprint = useCallback((cvData: typeof data): string => {
@@ -452,7 +453,6 @@ export default function EditorPage() {
     localStorage.setItem('cv-last-download-fingerprint', fingerprint);
     localStorage.setItem('cv-last-download-snapshot', snapshot);
     localStorage.setItem('cv-locked', 'true');
-    setIsLocked(true);
     setShowEditWarning(false);
     useResumeStore.getState().lockResume();
   };
@@ -569,7 +569,11 @@ export default function EditorPage() {
   // في الـ useEffect عند load الصفحة
   useEffect(() => {
     const locked = localStorage.getItem('cv-locked');
-    if (locked === 'true') setIsLocked(true);
+    if (locked === 'true') {
+      useResumeStore.getState().lockResume();
+    } else {
+      useResumeStore.getState().unlockResume();
+    }
 
     const handleBeforePrint = () => {
       if (!document.getElementById("resume-print-container")) {
@@ -896,7 +900,6 @@ export default function EditorPage() {
             <button
               onClick={() => {
                 localStorage.removeItem('cv-locked');
-                setIsLocked(false);
                 useResumeStore.getState().unlockResume();
               }}
               className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs px-4 py-2 rounded-xl transition-colors shrink-0 flex items-center gap-2"
@@ -1978,14 +1981,47 @@ export default function EditorPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Elegant Zoom Toolbar */}
+              <div className="bg-slate-100/60 border-b border-slate-200/50 px-4 py-2 flex items-center justify-between shrink-0 select-none">
+                <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                  🔍 {language === "ar" ? "حجم المعاينة والتكبير:" : "PREVIEW ZOOM & SCALE:"}
+                </span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setMobileZoom(prev => Math.max(0.3, prev - 0.05))}
+                    disabled={mobileZoom <= 0.3}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 active:scale-95 disabled:opacity-40 cursor-pointer font-black text-sm"
+                  >
+                    -
+                  </button>
+                  <span className="text-xs font-black text-slate-800 min-w-[36px] text-center font-mono">
+                    {Math.round(mobileZoom * 200)}%
+                  </span>
+                  <button
+                    onClick={() => setMobileZoom(prev => Math.min(0.9, prev + 0.05))}
+                    disabled={mobileZoom >= 0.9}
+                    className="w-7 h-7 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 active:scale-95 disabled:opacity-40 cursor-pointer font-black text-sm"
+                  >
+                    +
+                  </button>
+                  <button
+                    onClick={() => setMobileZoom(0.45)}
+                    className="text-[9px] font-black uppercase text-[#FF4D2D] bg-orange-50 border border-orange-200/45 px-2 py-1 rounded-md active:scale-95 cursor-pointer ml-1"
+                  >
+                    {language === "ar" ? "إعادة تعيين" : "Reset"}
+                  </button>
+                </div>
+              </div>
  
               <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-50/60 scrollbar-none pb-12">
                 <div
-                  className="origin-top transition-all flex justify-center scale-[0.4] sm:scale-[0.45] origin-top opacity-100"
+                  className="origin-top transition-all flex justify-center opacity-100"
                   style={{ 
                     width: "210mm",
                     height: "297mm",
-                    marginBottom: "-170mm" // roughly 297 * 0.6
+                    transform: `scale(${mobileZoom})`,
+                    marginBottom: `-${297 * (1 - mobileZoom)}mm`
                   }}
                 >
                   <div
@@ -2194,6 +2230,11 @@ export default function EditorPage() {
           isOpen={showFeedbackModal}
           onClose={() => setShowFeedbackModal(false)}
         />
+
+        {/* Hidden resume container to guarantee DOM availability of #resume-capture-area for PDF/DOCX export and Printing fallback on all viewports */}
+        <div className="absolute pointer-events-none opacity-0 select-none overflow-hidden h-0 w-0 -top-[9999px] -left-[9999px] invisible" aria-hidden="true">
+          <ResumePreview />
+        </div>
 
         <ProgressTrackerModal
           isOpen={showProgressTracker}

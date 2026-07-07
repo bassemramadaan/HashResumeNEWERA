@@ -4,10 +4,10 @@ import { Font } from '@react-pdf/renderer';
 Font.register({
   family: 'Cairo',
   fonts: [
-    { src: '/fonts/Cairo-Regular.ttf', fontWeight: 400 },
-    { src: '/fonts/Cairo-Medium.ttf', fontWeight: 500 },
-    { src: '/fonts/Cairo-SemiBold.ttf', fontWeight: 600 },
-    { src: '/fonts/Cairo-Bold.ttf', fontWeight: 700 },
+    { src: 'https://fonts.gstatic.com/s/cairo/v31/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hOA-W1Q.ttf', fontWeight: 400 },
+    { src: 'https://fonts.gstatic.com/s/cairo/v31/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hNI-W1Q.ttf', fontWeight: 500 },
+    { src: 'https://fonts.gstatic.com/s/cairo/v31/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hD45W1Q.ttf', fontWeight: 600 },
+    { src: 'https://fonts.gstatic.com/s/cairo/v31/SLXgc1nY6HkvangtZmpQdkhzfH5lkSs2SgRjCAGMQ1z0hAc5W1Q.ttf', fontWeight: 700 },
   ],
 });
 
@@ -15,9 +15,10 @@ Font.register({
 Font.register({
   family: 'PlusJakartaSans',
   fonts: [
-    { src: '/fonts/PlusJakartaSans-Regular.ttf', fontWeight: 400 },
-    { src: '/fonts/PlusJakartaSans-Medium.ttf', fontWeight: 500 },
-    { src: '/fonts/PlusJakartaSans-SemiBold.ttf', fontWeight: 600 },
-    { src: '/fonts/PlusJakartaSans-Bold.ttf', fontWeight: 700 },
+    { src: 'https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_qU7NSg.ttf', fontWeight: 400 },
+    { src: 'https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_m07NSg.ttf', fontWeight: 500 },
+    { src: 'https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_d0nNSg.ttf', fontWeight: 600 },
+    { src: 'https://fonts.gstatic.com/s/plusjakartasans/v12/LDIbaomQNQcsA88c7O9yZ4KMCoOg4IA6-91aHEjcWuA_TknNSg.ttf', fontWeight: 700 },
   ],
 });
+
