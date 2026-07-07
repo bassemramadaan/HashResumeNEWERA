@@ -14,6 +14,7 @@ export function useResumeEditorState() {
     "skills",
     "projects",
     "certifications",
+    "finish",
   ];
   
   const currentTabIndex = tabOrder.indexOf(activeTab);

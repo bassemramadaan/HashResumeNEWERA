@@ -788,6 +788,7 @@ export default function EditorPage() {
     experience: data.experience && data.experience.length > 0 ? 100 : 0,
     education: data.education && data.education.length > 0 ? 100 : 0,
     skills: data.skills && data.skills.length > 0 ? 100 : 0,
+    projects: data.projects && data.projects.length > 0 ? 100 : 0,
     certifications: data.certifications && data.certifications.length > 0 ? 100 : 0,
     finish: atsScore,
   };
@@ -977,16 +978,8 @@ export default function EditorPage() {
               </div>
             </div>
 
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={"tab-" + activeTab}
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className={cn(data.isLocked && "pointer-events-none opacity-50 select-none")}
-                    >
-                      <Suspense fallback={<FormLoader />}>
+                  <div className={cn(data.isLocked && "pointer-events-none opacity-50 select-none")}>
+                    <Suspense fallback={<FormLoader />}>
                         {activeTab === "basics" && (
                         <div className="space-y-12">
 
@@ -1177,8 +1170,7 @@ export default function EditorPage() {
                         />
                       )}
                       </Suspense>
-                    </motion.div>
-                  </AnimatePresence>
+                    </div>
         </>
       )}
     </div>
