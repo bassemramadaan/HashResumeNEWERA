@@ -91,7 +91,30 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
       let textContent = "";
       
       try {
-        const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const version = pdfjsLib.version || "5.7.284";
+        let pdf: any = null;
+        try {
+          pdf = await pdfjsLib.getDocument({
+            data: arrayBuffer,
+            cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/cmaps/`,
+            cMapPacked: true,
+            standardFontDataUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/standard_fonts/`,
+          }).promise;
+        } catch (err1) {
+          console.warn("ATS tester PDF load attempt 1 failed, trying fallback:", err1);
+          try {
+            pdf = await pdfjsLib.getDocument({
+              data: arrayBuffer,
+              cMapUrl: `https://unpkg.com/pdfjs-dist@${version}/cmaps/`,
+              cMapPacked: true,
+              standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${version}/standard_fonts/`,
+            }).promise;
+          } catch (err2) {
+            console.warn("ATS tester PDF load attempt 2 failed, trying without maps:", err2);
+            pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          }
+        }
+
         const numPages = Math.min(pdf.numPages, 5);
         for (let i = 1; i <= numPages; i++) {
           const page = await pdf.getPage(i);
