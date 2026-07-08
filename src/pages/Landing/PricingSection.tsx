@@ -171,9 +171,14 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
 
         {/* Card 2: Bundle Package */}
         <TiltCard
-          className="relative rounded-[2.5rem] p-8 sm:p-10 flex flex-col justify-between shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] bg-white border-2 border-orange-500 hover:border-orange-600 hover:shadow-[0_20px_40px_-10px_rgba(255,237,233,0.5)] transition-all transform-gpu"
+          className="relative rounded-[2.5rem] p-8 sm:p-10 flex flex-col justify-between shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] bg-white border-2 border-orange-500 hover:border-orange-600 hover:shadow-[0_25px_50px_-12px_rgba(255,77,45,0.15)] transition-all transform-gpu"
         >
-          <div className="flex flex-col flex-1">
+          {/* Top Floating Badge */}
+          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[11px] font-black px-4 py-1.5 rounded-full shadow-md shadow-orange-500/20 uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
+            <span>{c.planBundle.popular}</span>
+          </div>
+
+          <div className="flex flex-col flex-1 mt-2">
             <div className="mb-8 text-center md:text-start">
               <div className="text-[11px] font-black text-orange-500 mb-2 tracking-[0.2em] uppercase">{c.planBundle.name}</div>
               <div className="flex items-baseline justify-center md:justify-start gap-2">

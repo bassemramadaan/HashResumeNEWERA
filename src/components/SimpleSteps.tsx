@@ -14,10 +14,10 @@ const StepOneGraphics = () => (
 );
 
 const StepTwoGraphics = () => (
-  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-purple-50/30 transition-all duration-500">
+  <div className="relative w-full h-40 flex items-center justify-center bg-slate-50/50 rounded-[2rem] border border-slate-100/60 overflow-hidden mix-blend-multiply group-hover:bg-brand-50/40 transition-all duration-500">
     <div className="relative flex items-center justify-center w-20 h-20 rounded-[1.5rem] bg-slate-900 border border-slate-800 shadow-md transition-transform duration-500 group-hover:scale-110 group-hover:shadow-lg">
       <Sparkles className="w-8 h-8 text-white animate-pulse" strokeWidth={1.5} />
-      <div className="absolute -inset-2 bg-purple-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute -inset-2 bg-brand-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
     </div>
   </div>
 );

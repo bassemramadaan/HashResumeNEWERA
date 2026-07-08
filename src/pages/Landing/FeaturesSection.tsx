@@ -106,12 +106,12 @@ function FeatureCard({ icon, title, desc, tag }: {
   return (
     <motion.div
       variants={itemVariants}
-      className="bg-white border border-slate-200/60 rounded-3xl p-8 hover:border-purple-500/30 transition-all duration-300 relative overflow-hidden group hover:shadow-xl hover:shadow-purple-500/5 flex flex-col h-full"
+      className="bg-white border border-slate-200/60 rounded-3xl p-8 hover:border-brand-500/30 transition-all duration-300 relative overflow-hidden group hover:shadow-xl hover:shadow-brand-500/5 flex flex-col h-full"
     >
       <div className="flex items-center justify-between mb-8">
-        <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 group-hover:bg-purple-50 group-hover:border-purple-100 transition-all duration-500">
+        <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 shadow-sm group-hover:scale-110 group-hover:bg-brand-50 group-hover:border-brand-100 transition-all duration-500">
           {IconComponent && (
-            <IconComponent className="w-5 h-5 text-slate-700 group-hover:text-purple-600 transition-colors duration-500" strokeWidth={2} />
+            <IconComponent className="w-5 h-5 text-slate-700 group-hover:text-brand-500 transition-colors duration-500" strokeWidth={2} />
           )}
         </div>
         <span className="text-[10px] font-black tracking-wider uppercase px-3 py-1 rounded-full text-slate-400 bg-slate-50 border border-slate-100">

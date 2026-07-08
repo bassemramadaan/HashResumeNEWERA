@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'motion/react'
+import { motion, AnimatePresence } from 'motion/react'
 import { 
   Sparkles, 
   ArrowLeft, 
@@ -64,7 +64,9 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* Background decoration */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-orange-100/50 rounded-full blur-[100px] pointer-events-none -z-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-orange-200/30 to-amber-100/40 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-12 left-1/4 w-[300px] h-[300px] bg-orange-200/10 rounded-full blur-[80px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '6s' }} />
+      <div className="absolute top-36 right-1/4 w-[250px] h-[250px] bg-amber-100/15 rounded-full blur-[70px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '10s' }} />
 
       <div className="container relative z-10 mx-auto px-6 max-w-7xl">
         <div className="flex flex-col items-center text-center space-y-10">
@@ -86,17 +88,19 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             className="text-6xl sm:text-7xl lg:text-8xl font-extrabold text-slate-950 tracking-tighter leading-[1] max-w-5xl"
           >
             {copy.titleMain} <br />
-            <span className="text-orange-500">
-              <motion.span
-                key={wordIndex}
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -30, opacity: 0 }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                className="inline-block"
-              >
-                {words[wordIndex]}
-              </motion.span>
+            <span className="text-orange-500 inline-flex min-h-[1.15em] items-center justify-center">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={wordIndex}
+                  initial={{ y: 25, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -25, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="inline-block"
+                >
+                  {words[wordIndex]}
+                </motion.span>
+              </AnimatePresence>
             </span>
           </motion.h1>
 

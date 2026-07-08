@@ -273,7 +273,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
       >
         <div className="text-center max-w-2xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 shadow-sm text-xs font-bold text-slate-800 tracking-tight uppercase mb-6">
-            <Sparkles size={12} className="text-indigo-600" />
+            <Sparkles size={12} className="text-orange-600" />
             <span>
               {isAr ? "أداة مجانية فورية" : "Instant Free Testing Tool"}
             </span>
@@ -311,8 +311,8 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                   onClick={() => fileInputRef.current?.click()}
                   className={`border border-dashed rounded-2xl p-6 md:p-10 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 min-h-[290px] ${
                     dragActive 
-                      ? "border-indigo-600 bg-indigo-50/50 scale-[1.01]" 
-                      : "border-slate-200 hover:border-indigo-500 hover:bg-slate-50/50"
+                      ? "border-orange-500 bg-orange-50/60 scale-[1.01]" 
+                      : "border-slate-200 hover:border-orange-400 hover:bg-orange-50/20"
                   }`}
                 >
                   <input
@@ -323,7 +323,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                     className="hidden"
                   />
                   
-                  <div className="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm animate-pulse">
+                  <div className="w-14 h-14 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-4 shadow-sm animate-pulse">
                     <Upload size={24} />
                   </div>
                   
@@ -335,7 +335,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                       ? "أو اضغط لتصفح ملفات جهازك (يدعم صيغة PDF فقط)" 
                       : "Or click to browse your system files (supports PDF only)"}
                   </p>
-                  <div className="mt-4 flex items-center gap-1.5 text-[10px] text-indigo-600 font-bold bg-indigo-50 border border-indigo-100/40 px-3 py-1 rounded-full">
+                  <div className="mt-4 flex items-center gap-1.5 text-[10px] text-orange-600 font-bold bg-orange-50 border border-orange-100/40 px-3 py-1 rounded-full">
                     <Sparkles size={11} />
                     <span>{isAr ? "تشفير سحابي آمن وحماية قصوى للبيانات" : "100% Secure & Encrypted Parsing"}</span>
                   </div>
@@ -344,7 +344,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                 {/* Educational/Visual panel on ATS scoring */}
                 <div className="space-y-4 text-start">
                   <div className="relative rounded-2xl overflow-hidden border border-slate-200/60 p-4 bg-slate-50/60 shadow-3xs flex justify-center">
-                    <div className="absolute -inset-1 bg-gradient-to-tr from-indigo-500/5 to-purple-500/5 opacity-50 blur-lg pointer-events-none" />
+                    <div className="absolute -inset-1 bg-gradient-to-tr from-orange-500/5 to-amber-500/5 opacity-50 blur-lg pointer-events-none" />
                     <img
                       src="/src/assets/images/ats_success_illustration_1780566851774.png"
                       alt="ATS Compliance Check"
@@ -359,7 +359,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                     </h4>
                     <ul className="space-y-2 text-[11px] sm:text-xs text-slate-500 font-medium leading-relaxed">
                       <li className="flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-1.5 shrink-0" />
                         <span>
                           {isAr 
                             ? "رصد الأقسام وتوزيع الفواصل والخبرات في مستند الـ PDF المستورد للتأكد من سهولة القراءة الآلية." 
@@ -367,7 +367,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                         </span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-1.5 shrink-0" />
                         <span>
                           {isAr 
                             ? "تحليل كثافة الكلمات الدلالية ومطابقة مهاراتك مع متطلبات التوظيف المعيارية." 
@@ -375,7 +375,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                         </span>
                       </li>
                       <li className="flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-1.5 shrink-0" />
                         <span>
                           {isAr 
                             ? "رصد الأخطاء التنسيقية وتجنب تداخل النصوص والعواميد المعقدة." 
@@ -397,9 +397,9 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
               >
                 <div className="relative w-24 h-24 mb-6">
                   <div className="absolute inset-0 rounded-full border-4 border-slate-100" />
-                  <div className="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin" />
+                  <div className="absolute inset-0 rounded-full border-4 border-orange-500 border-t-transparent animate-spin" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-sm font-bold text-indigo-600">{progress}%</span>
+                    <span className="text-sm font-bold text-orange-600">{progress}%</span>
                   </div>
                 </div>
 
@@ -520,15 +520,15 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                   </div>
                 )}
 
-                <div className="bg-indigo-50/40 p-5 rounded-2xl border border-indigo-100/50 space-y-3">
-                  <div className="flex items-center gap-2 text-indigo-900 font-black text-xs leading-none">
-                    <Sparkles size={14} className="text-indigo-600" />
+                <div className="bg-orange-50/40 p-5 rounded-2xl border border-orange-100/50 space-y-3">
+                  <div className="flex items-center gap-2 text-orange-900 font-black text-xs leading-none">
+                    <Sparkles size={14} className="text-orange-600" />
                     {isAr ? "خطوات وجداول التحسين المقترحة:" : "Recommended Instant Corrections:"}
                   </div>
                   <ul className="space-y-1.5 text-[11px] sm:text-xs text-slate-650 leading-relaxed">
                     {result.suggestions.map((suggestion, idx) => (
                       <li key={idx} className="flex items-start gap-1.5 leading-tight">
-                        <span className="text-indigo-500 mt-0.5 font-bold">•</span>
+                        <span className="text-orange-500 mt-0.5 font-bold">•</span>
                         <span>{suggestion}</span>
                       </li>
                     ))}

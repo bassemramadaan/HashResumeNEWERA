@@ -79,33 +79,34 @@ const PersonalInfoForm = () => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-[#FF4D2D]/10 text-[#FF4D2D] rounded-xl flex items-center justify-center shrink-0">
-              <Sparkles size={20} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
+        <div className="relative overflow-hidden bg-gradient-to-br from-white to-brand-50/25 p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-200 transition-all duration-300 group flex flex-col justify-between gap-4">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-brand-500/5 rounded-full blur-2xl pointer-events-none -z-10" />
+          <div className="flex items-center gap-3 relative z-10">
+            <div className="w-10 h-10 bg-[#FF4D2D]/10 text-[#FF4D2D] rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+              <Sparkles size={20} className="animate-pulse" />
             </div>
             <div>
               <h3 className="text-sm font-bold text-slate-800">
                 {language === "ar" ? "وفر وقتك واستورد بياناتك" : "Save time and import your data"}
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-500 mt-0.5 font-medium">
                 {language === "ar" ? "ارفع سيرتك الذاتية (PDF) أو لينكد إن" : "Upload an old CV (PDF) or LinkedIn"}
               </p>
             </div>
           </div>
-          <div className="relative w-full">
+          <div className="relative w-full z-10">
             <button
               type="button"
               onClick={() => window.dispatchEvent(new Event('open-import-modal'))}
-              className="w-full px-5 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-slate-800 transition-colors shadow-sm whitespace-nowrap"
+              className="w-full px-5 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-brand-500 hover:shadow-lg hover:shadow-brand-500/20 transition-all duration-300 whitespace-nowrap active:scale-[0.98] cursor-pointer"
             >
               {language === "ar" ? "استيراد السيرة الذاتية" : "Import CV / LinkedIn"}
             </button>
             
             {/* Contextual Onboarding Tooltip */}
             {(!personalInfo.fullName || personalInfo.fullName.length === 0) && (
-              <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] sm:text-xs font-bold px-3 py-2 rounded-lg shadow-lg whitespace-nowrap animate-bounce pointer-events-none z-10 before:content-[''] before:absolute before:-bottom-2 before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-t-blue-600">
+              <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-[10px] sm:text-xs font-bold px-3 py-2 rounded-lg shadow-lg whitespace-nowrap animate-bounce pointer-events-none z-10 before:content-[''] before:absolute before:-bottom-2 before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-t-brand-500">
                 {language === "ar" ? "ابدأ برفع ملف LinkedIn هنا 🚀" : "Start by importing LinkedIn 🚀"}
               </div>
             )}
