@@ -7,10 +7,9 @@ import { useResumeStore } from "../../store/useResumeStore";
 import { aiService } from "../../services/aiService";
 import * as pdfjsLib from "pdfjs-dist";
 
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.min.mjs?url";
-
-// Configure PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+// Configure PDF.js worker - direct CDNJS ensures reliable production builds
+pdfjsLib.GlobalWorkerOptions.workerSrc = 
+  `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 interface Props {
   isOpen: boolean;
@@ -88,74 +87,31 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
 
   const extractTextFromPDF = async (file: File): Promise<string> => {
     const arrayBuffer = await file.arrayBuffer();
-    const version = pdfjsLib.version || "5.7.284";
+    const uint8Array = new Uint8Array(arrayBuffer);
 
-    let pdf: any = null;
-    const errors: any[] = [];
+    const loadingTask = pdfjsLib.getDocument({
+      data: uint8Array,
+      useWorkerFetch: false,
+      isEvalSupported: false,
+      useSystemFonts: true,
+    });
 
-    // Attempt 1: Try with Cloudflare CDNJS (highly reliable globally, especially in MENA countries)
-    try {
-      const loadingTask = pdfjsLib.getDocument({
-        data: new Uint8Array(arrayBuffer),
-        cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/cmaps/`,
-        cMapPacked: true,
-        standardFontDataUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/standard_fonts/`,
-      });
-      pdf = await loadingTask.promise;
-    } catch (e1) {
-      console.warn("PDF extraction Attempt 1 failed (cdnjs):", e1);
-      errors.push(e1);
-    }
-
-    // Attempt 2: Try with unpkg (as secondary CDN)
-    if (!pdf) {
-      try {
-        const loadingTask = pdfjsLib.getDocument({
-          data: new Uint8Array(arrayBuffer),
-          cMapUrl: `https://unpkg.com/pdfjs-dist@${version}/cmaps/`,
-          cMapPacked: true,
-          standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${version}/standard_fonts/`,
-        });
-        pdf = await loadingTask.promise;
-      } catch (e2) {
-        console.warn("PDF extraction Attempt 2 failed (unpkg):", e2);
-        errors.push(e2);
-      }
-    }
-
-    // Attempt 3: Try without custom cMap/font paths (offline fallback, parses standard text/fonts)
-    if (!pdf) {
-      try {
-        const loadingTask = pdfjsLib.getDocument({
-          data: new Uint8Array(arrayBuffer),
-        });
-        pdf = await loadingTask.promise;
-      } catch (e3) {
-        console.error("PDF extraction Attempt 3 failed (no maps):", e3);
-        errors.push(e3);
-        throw new Error(
-          language === "ar"
-            ? "فشل تحميل الملف. تأكد من أن ملف PDF غير تالف."
-            : "Failed to load PDF. Please make sure the file is not corrupted."
-        );
-      }
-    }
-
+    const pdf = await loadingTask.promise;
     let fullText = '';
 
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
       const textContent = await page.getTextContent();
       const pageText = textContent.items
-        .map((item) => ('str' in item ? (item as { str: string }).str : ''))
+        .map((item: any) => 'str' in item ? item.str : '')
+        .filter(str => str.trim().length > 0)
         .join(' ');
       fullText += pageText + '\n';
     }
 
     console.log('Extracted text length:', fullText.trim().length);
-    console.log('First 200 chars:', fullText.substring(0, 200));
 
-    if (fullText.trim().length < 50) {
+    if (fullText.trim().length < 100) {
       throw new Error('image-based');
     }
 

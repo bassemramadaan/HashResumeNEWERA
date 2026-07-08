@@ -3,17 +3,9 @@ import { Upload, CheckCircle2, AlertTriangle, Sparkles, RefreshCw } from "lucide
 import { motion, AnimatePresence } from "motion/react";
 import * as pdfjsLib from "pdfjs-dist";
 
-// Configure PDFJS worker
-try {
-  const version = pdfjsLib.version || "5.7.284";
-  const workerUrl = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
-  const blob = new Blob([`importScripts('${workerUrl}');`], { type: "application/javascript" });
-  pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(blob);
-} catch (e) {
-  console.warn("Setting up Blob worker failed, using static fallback:", e);
-  const version = pdfjsLib.version || "5.7.284";
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
-}
+// Configure PDFJS worker - direct CDNJS ensures reliable production builds
+pdfjsLib.GlobalWorkerOptions.workerSrc = 
+  `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 interface Props {
   lang: "ar" | "en" | "fr";
@@ -88,38 +80,26 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
       // Phase 1: Read and parse file
       setPhaseText(isAr ? "جاري قراءة ملف السيرة الذاتية واستخلاص النصوص..." : "Reading resume file and extracting text...");
       const arrayBuffer = await file.arrayBuffer();
+      const uint8Array = new Uint8Array(arrayBuffer);
       let textContent = "";
       
       try {
-        const version = pdfjsLib.version || "5.7.284";
-        let pdf: any = null;
-        try {
-          pdf = await pdfjsLib.getDocument({
-            data: arrayBuffer,
-            cMapUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/cmaps/`,
-            cMapPacked: true,
-            standardFontDataUrl: `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/standard_fonts/`,
-          }).promise;
-        } catch (err1) {
-          console.warn("ATS tester PDF load attempt 1 failed, trying fallback:", err1);
-          try {
-            pdf = await pdfjsLib.getDocument({
-              data: arrayBuffer,
-              cMapUrl: `https://unpkg.com/pdfjs-dist@${version}/cmaps/`,
-              cMapPacked: true,
-              standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${version}/standard_fonts/`,
-            }).promise;
-          } catch (err2) {
-            console.warn("ATS tester PDF load attempt 2 failed, trying without maps:", err2);
-            pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-          }
-        }
+        const loadingTask = pdfjsLib.getDocument({
+          data: uint8Array,
+          useWorkerFetch: false,
+          isEvalSupported: false,
+          useSystemFonts: true,
+        });
+        const pdf = await loadingTask.promise;
 
         const numPages = Math.min(pdf.numPages, 5);
         for (let i = 1; i <= numPages; i++) {
           const page = await pdf.getPage(i);
           const text = await page.getTextContent();
-          const pageText = text.items.map((item: any) => item.str).join(" ");
+          const pageText = text.items
+            .map((item: any) => 'str' in item ? item.str : '')
+            .filter(str => str.trim().length > 0)
+            .join(' ');
           textContent += pageText + "\n";
           setProgress(Math.round((i / numPages) * 35));
         }

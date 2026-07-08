@@ -75,6 +75,10 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, './src'),
       },
     },
+    optimizeDeps: {
+      include: ['pdfjs-dist'],
+      exclude: ['pdfjs-dist/build/pdf.worker.min.mjs'],
+    },
     build: {
       chunkSizeWarningLimit: 1500,
     },
