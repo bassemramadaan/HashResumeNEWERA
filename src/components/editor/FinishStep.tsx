@@ -358,7 +358,7 @@ export default function FinishStep({
         </div>
 
         <div className="relative">
-          <textarea
+          <textarea dir="auto"
             value={data.jobDescription || ""}
             onChange={(e) => updateJobDescription(e.target.value)}
             placeholder={isAr ? "الصق متطلبات ومؤهلات الوظيفة المطلوبة هنا لحساب مطابقة الكلمات المفتاحية..." : "Paste corporate job description terms, requirements or specifications..."}

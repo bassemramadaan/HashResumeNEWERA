@@ -433,7 +433,7 @@ ${cvText}
                       : "border-slate-200 hover:border-[#0A66C2]/50 hover:bg-slate-50"
                   } ${isProcessing ? "pointer-events-none opacity-50" : ""}`}
                 >
-                  <input
+                  <input dir="auto"
                     type="file"
                     ref={fileInputRef}
                     onChange={(e) => {

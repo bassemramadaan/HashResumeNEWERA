@@ -82,7 +82,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                   <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                     {String(t.projects?.name || "")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={project.name || ""}
                     onChange={(e) => updateProject(project.id, { name: e.target.value })}
@@ -94,7 +94,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
                   <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                     {String(t.projects?.link || "")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={project.link || ""}
                     onChange={(e) => updateProject(project.id, { link: e.target.value })}

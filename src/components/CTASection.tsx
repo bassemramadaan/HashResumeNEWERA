@@ -10,19 +10,22 @@ export function CTASection({ lang }: { lang: AppLang }) {
       badge: "ابدأ الآن",
       title: "جاهز لانطلاقة مسيرتك المهنية؟",
       subtitle: "صمم سيرتك الذاتية في دقائق وانضم لآلاف المحترفين الذين حصلوا على وظائف أحلامهم.",
-      cta: "ابدأ التصميم مجاناً"
+      cta: "ابدأ التصميم مجاناً",
+      noCreditCard: "لا حاجة لبطاقة ائتمان للبدء"
     },
     en: {
       badge: "Start Now",
       title: "Ready to Accelerate Your Career?",
       subtitle: "Build your resume in minutes and join thousands of professionals landing their dream jobs.",
-      cta: "Start Building for Free"
+      cta: "Start Building for Free",
+      noCreditCard: "No credit card required to start"
     },
     fr: {
       badge: "Commencer",
       title: "Prêt à propulser votre carrière ?",
       subtitle: "Créez votre CV en quelques minutes et rejoignez des milliers de professionnels.",
-      cta: "Créer Gratuitement"
+      cta: "Créer Gratuitement",
+      noCreditCard: "Pas de carte de crédit requise"
     }
   }
 
@@ -50,13 +53,18 @@ export function CTASection({ lang }: { lang: AppLang }) {
               {c.subtitle}
             </p>
 
-            <Link
-              to="/editor"
-              className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-black text-lg transition-all shadow-xl shadow-orange-500/25"
-            >
-              <span>{c.cta}</span>
-              <ArrowRight size={20} className={isAr ? "rotate-180" : ""} />
-            </Link>
+            <div className="flex flex-col items-center gap-3">
+              <Link
+                to="/editor"
+                className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl font-black text-lg transition-all shadow-xl shadow-orange-500/25"
+              >
+                <span>{c.cta}</span>
+                <ArrowRight size={20} className={isAr ? "rotate-180" : ""} />
+              </Link>
+              <p className="text-xs text-slate-400 font-medium">
+                ✨ {c.noCreditCard}
+              </p>
+            </div>
           </div>
         </div>
       </div>

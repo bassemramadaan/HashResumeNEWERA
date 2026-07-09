@@ -209,7 +209,7 @@ Skills: ${skills.map(s => s.name).join(', ')}
                   {isAr ? "المسمى الوظيفي المستهدف" : "Target Job Title"}
                 </label>
                 <div className="flex gap-2">
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={targetJob}
                     onChange={(e) => setTargetJob(e.target.value)}

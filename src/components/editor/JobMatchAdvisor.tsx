@@ -66,7 +66,7 @@ export const JobMatchAdvisor: React.FC<JobMatchAdvisorProps> = ({ language }) =>
           {isRtl ? "📋 الوصف الوظيفي المستهدف:" : "📋 Target Job Description / Requirements:"}
         </label>
         <div className="relative">
-          <textarea
+          <textarea dir="auto"
             value={jdInput}
             onChange={(e) => setJdInput(e.target.value)}
             placeholder={

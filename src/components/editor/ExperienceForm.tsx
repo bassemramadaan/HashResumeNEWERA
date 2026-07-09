@@ -87,7 +87,7 @@ const ExperienceItem = ({
                   <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.experience?.company || "Company")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={exp.company || ""}
                     onChange={(e) => updateExperience(exp.id, { company: e.target.value })}
@@ -99,7 +99,7 @@ const ExperienceItem = ({
                   <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.experience?.position || "Position")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={exp.position || ""}
                     onChange={(e) => updateExperience(exp.id, { position: e.target.value })}
@@ -114,7 +114,7 @@ const ExperienceItem = ({
                   <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.experience?.startDate || "Start Date")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={exp.startDate || ""}
                     onChange={(e) => updateExperience(exp.id, { startDate: e.target.value })}
@@ -126,7 +126,7 @@ const ExperienceItem = ({
                   <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.experience?.endDate || "End Date")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={exp.endDate || ""}
                     disabled={exp.currentlyWorking}
@@ -138,7 +138,7 @@ const ExperienceItem = ({
               </div>
 
               <div className="flex items-center gap-2 pt-2 pb-4">
-                <input
+                <input dir="auto"
                   type="checkbox"
                   id={`currentlyWorking-${exp.id}`}
                   checked={exp.currentlyWorking || false}

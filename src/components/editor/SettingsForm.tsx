@@ -500,7 +500,7 @@ export default React.memo(function SettingsForm() {
           </h3>
           <label className="flex items-start gap-4 cursor-pointer group p-4 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors">
             <div className="relative flex items-center justify-center mt-0.5">
-              <input
+              <input dir="auto"
                 type="checkbox"
                 checked={settings.isFreshGrad}
                 onChange={(e) => {

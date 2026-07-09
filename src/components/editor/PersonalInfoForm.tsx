@@ -140,7 +140,7 @@ const PersonalInfoForm = () => {
                 className={`icon h-5 w-5 ${errors.fullName ? "text-rose-450" : "text-slate-400"}`}
                 style={iconStyle}
               />
-            <input
+            <input dir="auto"
               type="text"
               id="fullName"
               name="fullName"
@@ -179,7 +179,7 @@ const PersonalInfoForm = () => {
                 className={`icon h-5 w-5 ${errors.jobTitle ? "text-rose-450" : "text-slate-400"}`}
                 style={iconStyle}
               />
-            <input
+            <input dir="auto"
               type="text"
               id="jobTitle"
               name="jobTitle"
@@ -214,7 +214,7 @@ const PersonalInfoForm = () => {
                 className={`icon h-5 w-5 ${errors.email ? "text-rose-455" : "text-slate-400"}`}
                 style={iconStyle}
               />
-            <input
+            <input dir="auto"
               type="email"
               id="email"
               name="email"
@@ -248,7 +248,7 @@ const PersonalInfoForm = () => {
           </label>
           <div className="relative input-with-icon">
             <Phone className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-            <input
+            <input dir="auto"
               type="tel"
               id="phone"
               name="phone"
@@ -273,7 +273,7 @@ const PersonalInfoForm = () => {
           </label>
           <div className="relative input-with-icon">
             <MapPin className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-            <input
+            <input dir="auto"
               type="text"
               id="address"
               name="address"
@@ -295,7 +295,7 @@ const PersonalInfoForm = () => {
           </label>
           <div className="relative input-with-icon">
             <Linkedin className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-            <input
+            <input dir="auto"
               type="url"
               id="linkedin"
               name="linkedin"
@@ -317,7 +317,7 @@ const PersonalInfoForm = () => {
           </label>
           <div className="relative input-with-icon">
             <Github className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-            <input
+            <input dir="auto"
               type="url"
               id="github"
               name="github"
@@ -339,7 +339,7 @@ const PersonalInfoForm = () => {
           </label>
           <div className="relative input-with-icon">
             <Globe className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-            <input
+            <input dir="auto"
               type="url"
               id="portfolio"
               name="portfolio"
@@ -393,7 +393,7 @@ const PersonalInfoForm = () => {
           )}
 
           <div className="relative">
-          <textarea
+          <textarea dir="auto"
             ref={summaryRef}
             id="summary"
             name="summary"
@@ -461,7 +461,7 @@ const PersonalInfoForm = () => {
                 </label>
                 <div className="relative input-with-icon">
             <Calendar className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-                  <input
+                  <input dir="auto"
                     type="date"
                     id="birthDate"
                     name="birthDate"
@@ -479,7 +479,7 @@ const PersonalInfoForm = () => {
                 </label>
                 <div className="relative input-with-icon">
             <Flag className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-                  <input
+                  <input dir="auto"
                     type="text"
                     id="nationality"
                     name="nationality"
@@ -498,7 +498,7 @@ const PersonalInfoForm = () => {
                 </label>
                 <div className="relative input-with-icon">
             <Heart className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-                  <input
+                  <input dir="auto"
                     type="text"
                     id="maritalStatus"
                     name="maritalStatus"
@@ -517,7 +517,7 @@ const PersonalInfoForm = () => {
                 </label>
                 <div className="relative input-with-icon">
             <CreditCard className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-                  <input
+                  <input dir="auto"
                     type="text"
                     id="visaStatus"
                     name="visaStatus"
@@ -536,7 +536,7 @@ const PersonalInfoForm = () => {
                 </label>
                 <div className="relative input-with-icon">
             <Shield className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-                  <input
+                  <input dir="auto"
                     type="text"
                     id="militaryStatus"
                     name="militaryStatus"
@@ -555,7 +555,7 @@ const PersonalInfoForm = () => {
                 </label>
                 <div className="relative input-with-icon">
             <Car className="icon h-5 w-5 text-slate-400" style={iconStyle} />
-                  <input
+                  <input dir="auto"
                     type="text"
                     id="drivingLicense"
                     name="drivingLicense"

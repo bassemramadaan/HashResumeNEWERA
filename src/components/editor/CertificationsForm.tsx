@@ -100,7 +100,7 @@ export const CertificationsForm: React.FC = () => {
                           <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                             {String(t.certifications.name || "")}
                           </label>
-                          <input
+                          <input dir="auto"
                             type="text"
                             value={cert.name}
                             onChange={(e) => updateCertification(cert.id, { name: e.target.value })}
@@ -112,7 +112,7 @@ export const CertificationsForm: React.FC = () => {
                           <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                             {String(t.certifications.issuer || "")}
                           </label>
-                          <input
+                          <input dir="auto"
                             type="text"
                             value={cert.issuer}
                             onChange={(e) => updateCertification(cert.id, { issuer: e.target.value })}
@@ -124,7 +124,7 @@ export const CertificationsForm: React.FC = () => {
                           <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                             {String(t.certifications.date || "")}
                           </label>
-                          <input
+                          <input dir="auto"
                             type="text"
                             value={cert.date}
                             onChange={(e) => updateCertification(cert.id, { date: e.target.value })}
@@ -136,7 +136,7 @@ export const CertificationsForm: React.FC = () => {
                           <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
                             {language === 'ar' ? 'رقم الشهادة' : 'Certificate ID'}
                           </label>
-                          <input
+                          <input dir="auto"
                             type="text"
                             value={cert.certificateId || ""}
                             onChange={(e) => updateCertification(cert.id, { certificateId: e.target.value })}

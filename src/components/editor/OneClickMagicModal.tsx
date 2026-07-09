@@ -128,7 +128,7 @@ export default function OneClickMagicModal({ isOpen, onClose }: { isOpen: boolea
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
                 {language === 'ar' ? 'المسمى الوظيفي المستهدف' : 'Target Job Title'}
               </label>
-              <input
+              <input dir="auto"
                 type="text"
                 value={jobTitle}
                 onChange={(e) => setJobTitle(e.target.value)}

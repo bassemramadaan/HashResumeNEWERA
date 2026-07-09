@@ -84,7 +84,7 @@ const EducationItem = ({
                   <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.education?.institution || "Institution")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={edu.institution || ""}
                     onChange={(e) => updateEducation(edu.id, { institution: e.target.value })}
@@ -96,7 +96,7 @@ const EducationItem = ({
                   <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.education?.degree || "Degree")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={edu.degree || ""}
                     onChange={(e) => updateEducation(edu.id, { degree: e.target.value })}
@@ -111,7 +111,7 @@ const EducationItem = ({
                   <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.education?.startDate || "Start Date")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={edu.startDate || ""}
                     onChange={(e) => updateEducation(edu.id, { startDate: e.target.value })}
@@ -123,7 +123,7 @@ const EducationItem = ({
                   <label className="text-[11px] font-semibold text-slate-500 block mb-1">
                     {String(t.education?.endDate || "End Date")}
                   </label>
-                  <input
+                  <input dir="auto"
                     type="text"
                     value={edu.endDate || ""}
                     onChange={(e) => updateEducation(edu.id, { endDate: e.target.value })}

@@ -21,6 +21,7 @@ const COPY = {
     subtitle: 'اصنع سيرة ذاتية استثنائية ومتوافقة تماماً مع أنظمة الفرز (ATS) خلال دقائق، مدعومة بإرشادات ذكاء اصطناعي ذكية تبرز مهاراتك وتسرّع توظيفك.',
     cta: 'ابـدأ الإنشـاء مجانـاً',
     ctaSec: 'استكشف الأمثلة',
+    noCreditCard: 'لا حاجة لبطاقة ائتمان للبدء',
   },
   en: {
     badge: 'Revolutionizing Resume Creation',
@@ -28,6 +29,7 @@ const COPY = {
     subtitle: 'Create an outstanding, ATS-optimized resume in minutes with intelligent AI guidance that showcases your true potential and gets you hired faster.',
     cta: 'Start Building Free',
     ctaSec: 'Explore Examples',
+    noCreditCard: 'No credit card required to start',
   },
   fr: {
     badge: 'Révolution dans la création de CV',
@@ -35,6 +37,7 @@ const COPY = {
     subtitle: 'Créez un CV exceptionnel et optimisé pour l\'ATS en quelques minutes grâce à des conseils d\'IA intelligents qui propulsent votre carrière.',
     cta: 'Créer Gratuitement',
     ctaSec: 'Explorer les exemples',
+    noCreditCard: 'Pas de carte de crédit requise',
   }
 }
 
@@ -114,24 +117,29 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.7 }}
-            className="flex flex-col sm:flex-row items-center gap-4 md:gap-5 pt-2 md:pt-6 w-full justify-center"
+            className="flex flex-col items-center gap-3 w-full"
           >
-            <button
-              onClick={() => {
-                trackEvent('hero_started', { component: 'cta_primary' })
-                onStart()
-              }}
-              className="hidden md:flex w-full sm:w-auto bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 items-center justify-center gap-3 cursor-pointer"
-            >
-              <span>{copy.cta}</span>
-              {isAr ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}
-            </button>
-            <button
-              onClick={() => navigate('/editor')}
-              className="w-full sm:w-auto bg-white border-2 border-slate-100 hover:border-orange-200 text-slate-900 px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-sm flex items-center justify-center gap-3 cursor-pointer"
-            >
-              <span>{copy.ctaSec}</span>
-            </button>
+            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-5 pt-2 md:pt-6 w-full justify-center">
+              <button
+                onClick={() => {
+                  trackEvent('hero_started', { component: 'cta_primary' })
+                  onStart()
+                }}
+                className="hidden md:flex w-full sm:w-auto bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 items-center justify-center gap-3 cursor-pointer"
+              >
+                <span>{copy.cta}</span>
+                {isAr ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}
+              </button>
+              <button
+                onClick={() => navigate('/editor')}
+                className="w-full sm:w-auto bg-white border-2 border-slate-100 hover:border-orange-200 text-slate-900 px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-sm flex items-center justify-center gap-3 cursor-pointer"
+              >
+                <span>{copy.ctaSec}</span>
+              </button>
+            </div>
+            <p className="text-sm text-slate-400 font-medium">
+              ✨ {copy.noCreditCard}
+            </p>
           </motion.div>
         </div>
       </div>

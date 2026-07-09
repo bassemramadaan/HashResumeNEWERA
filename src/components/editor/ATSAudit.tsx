@@ -172,7 +172,7 @@ export default function ATSAudit() {
         </div>
 
         <div className="relative group">
-          <textarea
+          <textarea dir="auto"
             value={data.jobDescription || ""}
             onChange={(e) => updateJobDescription(e.target.value)}
             placeholder={isAr ? "الصق متطلبات الوظيفة الشاغرة ومؤهلاتها هنا..." : "Paste corporate job description terms, requirements or specifications..."}

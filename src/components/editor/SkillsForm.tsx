@@ -209,7 +209,7 @@ const SkillsForm = () => {
           )}
 
           <div className="flex gap-2">
-            <input
+            <input dir="auto"
               type="text"
               id="skillInput"
               value={inputValue}

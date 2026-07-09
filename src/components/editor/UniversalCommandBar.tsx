@@ -333,7 +333,7 @@ export default function UniversalCommandBar({
         {/* Input Bar */}
         <div className="relative flex items-center px-5 py-4 border-b border-slate-900 bg-slate-900/30">
           <Search className="text-slate-400 shrink-0 ml-1" size={18} />
-          <input
+          <input dir="auto"
             ref={inputRef}
             type="text"
             className="w-full bg-transparent border-none text-slate-100 placeholder-slate-500 text-sm focus:outline-none focus:ring-0 mx-3 font-sans"

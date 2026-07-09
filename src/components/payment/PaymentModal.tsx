@@ -1051,8 +1051,33 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                     </motion.div>
                   )}
 
+                  {/* Accepted Payment Badges (mada, visa, vodafone cash) */}
+                  <div className="mt-4 flex flex-col items-center gap-2 bg-slate-50 p-3 rounded-2xl border border-slate-200/50 w-full">
+                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider text-center">
+                      {isAr ? "وسائل الدفع المقبولة والآمنة" : "SECURE & ACCEPTED PAYMENT METHODS"}
+                    </span>
+                    <div className="flex flex-wrap items-center justify-center gap-2">
+                      {/* Visa Badge */}
+                      <div className="flex items-center justify-center bg-white border border-slate-200 rounded-md px-2 py-0.5 shadow-2xs">
+                        <span className="text-[10px] font-black italic text-blue-900 tracking-tighter">VISA</span>
+                      </div>
+                      {/* Mastercard Badge */}
+                      <div className="flex items-center justify-center bg-white border border-slate-200 rounded-md px-2 py-0.5 shadow-2xs">
+                        <span className="text-[10px] font-black italic text-orange-600 tracking-tighter">Mastercard</span>
+                      </div>
+                      {/* Mada Badge */}
+                      <div className="flex items-center justify-center bg-gradient-to-r from-cyan-600 to-emerald-600 text-white rounded-md px-2.5 py-0.5 shadow-2xs font-bold text-[8px] tracking-tight">
+                        mada <span className="mx-1 font-semibold text-[8px]">مدى</span>
+                      </div>
+                      {/* Vodafone Cash Badge */}
+                      <div className="flex items-center justify-center bg-red-600 text-white rounded-md px-2 py-0.5 shadow-2xs font-black text-[8px] tracking-tight">
+                        فودافون كاش
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Secure checkout badges */}
-                  <div className="mt-6 flex flex-wrap items-center justify-center gap-4 pt-5 border-t border-slate-100">
+                  <div className="mt-4 flex flex-wrap items-center justify-center gap-4 pt-4 border-t border-slate-100">
                     <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
                       <ShieldCheck size={14} className="text-[#FF4D2D]" />
                       {isAr ? "آمن 100%" : "Secure Check"}

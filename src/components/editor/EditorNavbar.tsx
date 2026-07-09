@@ -97,8 +97,8 @@ export default function EditorNavbar({
   };
 
   return (
-    <div className="w-full z-[100] pt-4 px-4 sm:px-6 pb-2 bg-transparent pointer-events-none flex justify-center transform-gpu shrink-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
-      <nav className="pointer-events-auto bg-white border border-slate-200 shadow-sm rounded-[20px] px-4 md:px-5 h-16 flex items-center justify-between w-full max-w-7xl transition-all relative">
+    <div className="w-full z-[100] pt-2 sm:pt-4 px-4 sm:px-6 pb-1 sm:pb-2 bg-transparent pointer-events-none flex justify-center transform-gpu shrink-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+      <nav className="pointer-events-auto bg-white border border-slate-200 shadow-sm rounded-[20px] px-4 md:px-5 h-12 sm:h-16 flex items-center justify-between w-full max-w-7xl transition-all relative">
         
         {/* Left side: Reset */}
         <div className="flex-1 hidden md:flex items-center">
