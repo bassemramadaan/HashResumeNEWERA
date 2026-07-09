@@ -27,6 +27,9 @@ interface AIResult {
   score: number;
   suggestions: string[];
   missingKeywords: string[];
+  keywords?: string;
+  match?: string;
+  missing?: string;
 }
 
 export default function ResumeCheckerModal({
@@ -115,14 +118,17 @@ Provide your output as a pure JSON object without markdown formatting, using thi
 {
   "score": <number between 0-100 based on keyword match, action verbs, and structure>,
   "suggestions": ["<string: actionable improvement 1>", "<string: actionable improvement 2>"],
-  "missingKeywords": ["<string: keyword 1>", "<string: keyword 2>"]
+  "missingKeywords": ["<string: keyword 1>", "<string: keyword 2>"],
+  "keywords": "<string: brief keyword analysis or comparison>",
+  "match": "<string: brief highlights of what matches well>",
+  "missing": "<string: brief highlights of what is missing or can be improved with respect to target job>"
 }
 
 Resume Data:
-Name: ${personalInfo?.fullName}
-Summary: ${personalInfo?.summary}
-Experience: ${experience.map(e => e.position + ' at ' + e.company + ': ' + e.description).join(' | ')}
-Skills: ${skills.map(s => s.name).join(', ')}
+Name: ${personalInfo?.fullName || "N/A"}
+Summary: ${personalInfo?.summary || "N/A"}
+Experience: ${(experience || []).map(e => (e.jobTitle || e.position || "") + " at " + (e.company || "") + ": " + (e.description || "")).join(" | ")}
+Skills: ${(skills || []).map(s => s.name).join(", ")}
     `;
 
     try {
@@ -133,6 +139,9 @@ Skills: ${skills.map(s => s.name).join(', ')}
         score: parsed.score || 75,
         suggestions: parsed.suggestions || [],
         missingKeywords: parsed.missingKeywords || [],
+        keywords: parsed.keywords || "",
+        match: parsed.match || "",
+        missing: parsed.missing || "",
       });
     } catch (err) {
       console.error("AI ATS Check failed", err);
@@ -144,6 +153,9 @@ Skills: ${skills.map(s => s.name).join(', ')}
           isAr ? "ركز على الإنجازات الملموسة بالأرقام." : "Focus on quantifiable achievements using numbers."
         ],
         missingKeywords: [targetJob, isAr ? "إدارة المشاريع" : "Project Management", isAr ? "تحليل البيانات" : "Data Analysis"],
+        keywords: isAr ? "تحليل الكلمات المفتاحية لم يكتمل بسبب خطأ في الاتصال." : "Keyword analysis not completed due to connection error.",
+        match: isAr ? "تحليل نقاط القوة لم يكتمل." : "Match analysis not completed.",
+        missing: isAr ? "تحليل نقاط الضعف لم يكتمل." : "Weakness analysis not completed.",
       });
     }
     setIsAnalyzing(false);
@@ -365,7 +377,7 @@ Skills: ${skills.map(s => s.name).join(', ')}
                 </div>
                 <div className="bg-slate-900 text-green-400 p-4 rounded-lg font-mono text-[10px] sm:text-xs overflow-y-auto max-h-48 whitespace-pre-wrap leading-relaxed shadow-inner" dir="auto">
                   {/* Generate raw text from store */}
-                  {`NAME: ${storeData.personalInfo?.fullName || 'N/A'}\nTITLE: ${storeData.personalInfo?.jobTitle || 'N/A'}\nEMAIL: ${storeData.personalInfo?.email || 'N/A'}\nPHONE: ${storeData.personalInfo?.phone || 'N/A'}\n\nSUMMARY:\n${storeData.personalInfo?.summary?.replace(/<[^>]+>/g, '') || 'N/A'}\n\nEXPERIENCE:\n${storeData.experience?.map(e => `${e.jobTitle} at ${e.company}\n${e.startDate} to ${e.endDate || 'Present'}\n${e.description?.replace(/<[^>]+>/g, '') || ''}`).join('\n\n') || 'N/A'}\n\nEDUCATION:\n${storeData.education?.map(e => `${e.degree} at ${e.school}\n${e.startDate} to ${e.endDate || 'Present'}\n${e.description?.replace(/<[^>]+>/g, '') || ''}`).join('\n\n') || 'N/A'}\n\nSKILLS:\n${storeData.skills?.map(s => s.name).join(', ') || 'N/A'}`}
+                  {`NAME: ${personalInfo?.fullName || 'N/A'}\nTITLE: ${personalInfo?.jobTitle || 'N/A'}\nEMAIL: ${personalInfo?.email || 'N/A'}\nPHONE: ${personalInfo?.phone || 'N/A'}\n\nSUMMARY:\n${personalInfo?.summary?.replace(/<[^>]+>/g, '') || 'N/A'}\n\nEXPERIENCE:\n${experience?.map(e => `${e.jobTitle || e.position || ''} at ${e.company || ''}\n${e.startDate || ''} to ${e.endDate || 'Present'}\n${e.description?.replace(/<[^>]+>/g, '') || ''}`).join('\n\n') || 'N/A'}\n\nEDUCATION:\n${education?.map(e => `${e.degree || ''} at ${e.school || ''}\n${e.startDate || ''} to ${e.endDate || 'Present'}\n${e.description?.replace(/<[^>]+>/g, '') || ''}`).join('\n\n') || 'N/A'}\n\nSKILLS:\n${skills?.map(s => s.name).join(', ') || 'N/A'}`}
                 </div>
                 <p className="mt-2 text-[10px] text-slate-500">
                   {isAr 
