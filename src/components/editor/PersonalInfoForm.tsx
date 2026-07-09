@@ -125,12 +125,10 @@ const PersonalInfoForm = () => {
           >
             {t.fullName} <span className="text-rose-500">*</span>
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-              <User
-                className={`h-4 w-4 ${errors.fullName ? "text-rose-450" : "text-slate-400"}`}
+          <div className="relative input-with-icon">
+            <User
+                className={`icon h-4 w-4 ${errors.fullName ? "text-rose-450" : "text-slate-400"}`}
               />
-            </div>
             <input
               type="text"
               id="fullName"
@@ -139,7 +137,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-9 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
+              className={`block w-full  pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.fullName
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -164,12 +162,10 @@ const PersonalInfoForm = () => {
           >
             {t.jobTitle} <span className="text-rose-500">*</span>
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-              <FileText
-                className={`h-4 w-4 ${errors.jobTitle ? "text-rose-450" : "text-slate-400"}`}
+          <div className="relative input-with-icon">
+            <FileText
+                className={`icon h-4 w-4 ${errors.jobTitle ? "text-rose-450" : "text-slate-400"}`}
               />
-            </div>
             <input
               type="text"
               id="jobTitle"
@@ -177,7 +173,7 @@ const PersonalInfoForm = () => {
               value={personalInfo.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full ps-9 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
+              className={`block w-full  pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.jobTitle
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -199,12 +195,10 @@ const PersonalInfoForm = () => {
           <label htmlFor="email" className="text-[11px] font-semibold text-slate-500 block mb-1">
             {t.email} <span className="text-rose-500">*</span>
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-              <Mail
-                className={`h-4 w-4 ${errors.email ? "text-rose-455" : "text-slate-400"}`}
+          <div className="relative input-with-icon">
+            <Mail
+                className={`icon h-4 w-4 ${errors.email ? "text-rose-455" : "text-slate-400"}`}
               />
-            </div>
             <input
               type="email"
               id="email"
@@ -214,7 +208,7 @@ const PersonalInfoForm = () => {
               onBlur={handleBlur}
               autoComplete="email"
               enterKeyHint="next"
-              className={`block w-full ps-9 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
+              className={`block w-full  pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.email
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -236,10 +230,8 @@ const PersonalInfoForm = () => {
           <label htmlFor="phone" className="text-[11px] font-semibold text-slate-500 block mb-1">
             {t.phone}
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-              <Phone className="h-4 w-4 text-slate-400" />
-            </div>
+          <div className="relative input-with-icon">
+            <Phone className="icon h-4 w-4 text-slate-400" />
             <input
               type="tel"
               id="phone"
@@ -249,7 +241,7 @@ const PersonalInfoForm = () => {
               autoComplete="tel"
               pattern="[0-9]*"
               enterKeyHint="next"
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.phone}
             />
           </div>
@@ -262,17 +254,15 @@ const PersonalInfoForm = () => {
           >
             {t.address}
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-              <MapPin className="h-4 w-4 text-slate-400" />
-            </div>
+          <div className="relative input-with-icon">
+            <MapPin className="icon h-4 w-4 text-slate-400" />
             <input
               type="text"
               id="address"
               name="address"
               value={personalInfo.address}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.address}
             />
           </div>
@@ -285,17 +275,15 @@ const PersonalInfoForm = () => {
           >
             {t.linkedin}
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-              <Linkedin className="h-4 w-4 text-slate-400" />
-            </div>
+          <div className="relative input-with-icon">
+            <Linkedin className="icon h-4 w-4 text-slate-400" />
             <input
               type="url"
               id="linkedin"
               name="linkedin"
               value={personalInfo.linkedin}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.linkedin}
             />
           </div>
@@ -308,17 +296,15 @@ const PersonalInfoForm = () => {
           >
             {t.github}
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-              <Github className="h-4 w-4 text-slate-400" />
-            </div>
+          <div className="relative input-with-icon">
+            <Github className="icon h-4 w-4 text-slate-400" />
             <input
               type="url"
               id="github"
               name="github"
               value={personalInfo.github || ""}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.github}
             />
           </div>
@@ -331,17 +317,15 @@ const PersonalInfoForm = () => {
           >
             {t.website}
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-              <Globe className="h-4 w-4 text-slate-400" />
-            </div>
+          <div className="relative input-with-icon">
+            <Globe className="icon h-4 w-4 text-slate-400" />
             <input
               type="url"
               id="portfolio"
               name="portfolio"
               value={personalInfo.portfolio || ""}
               onChange={handleChange}
-              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-455 font-medium"
+              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-455 font-medium"
               placeholder={t.website}
             />
           </div>
@@ -393,8 +377,12 @@ const PersonalInfoForm = () => {
             id="summary"
             name="summary"
             rows={5}
-            value={personalInfo.summary}
+            value={personalInfo.summary || ""}
             onChange={handleChange}
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck="false"
+            data-gramm="false"
             className="block w-full p-4 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all resize-y bg-white text-slate-900 placeholder-slate-400 font-medium leading-relaxed"
             placeholder={t.summaryPlaceholder}
           />
@@ -450,17 +438,15 @@ const PersonalInfoForm = () => {
                 <label htmlFor="birthDate" className="text-xs font-medium text-slate-600">
                   {t.birthDate}
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-                    <Calendar className="h-4 w-4 text-slate-400" />
-                  </div>
+                <div className="relative input-with-icon">
+            <Calendar className="icon h-4 w-4 text-slate-400" />
                   <input
                     type="date"
                     id="birthDate"
                     name="birthDate"
                     value={personalInfo.birthDate || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 focus:outline-none"
+                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 focus:outline-none"
                   />
                 </div>
               </div>
@@ -469,17 +455,15 @@ const PersonalInfoForm = () => {
                 <label htmlFor="nationality" className="text-xs font-medium text-slate-600">
                   {t.nationality}
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-                    <Flag className="h-4 w-4 text-slate-400" />
-                  </div>
+                <div className="relative input-with-icon">
+            <Flag className="icon h-4 w-4 text-slate-400" />
                   <input
                     type="text"
                     id="nationality"
                     name="nationality"
                     value={personalInfo.nationality || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-400"
+                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-400"
                     placeholder={language === "ar" ? "مثال: مصري، سعودي" : "e.g. Saudi, Egyptian"}
                   />
                 </div>
@@ -489,17 +473,15 @@ const PersonalInfoForm = () => {
                 <label htmlFor="maritalStatus" className="text-xs font-medium text-slate-600">
                   {t.maritalStatus}
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-                    <Heart className="h-4 w-4 text-slate-400" />
-                  </div>
+                <div className="relative input-with-icon">
+            <Heart className="icon h-4 w-4 text-slate-400" />
                   <input
                     type="text"
                     id="maritalStatus"
                     name="maritalStatus"
                     value={personalInfo.maritalStatus || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: أعزل، متزوج" : "e.g. Single, Married"}
                   />
                 </div>
@@ -509,17 +491,15 @@ const PersonalInfoForm = () => {
                 <label htmlFor="visaStatus" className="text-xs font-medium text-slate-600">
                   {t.visaStatus}
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-                    <CreditCard className="h-4 w-4 text-slate-400" />
-                  </div>
+                <div className="relative input-with-icon">
+            <CreditCard className="icon h-4 w-4 text-slate-400" />
                   <input
                     type="text"
                     id="visaStatus"
                     name="visaStatus"
                     value={personalInfo.visaStatus || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: إقامة قابلة للنقل، مواطن" : "e.g. Transferable Iqama, Citizen"}
                   />
                 </div>
@@ -529,17 +509,15 @@ const PersonalInfoForm = () => {
                 <label htmlFor="militaryStatus" className="text-xs font-medium text-slate-600">
                   {t.militaryStatus}
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-                    <Shield className="h-4 w-4 text-slate-400" />
-                  </div>
+                <div className="relative input-with-icon">
+            <Shield className="icon h-4 w-4 text-slate-400" />
                   <input
                     type="text"
                     id="militaryStatus"
                     name="militaryStatus"
                     value={personalInfo.militaryStatus || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: معفى، قدّم الخدمة" : "e.g. Exempted, Completed"}
                   />
                 </div>
@@ -549,17 +527,15 @@ const PersonalInfoForm = () => {
                 <label htmlFor="drivingLicense" className="text-xs font-medium text-slate-600">
                   {t.drivingLicense}
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 start-0 ps-4 flex items-center pointer-events-none">
-                    <Car className="h-4 w-4 text-slate-400" />
-                  </div>
+                <div className="relative input-with-icon">
+            <Car className="icon h-4 w-4 text-slate-400" />
                   <input
                     type="text"
                     id="drivingLicense"
                     name="drivingLicense"
                     value={personalInfo.drivingLicense || ""}
                     onChange={handleChange}
-                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: رخصة قيادة سعودية خاصة" : "e.g. Valid GCC Driving License"}
                   />
                 </div>

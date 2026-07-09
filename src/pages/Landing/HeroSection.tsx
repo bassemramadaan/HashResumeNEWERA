@@ -60,7 +60,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
   return (
     <section 
-      className="relative pt-24 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-white" 
+      className="relative pt-6 pb-8 md:pt-24 md:pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-white" 
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* Background decoration */}
@@ -75,20 +75,17 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-orange-50 text-orange-600 border border-orange-100 text-xs font-bold uppercase tracking-[0.1em]"
+            className="inline-flex items-center gap-2 md:gap-3 px-3 py-1 md:px-6 md:py-2 rounded-full bg-orange-50 text-orange-600 border border-orange-100 text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] whitespace-nowrap"
           >
-            <Sparkles className="w-4 h-4" />
+            <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
             <span>{copy.badge}</span>
           </motion.div>
 
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7 }}
-            className="text-6xl sm:text-7xl lg:text-8xl font-extrabold text-slate-950 tracking-tighter leading-[1] max-w-5xl"
+          <h1 
+            className="hero-title text-[28px] leading-[1.3] mb-3 md:mb-0 md:text-6xl sm:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
           >
             {copy.titleMain} <br />
-            <span className="text-orange-500 inline-flex min-h-[1.15em] items-center justify-center">
+            <span className="hero-highlight-text text-orange-500 inline-flex min-h-[1.15em] items-center justify-center">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={wordIndex}
@@ -102,13 +99,13 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                 </motion.span>
               </AnimatePresence>
             </span>
-          </motion.h1>
+          </h1>
 
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.7 }}
-            className="text-xl md:text-2xl text-slate-600 font-medium max-w-3xl leading-relaxed"
+            className="text-[14px] mb-4 md:mb-0 md:text-xl md:text-2xl text-slate-600 font-medium max-w-3xl leading-relaxed"
           >
             {copy.subtitle}
           </motion.p>
@@ -117,14 +114,14 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.7 }}
-            className="flex flex-col sm:flex-row items-center gap-5 pt-6 w-full justify-center"
+            className="flex flex-col sm:flex-row items-center gap-4 md:gap-5 pt-2 md:pt-6 w-full justify-center"
           >
             <button
               onClick={() => {
                 trackEvent('hero_started', { component: 'cta_primary' })
                 onStart()
               }}
-              className="w-full sm:w-auto bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 flex items-center justify-center gap-3 cursor-pointer"
+              className="hidden md:flex w-full sm:w-auto bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 items-center justify-center gap-3 cursor-pointer"
             >
               <span>{copy.cta}</span>
               {isAr ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}
