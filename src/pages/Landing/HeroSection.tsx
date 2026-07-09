@@ -82,10 +82,10 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           </motion.div>
 
           <h1 
-            className="hero-title text-[28px] leading-[1.3] mb-3 md:mb-0 md:text-6xl sm:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
+            className="hero-title text-2xl xs:text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
           >
             {copy.titleMain} <br />
-            <span className="hero-highlight-text text-orange-500 inline-flex min-h-[1.15em] items-center justify-center">
+            <span className="hero-highlight-text text-orange-500 inline-flex min-h-[1.15em] items-center justify-center max-w-full px-2 text-center">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={wordIndex}
@@ -93,7 +93,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -25, opacity: 0 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="inline-block"
+                  className="inline-block max-w-full break-words text-center"
                 >
                   {words[wordIndex]}
                 </motion.span>
