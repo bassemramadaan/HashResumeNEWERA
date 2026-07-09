@@ -1222,6 +1222,13 @@ export default function EditorPage() {
           onOpenPreview={() => setShowMobilePreview(true)}
           onOpenAts={() => setShowMobileAtsPanel(true)}
           onOpenSettings={() => setIsSettingsModalOpen(true)}
+          onReset={async () => {
+            if (confirm(language === "ar" ? "هل أنت متأكد من مسح جميع البيانات؟" : "Are you sure you want to start over? All data will be deleted.")) {
+                await useResumeStore.getState().resetData();
+                useResumeStore.getState().unlockResume();
+                window.location.reload();
+            }
+          }}
         >
           <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full overflow-y-auto pb-6 relative scrollbar-none editor-form-scrollable">
             {data.isLocked && <LockedOverlay lang={language} />}
@@ -1305,7 +1312,7 @@ export default function EditorPage() {
         isLocked={data.isLocked}
         onBackToHome={() => { window.location.href = "/"; }}
         onReset={async () => {
-            if (confirm("هل أنت متأكد من مسح جميع البيانات؟")) {
+            if (confirm(language === "ar" ? "هل أنت متأكد من مسح جميع البيانات والبدء من جديد؟" : "Are you sure you want to start over? All data will be deleted.")) {
                 await useResumeStore.getState().resetData();
                 useResumeStore.getState().unlockResume();
                 window.location.reload();

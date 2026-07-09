@@ -104,10 +104,11 @@ export default function EditorNavbar({
         <div className="flex-1 hidden md:flex items-center">
             <button 
               onClick={onReset} 
-              className="text-slate-400 hover:text-red-500 transition-colors"
+              className="flex items-center gap-2 text-slate-400 hover:text-red-500 transition-colors bg-slate-50 hover:bg-red-50 px-3 py-1.5 rounded-xl cursor-pointer"
               title={lang === 'ar' ? 'مسح كل شيء' : 'Reset all'}
             >
-              <RotateCcw className="w-5 h-5" />
+              <RotateCcw className="w-4 h-4" />
+              <span className="text-xs font-bold">{lang === 'ar' ? 'البدء من جديد' : 'Start Over'}</span>
             </button>
         </div>
 

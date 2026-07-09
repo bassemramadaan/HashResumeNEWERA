@@ -5,7 +5,7 @@ import {
   User, Briefcase, GraduationCap, Award, FolderHeart, Trophy, CheckCircle,
   Edit3, Eye, Grid, Download, 
   FileText, ChevronRight, Share2, AlertTriangle,
-  ArrowUp, ArrowDown, Layers, ArrowLeft, ArrowRight, Settings
+  ArrowUp, ArrowDown, Layers, ArrowLeft, ArrowRight, Settings, RotateCcw
 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 
@@ -582,6 +582,7 @@ export default function MobileEditorLayout({
   onOpenPreview   = () => {},
   onOpenAts       = () => {},
   onOpenSettings  = () => {},
+  onReset         = () => {},
   children,
 }: {
   lang?: string;
@@ -594,6 +595,7 @@ export default function MobileEditorLayout({
   onOpenPreview?: () => void;
   onOpenAts?: () => void;
   onOpenSettings?: () => void;
+  onReset?: () => void;
   children?: React.ReactNode;
 }) {
   const [activeTab, setActiveTab] = useState("edit");
@@ -667,6 +669,16 @@ export default function MobileEditorLayout({
           </div>
 
           <div className="flex items-center gap-1.5">
+            {/* Elegant Header Reset Button */}
+            <motion.button
+              whileTap={{ scale: 0.94 }}
+              onClick={onReset}
+              className="flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors cursor-pointer shrink-0 active:scale-95"
+              title={lang === "ar" ? "مسح كل شيء" : "Start Over"}
+            >
+              <RotateCcw size={12} strokeWidth={2.5} />
+            </motion.button>
+
             {/* Elegant Header Preview Button */}
             <motion.button
               whileTap={{ scale: 0.94 }}
@@ -870,16 +882,21 @@ export default function MobileEditorLayout({
             <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
           </button>
 
-          {/* Central Button: Direct Download FAB */}
+          {/* Central Button: ATS Audit */}
           <button
-            onClick={onExportPDF}
-            className="flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer"
-            title={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
+            onClick={onOpenAts}
+            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-gray-600 transition-colors cursor-pointer relative"
           >
-            <div className="bg-[#FF4D2D] rounded-full p-1.5 text-white transform -translate-y-1 shadow-md">
-              <Download size={20} strokeWidth={2.5} />
+            <div className="relative">
+              <CheckCircle size={22} strokeWidth={2} />
+              <span className={cn(
+                "absolute -top-1 -right-2 text-[7.5px] font-extrabold px-1 py-0.2 rounded-md leading-none text-white shadow-sm",
+                atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
+              )}>
+                {atsScore}%
+              </span>
             </div>
-            <span className="text-[10px] font-medium text-[#FF4D2D] -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
+            <span className="text-[10px] font-medium mt-0.5">ATS</span>
           </button>
 
           {/* Tab 3: Settings */}
@@ -891,21 +908,16 @@ export default function MobileEditorLayout({
             <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الإعدادات" : "Settings"}</span>
           </button>
 
-          {/* Tab 4: ATS Audit */}
+          {/* Tab 4: Direct Download FAB */}
           <button
-            onClick={onOpenAts}
-            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-gray-600 transition-colors cursor-pointer relative"
+            onClick={onExportPDF}
+            className="flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer"
+            title={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
           >
-            <div className="relative">
-              <CheckCircle size={22} strokeWidth={2} />
-              <span className={cn(
-                "absolute -top-1 -right-2 text-[7.5px] font-extrabold px-1 py-0.2 rounded-md leading-none text-white",
-                atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
-              )}>
-                {atsScore}%
-              </span>
+            <div className="bg-[#FF4D2D] rounded-full p-1.5 text-white transform -translate-y-1 shadow-md">
+              <Download size={20} strokeWidth={2.5} />
             </div>
-            <span className="text-[10px] font-medium mt-0.5">ATS</span>
+            <span className="text-[10px] font-medium text-[#FF4D2D] -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
           </button>
 
         </div>
