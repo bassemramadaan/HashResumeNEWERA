@@ -298,11 +298,38 @@ Skills: ${skills.map(s => s.name).join(', ')}
               {aiResult && (
                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
                   <div className="bg-brand-50/50 border border-brand-100 rounded-xl p-4">
-                    <h4 className="text-xs font-bold text-brand-700 mb-2 flex items-center gap-1.5">
+                    <h3 className="font-bold text-sm text-brand-800 mb-2">
+                      {isAr ? "تحليل الكلمات المفتاحية" : "Keyword Analysis"}
+                    </h3>
+                    <p className="text-xs text-brand-700 whitespace-pre-line leading-relaxed">
+                      {aiResult.keywords}
+                    </p>
+                  </div>
+                  
+                  <div className="bg-emerald-50/50 border border-emerald-100 rounded-xl p-4">
+                    <h3 className="font-bold text-sm text-emerald-800 mb-2">
+                      {isAr ? "نقاط القوة والمطابقة" : "Match Strengths"}
+                    </h3>
+                    <p className="text-xs text-emerald-700 whitespace-pre-line leading-relaxed">
+                      {aiResult.match}
+                    </p>
+                  </div>
+
+                  <div className="bg-rose-50/50 border border-rose-100 rounded-xl p-4">
+                    <h3 className="font-bold text-sm text-rose-800 mb-2">
+                      {isAr ? "نقاط الضعف المقترحة للتحسين" : "Weaknesses to Improve"}
+                    </h3>
+                    <p className="text-xs text-rose-700 whitespace-pre-line leading-relaxed">
+                      {aiResult.missing}
+                    </p>
+                  </div>
+
+                  <div className="bg-amber-50/50 border border-amber-100 rounded-xl p-4">
+                    <h4 className="text-xs font-bold text-amber-700 mb-2 flex items-center gap-1.5">
                       <Sparkles size={14} />
                       {isAr ? "نصائح ذكية مخصصة" : "AI Tailored Suggestions"}
                     </h4>
-                    <ul className="list-disc list-inside text-xs text-neutral-700 space-y-1.5">
+                    <ul className="list-disc list-inside text-xs text-amber-700 space-y-1.5">
                       {aiResult.suggestions.map((sug, i) => (
                         <li key={i}>{sug}</li>
                       ))}
@@ -327,6 +354,25 @@ Skills: ${skills.map(s => s.name).join(', ')}
                   </div>
                 </motion.div>
               )}
+
+              {/* Raw ATS Preview Section */}
+              <div className="bg-white border border-neutral-200 rounded-xl p-4 mt-6">
+                <div className="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
+                  <FileText size={16} className="text-slate-500" />
+                  <h3 className="font-bold text-sm text-slate-800">
+                    {isAr ? "كيف يرى نظام الـ ATS سيرتك الذاتية الآن" : "How ATS Sees Your Resume"}
+                  </h3>
+                </div>
+                <div className="bg-slate-900 text-green-400 p-4 rounded-lg font-mono text-[10px] sm:text-xs overflow-y-auto max-h-48 whitespace-pre-wrap leading-relaxed shadow-inner" dir="auto">
+                  {/* Generate raw text from store */}
+                  {`NAME: ${storeData.personalInfo?.fullName || 'N/A'}\nTITLE: ${storeData.personalInfo?.jobTitle || 'N/A'}\nEMAIL: ${storeData.personalInfo?.email || 'N/A'}\nPHONE: ${storeData.personalInfo?.phone || 'N/A'}\n\nSUMMARY:\n${storeData.personalInfo?.summary?.replace(/<[^>]+>/g, '') || 'N/A'}\n\nEXPERIENCE:\n${storeData.experience?.map(e => `${e.jobTitle} at ${e.company}\n${e.startDate} to ${e.endDate || 'Present'}\n${e.description?.replace(/<[^>]+>/g, '') || ''}`).join('\n\n') || 'N/A'}\n\nEDUCATION:\n${storeData.education?.map(e => `${e.degree} at ${e.school}\n${e.startDate} to ${e.endDate || 'Present'}\n${e.description?.replace(/<[^>]+>/g, '') || ''}`).join('\n\n') || 'N/A'}\n\nSKILLS:\n${storeData.skills?.map(s => s.name).join(', ') || 'N/A'}`}
+                </div>
+                <p className="mt-2 text-[10px] text-slate-500">
+                  {isAr 
+                    ? "هذه هي الطريقة التي تقوم بها أنظمة الفرز بقراءة واستخراج النصوص المجردة من سيرتك لتقييمها."
+                    : "This is how applicant tracking systems parse and extract plain text from your resume for evaluation."}
+                </p>
+              </div>
 
               {!aiResult && (
                 <div className="space-y-2.5">
