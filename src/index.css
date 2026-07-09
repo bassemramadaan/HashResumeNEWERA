@@ -631,17 +631,28 @@ div[class*="focus-within:ring-orange-500"] {
 }
 
 .input-with-icon input {
-  padding-inline-start: 40px !important;
+  padding-left: 40px !important;
+  padding-right: 16px !important;
+}
+
+[dir="rtl"] .input-with-icon input {
+  padding-right: 40px !important;
+  padding-left: 16px !important;
 }
 
 .input-with-icon .icon {
   position: absolute;
-  inset-inline-start: 14px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
   color: #9CA3AF;
   z-index: 10;
+}
+
+[dir="rtl"] .input-with-icon .icon {
+  right: 14px;
+  left: auto;
 }
 
 /* Hero Highlight Text & Animation */

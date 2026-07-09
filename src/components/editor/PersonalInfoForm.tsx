@@ -31,6 +31,16 @@ import InlineGhostSuggest from "./InlineGhostSuggest";
 
 const PersonalInfoForm = () => {
   const { language } = useLanguageStore();
+  const isRtl = language === "ar";
+  
+  const inputStyle = isRtl
+    ? { paddingRight: "42px", paddingLeft: "16px" }
+    : { paddingLeft: "42px", paddingRight: "16px" };
+
+  const iconStyle = isRtl
+    ? { right: "14px", left: "auto", position: "absolute" as const, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" as const, zIndex: 10 }
+    : { left: "14px", right: "auto", position: "absolute" as const, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" as const, zIndex: 10 };
+
   const t = (translations[language as keyof typeof translations] || translations.en).editor;
   const { data, updatePersonalInfo } = useResumeStore();
   const { personalInfo, settings } = data;
@@ -127,7 +137,8 @@ const PersonalInfoForm = () => {
           </label>
           <div className="relative input-with-icon">
             <User
-                className={`icon h-4 w-4 ${errors.fullName ? "text-rose-450" : "text-slate-400"}`}
+                className={`icon h-5 w-5 ${errors.fullName ? "text-rose-450" : "text-slate-400"}`}
+                style={iconStyle}
               />
             <input
               type="text"
@@ -137,7 +148,8 @@ const PersonalInfoForm = () => {
               value={personalInfo.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full  pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
+              style={inputStyle}
+              className={`block w-full ps-10 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.fullName
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -164,7 +176,8 @@ const PersonalInfoForm = () => {
           </label>
           <div className="relative input-with-icon">
             <FileText
-                className={`icon h-4 w-4 ${errors.jobTitle ? "text-rose-450" : "text-slate-400"}`}
+                className={`icon h-5 w-5 ${errors.jobTitle ? "text-rose-450" : "text-slate-400"}`}
+                style={iconStyle}
               />
             <input
               type="text"
@@ -173,7 +186,8 @@ const PersonalInfoForm = () => {
               value={personalInfo.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
-              className={`block w-full  pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
+              style={inputStyle}
+              className={`block w-full ps-10 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.jobTitle
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -197,7 +211,8 @@ const PersonalInfoForm = () => {
           </label>
           <div className="relative input-with-icon">
             <Mail
-                className={`icon h-4 w-4 ${errors.email ? "text-rose-455" : "text-slate-400"}`}
+                className={`icon h-5 w-5 ${errors.email ? "text-rose-455" : "text-slate-400"}`}
+                style={iconStyle}
               />
             <input
               type="email"
@@ -208,7 +223,8 @@ const PersonalInfoForm = () => {
               onBlur={handleBlur}
               autoComplete="email"
               enterKeyHint="next"
-              className={`block w-full  pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
+              style={inputStyle}
+              className={`block w-full ps-10 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.email
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -231,7 +247,7 @@ const PersonalInfoForm = () => {
             {t.phone}
           </label>
           <div className="relative input-with-icon">
-            <Phone className="icon h-4 w-4 text-slate-400" />
+            <Phone className="icon h-5 w-5 text-slate-400" style={iconStyle} />
             <input
               type="tel"
               id="phone"
@@ -241,7 +257,8 @@ const PersonalInfoForm = () => {
               autoComplete="tel"
               pattern="[0-9]*"
               enterKeyHint="next"
-              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              style={inputStyle}
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.phone}
             />
           </div>
@@ -255,14 +272,15 @@ const PersonalInfoForm = () => {
             {t.address}
           </label>
           <div className="relative input-with-icon">
-            <MapPin className="icon h-4 w-4 text-slate-400" />
+            <MapPin className="icon h-5 w-5 text-slate-400" style={iconStyle} />
             <input
               type="text"
               id="address"
               name="address"
               value={personalInfo.address}
               onChange={handleChange}
-              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              style={inputStyle}
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.address}
             />
           </div>
@@ -276,14 +294,15 @@ const PersonalInfoForm = () => {
             {t.linkedin}
           </label>
           <div className="relative input-with-icon">
-            <Linkedin className="icon h-4 w-4 text-slate-400" />
+            <Linkedin className="icon h-5 w-5 text-slate-400" style={iconStyle} />
             <input
               type="url"
               id="linkedin"
               name="linkedin"
               value={personalInfo.linkedin}
               onChange={handleChange}
-              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              style={inputStyle}
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.linkedin}
             />
           </div>
@@ -297,14 +316,15 @@ const PersonalInfoForm = () => {
             {t.github}
           </label>
           <div className="relative input-with-icon">
-            <Github className="icon h-4 w-4 text-slate-400" />
+            <Github className="icon h-5 w-5 text-slate-400" style={iconStyle} />
             <input
               type="url"
               id="github"
               name="github"
               value={personalInfo.github || ""}
               onChange={handleChange}
-              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
+              style={inputStyle}
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.github}
             />
           </div>
@@ -318,14 +338,15 @@ const PersonalInfoForm = () => {
             {t.website}
           </label>
           <div className="relative input-with-icon">
-            <Globe className="icon h-4 w-4 text-slate-400" />
+            <Globe className="icon h-5 w-5 text-slate-400" style={iconStyle} />
             <input
               type="url"
               id="portfolio"
               name="portfolio"
               value={personalInfo.portfolio || ""}
               onChange={handleChange}
-              className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-455 font-medium"
+              style={inputStyle}
+              className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-455 font-medium"
               placeholder={t.website}
             />
           </div>
@@ -439,14 +460,15 @@ const PersonalInfoForm = () => {
                   {t.birthDate}
                 </label>
                 <div className="relative input-with-icon">
-            <Calendar className="icon h-4 w-4 text-slate-400" />
+            <Calendar className="icon h-5 w-5 text-slate-400" style={iconStyle} />
                   <input
                     type="date"
                     id="birthDate"
                     name="birthDate"
                     value={personalInfo.birthDate || ""}
                     onChange={handleChange}
-                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 focus:outline-none"
+                    style={inputStyle}
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 focus:outline-none"
                   />
                 </div>
               </div>
@@ -456,14 +478,15 @@ const PersonalInfoForm = () => {
                   {t.nationality}
                 </label>
                 <div className="relative input-with-icon">
-            <Flag className="icon h-4 w-4 text-slate-400" />
+            <Flag className="icon h-5 w-5 text-slate-400" style={iconStyle} />
                   <input
                     type="text"
                     id="nationality"
                     name="nationality"
                     value={personalInfo.nationality || ""}
                     onChange={handleChange}
-                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-400"
+                    style={inputStyle}
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-400"
                     placeholder={language === "ar" ? "مثال: مصري، سعودي" : "e.g. Saudi, Egyptian"}
                   />
                 </div>
@@ -474,14 +497,15 @@ const PersonalInfoForm = () => {
                   {t.maritalStatus}
                 </label>
                 <div className="relative input-with-icon">
-            <Heart className="icon h-4 w-4 text-slate-400" />
+            <Heart className="icon h-5 w-5 text-slate-400" style={iconStyle} />
                   <input
                     type="text"
                     id="maritalStatus"
                     name="maritalStatus"
                     value={personalInfo.maritalStatus || ""}
                     onChange={handleChange}
-                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    style={inputStyle}
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: أعزل، متزوج" : "e.g. Single, Married"}
                   />
                 </div>
@@ -492,14 +516,15 @@ const PersonalInfoForm = () => {
                   {t.visaStatus}
                 </label>
                 <div className="relative input-with-icon">
-            <CreditCard className="icon h-4 w-4 text-slate-400" />
+            <CreditCard className="icon h-5 w-5 text-slate-400" style={iconStyle} />
                   <input
                     type="text"
                     id="visaStatus"
                     name="visaStatus"
                     value={personalInfo.visaStatus || ""}
                     onChange={handleChange}
-                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    style={inputStyle}
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: إقامة قابلة للنقل، مواطن" : "e.g. Transferable Iqama, Citizen"}
                   />
                 </div>
@@ -510,14 +535,15 @@ const PersonalInfoForm = () => {
                   {t.militaryStatus}
                 </label>
                 <div className="relative input-with-icon">
-            <Shield className="icon h-4 w-4 text-slate-400" />
+            <Shield className="icon h-5 w-5 text-slate-400" style={iconStyle} />
                   <input
                     type="text"
                     id="militaryStatus"
                     name="militaryStatus"
                     value={personalInfo.militaryStatus || ""}
                     onChange={handleChange}
-                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    style={inputStyle}
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: معفى، قدّم الخدمة" : "e.g. Exempted, Completed"}
                   />
                 </div>
@@ -528,14 +554,15 @@ const PersonalInfoForm = () => {
                   {t.drivingLicense}
                 </label>
                 <div className="relative input-with-icon">
-            <Car className="icon h-4 w-4 text-slate-400" />
+            <Car className="icon h-5 w-5 text-slate-400" style={iconStyle} />
                   <input
                     type="text"
                     id="drivingLicense"
                     name="drivingLicense"
                     value={personalInfo.drivingLicense || ""}
                     onChange={handleChange}
-                    className="block w-full  pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
+                    style={inputStyle}
+                    className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: رخصة قيادة سعودية خاصة" : "e.g. Valid GCC Driving License"}
                   />
                 </div>
