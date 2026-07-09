@@ -634,7 +634,7 @@ export default function MobileEditorLayout({
   };
 
   return (
-    <div className="mobile-editor-container fixed inset-0 flex flex-col bg-[#F9FAFB] text-slate-800 overflow-hidden pb-[calc(88px+env(safe-area-inset-bottom,16px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="mobile-editor-container fixed inset-0 flex flex-col bg-[#F9FAFB] text-slate-800 overflow-hidden pb-[calc(70px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header (Floating Pill like Desktop) ── */}
       <div className="w-full z-50 pt-3 px-3 pb-1 bg-transparent pointer-events-none flex justify-center shrink-0 transform-gpu select-none">
@@ -830,83 +830,74 @@ export default function MobileEditorLayout({
         </div>
       </main>
 
-      {/* ── Highly Polished Glassmorphic Floating Bottom Navigation ── */}
-      <div className="fixed bottom-4 inset-x-4 z-50 pointer-events-auto flex flex-col items-center select-none max-w-md mx-auto pb-safe">
+      {/* ── Highly Polished Flat Bottom Navigation ── */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-auto flex flex-col select-none">
         {/* Mini Progress Line above the bar */}
-        <div className="w-full h-1 bg-slate-900/45 rounded-full overflow-hidden mb-2 relative backdrop-blur-md border border-slate-800/10 shadow-sm">
+        <div className="w-full h-[3px] bg-slate-100 overflow-hidden relative">
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#FF4D2D] via-orange-500 to-emerald-500 rounded-full"
+            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#FF4D2D] via-orange-500 to-emerald-500"
             style={{ [isRtl ? "right" : "left"]: 0 }}
           />
         </div>
 
-        {/* The Glassmorphic Dock Container */}
-        <div className="w-full bg-slate-950/92 backdrop-blur-2xl border border-slate-850/90 rounded-2.5xl px-3 py-2 flex items-center justify-between gap-1 shadow-[0_16px_36px_-6px_rgba(0,0,0,0.5)] pointer-events-auto relative">
+        {/* The White Flat Dock Container */}
+        <div className="w-full bg-white border-t border-gray-200 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] px-2 pt-2 pb-[calc(8px+env(safe-area-inset-bottom,0px))] flex items-center justify-around">
           
           {/* Tab 1: Form Edit */}
           <button
             onClick={() => setActiveTab("edit")}
             className={cn(
-              "flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl transition-all cursor-pointer relative",
-              activeTab === "edit" ? "text-white font-bold" : "text-slate-400 hover:text-slate-200"
+              "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
+              activeTab === "edit" ? "text-[#FF4D2D]" : "text-gray-400 hover:text-gray-600"
             )}
           >
-            {activeTab === "edit" && (
-              <motion.div layoutId="mobileActiveIndicator" className="absolute inset-0 bg-white/5 rounded-xl border border-white/5" />
-            )}
-            <Edit3 size={18} className="relative z-10 shrink-0" strokeWidth={activeTab === "edit" ? 2.5 : 1.8} />
-            <span className="text-[9px] font-bold mt-1 relative z-10">{lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}</span>
+            <Edit3 size={22} className={activeTab === "edit" ? "fill-current" : ""} strokeWidth={activeTab === "edit" ? 2.5 : 2} />
+            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}</span>
           </button>
 
           {/* Tab 2: Sections */}
           <button
             onClick={() => setActiveTab("sections")}
             className={cn(
-              "flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl transition-all cursor-pointer relative",
-              activeTab === "sections" ? "text-white font-bold" : "text-slate-400 hover:text-slate-200"
+              "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
+              activeTab === "sections" ? "text-[#FF4D2D]" : "text-gray-400 hover:text-gray-600"
             )}
           >
-            {activeTab === "sections" && (
-              <motion.div layoutId="mobileActiveIndicator" className="absolute inset-0 bg-white/5 rounded-xl border border-white/5" />
-            )}
-            <Grid size={18} className="relative z-10 shrink-0" strokeWidth={activeTab === "sections" ? 2.5 : 1.8} />
-            <span className="text-[9px] font-bold mt-1 relative z-10">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
+            <Grid size={22} className={activeTab === "sections" ? "fill-current" : ""} strokeWidth={activeTab === "sections" ? 2.5 : 2} />
+            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
           </button>
 
           {/* Central Button: Direct Download FAB */}
-          <div className="relative -mt-6 px-1 flex flex-col items-center">
-            <motion.button
-              whileTap={{ scale: 0.90 }}
-              onClick={onExportPDF}
-              className="w-13 h-13 rounded-full bg-gradient-to-tr from-[#FF4D2D] to-orange-500 text-white flex items-center justify-center shadow-[0_8px_24px_rgba(255,77,45,0.45)] border border-brand-400/40 relative group cursor-pointer focus:outline-none"
-              title={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
-            >
-              {/* Subtle pulsing background ring */}
-              <div className="absolute inset-0 rounded-full bg-brand-500/30 animate-ping opacity-60 scale-105 pointer-events-none" />
-              <Download size={22} className="relative z-10 text-white" strokeWidth={2.5} />
-            </motion.button>
-            <span className="text-[8px] text-brand-400 font-extrabold mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
-          </div>
+          <button
+            onClick={onExportPDF}
+            className="flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer"
+            title={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
+          >
+            <div className="bg-[#FF4D2D] rounded-full p-1.5 text-white transform -translate-y-1 shadow-md">
+              <Download size={20} strokeWidth={2.5} />
+            </div>
+            <span className="text-[10px] font-medium text-[#FF4D2D] -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
+          </button>
 
           {/* Tab 3: Settings */}
           <button
             onClick={onOpenSettings}
-            className="flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
+            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
           >
-            <Settings size={18} className="shrink-0" strokeWidth={1.8} />
-            <span className="text-[9px] font-bold mt-1">{lang === "ar" ? "الإعدادات" : "Settings"}</span>
+            <Settings size={22} strokeWidth={2} />
+            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الإعدادات" : "Settings"}</span>
           </button>
 
           {/* Tab 4: ATS Audit */}
           <button
             onClick={onOpenAts}
-            className="flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl text-slate-400 hover:text-slate-200 transition-all cursor-pointer relative"
+            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-gray-600 transition-colors cursor-pointer relative"
           >
             <div className="relative">
-              <CheckCircle size={18} className="shrink-0" strokeWidth={1.8} />
+              <CheckCircle size={22} strokeWidth={2} />
               <span className={cn(
                 "absolute -top-1 -right-2 text-[7.5px] font-extrabold px-1 py-0.2 rounded-md leading-none text-white",
                 atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
@@ -914,7 +905,7 @@ export default function MobileEditorLayout({
                 {atsScore}%
               </span>
             </div>
-            <span className="text-[9px] font-bold mt-1">ATS</span>
+            <span className="text-[10px] font-medium mt-0.5">ATS</span>
           </button>
 
         </div>

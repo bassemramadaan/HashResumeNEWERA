@@ -2,10 +2,11 @@ import React from "react";
 import type { ResumeData } from "../../store/useResumeStore";
 import { Briefcase, GraduationCap, Wrench, FileText, Award, FolderGit2, MapPin, Phone, Mail, Linkedin, Globe } from "lucide-react";
 import { SafeDescription } from "./SafeDescription";
+import { detectIsArabic } from "../../utils/language";
 
 const TemplateModern: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, experience, education, skills, certifications, projects, settings } = data;
-  const isRtl = settings.language === 'ar';
+  const isRtl = detectIsArabic(data);
   
   const ContactItem = ({ icon: Icon, text }: { icon: any, text: string }) => {
     if (!text) return null;

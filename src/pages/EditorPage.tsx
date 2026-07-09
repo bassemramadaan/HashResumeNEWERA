@@ -29,7 +29,7 @@ import {
   ExternalLink,
   Info,
 } from "lucide-react";
-import { useResumeStore } from "../store/useResumeStore";
+import { useResumeStore, flushResumeStorage } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useActiveSectionStore } from "../store/useActiveSectionStore";
 import { Link } from "react-router-dom";
@@ -43,6 +43,7 @@ import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
 import LiveAtsScoreWidget from "../components/editor/LiveAtsScoreWidget";
 import ResumePreview from "../components/preview/ResumePreview";
+import { JobMatchAdvisor } from "../components/editor/JobMatchAdvisor";
 import { FrictionlessConfetti } from "../components/FrictionlessConfetti";
 
 // Lazy load heavy components
@@ -244,13 +245,19 @@ export default function EditorPage() {
       setIsMagicModalOpen(true);
     };
 
+    const handleBeforeUnload = () => {
+      flushResumeStorage();
+    };
+
     window.addEventListener("preview-section-clicked", handlePreviewSectionClick);
     window.addEventListener("open-import-modal", handleOpenImportModal);
     window.addEventListener("open-magic-modal", handleOpenMagicModal);
+    window.addEventListener("beforeunload", handleBeforeUnload);
     return () => {
       window.removeEventListener("preview-section-clicked", handlePreviewSectionClick);
       window.removeEventListener("open-import-modal", handleOpenImportModal);
       window.removeEventListener("open-magic-modal", handleOpenMagicModal);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [setActiveTab]);
   
@@ -284,6 +291,8 @@ export default function EditorPage() {
   const [isMagicModalOpen, setIsMagicModalOpen] = useState(false);
   const [showAtsAestheticPanel, setShowAtsAestheticPanel] = useState(false);
   const [showMobileAtsPanel, setShowMobileAtsPanel] = useState(false);
+  const [rightPanelMode, setRightPanelMode] = useState<"preview" | "ats">("preview");
+  const [mobileAtsTab, setMobileAtsTab] = useState<"audit" | "match">("audit");
   const [confirmAction, setConfirmAction] = useState<{
     type: "load" | "clear";
     message: string;
@@ -1606,14 +1615,38 @@ export default function EditorPage() {
                   : "ATS Text-Extractable Guard Active (100% Readable)"}
               </span>
             </div>
-            <div className="h-14 bg-white/95 backdrop-blur-sm border-b border-neutral-200/80 flex items-center justify-between px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu shadow-xs">
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2 text-slate-800 bg-slate-100/80 rounded-xl px-3 py-1.5 border border-slate-200/60 shadow-inner">
-                  <LayoutTemplate size={14} className="text-brand-500 animate-pulse" />
-                  <span className="text-xs font-black tracking-wide font-sans">
-                    {language === "ar" ? "المعاينة التفاعلية" : "Live Preview"}
-                  </span>
-                </div>
+            <div className="h-14 bg-white/95 backdrop-blur-sm border-b border-neutral-200/80 flex items-center justify-between px-4 sm:px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu shadow-xs">
+              <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200/50">
+                <button
+                  onClick={() => setRightPanelMode("preview")}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer",
+                    rightPanelMode === "preview"
+                      ? "bg-white text-slate-900 shadow-xs"
+                      : "text-slate-500 hover:text-slate-900"
+                  )}
+                >
+                  <LayoutTemplate size={13} className={rightPanelMode === "preview" ? "text-brand-500" : ""} />
+                  <span>{language === "ar" ? "المعاينة التفاعلية" : "Live Preview"}</span>
+                </button>
+                <button
+                  onClick={() => setRightPanelMode("ats")}
+                  className={cn(
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer relative",
+                    rightPanelMode === "ats"
+                      ? "bg-white text-slate-900 shadow-xs"
+                      : "text-slate-500 hover:text-slate-900"
+                  )}
+                >
+                  <Sparkles size={13} className={cn(rightPanelMode === "ats" ? "text-[#FF4D2D]" : "text-slate-400")} />
+                  <span>{language === "ar" ? "فاحص الوصف الوظيفي (ATS)" : "Job Match (ATS)"}</span>
+                  {data.jobDescription && (
+                    <span className="absolute -top-1 -right-1 flex h-1.5 w-1.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-orange-500"></span>
+                    </span>
+                  )}
+                </button>
 
                 {/* ATS Live Icon/Pill Block */}
                 <div className="relative">
@@ -1828,18 +1861,26 @@ export default function EditorPage() {
               )}
             </AnimatePresence>
 
-            <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-12 pt-24 md:pt-24 flex flex-col items-center justify-start bg-slate-50/60 backdrop-blur-xs relative border-l border-slate-200/40">
-              <div
-                className="origin-top transition-all duration-500 flex justify-center scale-[0.4] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.8] xl:scale-[0.9] h-[calc(297mm*0.4)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.75)] lg:h-[calc(297mm*0.8)] xl:h-[calc(297mm*0.9)]"
-              >
-                <div
-                  className="bg-white shadow-[0_20px_50px_rgba(0,0,0,0.04)] ring-1 ring-slate-100 rounded-md overflow-hidden w-[210mm] min-h-[297mm] shrink-0"
-                >
-                  <Suspense fallback={<FormLoader />}>
-                    <ResumePreview ref={componentRef} />
-                  </Suspense>
+            <div className="flex-1 overflow-x-hidden overflow-y-auto pt-14 flex flex-col bg-slate-50/60 backdrop-blur-xs relative border-l border-slate-200/40 h-full">
+              {rightPanelMode === "preview" ? (
+                <div className="flex-1 p-4 md:p-12 flex flex-col items-center justify-start h-full">
+                  <div
+                    className="origin-top transition-all duration-500 flex justify-center scale-[0.4] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.8] xl:scale-[0.9] h-[calc(297mm*0.4)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.75)] lg:h-[calc(297mm*0.8)] xl:h-[calc(297mm*0.9)]"
+                  >
+                    <div
+                      className="bg-white shadow-[0_20px_50px_rgba(0,0,0,0.04)] ring-1 ring-slate-100 rounded-md overflow-hidden w-[210mm] min-h-[297mm] shrink-0"
+                    >
+                      <Suspense fallback={<FormLoader />}>
+                        <ResumePreview ref={componentRef} />
+                      </Suspense>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="flex-1 bg-white h-full overflow-y-auto">
+                  <JobMatchAdvisor language={language} />
+                </div>
+              )}
             </div>
           </div>
         </Panel>
@@ -2058,11 +2099,29 @@ export default function EditorPage() {
               <div
                 className="flex items-center justify-between px-5 py-3 shrink-0 border-b border-slate-100"
               >
-                <div className="flex items-center gap-2">
-                  <div className={`w-3 h-3 rounded-full ${atsScore >= 80 ? "bg-emerald-500 animate-pulse" : atsScore >= 50 ? "bg-amber-500 animate-pulse" : "bg-rose-500"}`} />
-                  <span className="text-sm font-black text-neutral-900">
-                    {language === "ar" ? "تحليل تطابق ATS المباشر" : "Live ATS Sync Details"}
-                  </span>
+                <div className="flex items-center gap-1.5 bg-slate-100 p-0.5 rounded-lg border border-slate-200/55">
+                  <button
+                    onClick={() => setMobileAtsTab("audit")}
+                    className={cn(
+                      "px-2.5 py-1 rounded-md text-[10px] font-black transition-all",
+                      mobileAtsTab === "audit"
+                        ? "bg-white text-slate-900 shadow-xs"
+                        : "text-slate-500 hover:text-slate-900"
+                    )}
+                  >
+                    {language === "ar" ? "تحليل ATS" : "ATS Audit"}
+                  </button>
+                  <button
+                    onClick={() => setMobileAtsTab("match")}
+                    className={cn(
+                      "px-2.5 py-1 rounded-md text-[10px] font-black transition-all",
+                      mobileAtsTab === "match"
+                        ? "bg-white text-slate-900 shadow-xs"
+                        : "text-slate-500 hover:text-slate-900"
+                    )}
+                  >
+                    {language === "ar" ? "الوصف الوظيفي" : "Job Match"}
+                  </button>
                 </div>
                 <button
                   onClick={() => setShowMobileAtsPanel(false)}
@@ -2072,57 +2131,65 @@ export default function EditorPage() {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-6 text-slate-800">
-                  <div className="flex justify-between items-end mb-2">
-                    <span className="text-sm font-bold text-slate-500">{language === "ar" ? "مؤشر التوافق الكلي" : "Overall Compatibility"}</span>
-                    <span className={`text-4xl font-black ${atsScore >= 80 ? "text-emerald-500" : atsScore >= 50 ? "text-amber-500" : "text-rose-500"}`}>{atsScore}%</span>
-                  </div>
-                  <div className="w-full bg-slate-100 rounded-full h-2 mb-6 overflow-hidden">
-                    <div 
-                      className={`h-full rounded-full transition-all duration-500 ${atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"}`}
-                      style={{ width: `${atsScore}%` }}
-                    />
-                  </div>
-                  
-                  <p className="text-sm text-slate-600 font-medium leading-relaxed mb-6 bg-slate-50 p-4 rounded-2xl">
-                    {language === "ar"
-                      ? atsScore >= 80
-                        ? "تهانينا! سيرتك الذاتية ممتازة ومبنية بأقوى معايير التوظيف والفرز."
-                        : atsScore >= 50
-                        ? "سيرتك جيدة، لكن ننصح بإضافة بضعة أرقام لنتائج عملك وتفاصيل مهاراتك الفنية للارتقاء بها."
-                        : "تحتاج سيرتك لإضافة معلومات اتصال كاملة وخبرة مفصلة لتمكين مراجعتها وجذب المستخرج الآلي."
-                      : atsScore >= 80
-                      ? "Splendid work! Your resume matches industry-standard ATS extraction norms beautifully."
-                      : atsScore >= 50
-                      ? "Good start. We recommend adding quantitative metrics and professional social links to boost extraction score."
-                      : "Provide contact details, summary sentences, and experience items to activate extraction."}
-                  </p>
-
-                  <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-4">{language === "ar" ? "تفصيل أقسام السيرة" : "Section Breakdown"}</h4>
-                  <div className="space-y-3 mb-8">
-                    {calculateATSScore(data).sections.map((sect, idx) => (
-                      <div key={idx} className="flex items-center justify-between text-sm py-2 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors px-2 rounded-lg">
-                        <span className="text-slate-600 font-medium">
-                          {sect.title === "Contact Info" ? (language === "ar" ? "بيانات التواصل" : "Contact Details") 
-                            : sect.title === "Experience Bullet Points" ? (language === "ar" ? "صياغة نقاط وبروتوكولات الخبرة" : "Experience Verbs") 
-                            : sect.title === "Experience Formatting" ? (language === "ar" ? "تنسيق عناصر الخبرة" : "Experience Details") 
-                            : sect.title === "Summary" ? (language === "ar" ? "الملخص المهني" : "Summary") 
-                            : sect.title === "Skills Section" ? (language === "ar" ? "المهارات الفنية" : "Skills Range") 
-                            : sect.title}
-                        </span>
-                        <span className="font-black text-slate-800 bg-slate-200 px-2 py-0.5 rounded-md">{sect.score} / {sect.maxScore}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {calculateATSScore(data).tips.length > 0 && (
-                    <div className="bg-[#FF4D2D]/5 border border-[#FF4D2D]/20 rounded-2xl p-4 mb-4">
-                      <span className="text-xs font-black block mb-2 text-[#FF4D2D] uppercase tracking-wide">💡 {language === "ar" ? "توصيات فورية" : "Recommendation"}</span>
-                      <p className="text-sm text-slate-700 leading-relaxed font-medium">
-                        {calculateATSScore(data).tips[0]}
-                      </p>
+              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-4 sm:p-6 text-slate-800">
+                {mobileAtsTab === "audit" ? (
+                  <>
+                    <div className="flex justify-between items-end mb-2">
+                      <span className="text-sm font-bold text-slate-500">{language === "ar" ? "مؤشر التوافق الكلي" : "Overall Compatibility"}</span>
+                      <span className={`text-4xl font-black ${atsScore >= 80 ? "text-emerald-500" : atsScore >= 50 ? "text-amber-500" : "text-rose-500"}`}>{atsScore}%</span>
                     </div>
-                  )}
+                    <div className="w-full bg-slate-100 rounded-full h-2 mb-6 overflow-hidden">
+                      <div 
+                        className={`h-full rounded-full transition-all duration-500 ${atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"}`}
+                        style={{ width: `${atsScore}%` }}
+                      />
+                    </div>
+                    
+                    <p className="text-sm text-slate-600 font-medium leading-relaxed mb-6 bg-slate-50 p-4 rounded-2xl">
+                      {language === "ar"
+                        ? atsScore >= 80
+                          ? "تهانينا! سيرتك الذاتية ممتازة ومبنية بأقوى معايير التوظيف والفرز."
+                          : atsScore >= 50
+                          ? "سيرتك جيدة، لكن ننصح بإضافة بضعة أرقام لنتائج عملك وتفاصيل مهاراتك الفنية للارتقاء بها."
+                          : "تحتاج سيرتك لإضافة معلومات اتصال كاملة وخبرة مفصلة لتمكين مراجعتها وجذب المستخرج الآلي."
+                        : atsScore >= 80
+                        ? "Splendid work! Your resume matches industry-standard ATS extraction norms beautifully."
+                        : atsScore >= 50
+                        ? "Good start. We recommend adding quantitative metrics and professional social links to boost extraction score."
+                        : "Provide contact details, summary sentences, and experience items to activate extraction."}
+                    </p>
+
+                    <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-4">{language === "ar" ? "تفصيل أقسام السيرة" : "Section Breakdown"}</h4>
+                    <div className="space-y-3 mb-8">
+                      {calculateATSScore(data).sections.map((sect, idx) => (
+                        <div key={idx} className="flex items-center justify-between text-sm py-2 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors px-2 rounded-lg">
+                          <span className="text-slate-600 font-medium">
+                            {sect.title === "Contact Info" ? (language === "ar" ? "بيانات التواصل" : "Contact Details") 
+                              : sect.title === "Experience Bullet Points" ? (language === "ar" ? "صياغة نقاط وبروتوكولات الخبرة" : "Experience Verbs") 
+                              : sect.title === "Experience Formatting" ? (language === "ar" ? "تنسيق عناصر الخبرة" : "Experience Details") 
+                              : sect.title === "Summary" ? (language === "ar" ? "الملخص المهني" : "Summary") 
+                              : sect.title === "Skills Section" ? (language === "ar" ? "المهارات الفنية" : "Skills Range") 
+                              : sect.title}
+                          </span>
+                          <span className="font-black text-slate-800 bg-slate-200 px-2 py-0.5 rounded-md">{sect.score} / {sect.maxScore}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {calculateATSScore(data).tips.length > 0 && (
+                      <div className="bg-[#FF4D2D]/5 border border-[#FF4D2D]/20 rounded-2xl p-4 mb-4">
+                        <span className="text-xs font-black block mb-2 text-[#FF4D2D] uppercase tracking-wide">💡 {language === "ar" ? "توصيات فورية" : "Recommendation"}</span>
+                        <p className="text-sm text-slate-700 leading-relaxed font-medium">
+                          {calculateATSScore(data).tips[0]}
+                        </p>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="bg-white">
+                    <JobMatchAdvisor language={language} />
+                  </div>
+                )}
               </div>
             </motion.div>
           </div>

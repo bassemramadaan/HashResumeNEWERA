@@ -169,10 +169,13 @@ export function getJobMatchResults(data: ResumeData) {
   const { jobDescription, personalInfo, experience, education, skills } = data;
   if (!jobDescription || !jobDescription.trim()) return null;
 
+  const arabicUnicodeRange = "\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF";
+  const regex = new RegExp(`[^\\w\\s${arabicUnicodeRange}]`, "g");
+
   // Extract words from JD
   const jdWords = jobDescription
     .toLowerCase()
-    .replace(/[^\w\s]/g, "")
+    .replace(regex, "")
     .split(/\s+/)
     .filter((w) => w.length > 2 && !STOP_WORDS.has(w));
 
@@ -185,7 +188,7 @@ export function getJobMatchResults(data: ResumeData) {
   ]
     .join(" ")
     .toLowerCase()
-    .replace(/[^\w\s]/g, "");
+    .replace(regex, "");
 
   const resumeWords = new Set(resumeText.split(/\s+/));
 

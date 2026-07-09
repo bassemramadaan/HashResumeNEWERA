@@ -89,7 +89,7 @@ export default function EditorNavbar({
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </div>
             <span className="text-[11px] font-bold">
-              {lang === 'ar' ? 'مزامنة السحابة نشطة' : lang === 'fr' ? 'Synchro active' : 'Cloud sync active'}
+              {lang === 'ar' ? 'تم الحفظ تلقائياً' : lang === 'fr' ? 'Auto-enregistré' : 'Auto-saved'}
             </span>
           </motion.div>
         );

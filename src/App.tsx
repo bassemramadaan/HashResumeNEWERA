@@ -5,6 +5,8 @@ import { HelmetProvider } from "react-helmet-async";
 import PageLoader from "./components/PageLoader";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
+import { BottomNavBar } from "./components/BottomNavBar";
+
 const LandingPage = React.lazy(() => import("./pages/Landing"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
 const HashHuntPage = React.lazy(() => import("./pages/HashHuntPage"));
@@ -47,6 +49,36 @@ function ScrollToTop() {
   return null;
 }
 
+function AppContent() {
+  const location = useLocation();
+  const isEditor = location.pathname === "/editor" || location.pathname.startsWith("/share/");
+
+  return (
+    <div className={isEditor ? "" : "md:pb-0"} style={!isEditor ? { paddingBottom: "calc(70px + env(safe-area-inset-bottom, 0px))" } : {}}>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/editor" element={<EditorPage />} />
+          <Route path="/templates" element={<TemplatesPage />} />
+          <Route path="/hash-hunt" element={<HashHuntPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:id" element={<BlogPostPage />} />
+          <Route path="/share/:id" element={<SharePage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/trust" element={<TrustPage />} />
+          <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
+          <Route path="/faq" element={<FAQPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+        {!isEditor && <BottomNavBar />}
+        <Analytics />
+      </Suspense>
+    </div>
+  );
+}
+
 export default function App() {
   const { language, dir } = useLanguageStore();
 
@@ -65,25 +97,7 @@ export default function App() {
         <GAListener />
         <ScrollToTop />
         <ErrorBoundary>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<LandingPage />} />
-              <Route path="/editor" element={<EditorPage />} />
-              <Route path="/templates" element={<TemplatesPage />} />
-              <Route path="/hash-hunt" element={<HashHuntPage />} />
-              <Route path="/pricing" element={<PricingPage />} />
-              <Route path="/blog" element={<BlogPage />} />
-              <Route path="/blog/:id" element={<BlogPostPage />} />
-              <Route path="/share/:id" element={<SharePage />} />
-              <Route path="/privacy" element={<PrivacyPage />} />
-              <Route path="/terms" element={<TermsOfServicePage />} />
-              <Route path="/trust" element={<TrustPage />} />
-              <Route path="/how-ats-works" element={<HowAtsWorksPage />} />
-              <Route path="/faq" element={<FAQPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-            <Analytics />
-          </Suspense>
+          <AppContent />
         </ErrorBoundary>
       </BrowserRouter>
     </HelmetProvider>

@@ -3,10 +3,11 @@ import { ResumeData } from '../../store/useResumeStore';
 import { cn } from '@/lib/utils';
 import { SafeDescription } from './SafeDescription';
 import { Mail, Phone, MapPin, Globe, Linkedin } from 'lucide-react';
+import { detectIsArabic } from "../../utils/language";
 
 export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
   const { personalInfo, experience, education, skills, projects, certifications, settings } = data;
-  const isRtl = settings.language === 'ar';
+  const isRtl = detectIsArabic(data);
   
   const themeColor = settings.themeColor || '#2563eb';
 

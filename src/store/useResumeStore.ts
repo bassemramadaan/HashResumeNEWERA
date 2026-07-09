@@ -17,6 +17,12 @@ const debouncedStorage: Storage = {
   get length() { return safeLocalStorage.length; },
 };
 
+export function flushResumeStorage() {
+  if (debouncedStorage && debouncedStorage.setItem && typeof (debouncedStorage.setItem as any).flush === "function") {
+    (debouncedStorage.setItem as any).flush();
+  }
+}
+
 export type Experience = {
   id: string;
   company: string;

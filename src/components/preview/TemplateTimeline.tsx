@@ -1,10 +1,11 @@
 import React from "react";
 import type { ResumeData } from "../../store/useResumeStore";
 import { SafeDescription } from "./SafeDescription";
+import { detectIsArabic } from "../../utils/language";
 
 const TemplateTimeline: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, experience, education, skills, certifications, projects, settings } = data;
-  const isRtl = settings.language === 'ar';
+  const isRtl = detectIsArabic(data);
 
   return (
     <div className={`w-[794px] mx-auto bg-white p-[40px] font-sans text-[#111827] ${isRtl ? "text-right" : "text-left"}`} dir={isRtl ? "rtl" : "ltr"}>

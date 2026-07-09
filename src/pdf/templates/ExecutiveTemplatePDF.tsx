@@ -2,10 +2,11 @@ import React from 'react';
 import { View, Text, StyleSheet } from '@react-pdf/renderer';
 import { ResumeData } from '../../types/resume';
 import { renderMarkdownToPDF } from '../utils';
+import { detectIsArabic } from '../../utils/language';
 
 export const ExecutiveTemplatePDF: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, experience, education, skills, certifications, projects, settings } = data;
-  const isRtl = settings.language === 'ar';
+  const isRtl = detectIsArabic(data as any);
   
   const baseFont = isRtl ? 'Cairo' : 'PlusJakartaSans';
 
