@@ -19,9 +19,9 @@ export default function RichTextEditor({ value, onChange }: { value: string, onC
     },
   })
 
-  // Sync external changes (if needed, though generally not advised for collaborative editors)
+  // Sync external changes (only when not focused to prevent cursor jumps and text repetition)
   useEffect(() => {
-    if (editor && value !== editor.getHTML()) {
+    if (editor && !editor.isFocused && value !== editor.getHTML()) {
       editor.commands.setContent(value || '')
     }
   }, [value, editor])

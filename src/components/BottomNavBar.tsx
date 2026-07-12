@@ -11,7 +11,7 @@ export const BottomNavBar: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] flex justify-around items-center pt-2 pb-[calc(8px+env(safe-area-inset-bottom,0px))] z-50 px-2" dir={isRtl ? 'rtl' : 'ltr'}>
+    <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] flex justify-around items-center pt-2 pb-[calc(8px+env(safe-area-inset-bottom,0px))] z-50 px-2" dir={isRtl ? 'rtl' : 'ltr'}>
       <Link
         to="/"
         className={`flex flex-col items-center gap-[2px] min-w-[64px] ${isActive('/') ? 'text-[#FF4D2D]' : 'text-gray-400'} transition-colors`}

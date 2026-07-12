@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import { ZodIssue } from "zod";
+import debounce from "lodash.debounce";
 import { useResumeStore } from "../../store/useResumeStore";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { translations } from "../../i18n/translations";
@@ -53,6 +54,55 @@ const PersonalInfoForm = () => {
 
   const lang = settings.language || "en";
 
+  // Local state for all fields to avoid IME/composition break and text duplication
+  const [formState, setFormState] = useState({
+    fullName: personalInfo.fullName || "",
+    jobTitle: personalInfo.jobTitle || "",
+    email: personalInfo.email || "",
+    phone: personalInfo.phone || "",
+    address: personalInfo.address || "",
+    linkedin: personalInfo.linkedin || "",
+    github: personalInfo.github || "",
+    portfolio: personalInfo.portfolio || "",
+    summary: personalInfo.summary || "",
+    birthDate: personalInfo.birthDate || "",
+    nationality: personalInfo.nationality || "",
+    maritalStatus: personalInfo.maritalStatus || "",
+    visaStatus: personalInfo.visaStatus || "",
+    militaryStatus: personalInfo.militaryStatus || "",
+    drivingLicense: personalInfo.drivingLicense || "",
+  });
+
+  // Sync with store when store updates externally (like AI or import), but skip active input field
+  useEffect(() => {
+    const activeId = document.activeElement?.id;
+    setFormState((prev) => {
+      const next = { ...prev };
+      let changed = false;
+      Object.keys(prev).forEach((k) => {
+        const key = k as keyof typeof prev;
+        if (activeId === key) return; // Keep user's active cursor/field safe
+        const storeVal = (personalInfo as any)[key] || "";
+        if (storeVal !== prev[key]) {
+          (next as any)[key] = storeVal;
+          changed = true;
+        }
+      });
+      return changed ? next : prev;
+    });
+  }, [personalInfo]);
+
+  // Debounced store updater
+  const debouncedUpdateRef = useRef<any>(null);
+  useEffect(() => {
+    debouncedUpdateRef.current = debounce((field: string, val: string) => {
+      updatePersonalInfo({ [field]: val });
+    }, 150);
+    return () => {
+      debouncedUpdateRef.current?.cancel();
+    };
+  }, [updatePersonalInfo]);
+
   const validate = (name: string, value: string) => {
     const schema = personalInfoSchema(lang);
     const result = schema.safeParse({ ...personalInfo, [name]: value });
@@ -72,6 +122,11 @@ const PersonalInfoForm = () => {
   ) => {
     const { name, value } = e.target;
     setTouched((prev) => ({ ...prev, [name]: true }));
+    
+    // Save to Zustand store immediately on blur
+    debouncedUpdateRef.current?.cancel();
+    updatePersonalInfo({ [name]: value });
+
     const error = validate(name, value);
     setErrors((prev) => ({ ...prev, [name]: error }));
   };
@@ -80,7 +135,12 @@ const PersonalInfoForm = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    updatePersonalInfo({ [name]: value });
+    
+    // 1. Update local state immediately
+    setFormState((prev) => ({ ...prev, [name]: value }));
+
+    // 2. Queue Zustand store update
+    debouncedUpdateRef.current?.(name, value);
 
     // Real-time validation
     const error = validate(name, value);
@@ -145,7 +205,7 @@ const PersonalInfoForm = () => {
               id="fullName"
               name="fullName"
               disabled={data.isLocked}
-              value={personalInfo.fullName}
+              value={formState.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
               style={inputStyle}
@@ -183,7 +243,7 @@ const PersonalInfoForm = () => {
               type="text"
               id="jobTitle"
               name="jobTitle"
-              value={personalInfo.jobTitle}
+              value={formState.jobTitle}
               onChange={handleChange}
               onBlur={handleBlur}
               style={inputStyle}
@@ -218,7 +278,7 @@ const PersonalInfoForm = () => {
               type="email"
               id="email"
               name="email"
-              value={personalInfo.email}
+              value={formState.email}
               onChange={handleChange}
               onBlur={handleBlur}
               autoComplete="email"
@@ -252,8 +312,9 @@ const PersonalInfoForm = () => {
               type="tel"
               id="phone"
               name="phone"
-              value={personalInfo.phone}
+              value={formState.phone}
               onChange={handleChange}
+              onBlur={handleBlur}
               autoComplete="tel"
               pattern="[0-9]*"
               enterKeyHint="next"
@@ -277,8 +338,9 @@ const PersonalInfoForm = () => {
               type="text"
               id="address"
               name="address"
-              value={personalInfo.address}
+              value={formState.address}
               onChange={handleChange}
+              onBlur={handleBlur}
               style={inputStyle}
               className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.address}
@@ -299,8 +361,9 @@ const PersonalInfoForm = () => {
               type="url"
               id="linkedin"
               name="linkedin"
-              value={personalInfo.linkedin}
+              value={formState.linkedin}
               onChange={handleChange}
+              onBlur={handleBlur}
               style={inputStyle}
               className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.linkedin}
@@ -321,8 +384,9 @@ const PersonalInfoForm = () => {
               type="url"
               id="github"
               name="github"
-              value={personalInfo.github || ""}
+              value={formState.github}
               onChange={handleChange}
+              onBlur={handleBlur}
               style={inputStyle}
               className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-450 font-medium"
               placeholder={t.github}
@@ -343,8 +407,9 @@ const PersonalInfoForm = () => {
               type="url"
               id="portfolio"
               name="portfolio"
-              value={personalInfo.portfolio || ""}
+              value={formState.portfolio}
               onChange={handleChange}
+              onBlur={handleBlur}
               style={inputStyle}
               className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm transition-all bg-white text-slate-900 placeholder-slate-455 font-medium"
               placeholder={t.website}
@@ -398,8 +463,9 @@ const PersonalInfoForm = () => {
             id="summary"
             name="summary"
             rows={5}
-            value={personalInfo.summary || ""}
+            value={formState.summary}
             onChange={handleChange}
+            onBlur={handleBlur}
             autoComplete="off"
             autoCorrect="off"
             spellCheck="false"
@@ -408,8 +474,11 @@ const PersonalInfoForm = () => {
             placeholder={t.summaryPlaceholder}
           />
           <InlineGhostSuggest
-            value={personalInfo.summary || ""}
-            onChange={(val) => updatePersonalInfo({ summary: val })}
+            value={formState.summary}
+            onChange={(val) => {
+              setFormState(prev => ({ ...prev, summary: val }));
+              updatePersonalInfo({ summary: val });
+            }}
             isAr={language === "ar"}
             textareaRef={summaryRef}
             context={`Job Title: ${personalInfo.jobTitle}`}
@@ -465,8 +534,9 @@ const PersonalInfoForm = () => {
                     type="date"
                     id="birthDate"
                     name="birthDate"
-                    value={personalInfo.birthDate || ""}
+                    value={formState.birthDate}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     style={inputStyle}
                     className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 focus:outline-none"
                   />
@@ -483,8 +553,9 @@ const PersonalInfoForm = () => {
                     type="text"
                     id="nationality"
                     name="nationality"
-                    value={personalInfo.nationality || ""}
+                    value={formState.nationality}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     style={inputStyle}
                     className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-400"
                     placeholder={language === "ar" ? "مثال: مصري، سعودي" : "e.g. Saudi, Egyptian"}
@@ -502,8 +573,9 @@ const PersonalInfoForm = () => {
                     type="text"
                     id="maritalStatus"
                     name="maritalStatus"
-                    value={personalInfo.maritalStatus || ""}
+                    value={formState.maritalStatus}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     style={inputStyle}
                     className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: أعزل، متزوج" : "e.g. Single, Married"}
@@ -521,8 +593,9 @@ const PersonalInfoForm = () => {
                     type="text"
                     id="visaStatus"
                     name="visaStatus"
-                    value={personalInfo.visaStatus || ""}
+                    value={formState.visaStatus}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     style={inputStyle}
                     className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: إقامة قابلة للنقل، مواطن" : "e.g. Transferable Iqama, Citizen"}
@@ -540,8 +613,9 @@ const PersonalInfoForm = () => {
                     type="text"
                     id="militaryStatus"
                     name="militaryStatus"
-                    value={personalInfo.militaryStatus || ""}
+                    value={formState.militaryStatus}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     style={inputStyle}
                     className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: معفى، قدّم الخدمة" : "e.g. Exempted, Completed"}
@@ -559,8 +633,9 @@ const PersonalInfoForm = () => {
                     type="text"
                     id="drivingLicense"
                     name="drivingLicense"
-                    value={personalInfo.drivingLicense || ""}
+                    value={formState.drivingLicense}
                     onChange={handleChange}
+                    onBlur={handleBlur}
                     style={inputStyle}
                     className="block w-full ps-10 pe-4 py-3 border border-slate-200 hover:border-slate-300 rounded-xl focus:ring-4 focus:ring-brand-500/10 focus:border-brand-500 text-xs sm:text-sm bg-white text-slate-900 placeholder-slate-405"
                     placeholder={language === "ar" ? "مثال: رخصة قيادة سعودية خاصة" : "e.g. Valid GCC Driving License"}

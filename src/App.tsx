@@ -54,7 +54,7 @@ function AppContent() {
   const isEditor = location.pathname === "/editor" || location.pathname.startsWith("/share/");
 
   return (
-    <div className={isEditor ? "" : "md:pb-0"} style={!isEditor ? { paddingBottom: "calc(70px + env(safe-area-inset-bottom, 0px))" } : {}}>
+    <div className={isEditor ? "" : "lg:pb-0"} style={!isEditor ? { paddingBottom: "calc(70px + env(safe-area-inset-bottom, 0px))" } : {}}>
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />

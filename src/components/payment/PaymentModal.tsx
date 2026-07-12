@@ -599,6 +599,34 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                           />
                         </div>
 
+                        {/* Interactive Dynamic Status Text with Shimmering Loader */}
+                        <div className="bg-white rounded-xl p-3 border border-slate-150/80 shadow-3xs space-y-3">
+                          <div className="flex items-center gap-3">
+                            <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-orange-50 text-[#FF4D2D] border border-orange-100 shrink-0">
+                              <Sparkles className="w-4 h-4 animate-spin-slow" />
+                              <div className="absolute inset-0 rounded-lg bg-orange-400/10 animate-ping" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-[10px] font-black text-[#FF4D2D] uppercase tracking-wider">
+                                {isAr ? "التحليل الذكي الجاري" : "Active Audit Scan"}
+                              </p>
+                              <p className="text-[11px] font-semibold text-slate-700 mt-0.5 truncate leading-tight">
+                                {verificationProgress < 35 ? (isAr ? "جاري تأمين اتصال مشفر بالخادم..." : "Securing gateway connection...") :
+                                 verificationProgress < 65 ? (isAr ? "جاري مسح الحوالات المستلمة..." : "Scanning cash ledgers...") :
+                                 verificationProgress < 90 ? (isAr ? "جاري مطابقة الرقم المرجعي..." : "Matching transfer signature...") :
+                                 (isAr ? "جاري توليد كود التفعيل..." : "Generating activation code...")}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Shimmering Skeleton Line Bars */}
+                          <div className="space-y-1.5 pt-0.5">
+                            <div className="h-1.5 bg-slate-100 rounded-full animate-pulse w-full" />
+                            <div className="h-1.5 bg-slate-100 rounded-full animate-pulse w-5/6" />
+                            <div className="h-1.5 bg-slate-100 rounded-full animate-pulse w-2/3" />
+                          </div>
+                        </div>
+
                         {/* Step logs list */}
                         <div className="space-y-2.5 pt-1">
                           {([

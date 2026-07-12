@@ -3,6 +3,7 @@ import { Navbar }          from '@/components/layout/Navbar'
 import { Helmet } from "react-helmet-async"
 import { HeroSection }     from './HeroSection'
 import { FeaturesSection } from './FeaturesSection'
+import { TestimonialsSection } from './TestimonialsSection'
 import { PricingSection }  from './PricingSection'
 import LandingAtsTester from '@/components/landing/LandingAtsTester'
 import SimpleSteps from '@/components/SimpleSteps'
@@ -32,6 +33,7 @@ export default function LandingPage() {
           <SimpleSteps />
           <FeaturesSection lang={lang as AppLang} />
           <LandingAtsTester lang={lang as AppLang} onStartClick={goToEditor} />
+          <TestimonialsSection lang={lang as AppLang} />
           <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
           <FAQ />
           <CTASection lang={lang as AppLang} />

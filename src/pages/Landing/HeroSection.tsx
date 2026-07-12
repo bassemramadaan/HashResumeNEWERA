@@ -8,6 +8,7 @@ import {
 import type { AppLang } from '@/hooks/useDirection'
 import { trackEvent } from '@/services/analytics'
 import { useNavigate } from 'react-router-dom'
+import MiniCVPreview from '@/components/landing/MiniCVPreview'
 
 interface HeroSectionProps {
   lang: AppLang
@@ -141,6 +142,9 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
               ✨ {copy.noCreditCard}
             </p>
           </motion.div>
+
+          {/* Mini CV Preview component to fill space beautifully */}
+          <MiniCVPreview lang={lang as any} />
         </div>
       </div>
     </section>
