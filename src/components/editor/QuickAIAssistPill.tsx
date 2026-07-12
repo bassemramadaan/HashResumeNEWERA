@@ -144,7 +144,7 @@ export default function QuickAIAssistPill({ section, onInject }: QuickAIAssistPi
   const handleInject = (text: string) => {
     onInject(text);
     // Subtle physical feedback
-    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const audioContext = new (window.AudioContext || (window as unknown as Window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
     const osc = audioContext.createOscillator();
     const gain = audioContext.createGain();
     osc.connect(gain);

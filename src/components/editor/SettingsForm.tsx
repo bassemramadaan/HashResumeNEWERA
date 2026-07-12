@@ -433,7 +433,7 @@ export default React.memo(function SettingsForm() {
                 ].map(option => (
                   <button
                     key={option.id}
-                    onClick={() => updateSettings({ sectionSpacing: option.id as any })}
+                    onClick={() => updateSettings({ sectionSpacing: option.id as "compact" | "normal" | "relaxed" })}
                     className={cn(
                       "flex-1 py-1.5 text-xs sm:text-sm rounded-lg transition-all font-medium",
                       (settings.sectionSpacing || "normal") === option.id

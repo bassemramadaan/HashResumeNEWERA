@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'motion/react'
-import { CheckCircle, Briefcase, GraduationCap, Code, FileText, Sparkles } from 'lucide-react'
+import { CheckCircle, Briefcase, Code, FileText, Sparkles } from 'lucide-react'
 
 interface MiniCVPreviewProps {
   lang: 'ar' | 'en' | 'fr'

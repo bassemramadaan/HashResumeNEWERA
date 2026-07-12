@@ -156,6 +156,29 @@ export default function EditorPage() {
   const [isTipsOpen, setIsTipsOpen] = useState(true);
   const [showAIBanner, setShowAIBanner] = useState(true);
   const [showMicroSpacingPanel, setShowMicroSpacingPanel] = useState(false);
+  const [aiNotice, setAiNotice] = useState<{ code: string; message: string } | null>(null);
+
+  useEffect(() => {
+    const handleAIErrorEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ code: string; message: string }>;
+      if (customEvent && customEvent.detail) {
+        setAiNotice({
+          code: customEvent.detail.code,
+          message: customEvent.detail.message,
+        });
+        
+        // Auto-dismiss after 8 seconds
+        setTimeout(() => {
+          setAiNotice(prev => prev?.code === customEvent.detail.code ? null : prev);
+        }, 8000);
+      }
+    };
+    
+    window.addEventListener("ai:error", handleAIErrorEvent);
+    return () => {
+      window.removeEventListener("ai:error", handleAIErrorEvent);
+    };
+  }, []);
 
   const { focusMode, setFocusMode } = useFocusMode();
 
@@ -909,6 +932,33 @@ export default function EditorPage() {
                     </div>
                   </motion.div>
                 )}
+
+            {/* Intelligent AI Connection/Fallback Notification Banner */}
+            {aiNotice && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-4 p-3.5 rounded-2xl bg-orange-50 border border-orange-200/70 flex items-start gap-3 shadow-xs text-start"
+              >
+                <div className="p-2 bg-orange-100 rounded-xl text-[#FF4D2D] shrink-0 mt-0.5">
+                  <Sparkles className="w-4 h-4 animate-pulse" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-xs font-black text-[#FF4D2D] uppercase tracking-wider">
+                    {language === "ar" ? "تنبيه مساعد الذكاء الاصطناعي" : "AI Assistant Update"}
+                  </h4>
+                  <p className="text-[11px] text-slate-700 font-semibold leading-relaxed mt-0.5">
+                    {aiNotice.message}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setAiNotice(null)}
+                  className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg cursor-pointer transition-colors"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </motion.div>
+            )}
 
             {/* Direct Flow AI Integrations Callout Banner */}
             {showAIBanner && data.personalInfo.fullName && (

@@ -203,6 +203,77 @@ const localResumeParser = (rawText: string): string => {
 };
 
 /**
+ * Mapped AI Error Codes
+ */
+export type AIErrorCode =
+  | "RATE_LIMIT_EXCEEDED"
+  | "SERVICE_UNAVAILABLE"
+  | "AUTH_ERROR"
+  | "NETWORK_ERROR"
+  | "UNKNOWN_ERROR";
+
+export interface AIErrorDetail {
+  code: AIErrorCode;
+  message: string;
+  originalMessage?: string;
+}
+
+/**
+ * Dispatches a centralized error to the window object so components can show friendly alerts
+ */
+const dispatchAIWarning = (code: AIErrorCode, errorMsg: string) => {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(
+      new CustomEvent("ai:error", {
+        detail: {
+          code,
+          message: errorMsg,
+          timestamp: Date.now(),
+        },
+      })
+    );
+  }
+};
+
+/**
+ * Centralized AI Error Parser
+ */
+export const handleAIError = (error: unknown, status?: number): AIErrorDetail => {
+  const isAr = typeof window !== "undefined" && document.documentElement.dir === "rtl";
+  let code: AIErrorCode = "UNKNOWN_ERROR";
+  let message = isAr
+    ? "عذراً، حدث خطأ أثناء الاتصال بالخادم. تم تشغيل المساعد المحلي الذكي فوراً."
+    : "An unexpected error occurred. Active Local Smart Assistant is now online.";
+
+  const errorMessage = error instanceof Error ? error.message : String(error);
+
+  if (status === 429 || errorMessage.toLowerCase().includes("too many requests") || errorMessage.toLowerCase().includes("429")) {
+    code = "RATE_LIMIT_EXCEEDED";
+    message = isAr
+      ? "تجاوزت حد الاستخدام المؤقت للذكاء الاصطناعي. تم تنشيط محرك الصياغة المحلي ذو الكفاءة العالية لتكملة عملك مجاناً ودون توقف!"
+      : "Temporary AI rate limit exceeded. Our high-fidelity local rephrasing engine is now active to keep you writing for free!";
+  } else if (status === 401 || status === 403 || errorMessage.toLowerCase().includes("key") || errorMessage.toLowerCase().includes("auth")) {
+    code = "AUTH_ERROR";
+    message = isAr
+      ? "بيانات اعتماد الذكاء الاصطناعي غير متوفرة أو معطلة. سنقوم بصياغة نصوصك فوراً باستخدام الخوارزميات المحلية الاحترافية."
+      : "API authorization is unavailable. Instantly using professional offline local templates to perfect your CV.";
+  } else if (status === 500 || status === 503 || errorMessage.toLowerCase().includes("fail") || errorMessage.toLowerCase().includes("unavailable")) {
+    code = "SERVICE_UNAVAILABLE";
+    message = isAr
+      ? "خوادم الذكاء الاصطناعي السحابية مشغولة حالياً. لقد قمنا بتحويلك بسلاسة إلى محرك المساعدة السريع المدمج."
+      : "Cloud AI servers are busy right now. We have seamlessly connected you to our rapid offline local assistant.";
+  } else if (error instanceof TypeError || errorMessage.toLowerCase().includes("fetch") || errorMessage.toLowerCase().includes("network")) {
+    code = "NETWORK_ERROR";
+    message = isAr
+      ? "يبدو أنك تواجه مشكلة في الاتصال بالإنترنت. تم تنشيط المساعد المحلي الذكي للعمل بدون إنترنت بالكامل!"
+      : "Network connectivity issue detected. The offline-ready local smart assistant is active and fully functional!";
+  }
+
+  dispatchAIWarning(code, message);
+  return { code, message, originalMessage: errorMessage };
+};
+
+/**
  * Centralized AI Service for Gemini API calls via Express Backend
  */
 export const aiService: IResumeService = {
@@ -246,7 +317,7 @@ export const aiService: IResumeService = {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error?.message || "Failed to generate content");
+        throw new Error(data.error?.message || `Failed to generate content (Status ${response.status})`);
       }
 
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -257,6 +328,16 @@ export const aiService: IResumeService = {
       return { text };
     } catch (err: unknown) {
       console.warn("AI Generation failed. Directing to robust local fallback engine to keep experience functional and free!", err);
+      
+      // Determine status code if available
+      let statusCode = 500;
+      if (err instanceof Error && err.message.includes("Status")) {
+        const match = err.message.match(/Status\s+(\d+)/i);
+        if (match) statusCode = parseInt(match[1], 10);
+      }
+      
+      handleAIError(err, statusCode);
+      
       // Seamlessly resolve using local heuristics to bypass server failures!
       return { text: localAISuggest(prompt, systemInstruction) };
     }
@@ -335,7 +416,7 @@ export const aiService: IResumeService = {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error?.message || "Failed to parse resume");
+        throw new Error(data.error?.message || `Failed to parse resume (Status ${response.status})`);
       }
 
       const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -346,6 +427,14 @@ export const aiService: IResumeService = {
       return { text };
     } catch (err: unknown) {
       console.warn("Resume parsing failed. Delegating to local parsing algorithm instantly.", err);
+      
+      let statusCode = 500;
+      if (err instanceof Error && err.message.includes("Status")) {
+        const match = err.message.match(/Status\s+(\d+)/i);
+        if (match) statusCode = parseInt(match[1], 10);
+      }
+      
+      handleAIError(err, statusCode);
       return { text: localResumeParser(rawText) };
     }
   },
