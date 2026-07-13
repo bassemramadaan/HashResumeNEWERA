@@ -34,9 +34,7 @@ const PersonalInfoForm = () => {
   const { language } = useLanguageStore();
   const isRtl = language === "ar";
   
-  const inputStyle = isRtl
-    ? { paddingRight: "42px", paddingLeft: "16px" }
-    : { paddingLeft: "42px", paddingRight: "16px" };
+  const inputStyle = { paddingLeft: "42px", paddingRight: "42px" };
 
   const iconStyle = isRtl
     ? { right: "14px", left: "auto", position: "absolute" as const, top: "50%", transform: "translateY(-50%)", pointerEvents: "none" as const, zIndex: 10 }

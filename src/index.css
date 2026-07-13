@@ -633,13 +633,13 @@ div[class*="focus-within:ring-orange-500"] {
 }
 
 .input-with-icon input {
-  padding-left: 40px !important;
-  padding-right: 16px !important;
+  padding-left: 42px !important;
+  padding-right: 42px !important;
 }
 
 [dir="rtl"] .input-with-icon input {
-  padding-right: 40px !important;
-  padding-left: 16px !important;
+  padding-left: 42px !important;
+  padding-right: 42px !important;
 }
 
 .input-with-icon .icon {
