@@ -89,7 +89,7 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
               <span>تقييم 4.9/5</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex -space-x-2">
+              <div className="flex -space-x-2 rtl:space-x-reverse">
                 <div className="w-7 h-7 rounded-full bg-primary-400 border-2 border-white" />
                 <div className="w-7 h-7 rounded-full bg-purple-400 border-2 border-white" />
                 <div className="w-7 h-7 rounded-full bg-green-400 border-2 border-white" />

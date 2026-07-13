@@ -113,6 +113,15 @@ const ResumePreview = memo(
     };
 
     const currentTemplate = settings.template || "classic";
+    const [isShimmering, setIsShimmering] = useState(false);
+
+    useEffect(() => {
+      setIsShimmering(true);
+      const timer = setTimeout(() => {
+        setIsShimmering(false);
+      }, 220); // Snappy 220ms loading simulation
+      return () => clearTimeout(timer);
+    }, [settings?.template, settings?.sectionSpacing, settings?.fontFamily]);
 
     return (
       <div
@@ -310,21 +319,109 @@ const ResumePreview = memo(
             }
           `}} />
           <AnimatePresence mode="wait">
-            <motion.div
-              key={currentTemplate}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.22, ease: "easeInOut" }}
-              className="w-full h-full"
-            >
-              {currentTemplate === "classic" && <TemplateClassic data={data} />}
-              {currentTemplate === "modern" && <TemplateModern data={data} />}
-              {currentTemplate === "executive" && <TemplateExecutive data={data} />}
-              {currentTemplate === "minimal" && <TemplateMinimal data={data} />}
-              {currentTemplate === "timeline" && <TemplateTimeline data={data} />}
-              {currentTemplate === "two-column" && <TemplateTwoColumn data={data} />}
-            </motion.div>
+            {isShimmering ? (
+              <motion.div
+                key="shimmer-skeleton"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.12 }}
+                className="w-full min-h-[800px] p-8 sm:p-12 flex flex-col gap-6 bg-white print:hidden"
+              >
+                {/* Header Shimmer */}
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 animate-pulse">
+                  <div className="space-y-3">
+                    <div className="h-7 bg-slate-100 rounded-md w-48 sm:w-64" />
+                    <div className="h-4 bg-slate-100 rounded-md w-32 sm:w-44" />
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-3 bg-slate-100/90 rounded w-28" />
+                    <div className="h-3 bg-slate-100/90 rounded w-36" />
+                  </div>
+                </div>
+
+                {/* Separator */}
+                <div className="h-[1.5px] bg-slate-100 rounded animate-pulse" />
+
+                {/* Content Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 flex-1 animate-pulse">
+                  {/* Left Column / Main Info */}
+                  <div className="md:col-span-2 space-y-6">
+                    {/* Summary Shimmer */}
+                    <div className="space-y-3">
+                      <div className="h-4 bg-slate-100 rounded-md w-24" />
+                      <div className="h-3 bg-slate-100/85 rounded w-full" />
+                      <div className="h-3 bg-slate-100/85 rounded w-11/12" />
+                      <div className="h-3 bg-slate-100/85 rounded w-5/6" />
+                    </div>
+
+                    {/* Experience Shimmer */}
+                    <div className="space-y-4">
+                      <div className="h-4 bg-slate-100 rounded-md w-28" />
+                      
+                      <div className="space-y-2.5">
+                        <div className="flex justify-between">
+                          <div className="h-3.5 bg-slate-100 rounded w-1/3" />
+                          <div className="h-3 bg-slate-100 rounded w-16" />
+                        </div>
+                        <div className="h-3 bg-slate-100/70 rounded w-5/6" />
+                        <div className="h-3 bg-slate-100/70 rounded w-4/5" />
+                      </div>
+
+                      <div className="space-y-2.5 pt-2">
+                        <div className="flex justify-between">
+                          <div className="h-3.5 bg-slate-100 rounded w-1/4" />
+                          <div className="h-3 bg-slate-100 rounded w-16" />
+                        </div>
+                        <div className="h-3 bg-slate-100/70 rounded w-11/12" />
+                        <div className="h-3 bg-slate-100/70 rounded w-4/5" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Right Column / Sidebar Info */}
+                  <div className="space-y-6 border-t md:border-t-0 md:border-l border-slate-100 md:pl-6 pt-6 md:pt-0">
+                    {/* Skills Shimmer */}
+                    <div className="space-y-3">
+                      <div className="h-4 bg-slate-100 rounded-md w-20" />
+                      <div className="flex flex-wrap gap-2">
+                        <div className="h-6 bg-slate-100 rounded-full w-14" />
+                        <div className="h-6 bg-slate-100 rounded-full w-20" />
+                        <div className="h-6 bg-slate-100 rounded-full w-16" />
+                        <div className="h-6 bg-slate-100 rounded-full w-12" />
+                        <div className="h-6 bg-slate-100 rounded-full w-18" />
+                      </div>
+                    </div>
+
+                    {/* Contact Details Shimmer */}
+                    <div className="space-y-3">
+                      <div className="h-4 bg-slate-100 rounded-md w-24" />
+                      <div className="space-y-2">
+                        <div className="h-3 bg-slate-100 rounded w-3/4" />
+                        <div className="h-3 bg-slate-100 rounded w-2/3" />
+                        <div className="h-3 bg-slate-100 rounded w-1/2" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key={currentTemplate}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.22, ease: "easeInOut" }}
+                className="w-full h-full"
+              >
+                {currentTemplate === "classic" && <TemplateClassic data={data} />}
+                {currentTemplate === "modern" && <TemplateModern data={data} />}
+                {currentTemplate === "executive" && <TemplateExecutive data={data} />}
+                {currentTemplate === "minimal" && <TemplateMinimal data={data} />}
+                {currentTemplate === "timeline" && <TemplateTimeline data={data} />}
+                {currentTemplate === "two-column" && <TemplateTwoColumn data={data} />}
+              </motion.div>
+            )}
           </AnimatePresence>
         </div>
 
