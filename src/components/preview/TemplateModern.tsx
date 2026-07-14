@@ -21,7 +21,7 @@ const TemplateModern: React.FC<{ data: ResumeData }> = ({ data }) => {
   return (
     <div className={`w-[794px] mx-auto bg-white p-[40px] font-sans text-[#111827] ${isRtl ? "text-right" : "text-left"}`} dir={isRtl ? "rtl" : "ltr"}>
       <header className="mb-6 avoid-break">
-        <h1 className="text-[32px] font-bold text-[#111827] mb-2">{personalInfo.fullName}</h1>
+        <h2 className="text-[32px] font-bold text-[#111827] mb-2">{personalInfo.fullName}</h2>
         <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-[#6B7280]">
           <ContactItem icon={MapPin} text={personalInfo.address} />
           <ContactItem icon={Phone} text={personalInfo.phone} />

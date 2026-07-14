@@ -183,10 +183,10 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div className="pt-6 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="pt-6 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4 pb-20">
             <div className="flex flex-wrap items-center gap-4">
               <p>
-                © {new Date().getFullYear()}{"\u00A0"}{t.rightsReserved}
+                © {new Date().getFullYear()}{" "}{t.rightsReserved}
               </p>
             </div>
             <div className="flex items-center gap-6">

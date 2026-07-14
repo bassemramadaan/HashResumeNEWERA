@@ -5,11 +5,6 @@ import { motion, AnimatePresence } from "motion/react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { useResumeStore } from "../../store/useResumeStore";
 import { aiService } from "../../services/aiService";
-import * as pdfjsLib from "pdfjs-dist";
-
-// Configure PDF.js worker - direct CDNJS ensures reliable production builds
-pdfjsLib.GlobalWorkerOptions.workerSrc = 
-  `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 interface Props {
   isOpen: boolean;
@@ -86,6 +81,9 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
   };
 
   const extractTextFromPDF = async (file: File): Promise<string> => {
+    const pdfjsLib = await import("pdfjs-dist");
+    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+
     const arrayBuffer = await file.arrayBuffer();
     const uint8Array = new Uint8Array(arrayBuffer);
 

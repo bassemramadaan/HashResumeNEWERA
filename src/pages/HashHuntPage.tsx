@@ -463,7 +463,7 @@ function doPost(e) {
   };
 
   return (
-    <div id="hashhunt-page-root" className="min-h-screen bg-slate-50 text-slate-900 font-sans overflow-x-hidden select-none" dir={dir}>
+    <div id="hashhunt-page-root" className="min-h-screen bg-slate-50 text-slate-900 font-sans overflow-x-hidden select-none pb-20" dir={dir}>
       <Helmet>
         <title>{isRtl ? "هاش هانت — دع الوظائف والشركات تجدك تلقائيًا" : "Hash Hunt — Let the Jobs Find You"}</title>
       </Helmet>
@@ -510,7 +510,7 @@ function doPost(e) {
           </div>
 
           <div className="flex gap-8 flex-wrap justify-center lg:justify-start">
-            {stats.slice(0, 3).map((s, i) => (
+            {stats.map((s, i) => (
               <div key={i} className="flex flex-col text-center lg:text-start bg-white/50 backdrop-blur-xs px-5 py-3.5 rounded-2xl border border-slate-200/40 shadow-3xs min-w-[120px]">
                 <span className="text-3xl font-extrabold text-slate-900 tracking-tight">{s.num}</span>
                 <span className="text-xs text-slate-500 font-bold mt-1 tracking-wide">{s.label}</span>

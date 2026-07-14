@@ -285,7 +285,7 @@ export default function TemplatesPage() {
   };
 
   return (
-    <div className={cn("min-h-screen bg-[#FAFAF8] text-slate-900 font-sans", isRtl && "rtl")}>
+    <div className={cn("min-h-screen bg-[#FAFAF8] text-slate-900 font-sans pb-20", isRtl && "rtl")}>
       <Helmet>
         <title>قوالب CV احترافية | Hash Resume</title>
         <meta name="description" content="اختر من بين قوالب CV احترافية ATS-Friendly بالعربي والإنجليزي. قوالب مجانية جاهزة للتحميل." />
@@ -306,7 +306,7 @@ export default function TemplatesPage() {
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <span className="hidden sm:block">{labels.templatesCount(templates.length)}</span>
             <span className="hidden sm:block">·</span>
-            <span className="hidden sm:block text-[#FF4D2D] font-medium">100% Free</span>
+            <span className="hidden sm:block text-[#FF4D2D] font-medium">Preview free — pay to download</span>
           </div>
         </div>
       </header>

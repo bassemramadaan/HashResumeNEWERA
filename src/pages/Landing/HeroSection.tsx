@@ -88,7 +88,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           <h1 
             className="hero-title text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
           >
-            {copy.titleMain}{"\u00A0"}
+            {copy.titleMain}{" "}
             <span className="hero-highlight-text text-orange-600 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center">
               <AnimatePresence mode="wait">
                 <motion.span

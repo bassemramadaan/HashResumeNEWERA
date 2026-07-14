@@ -137,6 +137,9 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <Link to="/pricing" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
                 {lang === 'ar' ? 'الأسعار' : 'Pricing'}
               </Link>
+              <Link to="/templates" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+                {lang === 'ar' ? 'القوالب' : 'Templates'}
+              </Link>
             </div>
 
             {/* Language Switcher */}

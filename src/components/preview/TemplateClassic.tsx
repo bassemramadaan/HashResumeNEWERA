@@ -10,7 +10,7 @@ const TemplateClassic: React.FC<{ data: ResumeData }> = ({ data }) => {
   return (
     <div className={`w-[794px] mx-auto bg-white p-[40px] font-sans text-[#111827] ${isRtl ? "text-right" : "text-left"}`} dir={isRtl ? "rtl" : "ltr"}>
       <header className="text-center mb-6 avoid-break">
-        <h1 className="text-[28px] font-bold text-[#111827]">{personalInfo.fullName}</h1>
+        <h2 className="text-[28px] font-bold text-[#111827]">{personalInfo.fullName}</h2>
         <p className="text-[11px] text-[#6B7280] mt-1">
           {[personalInfo.address, personalInfo.phone, personalInfo.email, personalInfo.linkedin, personalInfo.portfolio].filter(Boolean).join(" | ")}
         </p>

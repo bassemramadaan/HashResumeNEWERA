@@ -90,9 +90,9 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
         
         {/* Header */}
         <header className="mb-8">
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight mb-1" style={{ color: themeColor }}>
+          <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-1" style={{ color: themeColor }}>
             {personalInfo.fullName}
-          </h1>
+          </h2>
           <h2 className="text-lg font-medium text-slate-600">
             {personalInfo.jobTitle}
           </h2>

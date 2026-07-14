@@ -1,11 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Upload, CheckCircle2, AlertTriangle, Sparkles, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import * as pdfjsLib from "pdfjs-dist";
-
-// Configure PDFJS worker - direct CDNJS ensures reliable production builds
-pdfjsLib.GlobalWorkerOptions.workerSrc = 
-  `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 interface Props {
   lang: "ar" | "en" | "fr";
@@ -84,6 +79,9 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
       let textContent = "";
       
       try {
+        const pdfjsLib = await import("pdfjs-dist");
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+
         const loadingTask = pdfjsLib.getDocument({
           data: uint8Array,
           useWorkerFetch: false,
