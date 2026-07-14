@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import React, { Suspense, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider } from "react-helmet-async";
@@ -11,6 +11,8 @@ const LandingPage = React.lazy(() => import("./pages/Landing"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
 const HashHuntPage = React.lazy(() => import("./pages/HashHuntPage"));
 const PricingPage = React.lazy(() => import("./pages/PricingPage"));
+const PaymentPage = React.lazy(() => import("./pages/PaymentPage"));
+const PaymentSuccessPage = React.lazy(() => import("./pages/PaymentSuccessPage"));
 const BlogPage = React.lazy(() => import("./pages/BlogPage"));
 const BlogPostPage = React.lazy(() => import("./pages/BlogPostPage"));
 const TemplatesPage = React.lazy(() => import("./pages/TemplatesPage"));
@@ -62,6 +64,10 @@ function AppContent() {
           <Route path="/templates" element={<TemplatesPage />} />
           <Route path="/hash-hunt" element={<HashHuntPage />} />
           <Route path="/pricing" element={<PricingPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/payment-success" element={<PaymentSuccessPage />} />
+          <Route path="/checkout" element={<Navigate to="/payment" replace />} />
+          <Route path="/jobs" element={<Navigate to="/hash-hunt" replace />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />
           <Route path="/share/:id" element={<SharePage />} />
