@@ -109,10 +109,9 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               {lang === 'ar' ? 'إنشاء سيرة' : 'Create Resume'}
             </Link>
             
-            <Link to="/hash-hunt" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5">
+            <Link to="/hash-hunt" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-2">
               <span>{lang === 'ar' ? 'هاش هانت' : 'Hash Hunt'}</span>
-              {" "}
-              <span className="ms-1 text-[10px] bg-orange-100 text-[#FF4D2D] px-1.5 py-0.5 rounded-md font-black">NEW</span>
+              <span className="ms-2 text-[10px] bg-orange-100 text-[#FF4D2D] px-1.5 py-0.5 rounded-md font-black shrink-0">NEW</span>
             </Link>
           </div>
 

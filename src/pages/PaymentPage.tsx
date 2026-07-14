@@ -38,6 +38,7 @@ export default function PaymentPage() {
   const [promoApplied, setPromoApplied] = useState(false);
   const [promoError, setPromoError] = useState("");
   const [discountAmount, setDiscountAmount] = useState(0);
+  const [showPromoForm, setShowPromoForm] = useState(false);
 
   // UI state
   const [copiedText, setCopiedText] = useState("");
@@ -187,6 +188,155 @@ export default function PaymentPage() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const renderOrderSummary = (isMobile: boolean = false) => {
+    return (
+      <div className={`bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs ${isMobile ? "block lg:hidden mt-2" : "hidden lg:block"}`}>
+        <h3 className="text-lg font-extrabold mb-5 text-slate-900 border-b border-slate-100 pb-3">
+          {isAr ? "ملخص طلبك" : "Order Summary"}
+        </h3>
+
+        <div className="space-y-4">
+          <div className="flex justify-between items-center text-sm font-medium">
+            <span className="text-slate-500">
+              {selectedPlan === "single" 
+                ? (isAr ? "كود تفعيل واحد" : "Single Code Activation") 
+                : (isAr ? "باقة ٣ أكواد تفعيل" : "3-Codes Value Bundle")}
+            </span>
+            <span className="font-extrabold text-slate-850">
+              {selectedPlan === "single" ? "50 EGP" : "120 EGP"}
+            </span>
+          </div>
+
+          {promoApplied && (
+            <div className="flex justify-between items-center text-sm text-emerald-600 font-bold">
+              <span>{isAr ? "خصم ترويجيapplied" : "Promo discount applied"}</span>
+              <span>-{discountAmount} EGP</span>
+            </div>
+          )}
+
+          <div className="border-t border-slate-100 pt-3 flex justify-between items-end">
+            <span className="font-black text-slate-800 text-base">{isAr ? "الإجمالي الكلي:" : "Grand Total:"}</span>
+            <span className="text-3xl font-black text-[#FF4D2D] font-mono leading-none">
+              {getPrice()} EGP
+            </span>
+          </div>
+        </div>
+
+        {/* Security & Trust indicators */}
+        <div className="mt-8 flex items-center justify-center gap-4 text-[10px] text-slate-400 font-medium">
+          <div className="flex items-center gap-1">
+            <ShieldCheck size={12} className="text-emerald-500" />
+            <span>SSL Secured</span>
+          </div>
+          <div className="flex items-center gap-1">
+             <a href="https://wa.me/201XXXXXXXXXX" target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-[#FF4D2D]">
+              <span className="text-emerald-600">💬</span> Support
+             </a>
+          </div>
+        </div>
+
+        {/* Promo Code Accordion */}
+        <div className="mt-6 pt-4 border-t border-slate-100 text-center">
+          {!showPromoForm && !promoApplied ? (
+            <button
+              type="button"
+              onClick={() => setShowPromoForm(true)}
+              className="inline-flex text-xs font-semibold text-slate-400 hover:text-[#FF4D2D] items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <Ticket size={12} />
+              <span>{isAr ? "هل لديك كوبون؟" : "Have a coupon?"}</span>
+            </button>
+          ) : (
+            <div className="text-start">
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-bold text-slate-500">
+                  {isAr ? "كود الخصم:" : "Promo code:"}
+                </label>
+                {!promoApplied && (
+                  <button
+                    type="button"
+                    onClick={() => setShowPromoForm(false)}
+                    className="text-[10px] font-bold text-slate-400 hover:text-slate-600 cursor-pointer"
+                  >
+                    {isAr ? "إلغاء" : "Cancel"}
+                  </button>
+                )}
+              </div>
+              
+              <div className="flex gap-2">
+                <input 
+                  type="text"
+                  disabled={promoApplied}
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  placeholder={isAr ? "مثال: START20" : "e.g. START20"}
+                  className="flex-1 font-bold font-mono px-3 py-2 rounded-xl border border-slate-200 text-xs uppercase"
+                />
+                <button
+                  type="button"
+                  disabled={promoApplied}
+                  onClick={handleApplyPromo}
+                  className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black hover:bg-slate-800 transition-colors disabled:bg-slate-100 disabled:text-slate-400 cursor-pointer"
+                >
+                  {promoApplied ? (isAr ? "مفعّل" : "Applied") : (isAr ? "تطبيق" : "Apply")}
+                </button>
+              </div>
+            </div>
+          )}
+          
+          {promoApplied && (
+            <p className="text-[10px] text-emerald-600 font-bold mt-1.5 flex items-center gap-1">
+              <Sparkles size={12} />
+              <span>{isAr ? "تم تطبيق كود الخصم ٢٠٪ بنجاح!" : "20% discount applied successfully!"}</span>
+            </p>
+          )}
+          {promoError && (
+            <p className="text-[10px] text-rose-500 font-bold mt-1.5">{promoError}</p>
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  const renderTrustBadges = (isMobile: boolean = false) => {
+    return (
+      <div className={`bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-[2rem] p-6 sm:p-8 relative overflow-hidden ${isMobile ? "block lg:hidden" : "hidden lg:block"}`}>
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-32 h-32 bg-[#FF4D2D] rounded-full blur-2xl opacity-20 pointer-events-none" />
+        <div className="relative z-10 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+              <ShieldCheck className="text-[#FF4D2D]" size={20} />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-sm">{isAr ? "دفع رقمي آمن بنسبة ١٠٠٪" : "100% Secure Digital Payments"}</h4>
+              <p className="text-[10px] text-slate-300 font-medium">{isAr ? "لا يتم حفظ معلومات تحويلاتك مطلقاً" : "Your payment info is never stored"}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+              <Sparkles className="text-amber-400" size={18} />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-sm">{isAr ? "تنشيط فوري للأكواد" : "Instant Activation Codes"}</h4>
+              <p className="text-[10px] text-slate-300 font-medium">{isAr ? "تتم مراجعة الدفع تلقائياً خلال دقائق معدودة" : "Submissions reviewed in real-time within minutes"}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+              <HelpCircle className="text-sky-400" size={18} />
+            </div>
+            <div>
+              <h4 className="font-extrabold text-sm">{isAr ? "دعم مستمر ٢٤/٧" : "Continuous Support"}</h4>
+              <p className="text-[10px] text-slate-300 font-medium">{isAr ? "تواصل معنا مباشرة عبر واتساب للمساعدة الفورية" : "Contact support via WhatsApp for any issues"}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -383,26 +533,34 @@ export default function PaymentPage() {
                           : "Open the InstaPay app on your phone, then transfer the package price to the address below:"}
                       </p>
                       
-                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
-                        <div>
+                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
+                        <div className="min-w-0 flex-1">
                           <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "عنوان الدفع الرياضي (IPA)" : "InstaPay Address (IPA)"}</span>
-                          <span className="font-extrabold text-sm text-slate-800 select-all font-mono">hashresume@instapay</span>
+                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all font-mono break-all block">hashresume@instapay</span>
                         </div>
                         <button
                           type="button"
                           onClick={() => handleCopy("hashresume@instapay", "instapay")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
                           title={isAr ? "نسخ" : "Copy"}
                         >
-                          {copiedText === "instapay" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} />}
+                          {copiedText === "instapay" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
                         </button>
                       </div>
 
-                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
-                        <div>
+                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
+                        <div className="min-w-0 flex-1">
                           <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "اسم الحساب المستلم" : "Receiver Name"}</span>
-                          <span className="font-extrabold text-sm text-slate-850">{isAr ? "باسم رمضان عبده" : "Bassem Ramadan Abdo"}</span>
+                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all break-words block">{isAr ? "باسم رمضان عبده" : "Bassem Ramadan Abdo"}</span>
                         </div>
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(isAr ? "باسم رمضان عبده" : "Bassem Ramadan Abdo", "receiverName")}
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
+                          title={isAr ? "نسخ" : "Copy"}
+                        >
+                          {copiedText === "receiverName" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
+                        </button>
                       </div>
                     </div>
                   )}
@@ -419,26 +577,34 @@ export default function PaymentPage() {
                           : "Transfer the plan price from your electronic wallet to the following wallet number:"}
                       </p>
                       
-                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
-                        <div>
+                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
+                        <div className="min-w-0 flex-1">
                           <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "رقم المحفظة" : "Wallet Number"}</span>
-                          <span className="font-extrabold text-sm text-slate-800 select-all font-mono">01027136006</span>
+                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all font-mono break-all block">01027136006</span>
                         </div>
                         <button
                           type="button"
                           onClick={() => handleCopy("01027136006", "vodafone")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
                           title={isAr ? "نسخ" : "Copy"}
                         >
-                          {copiedText === "vodafone" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} />}
+                          {copiedText === "vodafone" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
                         </button>
                       </div>
 
-                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
-                        <div>
+                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
+                        <div className="min-w-0 flex-1">
                           <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "الاسم للتأكيد" : "Receiver Name"}</span>
-                          <span className="font-extrabold text-sm text-slate-850">{isAr ? "باسم رمضان" : "Bassem Ramadan"}</span>
+                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all break-words block">{isAr ? "باسم رمضان" : "Bassem Ramadan"}</span>
                         </div>
+                        <button
+                          type="button"
+                          onClick={() => handleCopy(isAr ? "باسم رمضان" : "Bassem Ramadan", "vodafoneReceiver")}
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
+                          title={isAr ? "نسخ" : "Copy"}
+                        >
+                          {copiedText === "vodafoneReceiver" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
+                        </button>
                       </div>
                     </div>
                   )}
@@ -455,26 +621,34 @@ export default function PaymentPage() {
                           : "Go to any Fawry outlet or mobile banking app, and request payment using the service code:"}
                       </p>
                       
-                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
-                        <div>
+                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
+                        <div className="min-w-0 flex-1">
                           <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "رقم خدمة فوري" : "Fawry Service Code"}</span>
-                          <span className="font-extrabold text-sm text-slate-800 font-mono">78921</span>
+                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 font-mono break-all block">78921</span>
                         </div>
                         <button
                           type="button"
                           onClick={() => handleCopy("78921", "fawrycode")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
                           title={isAr ? "نسخ" : "Copy"}
                         >
-                          {copiedText === "fawrycode" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} />}
+                          {copiedText === "fawrycode" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
                         </button>
                       </div>
 
-                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex items-center justify-between">
-                        <div>
+                      <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
+                        <div className="min-w-0 flex-1">
                           <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "الرقم المرجعي المباشر للطلب" : "Direct Reference Number"}</span>
-                          <span className="font-extrabold text-sm text-slate-800 font-mono">928104829</span>
+                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 font-mono break-all block">928104829</span>
                         </div>
+                        <button
+                          type="button"
+                          onClick={() => handleCopy("928104829", "fawryref")}
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
+                          title={isAr ? "نسخ" : "Copy"}
+                        >
+                          {copiedText === "fawryref" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
+                        </button>
                       </div>
                     </div>
                   )}
@@ -535,6 +709,10 @@ export default function PaymentPage() {
                   )}
                 </div>
               </div>
+
+              {/* On mobile: Render Order Summary and Trust Badges BEFORE the activation form */}
+              {renderOrderSummary(true)}
+              {renderTrustBadges(true)}
 
               {/* Box 3: Form for transaction verification inputs */}
               <form onSubmit={handleSubmitPayment} className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
@@ -603,135 +781,39 @@ export default function PaymentPage() {
                 )}
 
                 {/* Submitting button */}
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-[#FF4D2D] hover:bg-[#E64528] disabled:bg-slate-300 text-white py-4.5 rounded-2xl font-black text-base shadow-lg shadow-orange-500/20 active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer mt-6"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 size={20} className="animate-spin" />
-                      <span>{isAr ? "جاري إرسال المعاملة للتدقيق..." : "Submitting Transaction..."}</span>
-                    </>
-                  ) : (
-                    <>
-                      <ShieldCheck size={20} />
-                      <span>{isAr ? `تأكيد الدفع وإصدار الأكواد — ${getPrice()} ج.م` : `Verify & Issue Codes — ${getPrice()} EGP`}</span>
-                    </>
-                  )}
-                </button>
+                <div className="space-y-3 mt-6">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-[#FF4D2D] hover:bg-[#E64528] disabled:bg-slate-300 text-white py-4.5 rounded-2xl font-black text-base shadow-lg shadow-orange-500/20 active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 size={20} className="animate-spin" />
+                        <span>{isAr ? "جاري إرسال المعاملة للتدقيق..." : "Submitting Transaction..."}</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShieldCheck size={20} />
+                        <span>{isAr ? `تأكيد الدفع وإصدار الأكواد — ${getPrice()} ج.م` : `Verify & Issue Codes — ${getPrice()} EGP`}</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Manual verification disclaimer message */}
+                  <p className="text-[11px] text-slate-500 text-center leading-relaxed font-bold px-2">
+                    {isAr 
+                      ? "🔒 سنراجع عملية الدفع وتفاصيل المعاملة يدوياً خلال دقائق معدودة، وسيتم إرسال كود التفعيل فور تأكيد التحويل إلى بريدك الإلكتروني الموضح أعلاه." 
+                      : "🔒 We will manually review the payment details within minutes, and send your activation codes directly to your email address listed above as soon as the transfer is confirmed."}
+                  </p>
+                </div>
               </form>
             </div>
 
-            {/* Right Column: Order Summary (5 cols) */}
+            {/* Right Column: Order Summary (5 cols) - Shown only on desktop */}
             <div className="lg:col-span-5 space-y-6">
-              
-              {/* Order summary box */}
-              <div className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs">
-                <h3 className="text-lg font-extrabold mb-5 text-slate-900 border-b border-slate-100 pb-3">
-                  {isAr ? "ملخص طلبك" : "Order Summary"}
-                </h3>
-
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center text-sm font-medium">
-                    <span className="text-slate-500">
-                      {selectedPlan === "single" 
-                        ? (isAr ? "كود تفعيل واحد" : "Single Code Activation") 
-                        : (isAr ? "باقة ٣ أكواد تفعيل" : "3-Codes Value Bundle")}
-                    </span>
-                    <span className="font-extrabold text-slate-850">
-                      {selectedPlan === "single" ? "50 EGP" : "120 EGP"}
-                    </span>
-                  </div>
-
-                  {promoApplied && (
-                    <div className="flex justify-between items-center text-sm text-emerald-600 font-bold">
-                      <span>{isAr ? "خصم ترويجيapplied" : "Promo discount applied"}</span>
-                      <span>-{discountAmount} EGP</span>
-                    </div>
-                  )}
-
-                  <div className="border-t border-slate-100 pt-3 flex justify-between items-end">
-                    <span className="font-black text-slate-800 text-base">{isAr ? "الإجمالي الكلي:" : "Grand Total:"}</span>
-                    <span className="text-3xl font-black text-[#FF4D2D] font-mono leading-none">
-                      {getPrice()} EGP
-                    </span>
-                  </div>
-                </div>
-
-                {/* Promo Code Input */}
-                <div className="mt-8 pt-6 border-t border-slate-100">
-                  <label className="block text-xs font-bold text-slate-500 mb-2">
-                    {isAr ? "هل لديك كود خصم؟" : "Have a promo code?"}
-                  </label>
-                  
-                  <div className="flex gap-2">
-                    <input 
-                      type="text"
-                      disabled={promoApplied}
-                      value={promoCode}
-                      onChange={(e) => setPromoCode(e.target.value)}
-                      placeholder={isAr ? "مثال: START20" : "e.g. START20"}
-                      className="flex-1 font-bold font-mono px-3 py-2 rounded-xl border border-slate-200 text-xs uppercase"
-                    />
-                    <button
-                      type="button"
-                      disabled={promoApplied}
-                      onClick={handleApplyPromo}
-                      className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black hover:bg-slate-800 transition-colors disabled:bg-slate-100 disabled:text-slate-400 cursor-pointer"
-                    >
-                      {promoApplied ? (isAr ? "مفعّل" : "Applied") : (isAr ? "تطبيق" : "Apply")}
-                    </button>
-                  </div>
-                  
-                  {promoApplied && (
-                    <p className="text-[10px] text-emerald-600 font-bold mt-1.5 flex items-center gap-1">
-                      <Sparkles size={12} />
-                      <span>{isAr ? "تم تطبيق كود الخصم ٢٠٪ بنجاح!" : "20% discount applied successfully!"}</span>
-                    </p>
-                  )}
-                  {promoError && (
-                    <p className="text-[10px] text-rose-500 font-bold mt-1.5">{promoError}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Shards and Trust flags */}
-              <div className="bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-[2rem] p-6 sm:p-8 relative overflow-hidden">
-                <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-32 h-32 bg-[#FF4D2D] rounded-full blur-2xl opacity-20 pointer-events-none" />
-                <div className="relative z-10 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                      <ShieldCheck className="text-[#FF4D2D]" size={20} />
-                    </div>
-                    <div>
-                      <h4 className="font-extrabold text-sm">{isAr ? "دفع رقمي آمن بنسبة ١٠٠٪" : "100% Secure Digital Payments"}</h4>
-                      <p className="text-[10px] text-slate-300 font-medium">{isAr ? "لا يتم حفظ معلومات تحويلاتك مطلقاً" : "Your payment info is never stored"}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                      <Sparkles className="text-amber-400" size={18} />
-                    </div>
-                    <div>
-                      <h4 className="font-extrabold text-sm">{isAr ? "تنشيط فوري للأكواد" : "Instant Activation Codes"}</h4>
-                      <p className="text-[10px] text-slate-300 font-medium">{isAr ? "تتم مراجعة الدفع تلقائياً خلال دقائق معدودة" : "Submissions reviewed in real-time within minutes"}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                      <HelpCircle className="text-sky-400" size={18} />
-                    </div>
-                    <div>
-                      <h4 className="font-extrabold text-sm">{isAr ? "دعم مستمر ٢٤/٧" : "Continuous Support"}</h4>
-                      <p className="text-[10px] text-slate-300 font-medium">{isAr ? "تواصل معنا مباشرة عبر واتساب للمساعدة الفورية" : "Contact support via WhatsApp for any issues"}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              {renderOrderSummary(false)}
+              {renderTrustBadges(false)}
             </div>
           </div>
 

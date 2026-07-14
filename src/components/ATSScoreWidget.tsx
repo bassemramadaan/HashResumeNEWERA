@@ -159,6 +159,7 @@ export default function ATSScoreWidget({
   const structScore = totalChecklist > 0 ? (doneChecklist / totalChecklist) * 50 : 50;
   const activeScore = score !== undefined ? score : Math.min(100, Math.round(keywordScore + structScore));
   
+  const displayScore = activeScore === 0 ? "--" : activeScore;
   const { fg, bg, ring } = scoreColor(activeScore);
 
   // Celebratory Faux-Confetti Gamification Effect
@@ -244,7 +245,7 @@ export default function ATSScoreWidget({
         >
           <Sparkles className={`w-5.5 h-5.5 transition-colors ${open ? "fill-amber-400 stroke-amber-500 text-amber-500" : "fill-none text-slate-500"}`} />
           <span className="absolute -top-1 -right-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-slate-950 border border-white text-white min-w-[18px] text-center leading-none shadow-sm scale-90">
-            {activeScore}
+            {displayScore}
           </span>
         </motion.button>
       ) : (
@@ -255,7 +256,7 @@ export default function ATSScoreWidget({
           className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs font-bold leading-none cursor-pointer transition-colors shadow-xs ${fg} ${bg}`}
         >
           <Sparkles size={12} className="opacity-70" />
-          ATS {activeScore}%
+          ATS {displayScore}%
         </motion.button>
       )}
 

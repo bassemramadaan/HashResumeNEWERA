@@ -1564,7 +1564,7 @@ export default function EditorPage() {
                                 scrollToFormTop();
                               }}
                               className={cn(
-                                "relative w-12 h-10 sm:w-14 sm:h-11 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none ml-1",
+                                "relative px-3 py-1 min-w-[55px] sm:min-w-[65px] h-11 rounded-xl flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none ml-1",
                                 isActive ? "text-[#FF4D2D]" : "text-[#FF4D2D]/70 hover:text-[#FF4D2D] hover:bg-white/5"
                               )}
                               title={tab.label}
@@ -1572,12 +1572,15 @@ export default function EditorPage() {
                               {isActive && (
                                 <motion.div
                                   layoutId="activeTabIndicatorDesktop"
-                                  className="absolute inset-0 bg-white/15 rounded-full"
+                                  className="absolute inset-0 bg-white/15 rounded-xl"
                                   transition={{ type: "spring", stiffness: 350, damping: 28 }}
                                 />
                               )}
-                              <span className="relative z-10 flex items-center justify-center">
-                                <IconComponent strokeWidth={isActive ? 2.2 : 1.8} className="w-5 h-5 sm:w-[22px] sm:h-[22px] text-[#FF4D2D]" />
+                              <span className="relative z-10 flex flex-col items-center justify-center gap-0.5">
+                                <IconComponent strokeWidth={isActive ? 2.2 : 1.8} className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#FF4D2D]" />
+                                <span className="text-[9px] sm:text-[10px] font-black tracking-tight leading-none text-[#FF4D2D]">
+                                  {tab.shortLabel}
+                                </span>
                               </span>
                             </button>
                           </div>
@@ -1597,7 +1600,7 @@ export default function EditorPage() {
                               scrollToFormTop();
                             }}
                             className={cn(
-                              "relative w-12 h-10 sm:w-14 sm:h-11 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none",
+                              "relative px-3 py-1 min-w-[55px] sm:min-w-[65px] h-11 rounded-xl flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none",
                               isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
                             )}
                             title={tab.label}
@@ -1607,14 +1610,17 @@ export default function EditorPage() {
                             {isActive && (
                               <motion.div
                                 layoutId="activeTabIndicatorDesktop"
-                                className="absolute inset-0 bg-white/20 rounded-full"
+                                className="absolute inset-0 bg-white/20 rounded-xl"
                                 transition={{ type: "spring", stiffness: 350, damping: 28 }}
                               />
                             )}
 
-                            {/* Icon above background */}
-                            <span className="relative z-10 flex items-center justify-center">
-                              <IconComponent strokeWidth={isActive ? 2 : 1.5} className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
+                            {/* Icon & Label */}
+                            <span className="relative z-10 flex flex-col items-center justify-center gap-0.5">
+                              <IconComponent strokeWidth={isActive ? 2 : 1.5} className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                              <span className="text-[9px] sm:text-[10px] font-bold tracking-tight leading-none">
+                                {tab.shortLabel}
+                              </span>
                             </span>
                           </button>
                         </div>

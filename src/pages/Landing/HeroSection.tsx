@@ -26,7 +26,7 @@ const COPY = {
   },
   en: {
     badge: 'Revolutionizing Resume Creation',
-    titleMain: 'Write Your Professional',
+    titleMain: 'Write Your Professional Resume',
     subtitle: 'Create an outstanding, ATS-optimized resume in minutes with intelligent AI guidance that showcases your true potential and gets you hired faster.',
     cta: 'Start Building Free',
     ctaSec: 'Explore Examples',
@@ -86,10 +86,10 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           </motion.div>
 
           <h1 
-            className="hero-title text-2xl xs:text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
+            className="hero-title text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
           >
-            {copy.titleMain}{" "}
-            <span className="hero-highlight-text text-orange-500 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center">
+            {copy.titleMain}{"\u00A0"}
+            <span className="hero-highlight-text text-orange-600 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={wordIndex}

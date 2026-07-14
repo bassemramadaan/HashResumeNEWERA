@@ -40,6 +40,11 @@ export default function HashHuntPage() {
   const [userLocation, setUserLocation] = useState(isRtl ? "مصر" : "Egypt");
   const [openTo, setOpenTo] = useState(isRtl ? "عن بعد أو من المكتب" : "Remote or On-site");
   
+  // Search and filter states
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDept, setSelectedDept] = useState("all");
+  const [selectedExp, setSelectedExp] = useState("all");
+  
   // File uploads
   const [resumeFile, setResumeFile] = useState<{ name: string; type: string; data: string } | null>(null);
   const [dragActive, setDragActive] = useState(false);
@@ -125,6 +130,30 @@ export default function HashHuntPage() {
       ]
     }
   ];
+
+  const filteredJobs = almosaferJobs.filter((job) => {
+    const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                          (job.arabicTitle && job.arabicTitle.toLowerCase().includes(searchTerm.toLowerCase())) ||
+                          job.dept.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    let matchesDept = true;
+    if (selectedDept !== "all") {
+      if (selectedDept === "it") {
+        matchesDept = job.id === "it-support";
+      } else if (selectedDept === "revenue") {
+        matchesDept = job.id === "revenue-assurance";
+      } else if (selectedDept === "order") {
+        matchesDept = job.id === "order-to-cash";
+      }
+    }
+
+    let matchesExp = true;
+    if (selectedExp !== "all") {
+      matchesExp = job.exp.includes(selectedExp);
+    }
+    
+    return matchesSearch && matchesDept && matchesExp;
+  });
 
   const handleApplyToAlmosaferJob = (title: string) => {
     setJobTitle(title);
@@ -274,8 +303,8 @@ function doPost(e) {
 
   const stats = [
     { num: "2,400+", label: isRtl ? "مرشح تم توظيفه" : "Candidates placed" },
-    { num: "85+", label: isRtl ? "شركة شريكة" : "Partner companies" },
-    { num: "48h", label: isRtl ? "متوسط أول رد" : "Avg. first response" },
+    { num: "50+", label: isRtl ? "شركة شريكة" : "Partner companies" },
+    { num: "48hr", label: isRtl ? "متوسط أول رد" : "Avg. first response" },
     { num: "15", label: isRtl ? "دولة عربية مغطاة" : "Arab countries covered" }
   ];
 
@@ -482,9 +511,9 @@ function doPost(e) {
 
           <div className="flex gap-8 flex-wrap justify-center lg:justify-start">
             {stats.slice(0, 3).map((s, i) => (
-              <div key={i} className="flex flex-col text-center lg:text-start">
-                <span className="text-2xl font-bold text-slate-900 tracking-tight">{s.num}</span>
-                <span className="text-[10px] text-slate-400 font-semibold uppercase mt-1 tracking-wider">{s.label}</span>
+              <div key={i} className="flex flex-col text-center lg:text-start bg-white/50 backdrop-blur-xs px-5 py-3.5 rounded-2xl border border-slate-200/40 shadow-3xs min-w-[120px]">
+                <span className="text-3xl font-extrabold text-slate-900 tracking-tight">{s.num}</span>
+                <span className="text-xs text-slate-500 font-bold mt-1 tracking-wide">{s.label}</span>
               </div>
             ))}
           </div>
@@ -599,8 +628,66 @@ function doPost(e) {
             </p>
           </div>
 
-          <div className="flex flex-nowrap md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-none">
-            {almosaferJobs.map((job, idx) => (
+          {/* Search and Filters Controls */}
+          <div className="bg-white rounded-2xl border border-slate-200/60 p-4 sm:p-5 mb-8 shadow-xs max-w-4xl mx-auto">
+            <div className="flex flex-col md:flex-row gap-4">
+              {/* Search input */}
+              <div className="flex-1 relative">
+                <span className="absolute inset-y-0 start-3 flex items-center pointer-events-none text-slate-400">
+                  <Briefcase size={16} />
+                </span>
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder={isRtl ? "البحث عن وظيفة (مثال: IT, Finance)..." : "Search jobs (e.g. IT, Finance)..."}
+                  className="w-full ps-10 pe-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#FF4D2D] transition-colors font-semibold bg-slate-50/50 focus:bg-white"
+                />
+              </div>
+
+              {/* Department Dropdown */}
+              <div className="w-full md:w-56">
+                <select
+                  value={selectedDept}
+                  onChange={(e) => setSelectedDept(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#FF4D2D] transition-colors font-semibold bg-slate-50/50 focus:bg-white cursor-pointer"
+                >
+                  <option value="all">{isRtl ? "كل الأقسام" : "All Departments"}</option>
+                  <option value="it">{isRtl ? "الدعم الفني وتكنولوجيا المعلومات" : "IT & Tech Support"}</option>
+                  <option value="revenue">{isRtl ? "المالية وتدقيق الإيرادات" : "Finance & Revenue"}</option>
+                  <option value="order">{isRtl ? "حسابات الذمم والتحصيل (O2C)" : "Order to Cash"}</option>
+                </select>
+              </div>
+
+              {/* Experience Dropdown */}
+              <div className="w-full md:w-44">
+                <select
+                  value={selectedExp}
+                  onChange={(e) => setSelectedExp(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#FF4D2D] transition-colors font-semibold bg-slate-50/50 focus:bg-white cursor-pointer"
+                >
+                  <option value="all">{isRtl ? "كل مستويات الخبرة" : "All Experience"}</option>
+                  <option value="1-3">1 - 3 {isRtl ? "سنوات" : "Years"}</option>
+                  <option value="2-4">2 - 4 {isRtl ? "سنوات" : "Years"}</option>
+                  <option value="3-5">3 - 5 {isRtl ? "سنوات" : "Years"}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {filteredJobs.length === 0 ? (
+            <div className="text-center py-12 bg-white rounded-2xl border border-dashed border-slate-200 max-w-md mx-auto my-8 shadow-3xs">
+              <span className="text-3xl block mb-3">🔍</span>
+              <h3 className="text-sm font-bold text-slate-800 mb-1">
+                {isRtl ? "لم نعثر على وظائف تطابق بحثك" : "No matching vacancies found"}
+              </h3>
+              <p className="text-xs text-slate-400 font-medium px-4">
+                {isRtl ? "جرّب تغيير كلمات البحث أو الأقسام المحددة" : "Try resetting your filters or changing search keywords"}
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-nowrap md:grid md:grid-cols-3 gap-6 md:gap-8 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 scrollbar-none">
+              {filteredJobs.map((job, idx) => (
               <motion.div
                 key={job.id}
                 initial={{ opacity: 0, y: 30 }}
@@ -671,6 +758,7 @@ function doPost(e) {
               </motion.div>
             ))}
           </div>
+        )}
         </div>
       </section>
 

@@ -113,12 +113,12 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
             </p>
             
             {/* Quick Contact Row */}
-            <div className="mt-3 text-[10px] md:text-xs text-slate-500 font-medium">
+            <div className="mt-3 text-[10px] md:text-xs text-slate-500 font-medium flex flex-wrap gap-x-2 gap-y-1 items-center">
               <span>{data.phone}</span>{" "}
-              <span className="opacity-40 px-1.5">|</span>{" "}
+              <span className="opacity-40 hidden sm:inline">|</span>{" "}
               <span>{data.email}</span>{" "}
-              <span className="opacity-40 px-1.5">|</span>{" "}
-              <span>{data.address}</span>
+              <span className="opacity-40 hidden sm:inline">|</span>{" "}
+              <span className="break-all">{data.address}</span>
             </div>
           </div>
 
@@ -177,15 +177,14 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
                 <Code className="w-3.5 h-3.5 text-orange-500" />
                 {data.skillsTitle}
               </h3>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1.5 md:gap-2">
                 {data.skills.map((skill, idx) => (
                   <React.Fragment key={idx}>
                     <span 
-                      className="text-[9px] md:text-[11px] font-semibold text-slate-700 bg-slate-50 hover:bg-orange-50 hover:text-orange-600 border border-slate-150 hover:border-orange-200 px-2.5 py-1 rounded-md transition-all duration-250 cursor-default"
+                      className="text-[10px] md:text-[11px] font-bold text-slate-800 bg-slate-100 hover:bg-orange-50 hover:text-orange-700 border border-slate-300 hover:border-orange-200 px-3 py-1 rounded-xl transition-all duration-250 cursor-default shadow-3xs whitespace-nowrap"
                     >
                       {skill}
                     </span>
-                    {" "}
                   </React.Fragment>
                 ))}
               </div>

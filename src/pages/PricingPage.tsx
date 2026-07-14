@@ -16,7 +16,7 @@ export default function PricingPage() {
         <link rel="canonical" href="https://hashresume.com/pricing" />
       </Helmet>
       
-      <div className="min-h-screen bg-slate-50 font-sans selection:bg-orange-100 pb-20" dir={isAr ? "rtl" : "ltr"}>
+      <div className="min-h-screen bg-slate-50 font-sans selection:bg-orange-100 pb-32" dir={isAr ? "rtl" : "ltr"}>
         <header className="fixed top-0 inset-x-0 bg-white/80 backdrop-blur-md border-b border-slate-200/80 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between relative">
             {/* Left side: Back to home link for visual balance */}
@@ -105,10 +105,10 @@ export default function PricingPage() {
                 ))}
               </ul>
               <Link 
-                to="/editor"
+                to="/editor?plan=single"
                 className="w-full py-4 rounded-xl font-bold text-center border-2 border-slate-200 dark:border-neutral-200 text-slate-800 dark:text-neutral-800 hover:border-slate-300 dark:hover:border-neutral-350 hover:bg-slate-50 dark:hover:bg-neutral-50 transition-colors"
               >
-                {isAr ? "ابدأ الآن" : "Start Now"}
+                {isAr ? "شراء كود واحد — ٥٠ ج.م" : "Buy Single Code — 50 EGP"}
               </Link>
             </motion.div>
 
@@ -147,10 +147,10 @@ export default function PricingPage() {
                 ))}
               </ul>
               <Link 
-                to="/editor"
+                to="/editor?plan=bundle"
                 className="w-full py-4 rounded-xl font-black text-center text-white bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
               >
-                {isAr ? "احصل على الباقة" : "Get the Bundle"}
+                {isAr ? "شراء الباقة — ١٢٠ ج.م" : "Buy Bundle — 120 EGP"}
               </Link>
             </motion.div>
           </div>
@@ -160,13 +160,17 @@ export default function PricingPage() {
               {isAr ? "ندعم وسائل الدفع المحلية:" : "We support local payment methods:"}
             </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
-              <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg shadow-sm border border-slate-200">
+              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200">
                 <span className="w-2 h-2 rounded-full bg-purple-600"></span>
                 <span className="font-bold text-slate-700 text-sm">InstaPay</span>
               </div>
-              <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg shadow-sm border border-slate-200">
+              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200">
                 <span className="w-2 h-2 rounded-full bg-red-600"></span>
                 <span className="font-bold text-slate-700 text-sm">Vodafone Cash</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200">
+                <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
+                <span className="font-bold text-slate-700 text-sm">SSL Secure</span>
               </div>
             </div>
           </div>

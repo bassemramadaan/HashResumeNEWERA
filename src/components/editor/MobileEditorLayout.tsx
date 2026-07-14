@@ -636,7 +636,7 @@ export default function MobileEditorLayout({
   };
 
   return (
-    <div className="mobile-editor-container fixed inset-0 flex flex-col bg-[#F9FAFB] text-slate-800 overflow-hidden pb-[calc(70px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="mobile-editor-container fixed inset-0 flex flex-col bg-[#F9FAFB] text-slate-800 overflow-hidden pb-[calc(100px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
       {/* ── Visual Mobile Header (Floating Pill like Desktop) ── */}
       <div className="w-full z-50 pt-3 px-3 pb-1 bg-transparent pointer-events-none flex justify-center shrink-0 transform-gpu select-none">
@@ -932,29 +932,6 @@ export default function MobileEditorLayout({
         </div>
       </div>
       
-      {/* Floating Smart Quick Toggle Button */}
-      {activeTab === "edit" && (
-        <motion.button
-          initial={{ scale: 0, opacity: 0, y: 20 }}
-          animate={{ scale: 1, opacity: 1, y: 0 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={onOpenPreview}
-          className={cn(
-            "fixed bottom-[92px] z-[90] flex items-center gap-2 px-4 py-3 rounded-full bg-slate-900 text-white shadow-[0_12px_32px_rgba(0,0,0,0.24)] border border-slate-800 hover:bg-slate-800 active:scale-95 transition-all cursor-pointer",
-            isRtl ? "left-4" : "right-4"
-          )}
-        >
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <Eye size={15} strokeWidth={2.5} className="text-[#FF4D2D]" />
-          <span className="text-xs font-black tracking-tight">
-            {lang === "ar" ? "المعاينة السريعة" : lang === "fr" ? "Aperçu rapide" : "Quick Preview"}
-          </span>
-        </motion.button>
-      )}
-
       {/* Floating dynamic micro-hints disabled on mobile */}
 
     </div>

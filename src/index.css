@@ -9,8 +9,8 @@
   --brand-100: #FFE5DE;
   --brand-200: #FFCCC2;
   --brand-400: #FF7F66;
-  --brand-500: #FF4D2D;
-  --brand-600: #E63A1A;
+  --brand-500: #FA4F2F;
+  --brand-600: #DE3F21;
   --brand-700: #C42E12;
 
   --neutral-0:   #FFFFFF;
@@ -111,9 +111,9 @@
   --color-info:          #1565C0;
 
   /* Typography */
-  --font-sans:   'Plus Jakarta Sans', sans-serif;
+  --font-sans:   'Plus Jakarta Sans', 'Cairo', sans-serif;
   --font-arabic: 'Cairo', sans-serif;
-  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Cairo', sans-serif;
 
   /* Shadows */
   --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
