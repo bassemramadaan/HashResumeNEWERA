@@ -28,11 +28,11 @@ export default function PricingPage() {
                 {isAr ? (
                   <>
                     <span>الرئيسية</span>
-                    <span className="text-[10px] opacity-50">←</span>
+                    <span className="text-[10px] opacity-50">→</span>
                   </>
                 ) : (
                   <>
-                    <span className="text-[10px] opacity-50">→</span>
+                    <span className="text-[10px] opacity-50">←</span>
                     <span>Home</span>
                   </>
                 )}
@@ -88,6 +88,7 @@ export default function PricingPage() {
               </p>
               <div className="mb-8 flex items-baseline gap-2">
                 <span className="text-5xl font-black text-slate-900 dark:text-neutral-900" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>50</span>
+                {" "}
                 <span className="text-slate-500 dark:text-neutral-500 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
@@ -98,7 +99,7 @@ export default function PricingPage() {
                   isAr ? "دعم اللغتين العربية والإنجليزية" : "Arabic & English support"
                 ].map((feature, i) => (
                   <li key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700 dark:text-neutral-700">
-                    <Check className="w-5 h-5 text-emerald-500 shrink-0" />
+                    <Check className="w-5 h-5 text-orange-500 shrink-0" />
                     {feature}
                   </li>
                 ))}
@@ -128,6 +129,7 @@ export default function PricingPage() {
               </p>
               <div className="mb-8 flex items-baseline gap-2">
                 <span className="text-5xl font-black text-[#FF4D2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>120</span>
+                {" "}
                 <span className="text-orange-850 dark:text-orange-200/90 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
@@ -139,7 +141,7 @@ export default function PricingPage() {
                   isAr ? "جميع مميزات الباقة الفردية" : "All Single Code features"
                 ].map((feature, i) => (
                   <li key={i} className="flex items-center gap-3 text-sm font-bold text-slate-800 dark:text-neutral-800">
-                    <Check className="w-5 h-5 text-[#FF4D2D] shrink-0" />
+                    <Check className="w-5 h-5 text-orange-500 shrink-0" />
                     {feature}
                   </li>
                 ))}
@@ -157,9 +159,15 @@ export default function PricingPage() {
             <p className="text-sm font-medium text-slate-500 mb-4">
               {isAr ? "ندعم وسائل الدفع المحلية:" : "We support local payment methods:"}
             </p>
-            <div className="flex items-center justify-center gap-6 opacity-70 grayscale">
-              <div className="font-black text-lg">InstaPay</div>
-              <div className="font-black text-lg">Vodafone Cash</div>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg shadow-sm border border-slate-200">
+                <span className="w-2 h-2 rounded-full bg-purple-600"></span>
+                <span className="font-bold text-slate-700 text-sm">InstaPay</span>
+              </div>
+              <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg shadow-sm border border-slate-200">
+                <span className="w-2 h-2 rounded-full bg-red-600"></span>
+                <span className="font-bold text-slate-700 text-sm">Vodafone Cash</span>
+              </div>
             </div>
           </div>
         </main>

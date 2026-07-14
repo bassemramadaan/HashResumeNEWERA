@@ -166,7 +166,7 @@ export default function VoucherTicket({
               {isAr ? "السعر" : "PRICE"}
             </span>
             <span className="text-sm font-black text-slate-800 mt-0.5 block">
-              {type === "bundle" ? "120" : "50"} <span className="text-[9px] text-slate-500">{isAr ? "ج.م" : "EGP"}</span>
+              {type === "bundle" ? "120" : "50"}{" "}<span className="text-[9px] text-slate-500">{isAr ? "ج.م" : "EGP"}</span>
             </span>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { temporal } from "zundo";
 import { nanoid } from "nanoid";
 import debounce from "lodash.debounce";
 import { safeLocalStorage } from "../utils/safeStorage";
+import { ROLE_TEMPLATES } from "../data/roleTemplates";
 
 // Debounced storage to prevent excessive writes
 const debouncedStorage: Storage = {
@@ -287,6 +288,7 @@ type ResumeStore = {
   loadData: (data: ResumeData) => void;
   updateData: (data: ResumeData) => void;
   loadExampleData: () => void;
+  loadRoleTemplate: (roleId: "developer" | "accountant" | "designer", lang: "ar" | "en") => void;
   lockResume: () => void;
   unlockResume: () => void;
   updateJobDescription: (jd: string) => void;
@@ -696,6 +698,80 @@ export const useResumeStore = create<ResumeStore>()(
               unlockedSignature: "",
             },
           }),
+        loadRoleTemplate: (roleId, lang) => {
+          const tData = ROLE_TEMPLATES[roleId]?.[lang];
+          if (!tData) return;
+          set({
+            data: {
+              personalInfo: {
+                fullName: tData.fullName,
+                jobTitle: tData.jobTitle,
+                email: tData.email,
+                phone: tData.phone,
+                address: tData.address,
+                linkedin: tData.linkedin,
+                github: tData.github,
+                portfolio: tData.portfolio,
+                summary: tData.summary,
+              },
+              coverLetter: {
+                fullName: "",
+                jobTitle: "",
+                companyName: "",
+                hiringManager: "",
+                jobDescription: "",
+                skills: "",
+                generatedContent: "",
+              },
+              experience: tData.experience.map((exp) => ({
+                id: nanoid(),
+                company: exp.company,
+                position: exp.position,
+                startDate: exp.startDate,
+                endDate: exp.endDate,
+                description: exp.description,
+              })),
+              education: tData.education.map((edu) => ({
+                id: nanoid(),
+                institution: edu.institution,
+                degree: edu.degree,
+                startDate: edu.startDate,
+                endDate: edu.endDate,
+                description: edu.description,
+              })),
+              skills: tData.skills,
+              projects: tData.projects.map((proj) => ({
+                id: nanoid(),
+                name: proj.name,
+                description: proj.description,
+                link: proj.link,
+              })),
+              certifications: tData.certifications.map((cert) => ({
+                id: nanoid(),
+                name: cert.name,
+                issuer: cert.issuer,
+                date: cert.date,
+              })),
+              settings: {
+                template: "modern",
+                themeColor: roleId === "developer" ? "#2563EB" : roleId === "accountant" ? "#1E293B" : "#FF4D2D",
+                language: lang,
+                isFreshGrad: false,
+                sectionOrder: defaultSectionOrder,
+                hiddenSections: [],
+                customFontSize: 100,
+                customLineHeight: 100,
+                customSpacing: 100,
+                customMargin: 100,
+              },
+              jobDescription: "",
+              isPremium: false,
+              unlockedName: "",
+              unlockedEmail: "",
+              unlockedSignature: "",
+            },
+          });
+        },
       }),
       {
         name: "hash-resume-storage",

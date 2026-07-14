@@ -81,7 +81,7 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-      className="w-full max-w-3xl mx-auto px-4 mt-6 md:mt-12"
+      className="w-full max-w-3xl mx-auto px-4 mt-6 mb-6 md:mt-12 md:mb-12"
     >
       {/* Outer Floating Card Container */}
       <div className="relative group bg-slate-50/50 p-1.5 md:p-3 rounded-3xl border border-slate-250/60 shadow-2xl shadow-slate-200/50 hover:shadow-orange-500/10 transition-all duration-500">
@@ -102,7 +102,7 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
         <div className="bg-white rounded-2xl border border-slate-150 p-5 md:p-8 text-start select-none relative overflow-hidden transition-all duration-300">
           
           {/* Subtle Document Gridline Effect */}
-          <div className="absolute inset-0 bg-grid-slate-50 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))] pointer-events-none -z-10" />
+          <div className="absolute inset-0 bg-grid-slate-50/30 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))] pointer-events-none -z-10" />
 
           {/* CV Header */}
           <div className="border-b border-slate-100 pb-5 mb-5">
@@ -113,11 +113,11 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
             </p>
             
             {/* Quick Contact Row */}
-            <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3 text-[10px] md:text-xs text-slate-500 font-medium">
-              <span>{data.phone}</span>
-              <span className="opacity-40">|</span>
-              <span>{data.email}</span>
-              <span className="opacity-40">|</span>
+            <div className="mt-3 text-[10px] md:text-xs text-slate-500 font-medium">
+              <span>{data.phone}</span>{" "}
+              <span className="opacity-40 px-1.5">|</span>{" "}
+              <span>{data.email}</span>{" "}
+              <span className="opacity-40 px-1.5">|</span>{" "}
               <span>{data.address}</span>
             </div>
           </div>
@@ -179,12 +179,14 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
               </h3>
               <div className="flex flex-wrap gap-1.5">
                 {data.skills.map((skill, idx) => (
-                  <span 
-                    key={idx} 
-                    className="text-[9px] md:text-[11px] font-semibold text-slate-700 bg-slate-50 hover:bg-orange-50 hover:text-orange-600 border border-slate-150 hover:border-orange-200 px-2.5 py-1 rounded-md transition-all duration-250 cursor-default"
-                  >
-                    {skill}
-                  </span>
+                  <React.Fragment key={idx}>
+                    <span 
+                      className="text-[9px] md:text-[11px] font-semibold text-slate-700 bg-slate-50 hover:bg-orange-50 hover:text-orange-600 border border-slate-150 hover:border-orange-200 px-2.5 py-1 rounded-md transition-all duration-250 cursor-default"
+                    >
+                      {skill}
+                    </span>
+                    {" "}
+                  </React.Fragment>
                 ))}
               </div>
             </div>

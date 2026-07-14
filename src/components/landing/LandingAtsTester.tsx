@@ -269,9 +269,9 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6 }}
-        className="container-page relative z-10 max-w-4xl mx-auto px-4 text-center"
+        className="container-page relative z-10 max-w-5xl mx-auto px-4"
       >
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <div className="text-start max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 border border-slate-200/60 shadow-sm text-xs font-bold text-slate-800 tracking-tight uppercase mb-6">
             <Sparkles size={12} className="text-orange-600" />
             <span>
@@ -281,7 +281,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-[1.15]">
             {isAr ? "اختبر توافق سيرتك مع الـ ATS" : "Instant ATS Tester"}
           </h2>
-          <p className="text-slate-500 text-base md:text-lg mt-6 font-medium leading-relaxed max-w-xl mx-auto">
+          <p className="text-slate-500 text-base md:text-lg mt-6 font-medium leading-relaxed max-w-xl">
             {isAr 
               ? "ارفع سيرتك الذاتية بصيغة PDF الآن واحصل على تقييم نقدى مجانًا لمعرفة كيف تراك محركات الفرز الذكية." 
               : "Drop your CV as PDF, evaluate critical formatting issues and compliance metrics instantly."}

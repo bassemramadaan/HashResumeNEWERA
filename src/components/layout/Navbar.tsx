@@ -111,7 +111,8 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             
             <Link to="/hash-hunt" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-1.5">
               <span>{lang === 'ar' ? 'هاش هانت' : 'Hash Hunt'}</span>
-              <span className="text-[10px] bg-orange-100 text-[#FF4D2D] px-1.5 py-0.5 rounded-md font-black">NEW</span>
+              {" "}
+              <span className="ms-1 text-[10px] bg-orange-100 text-[#FF4D2D] px-1.5 py-0.5 rounded-md font-black">NEW</span>
             </Link>
           </div>
 

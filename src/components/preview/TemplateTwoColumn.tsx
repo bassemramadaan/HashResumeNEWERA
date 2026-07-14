@@ -52,12 +52,14 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
             </h2>
             <div className="flex flex-wrap gap-2">
               {skills.map((skill, index) => (
-                <span 
-                  key={index}
-                  className="text-[10px] bg-white border border-slate-200 px-2.5 py-1 rounded-md text-slate-700"
-                >
-                  {skill}
-                </span>
+                <React.Fragment key={index}>
+                  <span 
+                    className="text-[10px] bg-white border border-slate-200 px-2.5 py-1 rounded-md text-slate-700"
+                  >
+                    {skill}
+                  </span>
+                  {" "}
+                </React.Fragment>
               ))}
             </div>
           </div>

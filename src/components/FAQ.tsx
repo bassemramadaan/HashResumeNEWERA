@@ -69,9 +69,9 @@ export default function FAQ() {
               >
                 <button
                   onClick={() => toggleIndex(index)}
-                  className="w-full px-6 py-5 text-start flex justify-between items-center bg-white transition-colors cursor-pointer"
+                  className="w-full px-4 sm:px-6 py-4 sm:py-5 text-start flex justify-between items-center gap-4 bg-white transition-colors cursor-pointer"
                 >
-                  <span className="font-bold text-slate-900 text-[15px] sm:text-base leading-tight">
+                  <span className="font-bold text-slate-900 text-[14px] sm:text-base leading-tight">
                     {faq.question}
                   </span>
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-[#FF4D2D] text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-slate-100'}`}>
@@ -88,7 +88,7 @@ export default function FAQ() {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="overflow-hidden bg-slate-50/50"
                 >
-                  <div className="px-6 pb-6 pt-2 text-slate-600 text-[15px] leading-relaxed font-medium">
+                  <div className="px-4 sm:px-6 pb-5 sm:pb-6 pt-2 text-slate-600 text-[14px] sm:text-[15px] leading-relaxed font-medium">
                     {faq.answer}
                   </div>
                 </motion.div>

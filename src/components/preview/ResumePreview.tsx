@@ -280,6 +280,7 @@ const ResumePreview = memo(
           data-spacing={settings.sectionSpacing || "normal"}
           data-font-size={settings.fontSize || "medium"}
           data-line-height={settings.lineHeight || "normal"}
+          data-margin-size={settings.marginSize || "normal"}
           className={cn(
             "cv-preview min-h-[1056px]",
             settings.fontFamily === 'serif' ? 'font-serif' : settings.fontFamily === 'mono' ? 'font-mono' : 'font-sans'
@@ -307,6 +308,22 @@ const ResumePreview = memo(
             .cv-preview section {
               margin-bottom: calc(1.5rem * var(--spacing-multiplier)) !important;
             }
+            /* Custom page margins styling */
+            .cv-preview[data-margin-size="compact"] .p-\\[40px\\],
+            .cv-preview[data-margin-size="compact"] .w-\\[794px\\] {
+              padding: 20px 24px !important;
+            }
+            .cv-preview[data-margin-size="relaxed"] .p-\\[40px\\],
+            .cv-preview[data-margin-size="relaxed"] .w-\\[794px\\] {
+              padding: 56px 64px !important;
+            }
+            /* Adjust executive template padding if compact */
+            .cv-preview[data-margin-size="compact"] .p-\\[24px\\] { padding: 12px 16px !important; }
+            .cv-preview[data-margin-size="compact"] .p-\\[28px\\] { padding: 14px 18px !important; }
+            /* Adjust executive template padding if relaxed */
+            .cv-preview[data-margin-size="relaxed"] .p-\\[24px\\] { padding: 36px 44px !important; }
+            .cv-preview[data-margin-size="relaxed"] .p-\\[28px\\] { padding: 40px 48px !important; }
+
             @media print {
               .cv-preview section, .cv-preview .avoid-break {
                 page-break-inside: avoid;

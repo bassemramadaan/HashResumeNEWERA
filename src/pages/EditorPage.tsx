@@ -1061,6 +1061,55 @@ export default function EditorPage() {
                                 </p>
                               </div>
                             </div>
+
+                            {/* Premium Quick Auto-Fill Roles / Smart Templates */}
+                            <div className="mb-6 p-4.5 bg-gradient-to-br from-brand-50/50 via-slate-50 to-orange-50/20 border border-brand-100 rounded-2xl shadow-[0_4px_20px_rgba(255,77,45,0.02)] relative overflow-hidden text-start">
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF4D2D]/5 rounded-full blur-2xl pointer-events-none" />
+                              <div className="relative z-10">
+                                <div className="flex items-center gap-1.5 text-[#FF4D2D]">
+                                  <Sparkles size={14} className="animate-pulse" />
+                                  <span className="text-[11px] font-black uppercase tracking-wider">
+                                    {language === "ar" ? "ميزة التعبئة الذكية السريعة" : "Smart Auto-Fill Feature"}
+                                  </span>
+                                </div>
+                                
+                                <h3 className="text-sm font-black text-slate-800 mt-1 leading-snug">
+                                  {language === "ar" 
+                                    ? "أنشئ سيرتك الذاتية فوراً باستخدام نموذج احترافي جاهز!" 
+                                    : "Pre-fill Your Resume instantly with a high-performance role template!"}
+                                </h3>
+                                <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-semibold">
+                                  {language === "ar"
+                                    ? "اختر مهنتك ليتم تعبئة السيرة الذاتية كاملة ببيانات نموذجية صاغها خبراء الموارد البشرية لتجتاز فحص الـ ATS وتفهم كيفية التعبير عن خبراتك:"
+                                    : "Select a professional template crafted by recruiting experts to instantly pass ATS scans and learn optimal experience phrasing:"}
+                                </p>
+                                
+                                <div className="grid grid-cols-3 gap-2.5 mt-4">
+                                  {[
+                                    { id: "developer", label: language === "ar" ? "💻 مبرمج" : "💻 Developer" },
+                                    { id: "accountant", label: language === "ar" ? "📊 محاسب" : "📊 Accountant" },
+                                    { id: "designer", label: language === "ar" ? "🎨 مصمم" : "🎨 Designer" }
+                                  ].map((role) => (
+                                    <button
+                                      key={role.id}
+                                      onClick={() => {
+                                        const confirmMsg = language === "ar"
+                                          ? "تنبيه: هذا الإجراء سيقوم باستبدال جميع البيانات الحالية ببيانات هذا النموذج النموذجي بالكامل. هل تريد الاستمرار؟"
+                                          : "Warning: This action will replace all your current resume entries with this template's data. Do you want to proceed?";
+                                        if (window.confirm(confirmMsg)) {
+                                          const loadRoleTemplate = useResumeStore.getState().loadRoleTemplate;
+                                          loadRoleTemplate(role.id as any, language === "ar" ? "ar" : "en");
+                                        }
+                                      }}
+                                      className="py-2.5 px-2 text-center rounded-xl bg-white hover:bg-slate-900 border border-slate-200/90 text-slate-700 hover:text-white font-black text-[11px] transition-all cursor-pointer shadow-sm hover:shadow active:scale-95 whitespace-nowrap"
+                                    >
+                                      {role.label}
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
                             <PersonalInfoForm />
 
 
@@ -1551,6 +1600,8 @@ export default function EditorPage() {
                               "relative w-12 h-10 sm:w-14 sm:h-11 rounded-full flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none",
                               isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
                             )}
+                            title={tab.label}
+                            aria-label={tab.label}
                           >
                             {/* Animated Active Liquid Pill Background */}
                             {isActive && (
@@ -1711,7 +1762,9 @@ export default function EditorPage() {
                     onClick={() => setShowAtsAestheticPanel(!showAtsAestheticPanel)}
                     className={cn(
                       "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[10px] sm:text-xs font-extrabold cursor-pointer transition-all hover:scale-103 select-none",
-                      atsScore >= 80 
+                      isEmpty
+                        ? "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200/60 shadow-none"
+                        : atsScore >= 80 
                         ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 shadow-xs shadow-emerald-100/50" 
                         : atsScore >= 50
                         ? "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100 shadow-xs shadow-amber-100/50"
@@ -1721,10 +1774,16 @@ export default function EditorPage() {
                   >
                     <span className={cn(
                       "w-1.5 h-1.5 rounded-full z-10 shrink-0",
-                      atsScore >= 80 ? "bg-emerald-500 animate-pulse" : atsScore >= 50 ? "bg-amber-500 animate-pulse" : "bg-rose-500"
+                      isEmpty
+                        ? "bg-slate-400"
+                        : atsScore >= 80
+                        ? "bg-emerald-500 animate-pulse"
+                        : atsScore >= 50
+                        ? "bg-amber-500 animate-pulse"
+                        : "bg-rose-500"
                     )} />
                     <span className="font-semibold text-[10px] sm:text-xs hidden mini:inline">{language === "ar" ? "تطابق ATS:" : "ATS Match:"}</span>
-                    <span className="font-extrabold font-mono text-[11px] sm:text-xs z-10 shrink-0">{atsScore}%</span>
+                    <span className="font-extrabold font-mono text-[11px] sm:text-xs z-10 shrink-0">{isEmpty ? "--%" : `${atsScore}%`}</span>
                   </div>
 
                   {showAtsAestheticPanel && (
@@ -1750,22 +1809,26 @@ export default function EditorPage() {
                         <div>
                           <div className="flex justify-between text-[11px] mb-1 font-bold">
                             <span className="text-slate-500">{language === "ar" ? "مؤشر تطابق المستخرجات" : "Overall Compatibility"}</span>
-                            <span className={atsScore >= 80 ? "text-emerald-600 font-black" : atsScore >= 50 ? "text-amber-600 font-black" : "text-rose-600 font-black"}>{atsScore}%</span>
+                            <span className={isEmpty ? "text-slate-500 font-extrabold" : atsScore >= 80 ? "text-emerald-600 font-black" : atsScore >= 50 ? "text-amber-600 font-black" : "text-rose-600 font-black"}>{isEmpty ? "0%" : `${atsScore}%`}</span>
                           </div>
                           <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
                             <div 
                               className={cn(
                                 "h-full rounded-full transition-all duration-500",
-                                atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
+                                isEmpty ? "bg-slate-300" : atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
                               )}
-                              style={{ width: `${atsScore}%` }}
+                              style={{ width: `${isEmpty ? 0 : atsScore}%` }}
                             />
                           </div>
                         </div>
 
                         {/* Summary rating */}
                         <p className="text-[10px] text-slate-500 leading-relaxed font-normal">
-                          {language === "ar"
+                          {isEmpty
+                            ? (language === "ar"
+                              ? "ابدأ بإدخال بياناتك ومعلومات التواصل وخبراتك لتنشيط مؤشر الـ ATS ورؤية تقييم التوافق المباشر."
+                              : "Start building your resume by entering contact info and experience to see your ATS score.")
+                            : language === "ar"
                             ? atsScore >= 80
                               ? "تهانينا! سيرتك الذاتية ممتازة ومبنية بأقوى معايير التوظيف والفرز."
                               : atsScore >= 50
@@ -1921,6 +1984,96 @@ export default function EditorPage() {
             <div className="flex-1 overflow-x-hidden overflow-y-auto pt-14 flex flex-col bg-slate-50/60 backdrop-blur-xs relative border-l border-slate-200/40 h-full">
               {rightPanelMode === "preview" ? (
                 <div className="flex-1 p-4 md:p-12 flex flex-col items-center justify-start h-full">
+                  {/* Mini Format Layout Toolbar */}
+                  <div className="w-full max-w-[210mm] mb-5 bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-2xl px-5 py-3 flex flex-wrap items-center justify-between gap-4 select-none">
+                    <div className="flex items-center gap-2">
+                      <SlidersHorizontal size={14} className="text-[#FF4D2D]" />
+                      <span className="text-xs font-black text-slate-800">
+                        {language === "ar" ? "أدوات تنسيق الصفحة" : "Page Formatting Tools"}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-5 text-xs flex-wrap">
+                      {/* Font Size Selector */}
+                      <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-100">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider px-1">
+                          {language === "ar" ? "حجم الخط" : "Font Size"}
+                        </span>
+                        {[
+                          { id: "small", label: language === "ar" ? "صغير" : "Small" },
+                          { id: "medium", label: language === "ar" ? "وسط" : "Medium" },
+                          { id: "large", label: language === "ar" ? "كبير" : "Large" }
+                        ].map(opt => {
+                          const isSel = settings.fontSize === opt.id || (!settings.fontSize && opt.id === "medium");
+                          return (
+                            <button
+                              key={opt.id}
+                              onClick={() => updateSettings({ fontSize: opt.id as any })}
+                              className={cn(
+                                "px-2.5 py-1 rounded-lg text-[10.5px] font-bold cursor-pointer transition-all",
+                                isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500 hover:text-slate-900"
+                              )}
+                            >
+                              {opt.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Line Spacing Selector */}
+                      <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-100">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider px-1">
+                          {language === "ar" ? "تباعد الأسطر" : "Line Spacing"}
+                        </span>
+                        {[
+                          { id: "tight", label: language === "ar" ? "ضيق" : "Tight" },
+                          { id: "normal", label: language === "ar" ? "طبيعي" : "Normal" },
+                          { id: "relaxed", label: language === "ar" ? "واسع" : "Relaxed" }
+                        ].map(opt => {
+                          const isSel = settings.lineHeight === opt.id || (!settings.lineHeight && opt.id === "normal");
+                          return (
+                            <button
+                              key={opt.id}
+                              onClick={() => updateSettings({ lineHeight: opt.id as any })}
+                              className={cn(
+                                "px-2.5 py-1 rounded-lg text-[10.5px] font-bold cursor-pointer transition-all",
+                                isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500 hover:text-slate-900"
+                              )}
+                            >
+                              {opt.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Margins Selector */}
+                      <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-100">
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider px-1">
+                          {language === "ar" ? "الهوامش" : "Margins"}
+                        </span>
+                        {[
+                          { id: "compact", label: language === "ar" ? "ضيقة" : "Compact" },
+                          { id: "normal", label: language === "ar" ? "طبيعية" : "Normal" },
+                          { id: "relaxed", label: language === "ar" ? "واسعة" : "Relaxed" }
+                        ].map(opt => {
+                          const isSel = settings.marginSize === opt.id || (!settings.marginSize && opt.id === "normal");
+                          return (
+                            <button
+                              key={opt.id}
+                              onClick={() => updateSettings({ marginSize: opt.id as any })}
+                              className={cn(
+                                "px-2.5 py-1 rounded-lg text-[10.5px] font-bold cursor-pointer transition-all",
+                                isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500 hover:text-slate-900"
+                              )}
+                            >
+                              {opt.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
                   <div
                     className="origin-top transition-all duration-500 flex justify-center scale-[0.4] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.8] xl:scale-[0.9] h-[calc(297mm*0.4)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.75)] lg:h-[calc(297mm*0.8)] xl:h-[calc(297mm*0.9)]"
                   >
@@ -2068,6 +2221,87 @@ export default function EditorPage() {
                     })}
                   </div>
                 </div>
+
+                {/* Horizontal row for Layout Quick Formatting Controls on Mobile */}
+                <div className="flex flex-wrap items-center gap-y-2 gap-x-4 pt-2 border-t border-slate-200/50">
+                  {/* Font Size Selector */}
+                  <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-slate-200">
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider shrink-0 mr-1 ml-1">
+                      {language === "ar" ? "الخط:" : "Size:"}
+                    </span>
+                    {[
+                      { id: "small", label: language === "ar" ? "صغير" : "S" },
+                      { id: "medium", label: language === "ar" ? "وسط" : "M" },
+                      { id: "large", label: language === "ar" ? "كبير" : "L" }
+                    ].map(opt => {
+                      const isSel = settings.fontSize === opt.id || (!settings.fontSize && opt.id === "medium");
+                      return (
+                        <button
+                          key={opt.id}
+                          onClick={() => updateSettings({ fontSize: opt.id as any })}
+                          className={cn(
+                            "px-2 py-0.5 rounded-md text-[10px] font-bold cursor-pointer transition-all",
+                            isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500"
+                          )}
+                        >
+                          {opt.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Line Spacing Selector */}
+                  <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-slate-200">
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider shrink-0 mr-1 ml-1">
+                      {language === "ar" ? "التباعد:" : "Height:"}
+                    </span>
+                    {[
+                      { id: "tight", label: language === "ar" ? "ضيق" : "T" },
+                      { id: "normal", label: language === "ar" ? "طبيعي" : "N" },
+                      { id: "relaxed", label: language === "ar" ? "واسع" : "R" }
+                    ].map(opt => {
+                      const isSel = settings.lineHeight === opt.id || (!settings.lineHeight && opt.id === "normal");
+                      return (
+                        <button
+                          key={opt.id}
+                          onClick={() => updateSettings({ lineHeight: opt.id as any })}
+                          className={cn(
+                            "px-2 py-0.5 rounded-md text-[10px] font-bold cursor-pointer transition-all",
+                            isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500"
+                          )}
+                        >
+                          {opt.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Margins Selector */}
+                  <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-slate-200">
+                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider shrink-0 mr-1 ml-1">
+                      {language === "ar" ? "الهوامش:" : "Margin:"}
+                    </span>
+                    {[
+                      { id: "compact", label: language === "ar" ? "ضيقة" : "C" },
+                      { id: "normal", label: language === "ar" ? "طبيعية" : "M" },
+                      { id: "relaxed", label: language === "ar" ? "واسعة" : "R" }
+                    ].map(opt => {
+                      const isSel = settings.marginSize === opt.id || (!settings.marginSize && opt.id === "normal");
+                      return (
+                        <button
+                          key={opt.id}
+                          onClick={() => updateSettings({ marginSize: opt.id as any })}
+                          className={cn(
+                            "px-2 py-0.5 rounded-md text-[10px] font-bold cursor-pointer transition-all",
+                            isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500"
+                          )}
+                        >
+                          {opt.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
 
               {/* Elegant Zoom Toolbar */}
@@ -2193,17 +2427,21 @@ export default function EditorPage() {
                   <>
                     <div className="flex justify-between items-end mb-2">
                       <span className="text-sm font-bold text-slate-500">{language === "ar" ? "مؤشر التوافق الكلي" : "Overall Compatibility"}</span>
-                      <span className={`text-4xl font-black ${atsScore >= 80 ? "text-emerald-500" : atsScore >= 50 ? "text-amber-500" : "text-rose-500"}`}>{atsScore}%</span>
+                      <span className={`text-4xl font-black ${isEmpty ? "text-slate-400" : atsScore >= 80 ? "text-emerald-500" : atsScore >= 50 ? "text-amber-500" : "text-rose-500"}`}>{isEmpty ? "--%" : `${atsScore}%`}</span>
                     </div>
                     <div className="w-full bg-slate-100 rounded-full h-2 mb-6 overflow-hidden">
                       <div 
-                        className={`h-full rounded-full transition-all duration-500 ${atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"}`}
-                        style={{ width: `${atsScore}%` }}
+                        className={`h-full rounded-full transition-all duration-500 ${isEmpty ? "bg-slate-300" : atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"}`}
+                        style={{ width: `${isEmpty ? 0 : atsScore}%` }}
                       />
                     </div>
                     
                     <p className="text-sm text-slate-600 font-medium leading-relaxed mb-6 bg-slate-50 p-4 rounded-2xl">
-                      {language === "ar"
+                      {isEmpty
+                        ? (language === "ar"
+                          ? "ابدأ بإدخال بياناتك ومعلومات التواصل وخبراتك لتنشيط مؤشر الـ ATS ورؤية تقييم التوافق المباشر."
+                          : "Start building your resume by entering contact info and experience to see your ATS score.")
+                        : language === "ar"
                         ? atsScore >= 80
                           ? "تهانينا! سيرتك الذاتية ممتازة ومبنية بأقوى معايير التوظيف والفرز."
                           : atsScore >= 50

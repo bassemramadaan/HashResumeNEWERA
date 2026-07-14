@@ -865,6 +865,8 @@ export default function MobileEditorLayout({
               "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
               activeTab === "edit" ? "text-[#FF4D2D]" : "text-gray-400 hover:text-gray-600"
             )}
+            title={lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}
+            aria-label={lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}
           >
             <Edit3 size={22} className={activeTab === "edit" ? "fill-current" : ""} strokeWidth={activeTab === "edit" ? 2.5 : 2} />
             <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}</span>
@@ -877,6 +879,8 @@ export default function MobileEditorLayout({
               "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
               activeTab === "sections" ? "text-[#FF4D2D]" : "text-gray-400 hover:text-gray-600"
             )}
+            title={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
+            aria-label={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
           >
             <Grid size={22} className={activeTab === "sections" ? "fill-current" : ""} strokeWidth={activeTab === "sections" ? 2.5 : 2} />
             <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
@@ -886,6 +890,8 @@ export default function MobileEditorLayout({
           <button
             onClick={onOpenAts}
             className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-gray-600 transition-colors cursor-pointer relative"
+            title={lang === "ar" ? "فحص ATS" : "ATS Audit"}
+            aria-label={lang === "ar" ? "فحص ATS" : "ATS Audit"}
           >
             <div className="relative">
               <CheckCircle size={22} strokeWidth={2} />
@@ -903,6 +909,8 @@ export default function MobileEditorLayout({
           <button
             onClick={onOpenSettings}
             className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+            title={lang === "ar" ? "الإعدادات" : "Settings"}
+            aria-label={lang === "ar" ? "الإعدادات" : "Settings"}
           >
             <Settings size={22} strokeWidth={2} />
             <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الإعدادات" : "Settings"}</span>
@@ -913,6 +921,7 @@ export default function MobileEditorLayout({
             onClick={onExportPDF}
             className="flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer"
             title={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
+            aria-label={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
           >
             <div className="bg-[#FF4D2D] rounded-full p-1.5 text-white transform -translate-y-1 shadow-md">
               <Download size={20} strokeWidth={2.5} />
@@ -923,6 +932,29 @@ export default function MobileEditorLayout({
         </div>
       </div>
       
+      {/* Floating Smart Quick Toggle Button */}
+      {activeTab === "edit" && (
+        <motion.button
+          initial={{ scale: 0, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={onOpenPreview}
+          className={cn(
+            "fixed bottom-[92px] z-[90] flex items-center gap-2 px-4 py-3 rounded-full bg-slate-900 text-white shadow-[0_12px_32px_rgba(0,0,0,0.24)] border border-slate-800 hover:bg-slate-800 active:scale-95 transition-all cursor-pointer",
+            isRtl ? "left-4" : "right-4"
+          )}
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <Eye size={15} strokeWidth={2.5} className="text-[#FF4D2D]" />
+          <span className="text-xs font-black tracking-tight">
+            {lang === "ar" ? "المعاينة السريعة" : lang === "fr" ? "Aperçu rapide" : "Quick Preview"}
+          </span>
+        </motion.button>
+      )}
+
       {/* Floating dynamic micro-hints disabled on mobile */}
 
     </div>

@@ -64,7 +64,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
   return (
     <section 
-      className="relative pt-6 pb-8 md:pt-24 md:pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-white" 
+      className="relative pt-6 pb-20 md:pt-24 md:pb-32 lg:pt-40 lg:pb-40 overflow-hidden bg-white" 
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* Background decoration */}
@@ -88,8 +88,8 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           <h1 
             className="hero-title text-2xl xs:text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
           >
-            {copy.titleMain} <br />
-            <span className="hero-highlight-text text-orange-500 inline-flex min-h-[1.15em] items-center justify-center max-w-full px-2 text-center">
+            {copy.titleMain}{" "}
+            <span className="hero-highlight-text text-orange-500 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={wordIndex}
