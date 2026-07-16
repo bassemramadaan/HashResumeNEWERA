@@ -1,13 +1,15 @@
 import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import React, { Suspense, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
-import { HelmetProvider } from "react-helmet-async";
+import { HelmetProvider, Helmet } from "react-helmet-async";
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import PageLoader from "./components/PageLoader";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
 import { BottomNavBar } from "./components/BottomNavBar";
+import { WhatsAppWidget } from "./components/WhatsAppWidget";
 
-const LandingPage = React.lazy(() => import("./pages/Landing"));
+const LandingPage = React.lazy(() => import("./pages/Landing/index"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
 const HashHuntPage = React.lazy(() => import("./pages/HashHuntPage"));
 const PricingPage = React.lazy(() => import("./pages/PricingPage"));
@@ -23,6 +25,8 @@ const HowAtsWorksPage = React.lazy(() => import("./pages/HowAtsWorksPage"));
 const TrustPage = React.lazy(() => import("./pages/TrustPage"));
 const FAQPage = React.lazy(() => import("./pages/FAQPage"));
 const NotFoundPage = React.lazy(() => import("./pages/NotFoundPage"));
+const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
+const CoverLetterPage = React.lazy(() => import("./pages/CoverLetterPage"));
 
 import { initGA, trackPageView } from "./services/analytics";
 import { useLanguageStore } from "./store/useLanguageStore";
@@ -51,16 +55,27 @@ function ScrollToTop() {
   return null;
 }
 
+
 function AppContent() {
   const location = useLocation();
   const isEditor = location.pathname === "/editor" || location.pathname.startsWith("/share/");
+  const currentPath = location.pathname;
+  const baseUrl = "https://hashresume.com";
 
   return (
-    <div className={isEditor ? "" : "lg:pb-0"} style={!isEditor ? { paddingBottom: "calc(70px + env(safe-area-inset-bottom, 0px))" } : {}}>
+    <div className={isEditor ? "" : "pb-24 lg:pb-0"}>
+      <Helmet>
+        <link rel="alternate" hrefLang="x-default" href={`${baseUrl}${currentPath}`} />
+        <link rel="alternate" hrefLang="en" href={`${baseUrl}${currentPath}`} />
+        <link rel="alternate" hrefLang="ar" href={`${baseUrl}${currentPath}`} />
+        <link rel="alternate" hrefLang="fr" href={`${baseUrl}${currentPath}`} />
+      </Helmet>
       <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/editor" element={<EditorPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/cover-letter" element={<CoverLetterPage />} />
           <Route path="/templates" element={<TemplatesPage />} />
           <Route path="/hash-hunt" element={<HashHuntPage />} />
           <Route path="/pricing" element={<PricingPage />} />
@@ -80,6 +95,7 @@ function AppContent() {
         </Routes>
         {!isEditor && <BottomNavBar />}
         <Analytics />
+        <WhatsAppWidget />
       </Suspense>
     </div>
   );
@@ -97,15 +113,19 @@ export default function App() {
     }
   }, [language, dir]);
 
+  const reCaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // Using test key as fallback
+
   return (
-    <HelmetProvider>
-      <BrowserRouter>
-        <GAListener />
-        <ScrollToTop />
-        <ErrorBoundary>
-          <AppContent />
-        </ErrorBoundary>
-      </BrowserRouter>
-    </HelmetProvider>
+    <GoogleReCaptchaProvider reCaptchaKey={reCaptchaKey}>
+      <HelmetProvider>
+        <BrowserRouter>
+          <GAListener />
+          <ScrollToTop />
+          <ErrorBoundary>
+            <AppContent />
+          </ErrorBoundary>
+        </BrowserRouter>
+      </HelmetProvider>
+    </GoogleReCaptchaProvider>
   );
 }

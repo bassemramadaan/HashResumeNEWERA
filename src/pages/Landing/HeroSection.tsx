@@ -99,7 +99,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                   transition={{ duration: 0.4, ease: "easeOut" }}
                   className="inline-block max-w-full break-words text-center px-1"
                 >
-                  &nbsp;{words[wordIndex]}
+                  {words[wordIndex]}
                 </motion.span>
               </AnimatePresence>
             </span>
@@ -113,7 +113,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           >
             {copy.subtitle}
             <span className="block text-sm text-slate-400 mt-2 font-semibold">
-              {isAr ? "مجاني تماماً للبناء، شراء القالب للتحميل" : "Completely free to build, pay-per-template to download."}
+              {isAr ? "مجاني للبناء والمعاينة — ادفع فقط عند التنزيل" : "Build & preview for free — pay only to download."}
             </span>
           </motion.p>
 

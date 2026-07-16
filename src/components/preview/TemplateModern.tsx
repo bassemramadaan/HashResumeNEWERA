@@ -5,14 +5,14 @@ import { SafeDescription } from "./SafeDescription";
 import { detectIsArabic } from "../../utils/language";
 
 const TemplateModern: React.FC<{ data: ResumeData; isMini?: boolean }> = ({ data, isMini }) => {
-  const { personalInfo, experience, education, skills, certifications, projects, settings } = data;
+  const { personalInfo, experience, education, skills, certifications, projects } = data;
   const isRtl = detectIsArabic(data);
 
   const TitleTag = isMini ? "div" : "h1";
   const SectionTag = isMini ? "div" : "h2";
   const SubSectionTag = isMini ? "div" : "h3";
   
-  const ContactItem = ({ icon: Icon, text }: { icon: any, text: string }) => {
+  const ContactItem = ({ icon: Icon, text }: { icon: React.ComponentType<{ size?: number; className?: string }>, text: string }) => {
     if (!text) return null;
     return (
       <span className="inline-flex items-center gap-1">
@@ -97,7 +97,7 @@ const TemplateModern: React.FC<{ data: ResumeData; isMini?: boolean }> = ({ data
             <Wrench size={14} className="text-[#6B7280]" />
             {isRtl ? "المهارات" : "Skills"}
           </SectionTag>
-          <p className="text-[11px] text-[#374151] leading-[1.5]">{skills.map(s => typeof s === 'string' ? s : (s as any).name).join(", ")}</p>
+          <p className="text-[11px] text-[#374151] leading-[1.5]">{skills.map(s => typeof s === 'string' ? s : (s as unknown as { name: string }).name).join(", ")}</p>
         </section>
       )}
       

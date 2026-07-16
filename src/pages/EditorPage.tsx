@@ -25,7 +25,7 @@ import {
   ArrowLeft,
   Award,
   Lock,
-  Folder,
+  
   ExternalLink,
   Info,
 } from "lucide-react";
@@ -41,7 +41,7 @@ import { calculateATSScore } from "../utils/ats";
 import EmptyState from "../components/editor/EmptyState";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
-import LiveAtsScoreWidget from "../components/editor/LiveAtsScoreWidget";
+
 import ResumePreview from "../components/preview/ResumePreview";
 import { JobMatchAdvisor } from "../components/editor/JobMatchAdvisor";
 import { FrictionlessConfetti } from "../components/FrictionlessConfetti";
@@ -159,6 +159,7 @@ export default function EditorPage() {
   const [aiNotice, setAiNotice] = useState<{ code: string; message: string } | null>(null);
 
   useEffect(() => {
+    let aiTimeout: any;
     const handleAIErrorEvent = (e: Event) => {
       const customEvent = e as CustomEvent<{ code: string; message: string }>;
       if (customEvent && customEvent.detail) {
@@ -168,7 +169,8 @@ export default function EditorPage() {
         });
         
         // Auto-dismiss after 8 seconds
-        setTimeout(() => {
+        if (aiTimeout) clearTimeout(aiTimeout);
+        aiTimeout = setTimeout(() => {
           setAiNotice(prev => prev?.code === customEvent.detail.code ? null : prev);
         }, 8000);
       }
@@ -177,6 +179,7 @@ export default function EditorPage() {
     window.addEventListener("ai:error", handleAIErrorEvent);
     return () => {
       window.removeEventListener("ai:error", handleAIErrorEvent);
+      if (aiTimeout) clearTimeout(aiTimeout);
     };
   }, []);
 
@@ -192,10 +195,12 @@ export default function EditorPage() {
 
   // Keyboard-Aware dynamic focus auto-scrolling for mobile devices
   useEffect(() => {
+    let focusTimeout: any;
     const handleFocusIn = (e: FocusEvent) => {
       const target = e.target as HTMLElement;
       if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
-        setTimeout(() => {
+        if (focusTimeout) clearTimeout(focusTimeout);
+        focusTimeout = setTimeout(() => {
           target.scrollIntoView({
             behavior: "smooth",
             block: "center",
@@ -207,6 +212,7 @@ export default function EditorPage() {
     document.addEventListener("focusin", handleFocusIn);
     return () => {
       document.removeEventListener("focusin", handleFocusIn);
+      if (focusTimeout) clearTimeout(focusTimeout);
     };
   }, []);
 
@@ -217,6 +223,8 @@ export default function EditorPage() {
   }, [activeTab, formRef]);
   
   useEffect(() => {
+    let clickTimeout: any;
+    let ringTimeout: any;
     const handlePreviewSectionClick = (e: Event) => {
       const customEvent = e as CustomEvent<{ tab: Tab; field: string }>;
       if (customEvent && customEvent.detail) {
@@ -233,7 +241,8 @@ export default function EditorPage() {
         useActiveSectionStore.getState().setActiveField(field);
 
         // Let layout settle, then target the specific form section and scroll smoothly
-        setTimeout(() => {
+        if (clickTimeout) clearTimeout(clickTimeout);
+        clickTimeout = setTimeout(() => {
           let element: HTMLElement | null = null;
           if (field === "personalInfo" || field === "fullName") {
             element = document.getElementById("fullName") || document.querySelector("[data-form-basics-personal]");
@@ -252,7 +261,8 @@ export default function EditorPage() {
             
             // Premium visual feedback ring
             element.classList.add("ring-2", "ring-[#001639]", "ring-offset-4");
-            setTimeout(() => {
+            if (ringTimeout) clearTimeout(ringTimeout);
+            ringTimeout = setTimeout(() => {
               element?.classList.remove("ring-2", "ring-[#001639]", "ring-offset-4");
             }, 1800);
           }
@@ -281,6 +291,8 @@ export default function EditorPage() {
       window.removeEventListener("open-import-modal", handleOpenImportModal);
       window.removeEventListener("open-magic-modal", handleOpenMagicModal);
       window.removeEventListener("beforeunload", handleBeforeUnload);
+      if (clickTimeout) clearTimeout(clickTimeout);
+      if (ringTimeout) clearTimeout(ringTimeout);
     };
   }, [setActiveTab]);
   
@@ -761,53 +773,53 @@ export default function EditorPage() {
     }
   };
 
+  // Auto-download resume when redirected from payment success page
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("download") === "pdf") {
+      // Set tab to finish so the preview and finish UI is loaded
+      setActiveTab("finish");
+      
+      // Delay slightly to allow the DOM/component to prepare
+      const timeout = setTimeout(() => {
+        handleProceedToExport("pdf", true); // forceAllow = true to bypass standard check if we just paid!
+        
+        // Clean up URL parameter
+        params.delete("download");
+        const newRelativePathQuery = window.location.pathname + (params.toString() ? `?${params.toString()}` : "");
+        window.history.replaceState(null, "", newRelativePathQuery);
+      }, 1000);
+      
+      return () => clearTimeout(timeout);
+    }
+  }, [setActiveTab]);
+
   const tabs: TabItem[] = [
     {
       id: "basics",
-      label: String(language === "ar" ? "المعلومات الشخصية" : "Personal Information"),
+      label: String(language === "ar" ? "المعلومات الأساسية" : "Basics"),
       shortLabel: String(language === "ar" ? "البيانات" : "Basics"),
       icon: User,
       tourId: "personal-info",
     },
     {
       id: "experience",
-      label: String(language === "ar" ? "الخبرة العملية" : "Experience"),
-      shortLabel: String(language === "ar" ? "الخبرة" : "Exp"),
+      label: String(language === "ar" ? "الخبرة والتعليم" : "Experience & Education"),
+      shortLabel: String(language === "ar" ? "خبرة/تعليم" : "Exp & Edu"),
       icon: Briefcase,
       tourId: "experience-section",
     },
     {
-      id: "education",
-      label: String(language === "ar" ? "التعليم" : "Education"),
-      shortLabel: String(language === "ar" ? "التعليم" : "Edu"),
-      icon: GraduationCap,
-      tourId: "education-section",
-    },
-    {
       id: "skills",
-      label: String(language === "ar" ? "المهارات" : "Skills"),
-      shortLabel: String(language === "ar" ? "المهارات" : "Skills"),
+      label: String(language === "ar" ? "المهارات والمشاريع والشهادات" : "Skills, Projects & Certs"),
+      shortLabel: String(language === "ar" ? "مهارات/مشاريع" : "Skills & More"),
       icon: Wrench,
       tourId: "skills-section",
     },
     {
-      id: "projects",
-      label: String(language === "ar" ? "المشاريع" : "Projects"),
-      shortLabel: String(language === "ar" ? "المشاريع" : "Projects"),
-      icon: Folder,
-      tourId: "projects-section",
-    },
-    {
-      id: "certifications",
-      label: String(language === "ar" ? "الشهادات" : "Certifications"),
-      shortLabel: String(language === "ar" ? "الشهادات" : "Certs"),
-      icon: Award,
-      tourId: "certifications-section",
-    },
-    {
       id: "finish",
-      label: String(language === "ar" ? "التحميل والتدقيق" : "Audit & Download"),
-      shortLabel: String(language === "ar" ? "تحميل" : "Finish"),
+      label: String(language === "ar" ? "المعاينة والتحميل" : "Preview & Download"),
+      shortLabel: String(language === "ar" ? "معاينة" : "Preview"),
       icon: Download,
       tourId: "review-section",
     },
@@ -817,11 +829,8 @@ export default function EditorPage() {
 
   const sidebarCompletionMap: Record<string, number> = {
     basics: data.personalInfo.fullName && data.personalInfo.email && data.personalInfo.jobTitle ? 100 : (data.personalInfo.fullName || data.personalInfo.email ? 50 : 0),
-    experience: data.experience && data.experience.length > 0 ? 100 : 0,
-    education: data.education && data.education.length > 0 ? 100 : 0,
-    skills: data.skills && data.skills.length > 0 ? 100 : 0,
-    projects: data.projects && data.projects.length > 0 ? 100 : 0,
-    certifications: data.certifications && data.certifications.length > 0 ? 100 : 0,
+    experience: (data.experience && data.experience.length > 0) || (data.education && data.education.length > 0) ? 100 : 0,
+    skills: (data.skills && data.skills.length > 0) || (data.projects && data.projects.length > 0) || (data.certifications && data.certifications.length > 0) ? 100 : 0,
     finish: atsScore,
   };
 
@@ -1002,11 +1011,10 @@ export default function EditorPage() {
             )}
 
             {/* Top Navigation Actions */}
-            <h1 className="sr-only">Resume Editor</h1>
             <div className="flex items-center justify-between mb-4 w-full px-1">
-              <div className="text-[10px] font-black text-slate-400 uppercase tracking-wider hidden sm:block">
-                {language === "ar" ? "التنقل بين الأقسام" : "Section Navigation"}
-              </div>
+              <h1 className="text-xs font-black text-slate-800 uppercase tracking-wider">
+                {language === "ar" ? "منشئ السيرة الذاتية (Editor)" : "Resume Builder Editor"}
+              </h1>
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={handlePrevTab}
@@ -1118,158 +1126,151 @@ export default function EditorPage() {
                         </div>
                       )}
                       {activeTab === "experience" && (
-                        <div className="space-y-12" data-form-section="experience">
-                          <section>
-                            <div className="flex items-center gap-4 mb-6 text-start px-1">
-                              <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
-                                <Briefcase
-                                  size={22}
-                                  className="relative z-10"
-                                />
+                        <div className="space-y-16">
+                          <div className="space-y-12" data-form-section="experience">
+                            <section>
+                              <div className="flex items-center gap-4 mb-6 text-start px-1">
+                                <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
+                                  <Briefcase
+                                    size={22}
+                                    className="relative z-10"
+                                  />
+                                </div>
+                                <div>
+                                  <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
+                                    {String(t.experience?.title || "Experience")}
+                                  </h2>
+                                  <p className="text-[12px] text-[#9CA3AF] font-medium">
+                                    {language === "ar"
+                                      ? "تاريخك المهني وإنجازاتك"
+                                      : "Work history and achievements"}
+                                  </p>
+                                </div>
                               </div>
-                              <div>
-                                <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
-                                  {String(t.experience?.title || "Experience")}
-                                </h2>
-                                <p className="text-[12px] text-[#9CA3AF] font-medium">
-                                  {language === "ar"
-                                    ? "تاريخك المهني وإنجازاتك"
-                                    : "Work history and achievements"}
-                                </p>
+                              <div className="px-1">
+                                <ExperienceForm />
                               </div>
-                            </div>
-                            <div className="px-1">
-                              <ExperienceForm />
-                            </div>
-
-
-                          </section>
-                        </div>
-                      )}
-                      {activeTab === "education" && (
-                        <div className="space-y-12" data-form-section="education">
-                          <section>
-                            <div className="flex items-center gap-4 mb-6 text-start px-1">
-                              <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
-                                <GraduationCap
-                                  size={22}
-                                  className="relative z-10"
-                                />
+                            </section>
+                          </div>
+                          
+                          <div className="space-y-12 pt-8 border-t border-slate-200/50" data-form-section="education">
+                            <section>
+                              <div className="flex items-center gap-4 mb-6 text-start px-1">
+                                <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
+                                  <GraduationCap
+                                    size={22}
+                                    className="relative z-10"
+                                  />
+                                </div>
+                                <div>
+                                  <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
+                                    {String(t.education?.title || "Education")}
+                                  </h2>
+                                  <p className="text-[12px] text-[#9CA3AF] font-medium">
+                                    {language === "ar"
+                                      ? "خلفيتك الأكاديمية والتعليمية"
+                                      : "Academic background"}
+                                  </p>
+                                </div>
                               </div>
-                              <div>
-                                <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
-                                  {String(t.education?.title || "Education")}
-                                </h2>
-                                <p className="text-[12px] text-[#9CA3AF] font-medium">
-                                  {language === "ar"
-                                    ? "خلفيتك الأكاديمية والتعليمية"
-                                    : "Academic background"}
-                                </p>
+                              <div className="px-1">
+                                <EducationForm />
                               </div>
-                            </div>
-                            <div className="px-1">
-                              <EducationForm />
-                            </div>
-
-
-                          </section>
+                            </section>
+                          </div>
                         </div>
                       )}
                       {activeTab === "skills" && (
-                        <section data-form-section="skills">
-                          <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
-                              <Wrench
-                                size={22}
-                                className="relative z-10"
-                              />
+                        <div className="space-y-16">
+                          <section data-form-section="skills">
+                            <div className="flex items-center gap-4 mb-6 text-start">
+                              <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
+                                <Wrench
+                                  size={22}
+                                  className="relative z-10"
+                                />
+                              </div>
+                              <div>
+                                <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
+                                  {String(typeof t.skills?.title === 'string' ? t.skills.title : "Skills")}
+                                </h2>
+                                <p className="text-[12px] text-[#9CA3AF] font-medium">
+                                  {language === "ar"
+                                    ? "مهاراتك التقنية والشخصية"
+                                    : "Tech & soft skills"}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
-                                {String(typeof t.skills?.title === 'string' ? t.skills.title : "Skills")}
-                              </h2>
-                              <p className="text-[12px] text-[#9CA3AF] font-medium">
+                            <SkillsForm />
+                          </section>
+                          
+                          <section data-form-section="projects" className="pt-8 border-t border-slate-200/50">
+                            <div className="flex items-center gap-4 mb-6 text-start">
+                              <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
+                                <LayoutTemplate
+                                  size={22}
+                                  className="relative z-10"
+                                />
+                              </div>
+                              <div>
+                                <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
+                                  {String(t.projects?.title || "Projects")}
+                                </h2>
+                                <p className="text-[12px] text-[#9CA3AF] font-medium">
+                                  {language === "ar"
+                                    ? "أرنا أفضل أعمالك ومشاريعك"
+                                    : "Showcase your best work and projects"}
+                                </p>
+                              </div>
+                            </div>
+                            <ProjectsForm />
+                          </section>
+
+                          <section data-form-section="certifications" className="pt-8 border-t border-slate-200/50">
+                            <div className="flex items-center gap-4 mb-6 text-start">
+                              <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
+                                <Award
+                                  size={22}
+                                  className="relative z-10"
+                                />
+                              </div>
+                              <div>
+                                <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
+                                  {String(t.certifications?.title || "Certifications")}
+                                </h2>
+                                <p className="text-[12px] text-[#9CA3AF] font-medium">
+                                  {language === "ar"
+                                    ? "الشهادات والإنجازات المهنية"
+                                    : "Certifications and professional achievements"}
+                                </p>
+                              </div>
+                            </div>
+                            <CertificationsForm />
+
+                            <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
+                              <button
+                                onClick={() => setActiveTab("experience")}
+                                className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
+                              >
+                                {language === "ar" ? "السابق" : "Previous"}
+                              </button>
+                              <motion.button
+                                whileHover={{ y: -1 }}
+                                whileTap={{ scale: 0.985 }}
+                                onClick={() => setActiveTab("finish")}
+                                className="group flex items-center gap-3 bg-[#001639] hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all cursor-pointer"
+                              >
                                 {language === "ar"
-                                  ? "مهاراتك التقنية والشخصية"
-                                  : "Tech & soft skills"}
-                              </p>
+                                  ? "الذهاب للمراجعة والتحميل"
+                                  : "Go to Review & Download"}
+                                <ArrowRight
+                                  size={20}
+                                  className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
+                                />
+                              </motion.button>
                             </div>
-                          </div>
-                          <SkillsForm />
-
-
-                        </section>
-                      )}
-                      {activeTab === "projects" && (
-                        <section data-form-section="projects">
-                          <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
-                              <LayoutTemplate
-                                size={22}
-                                className="relative z-10"
-                              />
-                            </div>
-                            <div>
-                              <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
-                                {String(t.projects?.title || "Projects")}
-                              </h2>
-                              <p className="text-[12px] text-[#9CA3AF] font-medium">
-                                {language === "ar"
-                                  ? "أرنا أفضل أعمالك ومشاريعك"
-                                  : "Showcase your best work and projects"}
-                              </p>
-                            </div>
-                          </div>
-                          <ProjectsForm />
-
-
-                        </section>
-                      )}
-                      {activeTab === "certifications" && (
-                        <section data-form-section="certifications">
-                          <div className="flex items-center gap-4 mb-6 text-start">
-                            <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
-                              <Award
-                                size={22}
-                                className="relative z-10"
-                              />
-                            </div>
-                            <div>
-                              <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
-                                {String(t.certifications?.title || "Certifications")}
-                              </h2>
-                              <p className="text-[12px] text-[#9CA3AF] font-medium">
-                                {language === "ar"
-                                  ? "الشهادات والإنجازات المهنية"
-                                  : "Certifications and professional achievements"}
-                              </p>
-                            </div>
-                          </div>
-                          <CertificationsForm />
-
-                          <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
-                            <button
-                              onClick={() => setActiveTab("projects")}
-                              className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
-                            >
-                              {language === "ar" ? "السابق" : "Previous"}
-                            </button>
-                            <motion.button
-                              whileHover={{ y: -1 }}
-                              whileTap={{ scale: 0.985 }}
-                              onClick={() => setActiveTab("finish")}
-                              className="group flex items-center gap-3 bg-[#001639] hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all cursor-pointer"
-                            >
-                              {language === "ar"
-                                ? "الذهاب للمراجعة والتحميل"
-                                : "Go to Review & Download"}
-                              <ArrowRight
-                                size={20}
-                                className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
-                              />
-                            </motion.button>
-                          </div>
-                        </section>
+                          </section>
+                        </div>
                       )}
                       {activeTab === "finish" && (
                         <FinishStep
@@ -1504,21 +1505,7 @@ export default function EditorPage() {
                   {formContent}
                 </motion.div>
               </AnimatePresence>
-              {focusMode && (
-                <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white border border-slate-200 text-slate-500 rounded-full py-2 px-5 shadow-sm flex items-center justify-center gap-2 text-xs font-semibold select-none z-50">
-                  <span className="relative flex h-2 w-2 shrink-0">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                  <span>
-                    {language === "ar" 
-                      ? "Focus Mode ON — بتركز على المحتوى" 
-                      : language === "fr"
-                      ? "Focus Mode ON — Concentré sur le contenu"
-                      : "Focus Mode ON — Focusing on Content"}
-                  </span>
-                </div>
-              )}{/* Mobile Scroll to Top */}
+{/* Mobile Scroll to Top */}
                 <AnimatePresence>
                   {showScrollTop && (
                     <motion.button
@@ -2489,7 +2476,7 @@ export default function EditorPage() {
             onClose={() => setIsMagicModalOpen(false)}
           />
         </Suspense>
-        <LiveAtsScoreWidget />
+        
 
 
 

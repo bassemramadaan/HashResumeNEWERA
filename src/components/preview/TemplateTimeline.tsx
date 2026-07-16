@@ -4,7 +4,7 @@ import { SafeDescription } from "./SafeDescription";
 import { detectIsArabic } from "../../utils/language";
 
 const TemplateTimeline: React.FC<{ data: ResumeData; isMini?: boolean }> = ({ data, isMini }) => {
-  const { personalInfo, experience, education, skills, certifications, projects, settings } = data;
+  const { personalInfo, experience, education, skills, certifications, projects } = data;
   const isRtl = detectIsArabic(data);
 
   const TitleTag = isMini ? "div" : "h1";
@@ -79,7 +79,7 @@ const TemplateTimeline: React.FC<{ data: ResumeData; isMini?: boolean }> = ({ da
           <SectionTag className="text-[12px] font-bold text-[#111827] uppercase tracking-[1px] mb-3">
             {isRtl ? "المهارات" : "Skills"}
           </SectionTag>
-          <p className="text-[11px] text-[#374151] leading-[1.5]">{skills.map(s => typeof s === 'string' ? s : (s as any).name).join(", ")}</p>
+          <p className="text-[11px] text-[#374151] leading-[1.5]">{skills.map(s => typeof s === 'string' ? s : (s as unknown as { name: string }).name).join(", ")}</p>
         </section>
       )}
       

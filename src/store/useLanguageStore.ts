@@ -15,12 +15,12 @@ const getInitialLang = (): Language => {
     const stored = safeLocalStorage.getItem("language-storage");
     if (stored) {
       const parsed = JSON.parse(stored);
-      return parsed?.state?.language || "en";
+      return parsed?.state?.language || "ar";
     }
   } catch {
     // console.error('Error reading language from LS');
   }
-  return "en";
+  return "ar";
 };
 
 const initialLang = getInitialLang();

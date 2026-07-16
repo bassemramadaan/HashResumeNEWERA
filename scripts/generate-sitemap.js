@@ -4,16 +4,15 @@ import path from 'path';
 const pages = [
   { route: '', file: 'src/pages/Landing/index.tsx', priority: '1.0', changefreq: 'daily' },
   { route: 'templates', file: 'src/pages/TemplatesPage.tsx', priority: '0.9', changefreq: 'weekly' },
-  { route: 'cover-letter', file: 'src/pages/CoverLetterPage.tsx', priority: '0.8', changefreq: 'weekly' },
   { route: 'blog', file: 'src/pages/BlogPage.tsx', priority: '0.8', changefreq: 'daily' },
-  { route: 'hash-hunt', file: 'src/pages/HashHuntPage.tsx', priority: '0.4', changefreq: 'weekly' },
+  { route: 'hash-hunt', file: 'src/pages/HashHuntPage.tsx', priority: '0.8', changefreq: 'weekly' },
   { route: 'pricing', file: 'src/pages/PricingPage.tsx', priority: '0.8', changefreq: 'weekly' },
+  { route: 'payment', file: 'src/pages/PaymentPage.tsx', priority: '0.7', changefreq: 'weekly' },
   { route: 'privacy', file: 'src/pages/PrivacyPage.tsx', priority: '0.5', changefreq: 'monthly' },
   { route: 'terms', file: 'src/pages/TermsOfServicePage.tsx', priority: '0.5', changefreq: 'monthly' },
   { route: 'trust', file: 'src/pages/TrustPage.tsx', priority: '0.6', changefreq: 'monthly' },
   { route: 'how-ats-works', file: 'src/pages/HowAtsWorksPage.tsx', priority: '0.6', changefreq: 'monthly' },
-  { route: 'faq', file: 'src/pages/FAQPage.tsx', priority: '0.7', changefreq: 'monthly' },
-  { route: 'interview-prep', file: 'src/pages/InterviewCoachPage.tsx', priority: '0.7', changefreq: 'weekly' }
+  { route: 'faq', file: 'src/pages/FAQPage.tsx', priority: '0.7', changefreq: 'monthly' }
 ];
 
 const domain = 'https://hashresume.com';

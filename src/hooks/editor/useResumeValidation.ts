@@ -3,8 +3,11 @@ import { getResumeSignature } from "../../store/useResumeStore";
 import { calculateATSScore } from "../../utils/ats";
 import { DEFAULT_BREAKDOWN } from "../../constants";
 import { ResumeData } from "../../types/resume";
+import { useLanguageStore } from "../../store/useLanguageStore";
 
 export function useResumeValidation(data: ResumeData) {
+  const { language } = useLanguageStore();
+
   const isPremium = useMemo(() => {
     if (!data.isPremium) return false;
     
@@ -34,12 +37,12 @@ export function useResumeValidation(data: ResumeData) {
   const { score: atsScore } = useMemo(() => {
     if (isEmpty) return { score: 0, criticalFailures: [], tips: [] };
     try {
-      return calculateATSScore(data);
+      return calculateATSScore(data, language);
     } catch (e) {
       console.error("ATS Audit failed", e);
       return { score: 0, criticalFailures: [], tips: [] };
     }
-  }, [data, isEmpty]);
+  }, [data, isEmpty, language]);
 
   const breakdown = useMemo(() => {
     return DEFAULT_BREAKDOWN.map((b, i) => {

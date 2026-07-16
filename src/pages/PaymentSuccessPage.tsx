@@ -3,7 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { 
   CheckCircle, Copy, Check, MessageCircle, ArrowRight, Loader2, 
-  Sparkles, RefreshCw, Award
+  Sparkles, RefreshCw, Award, Download
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore } from "../store/useResumeStore";
@@ -366,7 +366,7 @@ export default function PaymentSuccessPage() {
                   className="px-4 py-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <MessageCircle size={14} />
-                  <span>{isAr ? "إرسال عبر واتساب" : "Send to WhatsApp"}</span>
+                  <span>{isAr ? "إرسال الكود عبر واتساب" : "Send code via WhatsApp"}</span>
                 </a>
                 
                 {email && (
@@ -375,18 +375,26 @@ export default function PaymentSuccessPage() {
                     className="px-4 py-3 bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <Sparkles size={14} className="text-orange-500" />
-                    <span>{isAr ? "إرسال للبريد" : "Send to Email"}</span>
+                    <span>{isAr ? "إرسال الكود للبريد" : "Email my code"}</span>
                   </a>
                 )}
               </div>
 
-              <div className="pt-6 border-t border-slate-100 max-w-md mx-auto">
+              <div className="pt-6 border-t border-slate-100 max-w-md mx-auto space-y-3">
+                <Link
+                  to="/editor?download=pdf"
+                  className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:scale-98"
+                >
+                  <Download size={16} className="animate-bounce" />
+                  <span>{isAr ? "تحميل السيرة الذاتية PDF الآن 🚀" : "Download Resume PDF Now 🚀"}</span>
+                </Link>
+
                 <Link
                   to="/editor"
-                  className="w-full bg-slate-900 hover:bg-slate-800 text-white py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all active:scale-98"
+                  className="w-full bg-slate-900 hover:bg-slate-800 text-white py-3.5 rounded-xl font-black text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all active:scale-98"
                 >
-                  <span>{isAr ? "الانتقال لمحرر السيرة الذاتية الآن" : "Go to Resume Editor Now"}</span>
-                  <ArrowRight size={16} />
+                  <span>{isAr ? "دخول محرر السيرة الذاتية" : "Go to Resume Editor"}</span>
+                  <ArrowRight size={16} className="rtl:rotate-180" />
                 </Link>
               </div>
 

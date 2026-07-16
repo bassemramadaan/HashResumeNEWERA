@@ -18,13 +18,35 @@ export default function FAQPage() {
         <title>الأسئلة الشائعة | Hash Resume</title>
         <meta name="description" content="إجابات على أكثر الأسئلة شيوعاً حول Hash Resume — التسعير، الخصوصية، دعم العربي، وكيفية عمل ATS." />
         <link rel="canonical" href="https://hashresume.com/faq" />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              "mainEntity": [{
+                "@type": "Question",
+                "name": "هل Hash Resume مجاني؟",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "نعم، يمكنك بناء السيرة الذاتية مجاناً وتحميلها ببعض القوالب، وتتوفر خطط مدفوعة للوصول الكامل لجميع القوالب والميزات."
+                }
+              }, {
+                "@type": "Question",
+                "name": "هل تدعمون اللغة العربية؟",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "نعم، النظام مصمم لدعم اللغة العربية بشكل كامل مع توافق مع أنظمة قراءة السير الذاتية ATS."
+                }
+              }]
+            }
+          `}
+        </script>
       </Helmet>
 
       <Navbar />
       
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-24">
-        <h1 className="sr-only">{language === 'ar' ? 'الأسئلة الشائعة' : 'FAQ'}</h1>
-        <FAQ />
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-12 pb-36 lg:pb-12">
+        <FAQ isFAQPage={true} />
       </main>
 
       <Footer />

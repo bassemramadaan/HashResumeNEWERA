@@ -1,6 +1,12 @@
 @import "tailwindcss";
 @import "./styles/components.css";
 
+/* Recaptcha badge resize hack */
+.grecaptcha-badge {
+  transform: scale(0.85);
+  transform-origin: bottom right;
+}
+
 /* ============================================================
    DESIGN TOKENS
    ============================================================ */

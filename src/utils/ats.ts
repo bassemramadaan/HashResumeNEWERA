@@ -215,7 +215,7 @@ export function getJobMatchResults(data: ResumeData) {
   return { matchPercentage, matched, missing };
 }
 
-export function calculateATSScore(data: ResumeData): ATSResult {
+export function calculateATSScore(data: ResumeData, lang: string = "en"): ATSResult {
   const {
     personalInfo,
     experience,
@@ -226,11 +226,14 @@ export function calculateATSScore(data: ResumeData): ATSResult {
     settings,
   } = data;
 
+  const isAr = lang === "ar";
+  const tStr = (en: string, ar: string) => isAr ? ar : en;
+
   const sections: ATSResult["sections"] = [];
 
   // 1. Contact Info (10 points max)
   const contact = {
-    title: "Contact Info",
+    title: tStr("Contact Info", "معلومات الاتصال"),
     score: 0,
     maxScore: 10,
     goodPoints: [] as string[],
@@ -238,34 +241,34 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   };
   if (personalInfo.fullName && personalInfo.fullName.trim().length > 2) {
     contact.score += 3;
-    contact.goodPoints.push("Full name is present.");
-  } else contact.improvements.push("Add your full name.");
+    contact.goodPoints.push(tStr("Full name is present.", "الاسم الكامل مضاف بشكل صحيح."));
+  } else contact.improvements.push(tStr("Add your full name.", "يرجى إضافة اسمك الكامل في أعلى السيرة الذاتية."));
 
   if (personalInfo.email && personalInfo.email.includes("@")) {
     contact.score += 3;
-    contact.goodPoints.push("Email address is present.");
-  } else contact.improvements.push("Add a professional email address.");
+    contact.goodPoints.push(tStr("Email address is present.", "البريد الإلكتروني مضاف بشكل صحيح."));
+  } else contact.improvements.push(tStr("Add a professional email address.", "أضف بريداً إلكترونياً مهنياً رسمياً يحتوي على اسمك (تجنب الأسماء المستعارة)."));
 
   if (personalInfo.phone && personalInfo.phone.trim().length > 4) {
     contact.score += 2;
-    contact.goodPoints.push("Phone number is present.");
-  } else contact.improvements.push("Add your phone number.");
+    contact.goodPoints.push(tStr("Phone number is present.", "رقم الهاتف مضاف للتواصل السريع."));
+  } else contact.improvements.push(tStr("Add your phone number.", "أضف رقم هاتفك للتواصل المباشر مع مسؤولي التوظيف."));
 
   let socialCount = 0;
   if (personalInfo.linkedin && personalInfo.linkedin.trim().length > 0) {
     contact.score += 2;
     socialCount++;
-    contact.goodPoints.push("LinkedIn profile included.");
+    contact.goodPoints.push(tStr("LinkedIn profile included.", "رابط حساب لينكد إن مضاف."));
   }
   if (personalInfo.github && personalInfo.github.trim().length > 0) {
     if (socialCount < 1) contact.score += 2; // award points if linkedin wasn't filled
     socialCount++;
-    contact.goodPoints.push("GitHub profile included.");
+    contact.goodPoints.push(tStr("GitHub profile included.", "رابط حساب جيتهاب مضاف."));
   }
   if (personalInfo.portfolio && personalInfo.portfolio.trim().length > 0) {
     if (socialCount < 1) contact.score += 2; // award points
     socialCount++;
-    contact.goodPoints.push("Portfolio website included.");
+    contact.goodPoints.push(tStr("Portfolio website included.", "رابط معرض الأعمال/الموقع الشخصي مضاف."));
   }
 
   // Cap score at 10
@@ -273,45 +276,54 @@ export function calculateATSScore(data: ResumeData): ATSResult {
 
   if (socialCount === 0) {
     contact.improvements.push(
-      "Add a professional online profile (LinkedIn, GitHub, or Portfolio) to build trust.",
+      tStr(
+        "Add a professional online profile (LinkedIn, GitHub, or Portfolio) to build trust.",
+        "يرجى إضافة رابط مهني نشط مثل حساب LinkedIn أو GitHub أو موقعك الشخصي لزيادة المصداقية."
+      )
     );
   }
   sections.push(contact);
 
   // 2. Summary (10 points)
   const summary = {
-    title: "Summary",
+    title: tStr("Summary", "الملخص المهني"),
     score: 0,
     maxScore: 10,
-    goodPoints: [],
+    goodPoints: [] as string[],
     improvements: [] as string[],
   };
   if (personalInfo.summary && personalInfo.summary.length > 150) {
     summary.score += 10;
-    summary.goodPoints.push("Detailed professional summary.");
+    summary.goodPoints.push(tStr("Detailed professional summary.", "ملخص مهني تفصيلي واحترافي مضاف."));
   } else if (personalInfo.summary && personalInfo.summary.length > 50) {
     summary.score += 5;
     summary.improvements.push(
-      "Make your summary more impactful by adding specific achievements and years of experience.",
+      tStr(
+        "Make your summary more impactful by adding specific achievements and years of experience.",
+        "اجعل الملخص المهني أكثر تأثيراً عبر إضافة سنوات الخبرة وأهم الإنجازات ولغة الأرقام."
+      )
     );
   } else {
     summary.improvements.push(
-      "Add a professional summary (3-4 sentences) to highlight your core value proposition.",
+      tStr(
+        "Add a professional summary (3-4 sentences) to highlight your core value proposition.",
+        "أضف ملخصاً مهنياً (3-4 جمل) يبرز مهاراتك الرئيسية وقيمتك المضافة لجهة التوظيف."
+      )
     );
   }
   sections.push(summary);
 
   // 3. Experience Formatting (10 points)
   const expStructure = {
-    title: "Experience Formatting",
+    title: tStr("Experience Formatting", "تنسيق الخبرات المهنية"),
     score: 0,
     maxScore: 10,
-    goodPoints: [],
+    goodPoints: [] as string[],
     improvements: [] as string[],
   };
   if (experience.length > 0) {
     expStructure.score += 5;
-    expStructure.goodPoints.push("Work experience section is present.");
+    expStructure.goodPoints.push(tStr("Work experience section is present.", "قسم الخبرات المهنية مضاف وموجود."));
 
     let bulletCount = 0;
     let totalBullets = 0;
@@ -337,28 +349,34 @@ export function calculateATSScore(data: ResumeData): ATSResult {
       if (bulletCount / totalBullets > 0.8) {
         expStructure.score += 5;
         expStructure.goodPoints.push(
-          "Consistent use of standard bullet points.",
+          tStr("Consistent use of standard bullet points.", "استخدام متناسق للنقاط النقطية القياسية.")
         );
       } else {
         expStructure.improvements.push(
-          "Use standard bullet points (•, -, *) for all experience descriptions to ensure ATS readability.",
+          tStr(
+            "Use standard bullet points (•, -, *) for all experience descriptions to ensure ATS readability.",
+            "استخدم علامات تنقيط موحدة وقياسية (مثل • أو -) لضمان قراءة النظام الآلي ATS للخبرات بشكل صحيح."
+          )
         );
       }
     } else {
       expStructure.improvements.push(
-        "Add bullet points to describe your responsibilities and achievements.",
+        tStr(
+          "Add bullet points to describe your responsibilities and achievements.",
+          "أضف نقاطاً تفصيلية منظمة لشرح مسؤولياتك وإنجازاتك في كل دور وظيفي."
+        )
       );
     }
   } else {
     expStructure.improvements.push(
-      "Add work experience or relevant internships.",
+      tStr("Add work experience or relevant internships.", "يرجى إضافة خبراتك المهنية أو التدريبية السابقة لإثراء السيرة الذاتية.")
     );
   }
   sections.push(expStructure);
 
   // 4. Experience Bullet Points (20 points)
   const bulletQuality = {
-    title: "Experience Bullet Points",
+    title: tStr("Experience Bullet Points", "جودة الأوصاف الوظيفية"),
     score: 0,
     maxScore: 20,
     goodPoints: [] as string[],
@@ -402,33 +420,45 @@ export function calculateATSScore(data: ResumeData): ATSResult {
       const actionVerbRatio = actionVerbCount / totalBullets;
       if (actionVerbRatio > 0.6) {
         bulletQuality.score += 10;
-        bulletQuality.goodPoints.push("Excellent use of strong action verbs.");
+        bulletQuality.goodPoints.push(tStr("Excellent use of strong action verbs.", "استخدام ممتاز ومميز للأفعال القوية والدلالية."));
       } else if (actionVerbRatio > 0.3) {
         bulletQuality.score += 5;
-        bulletQuality.goodPoints.push("Good attempt at using action verbs.");
+        bulletQuality.goodPoints.push(tStr("Good attempt at using action verbs.", "محاولة جيدة لاستخدام الأفعال التعبيرية النشطة."));
         bulletQuality.improvements.push(
-          "Start more of your bullet points with action verbs to show active leadership and technical execution.",
+          tStr(
+            "Start more of your bullet points with action verbs to show active leadership and technical execution.",
+            "ابدأ المزيد من النقاط بأفعال قوية مهنية لتظهر دورك الفعّال والنشط."
+          )
         );
       } else {
         bulletQuality.improvements.push(
-          "Most descriptions should include clear action verbs (e.g., 'Led', 'Developed', 'قاد', 'طور') to detail your output.",
+          tStr(
+            "Most descriptions should include clear action verbs (e.g., 'Led', 'Developed', 'قاد', 'طور') to detail your output.",
+            "يجب أن تبدأ معظم الأوصاف الوظيفية بأفعال دلالية واضحة تشرح بدقة ما أنجزته وتكشف جدارتك."
+          )
         );
       }
 
       if (quantifiedCount >= 2) {
         bulletQuality.score += 10;
         bulletQuality.goodPoints.push(
-          "Great job adding numbers and metrics to substantiate impact.",
+          tStr("Great job adding numbers and metrics to substantiate impact.", "عمل رائع! استخدام الأرقام والنسب المئوية يعطي مصداقية كبيرة لإنجازاتك.")
         );
       } else if (quantifiedCount > 0) {
         bulletQuality.score += 5;
-        bulletQuality.goodPoints.push("Some quantified impact included.");
+        bulletQuality.goodPoints.push(tStr("Some quantified impact included.", "تم استخدام بعض الأرقام لقياس الأثر."));
         bulletQuality.improvements.push(
-          "Try to quantify more achievements with numbers, percentages, or scale metrics.",
+          tStr(
+            "Try to quantify more achievements with numbers, percentages, or scale metrics.",
+            "حاول إدراج أرقام ونسب مئوية أكثر لقياس مدى نجاحك وتأثيرك في أدوارك السابقة."
+          )
         );
       } else {
         bulletQuality.improvements.push(
-          "Add metrics/numbers to your accomplishments (e.g., 'Increased efficiency by 15%', 'Managed $10k budget' or 'تقليص التكاليف بنسبة ١٥٪').",
+          tStr(
+            "Add metrics/numbers to your accomplishments (e.g., 'Increased efficiency by 15%', 'Managed $10k budget' or 'تقليص التكاليف بنسبة ١٥٪').",
+            "أضف لغة الأرقام والنسب لقياس نتائج أعمالك (مثل: زيادة المبيعات بنسبة 15%، أو إدارة ميزانية محددة)."
+          )
         );
       }
     }
@@ -437,35 +467,35 @@ export function calculateATSScore(data: ResumeData): ATSResult {
 
   // 5. Education (10 points)
   const edu = {
-    title: "Education",
+    title: tStr("Education", "المؤهل الدراسي والتعليم"),
     score: 0,
     maxScore: 10,
-    goodPoints: [],
+    goodPoints: [] as string[],
     improvements: [] as string[],
   };
   if (education.length > 0) {
     edu.score += 10;
-    edu.goodPoints.push("Education section is complete.");
+    edu.goodPoints.push(tStr("Education section is complete.", "قسم المؤهل الدراسي مضاف ومكتمل."));
   } else {
-    edu.improvements.push("Add your educational background.");
+    edu.improvements.push(tStr("Add your educational background.", "يرجى إضافة مؤهلك الدراسي أو جامعتك وتاريخ التخرج."));
   }
   sections.push(edu);
 
   // 6. Skills Section (15 points)
   const skillsSection = {
-    title: "Skills Section",
+    title: tStr("Skills Section", "قسم المهارات"),
     score: 0,
     maxScore: 15,
-    goodPoints: [],
+    goodPoints: [] as string[],
     improvements: [] as string[],
   };
   if (skills.length > 0) {
     if (skills.length >= 8) {
       skillsSection.score += 5;
-      skillsSection.goodPoints.push("Good number of skills listed.");
+      skillsSection.goodPoints.push(tStr("Good number of skills listed.", "عدد ممتاز ومتنوع من المهارات المضافة."));
     } else {
       skillsSection.improvements.push(
-        "Add more relevant skills (aim for 8-12).",
+        tStr("Add more relevant skills (aim for 8-12).", "أضف المزيد من المهارات ذات الصلة بمجال عملك (ننصح بـ 8 إلى 12 مهارة).")
       );
     }
 
@@ -479,27 +509,27 @@ export function calculateATSScore(data: ResumeData): ATSResult {
     if (softSkillCount > 0 && hardSkillCount > 0) {
       skillsSection.score += 10;
       skillsSection.goodPoints.push(
-        "Balanced mix of technical and soft skills.",
+        tStr("Balanced mix of technical and soft skills.", "مزيج متوازن واحترافي بين المهارات التقنية والشخصية.")
       );
     } else if (hardSkillCount === 0) {
       skillsSection.improvements.push(
-        "Add technical (hard) skills specific to your role.",
+        tStr("Add technical (hard) skills specific to your role.", "أضف مهارات تقنية متخصصة تبرز جدارتك العملية لمجال تخصصك.")
       );
     } else {
       skillsSection.improvements.push(
-        "Add some soft skills (e.g., 'Leadership', 'Communication').",
+        tStr("Add some soft skills (e.g., 'Leadership', 'Communication').", "أضف بعض المهارات الشخصية الهامة مثل العمل الجماعي وحل المشكلات أو القيادة.")
       );
     }
   } else {
     skillsSection.improvements.push(
-      "Add a skills section to highlight your expertise.",
+      tStr("Add a skills section to highlight your expertise.", "أضف قسم مهارات مخصص لتوضيح أدواتك وخبراتك للمراجعين والأنظمة الآلية.")
     );
   }
   sections.push(skillsSection);
 
   // 7. Projects (10 points max)
   const projSection = {
-    title: "Projects",
+    title: tStr("Projects", "المشاريع والإنجازات العملية"),
     score: 0,
     maxScore: 10,
     goodPoints: [] as string[],
@@ -507,72 +537,75 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   };
   if (projects.length > 0) {
     projSection.score += 10;
-    projSection.goodPoints.push("Projects section included.");
+    projSection.goodPoints.push(tStr("Projects section included.", "قسم المشاريع العملية مضاف بنجاح."));
   } else if (experience.length >= 2) {
     // Senior/Professional Compensation rule
     projSection.score += 8;
-    projSection.goodPoints.push("Projects score compensated by extensive professional employment history.");
+    projSection.goodPoints.push(tStr("Projects score compensated by extensive professional employment history.", "تم استكمال تقييم المشاريع تلقائياً نظراً لعمق وسنوات خبرتك المهنية الطويلة المضافة."));
   } else {
     projSection.improvements.push(
-      "Add key projects or case studies to demonstrate hands-on application of your skills.",
+      tStr("Add key projects or case studies to demonstrate hands-on application of your skills.", "أضف مشاريعك البارزة أو دراسات حالة تثبت تطبيقك العملي لمهاراتك في مواقف حقيقية.")
     );
   }
   sections.push(projSection);
 
   // 8. Certifications (5 points)
   const certSection = {
-    title: "Certifications",
+    title: tStr("Certifications", "الشهادات والاعتمادات"),
     score: 0,
     maxScore: 5,
-    goodPoints: [],
+    goodPoints: [] as string[],
     improvements: [] as string[],
   };
   if (certifications.length > 0) {
     certSection.score += 5;
-    certSection.goodPoints.push("Certifications included.");
+    certSection.goodPoints.push(tStr("Certifications included.", "الشهادات والاعتمادات مضافة بنجاح."));
   } else {
     certSection.improvements.push(
-      "Add relevant certifications to boost credibility.",
+      tStr("Add relevant certifications to boost credibility.", "أضف شهادات مهنية أو دورات معتمدة لرفع مستوى الثقة بك ومهاراتك.")
     );
   }
   sections.push(certSection);
 
   // 9. Formatting (10 points)
   const formatting = {
-    title: "Formatting",
+    title: tStr("Formatting", "التنسيق والمظهر العام"),
     score: 0,
     maxScore: 10,
-    goodPoints: [],
+    goodPoints: [] as string[],
     improvements: [] as string[],
   };
   if (settings.template === "creative") {
     formatting.score += 5;
     formatting.improvements.push(
-      "Consider a more standard template like 'Modern' for better ATS parsing.",
+      tStr("Consider a more standard template like 'Modern' for better ATS parsing.", "ننصح باستخدام قوالب كلاسيكية أو 'Modern' لضمان قراءة مثالية وخالية من الأخطاء الآلية.")
     );
   } else {
     formatting.score += 10;
-    formatting.goodPoints.push("Clean, ATS-friendly template structure.");
+    formatting.goodPoints.push(tStr("Clean, ATS-friendly template structure.", "قالب السيرة الذاتية متناسق ومنظم ويسهل قراءته آلياً بنسبة %100."));
   }
   sections.push(formatting);
 
   // 10. Job Match (Bonus/Context)
   if (data.jobDescription) {
     const jobMatch = {
-      title: "Job Match",
+      title: tStr("Job Match", "التطابق مع الوصف الوظيفي"),
       score: 0,
       maxScore: 0,
-      goodPoints: [],
+      goodPoints: [] as string[],
       improvements: [] as string[],
     };
     const matchResults = getJobMatchResults(data);
     if (matchResults) {
       if (matchResults.missing.length > 0) {
         jobMatch.improvements.push(
-          `Missing keywords: ${matchResults.missing.slice(0, 5).join(", ")}`,
+          tStr(
+            `Missing keywords: ${matchResults.missing.slice(0, 5).join(", ")}`,
+            `الكلمات المفتاحية المفقودة من الوصف: ${matchResults.missing.slice(0, 5).join(", ")}`
+          )
         );
       } else {
-        jobMatch.goodPoints.push("All top keywords from JD are present.");
+        jobMatch.goodPoints.push(tStr("All top keywords from JD are present.", "جميع الكلمات المفتاحية الرئيسية من الوصف الوظيفي مضافة ومكتملة."));
       }
       sections.push(jobMatch);
     }
@@ -586,7 +619,7 @@ export function calculateATSScore(data: ResumeData): ATSResult {
   
   // Critical failures (e.g. score < 5 in important sections)
   const criticalFailures = sections
-    .filter(s => s.score < (s.maxScore * 0.4) && (s.title === "Contact Info" || s.title === "Experience Formatting"))
+    .filter(s => s.score < (s.maxScore * 0.4) && (s.title === "Contact Info" || s.title === "Experience Formatting" || s.title === "معلومات الاتصال" || s.title === "تنسيق الخبرات المهنية"))
     .map(s => s.title);
 
   return {

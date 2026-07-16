@@ -347,6 +347,10 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
                       src="/src/assets/images/ats_success_illustration_1780566851774.png"
                       alt="ATS Compliance Check"
                       referrerPolicy="no-referrer"
+                      loading="lazy"
+                      decoding="async"
+                      width="160"
+                      height="160"
                       className="max-h-[140px] md:max-h-[160px] w-auto object-contain transform hover:scale-105 transition-transform duration-500 pointer-events-none"
                     />
                   </div>

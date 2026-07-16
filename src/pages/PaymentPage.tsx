@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { 
   ArrowRight, ArrowLeft, CreditCard, Smartphone, ShieldCheck, 
   Copy, Sparkles, Loader2, Info, CheckCircle2, Ticket, HelpCircle
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore } from "../store/useResumeStore";
+import { validatePromoCode } from "../data/promoCodes";
 
 export default function PaymentPage() {
   const { language } = useLanguageStore();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const isAr = language === "ar";
   const isFr = language === "fr";
   const navigate = useNavigate();
@@ -75,9 +78,10 @@ export default function PaymentPage() {
     const code = promoCode.trim().toUpperCase();
     if (!code) return;
 
-    if (code === "START20" || code === "WELCOME20" || code === "HASH20") {
+    const discountPercent = validatePromoCode(code);
+    if (discountPercent !== null) {
       const base = selectedPlan === "single" ? 50 : 120;
-      const discount = Math.round(base * 0.2); // 20% discount
+      const discount = Math.round(base * (discountPercent / 100));
       setDiscountAmount(discount);
       setPromoApplied(true);
     } else {
@@ -106,40 +110,32 @@ export default function PaymentPage() {
       return;
     }
 
-    if (paymentMethod === "card") {
-      if (!cardNumber || !cardExpiry || !cardCvv || !cardName) {
-        setErrorMessage(
-          isAr 
-            ? "يرجى ملء جميع بيانات البطاقة الائتمانية" 
-            : isFr 
-              ? "Veuillez remplir toutes les informations de carte de crédit" 
-              : "Please fill out all credit card information"
-        );
-        return;
-      }
-    } else {
-      if (!refNum.trim()) {
-        setErrorMessage(
-          isAr 
-            ? "يرجى إدخال الرقم المرجعي أو رقم المعاملة للتحقق" 
-            : isFr 
-              ? "Veuillez saisir la référence de transaction pour vérification" 
-              : "Please enter the transaction reference number for verification"
-        );
-        return;
-      }
+    if (!refNum.trim()) {
+      setErrorMessage(
+        isAr 
+          ? "يرجى إدخال الرقم المرجعي أو رقم المعاملة للتحقق" 
+          : isFr 
+            ? "Veuillez saisir la référence de transaction pour vérification" 
+            : "Please enter the transaction reference number for verification"
+      );
+      return;
+    }
+
+    if (!executeRecaptcha) {
+      setErrorMessage(isAr ? "يرجى الانتظار حتى يتم تحميل اختبار التحقق من الروبوت" : "Please wait for reCAPTCHA to load");
+      return;
     }
 
     setIsSubmitting(true);
     
     // Simulate/Perform transaction submission to verify backend
-    const finalRef = paymentMethod === "card" 
-      ? `CRD-${Math.floor(100000 + Math.random() * 900000)}` 
-      : refNum.trim();
+    const finalRef = refNum.trim();
     const finalAmount = `${getPrice()} EGP`;
     const finalSender = senderName.trim() || resumeData.personalInfo?.fullName || "Anonymous";
 
     try {
+      const token = await executeRecaptcha("payment_submit");
+      
       const response = await fetch("/api/payment/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -148,7 +144,8 @@ export default function PaymentPage() {
           reference: finalRef,
           senderInfo: finalSender,
           email: email.trim(),
-          amount: selectedPlan === "single" ? `${finalAmount} (Single Code)` : `${finalAmount} (3 Codes)`
+          amount: selectedPlan === "single" ? `${finalAmount} (Single Code)` : `${finalAmount} (3 Codes)`,
+          recaptchaToken: token
         })
       });
 
@@ -175,16 +172,7 @@ export default function PaymentPage() {
       }
     } catch (err) {
       console.error(err);
-      // Fallback redirection for local standalone resilience
-      const usedRefs = JSON.parse(localStorage.getItem("used_payment_refs") || "[]");
-      if (!usedRefs.includes(finalRef)) {
-        usedRefs.push(finalRef);
-        localStorage.setItem("used_payment_refs", JSON.stringify(usedRefs));
-      }
-      localStorage.setItem("pending_payment_ref", finalRef);
-      navigate(
-        `/payment-success?ref=${encodeURIComponent(finalRef)}&email=${encodeURIComponent(email.trim())}&amount=${getPrice()}&plan=${selectedPlan}&method=${paymentMethod}&simulated=true`
-      );
+      setErrorMessage(isAr ? "حدث خطأ غير متوقع أثناء الاتصال بالخادم." : "An unexpected error occurred while connecting to the server.");
     } finally {
       setIsSubmitting(false);
     }
@@ -465,7 +453,7 @@ export default function PaymentPage() {
                   {isAr ? "اختر وسيلة الدفع المناسبة:" : "Select Payment Method:"}
                 </h3>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("instapay")}
@@ -503,19 +491,6 @@ export default function PaymentPage() {
                   >
                     <Ticket size={20} className="text-amber-500" />
                     <span className="text-xs font-black">Fawry</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setPaymentMethod("card")}
-                    className={`py-3 px-2 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                      paymentMethod === "card" 
-                        ? "border-[#001639] bg-[#001639]/5 text-[#001639] font-bold" 
-                        : "border-slate-200 hover:bg-slate-50 text-slate-600"
-                    }`}
-                  >
-                    <CreditCard size={20} className="text-sky-500" />
-                    <span className="text-xs font-black">Credit Card</span>
                   </button>
                 </div>
 

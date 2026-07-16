@@ -15,7 +15,7 @@ export default function TemplateTwoColumn({ data, isMini }: { data: ResumeData; 
   const SectionTag = isMini ? "div" : "h2";
   const SubSectionTag = isMini ? "div" : "h3";
   
-  const ContactItem = ({ icon: Icon, text }: { icon: any, text: string }) => {
+  const ContactItem = ({ icon: Icon, text }: { icon: React.ComponentType<{ size?: number; className?: string }>, text: string }) => {
     if (!text) return null;
     return (
       <div className="flex items-start gap-2 mb-2 text-[10px]">

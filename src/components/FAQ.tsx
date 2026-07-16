@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { translations } from "../i18n/translations";
 
-export default function FAQ() {
+export default function FAQ({ isFAQPage = false }: { isFAQPage?: boolean }) {
   const { language } = useLanguageStore();
   const t = translations[language].landing;
   const [openIndices, setOpenIndices] = useState<number[]>([0]);
@@ -53,9 +53,15 @@ export default function FAQ() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-50 border border-slate-200 shadow-sm text-xs font-bold text-slate-800 tracking-tight uppercase mb-6">
             <span>{language === "ar" ? "الأسئلة الشائعة" : "FAQ"}</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-display tracking-tight leading-[1.15]">
-            {t.faqsTitle}
-          </h2>
+          {isFAQPage ? (
+            <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-display tracking-tight leading-[1.15]">
+              {t.faqsTitle}
+            </h1>
+          ) : (
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 font-display tracking-tight leading-[1.15]">
+              {t.faqsTitle}
+            </h2>
+          )}
           <p className="text-lg text-slate-500 font-medium">{t.faqsSubtitle}</p>
         </div>
 

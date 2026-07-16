@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from '@react-pdf/renderer';
-import { ResumeData } from '../../types/resume';
+import { ResumeData } from '../../store/useResumeStore';
 import { renderMarkdownToPDF } from '../utils';
 import { detectIsArabic } from '../../utils/language';
 
 export const ExecutiveTemplatePDF: React.FC<{ data: ResumeData }> = ({ data }) => {
-  const { personalInfo, experience, education, skills, certifications, projects, settings } = data;
-  const isRtl = detectIsArabic(data as any);
+  const { personalInfo, experience, education, skills, certifications, projects } = data;
+  const isRtl = detectIsArabic(data);
   
   const baseFont = isRtl ? 'Cairo' : 'PlusJakartaSans';
 
@@ -195,7 +195,7 @@ export const ExecutiveTemplatePDF: React.FC<{ data: ResumeData }> = ({ data }) =
               <Text style={styles.sectionHeading}>{isRtl ? "المهارات" : "Skills"}</Text>
             </View>
             <Text style={styles.skillsText}>
-              {skills.map(s => typeof s === 'string' ? s : (s as any).name).join(", ")}
+              {skills.map(s => typeof s === 'string' ? s : (s as unknown as { name: string }).name).join(", ")}
             </Text>
           </View>
         )}

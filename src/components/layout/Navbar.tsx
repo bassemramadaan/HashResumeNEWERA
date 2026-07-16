@@ -71,6 +71,22 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         desc: lang === 'ar' ? 'تحسين السيرة لمحركات الفحص' : 'Optimize your resume for ATS systems'
       },
       {
+        label: lang === 'ar' ? 'رسالة التغطية بالذكاء الاصطناعي' : lang === 'fr' ? 'Lettre de Motivation' : 'AI Cover Letter',
+        href: '/cover-letter',
+        badge: lang === 'ar' ? 'جديد' : 'AI',
+        color: 'brand',
+        icon: FileText,
+        desc: lang === 'ar' ? 'إنشاء رسالة تغطية احترافية متوافقة بالكامل' : 'Create tailored, expert cover letters with AI support'
+      },
+      {
+        label: lang === 'ar' ? 'لوحة التحكم والمكافآت' : lang === 'fr' ? 'Mon Tableau de Bord' : 'Rewards Dashboard',
+        href: '/dashboard',
+        badge: lang === 'ar' ? 'نشط' : 'LIVE',
+        color: 'emerald',
+        icon: CreditCard,
+        desc: lang === 'ar' ? 'متابعة التقديمات، الإحالات، والأكواد المدفوعة' : 'Track resume slots, application stages & free reward exports'
+      },
+      {
         label: lang === 'ar' ? 'فرص العمل (هاش هانت)' : lang === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
         href: '/hash-hunt',
         badge: lang === 'ar' ? 'جديد' : 'NEW',
@@ -108,6 +124,10 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             <Link to="/editor" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
               {lang === 'ar' ? 'إنشاء سيرة' : 'Create Resume'}
             </Link>
+
+            <Link to="/cover-letter" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+              {lang === 'ar' ? 'رسالة التغطية ✨' : 'Cover Letter ✨'}
+            </Link>
             
             <Link to="/hash-hunt" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-2">
               <span>{lang === 'ar' ? 'هاش هانت' : 'Hash Hunt'}</span>
@@ -130,6 +150,10 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
           <div className="flex-1 flex items-center justify-start gap-3 shrink-0">
             
             <div className="hidden lg:flex items-center justify-start gap-2">
+              <Link to="/dashboard" className="px-4 py-2 text-sm font-black text-[#E64528] hover:text-[#ff5637] rounded-xl hover:bg-slate-50 transition-all">
+                {lang === 'ar' ? 'لوحة التحكم ⚙️' : 'Dashboard ⚙️'}
+              </Link>
+
               <a href="/#ats-check" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
                 {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
               </a>

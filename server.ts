@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { createServer as createViteServer } from "vite";
 import rateLimit from "express-rate-limit";
+import { GoogleGenAI } from "@google/genai";
 
 import path from "path";
 import fs from "fs";
@@ -14,10 +15,28 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+    httpOptions: {
+      headers: {
+        'User-Agent': 'aistudio-build',
+      }
+    }
+  });
+
   // Trust proxy for reverse proxies (like Cloud Run / Nginx) so rate-limiting captures real client IPs correctly
   app.set('trust proxy', 1);
 
-  app.use(cors());
+  const allowedOrigins = ['https://hashresume.com', 'https://www.hashresume.com'];
+  app.use(cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:') || origin.endsWith('.run.app')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  }));
   app.use(express.json({ limit: "50mb" }));
 
   // General Rate Limiter for all API routes
@@ -60,6 +79,61 @@ async function startServer() {
     } catch (error: any) {
       console.error("Gemini Proxy Error:", error);
       res.status(500).json({ error: { message: error.message || "Failed to contact Gemini API" } });
+    }
+  });
+
+  app.post("/api/cover-letter/generate", aiLimiter, async (req, res) => {
+    try {
+      const { resume, jobDescription, tone, companyName, recipientName, jobTitle, language } = req.body;
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) {
+        return res.status(500).json({ error: "GEMINI_API_KEY is not defined" });
+      }
+
+      const systemInstruction = language === "ar"
+        ? `أنت خبير كتابة رسائل تغطية احترافية ومقنعة (Cover Letters) لمساعدة الباحثين عن عمل على لفت انتباه مسؤولي التوظيف واجتياز فحص الـ ATS بنجاح.
+يرجى كتابة رسالة تغطية ممتازة ومثالية باللغة العربية بناءً على السيرة الذاتية المقدمة والوصف الوظيفي (إن وجد)، باتباع النبرة المطلوبة: "${tone || "professional"}".
+يجب أن تتضمن الرسالة:
+1. ترويسة احترافية (تاريخ، اسم الشركة، اسم المستلم إن وجد).
+2. مقدمة قوية تجذب الانتباه للمنصب المستهدف.
+3. تفصيل مهارات وإنجازات محددة من السيرة الذاتية تتقاطع مباشرة مع احتياجات الوظيفة.
+4. خاتمة حاسمة وواثقة مع دعوة صريحة للاتصال (Call to Action).
+يرجى تنسيق المخرجات بشكل رائع ومصقول ومريح للقراءة مع فقرات واضحة.`
+        : `You are an expert professional cover letter writer helping job seekers catch the eye of recruiters and successfully pass ATS filters.
+Please write a highly polished, persuasive, and custom-tailored cover letter in English based on the provided resume data and target job description (if provided), following the specified tone: "${tone || "professional"}".
+The letter must include:
+1. A professional header (Date, Target Company, Recipient Name if provided).
+2. A captivating hook introducing the candidate's enthusiasm for the target job title "${jobTitle || "target role"}".
+3. Highly tailored body paragraphs highlighting specific accomplishments and skills from the resume that directly intersect with the job specifications.
+4. A confident call to action in the closing paragraph.
+Please return beautifully formatted plain text with professional paragraph breaks and neat margins.`;
+
+      const prompt = `
+Resume Data:
+${JSON.stringify(resume)}
+
+Target Job Description:
+${jobDescription || "N/A"}
+
+Company Name: ${companyName || "N/A"}
+Recipient Name: ${recipientName || "N/A"}
+Target Job Title: ${jobTitle || "N/A"}
+Tone: ${tone || "professional"}
+`;
+
+      const response = await ai.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: prompt,
+        config: {
+          systemInstruction,
+          temperature: 0.7,
+        },
+      });
+
+      res.json({ text: response.text });
+    } catch (error: any) {
+      console.error("AI Cover Letter Generation Error:", error);
+      res.status(500).json({ error: error.message || "Failed to generate cover letter with Gemini" });
     }
   });
 
@@ -111,8 +185,12 @@ async function startServer() {
                             (responseText.includes("<html") && responseText.includes("Google Apps Script"));
 
         let result;
+        const PAYMENT_MODE = process.env.PAYMENT_MODE || "sandbox";
         if (isGoogleError) {
-          console.warn("[PaymentProxy] Google Apps Script permission/authorization error detected. Falling back to Sandbox auto-approval Mode.");
+          console.warn(`[PaymentProxy] Google Apps Script error detected. Mode: ${PAYMENT_MODE}`);
+          if (PAYMENT_MODE === "production") {
+            return res.status(400).json({ success: false, message: "Payment verification error." });
+          }
           if (action === "submitPayment") {
             result = { success: true, status: "approved", message: "Recorded successfully (Sandbox Auto-Approved)" };
           } else if (action === "checkStatus") {
@@ -124,7 +202,10 @@ async function startServer() {
           try {
             result = JSON.parse(responseText);
           } catch (parseErr) {
-            console.warn("[PaymentProxy] Failed to parse JSON response. Falling back to Sandbox auto-approval mode to prevent blocking user.");
+            console.warn(`[PaymentProxy] Failed to parse JSON response. Mode: ${PAYMENT_MODE}`);
+            if (PAYMENT_MODE === "production") {
+              return res.status(400).json({ success: false, message: "Payment verification error." });
+            }
             if (action === "submitPayment") {
               result = { success: true, status: "approved", message: "Recorded successfully (Sandbox Auto-Approved)" };
             } else if (action === "checkStatus") {
@@ -144,6 +225,10 @@ async function startServer() {
           console.error("[PaymentProxy] Error in fetch. Falling back to Sandbox Mode:", fetchError);
         }
         
+        const PAYMENT_MODE = process.env.PAYMENT_MODE || "sandbox";
+        if (PAYMENT_MODE === "production") {
+          return res.status(400).json({ success: false, message: "Payment verification error." });
+        }
         // Return a successful fallback response in Sandbox mode so they are never blocked!
         let result;
         if (action === "submitPayment") {
@@ -189,8 +274,12 @@ async function startServer() {
                             responseText.includes("goog-ws-error") || 
                             (responseText.includes("<html") && responseText.includes("Google Apps Script"));
                             
+        const PAYMENT_MODE = process.env.PAYMENT_MODE || "sandbox";
         if (isGoogleError) {
-          console.warn("[PaymentSubmitProxy] Google Apps Script authorization issue. Auto-approving.");
+          console.warn(`[PaymentSubmitProxy] Google Apps Script authorization issue. Mode: ${PAYMENT_MODE}`);
+          if (PAYMENT_MODE === "production") {
+            return res.status(400).json({ success: false, message: "Payment authorization error." });
+          }
           return res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
         }
         
@@ -198,15 +287,24 @@ async function startServer() {
           const data = JSON.parse(responseText);
           res.json(data);
         } catch (parseErr) {
-          console.warn("[PaymentSubmitProxy] Parse error. Returning custom auto-approved Sandbox response.");
+          console.warn(`[PaymentSubmitProxy] Parse error. Mode: ${PAYMENT_MODE}`);
+          if (PAYMENT_MODE === "production") {
+            return res.status(400).json({ success: false, message: "Payment verification error." });
+          }
           res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
         }
       } catch (fetchErr) {
-        console.error("[PaymentSubmitProxy] Fetch error. Returning Sandbox auto-approval:", fetchErr);
+        console.error("[PaymentSubmitProxy] Fetch error.", fetchErr);
+        if (process.env.PAYMENT_MODE === "production") {
+          return res.status(400).json({ success: false, message: "Payment verification error." });
+        }
         res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
       }
     } catch (error) {
-      console.error("[PaymentSubmitProxy] Outer error. Returning Sandbox auto-approval:", error);
+      console.error("[PaymentSubmitProxy] Outer error.", error);
+      if (process.env.PAYMENT_MODE === "production") {
+        return res.status(400).json({ success: false, message: "Payment verification error." });
+      }
       res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
     }
   });
@@ -241,7 +339,10 @@ async function startServer() {
   app.post("/api/hashhunt/submit", async (req, res) => {
     try {
       const submissionData = req.body;
-      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbyl7ro7BiwATXekxNHoO79D1DyVGfQEIfQGY5_nodXMu0KeZA2kXUxTSbqK7wlg3xGyHw/exec";
+      const scriptUrl = process.env.GAS_HASHHUNT_URL || process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL;
+      if (!scriptUrl) {
+        throw new Error("Hash Hunt script URL not configured (GAS_HASHHUNT_URL)");
+      }
       
       console.log("Sending submission to Google Apps Script Web App url:", scriptUrl);
 
@@ -294,6 +395,11 @@ async function startServer() {
         return res.status(400).json({ error: "HTML content is required" });
       }
 
+      // Basic sanitization: remove <script> tags and javascript: pseudo-protocol
+      const sanitizedHtml = html
+        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/javascript:/gi, 'about:blank');
+
       const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox']
       });
@@ -342,7 +448,7 @@ async function startServer() {
             ${css || ''}
           </head>
           <body>
-            ${html}
+            ${sanitizedHtml}
           </body>
         </html>
       `;
@@ -385,7 +491,11 @@ async function startServer() {
     app.use(express.static(distPath));
     
     let indexHtmlCache: string | null = null;
-    app.get('*', (req, res) => {
+    app.use((req, res, next) => {
+      // Ignore API routes
+      if (req.path.startsWith('/api/')) {
+        return next();
+      }
       try {
         const filePath = path.join(distPath, 'index.html');
         if (!indexHtmlCache) {

@@ -15,6 +15,17 @@ export default function BlogPage() {
         <title>المدونة | Hash Resume — نصائح CV وسوق العمل</title>
         <meta name="description" content="مقالات ونصائح لمساعدتك في كتابة CV احترافي يتخطى ATS ويوصلك لأفضل الوظائف." />
         <link rel="canonical" href="https://hashresume.com/blog" />
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Blog",
+              "name": "مدونة Hash Resume",
+              "description": "مقالات ونصائح لمساعدتك في كتابة CV احترافي يتخطى ATS ويوصلك لأفضل الوظائف.",
+              "url": "https://hashresume.com/blog"
+            }
+          `}
+        </script>
       </Helmet>
       <div className="min-h-screen bg-slate-50 font-sans text-slate-900 transition-colors duration-300">
         <Navbar />

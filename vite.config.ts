@@ -35,7 +35,8 @@ export default defineConfig(({ mode }) => {
           cleanupOutdatedCaches: true,
           skipWaiting: true,
           clientsClaim: true,
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+          globPatterns: ['**/*.{js,css,html,ico,svg,woff2}'],
+          globIgnores: ['**/node_modules/**/*', 'assets/pdf.worker*.js', '**/*.png', '**/*.jpg', '**/*.jpeg'],
           additionalManifestEntries: [],
           runtimeCaching: [
             {
@@ -81,6 +82,15 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       chunkSizeWarningLimit: 1500,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules/lucide-react')) {
+              return 'lucide-icons';
+            }
+          }
+        }
+      }
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.

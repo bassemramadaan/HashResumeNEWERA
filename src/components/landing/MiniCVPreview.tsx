@@ -181,7 +181,7 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
                 {data.skills.map((skill, idx) => (
                   <span 
                     key={idx}
-                    className="text-[10px] md:text-[11px] font-bold text-slate-800 bg-slate-50 hover:bg-orange-50 hover:text-orange-700 border border-slate-200 hover:border-orange-200 px-2.5 py-1 rounded-xl transition-all duration-250 cursor-default shadow-3xs whitespace-normal text-center"
+                    className="text-[10px] md:text-[11px] font-bold text-slate-800 bg-slate-50 hover:bg-orange-50 hover:text-orange-700 border border-slate-200 hover:border-orange-200 px-2.5 py-1 rounded-xl transition-all duration-250 cursor-default shadow-3xs whitespace-nowrap text-center"
                   >
                     {skill}
                   </span>

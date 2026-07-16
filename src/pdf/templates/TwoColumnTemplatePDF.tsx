@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from '@react-pdf/renderer';
-import { ResumeData } from '../../types/resume';
+import { ResumeData } from '../../store/useResumeStore';
 import { renderMarkdownToPDF } from '../utils';
 import { detectIsArabic } from '../../utils/language';
 
 export const TwoColumnTemplatePDF: React.FC<{ data: ResumeData }> = ({ data }) => {
   const { personalInfo, experience, education, skills, projects, certifications, settings } = data;
-  const isRtl = detectIsArabic(data as any);
+  const isRtl = detectIsArabic(data);
   
   const baseFont = isRtl ? 'Cairo' : 'PlusJakartaSans';
   const themeColor = settings.themeColor || '#001639';

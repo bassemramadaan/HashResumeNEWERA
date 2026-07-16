@@ -19,8 +19,9 @@ const debouncedStorage: Storage = {
 };
 
 export function flushResumeStorage() {
-  if (debouncedStorage && debouncedStorage.setItem && typeof (debouncedStorage.setItem as any).flush === "function") {
-    (debouncedStorage.setItem as any).flush();
+  const setItem = debouncedStorage.setItem as unknown as { flush?: () => void };
+  if (setItem && typeof setItem.flush === "function") {
+    setItem.flush();
   }
 }
 

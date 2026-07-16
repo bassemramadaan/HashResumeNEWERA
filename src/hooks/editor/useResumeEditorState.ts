@@ -10,10 +10,7 @@ export function useResumeEditorState() {
   const tabOrder: Tab[] = [
     "basics",
     "experience",
-    "education",
     "skills",
-    "projects",
-    "certifications",
     "finish",
   ];
   

@@ -43,11 +43,11 @@ export default function FinishStep({
   const isAr = language === "ar";
 
   // Calculate ATS Score and recommendations
-  const { score, sections } = useMemo(() => calculateATSScore(data), [data]);
+  const { score, sections } = useMemo(() => calculateATSScore(data, language), [data, language]);
   const hasImprovements = sections.some(s => s.improvements.length > 0);
 
   // Toggle for collapsible details box
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(true);
 
   // Interview preparation resources
   const tips = [
@@ -228,18 +228,25 @@ export default function FinishStep({
               <div className="p-5 sm:p-6 space-y-6 bg-white">
                 
                 {/* Visual score horizontal progress bar */}
-                <div className="bg-neutral-50/80 rounded-2xl p-4 border border-neutral-150/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="space-y-1.5 flex-1 max-w-md">
-                    <div className="flex justify-between items-center text-xs font-bold text-neutral-700">
-                      <span>{isAr ? "درجة ملاءمة السيرة الذاتية لـ ATS" : "ATS Optimization Meter"}</span>
-                      <span>{score} / 100</span>
+                <div className="bg-gradient-to-r from-slate-900 to-slate-850 rounded-2xl p-5 sm:p-6 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                  <div className="space-y-2 flex-1">
+                    <div className="flex justify-between items-end">
+                      <div className="space-y-0.5">
+                        <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block">
+                          {isAr ? "مقياس جودة وتحسين الـ ATS" : "ATS Optimization Index"}
+                        </span>
+                        <h4 className="text-xl font-black">
+                          {isAr ? "التقييم العام المباشر" : "Overall Quality Index"}
+                        </h4>
+                      </div>
+                      <span className="text-3xl font-black text-emerald-400">{score}%</span>
                     </div>
                     {/* Minimal Progress Line */}
-                    <div className="w-full h-2 bg-neutral-200 rounded-full overflow-hidden">
+                    <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
                       <div 
                         className={cn(
                           "h-full rounded-full transition-all duration-1000",
-                          score >= 80 ? "bg-emerald-500" : score >= 50 ? "bg-amber-500" : "bg-rose-500"
+                          score >= 80 ? "bg-emerald-400" : score >= 50 ? "bg-amber-400" : "bg-rose-500"
                         )}
                         style={{ width: `${score}%` }}
                       />
@@ -248,91 +255,83 @@ export default function FinishStep({
                   
                   {/* Score Verdict Tag */}
                   <div className={cn(
-                    "px-3.5 py-2 rounded-xl text-xs font-bold border",
-                    scoreVerdict.color
+                    "px-4 py-2.5 rounded-xl text-xs font-black border text-center shrink-0 min-w-[150px] shadow-sm",
+                    score >= 80 
+                      ? "text-emerald-400 bg-emerald-950/40 border-emerald-500/30" 
+                      : score >= 50 
+                        ? "text-amber-400 bg-amber-950/40 border-amber-500/30" 
+                        : "text-rose-400 bg-rose-950/40 border-rose-500/30"
                   )}>
                     {scoreVerdict.text}
                   </div>
                 </div>
 
-                {/* Split lists: Required Improvements (محتاجه تطوير) VS Success Points */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                  
-                  {/* Column 1: Suggestions / What to develop (النقاط التي تحتاج تطوير وتحسين) */}
-                  <div className="space-y-3">
-                    <h4 className="text-xs font-bold text-neutral-805 flex items-center gap-1.5 px-1 uppercase tracking-wide">
-                      <AlertCircle size={15} className="text-amber-500" />
-                      <span>{isAr ? "نقاط تحتاج تحسين وتطوير ⚠️" : "Improvement Suggestions ⚠️"}</span>
-                    </h4>
+                {/* Highly Polished Section-by-Section Breakdown */}
+                <div className="space-y-5">
+                  <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-2">
+                    {isAr ? "📂 تفصيل التقييم حسب أقسام السيرة الذاتية" : "📂 Section-by-Section Score Analysis"}
+                  </h4>
 
-                    <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-                      {hasImprovements ? (
-                        sections.map((section, idx) => 
-                          section.improvements.length > 0 && (
-                            <div key={idx} className="space-y-1.5">
-                              <span className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest block px-1">
-                                {section.title}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {sections.map((section, idx) => {
+                      const pointsLost = section.maxScore - section.score;
+                      const hasPointsLost = pointsLost > 0;
+                      
+                      return (
+                        <div key={idx} className="p-4 border border-slate-150 rounded-2xl bg-slate-50/40 space-y-3 hover:border-slate-300 transition-colors">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-black text-slate-800">{section.title}</span>
+                            <div className="flex items-center gap-1.5">
+                              <span className="text-[10px] font-bold text-slate-500">
+                                {section.score}/{section.maxScore}
                               </span>
-                              <div className="space-y-1.5">
-                                {section.improvements.map((imp, i) => (
-                                  <div key={i} className="flex gap-2 p-3 rounded-xl border border-amber-100/60 bg-gradient-to-br from-amber-50/40 to-amber-100/10 text-[11px] text-neutral-700 leading-relaxed font-medium">
-                                    <span className="text-amber-600 shrink-0 font-bold">✦</span>
-                                    <span>{imp}</span>
-                                  </div>
-                                ))}
-                              </div>
+                              {hasPointsLost && (
+                                <span className="px-1.5 py-0.5 rounded-md bg-rose-50 border border-rose-100 text-rose-600 text-[9px] font-black">
+                                  -{pointsLost} {isAr ? "نقاط" : "pts"}
+                                </span>
+                              )}
                             </div>
-                          )
-                        )
-                      ) : (
-                        <div className="flex flex-col items-center justify-center py-6 text-center text-neutral-400 bg-neutral-50 rounded-xl border border-dashed border-neutral-200">
-                          <CheckCircle2 size={24} className="text-emerald-400 mb-1" />
-                          <p className="text-[11px] italic">
-                            {isAr ? "لا توجد تعديلات عاجلة، سيرتك ممتازة!" : "Awesome! No modifications recommended!"}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                          </div>
 
-                  {/* Column 2: Working Well (النقاط المنجزة التي تجعل سيرتك قوية) */}
-                  <div className="space-y-3">
-                    <h4 className="text-xs font-bold text-neutral-805 flex items-center gap-1.5 px-1 uppercase tracking-wide">
-                      <CheckCircle2 size={15} className="text-emerald-500" />
-                      <span>{isAr ? "ما يميّز سيرتك الذاتية حالياً ✅" : "What is Working Well ✅"}</span>
-                    </h4>
+                          {/* Individual Section Progress bar */}
+                          <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                            <div 
+                              className={cn(
+                                "h-full rounded-full transition-all duration-700",
+                                section.score / section.maxScore >= 0.8 
+                                  ? "bg-emerald-500" 
+                                  : section.score / section.maxScore >= 0.5 
+                                    ? "bg-amber-500" 
+                                    : "bg-rose-500"
+                              )}
+                              style={{ width: `${(section.score / (section.maxScore || 1)) * 100}%` }}
+                            />
+                          </div>
 
-                    <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-                      {sections.some(s => s.goodPoints.length > 0) ? (
-                        sections.map((section, idx) => 
-                          section.goodPoints.length > 0 && (
-                            <div key={idx} className="space-y-1.5">
-                              <span className="text-[9px] font-bold text-neutral-400 uppercase tracking-widest block px-1">
-                                {section.title}
-                              </span>
-                              <div className="space-y-1.5">
-                                {section.goodPoints.map((gp, i) => (
-                                  <div key={i} className="flex gap-2 p-3 rounded-xl border border-emerald-100/60 bg-gradient-to-br from-emerald-50/40 to-emerald-100/10 text-[11px] text-neutral-700 leading-relaxed font-medium">
-                                    <Check size={12} className="text-emerald-500 shrink-0 mt-0.5" />
-                                    <span>{gp}</span>
-                                  </div>
-                                ))}
+                          {/* Improvements & Success Points toggle list */}
+                          <div className="space-y-1.5 pt-1">
+                            {/* Point deduction cause & Actionable Tips */}
+                            {section.improvements.map((imp, i) => (
+                              <div key={i} className="flex gap-2 p-2 rounded-xl bg-amber-50/70 border border-amber-100 text-[10px] sm:text-[11px] text-amber-900 leading-relaxed font-bold">
+                                <span className="text-amber-500 shrink-0 font-black">⚠️</span>
+                                <span>{imp}</span>
                               </div>
-                            </div>
-                          )
-                        )
-                      ) : (
-                        <div className="flex flex-col items-center justify-center py-6 text-center text-neutral-400 bg-neutral-50 rounded-xl border border-dashed border-neutral-200">
-                          <Target size={24} className="text-neutral-300 mb-1" />
-                          <p className="text-[11px] italic">
-                            {isAr ? "اكمل تعبئة الحقول الأساسية أولاً" : "Add some experience or skills description first"}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+                            ))}
 
+                            {/* Section successes */}
+                            {section.goodPoints.map((gp, i) => (
+                              <div key={i} className="flex gap-2 p-2 rounded-xl bg-emerald-50/40 border border-emerald-100/60 text-[10px] sm:text-[11px] text-slate-650 leading-relaxed font-medium">
+                                <Check size={11} className="text-emerald-500 shrink-0 mt-0.5" />
+                                <span>{gp}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
+
               </div>
             </motion.div>
           )}

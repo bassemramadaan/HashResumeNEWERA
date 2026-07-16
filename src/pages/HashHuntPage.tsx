@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "motion/react";
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { 
   ShieldCheck, 
   CheckCircle2, 
@@ -26,6 +27,7 @@ import Footer from "../components/Footer";
 
 export default function HashHuntPage() {
   const { language, dir } = useLanguageStore();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const isRtl = language === "ar";
 
   const resumeData = useResumeStore((state) => state.data);
@@ -183,9 +185,10 @@ export default function HashHuntPage() {
   const [showDevGuide] = useState(() => false);
   const [copiedCode, setCopiedCode] = useState(false);
 
-  // Constant sheet & drive links from Bassem's request
-  const driveFolderUrl = "https://drive.google.com/drive/folders/1C0vT4ERPy9SCyXULssVE6NKo5l9_IpqPap5tUNgkZt84-JsqLNuf6lsz5R9rRG56pODHzYHV";
-  const driveSheetUrl = "https://docs.google.com/spreadsheets/d/1nMu87iuJF9jSdSokpvZENrkSsJ7mFjyrvsxvTYCN4wk/edit?gid=1090340929#gid=1090340929";
+  const FOLDER_ID = import.meta.env.VITE_GOOGLE_DRIVE_FOLDER_ID || "1C0vT4ERPy9SCyXULssVE6NKo5l9_IpqPap5tUNgkZt84-JsqLNuf6lsz5R9rRG56pODHzYHV";
+  const SHEET_ID = import.meta.env.VITE_GOOGLE_DRIVE_SHEET_ID || "1nMu87iuJF9jSdSokpvZENrkSsJ7mFjyrvsxvTYCN4wk";
+  const driveFolderUrl = `https://drive.google.com/drive/folders/${FOLDER_ID}`;
+  const driveSheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
 
   const googleAppsScriptCode = `/**
  * Google Apps Script for Hash Hunt Form Submission
@@ -196,8 +199,8 @@ function doPost(e) {
     var data = JSON.parse(e.postData.contents);
     
     // Bound IDs based on user's workspace target
-    var folderId = "1C0vT4ERPy9SCyXULssVE6NKo5l9_IpqPap5tUNgkZt84-JsqLNuf6lsz5R9rRG56pODHzYHV";
-    var sheetId = "1nMu87iuJF9jSdSokpvZENrkSsJ7mFjyrvsxvTYCN4wk";
+    var folderId = "${FOLDER_ID}";
+    var sheetId = "${SHEET_ID}";
     
     var fileUrl = "";
     if (data.resumeFile && data.resumeFile.data) {
@@ -374,10 +377,16 @@ function doPost(e) {
       return;
     }
 
+    if (!executeRecaptcha) {
+      setErrorMessage(isRtl ? "يرجى الانتظار حتى يتم تحميل اختبار التحقق من الروبوت" : "Please wait for reCAPTCHA to load");
+      return;
+    }
+
     setErrorMessage("");
     setSubmitting(true);
 
     try {
+      const token = await executeRecaptcha("hashhunt_submit");
       const payload = {
         fullName,
         phoneNumber,
@@ -386,7 +395,8 @@ function doPost(e) {
         experience,
         location: userLocation,
         openTo,
-        resumeFile
+        resumeFile,
+        recaptchaToken: token
       };
 
       let result = null;
@@ -421,7 +431,7 @@ function doPost(e) {
       // We use text/plain;charset=utf-8 to bypass CORS preflight OPTIONS blockages by browsers (simple request rule)
       if (!hasSucceeded) {
         console.log("Using direct Apps Script client-side fallback...");
-        const fallbackUrl = "https://script.google.com/macros/s/AKfycbyl7ro7BiwATXekxNHoO79D1DyVGfQEIfQGY5_nodXMu0KeZA2kXUxTSbqK7wlg3xGyHw/exec";
+        const fallbackUrl = import.meta.env.VITE_GAS_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbyl7ro7BiwATXekxNHoO79D1DyVGfQEIfQGY5_nodXMu0KeZA2kXUxTSbqK7wlg3xGyHw/exec";
         
         const directResp = await fetch(fallbackUrl, {
           method: "POST",
@@ -476,6 +486,17 @@ function doPost(e) {
     <div id="hashhunt-page-root" className="min-h-screen bg-slate-50 text-slate-900 font-sans overflow-x-hidden select-none pb-36" dir={dir}>
       <Helmet>
         <title>{isRtl ? "هاش هانت — دع الوظائف والشركات تجدك تلقائيًا" : "Hash Hunt — Let the Jobs Find You"}</title>
+        <script type="application/ld+json">
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "WebPage",
+              "name": "Hash Hunt — Let the Jobs Find You",
+              "description": "منصة Hash Hunt لربط السير الذاتية بالشركات والوظائف تلقائياً.",
+              "url": "https://hashresume.com/hash-hunt"
+            }
+          `}
+        </script>
       </Helmet>
       
       <Navbar />
@@ -819,13 +840,13 @@ function doPost(e) {
                     </span>
                     <div className="flex flex-col gap-1.5 bg-slate-950 p-3 rounded-xl border border-slate-850 overflow-x-auto font-mono text-[11px] text-slate-300">
                       <div className="flex items-center gap-2 justify-between">
-                        <span>Sheet ID: <strong className="text-[#001639]">1nMu87iuJF9jSdSokpvZENrkSsJ7mFjyrvsxvTYCN4wk</strong></span>
+                        <span>Sheet ID: <strong className="text-[#001639]">{SHEET_ID}</strong></span>
                         <a href={driveSheetUrl} target="_blank" rel="noreferrer" className="text-xs hover:text-[#001639] flex items-center gap-1 text-slate-400">
                           {isRtl ? "فتح الشيت" : "View Sheet"} <ExternalLink size={10} />
                         </a>
                       </div>
                       <div className="flex items-center gap-2 justify-between border-t border-slate-800 pt-1.5 mt-1.5">
-                        <span>Folder ID: <strong className="text-emerald-500">1C0vT4ERPy9SCyXULssVE6NKo5l9_IpqPap5tUNgkZt84-JsqLNuf6lsz5R9rRG56pODHzYHV</strong></span>
+                        <span>Folder ID: <strong className="text-emerald-500">{FOLDER_ID}</strong></span>
                         <a href={driveFolderUrl} target="_blank" rel="noreferrer" className="text-xs hover:text-emerald-500 flex items-center gap-1 text-slate-400">
                           {isRtl ? "فتح المجلد" : "View Drive"} <ExternalLink size={10} />
                         </a>
@@ -1155,6 +1176,22 @@ function doPost(e) {
                 </div>
               </motion.div>
             )}
+
+            <div className="flex justify-between items-center bg-slate-50 border border-slate-100 rounded-xl p-3 mb-6 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-r from-[#001639]/5 to-transparent pointer-events-none" />
+              <div className="flex flex-col items-center gap-1 z-10 w-1/3 text-center border-r border-slate-200/60 last:border-0 px-2">
+                <span className="w-6 h-6 rounded-full bg-[#001639] text-white flex items-center justify-center text-[10px] font-bold shadow-sm">1</span>
+                <span className="text-[9px] sm:text-[10px] font-bold text-slate-700 uppercase tracking-wide">{isRtl ? "رفع السيرة" : "Upload CV"}</span>
+              </div>
+              <div className="flex flex-col items-center gap-1 z-10 w-1/3 text-center border-r border-slate-200/60 last:border-0 px-2">
+                <span className="w-6 h-6 rounded-full bg-[#001639] text-white flex items-center justify-center text-[10px] font-bold shadow-sm">2</span>
+                <span className="text-[9px] sm:text-[10px] font-bold text-slate-700 uppercase tracking-wide">{isRtl ? "اختيار الوظيفة" : "Select Job"}</span>
+              </div>
+              <div className="flex flex-col items-center gap-1 z-10 w-1/3 text-center px-2">
+                <span className="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center text-[10px] font-bold shadow-sm">3</span>
+                <span className="text-[9px] sm:text-[10px] font-bold text-slate-700 uppercase tracking-wide">{isRtl ? "تقديم ومزامنة" : "Submit"}</span>
+              </div>
+            </div>
 
             <form className="space-y-5" onSubmit={handleFormSubmit}>
               {selectedJobAlert && (

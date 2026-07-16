@@ -259,10 +259,12 @@ export default function TemplatesPage() {
 
   const filtered = templates.filter(t => {
     const matchCat  = activeCategory === "All" || t.categories.includes(activeCategory);
+    const searchLower = search.toLowerCase();
     const matchSearch = search === "" ||
-      t.name.toLowerCase().includes(search.toLowerCase()) ||
-      t.nameAr.includes(search) ||
-      t.categories.some(c => c.toLowerCase().includes(search.toLowerCase()));
+      t.name.toLowerCase().includes(searchLower) ||
+      t.nameAr.toLowerCase().includes(searchLower) ||
+      t.nameFr.toLowerCase().includes(searchLower) ||
+      t.categories.some(c => c.toLowerCase().includes(searchLower));
     return matchCat && matchSearch;
   });
 
