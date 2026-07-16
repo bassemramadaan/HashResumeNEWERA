@@ -2,7 +2,6 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-route
 import React, { Suspense, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider, Helmet } from "react-helmet-async";
-import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import PageLoader from "./components/PageLoader";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
@@ -116,8 +115,7 @@ export default function App() {
   const reCaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // Using test key as fallback
 
   return (
-    <GoogleReCaptchaProvider reCaptchaKey={reCaptchaKey}>
-      <HelmetProvider>
+    <HelmetProvider>
         <BrowserRouter>
           <GAListener />
           <ScrollToTop />
@@ -126,6 +124,5 @@ export default function App() {
           </ErrorBoundary>
         </BrowserRouter>
       </HelmetProvider>
-    </GoogleReCaptchaProvider>
   );
 }

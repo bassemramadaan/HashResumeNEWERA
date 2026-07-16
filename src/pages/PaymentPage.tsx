@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { 
   ArrowRight, ArrowLeft, CreditCard, Smartphone, ShieldCheck, 
   Copy, Sparkles, Loader2, Info, CheckCircle2, Ticket, HelpCircle
@@ -12,7 +11,6 @@ import { validatePromoCode } from "../data/promoCodes";
 
 export default function PaymentPage() {
   const { language } = useLanguageStore();
-  const { executeRecaptcha } = useGoogleReCaptcha();
   const isAr = language === "ar";
   const isFr = language === "fr";
   const navigate = useNavigate();
@@ -121,11 +119,6 @@ export default function PaymentPage() {
       return;
     }
 
-    if (!executeRecaptcha) {
-      setErrorMessage(isAr ? "يرجى الانتظار حتى يتم تحميل اختبار التحقق من الروبوت" : "Please wait for reCAPTCHA to load");
-      return;
-    }
-
     setIsSubmitting(true);
     
     // Simulate/Perform transaction submission to verify backend
@@ -134,8 +127,6 @@ export default function PaymentPage() {
     const finalSender = senderName.trim() || resumeData.personalInfo?.fullName || "Anonymous";
 
     try {
-      const token = await executeRecaptcha("payment_submit");
-      
       const response = await fetch("/api/payment/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -144,8 +135,7 @@ export default function PaymentPage() {
           reference: finalRef,
           senderInfo: finalSender,
           email: email.trim(),
-          amount: selectedPlan === "single" ? `${finalAmount} (Single Code)` : `${finalAmount} (3 Codes)`,
-          recaptchaToken: token
+          amount: selectedPlan === "single" ? `${finalAmount} (Single Code)` : `${finalAmount} (3 Codes)`
         })
       });
 

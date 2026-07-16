@@ -1349,39 +1349,8 @@ export default function EditorPage() {
                   </motion.div>
                 </AnimatePresence>
               </div>
-              <div className="mt-8 px-4 py-4 border-t border-slate-100 flex items-center justify-between gap-3">
-                {Object.keys(sidebarCompletionMap).indexOf(activeTab as any) > 0 ? (
-                  <motion.button
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.985 }}
-                    onClick={() => {
-                      const allTabs = Object.keys(sidebarCompletionMap);
-                      const currentIndex = allTabs.indexOf(activeTab as any);
-                      setActiveTab(allTabs[currentIndex - 1] as any);
-                    }}
-                    className="flex-1 py-3.5 px-4 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 bg-white font-bold text-sm transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
-                  >
-                    <ArrowRight size={16} className="rtl:-scale-x-100 ltr:rotate-180" />
-                    {language === "ar" ? "السابق" : language === "fr" ? "Précédent" : "Previous"}
-                  </motion.button>
-                ) : (
-                  <div className="flex-1" />
-                )}
-                {Object.keys(sidebarCompletionMap).indexOf(activeTab as any) < Object.keys(sidebarCompletionMap).length - 1 ? (
-                  <motion.button
-                    whileHover={{ y: -1 }}
-                    whileTap={{ scale: 0.985 }}
-                    onClick={() => {
-                      const allTabs = Object.keys(sidebarCompletionMap);
-                      const currentIndex = allTabs.indexOf(activeTab as any);
-                      setActiveTab(allTabs[currentIndex + 1] as any);
-                    }}
-                    className="flex-1 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-black transition-all flex items-center justify-center gap-1.5 shadow-sm shadow-slate-900/10 cursor-pointer"
-                  >
-                    {language === "ar" ? "التالي" : language === "fr" ? "Suivant" : "Next"}
-                    <ArrowRight size={16} className="rtl:-scale-x-100" />
-                  </motion.button>
-                ) : (
+              <div className="mt-8 px-4 py-4 border-t border-slate-100 flex items-center justify-end gap-3">
+                {Object.keys(sidebarCompletionMap).indexOf(activeTab as any) === Object.keys(sidebarCompletionMap).length - 1 && (
                   <motion.button
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.985 }}

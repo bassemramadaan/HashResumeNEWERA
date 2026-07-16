@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "motion/react";
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { 
   ShieldCheck, 
   CheckCircle2, 
@@ -27,7 +26,6 @@ import Footer from "../components/Footer";
 
 export default function HashHuntPage() {
   const { language, dir } = useLanguageStore();
-  const { executeRecaptcha } = useGoogleReCaptcha();
   const isRtl = language === "ar";
 
   const resumeData = useResumeStore((state) => state.data);
@@ -377,16 +375,10 @@ function doPost(e) {
       return;
     }
 
-    if (!executeRecaptcha) {
-      setErrorMessage(isRtl ? "يرجى الانتظار حتى يتم تحميل اختبار التحقق من الروبوت" : "Please wait for reCAPTCHA to load");
-      return;
-    }
-
     setErrorMessage("");
     setSubmitting(true);
 
     try {
-      const token = await executeRecaptcha("hashhunt_submit");
       const payload = {
         fullName,
         phoneNumber,
@@ -395,8 +387,7 @@ function doPost(e) {
         experience,
         location: userLocation,
         openTo,
-        resumeFile,
-        recaptchaToken: token
+        resumeFile
       };
 
       let result = null;

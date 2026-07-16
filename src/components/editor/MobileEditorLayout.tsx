@@ -785,7 +785,7 @@ export default function MobileEditorLayout({
               </div>
 
               {/* Dynamic Step-by-Step Mini Stepper Navigation */}
-              <div className="absolute bottom-3 inset-x-3 z-30 px-3 py-2.5 bg-white/94 backdrop-blur-md border border-slate-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-2xl flex items-center justify-between gap-3 select-none pointer-events-auto">
+              {/* <div className="absolute bottom-3 inset-x-3 z-30 px-3 py-2.5 bg-white/94 backdrop-blur-md border border-slate-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-2xl flex items-center justify-between gap-3 select-none pointer-events-auto">
                 <button
                   type="button"
                   onClick={handlePrevSection}
@@ -820,7 +820,8 @@ export default function MobileEditorLayout({
                   </span>
                   <ArrowRight size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
                 </button>
-              </div>
+              </div> */}
+              {/* END Dynamic Step-by-Step Mini Stepper Navigation */}
             </div>
           </div>
         </div>

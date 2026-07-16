@@ -129,7 +129,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                   trackEvent('hero_started', { component: 'cta_primary' })
                   onStart()
                 }}
-                className="hidden md:flex w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 items-center justify-center gap-3 cursor-pointer"
+                className="flex w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 items-center justify-center gap-3 cursor-pointer"
               >
                 <span>{copy.cta}</span>
                 {isAr ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}
