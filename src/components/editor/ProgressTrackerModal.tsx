@@ -128,7 +128,7 @@ export const ProgressTrackerModal: React.FC<ProgressTrackerModalProps> = ({
                     isRtl ? "right-9" : "left-9"
                   )}>
                     <motion.div 
-                      className="w-full bg-gradient-to-b from-[#FF4D2D] to-orange-400 rounded-full origin-top"
+                      className="w-full bg-gradient-to-b from-[#001639] to-orange-400 rounded-full origin-top"
                       initial={{ height: "0%" }}
                       animate={{ height: `${linePercent}%` }}
                       transition={{ type: "spring", stiffness: 50, damping: 15 }}

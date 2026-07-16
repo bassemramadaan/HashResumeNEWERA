@@ -130,7 +130,7 @@ export default function InlineGhostSuggest({
         <span className="text-slate-400 text-[10px]">
           {isAr ? "اقتراح ذكي:" : "AI Suggestion:"}
         </span>
-        <span className="font-extrabold text-[#FF4D2D] italic max-w-md truncate">
+        <span className="font-extrabold text-[#001639] italic max-w-md truncate">
           {suggestion}
         </span>
       </p>
@@ -146,7 +146,7 @@ export default function InlineGhostSuggest({
             el.focus();
           }
         }}
-        className="shrink-0 flex items-center gap-1 bg-white border border-slate-200 px-2 py-0.5 rounded-lg font-black text-slate-800 hover:text-[#FF4D2D] hover:border-[#FF4D2D]/20 transition-all cursor-pointer shadow-3xs active:scale-95"
+        className="shrink-0 flex items-center gap-1 bg-white border border-slate-200 px-2 py-0.5 rounded-lg font-black text-slate-800 hover:text-[#001639] hover:border-[#001639]/20 transition-all cursor-pointer shadow-3xs active:scale-95"
       >
         <span>Tab</span>
         <CornerDownLeft size={8} />

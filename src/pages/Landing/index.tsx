@@ -24,6 +24,40 @@ export default function LandingPage() {
         <title>Hash Resume — سيرتك الاحترافية في 5 دقائق</title>
         <meta name="description" content="أنشئ سيرتك الذاتية بالذكاء الاصطناعي في 5 دقائق. يدعم العربية والإنجليزية والفرنسية. ATS-Friendly. بدون تسجيل." />
         <link rel="canonical" href="https://hashresume.com/" />
+        <link rel="alternate" hrefLang="en" href="https://hashresume.com/?lang=en" />
+        <link rel="alternate" hrefLang="ar" href="https://hashresume.com/?lang=ar" />
+        <link rel="alternate" hrefLang="fr" href="https://hashresume.com/?lang=fr" />
+        <link rel="alternate" hrefLang="x-default" href="https://hashresume.com/" />
+        <script type="application/ld+json">
+          {JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "WebApplication",
+              "name": "Hash Resume",
+              "description": "أنشئ سيرتك الذاتية بالذكاء الاصطناعي في 5 دقائق. يدعم العربية والإنجليزية والفرنسية. ATS-Friendly. بدون تسجيل.",
+              "url": "https://hashresume.com/",
+              "applicationCategory": "Utilities",
+              "operatingSystem": "Web"
+            },
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "Hash Resume",
+              "operatingSystem": "All",
+              "applicationCategory": "BusinessApplication",
+              "offers": {
+                "@type": "Offer",
+                "price": "120",
+                "priceCurrency": "EGP"
+              },
+              "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "ratingCount": "1420"
+              }
+            }
+          ])}
+        </script>
       </Helmet>
       <div className="min-h-screen flex flex-col">
         <Navbar onStartClick={goToEditor} />

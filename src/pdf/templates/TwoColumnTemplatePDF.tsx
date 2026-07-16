@@ -9,7 +9,7 @@ export const TwoColumnTemplatePDF: React.FC<{ data: ResumeData }> = ({ data }) =
   const isRtl = detectIsArabic(data as any);
   
   const baseFont = isRtl ? 'Cairo' : 'PlusJakartaSans';
-  const themeColor = settings.themeColor || '#2563EB';
+  const themeColor = settings.themeColor || '#001639';
 
   const styles = StyleSheet.create({
     page: {

@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 // ── dummy data (نفس اللي كان موجود) ──────────────────────
 const dummyData: ResumeData = {
   personalInfo: {
-    fullName: "Alex Morgan",
+    fullName: "Professional Name",
     jobTitle: "Senior Product Designer",
     email: "alex.morgan@example.com",
     phone: "+1 (555) 123-4567",
@@ -59,7 +59,7 @@ const dummyData: ResumeData = {
   customSections: [],
   settings: {
     template: "modern",
-    themeColor: "#2563EB",
+    themeColor: "#001639",
     language: "en",
     isFreshGrad: false,
     sectionOrder: ["summary", "experience", "education", "skills", "projects", "certifications"],
@@ -96,7 +96,7 @@ const templates: Template[] = [
     description: "Clean and contemporary design with a focus on readability.",
     descriptionAr: "تصميم عصري ونظيف مع التركيز على سهولة القراءة.",
     descriptionFr: "Design épuré et contemporain axé sur la lisibilité.",
-    color: "#2563EB", categories: ["Technology", "Business"], isPopular: true,
+    color: "#001639", categories: ["Technology", "Business"], isPopular: true,
   },
   {
     id: "classic",
@@ -228,7 +228,7 @@ function getTemplateDesc(t: Template, lang: string) {
 }
 
 // ── Color swatch ──────────────────────────────────────────
-const THEME_COLORS = ["#2563EB", "#FF4D2D", "#10B981", "#8B5CF6", "#F97316", "#0EA5E9", "#BE185D", "#0F766E"];
+const THEME_COLORS = ["#001639", "#001639", "#10B981", "#8B5CF6", "#F97316", "#0EA5E9", "#BE185D", "#0F766E"];
 
 // ── main component ────────────────────────────────────────
 export default function TemplatesPage() {
@@ -253,7 +253,7 @@ export default function TemplatesPage() {
     (data.certifications || []).length > 0;
 
   const handleSelectTemplate = (templateId: ResumeData["settings"]["template"], color?: string) => {
-    updateSettings({ template: templateId, themeColor: color ?? templates.find(t => t.id === templateId)?.color ?? "#2563EB" });
+    updateSettings({ template: templateId, themeColor: color ?? templates.find(t => t.id === templateId)?.color ?? "#001639" });
     navigate("/editor");
   };
 
@@ -269,7 +269,7 @@ export default function TemplatesPage() {
   const labels = {
     libraryBadge: language === "ar" ? "مكتبة القوالب" : language === "fr" ? "Bibliothèque" : "Template Library",
     title:        language === "ar" ? "اختر قالب سيرتك" : language === "fr" ? "Choisissez votre modèle" : "Choose Your Template",
-    sub:          language === "ar" ? "١٤ قالب احترافي ومتوافق مع ATS — مجاني بالكامل" : language === "fr" ? "14 modèles professionnels et compatibles ATS — 100% gratuits" : "14 professional ATS-optimized templates — all free",
+    sub: language === "ar" ? `${templates.length} قالب احترافي ومتوافق مع ATS — مجاني بالكامل` : language === "fr" ? `${templates.length} modèles professionnels et compatibles ATS — 100% gratuits` : `${templates.length} professional ATS-optimized templates — all free`,
     searchPlaceholder: language === "ar" ? "ابحث عن قالب..." : language === "fr" ? "Rechercher..." : "Search templates...",
     useTemplate:  language === "ar" ? "استخدم القالب" : language === "fr" ? "Utiliser" : "Use Template",
     preview:      language === "ar" ? "معاينة" : language === "fr" ? "Aperçu" : "Preview",
@@ -285,7 +285,7 @@ export default function TemplatesPage() {
   };
 
   return (
-    <div className={cn("min-h-screen bg-[#FAFAF8] text-slate-900 font-sans pb-20", isRtl && "rtl")}>
+    <div className={cn("min-h-screen bg-[#FAFAF8] text-slate-900 font-sans pb-36", isRtl && "rtl")}>
       <Helmet>
         <title>قوالب CV احترافية | Hash Resume</title>
         <meta name="description" content="اختر من بين قوالب CV احترافية ATS-Friendly بالعربي والإنجليزي. قوالب مجانية جاهزة للتحميل." />
@@ -306,7 +306,7 @@ export default function TemplatesPage() {
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <span className="hidden sm:block">{labels.templatesCount(templates.length)}</span>
             <span className="hidden sm:block">·</span>
-            <span className="hidden sm:block text-[#FF4D2D] font-medium">Preview free — pay to download</span>
+            <span className="hidden sm:block text-[#001639] font-medium">Preview free — pay to download</span>
           </div>
         </div>
       </header>
@@ -318,7 +318,7 @@ export default function TemplatesPage() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 text-[#FF4D2D] font-semibold text-xs mb-5 uppercase tracking-wider"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 text-[#001639] font-semibold text-xs mb-5 uppercase tracking-wider"
           >
             <LayoutTemplate size={14} />
             {labels.libraryBadge}
@@ -349,7 +349,7 @@ export default function TemplatesPage() {
               transition={{ delay: 0.2 }}
               className="mt-6 inline-flex flex-col sm:flex-row gap-3 justify-center items-center p-3.5 px-5 rounded-2xl bg-orange-50 border border-orange-100/80 text-slate-700 text-xs sm:text-sm font-semibold max-w-lg mx-auto relative overflow-hidden"
             >
-              <div className="absolute top-0 start-0 w-1 h-full bg-[#FF4D2D]" />
+              <div className="absolute top-0 start-0 w-1 h-full bg-[#001639]" />
               <span className="text-start leading-normal text-slate-600">
                 {language === "ar" 
                   ? "لديك مسودة نشطة محفوظة. سيتم تطبيق التصميم واللون فوراً دون فقدان أي بيانات !" 
@@ -370,7 +370,7 @@ export default function TemplatesPage() {
                     navigate("/editor");
                   }
                 }}
-                className="bg-white hover:bg-[#FF4D2D] hover:text-white border border-slate-200 hover:border-transparent text-slate-800 px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-3xs hover:shadow-xs"
+                className="bg-white hover:bg-[#001639] hover:text-white border border-slate-200 hover:border-transparent text-slate-800 px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-3xs hover:shadow-xs"
               >
                 {language === "ar" ? "بدء مسودة جديدة 🗑️" : language === "fr" ? "Nouveau brouillon 🗑️" : "Start Fresh Draft 🗑️"}
               </button>
@@ -392,7 +392,7 @@ export default function TemplatesPage() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder={labels.searchPlaceholder}
-              className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white outline-none focus:border-[#FF4D2D] transition-colors"
+              className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white outline-none focus:border-[#001639] transition-colors"
             />
           </div>
 
@@ -445,17 +445,18 @@ export default function TemplatesPage() {
                     transition={{ duration: 0.25, delay: Math.min(idx * 0.04, 0.3) }}
                     onMouseEnter={() => setHoveredId(template.id)}
                     onMouseLeave={() => setHoveredId(null)}
+                    onClick={() => { setPreviewTemplate(template); setPreviewColor(template.color); }}
                     className={cn(
                       "group relative bg-white rounded-2xl overflow-hidden border-2 transition-all duration-300 flex flex-col cursor-pointer w-full max-w-[340px] sm:max-w-none mx-auto",
                       isSelected
-                        ? "border-[#FF4D2D] shadow-lg shadow-orange-500/10"
+                        ? "border-[#001639] shadow-lg shadow-orange-500/10"
                         : "border-slate-200 hover:border-slate-300 hover:shadow-lg"
                     )}
                   >
                     {/* Badges */}
                     <div className="absolute top-3 start-3 z-20 flex gap-1.5">
                       {template.isNew && (
-                        <span className="bg-[#FF4D2D] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{labels.new_}</span>
+                        <span className="bg-[#001639] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{labels.new_}</span>
                       )}
                       {template.isPopular && (
                         <span className="bg-amber-400 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full">⭐ {labels.popular}</span>
@@ -464,7 +465,7 @@ export default function TemplatesPage() {
 
                     {/* Selected badge */}
                     {isSelected && (
-                      <div className="absolute top-3 end-3 z-20 bg-[#FF4D2D] text-white p-1.5 rounded-full shadow">
+                      <div className="absolute top-3 end-3 z-20 bg-[#001639] text-white p-1.5 rounded-full shadow">
                         <CheckCircle2 size={14} />
                       </div>
                     )}
@@ -480,6 +481,7 @@ export default function TemplatesPage() {
                         style={{ transform: "scale(calc(100cqi / 800))" }}
                       >
                         <ResumePreview
+                          isMini={true}
                           data={{
                             ...dummyData,
                             settings: { ...dummyData.settings, template: template.id, themeColor: template.color },
@@ -497,7 +499,7 @@ export default function TemplatesPage() {
                       )}>
                         <button
                           onClick={e => { e.stopPropagation(); handleSelectTemplate(template.id); }}
-                          className="bg-[#FF4D2D] text-white px-5 py-2.5 rounded-full font-bold shadow-lg text-sm hover:bg-[#e63e1d] transition-colors"
+                          className="bg-[#001639] text-white px-5 py-2.5 rounded-full font-bold shadow-lg text-sm hover:bg-[#e63e1d] transition-colors"
                         >
                           {isSelected ? labels.selected : labels.useTemplate}
                         </button>
@@ -580,7 +582,7 @@ export default function TemplatesPage() {
                   <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">{labels.bestFor}</div>
                   <div className="flex flex-wrap gap-1.5">
                     {previewTemplate.categories.map(cat => (
-                      <span key={cat} className="px-3 py-1 bg-orange-50 text-[#FF4D2D] rounded-full text-xs font-semibold border border-orange-100">
+                      <span key={cat} className="px-3 py-1 bg-orange-50 text-[#001639] rounded-full text-xs font-semibold border border-orange-100">
                         {cat}
                       </span>
                     ))}
@@ -633,7 +635,7 @@ export default function TemplatesPage() {
                 <div className="mt-auto space-y-2">
                   <button
                     onClick={() => { handleSelectTemplate(previewTemplate.id, previewColor || previewTemplate.color); setPreviewTemplate(null); }}
-                    className="w-full bg-[#FF4D2D] hover:bg-[#e63e1d] text-white py-3 rounded-xl font-bold shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                    className="w-full bg-[#001639] hover:bg-[#e63e1d] text-white py-3 rounded-xl font-bold shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
                   >
                     <Sparkles size={16} />
                     {labels.useTemplate}

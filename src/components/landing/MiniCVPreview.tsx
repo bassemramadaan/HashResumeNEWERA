@@ -177,15 +177,14 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
                 <Code className="w-3.5 h-3.5 text-orange-500" />
                 {data.skillsTitle}
               </h3>
-              <div className="flex flex-wrap gap-1.5 md:gap-2">
+              <div className="flex flex-wrap gap-2 md:gap-2.5">
                 {data.skills.map((skill, idx) => (
-                  <React.Fragment key={idx}>
-                    <span 
-                      className="text-[10px] md:text-[11px] font-bold text-slate-800 bg-slate-100 hover:bg-orange-50 hover:text-orange-700 border border-slate-300 hover:border-orange-200 px-3 py-1 rounded-xl transition-all duration-250 cursor-default shadow-3xs whitespace-nowrap"
-                    >
-                      {skill}
-                    </span>
-                  </React.Fragment>
+                  <span 
+                    key={idx}
+                    className="text-[10px] md:text-[11px] font-bold text-slate-800 bg-slate-50 hover:bg-orange-50 hover:text-orange-700 border border-slate-200 hover:border-orange-200 px-2.5 py-1 rounded-xl transition-all duration-250 cursor-default shadow-3xs whitespace-normal text-center"
+                  >
+                    {skill}
+                  </span>
                 ))}
               </div>
             </div>

@@ -164,7 +164,7 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string; desc:
 // ── Completion Mini Indicator Widget ──────────────────────────
 function InteractiveRing({ pct }: { pct: number }) {
   const size = 32, R = 12, C = 2 * Math.PI * R, dash = (pct / 100) * C;
-  const col = pct === 100 ? "#10b981" : pct > 40 ? "#FF4D2D" : "#f59e0b";
+  const col = pct === 100 ? "#10b981" : pct > 40 ? "#001639" : "#f59e0b";
   return (
     <div className="relative flex items-center justify-center select-none" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90 shrink-0">
@@ -219,7 +219,7 @@ function ExportScreen({ lang, onPDF, onWord, atsScore }: { lang: string; onPDF: 
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 155, damping: 15 }}
-          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 via-[#FF4D2D]/20 to-amber-100 mb-4 text-4xl shadow-[0_8px_20px_rgba(251,191,36,0.18)]"
+          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 via-[#001639]/20 to-amber-100 mb-4 text-4xl shadow-[0_8px_20px_rgba(251,191,36,0.18)]"
         >
           🎓
         </motion.div>
@@ -231,7 +231,7 @@ function ExportScreen({ lang, onPDF, onWord, atsScore }: { lang: string; onPDF: 
       {/* Mini ATS Score Meter Card */}
       <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-slate-800 relative overflow-hidden">
         {/* Ambient colored background circle glow */}
-        <div className="absolute -top-10 -right-10 w-24 h-24 bg-[#FF4D2D]/15 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute -top-10 -right-10 w-24 h-24 bg-[#001639]/15 rounded-full blur-xl pointer-events-none" />
         <div className="absolute -bottom-10 -left-10 w-24 h-24 bg-emerald-500/15 rounded-full blur-xl pointer-events-none" />
 
         <div className="flex items-center justify-between relative z-10">
@@ -251,7 +251,7 @@ function ExportScreen({ lang, onPDF, onWord, atsScore }: { lang: string; onPDF: 
           <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
             <svg width="48" height="48" className="-rotate-90">
               <circle cx="24" cy="24" r="18" fill="none" stroke="#1e293b" strokeWidth="4" />
-              <circle cx="24" cy="24" r="18" fill="none" stroke={isHighATS ? "#10b981" : "#FF4D2D"} strokeWidth="4" 
+              <circle cx="24" cy="24" r="18" fill="none" stroke={isHighATS ? "#10b981" : "#001639"} strokeWidth="4" 
                 strokeLinecap="round"
                 strokeDasharray={`${(atsScore / 100) * 2 * Math.PI * 18} ${2 * Math.PI * 18}`}
               />
@@ -371,7 +371,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
         <button
           onClick={() => setIsSorting(false)}
           className={`flex-1 py-2 text-xs font-black rounded-xl transition-all ${
-            !isSorting ? "bg-white text-[#FF4D2D] shadow-sm" : "text-slate-500 hover:text-slate-700"
+            !isSorting ? "bg-white text-[#001639] shadow-sm" : "text-slate-500 hover:text-slate-700"
           }`}
         >
           {_lang === "ar" ? "📍 خطوات البناء" : _lang === "fr" ? "📍 Étapes" : "📍 Edit Steps"}
@@ -379,7 +379,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
         <button
           onClick={() => setIsSorting(true)}
           className={`flex-1 py-2 text-xs font-black rounded-xl transition-all flex items-center justify-center gap-1.5 ${
-            isSorting ? "bg-white text-[#FF4D2D] shadow-sm" : "text-slate-500 hover:text-slate-700"
+            isSorting ? "bg-white text-[#001639] shadow-sm" : "text-slate-500 hover:text-slate-700"
           }`}
         >
           <Layers size={13} />
@@ -439,7 +439,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                     })()}
                     <div className="text-right ltr:text-left">
                       <h4 className="text-xs font-black text-slate-800 leading-none">{label}</h4>
-                      <p className="text-[10px] text-[#FF4D2D] font-bold uppercase tracking-wider mt-1.5 leading-none">
+                      <p className="text-[10px] text-[#001639] font-bold uppercase tracking-wider mt-1.5 leading-none">
                         {_lang === "ar" ? `موضع: ${index + 1}` : `Pos: ${index + 1}`}
                       </p>
                     </div>
@@ -489,14 +489,14 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                   onClick={() => onSectionChange(s.id)}
                   className={`p-3.5 rounded-2.5xl border cursor-pointer transition-all flex items-center gap-3.5 relative overflow-hidden group select-none ${
                     isActive 
-                      ? "bg-white border-[#FF4D2D]/30 ring-4 ring-[#FF4D2D]/5 shadow-[0_12px_28px_rgba(255,77,45,0.08)] text-slate-900" 
+                      ? "bg-white border-[#001639]/30 ring-4 ring-[#001639]/5 shadow-[0_12px_28px_rgba(255,77,45,0.08)] text-slate-900" 
                       : "bg-white border-slate-200 hover:border-slate-350 shadow-sm text-slate-700 hover:bg-slate-50"
                   }`}
                 >
                   {/* Highlight background indicator */}
                   {isActive && (
                     <div 
-                      className="absolute top-0 bottom-0 w-1 bg-gradient-to-b from-[#FF4D2D] to-orange-500 rounded-full"
+                      className="absolute top-0 bottom-0 w-1 bg-gradient-to-b from-[#001639] to-orange-500 rounded-full"
                       style={{ [isRtl ? "right" : "left"]: 0 }}
                     />
                   )}
@@ -504,7 +504,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                   {/* Number indicator count circles */}
                   <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black transition-colors shrink-0 ${
                     isActive
-                      ? "bg-[#FF4D2D]/10 text-[#FF4D2D]"
+                      ? "bg-[#001639]/10 text-[#001639]"
                       : "bg-slate-50 border border-slate-150 text-slate-400 group-hover:bg-slate-100"
                   }`}>
                     {idx + 1}
@@ -516,7 +516,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                     const colors = SECTION_COLORS[s.id] || { bg: "bg-slate-50", text: "text-slate-500", border: "border-slate-100" };
                     return (
                       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all group-hover:scale-105 border", 
-                        isActive ? "bg-[#FF4D2D]/10 text-[#FF4D2D] border-[#FF4D2D]/20 animate-pulse" : `${colors.bg} ${colors.text} ${colors.border}`
+                        isActive ? "bg-[#001639]/10 text-[#001639] border-[#001639]/20 animate-pulse" : `${colors.bg} ${colors.text} ${colors.border}`
                       )}>
                         <Icon className="w-5 h-5" strokeWidth={2.2} />
                       </div>
@@ -549,7 +549,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
             className="w-full flex items-center gap-3.5 p-4 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2.5xl cursor-pointer text-white shadow-[0_10px_25px_rgba(15,23,42,0.15)] relative overflow-hidden group"
           >
             {/* Soft accent glow overlay */}
-            <div className="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-br from-[#FF4D2D]/20 to-orange-500/0 rounded-full blur-xl pointer-events-none transition-transform group-hover:scale-110" />
+            <div className="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-br from-[#001639]/20 to-orange-500/0 rounded-full blur-xl pointer-events-none transition-transform group-hover:scale-110" />
 
             <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/5">
               <CheckCircle className="w-5 h-5 text-amber-400" strokeWidth={2.4} />
@@ -560,7 +560,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
               <p className="text-[10px] text-slate-300 font-semibold mt-0.5 truncate">{auditSection.desc}</p>
             </div>
 
-            <span className="bg-[#FF4D2D] text-white text-[9px] font-black px-3 py-1.5 rounded-full shadow-md leading-none tracking-wider">
+            <span className="bg-[#001639] text-white text-[9px] font-black px-3 py-1.5 rounded-full shadow-md leading-none tracking-wider">
               {_lang === "ar" ? "تحميل" : "DOWNLOAD"}
             </span>
           </motion.button>
@@ -656,7 +656,7 @@ export default function MobileEditorLayout({
             </motion.div>
             
             <div className="flex flex-col items-start leading-none">
-              <span className="text-[8.5px] font-black text-[#FF4D2D] tracking-wider uppercase leading-none">HashResume</span>
+              <span className="text-[8.5px] font-black text-[#001639] tracking-wider uppercase leading-none">HashResume</span>
               <span className="text-[12px] font-extrabold text-slate-900 mt-0.5 flex items-center gap-1.5 leading-none">
                 {currentSection && (() => {
                   const Icon = SECTION_ICONS[currentSection.id] || User;
@@ -683,7 +683,7 @@ export default function MobileEditorLayout({
             <motion.button
               whileTap={{ scale: 0.94 }}
               onClick={onOpenPreview}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#FF4D2D]/10 hover:bg-[#FF4D2D]/20 text-[#FF4D2D] border border-[#FF4D2D]/20 shadow-xs font-black text-[10px] cursor-pointer transition-all shrink-0 active:scale-95"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#001639]/10 hover:bg-[#001639]/20 text-[#001639] border border-[#001639]/20 shadow-xs font-black text-[10px] cursor-pointer transition-all shrink-0 active:scale-95"
             >
               <Eye size={12} strokeWidth={2.5} />
               <span>{lang === "ar" ? "المعاينة" : "Preview"}</span>
@@ -692,8 +692,8 @@ export default function MobileEditorLayout({
             {/* Floating Glassmorphic ATS Badge */}
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full font-black text-[10px] bg-slate-950 text-white shadow-[0_4px_10px_rgba(15,23,42,0.12)] border border-slate-900">
               <span className="relative flex h-1.5 w-1.5 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4D2D] opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#FF4D2D]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#001639] opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#001639]" />
               </span>
               <span className="tracking-tight">ATS {atsScore}%</span>
             </div>
@@ -708,7 +708,7 @@ export default function MobileEditorLayout({
             initial={{ width: 0 }}
             animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#FF4D2D] via-orange-500 to-amber-500 rounded-full"
+            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#001639] via-orange-500 to-amber-500 rounded-full"
             style={{ [isRtl ? "right" : "left"]: 0 }}
           />
         </div>
@@ -811,7 +811,7 @@ export default function MobileEditorLayout({
                   type="button"
                   onClick={handleNextSection}
                   disabled={currentSectionIndex >= sections.length - 1}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-black bg-[#FF4D2D] hover:bg-[#e24e2c] text-white shadow-sm disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-black bg-[#001639] hover:bg-[#e24e2c] text-white shadow-sm disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
                   <span>
                     {currentSectionIndex === sections.length - 1 
@@ -850,7 +850,7 @@ export default function MobileEditorLayout({
             initial={{ width: 0 }}
             animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#FF4D2D] via-orange-500 to-emerald-500"
+            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#001639] via-orange-500 to-emerald-500"
             style={{ [isRtl ? "right" : "left"]: 0 }}
           />
         </div>
@@ -863,7 +863,7 @@ export default function MobileEditorLayout({
             onClick={() => setActiveTab("edit")}
             className={cn(
               "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
-              activeTab === "edit" ? "text-[#FF4D2D]" : "text-gray-400 hover:text-gray-600"
+              activeTab === "edit" ? "text-[#001639]" : "text-gray-400 hover:text-gray-600"
             )}
             title={lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}
             aria-label={lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}
@@ -877,7 +877,7 @@ export default function MobileEditorLayout({
             onClick={() => setActiveTab("sections")}
             className={cn(
               "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
-              activeTab === "sections" ? "text-[#FF4D2D]" : "text-gray-400 hover:text-gray-600"
+              activeTab === "sections" ? "text-[#001639]" : "text-gray-400 hover:text-gray-600"
             )}
             title={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
             aria-label={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
@@ -923,10 +923,10 @@ export default function MobileEditorLayout({
             title={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
             aria-label={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
           >
-            <div className="bg-[#FF4D2D] rounded-full p-1.5 text-white transform -translate-y-1 shadow-md">
+            <div className="bg-[#001639] rounded-full p-1.5 text-white transform -translate-y-1 shadow-md">
               <Download size={20} strokeWidth={2.5} />
             </div>
-            <span className="text-[10px] font-medium text-[#FF4D2D] -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
+            <span className="text-[10px] font-medium text-[#001639] -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
           </button>
 
         </div>

@@ -62,7 +62,7 @@ const T = {
 function scoreColor(s: number) {
   if (s >= 80) return { fg: "text-emerald-600", bg: "bg-emerald-500/10 border-emerald-500/20", ring: "#0F6E56", fillBg: "#ecfdf5" };
   if (s >= 50) return { fg: "text-amber-700", bg: "bg-amber-500/10 border-amber-500/20", ring: "#BA7517", fillBg: "#fffbeb" };
-  return             { fg: "text-rose-600", bg: "bg-rose-500/10 border-rose-500/20", ring: "#FF4D2D", fillBg: "#fff5f5" };
+  return             { fg: "text-rose-600", bg: "bg-rose-500/10 border-rose-500/20", ring: "#001639", fillBg: "#fff5f5" };
 }
 
 function scoreLabel(s: number, lang: "ar" | "en" | "fr") {
@@ -177,7 +177,7 @@ export default function ATSScoreWidget({
 
   useEffect(() => {
     if (activeScore >= 85 && lastScoreRef.current < 85) {
-      const colors = ["#FF4D2D", "#F59E0B", "#10B981", "#3B82F6", "#EC4899", "#8B5CF6"];
+      const colors = ["#001639", "#F59E0B", "#10B981", "#3B82F6", "#EC4899", "#8B5CF6"];
       const particles: ConfettiParticle[] = Array.from({ length: 35 }).map((_, i) => ({
         id: Date.now() + i,
         x: (Math.random() - 0.5) * 160,

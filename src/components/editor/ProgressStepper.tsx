@@ -106,7 +106,7 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
       className={cn(
         "relative flex items-center justify-center rounded-full transition-all duration-300 shrink-0 select-none group focus:outline-hidden",
         isActive 
-          ? "scale-110 shadow-lg shadow-[#FF4D2D]/35" 
+          ? "scale-110 shadow-lg shadow-[#001639]/35" 
           : "hover:scale-105"
       )}
       style={{ width: size, height: size }}
@@ -142,7 +142,7 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
           completion === 100 || isDone
             ? "bg-[#F3F4F6] border-[#F3F4F6] text-[#374151]"
             : isActive
-              ? "bg-[#FF4D2D] border-[#FF4D2D] text-white shadow-md shadow-[#FF4D2D]/20"
+              ? "bg-[#001639] border-[#001639] text-white shadow-md shadow-[#001639]/20"
               : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
         )}
       >
@@ -283,8 +283,8 @@ function VerticalStepper({
                   "flex-1 flex items-center justify-between text-start px-3 py-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden group",
                   isActive
                     ? (isRtl 
-                        ? "bg-[#F9FAFB] border-y-transparent border-l-transparent border-r-2 border-r-[#FF4D2D] rounded-r-none rounded-l-xl shadow-xs"
-                        : "bg-[#F9FAFB] border-y-transparent border-r-transparent border-l-2 border-l-[#FF4D2D] rounded-l-none rounded-r-xl shadow-xs"
+                        ? "bg-[#F9FAFB] border-y-transparent border-l-transparent border-r-2 border-r-[#001639] rounded-r-none rounded-l-xl shadow-xs"
+                        : "bg-[#F9FAFB] border-y-transparent border-r-transparent border-l-2 border-l-[#001639] rounded-l-none rounded-r-xl shadow-xs"
                       )
                     : "bg-transparent border-transparent hover:bg-slate-50"
                 )}

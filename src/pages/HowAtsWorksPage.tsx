@@ -22,7 +22,7 @@ export default function HowAtsWorksPage() {
         <link rel="canonical" href="https://hashresume.com/how-ats-works" />
       </Helmet>
       <div
-        className="min-h-screen bg-slate-50 text-slate-900 font-sans"
+        className="min-h-screen bg-slate-50 text-slate-900 font-sans pb-36"
         dir={isAr ? "rtl" : "ltr"}
       >
       <Navbar />

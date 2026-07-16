@@ -281,7 +281,7 @@ function doPost(e) {
       author: isRtl ? "أحمد حسين" : "Ahmed Hassan",
       role: isRtl ? "مطور واجهات · القاهرة" : "Frontend Developer · Cairo",
       av: "أح",
-      avBg: "from-orange-400 to-[#FF4D2D]",
+      avBg: "from-orange-400 to-[#001639]",
     },
     {
       stars: 5,
@@ -307,6 +307,16 @@ function doPost(e) {
     { num: "48hr", label: isRtl ? "متوسط أول رد" : "Avg. first response" },
     { num: "15", label: isRtl ? "دولة عربية مغطاة" : "Arab countries covered" }
   ];
+
+  // Auto-populate form states if the user already has a built resume in their local store
+  useEffect(() => {
+    if (resumeData) {
+      if (resumeData.personalInfo?.fullName) setFullName(resumeData.personalInfo.fullName);
+      if (resumeData.personalInfo?.email) setEmail(resumeData.personalInfo.email);
+      if (resumeData.personalInfo?.phone) setPhoneNumber(resumeData.personalInfo.phone);
+      if (resumeData.personalInfo?.title) setJobTitle(resumeData.personalInfo.title);
+    }
+  }, [resumeData]);
 
   // Drag & drop handlers
   const handleDrag = (e: React.DragEvent) => {
@@ -463,7 +473,7 @@ function doPost(e) {
   };
 
   return (
-    <div id="hashhunt-page-root" className="min-h-screen bg-slate-50 text-slate-900 font-sans overflow-x-hidden select-none pb-20" dir={dir}>
+    <div id="hashhunt-page-root" className="min-h-screen bg-slate-50 text-slate-900 font-sans overflow-x-hidden select-none pb-36" dir={dir}>
       <Helmet>
         <title>{isRtl ? "هاش هانت — دع الوظائف والشركات تجدك تلقائيًا" : "Hash Hunt — Let the Jobs Find You"}</title>
       </Helmet>
@@ -473,7 +483,7 @@ function doPost(e) {
       {/* ── HERO SECTION ── */}
       <section id="hashhunt-hero" className="max-w-7xl mx-auto px-6 pt-12 pb-20 md:py-24 grid lg:grid-cols-12 gap-12 items-center relative z-10">
         <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-45">
-          <div className="absolute top-[-10%] start-[-10%] w-[450px] h-[450px] rounded-full bg-gradient-to-br from-[#FF4D2D]/15 to-orange-500/5 blur-[130px]" />
+          <div className="absolute top-[-10%] start-[-10%] w-[450px] h-[450px] rounded-full bg-gradient-to-br from-[#001639]/15 to-orange-500/5 blur-[130px]" />
           <div className="absolute bottom-[10%] end-[-5%] w-[450px] h-[450px] rounded-full bg-gradient-to-tr from-indigo-500/15 to-pink-500/5 blur-[120px]" />
         </div>
 
@@ -483,15 +493,15 @@ function doPost(e) {
           transition={{ duration: 0.6 }}
           className="lg:col-span-7 flex flex-col items-center text-center lg:items-start lg:text-start"
         >
-          <div className="inline-flex items-center bg-[#FF4D2D]/5 border border-[#FF4D2D]/15 text-[#FF4D2D] text-xs font-semibold px-4.5 py-2 rounded-full mb-6 uppercase tracking-wider shadow-xs">
-            <Sparkles size={13} className="fill-current animate-pulse me-1.5 text-[#FF4D2D]" />
+          <div className="inline-flex items-center bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4.5 py-2 rounded-full mb-6 uppercase tracking-wider shadow-xs">
+            <Sparkles size={13} className="fill-current animate-pulse me-1.5 text-[#001639]" />
             <span>{isRtl ? "قاعدة المواهب الحصرية لتجاوز أنظمة الـ ATS" : "Elite Talent Bypass Pool"}</span>
           </div>
           <h1 className="font-sans text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 leading-[1.15] tracking-tight mb-6">
             {isRtl ? (
-              <>اجعل مسؤولي التوظيف<br /><span className="bg-gradient-to-r from-[#FF4D2D] to-orange-600 bg-clip-text text-transparent">يبحثون عنك!</span></>
+              <>اجعل مسؤولي التوظيف<br /><span className="bg-gradient-to-r from-[#001639] to-orange-600 bg-clip-text text-transparent">يبحثون عنك!</span></>
             ) : (
-              <>Let the hiring managers<br /><span className="bg-gradient-to-r from-[#FF4D2D] to-orange-600 bg-clip-text text-transparent">hunt for you.</span></>
+              <>Let the hiring managers<br /><span className="bg-gradient-to-r from-[#001639] to-orange-600 bg-clip-text text-transparent">hunt for you.</span></>
             )}
           </h1>
           <p className="text-base sm:text-lg text-slate-600 max-w-xl mb-8 font-normal leading-relaxed">
@@ -501,10 +511,10 @@ function doPost(e) {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-8 w-full sm:w-auto">
-            <a href="#upload-profile" className="inline-flex items-center justify-center bg-[#FF4D2D] hover:bg-[#CC3A1F] text-white font-semibold py-3.5 px-8 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-[#FF4D2D]/15 hover:-translate-y-0.5 text-center text-sm">
+            <a href="#upload-profile" className="inline-flex items-center justify-center bg-[#001639] hover:bg-[#CC3A1F] text-white font-semibold py-3.5 px-8 rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-[#001639]/15 hover:-translate-y-0.5 text-center text-sm">
               {isRtl ? "أنشئ ملفك وتزامن مع جوجل شيت ←" : "Create Profile & Sync Now →"}
             </a>
-            <a href="#how-it-works" className="inline-flex items-center justify-center border border-slate-200 hover:border-[#FF4D2D]/30 hover:text-[#FF4D2D] text-slate-600 font-medium bg-white hover:bg-slate-50 py-3.5 px-8 rounded-xl transition-all text-sm">
+            <a href="#how-it-works" className="inline-flex items-center justify-center border border-slate-200 hover:border-[#001639]/30 hover:text-[#001639] text-slate-600 font-medium bg-white hover:bg-slate-50 py-3.5 px-8 rounded-xl transition-all text-sm">
               {isRtl ? "شاهد كيف تعمل التقنية؟" : "See how it works"}
             </a>
           </div>
@@ -537,7 +547,7 @@ function doPost(e) {
           {/* Core realistic matching widget UI */}
           <div id="match-card-preview" className="bg-white rounded-2xl p-6 sm:p-7 shadow-xl border border-slate-100/90 relative z-10">
             <div className="flex items-center gap-3.5 mb-5">
-              <div className="w-11 h-11 bg-[#FF4D2D]/10 text-[#FF4D2D] border border-[#FF4D2D]/15 rounded-xl flex items-center justify-center font-bold text-base shadow-2xs">
+              <div className="w-11 h-11 bg-[#001639]/10 text-[#001639] border border-[#001639]/15 rounded-xl flex items-center justify-center font-bold text-base shadow-2xs">
                 SR
               </div>
               <div>
@@ -567,13 +577,13 @@ function doPost(e) {
               ))}
             </div>
 
-            <div className="bg-[#FF4D2D]/5 border border-[#FF4D2D]/10 rounded-xl p-3.5 flex items-center gap-3">
-              <div className="w-9 h-9 bg-[#FF4D2D]/10 rounded-lg flex items-center justify-center text-lg shrink-0">✉️</div>
+            <div className="bg-[#001639]/5 border border-[#001639]/10 rounded-xl p-3.5 flex items-center gap-3">
+              <div className="w-9 h-9 bg-[#001639]/10 rounded-lg flex items-center justify-center text-lg shrink-0">✉️</div>
               <div className="flex-1 min-w-0">
                 <div className="text-xs font-bold text-slate-900 truncate">{isRtl ? "طلب مقابلة فوري" : "Instant Interview Invite"}</div>
                 <div className="text-[10px] text-slate-550 font-medium truncate">Noon.com &bull; {isRtl ? "مهندس برمجيات واجهات" : "Senior Frontend Dev"}</div>
               </div>
-              <div className="bg-[#FF4D2D] text-white text-[9px] font-bold px-2 py-0.5 rounded-sm tracking-wider uppercase animate-pulse shrink-0">
+              <div className="bg-[#001639] text-white text-[9px] font-bold px-2 py-0.5 rounded-sm tracking-wider uppercase animate-pulse shrink-0">
                 {isRtl ? "جديد" : "New"}
               </div>
             </div>
@@ -609,12 +619,12 @@ function doPost(e) {
       {/* ── EXCLUSIVE ALMOSAFER TRAVEL GOING OPPORTUNITIES ── */}
       <section id="almosafer-jobs-section" className="py-24 bg-gradient-to-b from-white to-[#FAFAF6] border-b border-rose-500/10 relative overflow-hidden">
         {/* Decorative elements */}
-        <div className="absolute top-1/2 left-0 w-80 h-80 bg-[#FF4D2D]/5 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-0 w-80 h-80 bg-[#001639]/5 blur-[120px] rounded-full pointer-events-none" />
         <div className="absolute top-10 right-0 w-80 h-80 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <span className="inline-flex bg-gradient-to-r from-blue-600/5 to-[#FF4D2D]/10 border border-[#FF4D2D]/20 text-[#FF4D2D] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4 items-center gap-1.5 shadow-3xs">
+            <span className="inline-flex bg-gradient-to-r from-blue-600/5 to-[#001639]/10 border border-[#001639]/20 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4 items-center gap-1.5 shadow-3xs">
               <span className="w-1.5 h-1.5 bg-rose-500 rounded-full animate-ping" />
               <span>{isRtl ? "وظائف شاغرة نشطة ومثبتة" : "Active Verified Vacancies"}</span>
             </span>
@@ -641,7 +651,7 @@ function doPost(e) {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder={isRtl ? "البحث عن وظيفة (مثال: IT, Finance)..." : "Search jobs (e.g. IT, Finance)..."}
-                  className="w-full ps-10 pe-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#FF4D2D] transition-colors font-semibold bg-slate-50/50 focus:bg-white"
+                  className="w-full ps-10 pe-4 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#001639] transition-colors font-semibold bg-slate-50/50 focus:bg-white"
                 />
               </div>
 
@@ -650,7 +660,7 @@ function doPost(e) {
                 <select
                   value={selectedDept}
                   onChange={(e) => setSelectedDept(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#FF4D2D] transition-colors font-semibold bg-slate-50/50 focus:bg-white cursor-pointer"
+                  className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#001639] transition-colors font-semibold bg-slate-50/50 focus:bg-white cursor-pointer"
                 >
                   <option value="all">{isRtl ? "كل الأقسام" : "All Departments"}</option>
                   <option value="it">{isRtl ? "الدعم الفني وتكنولوجيا المعلومات" : "IT & Tech Support"}</option>
@@ -664,7 +674,7 @@ function doPost(e) {
                 <select
                   value={selectedExp}
                   onChange={(e) => setSelectedExp(e.target.value)}
-                  className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#FF4D2D] transition-colors font-semibold bg-slate-50/50 focus:bg-white cursor-pointer"
+                  className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:border-[#001639] transition-colors font-semibold bg-slate-50/50 focus:bg-white cursor-pointer"
                 >
                   <option value="all">{isRtl ? "كل مستويات الخبرة" : "All Experience"}</option>
                   <option value="1-3">1 - 3 {isRtl ? "سنوات" : "Years"}</option>
@@ -695,7 +705,7 @@ function doPost(e) {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.15 }}
                 whileHover={{ y: -6 }}
-                className="w-[85vw] sm:w-[320px] md:w-auto shrink-0 snap-center bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-xs hover:shadow-xl hover:border-[#FF4D2D]/35 transition-all flex flex-col justify-between relative"
+                className="w-[85vw] sm:w-[320px] md:w-auto shrink-0 snap-center bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-7 shadow-xs hover:shadow-xl hover:border-[#001639]/35 transition-all flex flex-col justify-between relative"
               >
                 {/* Brand Tag */}
                 <div className="flex items-center justify-between mb-5">
@@ -704,7 +714,7 @@ function doPost(e) {
                       ✈️
                     </div>
                     <div>
-                      <span className="text-[10px] font-black text-[#FF4D2D] uppercase tracking-wider block">Almosafer</span>
+                      <span className="text-[10px] font-black text-[#001639] uppercase tracking-wider block">Almosafer</span>
                       <span className="text-[9px] text-slate-400 font-bold block">{job.location}</span>
                     </div>
                   </div>
@@ -715,7 +725,7 @@ function doPost(e) {
 
                 {/* Job Info */}
                 <div className="mb-6 flex-1">
-                  <h3 className="text-sm sm:text-base font-black text-slate-900 mb-1 leading-snug group-hover:text-[#FF4D2D] transition-colors select-text">
+                  <h3 className="text-sm sm:text-base font-black text-slate-900 mb-1 leading-snug group-hover:text-[#001639] transition-colors select-text">
                     {job.title}
                   </h3>
                   <p className="text-[11px] font-bold text-slate-400 mb-4 flex items-center gap-1">
@@ -726,7 +736,7 @@ function doPost(e) {
                   <div className="border-t border-slate-100 pt-4 space-y-2.5">
                     {job.bullets.map((bullet, idx) => (
                       <div key={idx} className="flex items-start gap-2">
-                        <span className="text-[#FF4D2D] text-[11px] mt-0.5 select-none font-bold">✓</span>
+                        <span className="text-[#001639] text-[11px] mt-0.5 select-none font-bold">✓</span>
                         <p className="text-xs text-slate-600 font-normal leading-relaxed select-text flex-1">
                           {bullet}
                         </p>
@@ -739,7 +749,7 @@ function doPost(e) {
                 <div className="space-y-2.5 pt-4 border-t border-slate-100">
                   <button
                     onClick={() => handleApplyToAlmosaferJob(job.title)}
-                    className="w-full bg-[#FF4D2D] hover:bg-[#CC3A1F] text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-[#FF4D2D]/10 active:scale-98 cursor-pointer"
+                    className="w-full bg-[#001639] hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-[#001639]/15 active:scale-98 cursor-pointer"
                   >
                     <span>⚡</span>
                     <span>{isRtl ? "قدّم الآن عبر هاش هانت" : "Apply Via Hash Hunt"}</span>
@@ -752,6 +762,7 @@ function doPost(e) {
                     className="w-full bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all border border-slate-200/60"
                   >
                     <span>{isRtl ? "عرض الإعلان الرسمي للمسافر" : "View Official Almosafer Post"}</span>
+                    <span className="text-[10px] text-slate-400 font-medium">(External)</span>
                     <ExternalLink size={12} className="text-slate-450" />
                   </a>
                 </div>
@@ -808,8 +819,8 @@ function doPost(e) {
                     </span>
                     <div className="flex flex-col gap-1.5 bg-slate-950 p-3 rounded-xl border border-slate-850 overflow-x-auto font-mono text-[11px] text-slate-300">
                       <div className="flex items-center gap-2 justify-between">
-                        <span>Sheet ID: <strong className="text-[#FF4D2D]">1nMu87iuJF9jSdSokpvZENrkSsJ7mFjyrvsxvTYCN4wk</strong></span>
-                        <a href={driveSheetUrl} target="_blank" rel="noreferrer" className="text-xs hover:text-[#FF4D2D] flex items-center gap-1 text-slate-400">
+                        <span>Sheet ID: <strong className="text-[#001639]">1nMu87iuJF9jSdSokpvZENrkSsJ7mFjyrvsxvTYCN4wk</strong></span>
+                        <a href={driveSheetUrl} target="_blank" rel="noreferrer" className="text-xs hover:text-[#001639] flex items-center gap-1 text-slate-400">
                           {isRtl ? "فتح الشيت" : "View Sheet"} <ExternalLink size={10} />
                         </a>
                       </div>
@@ -847,7 +858,7 @@ function doPost(e) {
                       </span>
                       <button 
                         onClick={handleCopyCode}
-                        className="flex items-center gap-1 text-[11px] font-bold text-[#FF4D2D] hover:text-orange-500 transition-colors"
+                        className="flex items-center gap-1 text-[11px] font-bold text-[#001639] hover:text-orange-500 transition-colors"
                       >
                         {copiedCode ? (
                           <>
@@ -877,7 +888,7 @@ function doPost(e) {
       <section id="how-it-works" className="py-24 bg-white border-b border-slate-200/50 relative scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <span className="inline-flex bg-[#FF4D2D]/5 border border-[#FF4D2D]/15 text-[#FF4D2D] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
+            <span className="inline-flex bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
               {isRtl ? "منهجية العمل المتكاملة" : "Matching Methodology"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight mb-4 tracking-tight">
@@ -900,12 +911,12 @@ function doPost(e) {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-100px" }}
                   transition={{ delay: i * 0.1 }}
-                  className="group relative bg-[#FAFAF6] border border-slate-200/50 rounded-2xl p-7 hover:border-[#FF4D2D]/20 hover:-translate-y-0.5 transition-all duration-300"
+                  className="group relative bg-[#FAFAF6] border border-slate-200/50 rounded-2xl p-7 hover:border-[#001639]/20 hover:-translate-y-0.5 transition-all duration-300"
                 >
-                  <div className="font-sans text-5xl font-bold text-[#FF4D2D]/5 leading-none mb-6 group-hover:text-[#FF4D2D]/10 transition-colors absolute end-6 top-6">
+                  <div className="font-sans text-5xl font-bold text-[#001639]/5 leading-none mb-6 group-hover:text-[#001639]/10 transition-colors absolute end-6 top-6">
                     {s.num}
                   </div>
-                  <div className="w-11 h-11 bg-[#FF4D2D]/15 rounded-xl flex items-center justify-center text-[#FF4D2D] mb-5 group-hover:scale-105 transition-transform duration-300 shrink-0">
+                  <div className="w-11 h-11 bg-[#001639]/15 rounded-xl flex items-center justify-center text-[#001639] mb-5 group-hover:scale-105 transition-transform duration-300 shrink-0">
                     <IconComp size={20} className="stroke-[1.5]" />
                   </div>
                   <h3 className="text-base font-bold text-slate-900 mb-2 leading-snug">{s.title}</h3>
@@ -921,7 +932,7 @@ function doPost(e) {
       <section className="py-24 bg-slate-50 border-b border-slate-200/40">
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-12 max-w-3xl mx-auto text-center mb-10">
-            <span className="inline-flex bg-[#FF4D2D]/5 border border-[#FF4D2D]/15 text-[#FF4D2D] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
+            <span className="inline-flex bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
               {isRtl ? "مزايا لم تجدها في مكان آخر" : "Unique advantages"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight tracking-tight mb-4">
@@ -937,7 +948,7 @@ function doPost(e) {
               const BenefIcon = b.icon;
               return (
                 <div key={i} className="flex flex-col gap-4 p-6 bg-white border border-slate-200/50 rounded-2xl hover:border-slate-300 transition-all">
-                  <div className="w-10 h-10 bg-[#FF4D2D]/5 rounded-xl flex items-center justify-center text-[#FF4D2D] shrink-0">
+                  <div className="w-10 h-10 bg-[#001639]/5 rounded-xl flex items-center justify-center text-[#001639] shrink-0">
                     <BenefIcon size={18} className="stroke-[1.5]" />
                   </div>
                   <div>
@@ -956,7 +967,7 @@ function doPost(e) {
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-start">
           
           <div className="lg:col-span-5">
-            <div className="inline-flex bg-[#FF4D2D]/5 border border-[#FF4D2D]/15 text-[#FF4D2D] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
+            <div className="inline-flex bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
               {isRtl ? "الاشتراك المجاني الذكي" : "Join Free"}
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight tracking-tight mb-6">
@@ -970,7 +981,7 @@ function doPost(e) {
 
             <div className="space-y-6">
               <div className="flex gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="w-10 h-10 bg-[#FF4D2D]/10 text-[#FF4D2D] rounded-lg flex items-center justify-center font-bold shrink-0">
+                <div className="w-10 h-10 bg-[#001639]/10 text-[#001639] rounded-lg flex items-center justify-center font-bold shrink-0">
                   📂
                 </div>
                 <div>
@@ -1005,7 +1016,7 @@ function doPost(e) {
             viewport={{ once: true }}
             className="lg:col-span-7 bg-[#FAFAF6] border border-slate-200 rounded-2xl p-6 sm:p-9 shadow-md relative overflow-hidden"
           >
-            <div className="absolute top-0 start-0 w-1.5 h-full bg-[#FF4D2D]" />
+            <div className="absolute top-0 start-0 w-1.5 h-full bg-[#001639]" />
             
             <div className="font-sans text-xl font-bold text-slate-900 mb-1">{isRtl ? "أنشئ ملفك الشخصي" : "Create Profile"}</div>
             <div className="text-[11px] text-slate-400 font-semibold mb-4">{isRtl ? "يستغرق أقل من دقيقتين · تزامن وتحديث فوري لـ Google Drive" : "Takes less than 2 minutes · Seamless sync to sheet folder"}</div>
@@ -1044,10 +1055,10 @@ function doPost(e) {
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 mb-6 hover:border-[#FF4D2D]/35 transition-all relative overflow-hidden shadow-xs group"
+                className="bg-white border border-slate-200/80 rounded-2xl p-4 sm:p-5 mb-6 hover:border-[#001639]/35 transition-all relative overflow-hidden shadow-xs group"
               >
                 {/* Visual top border styling line */}
-                <div className="absolute top-0 left-0 w-full h-[3.5px] bg-gradient-to-r from-emerald-400 via-[#FF4D2D] to-indigo-400" />
+                <div className="absolute top-0 left-0 w-full h-[3.5px] bg-gradient-to-r from-emerald-400 via-[#001639] to-indigo-400" />
                 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-start gap-3.5">
@@ -1056,7 +1067,7 @@ function doPost(e) {
                       <span className="text-[7.5px] text-slate-400 font-black leading-none uppercase tracking-wider block mb-0.5 mb-1 truncate px-1">
                         {resumeData.settings?.template || "Modern"}
                       </span>
-                      <FileText size={18} className="text-[#FF4D2D]" />
+                      <FileText size={18} className="text-[#001639]" />
                     </div>
 
                     <div className="space-y-1 text-start">
@@ -1147,11 +1158,11 @@ function doPost(e) {
 
             <form className="space-y-5" onSubmit={handleFormSubmit}>
               {selectedJobAlert && (
-                <div className="bg-[#FF4D2D]/5 border border-[#FF4D2D]/15 rounded-xl p-3.5 flex items-center justify-between gap-3 animate-pulse">
+                <div className="bg-[#001639]/5 border border-[#001639]/15 rounded-xl p-3.5 flex items-center justify-between gap-3 animate-pulse">
                   <div className="flex items-center gap-2">
                     <span className="text-base">✈️</span>
                     <div>
-                      <p className="text-[10px] uppercase font-bold text-[#FF4D2D] leading-none mb-0.5">
+                      <p className="text-[10px] uppercase font-bold text-[#001639] leading-none mb-0.5">
                         {isRtl ? "طلب ترشيح لشركة المسافر" : "Almosafer Application Target"}
                       </p>
                       <p className="text-xs font-black text-slate-800 leading-none">
@@ -1165,7 +1176,7 @@ function doPost(e) {
                       setSelectedJobAlert(null);
                       setJobTitle("");
                     }}
-                    className="text-[10px] font-black text-slate-400 hover:text-[#FF4D2D] underline cursor-pointer shrink-0"
+                    className="text-[10px] font-black text-slate-400 hover:text-[#001639] underline cursor-pointer shrink-0"
                   >
                     {isRtl ? "إلغاء التجديد" : "Clear"}
                   </button>
@@ -1181,7 +1192,7 @@ function doPost(e) {
                     type="text" 
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#FF4D2D] focus:ring-1 focus:ring-[#FF4D2D]/25 outline-none transition-all placeholder-slate-400" 
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#001639] focus:ring-1 focus:ring-[#001639]/25 outline-none transition-all placeholder-slate-400" 
                     placeholder={isRtl ? "احمد كمال" : "Ahmed Kamal"} 
                     required
                   />
@@ -1194,7 +1205,7 @@ function doPost(e) {
                     type="text" 
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#FF4D2D] focus:ring-1 focus:ring-[#FF4D2D]/25 outline-none transition-all placeholder-slate-400" 
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#001639] focus:ring-1 focus:ring-[#001639]/25 outline-none transition-all placeholder-slate-400" 
                     placeholder={isRtl ? "01000791165" : "+201000791165"} 
                     required
                   />
@@ -1207,7 +1218,7 @@ function doPost(e) {
                     type="email" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#FF4D2D] focus:ring-1 focus:ring-[#FF4D2D]/25 outline-none transition-all placeholder-slate-400" 
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#001639] focus:ring-1 focus:ring-[#001639]/25 outline-none transition-all placeholder-slate-400" 
                     placeholder="ahmed@email.com" 
                     required
                   />
@@ -1220,7 +1231,7 @@ function doPost(e) {
                     type="text" 
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
-                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#FF4D2D] focus:ring-1 focus:ring-[#FF4D2D]/25 outline-none transition-all placeholder-slate-400" 
+                    className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#001639] focus:ring-1 focus:ring-[#001639]/25 outline-none transition-all placeholder-slate-400" 
                     placeholder={isRtl ? "مطور برمجيات واجهات" : "Senior Software Engineer"} 
                     required
                   />
@@ -1232,7 +1243,7 @@ function doPost(e) {
                     <select 
                       value={experience}
                       onChange={(e) => setExperience(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#FF4D2D] outline-none transition-all appearance-none cursor-pointer"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#001639] outline-none transition-all appearance-none cursor-pointer"
                     >
                       <option>0–1 {isRtl ? "سنة" : "year"}</option>
                       <option>1–3 {isRtl ? "سنوات" : "years"}</option>
@@ -1250,7 +1261,7 @@ function doPost(e) {
                     <select 
                       value={userLocation}
                       onChange={(e) => setUserLocation(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#FF4D2D] outline-none transition-all appearance-none cursor-pointer"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#001639] outline-none transition-all appearance-none cursor-pointer"
                     >
                       <option>{isRtl ? "مصر" : "Egypt"}</option>
                       <option>{isRtl ? "السعودية" : "Saudi Arabia"}</option>
@@ -1269,7 +1280,7 @@ function doPost(e) {
                     <select 
                       value={openTo}
                       onChange={(e) => setOpenTo(e.target.value)}
-                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#FF4D2D] outline-none transition-all appearance-none cursor-pointer"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-xs sm:text-sm font-medium focus:border-[#001639] outline-none transition-all appearance-none cursor-pointer"
                     >
                       <option>{isRtl ? "عن بعد فقط" : "Remote only"}</option>
                       <option>{isRtl ? "عن بعد أو من المكتب" : "Remote or On-site"}</option>
@@ -1295,8 +1306,8 @@ function doPost(e) {
                   onClick={triggerFileInput}
                   className={`border-2 border-dashed rounded-xl py-6 px-4 text-center cursor-pointer transition-all duration-300 group bg-white ${
                     dragActive 
-                      ? "border-[#FF4D2D] bg-[#FF4D2D]/5 scale-[0.99]" 
-                      : "border-slate-200 hover:border-[#FF4D2D]/30 hover:bg-[#FF4D2D]/[0.01]"
+                      ? "border-[#001639] bg-[#001639]/5 scale-[0.99]" 
+                      : "border-slate-200 hover:border-[#001639]/30 hover:bg-[#001639]/[0.01]"
                   }`}
                 >
                   <input 
@@ -1325,7 +1336,7 @@ function doPost(e) {
                           e.stopPropagation();
                           setResumeFile(null);
                         }}
-                        className="mt-2 text-xs font-bold text-[#FF4D2D] hover:underline"
+                        className="mt-2 text-xs font-bold text-[#001639] hover:underline"
                       >
                         {isRtl ? "حذف وتغيير الملف" : "Remove & change file"}
                       </button>
@@ -1337,7 +1348,7 @@ function doPost(e) {
                       </div>
                       <div className="text-xs font-semibold text-slate-700 mb-1 leading-snug">
                         {isRtl ? "اسحب سيرتك المتوافقة هنا أو" : "Drop your optimized file here, or"}{" "}
-                        <span className="text-[#FF4D2D] group-hover:underline">{isRtl ? "تصفح جهازك" : "click to browse"}</span>
+                        <span className="text-[#001639] group-hover:underline">{isRtl ? "تصفح جهازك" : "click to browse"}</span>
                       </div>
                       <div className="text-[10px] text-slate-400 font-normal leading-relaxed">
                         PDF or WORD &bull; {isRtl ? "الحجم الأقصى 5 ميجابايت" : "Maximum file size: 5MB"}
@@ -1354,7 +1365,7 @@ function doPost(e) {
                 className={`w-full font-semibold py-3 rounded-xl transition-all shadow-md text-center text-xs tracking-wide flex items-center justify-center gap-2 cursor-pointer ${
                   submitting 
                     ? "bg-slate-200 text-slate-500 cursor-not-allowed shadow-none" 
-                    : "bg-[#FF4D2D] hover:bg-[#CC3A1F] text-white shadow-[#FF4D2D]/10 hover:shadow-[#FF4D2D]/20"
+                    : "bg-[#001639] hover:bg-blue-700 text-white shadow-blue-500/10 hover:shadow-blue-500/20"
                 }`}
               >
                 {submitting ? (
@@ -1384,7 +1395,7 @@ function doPost(e) {
       <section className="py-24 bg-slate-50 border-t border-slate-200/40">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <span className="inline-flex bg-[#FF4D2D]/5 border border-[#FF4D2D]/15 text-[#FF4D2D] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
+            <span className="inline-flex bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
               {isRtl ? "مراجعات وقصص مستخدمينا" : "Social proof"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight tracking-tight mb-4">
@@ -1420,7 +1431,7 @@ function doPost(e) {
 
       {/* ── FOOTER INTERACTIVE INJECTION SECTION ── */}
       <section className="py-20 bg-slate-950 text-center px-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#FF4D2D]/5 blur-[130px] rounded-full translate-x-1/3 -translate-y-1/3" />
+        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#001639]/5 blur-[130px] rounded-full translate-x-1/3 -translate-y-1/3" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/5 blur-[120px] rounded-full -translate-x-1/3 translate-y-1/3" />
         
         <div className="relative z-10 max-w-2xl mx-auto">
@@ -1432,7 +1443,7 @@ function doPost(e) {
               ? "انضم الآن لأكثر من 2,400 باحث عن عمل تجاوزوا تصفية المقابلات وحصلوا على تصفية حرة ومباشرة." 
               : "Let target matches automatically populate with hiring managers directly from your Drive updates."}
           </p>
-          <a href="#upload-profile" className="inline-flex bg-white hover:bg-slate-50 text-[#FF4D2D] font-sans font-semibold text-xs sm:text-sm px-8 py-3.5 rounded-xl hover:scale-102 transition-all text-center">
+          <a href="#upload-profile" className="inline-flex bg-white hover:bg-slate-50 text-[#001639] font-sans font-semibold text-xs sm:text-sm px-8 py-3.5 rounded-xl hover:scale-102 transition-all text-center">
             {isRtl ? "انضم الآن مجاناً وابدأ بالتزامن" : "Join the Talent Loop →"}
           </a>
         </div>
@@ -1468,7 +1479,7 @@ function doPost(e) {
                 <div className="w-full space-y-2.5">
                   <button
                     onClick={() => { window.location.href = "/editor"; }}
-                    className="w-full bg-[#FF4D2D] hover:bg-[#CC3A1F] text-white font-bold py-3 rounded-xl text-xs sm:text-sm active:scale-98 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-md hover:shadow-orange-500/10"
+                    className="w-full bg-[#001639] hover:bg-[#CC3A1F] text-white font-bold py-3 rounded-xl text-xs sm:text-sm active:scale-98 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-md hover:shadow-orange-500/10"
                   >
                     <span>✨</span>
                     <span>{isRtl ? "أنشئ سيرتك الذاتية الذكية الآن" : "Create My AI Resume Now"}</span>
@@ -1491,7 +1502,7 @@ function doPost(e) {
       <div className="md:hidden fixed bottom-5 left-0 right-0 px-5 z-40">
         <a 
           href="#upload-profile" 
-          className="flex items-center justify-center w-full bg-[#FF4D2D] text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_30px_rgba(255,77,45,0.25)] hover:scale-[1.02] active:scale-95 transition-all text-sm gap-2 border border-white/20 backdrop-blur-md"
+          className="flex items-center justify-center w-full bg-[#001639] text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_30px_rgba(255,77,45,0.25)] hover:scale-[1.02] active:scale-95 transition-all text-sm gap-2 border border-white/20 backdrop-blur-md"
         >
           {isRtl ? "ارفع سيرتك الذاتية مجاناً" : "Upload Your Resume Now"}
           <span className="rtl:-scale-x-100">→</span>

@@ -111,7 +111,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             
             <Link to="/hash-hunt" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-2">
               <span>{lang === 'ar' ? 'هاش هانت' : 'Hash Hunt'}</span>
-              <span className="ms-2 text-[10px] bg-orange-100 text-[#FF4D2D] px-1.5 py-0.5 rounded-md font-black shrink-0">NEW</span>
+              <span className="ms-2 text-[10px] bg-orange-100 text-[#001639] px-1.5 py-0.5 rounded-md font-black shrink-0">NEW</span>
             </Link>
           </div>
 
@@ -170,7 +170,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                           onClick={() => { onLangChange(l); setLangOpen(false) }}
                           className={cn(
                             'w-full text-start px-3 py-2 text-xs rounded-xl hover:bg-slate-50 transition-all font-bold',
-                            lang === l ? 'text-[#FF4D2D] bg-[#FF4D2D]/5 font-black' : 'text-slate-600'
+                            lang === l ? 'text-[#001639] bg-[#001639]/5 font-black' : 'text-slate-600'
                           )}
                         >
                           {LANG_LABELS[l]}
@@ -225,7 +225,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                             "text-[8px] uppercase font-bold px-2 py-0.5 rounded-md leading-none border",
                             item.color === 'emerald' 
                               ? "bg-emerald-50 border-emerald-100 text-emerald-600" 
-                              : "bg-[#FF4D2D]/5 border-[#FF4D2D]/15 text-[#FF4D2D]"
+                              : "bg-[#001639]/5 border-[#001639]/15 text-[#001639]"
                           )}>
                             {item.badge}
                           </span>
@@ -271,7 +271,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                         "text-[8px] uppercase font-bold px-2 py-0.5 rounded-md leading-none border",
                         item.color === 'emerald' 
                           ? "bg-emerald-50 border-emerald-100 text-emerald-600" 
-                          : "bg-orange-50 border-orange-100 text-[#FF4D2D]"
+                          : "bg-orange-50 border-orange-100 text-[#001639]"
                       )}>
                         {item.badge}
                       </span>
@@ -279,7 +279,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
 
                     const content = (
                       <div className="flex items-center gap-2.5">
-                        <IconComponent className="w-4.5 h-4.5 text-[#FF4D2D] shrink-0" />
+                        <IconComponent className="w-4.5 h-4.5 text-[#001639] shrink-0" />
                         <span className="text-slate-700">{item.label}</span>
                       </div>
                     );
@@ -343,7 +343,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                     className={cn(
                       'text-xs font-bold py-2.5 rounded-xl border transition-all text-center uppercase', 
                       lang === l 
-                        ? 'border-[#FF4D2D]/60 bg-[#FF4D2D]/5 text-[#FF4D2D] font-black' 
+                        ? 'border-[#001639]/60 bg-[#001639]/5 text-[#001639] font-black' 
                         : 'border-slate-100 text-slate-500 hover:bg-slate-50'
                     )}
                   >

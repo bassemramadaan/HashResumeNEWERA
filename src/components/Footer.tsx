@@ -19,7 +19,7 @@ export default function Footer() {
             <div className="sm:col-span-2 lg:col-span-4">
               <div className="flex flex-col items-start mb-4">
                 <Link to="/" className="inline-block transform origin-left rtl:origin-right hover:scale-105 transition-transform mb-2">
-                  <img src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png" alt="Hash Resume" className="h-[55px] md:h-[68px] w-auto object-contain pointer-events-none brightness-100" />
+                  <img src="https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png" alt="Hash Resume" className="h-[55px] md:h-[68px] w-auto object-contain pointer-events-none brightness-100" />
                 </Link>
               </div>
               <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>
@@ -46,7 +46,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/editor"
-                    className="hover:text-[#FF4D2D] transition-colors"
+                    className="hover:text-[#001639] transition-colors"
                   >
                     {t.resumeBuilder || "Resume Builder"}
                   </Link>
@@ -54,7 +54,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/blog"
-                    className="hover:text-[#FF4D2D] transition-colors"
+                    className="hover:text-[#001639] transition-colors"
                   >
                     {t.blog || "Blog"}
                   </Link>
@@ -62,7 +62,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/hash-hunt"
-                    className="hover:text-[#FF4D2D] transition-colors"
+                    className="hover:text-[#001639] transition-colors"
                   >
                     {t.hashHuntJobs || "Hash Hunt"}
                   </Link>
@@ -73,7 +73,7 @@ export default function Footer() {
                       e.preventDefault();
                       setShowFeedbackModal(true);
                     }}
-                    className="hover:text-[#FF4D2D] transition-colors text-start w-full"
+                    className="hover:text-[#001639] transition-colors text-start w-full"
                   >
                     {t.feedback}
                   </button>
@@ -89,7 +89,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/trust"
-                    className="hover:text-[#FF4D2D] transition-colors"
+                    className="hover:text-[#001639] transition-colors"
                   >
                     {t.trustAndTransparency}
                   </Link>
@@ -97,7 +97,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/privacy"
-                    className="hover:text-[#FF4D2D] transition-colors"
+                    className="hover:text-[#001639] transition-colors"
                   >
                     {t.privacyPolicy}
                   </Link>
@@ -105,7 +105,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/terms"
-                    className="hover:text-[#FF4D2D] transition-colors"
+                    className="hover:text-[#001639] transition-colors"
                   >
                     {t.termsOfService}
                   </Link>
@@ -113,7 +113,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/how-ats-works"
-                    className="hover:text-[#FF4D2D] transition-colors"
+                    className="hover:text-[#001639] transition-colors"
                   >
                     {t.howAtsWorks}
                   </Link>
@@ -121,7 +121,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/faq"
-                    className="hover:text-[#FF4D2D] transition-colors"
+                    className="hover:text-[#001639] transition-colors"
                   >
                     {t.faq}
                   </Link>

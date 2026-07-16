@@ -13,12 +13,14 @@ import TemplateTwoColumn from "./TemplateTwoColumn";
 
 interface ResumePreviewProps {
   data?: ResumeData;
+  isMini?: boolean;
 }
 
 const ResumePreview = memo(
   forwardRef<HTMLDivElement, ResumePreviewProps>((props, ref) => {
+    const { data: propsData, isMini = false } = props;
     const storeData = useResumeStore((state) => state.data);
-    const data = props.data || storeData;
+    const data = propsData || storeData;
     
     const localRef = useRef<HTMLDivElement | null>(null);
     const activeField = useActiveSectionStore((state) => state.activeField);
@@ -431,12 +433,12 @@ const ResumePreview = memo(
                 transition={{ duration: 0.22, ease: "easeInOut" }}
                 className="w-full h-full"
               >
-                {currentTemplate === "classic" && <TemplateClassic data={data} />}
-                {currentTemplate === "modern" && <TemplateModern data={data} />}
-                {currentTemplate === "executive" && <TemplateExecutive data={data} />}
-                {currentTemplate === "minimal" && <TemplateMinimal data={data} />}
-                {currentTemplate === "timeline" && <TemplateTimeline data={data} />}
-                {currentTemplate === "two-column" && <TemplateTwoColumn data={data} />}
+                {currentTemplate === "classic" && <TemplateClassic data={data} isMini={isMini} />}
+                {currentTemplate === "modern" && <TemplateModern data={data} isMini={isMini} />}
+                {currentTemplate === "executive" && <TemplateExecutive data={data} isMini={isMini} />}
+                {currentTemplate === "minimal" && <TemplateMinimal data={data} isMini={isMini} />}
+                {currentTemplate === "timeline" && <TemplateTimeline data={data} isMini={isMini} />}
+                {currentTemplate === "two-column" && <TemplateTwoColumn data={data} isMini={isMini} />}
               </motion.div>
             )}
           </AnimatePresence>

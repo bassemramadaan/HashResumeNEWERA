@@ -45,7 +45,7 @@ export const JobMatchAdvisor: React.FC<JobMatchAdvisorProps> = ({ language }) =>
     <div className="flex flex-col h-full bg-white p-5 space-y-5 overflow-y-auto select-none font-sans" dir={isRtl ? "rtl" : "ltr"}>
       {/* Header */}
       <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-        <div className="p-2 bg-[#FF4D2D]/10 rounded-xl text-[#FF4D2D]">
+        <div className="p-2 bg-[#001639]/10 rounded-xl text-[#001639]">
           <Sparkles className="w-5 h-5 animate-pulse" />
         </div>
         <div className="text-start">
@@ -74,7 +74,7 @@ export const JobMatchAdvisor: React.FC<JobMatchAdvisorProps> = ({ language }) =>
                 ? "ألصق متطلبات الوظيفة الشاغرة أو الوصف الوظيفي هنا (مثال: مطلوب مهندس برمجيات يمتلك خبرة في React و Node.js)..."
                 : "Paste the hiring requirement, responsibilities, or skills list here (e.g., Seeking a frontend developer proficient in React, Tailwind)..."
             }
-            className="w-full h-36 p-3 text-xs border border-slate-200 rounded-2xl focus:outline-none focus:border-[#FF4D2D] focus:ring-1 focus:ring-[#FF4D2D]/20 resize-none leading-relaxed transition-all font-medium text-slate-700 bg-slate-50/50"
+            className="w-full h-36 p-3 text-xs border border-slate-200 rounded-2xl focus:outline-none focus:border-[#001639] focus:ring-1 focus:ring-[#001639]/20 resize-none leading-relaxed transition-all font-medium text-slate-700 bg-slate-50/50"
           />
           {jdInput && (
             <button

@@ -251,9 +251,9 @@ export default function EditorPage() {
             element.scrollIntoView({ behavior: "smooth", block: "center" });
             
             // Premium visual feedback ring
-            element.classList.add("ring-2", "ring-[#FF4D2D]", "ring-offset-4");
+            element.classList.add("ring-2", "ring-[#001639]", "ring-offset-4");
             setTimeout(() => {
-              element?.classList.remove("ring-2", "ring-[#FF4D2D]", "ring-offset-4");
+              element?.classList.remove("ring-2", "ring-[#001639]", "ring-offset-4");
             }, 1800);
           }
         }, 180);
@@ -940,11 +940,11 @@ export default function EditorPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-4 p-3.5 rounded-2xl bg-orange-50 border border-orange-200/70 flex items-start gap-3 shadow-xs text-start"
               >
-                <div className="p-2 bg-orange-100 rounded-xl text-[#FF4D2D] shrink-0 mt-0.5">
+                <div className="p-2 bg-orange-100 rounded-xl text-[#001639] shrink-0 mt-0.5">
                   <Sparkles className="w-4 h-4 animate-pulse" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-xs font-black text-[#FF4D2D] uppercase tracking-wider">
+                  <h4 className="text-xs font-black text-[#001639] uppercase tracking-wider">
                     {language === "ar" ? "تنبيه مساعد الذكاء الاصطناعي" : "AI Assistant Update"}
                   </h4>
                   <p className="text-[11px] text-slate-700 font-semibold leading-relaxed mt-0.5">
@@ -968,7 +968,7 @@ export default function EditorPage() {
                 className="mb-6 p-4 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-start relative shadow-xs"
               >
                 <div className="flex items-start gap-3">
-                  <div className="p-2 bg-[#FF4D2D]/10 rounded-xl text-[#FF4D2D] shrink-0 mt-0.5">
+                  <div className="p-2 bg-[#001639]/10 rounded-xl text-[#001639] shrink-0 mt-0.5">
                     <Sparkles className="w-4 h-4 animate-pulse" />
                   </div>
                   <div>
@@ -987,7 +987,7 @@ export default function EditorPage() {
                 <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 self-end sm:self-center">
                   <Link
                     to="/hash-hunt"
-                    className="flex-1 sm:flex-none text-center text-[10px] font-black bg-[#FF4D2D] hover:bg-[#E64528] text-white py-2.5 px-3.5 rounded-xl shadow-xs transition-all cursor-pointer whitespace-nowrap"
+                    className="flex-1 sm:flex-none text-center text-[10px] font-black bg-[#001639] hover:bg-[#E64528] text-white py-2.5 px-3.5 rounded-xl shadow-xs transition-all cursor-pointer whitespace-nowrap"
                   >
                     {language === "ar" ? "💼 ابحث عن وظائف" : "💼 Find Jobs (Hash Hunt)"}
                   </Link>
@@ -1002,6 +1002,7 @@ export default function EditorPage() {
             )}
 
             {/* Top Navigation Actions */}
+            <h1 className="sr-only">Resume Editor</h1>
             <div className="flex items-center justify-between mb-4 w-full px-1">
               <div className="text-[10px] font-black text-slate-400 uppercase tracking-wider hidden sm:block">
                 {language === "ar" ? "التنقل بين الأقسام" : "Section Navigation"}
@@ -1064,9 +1065,9 @@ export default function EditorPage() {
 
                             {/* Premium Quick Auto-Fill Roles / Smart Templates */}
                             <div className="mb-6 p-4.5 bg-gradient-to-br from-brand-50/50 via-slate-50 to-orange-50/20 border border-brand-100 rounded-2xl shadow-[0_4px_20px_rgba(255,77,45,0.02)] relative overflow-hidden text-start">
-                              <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF4D2D]/5 rounded-full blur-2xl pointer-events-none" />
+                              <div className="absolute top-0 right-0 w-32 h-32 bg-[#001639]/5 rounded-full blur-2xl pointer-events-none" />
                               <div className="relative z-10">
-                                <div className="flex items-center gap-1.5 text-[#FF4D2D]">
+                                <div className="flex items-center gap-1.5 text-[#001639]">
                                   <Sparkles size={14} className="animate-pulse" />
                                   <span className="text-[11px] font-black uppercase tracking-wider">
                                     {language === "ar" ? "ميزة التعبئة الذكية السريعة" : "Smart Auto-Fill Feature"}
@@ -1257,7 +1258,7 @@ export default function EditorPage() {
                               whileHover={{ y: -1 }}
                               whileTap={{ scale: 0.985 }}
                               onClick={() => setActiveTab("finish")}
-                              className="group flex items-center gap-3 bg-[#FF4D2D] hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all cursor-pointer"
+                              className="group flex items-center gap-3 bg-[#001639] hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all cursor-pointer"
                             >
                               {language === "ar"
                                 ? "الذهاب للمراجعة والتحميل"
@@ -1565,20 +1566,20 @@ export default function EditorPage() {
                               }}
                               className={cn(
                                 "relative px-3 py-1 min-w-[55px] sm:min-w-[65px] h-11 rounded-xl flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none ml-1",
-                                isActive ? "text-[#FF4D2D]" : "text-[#FF4D2D]/70 hover:text-[#FF4D2D] hover:bg-white/5"
+                                isActive ? "text-[#ff4d2d]" : "text-[#ff4d2d]/70 hover:text-[#ff4d2d] hover:bg-white/5"
                               )}
                               title={tab.label}
                             >
                               {isActive && (
                                 <motion.div
                                   layoutId="activeTabIndicatorDesktop"
-                                  className="absolute inset-0 bg-white/15 rounded-xl"
+                                  className="absolute inset-0 bg-[#ff4d2d]/10 rounded-xl"
                                   transition={{ type: "spring", stiffness: 350, damping: 28 }}
                                 />
                               )}
                               <span className="relative z-10 flex flex-col items-center justify-center gap-0.5">
-                                <IconComponent strokeWidth={isActive ? 2.2 : 1.8} className="w-4 h-4 sm:w-[18px] sm:h-[18px] text-[#FF4D2D]" />
-                                <span className="text-[9px] sm:text-[10px] font-black tracking-tight leading-none text-[#FF4D2D]">
+                                <IconComponent strokeWidth={isActive ? 2.2 : 1.8} className={cn("w-4 h-4 sm:w-[18px] sm:h-[18px]", isActive ? "text-[#ff4d2d]" : "text-[#ff4d2d]/70 group-hover:text-[#ff4d2d]")} />
+                                <span className={cn("text-[9px] sm:text-[10px] font-black tracking-tight leading-none", isActive ? "text-[#ff4d2d]" : "text-[#ff4d2d]/70 group-hover:text-[#ff4d2d]")}>
                                   {tab.shortLabel}
                                 </span>
                               </span>
@@ -1665,7 +1666,7 @@ export default function EditorPage() {
               >
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                   <h4 className="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wider">
-                    <SlidersHorizontal size={13} className="text-[#FF4D2D]" />
+                    <SlidersHorizontal size={13} className="text-[#001639]" />
                     {language === "ar" ? "خيارات المسافات" : "Spacing Options"}
                   </h4>
                   <button 
@@ -1752,7 +1753,7 @@ export default function EditorPage() {
                       : "text-slate-500 hover:text-slate-900"
                   )}
                 >
-                  <Sparkles size={13} className={cn(rightPanelMode === "ats" ? "text-[#FF4D2D]" : "text-slate-400")} />
+                  <Sparkles size={13} className={cn(rightPanelMode === "ats" ? "text-[#001639]" : "text-slate-400")} />
                   <span>{language === "ar" ? "فاحص الوصف الوظيفي (ATS)" : "Job Match (ATS)"}</span>
                   {data.jobDescription && (
                     <span className="absolute -top-1 -right-1 flex h-1.5 w-1.5">
@@ -1891,18 +1892,6 @@ export default function EditorPage() {
                       <Sparkles size={13} className="animate-pulse text-orange-500" />
                       {language === "ar" ? "السمات والقوالب" : "Theme Station"}
                     </button>
-                    <button
-                      onClick={() => setShowMicroSpacingPanel(!showMicroSpacingPanel)}
-                      className={cn(
-                        "flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider transition-all border cursor-pointer",
-                        showMicroSpacingPanel 
-                          ? "bg-slate-900 text-white border-slate-900 shadow-md" 
-                          : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-slate-900 shadow-sm"
-                      )}
-                    >
-                      <SlidersHorizontal size={13} className={showMicroSpacingPanel ? "text-brand-400" : "text-slate-400"} />
-                      {language === "ar" ? "الهوامش والأبعاد" : "Micro-Spacing"}
-                    </button>
                   </div>
                 )}
               </div>
@@ -1917,18 +1906,6 @@ export default function EditorPage() {
                     <Sparkles size={16} />
                   </button>
                 )}
-                {/* Mobile specific micro spacing button */}
-                <button
-                  onClick={() => setShowMicroSpacingPanel(!showMicroSpacingPanel)}
-                  className={cn(
-                    "sm:hidden p-2 rounded-lg transition-colors border",
-                    showMicroSpacingPanel 
-                      ? "bg-slate-900 text-white border-slate-900" 
-                      : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50"
-                  )}
-                >
-                  <SlidersHorizontal size={16} />
-                </button>
                 <button
                   onClick={() => setPreviewFocusMode(!previewFocusMode)}
                   className={cn(
@@ -1993,7 +1970,7 @@ export default function EditorPage() {
                   {/* Mini Format Layout Toolbar */}
                   <div className="w-full max-w-[210mm] mb-5 bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-2xl px-5 py-3 flex flex-wrap items-center justify-between gap-4 select-none">
                     <div className="flex items-center gap-2">
-                      <SlidersHorizontal size={14} className="text-[#FF4D2D]" />
+                      <SlidersHorizontal size={14} className="text-[#001639]" />
                       <span className="text-xs font-black text-slate-800">
                         {language === "ar" ? "أدوات تنسيق الصفحة" : "Page Formatting Tools"}
                       </span>
@@ -2138,7 +2115,7 @@ export default function EditorPage() {
                 className="flex items-center justify-between px-5 pb-3 pt-1 shrink-0 border-b border-slate-100"
               >
                 <div className="flex items-center gap-2">
-                  <LayoutTemplate size={18} className="text-[#FF4D2D]" />
+                  <LayoutTemplate size={18} className="text-[#001639]" />
                   <span className="text-sm font-black text-slate-900">
                     {language === "ar" ? "درج المعاينة التفاعلي" : "Interactive Resume Preview"}
                   </span>
@@ -2198,7 +2175,7 @@ export default function EditorPage() {
                   <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
                     {[
                       { hex: "#475569", name: language === "ar" ? "رمادي" : "Slate" },
-                      { hex: "#2563EB", name: language === "ar" ? "أزرق" : "Blue" },
+                      { hex: "#001639", name: language === "ar" ? "أزرق" : "Blue" },
                       { hex: "#10B981", name: language === "ar" ? "أخضر" : "Emerald" },
                       { hex: "#EF4444", name: language === "ar" ? "أحمر" : "Coral" },
                       { hex: "#8B5CF6", name: language === "ar" ? "بنفسجي" : "Purple" },
@@ -2213,7 +2190,7 @@ export default function EditorPage() {
                           className={cn(
                             "w-5.5 h-5.5 rounded-full border flex items-center justify-center transition-all relative cursor-pointer",
                             isSelected
-                              ? "scale-110 border-slate-400 ring-2 ring-offset-1 ring-[#FF4D2D]"
+                              ? "scale-110 border-slate-400 ring-2 ring-offset-1 ring-[#001639]"
                               : "border-slate-200 hover:scale-105"
                           )}
                           style={{ backgroundColor: col.hex }}
@@ -2335,7 +2312,7 @@ export default function EditorPage() {
                   </button>
                   <button
                     onClick={() => setMobileZoom(0.45)}
-                    className="text-[9px] font-black uppercase text-[#FF4D2D] bg-orange-50 border border-orange-200/45 px-2 py-1 rounded-md active:scale-95 cursor-pointer ml-1"
+                    className="text-[9px] font-black uppercase text-[#001639] bg-orange-50 border border-orange-200/45 px-2 py-1 rounded-md active:scale-95 cursor-pointer ml-1"
                   >
                     {language === "ar" ? "إعادة تعيين" : "Reset"}
                   </button>
@@ -2478,8 +2455,8 @@ export default function EditorPage() {
                     </div>
 
                     {calculateATSScore(data).tips.length > 0 && (
-                      <div className="bg-[#FF4D2D]/5 border border-[#FF4D2D]/20 rounded-2xl p-4 mb-4">
-                        <span className="text-xs font-black block mb-2 text-[#FF4D2D] uppercase tracking-wide">💡 {language === "ar" ? "توصيات فورية" : "Recommendation"}</span>
+                      <div className="bg-[#001639]/5 border border-[#001639]/20 rounded-2xl p-4 mb-4">
+                        <span className="text-xs font-black block mb-2 text-[#001639] uppercase tracking-wide">💡 {language === "ar" ? "توصيات فورية" : "Recommendation"}</span>
                         <p className="text-sm text-slate-700 leading-relaxed font-medium">
                           {calculateATSScore(data).tips[0]}
                         </p>
@@ -2545,7 +2522,7 @@ export default function EditorPage() {
                       onClick={handleExportClick}
                       className="bg-white hover:bg-neutral-100 text-neutral-950 px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-premium hover:scale-105 active:scale-95 uppercase tracking-widest cursor-pointer"
                     >
-                      <Download size={18} className="text-[#FF4D2D] stroke-[2.5]" />
+                      <Download size={18} className="text-[#001639] stroke-[2.5]" />
                       {String(t.exportPdf || "")}
                     </button>
                     <button
@@ -2684,7 +2661,7 @@ export default function EditorPage() {
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                    className="absolute inset-0 rounded-full border-4 border-[#FF4D2D] border-t-transparent"
+                    className="absolute inset-0 rounded-full border-4 border-[#001639] border-t-transparent"
                   />
                   <span className="text-xl font-black text-slate-900">
                     {Math.min(100, exportStatus.step * 20)}%
@@ -2697,7 +2674,7 @@ export default function EditorPage() {
                     initial={{ width: "0%" }}
                     animate={{ width: `${Math.min(100, exportStatus.step * 20)}%` }}
                     transition={{ type: "spring", stiffness: 60, damping: 15 }}
-                    className="h-full bg-gradient-to-r from-[#FF4D2D] to-orange-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-[#001639] to-orange-500 rounded-full"
                   />
                 </div>
 

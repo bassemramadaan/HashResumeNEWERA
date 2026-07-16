@@ -171,7 +171,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
 
         {/* Card 2: Bundle Package */}
         <TiltCard
-          className="relative rounded-[2.5rem] p-8 sm:p-10 flex flex-col justify-between shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] bg-white border-2 border-orange-500 hover:border-orange-600 hover:shadow-[0_25px_50px_-12px_rgba(255,77,45,0.15)] transition-all transform-gpu"
+          className="relative rounded-[2.5rem] p-8 sm:p-10 flex flex-col justify-between shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] bg-white border-2 border-[#001639] hover:border-blue-600 hover:shadow-[0_25px_50px_-12px_rgba(37,99,235,0.15)] transition-all transform-gpu"
         >
           {/* Top Floating Badge */}
           <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[11px] font-black px-4 py-1.5 rounded-full shadow-md shadow-orange-500/20 uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
@@ -180,14 +180,14 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
 
           <div className="flex flex-col flex-1 mt-2">
             <div className="mb-8 text-center md:text-start">
-              <div className="text-[11px] font-black text-orange-500 mb-2 tracking-[0.2em] uppercase">{c.planBundle.name}</div>
+              <div className="text-[11px] font-black text-[#001639] mb-2 tracking-[0.2em] uppercase">{c.planBundle.name}</div>
               <div className="flex items-baseline justify-center md:justify-start gap-2">
                 <span className="text-5xl font-extrabold text-slate-950 tracking-tighter" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{c.planBundle.price}</span>
                 <span className="text-sm font-medium text-slate-500">{c.planBundle.period}</span>
               </div>
             </div>
 
-            <ul className="space-y-4 text-start flex-1 border-t border-orange-50 pt-8">
+            <ul className="space-y-4 text-start flex-1 border-t border-blue-50 pt-8">
               {c.planBundle.features.map((f) => (
                 <li key={f} className="flex items-start gap-4 text-sm text-slate-700 font-medium">
                   <Check className="w-5 h-5 flex-shrink-0 text-orange-500 mt-0.5" />
@@ -199,7 +199,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
 
           <button
             onClick={onPaidClick}
-            className="bg-orange-500 hover:bg-orange-600 active:scale-[0.98] text-white rounded-2xl font-bold text-sm px-8 py-5 mt-10 w-full justify-center inline-flex items-center gap-3 shadow-[0_10px_20px_-5px_rgba(249,115,22,0.3)] transition-all cursor-pointer group"
+            className="bg-[#001639] hover:bg-blue-700 active:scale-[0.98] text-white rounded-2xl font-bold text-sm px-8 py-5 mt-10 w-full justify-center inline-flex items-center gap-3 shadow-[0_10px_20px_-5px_rgba(37,99,235,0.3)] transition-all cursor-pointer group"
           >
             {c.planBundle.cta}
             <span className="group-hover:translate-x-1 transition-transform">

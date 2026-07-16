@@ -115,7 +115,7 @@ export default function BlogPostPage() {
             className="rounded-2xl overflow-hidden shadow-lg mb-12"
           >
             <img
-              src={post.image}
+              src={post.image.includes("unsplash.com") ? `${post.image}&fm=webp&w=1200` : post.image}
               alt={post.title[language]}
               className="w-full h-[400px] object-cover"
               loading="lazy"

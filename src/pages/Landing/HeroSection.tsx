@@ -68,8 +68,8 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* Background decoration */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-orange-200/30 to-amber-100/40 rounded-full blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute top-12 left-1/4 w-[300px] h-[300px] bg-orange-200/10 rounded-full blur-[80px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '6s' }} />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-blue-200/30 to-indigo-100/40 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-12 left-1/4 w-[300px] h-[300px] bg-blue-200/10 rounded-full blur-[80px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '6s' }} />
       <div className="absolute top-36 right-1/4 w-[250px] h-[250px] bg-amber-100/15 rounded-full blur-[70px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '10s' }} />
 
       <div className="container relative z-10 mx-auto px-6 max-w-7xl">
@@ -79,17 +79,17 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 md:gap-3 px-3 py-1 md:px-6 md:py-2 rounded-full bg-orange-50 text-orange-600 border border-orange-100 text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] whitespace-nowrap"
+            className="inline-flex items-center gap-2 md:gap-3 px-3 py-1 md:px-6 md:py-2 rounded-full bg-blue-50 text-blue-600 border border-blue-100 text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] whitespace-nowrap"
           >
             <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
             <span>{copy.badge}</span>
           </motion.div>
 
           <h1 
-            className="hero-title text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
+            className="hero-title text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
           >
             {copy.titleMain}{" "}
-            <span className="hero-highlight-text text-orange-600 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center">
+            <span className="hero-highlight-text text-blue-600 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={wordIndex}
@@ -97,9 +97,9 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -25, opacity: 0 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="inline-block max-w-full break-words text-center"
+                  className="inline-block max-w-full break-words text-center px-1"
                 >
-                  {words[wordIndex]}
+                  &nbsp;{words[wordIndex]}
                 </motion.span>
               </AnimatePresence>
             </span>
@@ -112,6 +112,9 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             className="text-[14px] mb-4 md:mb-0 md:text-xl md:text-2xl text-slate-600 font-medium max-w-3xl leading-relaxed"
           >
             {copy.subtitle}
+            <span className="block text-sm text-slate-400 mt-2 font-semibold">
+              {isAr ? "مجاني تماماً للبناء، شراء القالب للتحميل" : "Completely free to build, pay-per-template to download."}
+            </span>
           </motion.p>
 
           <motion.div
@@ -126,14 +129,14 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
                   trackEvent('hero_started', { component: 'cta_primary' })
                   onStart()
                 }}
-                className="hidden md:flex w-full sm:w-auto bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 items-center justify-center gap-3 cursor-pointer"
+                className="hidden md:flex w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 items-center justify-center gap-3 cursor-pointer"
               >
                 <span>{copy.cta}</span>
                 {isAr ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}
               </button>
               <button
                 onClick={() => navigate('/editor')}
-                className="w-full sm:w-auto bg-white border-2 border-slate-100 hover:border-orange-200 text-slate-900 px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-sm flex items-center justify-center gap-3 cursor-pointer"
+                className="w-full sm:w-auto bg-white border-2 border-slate-100 hover:border-blue-200 text-slate-900 px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-sm flex items-center justify-center gap-3 cursor-pointer"
               >
                 <span>{copy.ctaSec}</span>
               </button>

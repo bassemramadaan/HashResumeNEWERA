@@ -16,7 +16,7 @@ export default function PricingPage() {
         <link rel="canonical" href="https://hashresume.com/pricing" />
       </Helmet>
       
-      <div className="min-h-screen bg-slate-50 font-sans selection:bg-orange-100 pb-32" dir={isAr ? "rtl" : "ltr"}>
+      <div className="min-h-screen bg-slate-50 font-sans selection:bg-blue-100 pb-36" dir={isAr ? "rtl" : "ltr"}>
         <header className="fixed top-0 inset-x-0 bg-white/80 backdrop-blur-md border-b border-slate-200/80 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between relative">
             {/* Left side: Back to home link for visual balance */}
@@ -62,7 +62,7 @@ export default function PricingPage() {
           </div>
         </header>
 
-        <main className="pt-32 px-4 max-w-5xl mx-auto">
+        <main className="pt-32 px-4 max-w-5xl mx-auto pb-40">
           <div className="text-center mb-16 space-y-4">
             <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight">
               {isAr ? "أسعار بسيطة. قيمة لا محدودة." : "Simple pricing. Unlimited value."}
@@ -72,6 +72,13 @@ export default function PricingPage() {
                 ? "ابدأ بخطتك المثالية. الدفع مرة واحدة ولا توجد اشتراكات خفية."
                 : "Start with the perfect plan. Pay once, no hidden subscriptions."}
             </p>
+
+            {/* Clear Free vs Paid notice */}
+            <div className="max-w-xl mx-auto mt-6 bg-blue-50/70 border border-blue-100 rounded-2xl p-4 text-sm font-semibold text-blue-800 shadow-sm">
+              💡 {isAr 
+                ? "كتابة السيرة الذاتية، التعديل عليها، وفحص توافقها مع الـ ATS مجاني 100% وبدون حدود. الدفع يكون فقط عند رغبتك في تصدير وتحميل النسخة النهائية الـ PDF الاحترافية الخالية من أي علامات مائية."
+                : "Building, editing, and ATS checking your resume is 100% free with no limits. You pay a small fee only when you choose to export and download your watermark-free professional PDF."}
+            </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
@@ -117,20 +124,20 @@ export default function PricingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-gradient-to-b from-orange-50 to-white dark:from-brand-500/10 dark:to-neutral-100 rounded-3xl p-8 border-2 border-orange-200 dark:border-brand-500/40 shadow-lg relative flex flex-col scale-[1.02]"
+              className="bg-gradient-to-b from-blue-50/50 to-white dark:from-blue-950/10 dark:to-neutral-100 rounded-3xl p-8 border-2 border-blue-500/80 shadow-lg relative flex flex-col scale-[1.02]"
             >
-              <div className="absolute top-0 right-8 -translate-y-1/2 bg-gradient-to-r from-orange-500 to-rose-500 text-white px-3 py-1 rounded-full text-xs font-black shadow-sm">
+              <div className="absolute top-0 right-8 -translate-y-1/2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-3 py-1 rounded-full text-xs font-black shadow-sm shadow-orange-500/15">
                 {isAr ? "توفير ٦٠٪ - الأكثر شعبية" : "SAVE 60% - MOST POPULAR"}
               </div>
               
-              <h3 className="text-xl font-black text-orange-950 dark:text-orange-200 mb-2">{isAr ? "باقة ٣ أكواد" : "3-Codes Bundle"}</h3>
-              <p className="text-orange-800/70 dark:text-orange-300/80 text-sm mb-6 min-h-[40px] font-medium">
+              <h3 className="text-xl font-black text-blue-950 dark:text-blue-200 mb-2">{isAr ? "باقة ٣ أكواد" : "3-Codes Bundle"}</h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm mb-6 min-h-[40px] font-medium">
                 {isAr ? "شارك الباقة مع أصدقائك أو أنشئ أكثر من سيرة ذاتية لمجالات مختلفة." : "Share with friends or create multiple versions of your resume."}
               </p>
               <div className="mb-8 flex items-baseline gap-2">
-                <span className="text-5xl font-black text-[#FF4D2D]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>120</span>
+                <span className="text-5xl font-black text-[#001639]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>120</span>
                 {" "}
-                <span className="text-orange-850 dark:text-orange-200/90 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
+                <span className="text-slate-500 dark:text-slate-400 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
@@ -141,36 +148,52 @@ export default function PricingPage() {
                   isAr ? "جميع مميزات الباقة الفردية" : "All Single Code features"
                 ].map((feature, i) => (
                   <li key={i} className="flex items-center gap-3 text-sm font-bold text-slate-800 dark:text-neutral-800">
-                    <Check className="w-5 h-5 text-orange-500 shrink-0" />
+                    <Check className="w-5 h-5 text-blue-600 shrink-0" />
                     {feature}
                   </li>
                 ))}
               </ul>
               <Link 
                 to="/editor?plan=bundle"
-                className="w-full py-4 rounded-xl font-black text-center text-white bg-gradient-to-r from-orange-500 to-rose-500 hover:from-orange-600 hover:to-rose-600 shadow-lg shadow-orange-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 rounded-xl font-black text-center text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
               >
                 {isAr ? "شراء الباقة — ١٢٠ ج.م" : "Buy Bundle — 120 EGP"}
               </Link>
             </motion.div>
           </div>
           
-          <div className="mt-16 text-center">
-            <p className="text-sm font-medium text-slate-500 mb-4">
-              {isAr ? "ندعم وسائل الدفع المحلية:" : "We support local payment methods:"}
+          <div className="mt-16 text-center max-w-2xl mx-auto">
+            <p className="text-sm font-bold text-slate-650 mb-6 uppercase tracking-wider">
+              {isAr ? "ندعم جميع وسائل الدفع المحلية والعالمية:" : "We support all local & global payment options:"}
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200">
-                <span className="w-2 h-2 rounded-full bg-purple-600"></span>
-                <span className="font-bold text-slate-700 text-sm">InstaPay</span>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-3xs hover:shadow-xs transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center mb-2">
+                  <span className="text-base">⚡</span>
+                </div>
+                <span className="font-extrabold text-slate-800 text-xs">InstaPay</span>
+                <span className="text-[10px] text-slate-400 font-semibold mt-0.5">{isAr ? "تحويل فوري" : "Instant Transfer"}</span>
               </div>
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200">
-                <span className="w-2 h-2 rounded-full bg-red-600"></span>
-                <span className="font-bold text-slate-700 text-sm">Vodafone Cash</span>
+              <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-3xs hover:shadow-xs transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center mb-2">
+                  <span className="text-base">🔴</span>
+                </div>
+                <span className="font-extrabold text-slate-800 text-xs">Vodafone Cash</span>
+                <span className="text-[10px] text-slate-400 font-semibold mt-0.5">{isAr ? "وجميع المحافظ" : "All Mobile Wallets"}</span>
               </div>
-              <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200">
-                <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
-                <span className="font-bold text-slate-700 text-sm">SSL Secure</span>
+              <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-3xs hover:shadow-xs transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-2">
+                  <span className="text-base">💳</span>
+                </div>
+                <span className="font-extrabold text-slate-800 text-xs">Visa / MasterCard</span>
+                <span className="text-[10px] text-slate-400 font-semibold mt-0.5">{isAr ? "بطاقات الدفع" : "Credit & Debit Cards"}</span>
+              </div>
+              <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-3xs hover:shadow-xs transition-shadow">
+                <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center mb-2">
+                  <span className="text-base">🔒</span>
+                </div>
+                <span className="font-extrabold text-slate-800 text-xs">SSL Secure</span>
+                <span className="text-[10px] text-slate-400 font-semibold mt-0.5">{isAr ? "اتصال مشفر وآمن" : "Encrypted Gateway"}</span>
               </div>
             </div>
           </div>

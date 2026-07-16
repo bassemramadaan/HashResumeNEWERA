@@ -23,6 +23,7 @@ export default function FAQPage() {
       <Navbar />
       
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-24">
+        <h1 className="sr-only">{language === 'ar' ? 'الأسئلة الشائعة' : 'FAQ'}</h1>
         <FAQ />
       </main>
 

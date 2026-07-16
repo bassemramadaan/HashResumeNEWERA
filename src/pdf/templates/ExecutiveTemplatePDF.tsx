@@ -226,7 +226,7 @@ export const ExecutiveTemplatePDF: React.FC<{ data: ResumeData }> = ({ data }) =
               <View key={i} style={{ marginBottom: 6 }} wrap={false}>
                 <View style={styles.row}>
                   <Text style={styles.titleText}>{proj.name}</Text>
-                  {proj.link && <Text style={[styles.dateText, { color: '#2563EB' }]}>{proj.link}</Text>}
+                  {proj.link && <Text style={[styles.dateText, { color: '#001639' }]}>{proj.link}</Text>}
                 </View>
                 <View style={styles.descContainer}>
                   {renderMarkdownToPDF(proj.description, isRtl, baseFont)}

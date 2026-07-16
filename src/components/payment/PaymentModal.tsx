@@ -444,7 +444,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             className="relative w-full max-w-md bg-white rounded-3xl shadow-[0_24px_70px_-15px_rgba(0,0,0,0.18)] overflow-hidden border border-slate-100 my-8 z-10 custom-modal-wrapper"
           >
             {/* Elegant Brand Color Strip at the very top */}
-            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 to-[#FF4D2D] overflow-hidden" />
+            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-rose-500 to-[#001639] overflow-hidden" />
             
             {/* Close Button */}
             <button
@@ -495,7 +495,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                     {/* Option 1: Save to Device */}
                     <div className="bg-slate-50 border border-slate-150/70 p-5 rounded-2xl relative overflow-hidden group">
                       <div className="flex items-center gap-3 mb-2.5">
-                        <div className="p-2 bg-rose-50 text-[#FF4D2D] border border-rose-100 rounded-xl">
+                        <div className="p-2 bg-rose-50 text-[#001639] border border-rose-100 rounded-xl">
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                         </div>
                         <h4 className="text-sm font-black text-slate-800">
@@ -509,7 +509,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                       </p>
                       <button
                         onClick={() => onSuccess([])}
-                        className="w-full h-11 flex items-center justify-center gap-2 text-white bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:from-rose-700 hover:to-[#E64528] active:scale-95 transition-all rounded-xl text-xs font-black shadow-md shadow-orange-500/10 cursor-pointer select-none"
+                        className="w-full h-11 flex items-center justify-center gap-2 text-white bg-gradient-to-r from-rose-600 to-[#001639] hover:from-rose-700 hover:to-[#E64528] active:scale-95 transition-all rounded-xl text-xs font-black shadow-md shadow-orange-500/10 cursor-pointer select-none"
                       >
                         {isAr ? "حفظ ملف الـ PDF على الجهاز" : "Save PDF to Device"}
                       </button>
@@ -581,11 +581,11 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                           <h3 className="text-xs font-black text-slate-700 flex items-center gap-1.5">
                             <span className="relative flex h-2.5 w-2.5">
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF4D2D]"></span>
+                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#001639]"></span>
                             </span>
                             {isAr ? "حالة فحص وتتبع المعاملة" : "Transaction Audit Stream"}
                           </h3>
-                          <span className="text-xs font-black text-[#FF4D2D] bg-orange-50 px-2 py-0.5 rounded-md">
+                          <span className="text-xs font-black text-[#001639] bg-orange-50 px-2 py-0.5 rounded-md">
                             {verificationProgress}%
                           </span>
                         </div>
@@ -593,7 +593,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         {/* Glowing Progress Bar */}
                         <div className="w-full bg-slate-200/60 rounded-full h-2 overflow-hidden relative">
                           <motion.div 
-                            className="bg-gradient-to-r from-orange-500 to-[#FF4D2D] h-full rounded-full"
+                            className="bg-gradient-to-r from-orange-500 to-[#001639] h-full rounded-full"
                             animate={{ width: `${verificationProgress}%` }}
                             transition={{ duration: 0.5, ease: "easeInOut" }}
                           />
@@ -602,12 +602,12 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         {/* Interactive Dynamic Status Text with Shimmering Loader */}
                         <div className="bg-white rounded-xl p-4 border border-slate-150/80 shadow-3xs space-y-3">
                           <div className="flex items-center gap-4">
-                            <div className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-orange-50 text-[#FF4D2D] border border-orange-100 shrink-0">
+                            <div className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-orange-50 text-[#001639] border border-orange-100 shrink-0">
                               <Sparkles className="w-5 h-5 animate-spin-slow" />
                               <div className="absolute inset-0 rounded-lg bg-orange-400/10 animate-ping" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <p className="text-[10px] font-black text-[#FF4D2D] uppercase tracking-wider">
+                              <p className="text-[10px] font-black text-[#001639] uppercase tracking-wider">
                                 {isAr ? "التحليل الذكي الجاري" : "Active Audit Scan"}
                               </p>
                               <p className="text-[11px] font-semibold text-slate-700 mt-1 truncate leading-tight">
@@ -642,7 +642,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                 {isDone ? (
                                   <CheckCircle2 size={14} className="text-emerald-500 shrink-0" />
                                 ) : isActive ? (
-                                  <Loader2 size={14} className="text-[#FF4D2D] animate-spin shrink-0" />
+                                  <Loader2 size={14} className="text-[#001639] animate-spin shrink-0" />
                                 ) : (
                                   <div className="w-3.5 h-3.5 rounded-full border border-slate-300 bg-white shrink-0" />
                                 )}
@@ -662,7 +662,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         <button
                           onClick={() => handleCheckApproval()}
                           disabled={checkingApproval}
-                          className="w-full h-11 flex items-center justify-center gap-2 rounded-xl font-black text-xs bg-[#FF4D2D] hover:bg-[#E64528] text-white transition-all shadow-md shadow-orange-500/20 active:scale-95 disabled:opacity-40 cursor-pointer"
+                          className="w-full h-11 flex items-center justify-center gap-2 rounded-xl font-black text-xs bg-[#001639] hover:bg-[#E64528] text-white transition-all shadow-md shadow-orange-500/20 active:scale-95 disabled:opacity-40 cursor-pointer"
                         >
                           {checkingApproval ? (
                             <Loader2 size={15} className="animate-spin text-white" />
@@ -731,12 +731,12 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                             >
                               <div className={cn(
                                 "absolute top-0 right-0 font-black text-[7px] px-2 py-0.5 rounded-bl-lg transition-colors",
-                                selectedPackage === "bundle" ? "bg-gradient-to-r from-rose-500 to-[#FF4D2D] text-white" : "bg-slate-200 text-slate-500"
+                                selectedPackage === "bundle" ? "bg-gradient-to-r from-rose-500 to-[#001639] text-white" : "bg-slate-200 text-slate-500"
                               )}>
                                 {isAr ? "توفير ٦٠٪" : "SAVE 60%"}
                               </div>
                               <span className="text-[11px] font-bold">{isAr ? "باقة ٣ أكواد" : "3-Codes Bundle"}</span>
-                              <span className="text-sm font-black text-[#FF4D2D] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>120{" "}<span className="text-[9px] font-bold opacity-70" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span></span>
+                              <span className="text-sm font-black text-[#001639] mt-0.5" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>120{" "}<span className="text-[9px] font-bold opacity-70" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span></span>
                             </button>
                           </div>
                         </div>
@@ -751,7 +751,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                       </div>
                       <button
                         onClick={() => setStep(2)}
-                        className="w-full h-12 flex items-center justify-center gap-2 rounded-xl font-black text-xs text-white uppercase tracking-wider bg-gradient-to-r from-orange-500 to-[#FF4D2D] hover:from-orange-600 hover:to-[#E64528] active:scale-[0.98] transition-all shadow-md shadow-orange-500/20 cursor-pointer mb-2"
+                        className="w-full h-12 flex items-center justify-center gap-2 rounded-xl font-black text-xs text-white uppercase tracking-wider bg-gradient-to-r from-orange-500 to-[#001639] hover:from-orange-600 hover:to-[#E64528] active:scale-[0.98] transition-all shadow-md shadow-orange-500/20 cursor-pointer mb-2"
                       >
                         {isAr ? "متابعة للدفع" : "Continue to Payment"} &rarr;
                       </button>
@@ -761,7 +761,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                   {step === 2 && (
                     <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} className="space-y-4">
                       {/* Step Header */}
-                      <div className="flex items-center gap-3 mb-4 text-[#FF4D2D]">
+                      <div className="flex items-center gap-3 mb-4 text-[#001639]">
                         <button onClick={() => setStep(1)} className="p-1.5 hover:bg-orange-50 rounded-lg transition-colors">
                           <ArrowLeft size={18} />
                         </button>
@@ -796,7 +796,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                   {item.brandBadge}
                                 </span>
                               )}
-                              <Icon size={14} className={cn("mb-1 transition-transform duration-200", isSelected ? (item.id === "vodafone" ? "text-red-600 scale-105" : "text-[#FF4D2D] scale-105") : "text-slate-400")} />
+                              <Icon size={14} className={cn("mb-1 transition-transform duration-200", isSelected ? (item.id === "vodafone" ? "text-red-600 scale-105" : "text-[#001639] scale-105") : "text-slate-400")} />
                               <span className="text-[10px] sm:text-[11px] font-semibold tracking-tight leading-none animate-fade-in">
                                 {item.label}
                               </span>
@@ -834,7 +834,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                               </p>
 
                               {/* Beautiful QR Code Framing */}
-                              <div className="flex flex-col items-center justify-center p-3 bg-white border border-slate-150/80 rounded-2xl shadow-xs max-w-[190px] mx-auto group hover:border-[#FF4D2D]/35 transition-colors">
+                              <div className="flex flex-col items-center justify-center p-3 bg-white border border-slate-150/80 rounded-2xl shadow-xs max-w-[190px] mx-auto group hover:border-[#001639]/35 transition-colors">
                                 <img 
                                   src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https%3A%2F%2Fipn.eg%2FS%2Fbassemramadaaaaan%2Finstapay%2F1LWlmU" 
                                   alt="InstaPay QR Code" 
@@ -851,9 +851,9 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                 href="https://ipn.eg/S/bassemramadaaaaan/instapay/1LWlmU"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-1.5 px-4 h-11 bg-orange-50 hover:bg-orange-100/90 text-[#FF4D2D] border border-orange-200/50 rounded-xl text-xs font-black transition-all shadow-2xs w-full text-center"
+                                className="flex items-center justify-center gap-1.5 px-4 h-11 bg-orange-50 hover:bg-orange-100/90 text-[#001639] border border-orange-200/50 rounded-xl text-xs font-black transition-all shadow-2xs w-full text-center"
                               >
-                                <Sparkles size={13} className="text-[#FF4D2D] shrink-0 animate-pulse" />
+                                <Sparkles size={13} className="text-[#001639] shrink-0 animate-pulse" />
                                 {isAr ? "اضغط لفتح تطبيق انستاباي والدفع" : "Tap Here to Open InstaPay App"}
                               </a>
 
@@ -862,14 +862,14 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                 <p className="text-[11px] text-slate-400 font-bold">
                                   {isAr ? "أو التحويل اليدوي لعنوان InstaPay التالي:" : "Or copy the InstaPay address manually:"}
                                 </p>
-                                <div className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm hover:border-[#FF4D2D]/40 transition-colors group">
+                                <div className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm hover:border-[#001639]/40 transition-colors group">
                                   <span className="font-mono font-black text-xs sm:text-sm text-slate-800 select-all flex-1 tracking-wide">bassemramadaaaaan@instapay</span>
                                   <button
                                     onClick={() => handleCopy("bassemramadaaaaan@instapay", "ipa")}
-                                    className="p-1.5 bg-slate-50 text-slate-400 hover:text-[#FF4D2D] border border-slate-100 rounded-lg transition-all"
+                                    className="p-1.5 bg-slate-50 text-slate-400 hover:text-[#001639] border border-slate-100 rounded-lg transition-all"
                                   >
                                     {copiedText === "ipa" ? (
-                                      <span className="flex items-center gap-0.5 text-[9px] font-bold text-[#FF4D2D] px-1">
+                                      <span className="flex items-center gap-0.5 text-[9px] font-bold text-[#001639] px-1">
                                         <Check size={12} /> {isAr ? "تم" : "Done"}
                                       </span>
                                     ) : (
@@ -886,14 +886,14 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                   ? `قم بتحويل مبلّغ قدره ${selectedPackage === "single" ? "50" : "120"} جنيه كاش إلى رقم محفظة فودافون كاش التالي:` 
                                   : `Transfer exactly ${selectedPackage === "single" ? "50" : "120"} EGP to this Vodafone Cash wallet:`}
                               </p>
-                              <div className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm hover:border-[#FF4D2D]/40 transition-colors group">
+                              <div className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-sm hover:border-[#001639]/40 transition-colors group">
                                 <span className="font-mono font-black text-sm text-slate-800 select-all flex-1 tracking-wider" dir="ltr">01101007965</span>
                                 <button
                                   onClick={() => handleCopy("01101007965", "phone")}
-                                  className="p-1.5 bg-slate-50 text-slate-400 hover:text-[#FF4D2D] border border-slate-100 rounded-lg transition-all"
+                                  className="p-1.5 bg-slate-50 text-slate-400 hover:text-[#001639] border border-slate-100 rounded-lg transition-all"
                                 >
                                   {copiedText === "phone" ? (
-                                    <span className="flex items-center gap-0.5 text-[9px] font-bold text-[#FF4D2D] px-1">
+                                    <span className="flex items-center gap-0.5 text-[9px] font-bold text-[#001639] px-1">
                                       <Check size={12} /> {isAr ? "تم" : "Done"}
                             </span>
                           ) : (
@@ -922,7 +922,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
               <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} className="space-y-4">
                 {/* Step Header */}
                 {!pendingRef && (
-                  <div className="flex items-center gap-3 mb-4 text-[#FF4D2D]">
+                  <div className="flex items-center gap-3 mb-4 text-[#001639]">
                     <button onClick={() => setStep(2)} className="p-1.5 hover:bg-orange-50 rounded-lg transition-colors">
                       <ArrowLeft size={18} />
                     </button>
@@ -950,7 +950,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                 onChange={(e) => setRefNum(e.target.value.replace(/\D/g, ""))}
                                 placeholder={selectedMethod === "instapay" ? (isAr ? "مثال: 123456789101" : "e.g. 123456789101") : (isAr ? "اكتب رقم معاملة المحفظة" : "Wallet transaction ID")}
                                 maxLength={18}
-                                className="w-full bg-slate-50 border border-slate-200 focus:border-[#FF4D2D] focus:ring-4 focus:ring-[#FF4D2D]/10 focus:bg-white outline-none rounded-xl px-3 py-2.5 text-xs font-bold transition-all placeholder:text-slate-400"
+                                className="w-full bg-slate-50 border border-slate-200 focus:border-[#001639] focus:ring-4 focus:ring-[#001639]/10 focus:bg-white outline-none rounded-xl px-3 py-2.5 text-xs font-bold transition-all placeholder:text-slate-400"
                               />
                             </div>
 
@@ -964,7 +964,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                   value={senderNameOrPhone}
                                   onChange={(e) => setSenderNameOrPhone(e.target.value)}
                                   placeholder={isAr ? "الاسم أو الهاتف" : "Name or phone"}
-                                  className="w-full bg-slate-50 border border-slate-200 focus:border-[#FF4D2D] focus:ring-4 focus:ring-[#FF4D2D]/10 focus:bg-white outline-none rounded-xl px-3 py-2 text-xs font-bold transition-all placeholder:text-slate-400"
+                                  className="w-full bg-slate-50 border border-slate-200 focus:border-[#001639] focus:ring-4 focus:ring-[#001639]/10 focus:bg-white outline-none rounded-xl px-3 py-2 text-xs font-bold transition-all placeholder:text-slate-400"
                                 />
                               </div>
 
@@ -977,7 +977,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                                   value={userEmailInput}
                                   onChange={(e) => setUserEmailInput(e.target.value)}
                                   placeholder="e.g. name@domain.com"
-                                  className="w-full bg-slate-50 border border-slate-200 focus:border-[#FF4D2D] focus:ring-4 focus:ring-[#FF4D2D]/10 focus:bg-white outline-none rounded-xl px-3 py-2 text-xs font-bold transition-all placeholder:text-slate-400"
+                                  className="w-full bg-slate-50 border border-slate-200 focus:border-[#001639] focus:ring-4 focus:ring-[#001639]/10 focus:bg-white outline-none rounded-xl px-3 py-2 text-xs font-bold transition-all placeholder:text-slate-400"
                                 />
                               </div>
                             </div>
@@ -1003,7 +1003,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                             <button
                               type="button"
                               onClick={() => { setSelectedMethod("code"); }}
-                              className="text-[10px] font-bold text-slate-400 hover:text-[#FF4D2D] transition-all block mx-auto py-1"
+                              className="text-[10px] font-bold text-slate-400 hover:text-[#001639] transition-all block mx-auto py-1"
                             >
                               {isAr ? "لديك كود تفعيل؟ أدخله هنا مباشرة ←" : "Already have an activation code? Enter here →"}
                             </button>
@@ -1014,7 +1014,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                     {step === 2 && !pendingRef && selectedMethod === "code" && (
                       <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} className="space-y-4">
                     <div className="bg-slate-50/70 rounded-2xl border border-slate-100 p-4 space-y-2">
-                          <span className="inline-flex bg-white shadow-sm text-[#FF4D2D] text-[9px] font-black px-2.5 py-1 rounded-full uppercase border border-slate-200 animate-pulse">
+                          <span className="inline-flex bg-white shadow-sm text-[#001639] text-[9px] font-black px-2.5 py-1 rounded-full uppercase border border-slate-200 animate-pulse">
                             {isAr ? "كود تفعيل مسبق" : "Voucher Code"}
                           </span>
                           <p className="text-xs text-slate-500 font-semibold leading-relaxed">
@@ -1025,7 +1025,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         </div>
 
                         <div className="space-y-4">
-                          <div className="flex gap-2 p-1 bg-slate-50 rounded-2xl border border-slate-200 focus-within:ring-4 focus-within:ring-[#FF4D2D]/5 focus-within:border-[#FF4D2D]/70 transition-all">
+                          <div className="flex gap-2 p-1 bg-slate-50 rounded-2xl border border-slate-200 focus-within:ring-4 focus-within:ring-[#001639]/5 focus-within:border-[#001639]/70 transition-all">
                             <input
                               type="text"
                               value={code}
@@ -1107,11 +1107,11 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                   {/* Secure checkout badges */}
                   <div className="mt-4 flex flex-wrap items-center justify-center gap-4 pt-4 border-t border-slate-100">
                     <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                      <ShieldCheck size={14} className="text-[#FF4D2D]" />
+                      <ShieldCheck size={14} className="text-[#001639]" />
                       {isAr ? "آمن 100%" : "Secure Check"}
                     </div>
                     <div className="flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                      <CheckCircle2 size={14} className="text-[#FF4D2D]" />
+                      <CheckCircle2 size={14} className="text-[#001639]" />
                       {isAr ? "مراجعة فورية" : "Verified Direct"}
                     </div>
                   </div>

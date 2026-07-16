@@ -14,7 +14,7 @@ export default function TrustPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans" dir={dir}>
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans pb-36" dir={dir}>
       <Helmet>
         <title>الخصوصية والأمان | Hash Resume</title>
         <meta name="description" content="بياناتك محفوظة 100% على جهازك فقط. لا قواعد بيانات، لا تتبع، لا مشاركة بيانات." />

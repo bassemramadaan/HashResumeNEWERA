@@ -203,7 +203,7 @@ export default function GamifiedJourney() {
             {/* Defs for gradients */}
             <defs>
               <linearGradient id="glow-line" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#FF4D2D" stopOpacity="0.8" />
+                <stop offset="0%" stopColor="#001639" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
               </linearGradient>
             </defs>
@@ -277,7 +277,7 @@ export default function GamifiedJourney() {
                     cy={step.y}
                     r="12"
                     fill={isLocked ? "#F1F5F9" : isCompleted ? "#10B981" : "#FFFFFF"}
-                    stroke={isLocked ? "#CBD5E1" : isCompleted ? "#10B981" : "#FF4D2D"}
+                    stroke={isLocked ? "#CBD5E1" : isCompleted ? "#10B981" : "#001639"}
                     strokeWidth="3"
                     className="transition-colors duration-300 group-hover:scale-110"
                     style={{ transformOrigin: `${step.x}px ${step.y}px` }}

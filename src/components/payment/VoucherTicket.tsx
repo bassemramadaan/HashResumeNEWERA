@@ -178,8 +178,8 @@ export default function VoucherTicket({
           <div className="flex items-start justify-between">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1">
-                <Sparkles size={11} className="text-[#FF4D2D]/80 shrink-0" />
-                <span className="text-[8px] font-medium uppercase tracking-widest text-[#FF4D2D]/90">
+                <Sparkles size={11} className="text-[#001639]/80 shrink-0" />
+                <span className="text-[8px] font-medium uppercase tracking-widest text-[#001639]/90">
                   {isAr ? "تأكيد فوري" : "INSTANT VERIFIED"}
                 </span>
               </div>

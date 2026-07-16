@@ -218,23 +218,23 @@ export default function PaymentPage() {
 
           <div className="border-t border-slate-100 pt-3 flex justify-between items-end">
             <span className="font-black text-slate-800 text-base">{isAr ? "الإجمالي الكلي:" : "Grand Total:"}</span>
-            <span className="text-3xl font-black text-[#FF4D2D] font-mono leading-none">
+            <span className="text-3xl font-black text-[#001639] font-mono leading-none">
               {getPrice()} EGP
             </span>
           </div>
         </div>
 
-        {/* Security & Trust indicators */}
-        <div className="mt-8 flex items-center justify-center gap-4 text-[10px] text-slate-400 font-medium">
-          <div className="flex items-center gap-1">
-            <ShieldCheck size={12} className="text-emerald-500" />
-            <span>SSL Secured</span>
+          {/* Security & Trust indicators */}
+        <div className="mt-8 flex flex-col items-center justify-center gap-4 text-[10px] text-slate-400 font-medium">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1">
+              <ShieldCheck size={12} className="text-emerald-500" />
+              <span>SSL Secured</span>
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-             <a href="https://wa.me/201XXXXXXXXXX" target="_blank" rel="noreferrer" className="flex items-center gap-1 hover:text-[#FF4D2D]">
-              <span className="text-emerald-600">💬</span> Support
-             </a>
-          </div>
+          <a href="https://wa.me/201XXXXXXXXXX" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full text-emerald-700 font-bold hover:bg-emerald-100 transition-colors">
+            <span className="text-sm">💬</span> {isAr ? "تواصل معنا عبر واتساب" : "Chat on WhatsApp for Support"}
+          </a>
         </div>
 
         {/* Promo Code Accordion */}
@@ -243,7 +243,7 @@ export default function PaymentPage() {
             <button
               type="button"
               onClick={() => setShowPromoForm(true)}
-              className="inline-flex text-xs font-semibold text-slate-400 hover:text-[#FF4D2D] items-center gap-1.5 transition-colors cursor-pointer"
+              className="inline-flex text-xs font-semibold text-slate-400 hover:text-[#001639] items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Ticket size={12} />
               <span>{isAr ? "هل لديك كوبون؟" : "Have a coupon?"}</span>
@@ -303,11 +303,11 @@ export default function PaymentPage() {
   const renderTrustBadges = (isMobile: boolean = false) => {
     return (
       <div className={`bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-[2rem] p-6 sm:p-8 relative overflow-hidden ${isMobile ? "block lg:hidden" : "hidden lg:block"}`}>
-        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-32 h-32 bg-[#FF4D2D] rounded-full blur-2xl opacity-20 pointer-events-none" />
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-32 h-32 bg-[#001639] rounded-full blur-2xl opacity-20 pointer-events-none" />
         <div className="relative z-10 space-y-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-              <ShieldCheck className="text-[#FF4D2D]" size={20} />
+              <ShieldCheck className="text-[#001639]" size={20} />
             </div>
             <div>
               <h4 className="font-extrabold text-sm">{isAr ? "دفع رقمي آمن بنسبة ١٠٠٪" : "100% Secure Digital Payments"}</h4>
@@ -402,7 +402,7 @@ export default function PaymentPage() {
               {/* Box 1: Select/Toggle package */}
               <div className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs">
                 <h3 className="text-lg font-extrabold mb-4 flex items-center gap-2 text-slate-900">
-                  <span className="w-2 h-2 rounded-full bg-[#FF4D2D]" />
+                  <span className="w-2 h-2 rounded-full bg-[#001639]" />
                   {isAr ? "اختر باقة التفعيل:" : "Select your plan:"}
                 </h3>
 
@@ -412,15 +412,15 @@ export default function PaymentPage() {
                     onClick={() => setSelectedPlan("single")}
                     className={`p-4 rounded-2xl border-2 transition-all cursor-pointer relative flex flex-col justify-between ${
                       selectedPlan === "single" 
-                        ? "border-[#FF4D2D] bg-[#FF4D2D]/5" 
+                        ? "border-[#001639] bg-[#001639]/5" 
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
                     <div>
                       <div className="flex justify-between items-center mb-1">
                         <span className="font-extrabold text-slate-900">{isAr ? "كود تفعيل واحد" : "Single Code"}</span>
-                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "single" ? "border-[#FF4D2D]" : "border-slate-300"}`}>
-                          {selectedPlan === "single" && <div className="w-2 h-2 rounded-full bg-[#FF4D2D]" />}
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "single" ? "border-[#001639]" : "border-slate-300"}`}>
+                          {selectedPlan === "single" && <div className="w-2 h-2 rounded-full bg-[#001639]" />}
                         </div>
                       </div>
                       <p className="text-[11px] text-slate-500 font-medium leading-relaxed mb-4">
@@ -435,7 +435,7 @@ export default function PaymentPage() {
                     onClick={() => setSelectedPlan("bundle")}
                     className={`p-4 rounded-2xl border-2 transition-all cursor-pointer relative flex flex-col justify-between ${
                       selectedPlan === "bundle" 
-                        ? "border-[#FF4D2D] bg-[#FF4D2D]/5" 
+                        ? "border-[#001639] bg-[#001639]/5" 
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
@@ -445,15 +445,15 @@ export default function PaymentPage() {
                     <div>
                       <div className="flex justify-between items-center mb-1">
                         <span className="font-extrabold text-slate-900">{isAr ? "باقة ٣ أكواد" : "3-Codes Bundle"}</span>
-                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "bundle" ? "border-[#FF4D2D]" : "border-slate-300"}`}>
-                          {selectedPlan === "bundle" && <div className="w-2 h-2 rounded-full bg-[#FF4D2D]" />}
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "bundle" ? "border-[#001639]" : "border-slate-300"}`}>
+                          {selectedPlan === "bundle" && <div className="w-2 h-2 rounded-full bg-[#001639]" />}
                         </div>
                       </div>
                       <p className="text-[11px] text-slate-500 font-medium leading-relaxed mb-4">
                         {isAr ? "٣ أكواد تحميل منفصلة تمنحك مرونة لتحديث سيرتك لاحقاً." : "3 unique codes to update or build multiple resumes."}
                       </p>
                     </div>
-                    <span className="text-lg font-black text-[#FF4D2D] font-mono">120 EGP</span>
+                    <span className="text-lg font-black text-[#001639] font-mono">120 EGP</span>
                   </div>
                 </div>
               </div>
@@ -471,7 +471,7 @@ export default function PaymentPage() {
                     onClick={() => setPaymentMethod("instapay")}
                     className={`py-3 px-2 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       paymentMethod === "instapay" 
-                        ? "border-[#FF4D2D] bg-[#FF4D2D]/5 text-[#FF4D2D] font-bold" 
+                        ? "border-[#001639] bg-[#001639]/5 text-[#001639] font-bold" 
                         : "border-slate-200 hover:bg-slate-50 text-slate-600"
                     }`}
                   >
@@ -484,7 +484,7 @@ export default function PaymentPage() {
                     onClick={() => setPaymentMethod("vodafone")}
                     className={`py-3 px-2 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       paymentMethod === "vodafone" 
-                        ? "border-[#FF4D2D] bg-[#FF4D2D]/5 text-[#FF4D2D] font-bold" 
+                        ? "border-[#001639] bg-[#001639]/5 text-[#001639] font-bold" 
                         : "border-slate-200 hover:bg-slate-50 text-slate-600"
                     }`}
                   >
@@ -497,7 +497,7 @@ export default function PaymentPage() {
                     onClick={() => setPaymentMethod("fawry")}
                     className={`py-3 px-2 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       paymentMethod === "fawry" 
-                        ? "border-[#FF4D2D] bg-[#FF4D2D]/5 text-[#FF4D2D] font-bold" 
+                        ? "border-[#001639] bg-[#001639]/5 text-[#001639] font-bold" 
                         : "border-slate-200 hover:bg-slate-50 text-slate-600"
                     }`}
                   >
@@ -510,7 +510,7 @@ export default function PaymentPage() {
                     onClick={() => setPaymentMethod("card")}
                     className={`py-3 px-2 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       paymentMethod === "card" 
-                        ? "border-[#FF4D2D] bg-[#FF4D2D]/5 text-[#FF4D2D] font-bold" 
+                        ? "border-[#001639] bg-[#001639]/5 text-[#001639] font-bold" 
                         : "border-slate-200 hover:bg-slate-50 text-slate-600"
                     }`}
                   >
@@ -541,7 +541,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy("hashresume@instapay", "instapay")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
                           title={isAr ? "نسخ" : "Copy"}
                         >
                           {copiedText === "instapay" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
@@ -556,7 +556,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy(isAr ? "باسم رمضان عبده" : "Bassem Ramadan Abdo", "receiverName")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
                           title={isAr ? "نسخ" : "Copy"}
                         >
                           {copiedText === "receiverName" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
@@ -585,7 +585,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy("01027136006", "vodafone")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
                           title={isAr ? "نسخ" : "Copy"}
                         >
                           {copiedText === "vodafone" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
@@ -600,7 +600,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy(isAr ? "باسم رمضان" : "Bassem Ramadan", "vodafoneReceiver")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
                           title={isAr ? "نسخ" : "Copy"}
                         >
                           {copiedText === "vodafoneReceiver" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
@@ -629,7 +629,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy("78921", "fawrycode")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
                           title={isAr ? "نسخ" : "Copy"}
                         >
                           {copiedText === "fawrycode" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
@@ -644,7 +644,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy("928104829", "fawryref")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#FF4D2D] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
                           title={isAr ? "نسخ" : "Copy"}
                         >
                           {copiedText === "fawryref" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
@@ -726,7 +726,7 @@ export default function PaymentPage() {
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
                       <span>{isAr ? "البريد الإلكتروني (لتلقي كود التفعيل):" : "Email Address (to receive activation codes):"}</span>
-                      <span className="text-[#FF4D2D] font-extrabold">*</span>
+                      <span className="text-[#001639] font-extrabold">*</span>
                     </label>
                     <input 
                       type="email"
@@ -758,7 +758,7 @@ export default function PaymentPage() {
                       <div className="space-y-1">
                         <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
                           <span>{isAr ? "رقم التحويل المرجعي / معرّف المعاملة:" : "Transaction Reference / TxID:"}</span>
-                          <span className="text-[#FF4D2D] font-extrabold">*</span>
+                          <span className="text-[#001639] font-extrabold">*</span>
                         </label>
                         <input 
                           type="text"
@@ -785,7 +785,7 @@ export default function PaymentPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-[#FF4D2D] hover:bg-[#E64528] disabled:bg-slate-300 text-white py-4.5 rounded-2xl font-black text-base shadow-lg shadow-orange-500/20 active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                    className="w-full bg-[#001639] hover:bg-blue-700 disabled:bg-slate-300 text-white py-4.5 rounded-2xl font-black text-base shadow-lg shadow-blue-500/20 active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
                   >
                     {isSubmitting ? (
                       <>
@@ -799,6 +799,23 @@ export default function PaymentPage() {
                       </>
                     )}
                   </button>
+
+                  {/* Instant WhatsApp release button */}
+                  {paymentMethod !== "card" && (
+                    <a
+                      href={`https://wa.me/201027136006?text=${encodeURIComponent(
+                        isAr 
+                          ? `مرحباً! لقد قمت بتحويل مبلغ ${getPrice()} ج.م لخط محفظة Hash Resume لتفعيل الباقة.\nالبريد الإلكتروني: ${email || "[اكتب بريدك هنا]"}\nالرقم المرجعي للمعاملة: ${refNum || "[اكتب رقم المعاملة هنا]"}`
+                          : `Hi! I just transferred ${getPrice()} EGP to Hash Resume wallet for code activation.\nMy Email: ${email || "[Your Email]"}\nTransaction Ref: ${refNum || "[Transaction Reference]"}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full border-2 border-emerald-500 bg-emerald-50/50 hover:bg-emerald-50 text-emerald-800 py-3.5 rounded-2xl font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
+                    >
+                      <span>💬</span>
+                      <span>{isAr ? "إرسال إثبات الدفع عبر واتساب للتفعيل الفوري" : "Send Proof via WhatsApp for Instant Activation"}</span>
+                    </a>
+                  )}
 
                   {/* Manual verification disclaimer message */}
                   <p className="text-[11px] text-slate-500 text-center leading-relaxed font-bold px-2">

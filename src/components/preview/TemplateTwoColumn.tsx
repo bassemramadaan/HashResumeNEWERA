@@ -5,12 +5,16 @@ import { SafeDescription } from './SafeDescription';
 import { Mail, Phone, MapPin, Globe, Linkedin } from 'lucide-react';
 import { detectIsArabic } from "../../utils/language";
 
-export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
+export default function TemplateTwoColumn({ data, isMini }: { data: ResumeData; isMini?: boolean }) {
   const { personalInfo, experience, education, skills, projects, certifications, settings } = data;
   const isRtl = detectIsArabic(data);
   
-  const themeColor = settings.themeColor || '#2563eb';
+  const themeColor = settings.themeColor || '#001639';
 
+  const TitleTag = isMini ? "div" : "h1";
+  const SectionTag = isMini ? "div" : "h2";
+  const SubSectionTag = isMini ? "div" : "h3";
+  
   const ContactItem = ({ icon: Icon, text }: { icon: any, text: string }) => {
     if (!text) return null;
     return (
@@ -32,9 +36,9 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
         
         {/* Name (for sidebar) or just contact. Let's put contact in sidebar */}
         <div className="mb-8">
-          <h2 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4 border-b border-slate-200 pb-2">
+          <SectionTag className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4 border-b border-slate-200 pb-2">
             {isRtl ? "معلومات الاتصال" : "Contact"}
-          </h2>
+          </SectionTag>
           <div className="space-y-3 text-slate-600">
             <ContactItem icon={Mail} text={personalInfo.email} />
             <ContactItem icon={Phone} text={personalInfo.phone} />
@@ -47,9 +51,9 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
         {/* Skills */}
         {skills && skills.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4 border-b border-slate-200 pb-2">
+            <SectionTag className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4 border-b border-slate-200 pb-2">
               {isRtl ? "المهارات" : "Skills"}
-            </h2>
+            </SectionTag>
             <div className="flex flex-wrap gap-2">
               {skills.map((skill, index) => (
                 <React.Fragment key={index}>
@@ -68,9 +72,9 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
         {/* Certifications */}
         {certifications && certifications.length > 0 && (
           <div className="mb-8">
-            <h2 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4 border-b border-slate-200 pb-2">
+            <SectionTag className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4 border-b border-slate-200 pb-2">
               {isRtl ? "الشهادات" : "Certifications"}
-            </h2>
+            </SectionTag>
             <div className="space-y-4">
               {certifications.map((cert) => (
                 <div key={cert.id} className="text-[10px]">
@@ -90,20 +94,20 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
         
         {/* Header */}
         <header className="mb-8">
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-1" style={{ color: themeColor }}>
+          <TitleTag className="text-3xl font-black text-slate-900 tracking-tight mb-1" style={{ color: themeColor }}>
             {personalInfo.fullName}
-          </h2>
-          <h2 className="text-lg font-medium text-slate-600">
+          </TitleTag>
+          <div className="text-lg font-medium text-slate-600">
             {personalInfo.jobTitle}
-          </h2>
+          </div>
         </header>
 
         {/* Summary */}
         {personalInfo.summary && (
           <section className="mb-8">
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-3" style={{ color: themeColor }}>
+            <SectionTag className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-3" style={{ color: themeColor }}>
               {isRtl ? "الملخص المهني" : "Summary"}
-            </h3>
+            </SectionTag>
             <div className="text-[11px] text-slate-600 leading-relaxed markdown-body">
               <SafeDescription text={personalInfo.summary} />
             </div>
@@ -113,14 +117,14 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
         {/* Experience */}
         {experience && experience.length > 0 && (
           <section className="mb-8">
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4" style={{ color: themeColor }}>
+            <SectionTag className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4" style={{ color: themeColor }}>
               {isRtl ? "الخبرة المهنية" : "Experience"}
-            </h3>
+            </SectionTag>
             <div className="space-y-5">
               {experience.map((exp) => (
                 <div key={exp.id} className="avoid-break">
                   <div className="flex justify-between items-baseline mb-1">
-                    <h4 className="text-xs font-bold text-slate-900">{exp.position}</h4>
+                    <SubSectionTag className="text-xs font-bold text-slate-900">{exp.position}</SubSectionTag>
                     <span className="text-[10px] font-medium text-slate-500 bg-slate-50 px-2 py-0.5 rounded shrink-0">
                       {exp.startDate} - {exp.current ? (isRtl ? 'الحاضر' : 'Present') : exp.endDate}
                     </span>
@@ -138,14 +142,14 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
         {/* Projects */}
         {projects && projects.length > 0 && (
           <section className="mb-8">
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4" style={{ color: themeColor }}>
+            <SectionTag className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4" style={{ color: themeColor }}>
               {isRtl ? "المشاريع" : "Projects"}
-            </h3>
+            </SectionTag>
             <div className="space-y-4">
               {projects.map((proj) => (
                 <div key={proj.id} className="avoid-break">
                   <div className="flex justify-between items-baseline mb-1">
-                    <h4 className="text-xs font-bold text-slate-900">{proj.name}</h4>
+                    <SubSectionTag className="text-xs font-bold text-slate-900">{proj.name}</SubSectionTag>
                     {proj.link && (
                       <a href={proj.link} className="text-[10px] text-brand-600 hover:underline">
                         {proj.link.replace(/^https?:\/\//, '')}
@@ -164,14 +168,14 @@ export default function TemplateTwoColumn({ data }: { data: ResumeData }) {
         {/* Education */}
         {education && education.length > 0 && (
           <section className="mb-8">
-            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4" style={{ color: themeColor }}>
+            <SectionTag className="text-sm font-bold text-slate-800 uppercase tracking-widest mb-4" style={{ color: themeColor }}>
               {isRtl ? "التعليم" : "Education"}
-            </h3>
+            </SectionTag>
             <div className="space-y-4">
               {education.map((edu) => (
                 <div key={edu.id} className="avoid-break">
                   <div className="flex justify-between items-baseline mb-1">
-                    <h4 className="text-xs font-bold text-slate-900">{edu.degree}</h4>
+                    <SubSectionTag className="text-xs font-bold text-slate-900">{edu.degree}</SubSectionTag>
                     <span className="text-[10px] font-medium text-slate-500 shrink-0">
                       {edu.startDate} - {edu.endDate}
                     </span>

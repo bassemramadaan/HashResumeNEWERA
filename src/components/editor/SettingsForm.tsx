@@ -155,7 +155,7 @@ export default React.memo(function SettingsForm() {
               onClick={() => setShowComparison(true)}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black shadow-md cursor-pointer transition-all self-start sm:self-auto"
             >
-              <Eye size={14} className="text-[#FF4D2D]" />
+              <Eye size={14} className="text-[#001639]" />
               <span>{language === "ar" ? "🔍 مقارنة القوالب الفورية" : "🔍 Instant Template Side-by-Side"}</span>
             </motion.button>
           </div>

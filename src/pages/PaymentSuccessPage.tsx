@@ -217,7 +217,7 @@ export default function PaymentSuccessPage() {
           {status !== "approved" ? (
             /* Pending state view */
             <div className="text-center space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto text-[#FF4D2D]">
+              <div className="w-16 h-16 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto text-[#001639]">
                 <Loader2 size={32} className="animate-spin" />
               </div>
 
@@ -240,7 +240,7 @@ export default function PaymentSuccessPage() {
                 </div>
                 <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200/50 p-0.5">
                   <div 
-                    className="h-full bg-gradient-to-r from-orange-500 to-[#FF4D2D] rounded-full transition-all duration-1000"
+                    className="h-full bg-gradient-to-r from-orange-500 to-[#001639] rounded-full transition-all duration-1000"
                     style={{ width: `${verificationProgress}%` }}
                   />
                 </div>
@@ -339,7 +339,7 @@ export default function PaymentSuccessPage() {
                     <button
                       type="button"
                       onClick={() => handleCopyCode(codeStr, codeStr)}
-                      className="px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-black flex items-center gap-1 text-[#FF4D2D] transition-all cursor-pointer shadow-xs active:scale-95 me-4"
+                      className="px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-black flex items-center gap-1 text-[#001639] transition-all cursor-pointer shadow-xs active:scale-95 me-4"
                     >
                       {copiedText === codeStr ? (
                         <>

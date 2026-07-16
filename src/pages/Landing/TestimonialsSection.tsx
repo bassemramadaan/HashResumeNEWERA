@@ -83,10 +83,10 @@ export function TestimonialsSection({ lang }: { lang: AppLang }) {
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
               key={idx}
-              className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/60 hover:border-[#FF4D2D]/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col relative overflow-hidden group"
+              className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/60 hover:border-[#001639]/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col relative overflow-hidden group"
             >
               {/* Ambient micro border glow line */}
-              <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-orange-400 to-[#FF4D2D] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-orange-400 to-[#001639] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
               <div className="flex items-center justify-between mb-4">
                 <div className="flex text-amber-500 gap-0.5">
@@ -105,7 +105,7 @@ export function TestimonialsSection({ lang }: { lang: AppLang }) {
               </p>
 
               <div className="flex items-center gap-3 border-t border-slate-100/80 pt-4">
-                <div className="w-9 h-9 rounded-full bg-[#FF4D2D]/10 text-[#FF4D2D] flex items-center justify-center font-black shrink-0 text-xs">
+                <div className="w-9 h-9 rounded-full bg-[#001639]/10 text-[#001639] flex items-center justify-center font-black shrink-0 text-xs">
                   {t.initials}
                 </div>
                 <div>

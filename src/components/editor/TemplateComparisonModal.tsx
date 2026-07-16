@@ -130,13 +130,13 @@ export default function TemplateComparisonModal({
         {/* Top Header */}
         <div className="px-6 py-5 sm:px-8 border-b border-slate-800 flex items-center justify-between bg-slate-900/90 backdrop-blur-md shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-[#FF4D2D]">
+            <div className="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-[#001639]">
               <LayoutTemplate className="w-5 h-5 stroke-[2.2]" />
             </div>
             <div>
               <h2 className="text-lg sm:text-xl font-black text-white tracking-tight flex items-center gap-2">
                 {isRtl ? "مقارنة القوالب الفورية" : "Instant Template Side-by-Side"}
-                <span className="text-[10px] bg-[#FF4D2D]/10 text-[#FF4D2D] border border-[#FF4D2D]/20 px-2 py-0.5 rounded-full font-bold">
+                <span className="text-[10px] bg-[#001639]/10 text-[#001639] border border-[#001639]/20 px-2 py-0.5 rounded-full font-bold">
                   {isRtl ? "تفاعلي" : "Interactive Live"}
                 </span>
               </h2>
@@ -168,13 +168,13 @@ export default function TemplateComparisonModal({
                   whileHover={{ y: -4 }}
                   className={`flex flex-col rounded-2xl bg-slate-900 border transition-all overflow-hidden relative shadow-lg ${
                     isSelected 
-                      ? "border-[#FF4D2D] ring-2 ring-[#FF4D2D]/20" 
+                      ? "border-[#001639] ring-2 ring-[#001639]/20" 
                       : "border-slate-800 hover:border-slate-700"
                   }`}
                 >
                   {/* Select badge banner */}
                   {isSelected && (
-                    <div className="absolute top-3 end-3 z-30 bg-[#FF4D2D] text-white text-[10px] font-black px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
+                    <div className="absolute top-3 end-3 z-30 bg-[#001639] text-white text-[10px] font-black px-3 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
                       <Check className="w-3.5 h-3.5 stroke-[3]" />
                       <span>{isRtl ? "التصميم الحالي" : "Current Active"}</span>
                     </div>
@@ -213,7 +213,7 @@ export default function TemplateComparisonModal({
                   {/* Call to action at bottom of each grid item */}
                   <div className="p-4 bg-slate-900/60 backdrop-blur-xs flex items-center gap-2 shrink-0">
                     {isSelected ? (
-                      <div className="w-full py-2.5 px-4 rounded-xl text-xs font-extrabold bg-[#FF4D2D]/10 border border-[#FF4D2D]/20 text-[#FF4D2D] text-center">
+                      <div className="w-full py-2.5 px-4 rounded-xl text-xs font-extrabold bg-[#001639]/10 border border-[#001639]/20 text-[#001639] text-center">
                         {isRtl ? "نشط حالياً" : "Currently Selected"}
                       </div>
                     ) : (
@@ -246,7 +246,7 @@ export default function TemplateComparisonModal({
           </div>
           <button
             onClick={onClose}
-            className="text-xs font-extrabold text-[#FF4D2D] hover:text-[#ff6a4f] transition-colors cursor-pointer"
+            className="text-xs font-extrabold text-[#001639] hover:text-[#ff6a4f] transition-colors cursor-pointer"
           >
             {isRtl ? "حسناً، فهمت" : "Got it, back to editor"}
           </button>

@@ -71,7 +71,7 @@ export default function SharePage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-slate-900 text-white p-4 font-sans select-none relative overflow-hidden">
         {/* Ambient background blur circles */}
-        <div className="absolute top-[-20%] left-[-20%] w-[500px] h-[500px] bg-gradient-to-tr from-[#FF4D2D]/10 to-indigo-500/10 rounded-full blur-[130px] pointer-events-none" />
+        <div className="absolute top-[-20%] left-[-20%] w-[500px] h-[500px] bg-gradient-to-tr from-[#001639]/10 to-indigo-500/10 rounded-full blur-[130px] pointer-events-none" />
         <div className="absolute bottom-[-15%] right-[-10%] w-[450px] h-[450px] bg-gradient-to-br from-indigo-500/10 to-pink-500/5 rounded-full blur-[110px] pointer-events-none" />
 
         <motion.div
@@ -80,11 +80,11 @@ export default function SharePage() {
           className="w-full max-w-lg bg-slate-950/80 backdrop-blur-md border border-slate-800 rounded-3xl p-6 sm:p-9 shadow-2xl relative text-center"
         >
           {/* Custom Orange Frame Accent */}
-          <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-orange-500 via-[#FF4D2D] to-indigo-600 rounded-t-3xl" />
+          <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-orange-500 via-[#001639] to-indigo-600 rounded-t-3xl" />
 
           {/* Premium Logo Icon Box */}
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500/20 to-[#FF4D2D]/10 text-[#FF4D2D] flex items-center justify-center mx-auto mb-6 border border-[#FF4D2D]/20 shadow-lg relative">
-            <svg className="w-8 h-8 animate-pulse text-[#FF4D2D]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500/20 to-[#001639]/10 text-[#001639] flex items-center justify-center mx-auto mb-6 border border-[#001639]/20 shadow-lg relative">
+            <svg className="w-8 h-8 animate-pulse text-[#001639]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
             <div className="absolute -top-1.5 -right-1.5 bg-orange-500 text-[8px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded border border-orange-400 text-white leading-none">
@@ -112,7 +112,7 @@ export default function SharePage() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
               to="/editor"
-              className="flex-1 inline-flex items-center justify-center bg-gradient-to-r from-orange-500 to-[#FF4D2D] hover:from-orange-600 hover:to-[#E64528] text-white font-bold py-3.5 px-6 rounded-xl text-xs sm:text-sm shadow-lg shadow-orange-500/10 hover-transform transition-all duration-300 cursor-pointer"
+              className="flex-1 inline-flex items-center justify-center bg-gradient-to-r from-orange-500 to-[#001639] hover:from-orange-600 hover:to-[#E64528] text-white font-bold py-3.5 px-6 rounded-xl text-xs sm:text-sm shadow-lg shadow-orange-500/10 hover-transform transition-all duration-300 cursor-pointer"
             >
               🚀 {isAr ? "رقّ حسابك في ملف المحرر" : "Upgrade & Build in Editor"}
             </Link>
@@ -202,7 +202,7 @@ export default function SharePage() {
                       setShowConfirm(false);
                       handleUseTemplate();
                     }}
-                    className="flex-1 py-3 bg-gradient-to-r from-rose-600 to-[#FF4D2D] hover:opacity-95 text-white rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer"
+                    className="flex-1 py-3 bg-gradient-to-r from-rose-600 to-[#001639] hover:opacity-95 text-white rounded-xl font-bold text-xs sm:text-sm transition-all cursor-pointer"
                   >
                     {t.confirm}
                   </button>
@@ -249,7 +249,7 @@ export default function SharePage() {
       {/* Main Content Area: Responsive Resume Preview Container */}
       <main className="flex-1 w-full flex flex-col items-center justify-start py-8 px-4 relative overflow-visible">
         {/* Decorative ambient visual background glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-gradient-to-tr from-[#FF4D2D]/5 via-amber-500/5 to-transparent rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-gradient-to-tr from-[#001639]/5 via-amber-500/5 to-transparent rounded-full blur-[100px] pointer-events-none" />
 
         <div 
           className="origin-top shrink-0 transform-gpu transition-all" 

@@ -142,7 +142,7 @@ export default function FinishStep({
               onClick={onPrint}
               className="w-full py-3 bg-neutral-950 hover:bg-neutral-900 text-white rounded-xl font-bold text-xs shadow-xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
             >
-              <Download size={14} className="animate-bounce text-[#FF4D2D]" />
+              <Download size={14} className="animate-bounce text-[#001639]" />
               <span>{isAr ? "تحميل ملف PDF" : "Download PDF file"}</span>
             </button>
           </div>
@@ -173,7 +173,7 @@ export default function FinishStep({
               onClick={onExportWord}
               className="w-full py-3 bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-250 rounded-xl font-bold text-xs shadow-3xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
             >
-              <Download size={14} className="text-[#FF4D2D]" />
+              <Download size={14} className="text-[#001639]" />
               <span>{isAr ? "تصدير بصيغة Word (.docx)" : "Export to Word DOCX"}</span>
             </button>
           </div>
@@ -387,12 +387,12 @@ export default function FinishStep({
 
       {/* ── 3. Next Recommended Steps: Job Match & roadmap ── */}
       <div className="bg-gradient-to-tr from-neutral-900 via-neutral-850 to-neutral-950 text-white rounded-3xl p-6 sm:p-8 shadow-sm relative overflow-hidden group">
-        <div className="absolute inset-0 bg-radial from-[#FF4D2D]/[0.06] to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-radial from-[#001639]/[0.06] to-transparent pointer-events-none" />
         <div className="absolute top-2 right-2 text-neutral-700/20 animate-pulse">
           <Flame size={60} />
         </div>
         <div className="space-y-4 relative z-10 text-center">
-          <div className="mx-auto p-2.5 bg-white/10 rounded-2xl text-[#FF4D2D] w-fit font-bold">
+          <div className="mx-auto p-2.5 bg-white/10 rounded-2xl text-[#001639] w-fit font-bold">
             <Sparkles className="w-4 h-4" />
           </div>
           <h3 className="text-lg font-black tracking-tight">
@@ -406,7 +406,7 @@ export default function FinishStep({
           <div className="pt-2 flex justify-center">
             <Link
               to="/hash-hunt"
-              className="flex items-center gap-2 h-10 px-6 bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 transition-all text-white rounded-xl text-xs font-bold cursor-pointer select-none"
+              className="flex items-center gap-2 h-10 px-6 bg-[#001639] hover:bg-[#E64528] active:scale-95 transition-all text-white rounded-xl text-xs font-bold cursor-pointer select-none"
             >
               <span>{isAr ? "دخول مستكشف الفرص الذكي (هاش هانت)" : "Explore Jobs (Hash Hunt)"}</span>
               <ArrowRight size={12} className="rtl:rotate-180" />

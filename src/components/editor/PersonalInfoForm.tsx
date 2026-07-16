@@ -151,7 +151,7 @@ const PersonalInfoForm = () => {
         <div className="relative overflow-hidden bg-gradient-to-br from-white to-brand-50/25 p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-200 transition-all duration-300 group flex flex-col justify-between gap-4">
           <div className="absolute top-0 right-0 w-32 h-32 bg-brand-500/5 rounded-full blur-2xl pointer-events-none -z-10" />
           <div className="flex items-center gap-3 relative z-10">
-            <div className="w-10 h-10 bg-[#FF4D2D]/10 text-[#FF4D2D] rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-10 h-10 bg-[#001639]/10 text-[#001639] rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
               <Sparkles size={20} className="animate-pulse" />
             </div>
             <div>
@@ -497,7 +497,7 @@ const PersonalInfoForm = () => {
         </div>
 
         {/* Middle East & GCC Recruitment Fields Collapsible */}
-        <div className="col-span-1 md:col-span-2 border border-dashed border-slate-200 hover:border-[#FF4D2D]/35 rounded-2xl p-4 transition-all bg-white shadow-3xs mt-2">
+        <div className="col-span-1 md:col-span-2 border border-dashed border-slate-200 hover:border-[#001639]/35 rounded-2xl p-4 transition-all bg-white shadow-3xs mt-2">
           <button
             type="button"
             onClick={() => setShowGCCFields(!showGCCFields)}
@@ -512,7 +512,7 @@ const PersonalInfoForm = () => {
                 </p>
               </div>
             </div>
-            <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${showGCCFields ? "rotate-180 text-[#FF4D2D]" : "text-slate-400"}`} />
+            <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${showGCCFields ? "rotate-180 text-[#001639]" : "text-slate-400"}`} />
           </button>
 
           {showGCCFields && (

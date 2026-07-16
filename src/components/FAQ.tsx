@@ -74,7 +74,7 @@ export default function FAQ() {
                   <span className="font-bold text-slate-900 text-[14px] sm:text-base leading-tight">
                     {faq.question}
                   </span>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-[#FF4D2D] text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-slate-100'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${isOpen ? 'bg-[#001639] text-white' : 'bg-slate-50 text-slate-400 group-hover:bg-slate-100'}`}>
                     {isOpen ? (
                       <ChevronUp size={16} strokeWidth={3} />
                     ) : (

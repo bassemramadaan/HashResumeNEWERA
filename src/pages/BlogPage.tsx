@@ -56,7 +56,7 @@ export default function BlogPage() {
                 className="block overflow-hidden h-48 relative group"
               >
                 <img
-                  src={post.image}
+                  src={post.image.includes("unsplash.com") ? `${post.image}&fm=webp&w=600` : post.image}
                   alt={post.title[language]}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"

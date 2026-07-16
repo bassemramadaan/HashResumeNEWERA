@@ -36,7 +36,7 @@ export function CTASection({ lang }: { lang: AppLang }) {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="bg-slate-900 rounded-[3rem] p-6 xs:p-10 sm:p-16 lg:p-20 text-center relative overflow-hidden shadow-2xl">
           
-          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-[500px] h-[500px] bg-[#FF4D2D] rounded-full blur-[100px] opacity-30 pointer-events-none" />
+          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-[500px] h-[500px] bg-[#001639] rounded-full blur-[100px] opacity-30 pointer-events-none" />
           <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/3 w-[400px] h-[400px] bg-indigo-500 rounded-full blur-[100px] opacity-20 pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center">
@@ -56,7 +56,7 @@ export function CTASection({ lang }: { lang: AppLang }) {
             <div className="flex flex-col items-center gap-3">
               <Link
                 to="/editor"
-                className="bg-[#FF4D2D] hover:bg-[#E64528] active:scale-95 text-white inline-flex items-center justify-center gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg transition-all shadow-xl shadow-orange-500/25 w-full sm:w-auto"
+                className="bg-[#001639] hover:bg-blue-700 active:scale-95 text-white inline-flex items-center justify-center gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg transition-all shadow-xl shadow-blue-500/25 w-full sm:w-auto"
               >
                 <span>{c.cta}</span>
                 <ArrowRight size={20} className={isAr ? "rotate-180" : ""} />
