@@ -1,7 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { createPortal } from "react-dom";
-import { X, Linkedin, Upload, FileText, Loader2, Sparkles, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { X, Sparkles, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { useResumeStore } from "../../store/useResumeStore";
 import { aiService } from "../../services/aiService";
@@ -21,211 +21,13 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
     clearEducation,
     addSkill,
   } = useResumeStore();
+  
+  const [pastedText, setPastedText] = useState('');
+  const [importLoading, setImportLoading] = useState(false);
+  const [importError, setImportError] = useState<{ title: string; description: string } | null>(null);
+  const [importSuccess, setImportSuccess] = useState(false);
 
-  const [isDragActive, setIsDragActive] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [error, setError] = useState<{ title: string; description: string; tip: string } | null>(null);
-  const [success, setSuccess] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const getErrorMessage = (error: Error) => {
-    if (error.message.includes('image') || error.message.includes('صورة')) {
-      return {
-        title: 'الملف صورة مسكانة',
-        description: 'جرب: LinkedIn PDF → Profile → More → Save to PDF',
-        tip: 'أو ارفع CV نصي من Word أو Google Docs'
-      };
-    }
-    if (error.message.includes('كبير') || error.message.includes('size')) {
-      return {
-        title: 'الملف كبير جداً',
-        description: 'الحد الأقصى 10MB — حجم الملف الحالي: ' + (selectedFile ? (selectedFile.size / 1024 / 1024).toFixed(1) : 0) + 'MB',
-        tip: 'جرب تضغط الـ PDF أو استخدم نسخة أخف'
-      };
-    }
-    return {
-      title: 'خطأ في قراءة الملف',
-      description: 'تأكد إن الملف PDF نصي وليس صورة',
-      tip: 'جرب ملف تاني أو تواصل معنا'
-    };
-  };
-
-  const handleDragEnter = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragActive(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragActive(false);
-  };
-
-  const handleDrop = async (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragActive(false);
-
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const file = e.dataTransfer.files[0];
-      if (file.type === "application/pdf") {
-        setSelectedFile(file);
-      } else {
-        setError({
-          title: language === "ar" ? "نوع الملف غير مدعوم" : "Unsupported File Type",
-          description: language === "ar" ? "الرجاء رفع ملف PDF" : "Please upload a PDF file",
-          tip: ""
-        });
-      }
-    }
-  };
-
-  const extractTextFromPDF = async (file: File): Promise<string> => {
-    const pdfjsLib = await import("pdfjs-dist");
-    pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
-
-    const arrayBuffer = await file.arrayBuffer();
-    const uint8Array = new Uint8Array(arrayBuffer);
-
-    const loadingTask = pdfjsLib.getDocument({
-      data: uint8Array,
-      useWorkerFetch: false,
-      isEvalSupported: false,
-      useSystemFonts: true,
-    });
-
-    const pdf = await loadingTask.promise;
-    let fullText = '';
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const textContent = await page.getTextContent();
-      const pageText = textContent.items
-        .map((item: any) => 'str' in item ? item.str : '')
-        .filter(str => str.trim().length > 0)
-        .join(' ');
-      fullText += pageText + '\n';
-    }
-
-    console.log('Extracted text length:', fullText.trim().length);
-
-    if (fullText.trim().length < 100) {
-      throw new Error('image-based');
-    }
-
-    return fullText.trim();
-  };
-
-  const parseWithGemini = async (cvText: string) => {
-    const prompt = `
-أنت محلل سير ذاتية محترف. استخرج البيانات من النص التالي وأرجعها كـ JSON فقط بدون أي نص إضافي.
-
-النص:
-${cvText}
-
-أرجع JSON بالهيكل ده بالظبط:
-{
-  "personalInfo": {
-    "fullName": "",
-    "jobTitle": "",
-    "email": "",
-    "phone": "",
-    "address": "",
-    "linkedin": "",
-    "github": "",
-    "website": "",
-    "summary": ""
-  },
-  "workExperience": [
-    {
-      "company": "",
-      "position": "",
-      "startDate": "",
-      "endDate": "",
-      "current": false,
-      "description": ""
-    }
-  ],
-  "education": [
-    {
-      "institution": "",
-      "degree": "",
-      "field": "",
-      "startDate": "",
-      "endDate": "",
-      "gpa": ""
-    }
-  ],
-  "skills": [""],
-  "certifications": [
-    {
-      "name": "",
-      "issuer": "",
-      "date": "",
-      "credentialId": ""
-    }
-  ],
-  "projects": [
-    {
-      "name": "",
-      "description": "",
-      "technologies": [""]
-    }
-  ]
-}
-
-قواعد مهمة:
-- لو حاجة مش موجودة في النص، حطها string فاضي "" أو array فاضي []
-- استنتج المهارات (Skills) تلقائياً من خلال نصوص الخبرات السابقة (Experience) إذا لم تكن مكتوبة بوضوح في النص.
-- الـ dates بالصيغة MM/YYYY
-- لو في أكتر من وظيفة أو تعليم، حطهم كلهم في الـ array
-- أرجع JSON فقط بدون markdown أو backticks
-`;
-
-    const response = await aiService.generateContent(prompt);
-    
-    const text = response.text;
-    
-    // تنظيف الـ response لو فيه markdown
-    const cleanJson = text
-      .replace(/```json/g, '')
-      .replace(/```/g, '')
-      .trim();
-    
-    return JSON.parse(cleanJson);
-  };
-
-  const fillFormWithData = (parsedData: {
-    personalInfo?: {
-      fullName: string;
-      jobTitle: string;
-      email: string;
-      phone: string;
-      address: string;
-      linkedin: string;
-      github: string;
-      website: string;
-      summary: string;
-    };
-    workExperience?: {
-      company: string;
-      position: string;
-      startDate: string;
-      endDate: string;
-      current: boolean;
-      description: string;
-    }[];
-    education?: {
-      institution: string;
-      degree: string;
-      field: string;
-      startDate: string;
-      endDate: string;
-      gpa: string;
-    }[];
-    skills?: string[];
-  }) => {
-    // Personal Info
+  const fillFormWithData = (parsedData: any) => {
     if (parsedData.personalInfo) {
       updatePersonalInfo({
         ...useResumeStore.getState().data.personalInfo,
@@ -241,10 +43,9 @@ ${cvText}
       });
     }
 
-    // Work Experience
     if (parsedData.workExperience && parsedData.workExperience.length > 0) {
       clearExperience();
-      parsedData.workExperience.forEach((exp) => {
+      parsedData.workExperience.forEach((exp: any) => {
         const safeId = (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
         addExperience({
           id: safeId,
@@ -259,10 +60,9 @@ ${cvText}
       });
     }
 
-    // Education
     if (parsedData.education && parsedData.education.length > 0) {
       clearEducation();
-      parsedData.education.forEach((edu) => {
+      parsedData.education.forEach((edu: any) => {
         const safeId = (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
         addEducation({
           id: safeId,
@@ -276,56 +76,119 @@ ${cvText}
       });
     }
 
-    // Skills
     if (parsedData.skills && parsedData.skills.length > 0) {
-      parsedData.skills.forEach((skill) => {
+      parsedData.skills.forEach((skill: any) => {
         if (typeof skill === 'string' && skill.trim()) addSkill(skill);
       });
     }
   };
 
-  const processFile = async () => {
-    if (!selectedFile) return;
+  const parseWithGemini = async (cvText: string) => {
+    const prompt = `
+    أنت محلل سير ذاتية محترف. استخرج البيانات من النص التالي وأرجعها كـ JSON فقط بدون أي نص إضافي.
+    
+    النص:
+    ${cvText}
+    
+    أرجع JSON بالهيكل ده بالظبط:
+    {
+      "personalInfo": {
+        "fullName": "",
+        "jobTitle": "",
+        "email": "",
+        "phone": "",
+        "address": "",
+        "linkedin": "",
+        "github": "",
+        "website": "",
+        "summary": ""
+      },
+      "workExperience": [
+        {
+          "company": "",
+          "position": "",
+          "startDate": "",
+          "endDate": "",
+          "current": false,
+          "description": ""
+        }
+      ],
+      "education": [
+        {
+          "institution": "",
+          "degree": "",
+          "field": "",
+          "startDate": "",
+          "endDate": "",
+          "gpa": ""
+        }
+      ],
+      "skills": [""],
+      "certifications": [
+        {
+          "name": "",
+          "issuer": "",
+          "date": "",
+          "credentialId": ""
+        }
+      ],
+      "projects": [
+        {
+          "name": "",
+          "description": "",
+          "technologies": [""]
+        }
+      ]
+    }
+    
+    قواعد مهمة:
+    - لو حاجة مش موجودة في النص، حطها string فاضي "" أو array فاضي []
+    - استنتج المهارات (Skills) تلقائياً من خلال نصوص الخبرات السابقة (Experience) إذا لم تكن مكتوبة بوضوح في النص.
+    - الـ dates بالصيغة MM/YYYY
+    - لو في أكتر من وظيفة أو تعليم، حطهم كلهم في الـ array
+    - أرجع JSON فقط بدون markdown أو backticks
+    `;
+    
+    const response = await aiService.generateContent(prompt);
+    
+    const text = response.text;
+    
+    // تنظيف الـ response لو فيه markdown
+    const cleanJson = text
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+    
+    return JSON.parse(cleanJson);
+  };
 
+  const handlePasteImport = async () => {
+    if (!pastedText || pastedText.trim().length < 50) {
+      setImportError({
+        title: language === 'ar' ? 'النص قصير جدًا' : 'Text too short',
+        description: language === 'ar' ? 'الصق نص سيرتك الذاتية كاملاً (على الأقل بضعة أسطر)' : 'Please paste your full resume text (at least a few lines)',
+      });
+      return;
+    }
+    
+    setImportLoading(true);
+    setImportError(null);
     try {
-      setIsProcessing(true);
-      setError(null);
-      setProgress(10); // "جاري قراءة الملف..."
-      
-      // Step 1: Extract text
-      const text = await extractTextFromPDF(selectedFile);
-      setProgress(40);
-      
-      if (!text || text.trim().length < 50) {
-        throw new Error('الملف يبدو صورة — جرب ترفع PDF نصي أو LinkedIn profile بدلاً منه');
-      }
-      
-      setProgress(50); // "جاري تحليل السيرة الذاتية بالذكاء الاصطناعي..."
-      // Step 2: Parse with Gemini
-      const parsedData = await parseWithGemini(text);
-      setProgress(90);
-      
-      // Step 3: Fill form
+      const parsedData = await parseWithGemini(pastedText);
       fillFormWithData(parsedData);
-      
-      setProgress(100);
-      setSuccess(true);
-
+      setImportSuccess(true);
       setTimeout(() => {
+        setImportSuccess(false);
+        setPastedText('');
         onClose();
-        setSuccess(false);
-        setSelectedFile(null);
-        setProgress(0);
       }, 2000);
-    } catch (err: unknown) {
-      console.error(err);
-      if (err instanceof Error) {
-        setError(getErrorMessage(err));
-      } else {
-        setError({ title: "خطأ غير معروف", description: "حدث خطأ غير متوقع", tip: "" });
-      }
+    } catch (error) {
+      setImportError({
+        title: language === 'ar' ? 'حدث خطأ أثناء التحليل' : 'Error during parsing',
+        description: language === 'ar' ? 'تأكد من لصق نص واضح يحتوي على بياناتك' : 'Make sure to paste clear text containing your data',
+      });
     } finally {
-      setIsProcessing(false);
+      setImportLoading(false);
     }
   };
 
@@ -340,7 +203,7 @@ ${cvText}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
-            onClick={() => !isProcessing && onClose()}
+            onClick={() => !importLoading && onClose()}
           />
 
           <motion.div
@@ -352,7 +215,7 @@ ${cvText}
           >
             <button
               onClick={onClose}
-              disabled={isProcessing}
+              disabled={importLoading}
               className="absolute top-4 end-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors disabled:opacity-50"
             >
               <X size={20} />
@@ -364,15 +227,15 @@ ${cvText}
               </div>
               <div>
                 <h3 className="text-xl font-bold text-slate-900">
-                  {language === "ar" ? "مستخلص السبر الذاتية الذكي (PDF)" : "Smart Resume Auto-Parser (PDF)"}
+                  {language === "ar" ? "استيراد بيانات السيرة الذاتية" : "Import Resume Data"}
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  {language === "ar" ? "ارفع سيرتك الذاتية القديمة أو ملف لينكد إن لاستخلاص البيانات فوراً" : "Upload your old resume or LinkedIn PDF to extract data instantly"}
+                  {language === "ar" ? "الصق نص سيرتك الذاتية وسنقوم بتنظيمها تلقائياً" : "Paste your resume text and we will organize it automatically"}
                 </p>
               </div>
             </div>
 
-            {success ? (
+            {importSuccess ? (
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }} 
                 animate={{ opacity: 1, scale: 1 }} 
@@ -390,127 +253,50 @@ ${cvText}
               </motion.div>
             ) : (
               <>
-                <div className="mb-6 space-y-4 text-sm text-slate-600 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                  <div className="flex items-start gap-2 mb-2">
-                    <Linkedin size={16} className="text-slate-400 shrink-0 mt-0.5" />
-                    <p className="font-medium text-slate-700">
-                      {language === "ar" 
-                        ? "لماذا ملف PDF وليس ربط الحساب؟" 
-                        : "Why PDF instead of direct connect?"}
-                    </p>
-                  </div>
-                  <p className="text-slate-500 text-xs ms-6 leading-relaxed">
-                    {language === "ar"
-                      ? "اعدادات الخصوصية في LinkedIn لا تسمح للتطبيقات باستخراج السيرة الذاتية للحفاظ على خصوصيتك. استخراج البيانات من ملف الـ PDF هو البديل الآمن."
-                      : "To protect your privacy, LinkedIn does not allow external apps to extract full resume details via direct connect. Scanning your profile PDF securely bypasses this limitation."}
-                  </p>
-                </div>
-
                 <div className="mb-6 space-y-4 text-sm text-slate-600">
-                  <p className="font-medium">
-                    {language === "ar" ? "كيفية الحصول على ملف PDF من لينكد إن:" : "How to get your profile PDF:"}
-                  </p>
-                  <ol className="list-decimal list-inside space-y-2 text-slate-500 ms-2">
-                    <li>{language === "ar" ? "اذهب إلى حسابك الشخصي على LinkedIn" : "Go to your LinkedIn profile"}</li>
-                    <li>{language === "ar" ? "اضغط على زر (المزيد / More)" : "Click the (More) button"}</li>
-                    <li>{language === "ar" ? "اختر (حفظ بتنسيق PDF / Save to PDF)" : "Select (Save to PDF)"}</li>
-                  </ol>
+                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <strong className="block text-slate-800 mb-2">
+                      {language === "ar" ? "كيف تحصل على النص؟" : "How to get the text?"}
+                    </strong>
+                    <ol className="list-decimal list-inside space-y-1.5 text-slate-500">
+                      <li>{language === "ar" ? "افتح ملف سيرتك الذاتية (Word أو PDF)" : "Open your resume file (Word or PDF)"}</li>
+                      <li>{language === "ar" ? "اضغط Ctrl+A لتحديد كل النص" : "Press Ctrl+A to select all text"}</li>
+                      <li>{language === "ar" ? "اضغط Ctrl+C للنسخ" : "Press Ctrl+C to copy"}</li>
+                      <li>{language === "ar" ? "الصق النص في المربع بالأسفل (Ctrl+V)" : "Paste the text in the box below (Ctrl+V)"}</li>
+                    </ol>
+                  </div>
                 </div>
 
-                <div
-                  onDragEnter={handleDragEnter}
-                  onDragOver={handleDragEnter}
-                  onDragLeave={handleDragLeave}
-                  onDrop={handleDrop}
-                  onClick={() => !isProcessing && fileInputRef.current?.click()}
-                  className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-colors ${
-                    isDragActive
-                      ? "border-[#0A66C2] bg-[#0A66C2]/5"
-                      : selectedFile
-                      ? "border-emerald-500 bg-emerald-50"
-                      : "border-slate-200 hover:border-[#0A66C2]/50 hover:bg-slate-50"
-                  } ${isProcessing ? "pointer-events-none opacity-50" : ""}`}
-                >
-                  <input dir="auto"
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={(e) => {
-                      if (e.target.files && e.target.files.length > 0) {
-                        setSelectedFile(e.target.files[0]);
-                      }
-                    }}
-                    accept="application/pdf"
-                    className="hidden"
-                  />
-                  
-                  {selectedFile ? (
-                    <>
-                      <FileText size={40} className="text-emerald-500 mb-4" />
-                      <p className="text-emerald-700 font-medium mb-1">{selectedFile.name}</p>
-                      <p className="text-emerald-500 text-sm">
-                        {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <Upload size={40} className="text-slate-400 mb-4" />
-                      <p className="text-slate-700 font-medium mb-1">
-                        {language === "ar" ? "اضغط أو اسحب الملف هنا" : "Click or drag file here"}
-                      </p>
-                      <p className="text-slate-500 text-sm">
-                        {language === "ar" ? "ملفات PDF فقط" : "PDF files only"}
-                      </p>
-                    </>
-                  )}
-                </div>
-
-                {error && (
+                <textarea
+                  value={pastedText}
+                  onChange={(e) => setPastedText(e.target.value)}
+                  placeholder={language === "ar" ? "الصق نص سيرتك الذاتية هنا..." : "Paste your resume text here..."}
+                  rows={10}
+                  className="w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-all resize-none"
+                />
+                
+                <div className="text-right text-xs text-slate-400 mt-2">{pastedText.length} {language === "ar" ? "حرف" : "characters"}</div>
+                
+                {importError && (
                   <div className="mt-4 p-4 bg-rose-50 rounded-xl border border-rose-100 flex items-start gap-3">
                     <div className="w-8 h-8 bg-rose-100 rounded-full flex items-center justify-center shrink-0">
                       <X size={16} className="text-rose-600" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-rose-900 text-sm">{error.title}</h4>
-                      <p className="text-rose-700 text-xs mt-1 mb-2 font-medium">{error.description}</p>
-                      {error.tip && (
-                        <div className="text-rose-600/80 text-[11px] font-semibold bg-rose-100/50 p-2 rounded-lg inline-block">
-                          💡 {error.tip}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {isProcessing && (
-                  <div className="mt-6 space-y-2">
-                    <div className="flex justify-between text-sm text-slate-500">
-                      <span className="flex items-center gap-2">
-                        <Loader2 size={14} className="animate-spin" />
-                        {progress <= 40
-                          ? (language === "ar" ? "جاري قراءة الملف..." : "Reading file...")
-                          : (language === "ar" ? "جاري تحليل السيرة الذاتية بالذكاء الاصطناعي..." : "Parsing resume with AI...")}
-                      </span>
-                      <span>{progress}%</span>
-                    </div>
-                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-[#0A66C2] transition-all duration-300 relative overflow-hidden" 
-                        style={{ width: `${progress}%` }}
-                      >
-                        <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                      </div>
+                      <h4 className="font-bold text-rose-900 text-sm">{importError.title}</h4>
+                      <p className="text-rose-700 text-xs mt-1 mb-2 font-medium">{importError.description}</p>
                     </div>
                   </div>
                 )}
 
                 <div className="mt-8">
                   <button
-                    onClick={processFile}
-                    disabled={!selectedFile || isProcessing}
+                    onClick={handlePasteImport}
+                    disabled={importLoading}
                     style={{ backgroundColor: 'var(--color-brand-500)', color: '#fff' }}
                     className="w-full disabled:bg-slate-300 disabled:text-slate-500 font-bold py-4 px-6 rounded-xl shadow-lg transition-all hover:opacity-90 active:scale-95 flex items-center justify-center gap-2"
                   >
-                    {isProcessing ? (
+                    {importLoading ? (
                       <>
                         <Loader2 size={20} className="animate-spin" />
                         {language === "ar" ? "جاري الاستيراد..." : "Importing..."}

@@ -117,7 +117,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         : "bg-white/95 border-slate-100 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between relative h-20 sm:h-24">
+        <div className="flex items-center justify-between relative h-24 sm:h-28">
 
           {/* Left: Nav items */}
           <div className="hidden lg:flex flex-1 items-center justify-end gap-6">
@@ -136,7 +136,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <img
                 src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
                 alt="Hash Resume"
-                className="h-[80px] sm:h-[96px] w-auto object-contain"
+                className="h-[96px] sm:h-[112px] w-auto object-contain"
               />
             </Link>
           </div>
