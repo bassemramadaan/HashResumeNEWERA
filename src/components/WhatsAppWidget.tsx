@@ -16,7 +16,7 @@ export function WhatsAppWidget() {
 
   return (
     <div 
-      className="fixed bottom-6 z-50 flex flex-col items-end gap-3"
+      className="fixed bottom-6 top-6 sm:bottom-6 sm:top-auto z-50 flex flex-col items-end gap-3"
       style={{ left: isAr ? "24px" : "auto", right: isAr ? "auto" : "24px" }}
     >
       <AnimatePresence>
