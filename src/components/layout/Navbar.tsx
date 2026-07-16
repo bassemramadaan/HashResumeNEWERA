@@ -117,53 +117,55 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         : "bg-white/95 border-slate-100 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between relative h-[72px] sm:h-20">
+        <div className="flex items-center justify-between relative h-20 sm:h-24">
 
           {/* Left: Nav items */}
-          <div className="hidden lg:flex flex-1 items-center justify-end gap-2">
-            <Link to="/editor" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+          <div className="hidden lg:flex flex-1 items-center justify-end gap-6">
+            <Link to="/editor" className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-all">
               {lang === 'ar' ? 'إنشاء سيرة' : 'Create Resume'}
             </Link>
 
-            <Link to="/cover-letter" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
+            <Link to="/cover-letter" className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-all">
               {lang === 'ar' ? 'رسالة التغطية ✨' : 'Cover Letter ✨'}
-            </Link>
-            
-            <Link to="/hash-hunt" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all flex items-center gap-2">
-              <span>{lang === 'ar' ? 'هاش هانت' : 'Hash Hunt'}</span>
-              <span className="ms-2 text-[10px] bg-orange-100 text-[#001639] px-1.5 py-0.5 rounded-md font-black shrink-0">NEW</span>
             </Link>
           </div>
 
           {/* Center: Logo */}
           <div className="flex-1 flex justify-center">
-            <Link to="/" className="flex items-center transform origin-left rtl:origin-right hover:scale-102 transition-all duration-300">
+            <Link to="/" className="flex items-center transform hover:scale-102 transition-all duration-300">
               <img
                 src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
                 alt="Hash Resume"
-                className="h-[68px] sm:h-[110px] md:h-[130px] w-auto object-contain"
+                className="h-[80px] sm:h-[96px] w-auto object-contain"
               />
             </Link>
           </div>
 
           {/* Right: Nav items and actions */}
-          <div className="flex-1 flex items-center justify-start gap-3 shrink-0">
+          <div className="flex-1 flex items-center justify-start gap-6 shrink-0">
             
-            <div className="hidden lg:flex items-center justify-start gap-2">
-              <Link to="/dashboard" className="px-4 py-2 text-sm font-black text-[#E64528] hover:text-[#ff5637] rounded-xl hover:bg-slate-50 transition-all">
+            <div className="hidden lg:flex items-center justify-start gap-6">
+              <Link to="/dashboard" className="text-sm font-black text-[#E64528] hover:text-[#ff5637] transition-all">
                 {lang === 'ar' ? 'لوحة التحكم ⚙️' : 'Dashboard ⚙️'}
               </Link>
 
-              <a href="/#ats-check" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
-                {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
-              </a>
-              
-              <Link to="/pricing" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
-                {lang === 'ar' ? 'الأسعار' : 'Pricing'}
-              </Link>
-              <Link to="/templates" className="px-4 py-2 text-sm font-bold text-slate-600 hover:text-slate-900 rounded-xl hover:bg-slate-50 transition-all">
-                {lang === 'ar' ? 'القوالب' : 'Templates'}
-              </Link>
+              <div className="relative group">
+                <button className="text-sm font-bold text-slate-700 hover:text-brand-600 flex items-center gap-1">
+                  {lang === 'ar' ? 'المزيد' : 'More'}
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+                <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto">
+                    <a href="/#ats-check" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                      {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
+                    </a>
+                    <Link to="/pricing" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                      {lang === 'ar' ? 'الأسعار' : 'Pricing'}
+                    </Link>
+                    <Link to="/templates" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                      {lang === 'ar' ? 'القوالب' : 'Templates'}
+                    </Link>
+                </div>
+              </div>
             </div>
 
             {/* Language Switcher */}
