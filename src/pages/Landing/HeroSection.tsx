@@ -75,6 +75,14 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
       <div className="container relative z-10 mx-auto px-6 max-w-7xl">
         <div className="flex flex-col items-center text-center space-y-10">
           
+          <div className="flex justify-center">
+            <img
+              src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+              alt="Hash Resume"
+              className="h-[80px] sm:h-[100px] md:h-[120px] w-auto object-contain select-none"
+            />
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}

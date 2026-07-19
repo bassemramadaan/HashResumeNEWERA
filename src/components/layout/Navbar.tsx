@@ -9,7 +9,6 @@ import {
   Globe, 
   FileText, 
   Search,
-  MessageCircle
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
@@ -72,14 +71,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         desc: lang === 'ar' ? 'تحسين السيرة لمحركات الفحص' : 'Optimize your resume for ATS systems'
       },
       {
-        label: lang === 'ar' ? 'رسالة التغطية بالذكاء الاصطناعي' : lang === 'fr' ? 'Lettre de Motivation' : 'AI Cover Letter',
-        href: '/cover-letter',
-        badge: lang === 'ar' ? 'جديد' : 'AI',
-        color: 'brand',
-        icon: FileText,
-        desc: lang === 'ar' ? 'إنشاء رسالة تغطية احترافية متوافقة بالكامل' : 'Create tailored, expert cover letters with AI support'
-      },
-      {
         label: lang === 'ar' ? 'لوحة التحكم والمكافآت' : lang === 'fr' ? 'Mon Tableau de Bord' : 'Rewards Dashboard',
         href: '/dashboard',
         badge: lang === 'ar' ? 'نشط' : 'LIVE',
@@ -118,32 +109,20 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         : "bg-white/95 border-slate-100 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-3 items-center relative h-16 sm:h-20">
-          
-          {/* Left: Primary Nav */}
-          <div className="flex items-center gap-6 justify-start">
-            <Link to="/cover-letter" className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-all">
-              {lang === 'ar' ? 'رسالة التغطية ✨' : 'Cover Letter ✨'}
-            </Link>
-
-            <Link to="/hash-hunt" className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-all">
-              {lang === 'ar' ? 'هاش هانت 💼' : 'Hash Hunt 💼'}
-            </Link>
-          </div>
-
-          {/* Center: Logo */}
-          <div className="flex justify-center">
+        <div className="flex items-center justify-between relative h-16 sm:h-20">
+          {/* Logo */}
+          <div className="flex items-center justify-start shrink-0">
             <Link to="/" className="flex items-center transform hover:scale-105 transition-all duration-300">
               <img
-                src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png"
                 alt="Hash Resume"
-                className="h-[75px] sm:h-[90px] md:h-[105px] w-auto object-contain select-none"
+                className="h-[40px] sm:h-[50px] md:h-[60px] w-auto object-contain select-none"
               />
             </Link>
           </div>
 
           {/* Right: Actions */}
-          <div className="flex items-center justify-end gap-4 shrink-0">
+          <div className="flex items-center justify-end gap-2 sm:gap-4 shrink-0">
             <div className="hidden lg:flex relative group">
               <button className="text-sm font-bold text-slate-700 hover:text-brand-600 flex items-center gap-1">
                 {lang === 'ar' ? 'المزيد' : 'More'}
@@ -159,23 +138,8 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                   <Link to="/templates" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
                     {lang === 'ar' ? 'القوالب' : 'Templates'}
                   </Link>
-                  <Link to="/hash-hunt" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                    {lang === 'ar' ? 'هاش هانت 💼' : 'Hash Hunt 💼'}
-                  </Link>
               </div>
             </div>
-
-            {/* WhatsApp Contact */}
-            <a
-              href="https://wa.me/201101007965"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:bg-emerald-50 border border-emerald-100/40 px-3 py-2 rounded-xl font-bold text-emerald-600 hover:text-emerald-700 transition-all flex items-center gap-1.5 text-xs sm:text-sm cursor-pointer"
-              title={lang === 'ar' ? 'تواصل معنا عبر واتساب' : 'Contact us on WhatsApp'}
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span className="hidden sm:inline">WhatsApp</span>
-            </a>
 
             {/* Language Switcher */}
             <div className="relative">
@@ -187,7 +151,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 <span>{LANG_LABELS[lang]}</span>
                 <ChevronDown className="w-3 h-3 opacity-60" />
               </button>
-
+              
               <AnimatePresence>
                 {langOpen && (
                   <>
