@@ -137,7 +137,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <img
                 src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
                 alt="Hash Resume"
-                className="h-[60px] sm:h-[72px] md:h-[80px] w-auto object-contain select-none"
+                className="h-[75px] sm:h-[90px] md:h-[105px] w-auto object-contain select-none"
               />
             </Link>
           </div>
