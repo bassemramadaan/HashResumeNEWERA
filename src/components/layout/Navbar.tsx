@@ -118,54 +118,50 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         : "bg-white/95 border-slate-100 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between relative h-14 sm:h-20">
-
-          {/* Left: Nav items */}
-          <div className="hidden lg:flex flex-1 items-center justify-end gap-6">
-            <Link to="/templates" className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-all">
-              {lang === 'ar' ? 'إنشاء سيرة' : 'Create Resume'}
-            </Link>
-
+        <div className="grid grid-cols-3 items-center relative h-16 sm:h-20">
+          
+          {/* Left: Primary Nav */}
+          <div className="flex items-center gap-6 justify-start">
             <Link to="/cover-letter" className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-all">
               {lang === 'ar' ? 'رسالة التغطية ✨' : 'Cover Letter ✨'}
+            </Link>
+
+            <Link to="/hash-hunt" className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-all">
+              {lang === 'ar' ? 'هاش هانت 💼' : 'Hash Hunt 💼'}
             </Link>
           </div>
 
           {/* Center: Logo */}
-          <div className="flex-1 flex justify-center">
-            <Link to="/" className="flex items-center transform hover:scale-102 transition-all duration-300">
+          <div className="flex justify-center">
+            <Link to="/" className="flex items-center transform hover:scale-105 transition-all duration-300">
               <img
                 src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
                 alt="Hash Resume"
-                className="h-[36px] sm:h-[48px] md:h-[64px] w-auto object-contain"
+                className="h-[60px] sm:h-[72px] md:h-[80px] w-auto object-contain select-none"
               />
             </Link>
           </div>
 
-          {/* Right: Nav items and actions */}
-          <div className="flex-1 flex items-center justify-start gap-6 shrink-0">
-            
-            <div className="hidden lg:flex items-center justify-start gap-6">
-              <Link to="/dashboard" className="text-sm font-black text-[#E64528] hover:text-[#ff5637] transition-all">
-                {lang === 'ar' ? 'لوحة التحكم ⚙️' : 'Dashboard ⚙️'}
-              </Link>
-
-              <div className="relative group">
-                <button className="text-sm font-bold text-slate-700 hover:text-brand-600 flex items-center gap-1">
-                  {lang === 'ar' ? 'المزيد' : 'More'}
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto">
-                    <a href="/#ats-check" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                      {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
-                    </a>
-                    <Link to="/pricing" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                      {lang === 'ar' ? 'الأسعار' : 'Pricing'}
-                    </Link>
-                    <Link to="/templates" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                      {lang === 'ar' ? 'القوالب' : 'Templates'}
-                    </Link>
-                </div>
+          {/* Right: Actions */}
+          <div className="flex items-center justify-end gap-4 shrink-0">
+            <div className="hidden lg:flex relative group">
+              <button className="text-sm font-bold text-slate-700 hover:text-brand-600 flex items-center gap-1">
+                {lang === 'ar' ? 'المزيد' : 'More'}
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto z-50">
+                  <a href="/#ats-check" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                    {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
+                  </a>
+                  <Link to="/pricing" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                    {lang === 'ar' ? 'الأسعار' : 'Pricing'}
+                  </Link>
+                  <Link to="/templates" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                    {lang === 'ar' ? 'القوالب' : 'Templates'}
+                  </Link>
+                  <Link to="/hash-hunt" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                    {lang === 'ar' ? 'هاش هانت 💼' : 'Hash Hunt 💼'}
+                  </Link>
               </div>
             </div>
 
@@ -230,6 +226,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               {mobileOpen ? <X className="w-5.5 h-5.5 text-slate-700" /> : <Menu className="w-5.5 h-5.5 text-slate-700" />}
             </button>
           </div>
+
         </div>
       </div>
 

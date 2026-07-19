@@ -101,7 +101,7 @@ function AppContent() {
         href="https://wa.me/201101007965"
         target="_blank"
         rel="noopener noreferrer"
-        className={`fixed ${isEditor ? 'bottom-24 lg:bottom-6' : 'bottom-[76px] lg:bottom-6'} right-4 lg:right-6 z-[9999] w-12 h-12 rounded-full bg-[#128C7E] hover:bg-[#0a5249] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer border border-white/10`}
+        className={`fixed ${isEditor ? 'bottom-24 lg:bottom-6' : 'bottom-[130px] lg:bottom-6'} right-4 lg:right-6 z-[9999] w-12 h-12 rounded-full bg-[#128C7E] hover:bg-[#0a5249] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer border border-white/10`}
         title="WhatsApp Support"
         aria-label="WhatsApp Support"
       >
