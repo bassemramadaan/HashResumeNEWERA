@@ -151,15 +151,24 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
     
     const response = await aiService.generateContent(prompt);
     
-    const text = response.text;
+    console.log('RAW Gemini response:', JSON.stringify(response));
     
-    // تنظيف الـ response لو فيه markdown
-    const cleanJson = text
-      .replace(/```json/g, '')
-      .replace(/```/g, '')
-      .trim();
+    const text = response.text || '';
+    console.log('Extracted text before parsing:', text);
     
-    return JSON.parse(cleanJson);
+    try {
+      const cleanJson = text
+        .replace(/```json/g, '')
+        .replace(/```/g, '')
+        .trim();
+      console.log('Cleaned JSON string:', cleanJson);
+      
+      return JSON.parse(cleanJson);
+    } catch (parseError) {
+      console.error('JSON parse failed. Raw text was:', text);
+      console.error('Parse error details:', parseError);
+      throw parseError;
+    }
   };
 
   const handlePasteImport = async () => {
