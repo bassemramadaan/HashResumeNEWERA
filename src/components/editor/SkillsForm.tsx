@@ -112,6 +112,53 @@ const SkillsForm = () => {
         language={language}
       />
 
+      {/* Job Description Matcher Input Card */}
+      <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-3.5 text-start">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 bg-[#001639]/5 text-[#001639] rounded-xl shrink-0">
+            <Sparkles size={14} className="animate-pulse" />
+          </div>
+          <div>
+            <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">
+              {language === "ar" ? "مُقارن الوصف الوظيفي الذكي (ATS Matcher)" : "ATS Job Description Matcher"}
+            </h4>
+            <p className="text-[10px] text-slate-400 font-bold leading-relaxed mt-0.5">
+              {language === "ar" 
+                ? "الصق متطلبات الوظيفة الشاغرة لاستخراج واقتراح الكلمات المفتاحية الناقصة لمطابقتها فوراً."
+                : "Paste the target job description to match, extract keywords, and optimize your ATS compliance score."}
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <textarea
+            dir="auto"
+            value={jobDescription || ""}
+            onChange={(e) => useResumeStore.getState().updateJobDescription(e.target.value)}
+            placeholder={
+              language === "ar"
+                ? "الصق الوصف الوظيفي هنا (مثال: مطلوب مهندس برمجيات لديه خبرة في React و TypeScript و Tailwind CSS)..."
+                : "Paste target job description here (e.g., Seeking a software engineer with React, TypeScript, and Tailwind CSS experience)..."
+            }
+            className="w-full h-24 p-3 text-xs border border-slate-200 rounded-xl focus:outline-none focus:border-[#001639] focus:ring-1 focus:ring-[#001639]/20 resize-none leading-relaxed transition-all font-medium text-slate-700 bg-slate-50/50"
+          />
+          {jobDescription && (
+            <div className="flex justify-between items-center text-[10px] font-bold text-slate-400">
+              <span>
+                {language === "ar" ? "✨ تم التحديث! الكلمات المفتاحية المقترحة تظهر بالأسفل." : "✨ Updated! Recommended keywords shown below."}
+              </span>
+              <button
+                type="button"
+                onClick={() => useResumeStore.getState().updateJobDescription("")}
+                className="text-red-500 hover:text-red-700 transition-colors cursor-pointer"
+              >
+                {language === "ar" ? "مسح النص" : "Clear Text"}
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Live ATS Keyword Assistant bar */}
       {jobDescription && matchResults && matchResults.missing.length > 0 && (
         <div className="bg-gradient-to-tr from-brand-50 to-orange-50/40 border border-brand-200/60 rounded-2.5xl p-5 md:p-6 shadow-[0_8px_20px_-4px_rgba(255,77,45,0.08)] flex flex-col md:flex-row md:items-center justify-between gap-5 animate-fade-in text-start relative overflow-hidden group">

@@ -45,6 +45,7 @@ export default function PaymentPage() {
   const [copiedText, setCopiedText] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [summaryCollapsed, setSummaryCollapsed] = useState(true);
 
   // Load user details if available
   const resumeData = useResumeStore((state) => state.data);
@@ -169,8 +170,120 @@ export default function PaymentPage() {
   };
 
   const renderOrderSummary = (isMobile: boolean = false) => {
+    if (isMobile) {
+      return (
+        <div className="bg-white rounded-[2rem] border border-slate-200 shadow-xs mt-2 overflow-hidden text-start">
+          {/* Header toggle */}
+          <button
+            type="button"
+            onClick={() => setSummaryCollapsed(!summaryCollapsed)}
+            className="w-full p-5 flex items-center justify-between text-start hover:bg-slate-50/50 transition-colors cursor-pointer outline-none"
+          >
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-bold text-slate-400">🛍️</span>
+              <h3 className="text-xs sm:text-sm font-black text-slate-850">
+                {isAr ? "ملخص طلبك (اضغط للتفاصيل)" : "Order Summary (Tap to expand)"}
+              </h3>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="font-extrabold text-xs sm:text-sm text-[#001639] bg-[#001639]/5 px-2.5 py-1 rounded-lg font-mono">
+                {getPrice()} EGP
+              </span>
+              <span className="text-slate-400 text-[10px] transition-transform duration-200" style={{ transform: summaryCollapsed ? "rotate(0deg)" : "rotate(180deg)" }}>
+                ▼
+              </span>
+            </div>
+          </button>
+
+          {!summaryCollapsed && (
+            <div className="p-6 border-t border-slate-100 bg-slate-50/30 space-y-4">
+              <div className="space-y-4">
+                <div className="flex justify-between items-center text-xs font-medium">
+                  <span className="text-slate-500">
+                    {selectedPlan === "single" 
+                      ? (isAr ? "كود تفعيل واحد" : "Single Code Activation") 
+                      : (isAr ? "باقة ٣ أكواد تفعيل" : "3-Codes Value Bundle")}
+                  </span>
+                  <span className="font-extrabold text-slate-800">
+                    {selectedPlan === "single" ? "50 EGP" : "120 EGP"}
+                  </span>
+                </div>
+
+                {promoApplied && (
+                  <div className="flex justify-between items-center text-xs text-emerald-600 font-bold">
+                    <span>{isAr ? "خصم ترويجي مفعّل" : "Promo discount applied"}</span>
+                    <span>-{discountAmount} EGP</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Promo Code Accordion */}
+              <div className="pt-4 border-t border-slate-100">
+                {!showPromoForm && !promoApplied ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowPromoForm(true)}
+                    className="inline-flex text-xs font-semibold text-slate-400 hover:text-[#001639] items-center gap-1.5 transition-colors cursor-pointer"
+                  >
+                    <Ticket size={12} />
+                    <span>{isAr ? "هل لديك كوبون خصم؟" : "Have a coupon?"}</span>
+                  </button>
+                ) : (
+                  <div className="text-start">
+                    <div className="flex items-center justify-between mb-2">
+                      <label className="block text-[11px] font-bold text-slate-500">
+                        {isAr ? "كود الخصم:" : "Promo code:"}
+                      </label>
+                      {!promoApplied && (
+                        <button
+                          type="button"
+                          onClick={() => setShowPromoForm(false)}
+                          className="text-[10px] font-bold text-slate-400 hover:text-slate-600 cursor-pointer"
+                        >
+                          {isAr ? "إلغاء" : "Cancel"}
+                        </button>
+                      )}
+                    </div>
+                    
+                    <div className="flex gap-2">
+                      <input 
+                        type="text"
+                        disabled={promoApplied}
+                        value={promoCode}
+                        onChange={(e) => setPromoCode(e.target.value)}
+                        placeholder={isAr ? "مثال: START20" : "e.g. START20"}
+                        className="flex-1 font-bold font-mono px-3 py-2 rounded-xl border border-slate-200 text-xs uppercase bg-white"
+                      />
+                      <button
+                        type="button"
+                        disabled={promoApplied}
+                        onClick={handleApplyPromo}
+                        className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black hover:bg-slate-800 transition-colors disabled:bg-slate-100 disabled:text-slate-400 cursor-pointer"
+                      >
+                        {promoApplied ? (isAr ? "مفعّل" : "Applied") : (isAr ? "تطبيق" : "Apply")}
+                      </button>
+                    </div>
+                  </div>
+                )}
+                
+                {promoApplied && (
+                  <p className="text-[10px] text-emerald-600 font-bold mt-1.5 flex items-center gap-1">
+                    <Sparkles size={12} />
+                    <span>{isAr ? "تم تطبيق كود الخصم ٢٠٪ بنجاح!" : "20% discount applied successfully!"}</span>
+                  </p>
+                )}
+                {promoError && (
+                  <p className="text-[10px] text-rose-500 font-bold mt-1.5">{promoError}</p>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
     return (
-      <div className={`bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs ${isMobile ? "block lg:hidden mt-2" : "hidden lg:block"}`}>
+      <div className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs hidden lg:block text-start">
         <h3 className="text-lg font-extrabold mb-5 text-slate-900 border-b border-slate-100 pb-3">
           {isAr ? "ملخص طلبك" : "Order Summary"}
         </h3>
@@ -189,7 +302,7 @@ export default function PaymentPage() {
 
           {promoApplied && (
             <div className="flex justify-between items-center text-sm text-emerald-600 font-bold">
-              <span>{isAr ? "خصم ترويجيapplied" : "Promo discount applied"}</span>
+              <span>{isAr ? "خصم ترويجي مفعّل" : "Promo discount applied"}</span>
               <span>-{discountAmount} EGP</span>
             </div>
           )}
@@ -200,19 +313,6 @@ export default function PaymentPage() {
               {getPrice()} EGP
             </span>
           </div>
-        </div>
-
-          {/* Security & Trust indicators */}
-        <div className="mt-8 flex flex-col items-center justify-center gap-4 text-[10px] text-slate-400 font-medium">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
-              <ShieldCheck size={12} className="text-emerald-500" />
-              <span>SSL Secured</span>
-            </div>
-          </div>
-          <a href="https://wa.me/201XXXXXXXXXX" target="_blank" rel="noreferrer" className="flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full text-emerald-700 font-bold hover:bg-emerald-100 transition-colors">
-            <span className="text-sm">💬</span> {isAr ? "تواصل معنا عبر واتساب" : "Chat on WhatsApp for Support"}
-          </a>
         </div>
 
         {/* Promo Code Accordion */}
@@ -439,48 +539,49 @@ export default function PaymentPage() {
               {/* Box 2: Payment methods selection */}
               <div className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs">
                 <h3 className="text-lg font-extrabold mb-4 flex items-center gap-2 text-slate-900">
-                  <span className="w-2 h-2 rounded-full bg-indigo-500" />
+                  <span className="w-2 h-2 rounded-full bg-[#001639]" />
                   {isAr ? "اختر وسيلة الدفع المناسبة:" : "Select Payment Method:"}
                 </h3>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+                {/* Tabs view of payment methods */}
+                <div className="bg-slate-100 p-1 rounded-2xl flex w-full mb-6 relative">
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("instapay")}
-                    className={`py-3 px-2 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                      paymentMethod === "instapay" 
-                        ? "border-[#001639] bg-[#001639]/5 text-[#001639] font-bold" 
-                        : "border-slate-200 hover:bg-slate-50 text-slate-600"
+                    className={`flex-1 py-3 px-2 rounded-xl flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer text-xs font-black ${
+                      paymentMethod === "instapay"
+                        ? "bg-white text-[#001639] shadow-sm font-black scale-[1.01]"
+                        : "text-slate-500 hover:text-slate-850"
                     }`}
                   >
-                    <Smartphone size={20} />
-                    <span className="text-xs font-black">InstaPay</span>
+                    <Smartphone size={15} />
+                    <span>InstaPay</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("vodafone")}
-                    className={`py-3 px-2 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                      paymentMethod === "vodafone" 
-                        ? "border-[#001639] bg-[#001639]/5 text-[#001639] font-bold" 
-                        : "border-slate-200 hover:bg-slate-50 text-slate-600"
+                    className={`flex-1 py-3 px-2 rounded-xl flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer text-xs font-black ${
+                      paymentMethod === "vodafone"
+                        ? "bg-white text-red-650 shadow-sm font-black scale-[1.01]"
+                        : "text-slate-500 hover:text-slate-850"
                     }`}
                   >
-                    <Smartphone size={20} className="text-red-500" />
-                    <span className="text-xs font-black">Vodafone Cash</span>
+                    <Smartphone size={15} className="text-red-500" />
+                    <span>Vodafone</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setPaymentMethod("fawry")}
-                    className={`py-3 px-2 rounded-2xl border flex flex-col items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                      paymentMethod === "fawry" 
-                        ? "border-[#001639] bg-[#001639]/5 text-[#001639] font-bold" 
-                        : "border-slate-200 hover:bg-slate-50 text-slate-600"
+                    className={`flex-1 py-3 px-2 rounded-xl flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer text-xs font-black ${
+                      paymentMethod === "fawry"
+                        ? "bg-white text-amber-650 shadow-sm font-black scale-[1.01]"
+                        : "text-slate-500 hover:text-slate-850"
                     }`}
                   >
-                    <Ticket size={20} className="text-amber-500" />
-                    <span className="text-xs font-black">Fawry</span>
+                    <Ticket size={15} className="text-amber-500" />
+                    <span>Fawry</span>
                   </button>
                 </div>
 
@@ -488,8 +589,8 @@ export default function PaymentPage() {
                 <div className="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-100 text-slate-700">
                   {paymentMethod === "instapay" && (
                     <div className="space-y-3.5">
-                      <div className="flex items-center gap-2 text-indigo-950 font-black text-sm">
-                        <CheckCircle2 size={16} className="text-indigo-500" />
+                      <div className="flex items-center gap-2 text-brand-950 font-black text-sm">
+                        <CheckCircle2 size={16} className="text-brand-500" />
                         <span>{isAr ? "الدفع الفوري عبر إنستاباي (InstaPay):" : "Instant payment via InstaPay:"}</span>
                       </div>
                       <p className="text-xs leading-relaxed text-slate-600 font-medium">
@@ -621,7 +722,7 @@ export default function PaymentPage() {
                   {paymentMethod === "card" && (
                     <div className="space-y-4">
                       <div className="flex items-center gap-2 text-slate-900 font-black text-sm">
-                        <CreditCard size={16} className="text-indigo-500" />
+                        <CreditCard size={16} className="text-brand-500" />
                         <span>{isAr ? "الدفع بالبطاقة الائتمانية / الخصم المباشر:" : "Credit / Debit Card Checkout:"}</span>
                       </div>
 
@@ -765,21 +866,23 @@ export default function PaymentPage() {
                     )}
                   </button>
 
-                  {/* Instant WhatsApp release button */}
+                  {/* Instant WhatsApp release link */}
                   {paymentMethod !== "card" && (
-                    <a
-                      href={`https://wa.me/201027136006?text=${encodeURIComponent(
-                        isAr 
-                          ? `مرحباً! لقد قمت بتحويل مبلغ ${getPrice()} ج.م لخط محفظة Hash Resume لتفعيل الباقة.\nالبريد الإلكتروني: ${email || "[اكتب بريدك هنا]"}\nالرقم المرجعي للمعاملة: ${refNum || "[اكتب رقم المعاملة هنا]"}`
-                          : `Hi! I just transferred ${getPrice()} EGP to Hash Resume wallet for code activation.\nMy Email: ${email || "[Your Email]"}\nTransaction Ref: ${refNum || "[Transaction Reference]"}`
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full border-2 border-emerald-500 bg-emerald-50/50 hover:bg-emerald-50 text-emerald-800 py-3.5 rounded-2xl font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
-                    >
-                      <span>💬</span>
-                      <span>{isAr ? "إرسال إثبات الدفع عبر واتساب للتفعيل الفوري" : "Send Proof via WhatsApp for Instant Activation"}</span>
-                    </a>
+                    <div className="flex justify-center mt-3">
+                      <a
+                        href={`https://wa.me/201027136006?text=${encodeURIComponent(
+                          isAr 
+                            ? `مرحباً! لقد قمت بتحويل مبلغ ${getPrice()} ج.م لخط محفظة Hash Resume لتفعيل الباقة.\nالبريد الإلكتروني: ${email || "[اكتب بريدك هنا]"}\nالرقم المرجعي للمعاملة: ${refNum || "[اكتب رقم المعاملة هنا]"}`
+                            : `Hi! I just transferred ${getPrice()} EGP to Hash Resume wallet for code activation.\nMy Email: ${email || "[Your Email]"}\nTransaction Ref: ${refNum || "[Transaction Reference]"}`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-emerald-600 hover:text-emerald-700 py-1 font-bold text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <span>💬</span>
+                        <span className="underline underline-offset-2">{isAr ? "أو إرسال الإثبات عبر واتساب للتفعيل السريع" : "Or send proof via WhatsApp for fast activation"}</span>
+                      </a>
+                    </div>
                   )}
 
                   {/* Manual verification disclaimer message */}

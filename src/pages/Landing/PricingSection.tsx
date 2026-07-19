@@ -10,61 +10,55 @@ interface PricingSectionProps {
 
 const COPY = {
   ar: {
-    label: 'الأسعار المميزة',
-    title: 'وفر أكثر بـ كود واحد أو باكدج توفير',
-    subtitle: 'شامل كل الخدمات (ATS والذكاء الاصطناعي) ، وبدون أي اشتراكات إضافية',
+    label: 'الأسعار والمميزات',
+    title: 'أنشئ واستعرض مجاناً — ادفع فقط عند التحميل',
+    subtitle: 'شامل كل أدوات الذكاء الاصطناعي وفحص الـ ATS، وبدون أي اشتراكات تلقائية',
     planSingle: {
       name: 'كود سيرة ذاتية واحد',
       price: '50 ج.م',
-      period: '/ للتفعيل الفردي',
+      period: '/ تحميل فردي',
       popular: 'تنزيل فوري',
-      cta: 'ابدأ بإنشاء سيرتك الآن',
+      cta: 'ابدأ سيرتك الذاتية الآن',
       features: [
-        'إنشاء وتعديل كامل للسيرة',
-        'ذكاء اصطناعي لتوليد وتحسين المحتوى',
-        'تقييم ATS شامل ومفصل',
-        'كود تفعيل لمرة واحدة',
-        'PDF بجودة عالية بدون watermark',
-        'ملف Word قابل للتعديل (.docx)',
-        'حفظ سحابي دائم للمستندات'
+        'إنشاء وتعديل سيرة ذاتية كاملة',
+        'ذكاء اصطناعي ذكي للمحتوى والـ ATS',
+        'كود تحميل لمرة واحدة بدون علامات مائية',
+        'تصدير PDF و Word (.docx)',
+        'حفظ سحابي دائم وآمن'
       ],
     },
     planBundle: {
-      name: 'باكدج التوفير (3 أكواد)',
+      name: 'باقة توفير (3 أكواد تحميل)',
       price: '120 ج.م',
       period: '/ صالحة لمدة عام كامل',
       popular: 'العرض الأقوى 🔥',
-      cta: 'احصل على الباكدج الآن',
+      cta: 'احصل على الباقة الآن',
       features: [
-        'تحصل على 3 أكواد تفعيل مستقلة',
-        'الأكواد صالحة للتفعيل لمدة سنة كاملة',
-        'وفر 30 ج.م عن الشراء المنفرد',
-        'إمكانية إهدائها أو مشاركتها مع أصدقائك',
-        'ذكاء اصطناعي غير محدود للتعديل',
-        'تحميل غير محدود PDF ووورد بدون watermark',
-        'دعم فني أولوية على مدار الساعة'
+        'تحصل على ٣ أكواد تحميل مستقلة',
+        'صالحة للتحميل في أي وقت خلال سنة',
+        'وفر ٣٠ ج.م مقارنة بالشراء المنفرد',
+        'تصدير غير محدود PDF ووورد بدون علامات مائية',
+        'دعم فني متميز على مدار الساعة'
       ],
     },
-    note: 'لا حاجة لبطاقة ائتمان للبدء في كتابة البيانات والمراجعة مجاناً',
+    note: 'أنشئ واستعرض مجاناً — ادفع فقط عند تحميل النسخة النهائية الخالية من العلامة المائية',
   },
   en: {
     label: 'Smart Pricing',
-    title: 'Choose the Plan that Fits Your Needs',
-    subtitle: 'Includes all services (ATS + AI) — no hidden fees or subscriptions',
+    title: 'Build & preview for free — pay only when you download',
+    subtitle: 'Includes all AI tools & ATS check — no hidden subscriptions or fees',
     planSingle: {
-      name: 'Single CV Code',
+      name: 'Single Resume Code',
       price: '50 EGP',
-      period: '/ per CV activation',
-      popular: 'Instant Unlock',
-      cta: 'Start Building Now',
+      period: '/ per resume download',
+      popular: 'Instant Download',
+      cta: 'Start Your Resume Now',
       features: [
         'Create & fully edit resume',
-        'AI content generation & optimization',
-        'Comprehensive ATS Score',
-        'Single-use activation code',
-        'High-quality PDF, no watermark',
-        'Editable Word file (.docx)',
-        'Permanent cloud save included'
+        'Full AI & ATS optimization tools',
+        'Single-use download code (no watermarks)',
+        'Export as high-quality PDF and Word (.docx)',
+        'Permanent secure cloud save'
       ],
     },
     planBundle: {
@@ -74,16 +68,14 @@ const COPY = {
       popular: 'Best Value 🔥',
       cta: 'Get Saver Bundle Now',
       features: [
-        'Get 3 independent activation codes',
-        'Codes stay active for 1 full year',
+        'Get 3 independent download codes',
+        'Valid to use anytime for 1 full year',
         'Save 30 EGP compared to single buys',
-        'Share with friends, colleagues, or family',
-        'Full AI suite & ATS analysis included',
-        'High-fidelity PDF & Word formats',
+        'Unlimited export edits for downloaded resumes',
         'Priority 24/7 premium support'
       ],
     },
-    note: 'No credit card required to get started & build for free',
+    note: 'Build & preview for free — pay only when you download your final watermark-free file',
   },
   fr: {
     label: 'Tarifs',
@@ -174,7 +166,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
           className="relative rounded-[2.5rem] p-8 sm:p-10 flex flex-col justify-between shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] bg-white border-2 border-[#001639] hover:border-blue-600 hover:shadow-[0_25px_50px_-12px_rgba(37,99,235,0.15)] transition-all transform-gpu"
         >
           {/* Top Floating Badge */}
-          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[11px] font-black px-4 py-1.5 rounded-full shadow-md shadow-orange-500/20 uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
+          <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#001639] to-[#000a1b] text-white text-[11px] font-black px-4 py-1.5 rounded-full shadow-md shadow-orange-500/20 uppercase tracking-wider flex items-center gap-1 whitespace-nowrap">
             <span>{c.planBundle.popular}</span>
           </div>
 

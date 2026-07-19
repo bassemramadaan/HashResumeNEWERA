@@ -60,7 +60,7 @@ export default function SharePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-slate-50">
-        <Loader2 className="w-10 h-10 animate-spin text-indigo-600" />
+        <Loader2 className="w-10 h-10 animate-spin text-brand-600" />
       </div>
     );
   }
@@ -80,7 +80,7 @@ export default function SharePage() {
           className="w-full max-w-lg bg-slate-950/80 backdrop-blur-md border border-slate-800 rounded-3xl p-6 sm:p-9 shadow-2xl relative text-center"
         >
           {/* Custom Orange Frame Accent */}
-          <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-orange-500 via-[#001639] to-indigo-600 rounded-t-3xl" />
+          <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-orange-500 via-[#001639] to-blue-600 rounded-t-3xl" />
 
           {/* Premium Logo Icon Box */}
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-500/20 to-[#001639]/10 text-[#001639] flex items-center justify-center mx-auto mb-6 border border-[#001639]/20 shadow-lg relative">
@@ -112,7 +112,7 @@ export default function SharePage() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
               to="/editor"
-              className="flex-1 inline-flex items-center justify-center bg-gradient-to-r from-orange-500 to-[#001639] hover:from-orange-600 hover:to-[#E64528] text-white font-bold py-3.5 px-6 rounded-xl text-xs sm:text-sm shadow-lg shadow-orange-500/10 hover-transform transition-all duration-300 cursor-pointer"
+              className="flex-1 inline-flex items-center justify-center bg-gradient-to-r from-[#001639] to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] text-white font-bold py-3.5 px-6 rounded-xl text-xs sm:text-sm shadow-lg shadow-orange-500/10 hover-transform transition-all duration-300 cursor-pointer"
             >
               🚀 {isAr ? "رقّ حسابك في ملف المحرر" : "Upgrade & Build in Editor"}
             </Link>

@@ -75,7 +75,7 @@ export default function TrustPage() {
             {/* Hash Hunt Privacy Section */}
             <section className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-indigo-600">
+                <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-brand-600">
                   <BrainCircuit size={28} />
                 </div>
                 <h2 className="text-2xl font-bold text-slate-900">
@@ -106,7 +106,7 @@ export default function TrustPage() {
             {/* Data & AI Section */}
             <section className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600">
+                <div className="w-12 h-12 rounded-xl bg-brand-100 flex items-center justify-center text-brand-600">
                   <BrainCircuit size={28} />
                 </div>
                 <h2 className="text-2xl font-bold text-slate-900">
@@ -130,7 +130,7 @@ export default function TrustPage() {
                 </div>
                 <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
                   <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <BrainCircuit size={20} className="text-indigo-500" />
+                    <BrainCircuit size={20} className="text-brand-500" />
                     {language === "ar" ? "معالجة الذكاء الاصطناعي (Gemini API)" : "AI Processing (Google Gemini API)"}
                   </h3>
                   <p className="text-sm text-slate-600 leading-relaxed">
@@ -162,7 +162,7 @@ export default function TrustPage() {
                     <div className="text-2xl font-bold text-slate-900">1,250+</div>
                     <div className="text-sm text-slate-500">{language === "ar" ? "مشارك في استبانة نجاح المستخدمين لعام 2025" : "Participants in our 2025 User Success Survey"}</div>
                  </div>
-                 <div className="border-s-4 border-indigo-500 ps-4">
+                 <div className="border-s-4 border-brand-500 ps-4">
                     <div className="text-2xl font-bold text-slate-900">35%</div>
                     <div className="text-sm text-slate-500">{language === "ar" ? "متوسط الزيادة في نسبة الردود للمستخدمين" : "Avg. increase in callback rates for our users"}</div>
                  </div>

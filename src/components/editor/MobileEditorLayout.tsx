@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
 import { 
   User, Briefcase, GraduationCap, Award, FolderHeart, Trophy, CheckCircle,
-  Edit3, Eye, Grid, Download, 
+  Eye, Grid, Download, 
   FileText, ChevronRight, Share2, AlertTriangle,
-  ArrowUp, ArrowDown, Layers, Settings, RotateCcw
+  ArrowUp, ArrowDown, Layers, Settings, RotateCcw, MoreHorizontal,
+  ArrowLeft, ArrowRight, X
 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 
@@ -36,9 +37,9 @@ const SECTION_COLORS: Record<string, { bg: string; text: string; border: string;
     glow: "rgba(59,130,246,0.15)"
   },
   experience: {
-    bg: "bg-indigo-50/70",
-    text: "text-indigo-500",
-    border: "border-indigo-150",
+    bg: "bg-brand-50/70",
+    text: "text-brand-500",
+    border: "border-brand-150",
     glow: "rgba(99,102,241,0.15)"
   },
   education: {
@@ -133,31 +134,22 @@ const T: Record<string, Record<string, string>> = {
 
 const SECTIONS: Record<string, { id: string; label: string; emoji: string; desc: string }[]> = {
   ar: [
-    { id: "basics",         label: "المعلومات الشخصية", emoji: "👤", desc: "الاسم، التواصل، الرابط المهني والمسمى" },
-    { id: "experience",     label: "الخبرات العملية",   emoji: "💼", desc: "تاريخك الوظيفي وإنجازاتك المعززة بـ AI" },
-    { id: "education",      label: "التعليم والدراسة",   emoji: "🎓", desc: "مؤهلاتك الأكاديمية والجامعات والتدريب" },
-    { id: "skills",         label: "المهارات المهنية",  emoji: "⭐", desc: "مهاراتك التقنية والشخصية الموصى بها" },
-    { id: "projects",       label: "المشاريع المنجزة",  emoji: "🚀", desc: "إنجازات عملية تبرز جدارتك وخبرتك" },
-    { id: "certifications", label: "الشهادات والاعتمادات", emoji: "🏅", desc: "الكورسات والشهادات الداعمة لمؤهلك" },
-    { id: "finish",         label: "مراجعة وتحميل",     emoji: "🏁", desc: "التثبت من معايير ATS، وتحميل سيرتك فوراً" },
+    { id: "basics",         label: "المعلومات الشخصية + الملخص", emoji: "👤", desc: "الاسم، التواصل، الملخص والروابط المهنية" },
+    { id: "experience",     label: "الخبرة والتعليم",   emoji: "💼", desc: "تاريخك الوظيفي والتعليمي بالكامل" },
+    { id: "skills",         label: "المهارات والمشاريع والشهادات",  emoji: "⭐", desc: "مهاراتك ومشاريعك العملية والشهادات الداعمة" },
+    { id: "finish",         label: "المعاينة والتحميل",     emoji: "🏁", desc: "التثبت من معايير ATS، وتحميل سيرتك فوراً" },
   ],
   en: [
-    { id: "basics",         label: "Personal Details",  emoji: "👤", desc: "Your contact details, bio, and social handles" },
-    { id: "experience",     label: "Work Experience",   emoji: "💼", desc: "Employment history with smart AI bullets" },
-    { id: "education",      label: "Education",        emoji: "🎓", desc: "Degrees, schools, and academic track" },
-    { id: "skills",         label: "Skills & Keywords", emoji: "⭐", desc: "Core technical strengths & general skills" },
-    { id: "projects",       label: "Projects Portfolio", emoji: "🚀", desc: "Independent or corporate showcase works" },
-    { id: "certifications", label: "Certifications",   emoji: "🏅", desc: "Badges, licenses, and auxiliary learning" },
-    { id: "finish",         label: "Audit & Launch",    emoji: "🏁", desc: "Double check ATS status & download file" },
+    { id: "basics",         label: "Personal Info & Summary",  emoji: "👤", desc: "Contact details, target job title, and bio" },
+    { id: "experience",     label: "Experience & Education",   emoji: "💼", desc: "Work experience history and educational track" },
+    { id: "skills",         label: "Skills, Projects & Certs", emoji: "⭐", desc: "Technical skills, portfolio projects, and certifications" },
+    { id: "finish",         label: "Preview & Download",    emoji: "🏁", desc: "Audit ATS criteria and download your completed CV" },
   ],
   fr: [
-    { id: "basics",         label: "Infos Personnelles", emoji: "👤", desc: "Coordonnées, liens pros et biographie" },
-    { id: "experience",     label: "Expériences",       emoji: "💼", desc: "Parcours professionnel illustré par l'IA" },
-    { id: "education",      label: "Cursus Scolaire",     emoji: "🎓", desc: "Diplômes, universités et certifications" },
-    { id: "skills",         label: "Compétences clés",  emoji: "⭐", desc: "Savoir-faire et mots-clés recherchés" },
-    { id: "projects",       label: "Projets et Travaux", emoji: "🚀", desc: "Réalisations et portefeuilles valorisants" },
-    { id: "certifications", label: "Certifications",   emoji: "🏅", desc: "Formations certifiantes additionnelles" },
-    { id: "finish",         label: "Vérifier & Finir",    emoji: "🏁", desc: "Dernier audit ATS et téléchargement direct" },
+    { id: "basics",         label: "Infos Personnelles & Résumé", emoji: "👤", desc: "Coordonnées, liens pros et biographie" },
+    { id: "experience",     label: "Expérience & Formation",       emoji: "💼", desc: "Parcours professionnel et diplômes" },
+    { id: "skills",         label: "Compétences, Projets & Certifs",  emoji: "⭐", desc: "Savoir-faire, projets et certifications" },
+    { id: "finish",         label: "Aperçu & Téléchargement",    emoji: "🏁", desc: "Dernier audit ATS et téléchargement direct" },
   ],
 };
 
@@ -599,6 +591,8 @@ export default function MobileEditorLayout({
   children?: React.ReactNode;
 }) {
   const [activeTab, setActiveTab] = useState("edit");
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const sections = SECTIONS[lang] ?? SECTIONS.en;
   const isRtl = lang === "ar";
@@ -647,6 +641,7 @@ export default function MobileEditorLayout({
               onClick={() => { window.location.href = "/"; }}
               className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200/50 p-1 flex items-center justify-center shrink-0 cursor-pointer shadow-3xs"
               title={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
+              aria-label={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
             >
               <img 
                 src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
@@ -675,6 +670,7 @@ export default function MobileEditorLayout({
               onClick={onReset}
               className="flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors cursor-pointer shrink-0 active:scale-95"
               title={lang === "ar" ? "مسح كل شيء" : "Start Over"}
+              aria-label={lang === "ar" ? "مسح كل شيء" : "Start Over"}
             >
               <RotateCcw size={12} strokeWidth={2.5} />
             </motion.button>
@@ -762,7 +758,7 @@ export default function MobileEditorLayout({
               .editor-form-scrollable textarea {
                 padding-top: 8px !important;
                 padding-bottom: 8px !important;
-                font-size: 12.5px !important;
+                font-size: 16px !important;
                 border-radius: 10px !important;
               }
               .editor-form-scrollable label {
@@ -780,17 +776,17 @@ export default function MobileEditorLayout({
             
             {/* Render active field step components */}
             <div className="flex-1 overflow-hidden relative flex flex-col justify-between">
-              <div className="flex-1 overflow-hidden relative">
+              <div className="flex-1 overflow-y-auto relative">
                 {children}
               </div>
 
               {/* Dynamic Step-by-Step Mini Stepper Navigation */}
-              {/* <div className="absolute bottom-3 inset-x-3 z-30 px-3 py-2.5 bg-white/94 backdrop-blur-md border border-slate-200/70 shadow-[0_4px_24px_rgba(0,0,0,0.06)] rounded-2xl flex items-center justify-between gap-3 select-none pointer-events-auto">
+              <div className="px-4 py-3 bg-white border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] flex items-center justify-between gap-3 select-none shrink-0 z-10">
                 <button
                   type="button"
                   onClick={handlePrevSection}
                   disabled={currentSectionIndex <= 0}
-                  className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
                   <ArrowLeft size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
                   <span>{lang === "ar" ? "السابق" : "Prev"}</span>
@@ -801,8 +797,8 @@ export default function MobileEditorLayout({
                     {lang === "ar" ? `الخطوة ${currentSectionIndex + 1} من ${sections.length}` : `STEP ${currentSectionIndex + 1} OF ${sections.length}`}
                   </div>
                   {currentSectionIndex < sections.length - 1 && (
-                    <div className="text-[10px] text-slate-500 font-bold mt-0.5 max-w-[120px] truncate text-center">
-                      {lang === "ar" ? `التالي: ${sections[currentSectionIndex + 1].label}` : `Next: ${sections[currentSectionIndex + 1].label}`}
+                    <div className="text-[10px] text-[#001639] font-bold mt-0.5 max-w-[120px] truncate text-center">
+                      {lang === "ar" ? `${sections[currentSectionIndex + 1].label}` : `${sections[currentSectionIndex + 1].label}`}
                     </div>
                   )}
                 </div>
@@ -811,7 +807,7 @@ export default function MobileEditorLayout({
                   type="button"
                   onClick={handleNextSection}
                   disabled={currentSectionIndex >= sections.length - 1}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-black bg-[#001639] hover:bg-[#e24e2c] text-white shadow-sm disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                  className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-black bg-[#001639] hover:bg-slate-850 text-white shadow-sm disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
                   <span>
                     {currentSectionIndex === sections.length - 1 
@@ -820,21 +816,10 @@ export default function MobileEditorLayout({
                   </span>
                   <ArrowRight size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
                 </button>
-              </div> */}
+              </div>
               {/* END Dynamic Step-by-Step Mini Stepper Navigation */}
             </div>
           </div>
-        </div>
-
-        {/* SECTIONS TAB */}
-        <div className={`h-full w-full pb-6 ${activeTab === "sections" ? "block" : "hidden"} bg-[#fafafa]`}>
-          <SectionsScreen
-            _lang={lang}
-            sections={sections}
-            activeSection={activeSection}
-            onSectionChange={handleSectionChange}
-            completionMap={completionMap}
-          />
         </div>
 
         {/* EXPORT TAB */}
@@ -844,7 +829,7 @@ export default function MobileEditorLayout({
       </main>
 
       {/* ── Highly Polished Flat Bottom Navigation ── */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-auto flex flex-col select-none">
+      <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-auto flex flex-col select-none lg:hidden">
         {/* Mini Progress Line above the bar */}
         <div className="w-full h-[3px] bg-slate-100 overflow-hidden relative">
           <motion.div
@@ -856,82 +841,162 @@ export default function MobileEditorLayout({
           />
         </div>
 
-        {/* The White Flat Dock Container */}
-        <div className="w-full bg-white border-t border-gray-200 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] px-2 pt-2 pb-[calc(8px+env(safe-area-inset-bottom,0px))] flex items-center justify-around">
-          
-          {/* Tab 1: Form Edit */}
-          <button
-            onClick={() => setActiveTab("edit")}
-            className={cn(
-              "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
-              activeTab === "edit" ? "text-[#001639]" : "text-gray-400 hover:text-gray-600"
-            )}
-            title={lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}
-            aria-label={lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}
-          >
-            <Edit3 size={22} className={activeTab === "edit" ? "fill-current" : ""} strokeWidth={activeTab === "edit" ? 2.5 : 2} />
-            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "النموذج" : lang === "fr" ? "Saisie" : "Form"}</span>
-          </button>
+        {/* Floating More Menu Popover */}
+        {showMoreMenu && (
+          <div className="absolute bottom-[72px] inset-x-4 max-w-sm mx-auto bg-white/95 backdrop-blur-md rounded-2xl shadow-xl border border-slate-200/80 p-3 flex flex-col gap-1 z-[60] animate-in fade-in slide-in-from-bottom-2 duration-200">
+            {/* Settings Button */}
+            <button
+              onClick={() => {
+                onOpenSettings();
+                setShowMoreMenu(false);
+              }}
+              className="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer text-start text-xs sm:text-sm font-bold"
+            >
+              <Settings size={18} strokeWidth={2} className="text-[#001639]" />
+              <span>{lang === "ar" ? "الإعدادات والسمات" : "Settings & Themes"}</span>
+            </button>
 
-          {/* Tab 2: Sections */}
-          <button
-            onClick={() => setActiveTab("sections")}
-            className={cn(
-              "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
-              activeTab === "sections" ? "text-[#001639]" : "text-gray-400 hover:text-gray-600"
-            )}
-            title={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
-            aria-label={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
-          >
-            <Grid size={22} className={activeTab === "sections" ? "fill-current" : ""} strokeWidth={activeTab === "sections" ? 2.5 : 2} />
-            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
-          </button>
-
-          {/* Central Button: ATS Audit */}
-          <button
-            onClick={onOpenAts}
-            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-gray-600 transition-colors cursor-pointer relative"
-            title={lang === "ar" ? "فحص ATS" : "ATS Audit"}
-            aria-label={lang === "ar" ? "فحص ATS" : "ATS Audit"}
-          >
-            <div className="relative">
-              <CheckCircle size={22} strokeWidth={2} />
+            {/* ATS Audit Button */}
+            <button
+              onClick={() => {
+                onOpenAts();
+                setShowMoreMenu(false);
+              }}
+              className="w-full flex items-center justify-between gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer text-start text-xs sm:text-sm font-bold border-t border-slate-100"
+            >
+              <div className="flex items-center gap-3">
+                <CheckCircle size={18} strokeWidth={2} className="text-[#001639]" />
+                <span>{lang === "ar" ? "فحص وتحليل ATS" : "ATS Audit & Analysis"}</span>
+              </div>
               <span className={cn(
-                "absolute -top-1 -right-2 text-[7.5px] font-extrabold px-1 py-0.2 rounded-md leading-none text-white shadow-sm",
+                "text-[10px] font-extrabold px-2 py-0.5 rounded-full text-white shadow-xs",
                 atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
               )}>
                 {atsScore}%
               </span>
-            </div>
-            <span className="text-[10px] font-medium mt-0.5">ATS</span>
-          </button>
+            </button>
+          </div>
+        )}
 
-          {/* Tab 3: Settings */}
+        {/* The White Flat Dock Container */}
+        <div className="w-full bg-white border-t border-gray-200 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] px-2 pt-2 pb-[calc(8px+env(safe-area-inset-bottom,0px))] flex items-center justify-around">
+          
+          {/* Tab 1: Sections Drawer Trigger */}
           <button
-            onClick={onOpenSettings}
-            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
-            title={lang === "ar" ? "الإعدادات" : "Settings"}
-            aria-label={lang === "ar" ? "الإعدادات" : "Settings"}
+            onClick={() => {
+              setIsDrawerOpen(true);
+              setShowMoreMenu(false);
+            }}
+            className={cn(
+              "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer text-gray-400 hover:text-[#001639]"
+            )}
+            title={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
+            aria-label={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
           >
-            <Settings size={22} strokeWidth={2} />
-            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الإعدادات" : "Settings"}</span>
+            <Grid size={20} strokeWidth={2} />
+            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
           </button>
 
-          {/* Tab 4: Direct Download FAB */}
+          {/* Tab 2: Live Preview */}
           <button
-            onClick={onExportPDF}
+            onClick={() => {
+              onOpenPreview();
+              setShowMoreMenu(false);
+            }}
+            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-[#001639] transition-colors cursor-pointer"
+            title={lang === "ar" ? "المعاينة" : "Preview"}
+            aria-label={lang === "ar" ? "المعاينة" : "Preview"}
+          >
+            <Eye size={20} strokeWidth={2} />
+            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "المعاينة" : "Preview"}</span>
+          </button>
+
+          {/* Tab 3: Download */}
+          <button
+            onClick={() => {
+              onExportPDF();
+              setShowMoreMenu(false);
+            }}
             className="flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer"
-            title={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
-            aria-label={lang === "ar" ? "تحميل PDF سريع" : "Quick PDF Download"}
+            title={lang === "ar" ? "تحميل PDF" : "Download PDF"}
+            aria-label={lang === "ar" ? "تحميل PDF" : "Download PDF"}
           >
             <div className="bg-[#001639] rounded-full p-1.5 text-white transform -translate-y-1 shadow-md">
-              <Download size={20} strokeWidth={2.5} />
+              <Download size={18} strokeWidth={2.5} />
             </div>
             <span className="text-[10px] font-medium text-[#001639] -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
           </button>
 
+          {/* Tab 4: More */}
+          <button
+            onClick={() => setShowMoreMenu(!showMoreMenu)}
+            className={cn(
+              "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
+              showMoreMenu ? "text-[#001639]" : "text-gray-400 hover:text-gray-600"
+            )}
+            title={lang === "ar" ? "المزيد" : "More"}
+            aria-label={lang === "ar" ? "المزيد" : "More"}
+          >
+            <MoreHorizontal size={20} strokeWidth={2} />
+            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "المزيد" : "More"}</span>
+          </button>
+
         </div>
       </div>
+
+      {/* ── Slide-up Sections Drawer on Mobile ── */}
+      <AnimatePresence>
+        {isDrawerOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsDrawerOpen(false)}
+              className="fixed inset-0 bg-slate-900/60 z-[150] backdrop-blur-[2px]"
+            />
+            {/* Slide-up Drawer Panel */}
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 240 }}
+              className="fixed bottom-0 inset-x-0 bg-[#FAF9F7] rounded-t-[2rem] z-[160] shadow-[0_-10px_40px_rgba(0,0,0,0.15)] flex flex-col max-h-[85vh] overflow-hidden"
+            >
+              {/* Drawer Handle / Header */}
+              <div className="w-full flex flex-col items-center pt-3 pb-2.5 bg-white border-b border-slate-100 shrink-0 select-none">
+                <div className="w-12 h-1.5 bg-slate-200 rounded-full mb-3.5" />
+                <div className="flex items-center justify-between w-full px-5">
+                  <h4 className="text-sm font-black text-slate-800">
+                    {lang === "ar" ? "أقسام السيرة الذاتية" : "Resume Sections"}
+                  </h4>
+                  <button
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
+                  >
+                    <X size={18} strokeWidth={2.5} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Drawer Content Area */}
+              <div className="flex-1 overflow-y-auto px-1 py-2 pb-[calc(28px+env(safe-area-inset-bottom,0px))] bg-[#FAF9F7]">
+                <SectionsScreen
+                  _lang={lang}
+                  sections={sections}
+                  activeSection={activeSection}
+                  onSectionChange={(id) => {
+                    handleSectionChange(id);
+                    setIsDrawerOpen(false);
+                  }}
+                  completionMap={completionMap}
+                />
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
       
       {/* Floating dynamic micro-hints disabled on mobile */}
 

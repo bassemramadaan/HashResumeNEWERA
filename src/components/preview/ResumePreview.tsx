@@ -257,7 +257,7 @@ const ResumePreview = memo(
             #resume-capture-area div[class*="bg-zinc-"],
             #resume-capture-area div[class*="bg-blue-"],
             #resume-capture-area div[class*="bg-brand-"],
-            #resume-capture-area div[class*="bg-indigo-"] {
+            #resume-capture-area div[class*="bg-brand-"] {
               background-color: #ffffff !important;
               background-image: none !important;
               border: 1px solid #000000 !important;

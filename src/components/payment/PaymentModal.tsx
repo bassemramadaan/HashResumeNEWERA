@@ -593,7 +593,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                         {/* Glowing Progress Bar */}
                         <div className="w-full bg-slate-200/60 rounded-full h-2 overflow-hidden relative">
                           <motion.div 
-                            className="bg-gradient-to-r from-orange-500 to-[#001639] h-full rounded-full"
+                            className="bg-gradient-to-r from-[#001639] to-[#000a1b] h-full rounded-full"
                             animate={{ width: `${verificationProgress}%` }}
                             transition={{ duration: 0.5, ease: "easeInOut" }}
                           />
@@ -751,7 +751,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                       </div>
                       <button
                         onClick={() => setStep(2)}
-                        className="w-full h-12 flex items-center justify-center gap-2 rounded-xl font-black text-xs text-white uppercase tracking-wider bg-gradient-to-r from-orange-500 to-[#001639] hover:from-orange-600 hover:to-[#E64528] active:scale-[0.98] transition-all shadow-md shadow-orange-500/20 cursor-pointer mb-2"
+                        className="w-full h-12 flex items-center justify-center gap-2 rounded-xl font-black text-xs text-white uppercase tracking-wider bg-gradient-to-r from-[#001639] to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] active:scale-[0.98] transition-all shadow-md shadow-orange-500/20 cursor-pointer mb-2"
                       >
                         {isAr ? "متابعة للدفع" : "Continue to Payment"} &rarr;
                       </button>
@@ -1043,24 +1043,18 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
                             </button>
                           </div>
 
-                          {/* Separator */}
-                          <div className="relative flex items-center justify-center my-3">
-                            <div className="flex-grow border-t border-slate-100" />
-                            <span className="flex-shrink mx-3 text-slate-300 text-[10px] font-black uppercase tracking-wider">{isAr ? "أو" : "OR"}</span>
-                            <div className="flex-grow border-t border-slate-100" />
-                          </div>
-
                           {/* WhatsApp trigger */}
-                          <a
-                            href={`https://wa.me/201101007965?text=${encodeURIComponent(whatsappMsg)}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-xs text-white transition-all active:scale-[0.98] shadow-md shadow-orange-500/10 cursor-pointer font-sans"
-                            style={{ backgroundColor: '#128C7E' }}
-                          >
-                            <MessageCircle size={15} />
-                            {isAr ? "طلب كود تفعيل فوري عبر الواتساب" : "Request Code direct via WhatsApp"}
-                          </a>
+                          <div className="flex justify-center mt-3">
+                            <a
+                              href={`https://wa.me/201101007965?text=${encodeURIComponent(whatsappMsg)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-emerald-600 hover:text-emerald-700 py-1 font-bold text-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                            >
+                              <MessageCircle size={15} />
+                              <span className="underline underline-offset-2">{isAr ? "طلب كود تفعيل فوري عبر الواتساب" : "Request Code direct via WhatsApp"}</span>
+                            </a>
+                          </div>
                         </div>
                       </motion.div>
                     )}

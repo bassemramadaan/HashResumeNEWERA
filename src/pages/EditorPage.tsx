@@ -41,6 +41,7 @@ import { calculateATSScore } from "../utils/ats";
 import EmptyState from "../components/editor/EmptyState";
 import EditorNavbar from "../components/editor/EditorNavbar";
 import MobileEditorLayout from "../components/editor/MobileEditorLayout";
+import EditorSidebar from "../components/editor/EditorSidebar";
 
 import ResumePreview from "../components/preview/ResumePreview";
 import { JobMatchAdvisor } from "../components/editor/JobMatchAdvisor";
@@ -124,11 +125,10 @@ const LockedOverlay = ({ lang }: { lang: string }) => {
             href="https://wa.me/201101007965?text=Hello,%20I%20need%20a%20quick%20edit%20to%20my%20Hash%20Resume."
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-black text-xs text-white transition-all active:scale-[0.98] shadow-md shadow-emerald-500/10 cursor-pointer"
-            style={{ backgroundColor: '#128C7E' }}
+            className="inline-flex items-center justify-center gap-1.5 py-2 px-4 rounded-xl font-bold text-[11px] text-white transition-all active:scale-[0.98] shadow-xs cursor-pointer bg-[#128C7E] hover:bg-[#0a5249] shrink-0"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-            {isAr ? "طلب تعديل عبر الواتساب" : "Request Edit via WhatsApp"}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <span>{isAr ? "طلب تعديل عبر واتساب" : "Request Edit via WhatsApp"}</span>
           </a>
         </div>
       </div>
@@ -834,6 +834,8 @@ export default function EditorPage() {
     finish: atsScore,
   };
 
+  const progressPercent = Math.round((sidebarCompletionMap.basics + sidebarCompletionMap.experience + sidebarCompletionMap.skills) / 3);
+
   const formContent = (
     <div 
       className={cn(focusMode ? "max-w-[720px]" : "max-w-4xl", "mx-auto pb-[120px] sm:pb-32 relative")}
@@ -896,10 +898,10 @@ export default function EditorPage() {
               href={`https://wa.me/201101007965?text=${encodeURIComponent(language === 'ar' ? 'أهلاً، أحتاج إلى إجراء تعديل بسيط على سيرتي الذاتية التي قمت بتحميلها من Hash Resume.' : 'Hello, I need to make a minor edit to my resume downloaded from Hash Resume.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shrink-0 flex items-center gap-2 shadow-sm shadow-[#25D366]/20"
+              className="bg-[#128C7E] hover:bg-[#0a5249] text-white font-bold text-xs px-3.5 py-2 rounded-xl transition-colors shrink-0 flex items-center gap-1.5 shadow-sm shadow-[#128C7E]/10"
             >
               <span>💬</span>
-              {language === 'ar' ? 'تواصل عبر واتساب' : 'Contact via WhatsApp'}
+              <span>{language === 'ar' ? 'تواصل عبر واتساب' : 'Contact via WhatsApp'}</span>
             </a>
           </div>
         </div>
@@ -1257,7 +1259,10 @@ export default function EditorPage() {
                               <motion.button
                                 whileHover={{ y: -1 }}
                                 whileTap={{ scale: 0.985 }}
-                                onClick={() => setActiveTab("finish")}
+                                onClick={() => {
+                                  scrollToFormTop();
+                                  setActiveTab("finish");
+                                }}
                                 className="group flex items-center gap-3 bg-[#001639] hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all cursor-pointer"
                               >
                                 {language === "ar"
@@ -1354,7 +1359,10 @@ export default function EditorPage() {
                   <motion.button
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.985 }}
-                    onClick={() => handleProceedToExport("pdf")}
+                    onClick={() => {
+                      scrollToFormTop();
+                      handleProceedToExport("pdf");
+                    }}
                     className="flex-1 py-3.5 px-4 rounded-xl bg-orange-600 border border-orange-500 text-white font-bold text-sm hover:bg-orange-700 transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
                   >
                     {language === "ar" ? "تصدير" : language === "fr" ? "Exporter" : "Export"}
@@ -1401,11 +1409,45 @@ export default function EditorPage() {
         className="flex-1 w-full h-full overflow-hidden relative editor-form"
         dir="ltr"
       >
+        {!isMobile && !focusMode && (
+           <EditorSidebar 
+             activeTab={activeTab} 
+             onTabChange={(id) => setActiveTab(id as any)} 
+             completionMap={sidebarCompletionMap} 
+           />
+        )}
         {/* Editor Area */}
         {!previewFocusMode && (
         <Panel defaultSize={65} minSize={30} className="block">
           <div className={cn("flex flex-col h-full overflow-hidden relative transition-all duration-300", focusMode ? "bg-white" : "bg-[#F9FAFB]")} dir={dir}>
             
+            {/* Real-time Progress Bar */}
+            <div className="bg-white border-b border-slate-200/85 px-6 py-3 flex items-center justify-between gap-4 select-none shrink-0" style={{ direction: dir }}>
+              <div className="flex items-center gap-2 shrink-0">
+                <div className="w-2.5 h-2.5 rounded-full bg-brand-500 animate-pulse" />
+                <span className="text-xs font-black text-slate-700">
+                  {language === "ar" ? "نسبة اكتمال السيرة الذاتية:" : "Resume Completion Progress:"}
+                </span>
+                <span className="text-xs font-black text-[#001639] bg-[#001639]/5 px-2 py-0.5 rounded-lg font-mono">
+                  {progressPercent}%
+                </span>
+              </div>
+              <div className="flex-1 max-w-md h-2 bg-slate-100 rounded-full overflow-hidden relative border border-slate-200/20">
+                <motion.div
+                  className="absolute top-0 bottom-0 bg-gradient-to-r from-brand-500 to-amber-500 rounded-full"
+                  style={{ left: dir === "rtl" ? "auto" : 0, right: dir === "rtl" ? 0 : "auto" }}
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progressPercent}%` }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                />
+              </div>
+              <div className="hidden md:block text-[11px] text-slate-400 font-bold shrink-0">
+                {progressPercent === 100 
+                  ? (language === "ar" ? "أداء ممتاز! جاهز للتحميل 🏆" : "Excellent performance! Ready to download 🏆")
+                  : (language === "ar" ? "أكمل بياناتك للحصول على سيرة قوية" : "Complete your details for a powerful resume")}
+              </div>
+            </div>
+
             <main
               ref={formRef}
               onScroll={handleFormScroll}
@@ -1422,11 +1464,11 @@ export default function EditorPage() {
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
-                    className="mb-6 bg-indigo-50/95 backdrop-blur-md border border-indigo-200/80 text-indigo-950 rounded-2xl p-4.5 shadow-[0_4px_20px_rgba(99,102,241,0.08)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                    className="mb-6 bg-brand-50/95 backdrop-blur-md border border-brand-200/80 text-brand-950 rounded-2xl p-4.5 shadow-[0_4px_20px_rgba(99,102,241,0.08)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
                     dir={language === "ar" ? "rtl" : "ltr"}
                   >
                     <div className="flex items-start gap-3">
-                      <div className="bg-indigo-100 p-2 rounded-xl text-indigo-600 shrink-0">
+                      <div className="bg-brand-100 p-2 rounded-xl text-brand-600 shrink-0">
                         <Info className="w-5 h-5" />
                       </div>
                       <div className="space-y-1">
@@ -1435,7 +1477,7 @@ export default function EditorPage() {
                             ? "💡 الحل الموصى به لتصدير بأعلى جودة"
                             : "💡 Recommended for Best PDF Quality"}
                         </h4>
-                        <p className="text-xs text-indigo-800 leading-relaxed font-medium">
+                        <p className="text-xs text-brand-800 leading-relaxed font-medium">
                           {language === "ar"
                             ? "لتجنب أي قيود برمجية للمتصفح عند توليد ملف الـ PDF بأعلى جودة واحترافية، يُفضل دائماً فتح المحرر في نافذة مستقلة جديدة (عبر زر 'فتح في نافذة مستقلة' المتوفر في المتصفح). سيقوم نظام المزامنة التلقائية بعرض كافة بياناتك فوراً ويتيح لك تحميل السيرة بنقرة واحدة وبدون أي قيود طباعية."
                             : "To avoid browser restrictions and ensure the absolute highest print quality, we highly recommend opening this editor in an independent window. Your work will auto-sync instantly, and you can download your PDF with a single click."}
@@ -1447,14 +1489,14 @@ export default function EditorPage() {
                         onClick={() => {
                           window.open(window.location.href, '_blank');
                         }}
-                        className="bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer shadow-sm active:scale-95 flex items-center gap-1.5"
+                        className="bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer shadow-sm active:scale-95 flex items-center gap-1.5"
                       >
                         <span>{language === "ar" ? "فتح في نافذة جديدة" : "Open in New Window"}</span>
                         <ExternalLink className="w-3.5 h-3.5" />
                       </button>
                       <button
                         onClick={() => setShowIframeBanner(false)}
-                        className="p-2 hover:bg-indigo-100 rounded-xl text-indigo-400 hover:text-indigo-600 transition-colors cursor-pointer"
+                        className="p-2 hover:bg-brand-100 rounded-xl text-brand-400 hover:text-brand-600 transition-colors cursor-pointer"
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -1478,10 +1520,10 @@ export default function EditorPage() {
                 <AnimatePresence>
                   {showScrollTop && (
                     <motion.button
+                      onClick={scrollToFormTop}
                       initial={{ opacity: 0, scale: 0.5, y: 20 }}
                       animate={{ opacity: 1, scale: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.5, y: 20 }}
-                      onClick={scrollToFormTop}
                       className="md:hidden fixed bottom-[90px] sm:bottom-28 end-6 w-12 h-12 bg-neutral-50 text-neutral-900 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-neutral-200 flex items-center justify-center z-40 active:scale-90 transition-transform"
                     >
                       <ArrowUp size={24} />
@@ -1489,104 +1531,6 @@ export default function EditorPage() {
                   )}
                 </AnimatePresence>
             </main>
-
-            {/* Absolute-positioned Floating Section Dock inside the Editor workspace panel */}
-            {!isMobile && !focusMode && (
-              <div 
-                className="absolute bottom-6 inset-x-0 mx-auto z-40 px-4 flex justify-center pointer-events-none"
-                dir={language === "ar" ? "rtl" : "ltr"}
-              >
-                <div 
-                  className="pointer-events-auto bg-[#252525]/90 backdrop-blur-3xl border border-white/10 rounded-full py-2 px-3 flex items-center justify-center shadow-[0_12px_40px_rgba(0,0,0,0.25)] select-none"
-                >
-                  <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto scrollbar-none relative">
-                    {tabs.map((tab, idx) => {
-                      const isActive = activeTab === tab.id;
-                      const IconComponent = tab.icon;
-                      
-                      const isLast = idx === tabs.length - 1;
-
-                      if (isLast) {
-                        return (
-                          <div key={tab.id} className="flex flex-row items-center relative group">
-                            {/* Rich Interactive Tooltip */}
-                            <div className="absolute bottom-16 left-1/2 -translate-x-1/2 bg-slate-950 text-white text-[10px] sm:text-xs font-bold py-1.5 px-3 rounded-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 shadow-[0_8px_24px_rgba(0,0,0,0.3)] border border-slate-800 z-50 whitespace-nowrap">
-                              {tab.label}
-                            </div>
-                            
-                            <div className="h-6 w-[1px] bg-white/10 shrink-0 mx-2" />
-                            <button
-                              onClick={() => {
-                                setActiveTab(tab.id as Tab);
-                                scrollToFormTop();
-                              }}
-                              className={cn(
-                                "relative px-3 py-1 min-w-[55px] sm:min-w-[65px] h-11 rounded-xl flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none ml-1",
-                                isActive ? "text-[#ff4d2d]" : "text-[#ff4d2d]/70 hover:text-[#ff4d2d] hover:bg-white/5"
-                              )}
-                              title={tab.label}
-                            >
-                              {isActive && (
-                                <motion.div
-                                  layoutId="activeTabIndicatorDesktop"
-                                  className="absolute inset-0 bg-[#ff4d2d]/10 rounded-xl"
-                                  transition={{ type: "spring", stiffness: 350, damping: 28 }}
-                                />
-                              )}
-                              <span className="relative z-10 flex flex-col items-center justify-center gap-0.5">
-                                <IconComponent strokeWidth={isActive ? 2.2 : 1.8} className={cn("w-4 h-4 sm:w-[18px] sm:h-[18px]", isActive ? "text-[#ff4d2d]" : "text-[#ff4d2d]/70 group-hover:text-[#ff4d2d]")} />
-                                <span className={cn("text-[9px] sm:text-[10px] font-black tracking-tight leading-none", isActive ? "text-[#ff4d2d]" : "text-[#ff4d2d]/70 group-hover:text-[#ff4d2d]")}>
-                                  {tab.shortLabel}
-                                </span>
-                              </span>
-                            </button>
-                          </div>
-                        );
-                      }
-
-                      return (
-                        <div key={tab.id} className="relative group flex flex-col items-center">
-                          {/* Rich Interactive Tooltip */}
-                          <div className="absolute bottom-16 left-1/2 -translate-x-1/2 bg-slate-950 text-white text-[10px] sm:text-xs font-bold py-1.5 px-3 rounded-xl opacity-0 pointer-events-none group-hover:opacity-100 transition-all duration-200 shadow-[0_8px_24px_rgba(0,0,0,0.3)] border border-slate-800 z-50 whitespace-nowrap">
-                            {tab.label}
-                          </div>
-                          
-                          <button
-                            onClick={() => {
-                              setActiveTab(tab.id as Tab);
-                              scrollToFormTop();
-                            }}
-                            className={cn(
-                              "relative px-3 py-1 min-w-[55px] sm:min-w-[65px] h-11 rounded-xl flex items-center justify-center cursor-pointer transition-colors duration-200 focus:outline-none",
-                              isActive ? "text-white" : "text-white/60 hover:text-white hover:bg-white/5"
-                            )}
-                            title={tab.label}
-                            aria-label={tab.label}
-                          >
-                            {/* Animated Active Liquid Pill Background */}
-                            {isActive && (
-                              <motion.div
-                                layoutId="activeTabIndicatorDesktop"
-                                className="absolute inset-0 bg-white/20 rounded-xl"
-                                transition={{ type: "spring", stiffness: 350, damping: 28 }}
-                              />
-                            )}
-
-                            {/* Icon & Label */}
-                            <span className="relative z-10 flex flex-col items-center justify-center gap-0.5">
-                              <IconComponent strokeWidth={isActive ? 2 : 1.5} className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
-                              <span className="text-[9px] sm:text-[10px] font-bold tracking-tight leading-none">
-                                {tab.shortLabel}
-                              </span>
-                            </span>
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </Panel>
         )}

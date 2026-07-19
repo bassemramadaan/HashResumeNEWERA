@@ -95,7 +95,7 @@ export default function BlogPostPage() {
             transition={{ delay: 0.2 }}
             className="flex items-center justify-center gap-4 mb-12"
           >
-            <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold">
+            <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold">
               {post.author[language].charAt(0)}
             </div>
             <div className="text-start rtl:text-end">
@@ -129,13 +129,13 @@ export default function BlogPostPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
-          className="prose prose-lg prose-indigo max-w-none prose-headings:font-display prose-img:rounded-xl prose-a:text-indigo-600 hover:prose-a:text-indigo-700 mt-8"
+          className="prose prose-lg prose-blue max-w-none prose-headings:font-display prose-img:rounded-xl prose-a:text-brand-600 hover:prose-a:text-brand-700 mt-8"
         >
           <ReactMarkdown>{post.content[language]}</ReactMarkdown>
         </motion.div>
 
         {/* Call to Action Editor */}
-        <div className="my-16 bg-gradient-to-br from-indigo-50 to-indigo-100/50 border border-indigo-100 p-8 md:p-12 rounded-3xl flex flex-col items-center text-center shadow-sm">
+        <div className="my-16 bg-gradient-to-br from-blue-50 to-blue-100/50 border border-brand-100 p-8 md:p-12 rounded-3xl flex flex-col items-center text-center shadow-sm">
           <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4 font-display">
             {language === "ar" ? "جاهز لإنشاء سيرتك الذاتية؟" : "Ready to build your resume?"}
           </h3>
@@ -146,7 +146,7 @@ export default function BlogPostPage() {
           </p>
           <Link 
             to="/editor" 
-            className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold hover:bg-indigo-700 hover:-translate-y-1 transition-all shadow-lg shadow-indigo-600/20"
+            className="px-8 py-4 bg-brand-600 text-white rounded-2xl font-bold hover:bg-brand-700 hover:-translate-y-1 transition-all shadow-lg shadow-brand-600/20"
           >
             {language === "ar" ? "ابدأ الآن" : "Start now"}
           </Link>
@@ -158,18 +158,18 @@ export default function BlogPostPage() {
             {language === "ar" ? "شارك هذا المقال:" : "Share this article:"}
           </p>
           <div className="flex gap-4">
-            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 transition-colors">
               <Facebook size={20} />
             </button>
-            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 transition-colors">
               <Twitter size={20} />
             </button>
-            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors">
+            <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 transition-colors">
               <Linkedin size={20} />
             </button>
             <button
               onClick={() => navigator.clipboard.writeText(shareUrl)}
-              className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 transition-colors"
+              className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-600 hover:bg-brand-50 hover:text-brand-600 transition-colors"
             >
               <Share2 size={20} />
             </button>

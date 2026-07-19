@@ -86,7 +86,7 @@ export default function BlogPage() {
                   </span>
                 </div>
                 <Link to={`/blog/${post.id}`} className="block mb-4">
-                  <h2 className="text-xl font-bold text-slate-900 hover:text-indigo-600 transition-colors line-clamp-2">
+                  <h2 className="text-xl font-bold text-slate-900 hover:text-brand-600 transition-colors line-clamp-2">
                     {post.title[language]}
                   </h2>
                 </Link>
@@ -95,14 +95,14 @@ export default function BlogPage() {
                 </p>
                 <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100">
                   <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                    <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xs">
+                    <div className="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold text-xs">
                       {post.author[language].charAt(0)}
                     </div>
                     {post.author[language]}
                   </div>
                   <Link
                     to={`/blog/${post.id}`}
-                    className="text-indigo-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all"
+                    className="text-brand-600 font-medium text-sm flex items-center gap-1 hover:gap-2 transition-all"
                   >
                     {language === "ar" ? "اقرأ المزيد" : "Read More"}
                     <ArrowRight size={16} className="rtl:rotate-180" />

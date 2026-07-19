@@ -20,7 +20,7 @@ const COPY = {
     badge: 'ثورة في إنشاء السير الذاتية',
     titleMain: 'اكتب مستقبلك',
     subtitle: 'اصنع سيرة ذاتية استثنائية ومتوافقة تماماً مع أنظمة الفرز (ATS) خلال دقائق، مدعومة بإرشادات ذكاء اصطناعي ذكية تبرز مهاراتك وتسرّع توظيفك.',
-    cta: 'ابـدأ الإنشـاء مجانـاً',
+    cta: 'ابدأ سيرتك الذاتية مجاناً',
     ctaSec: 'استكشف الأمثلة',
     noCreditCard: 'لا حاجة لبطاقة ائتمان للبدء',
   },
@@ -68,7 +68,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* Background decoration */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-blue-200/30 to-indigo-100/40 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-blue-200/30 to-blue-100/40 rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="absolute top-12 left-1/4 w-[300px] h-[300px] bg-blue-200/10 rounded-full blur-[80px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '6s' }} />
       <div className="absolute top-36 right-1/4 w-[250px] h-[250px] bg-amber-100/15 rounded-full blur-[70px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '10s' }} />
 
@@ -86,7 +86,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
           </motion.div>
 
           <h1 
-            className="hero-title text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
+            className="hero-title text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
           >
             {copy.titleMain}{" "}
             <span className="hero-highlight-text text-blue-600 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center">
@@ -109,11 +109,11 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.7 }}
-            className="text-[14px] mb-4 md:mb-0 md:text-xl md:text-2xl text-slate-600 font-medium max-w-3xl leading-relaxed"
+            className="text-[14px] mb-4 md:mb-0 md:text-xl md:text-2xl text-slate-600 font-medium max-w-3xl leading-relaxed px-2"
           >
             {copy.subtitle}
-            <span className="block text-sm text-slate-400 mt-2 font-semibold">
-              {isAr ? "مجاني للبناء والمعاينة — ادفع فقط عند التنزيل" : "Build & preview for free — pay only to download."}
+            <span className="block text-xs sm:text-sm text-slate-400 mt-2 font-semibold">
+              {isAr ? "أنشئ واستعرض مجاناً — ادفع فقط عند التحميل" : "Build & preview for free — pay only when you download"}
             </span>
           </motion.p>
 
@@ -121,33 +121,35 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.7 }}
-            className="flex flex-col items-center gap-3 w-full"
+            className="flex flex-col items-center gap-3 w-full max-w-md mx-auto"
           >
-            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-5 pt-2 md:pt-6 w-full justify-center">
+            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-5 pt-2 md:pt-6 w-full justify-center px-4">
               <button
                 onClick={() => {
                   trackEvent('hero_started', { component: 'cta_primary' })
                   onStart()
                 }}
-                className="flex w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 items-center justify-center gap-3 cursor-pointer"
+                className="flex w-full sm:w-auto bg-gradient-to-r from-[#001639] to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] text-white px-8 py-4 sm:px-10 sm:py-6 rounded-2xl sm:rounded-3xl font-bold text-base sm:text-lg transition-all active:scale-95 shadow-lg shadow-brand-500/30 hover:shadow-brand-500/50 items-center justify-center gap-3 min-h-[48px] cursor-pointer"
               >
                 <span>{copy.cta}</span>
-                {isAr ? <ArrowLeft size={20} /> : <ArrowRight size={20} />}
+                {isAr ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
               </button>
               <button
                 onClick={() => navigate('/editor')}
-                className="w-full sm:w-auto bg-white border-2 border-slate-100 hover:border-blue-200 text-slate-900 px-10 py-6 rounded-3xl font-bold text-lg transition-all active:scale-95 shadow-sm flex items-center justify-center gap-3 cursor-pointer"
+                className="w-full sm:w-auto bg-white border-2 border-slate-100 hover:border-blue-200 text-slate-900 px-8 py-4 sm:px-10 sm:py-6 rounded-2xl sm:rounded-3xl font-bold text-base sm:text-lg transition-all active:scale-95 shadow-sm flex items-center justify-center gap-3 min-h-[48px] cursor-pointer"
               >
                 <span>{copy.ctaSec}</span>
               </button>
             </div>
-            <p className="text-sm text-slate-400 font-medium">
+            <p className="text-xs sm:text-sm text-slate-400 font-medium">
               ✨ {copy.noCreditCard}
             </p>
           </motion.div>
 
-          {/* Mini CV Preview component to fill space beautifully */}
-          <MiniCVPreview lang={lang as any} />
+          {/* Mini CV Preview component hidden on mobile to provide space and speed */}
+          <div className="hidden sm:block w-full">
+            <MiniCVPreview lang={lang as any} />
+          </div>
         </div>
       </div>
     </section>

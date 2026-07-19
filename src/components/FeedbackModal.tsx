@@ -98,7 +98,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   <p className="text-white0 mb-6">{t.thankYouMessage}</p>
                   <button
                     onClick={onClose}
-                    className="bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 text-white px-6 py-2 rounded-xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-orange-500/20"
+                    className="bg-gradient-to-r from-[#001639] to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] text-white px-6 py-2 rounded-xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-orange-500/20"
                   >
                     {t.close}
                   </button>
@@ -182,7 +182,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                     <button
                       onClick={handleSubmit}
                       disabled={!rating || loading}
-                      className="flex-1 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-700 hover:to-amber-700 disabled:from-slate-300 disabled:to-slate-300 disabled:text-slate-500 text-white py-2 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 shadow-lg shadow-orange-500/20"
+                      className="flex-1 bg-gradient-to-r from-[#001639] to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] disabled:from-slate-300 disabled:to-slate-300 disabled:text-slate-500 text-white py-2 rounded-xl text-sm font-bold transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 shadow-lg shadow-orange-500/20"
                     >
                       {loading ? (
                         <>

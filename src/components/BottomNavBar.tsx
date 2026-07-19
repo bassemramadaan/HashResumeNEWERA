@@ -17,7 +17,7 @@ export const BottomNavBar: React.FC = () => {
         to="/"
         className={`flex flex-col items-center justify-center gap-[2px] min-w-[64px] min-h-[48px] py-1 ${isActive('/') ? 'text-[#001639]' : 'text-gray-400'} transition-colors cursor-pointer`}
       >
-        <Home size={22} className={isActive('/') ? 'fill-current' : ''} />
+        <Home size={20} strokeWidth={2} />
         <span className="text-[10px] font-medium">{isRtl ? 'الرئيسية' : 'Home'}</span>
       </Link>
 
@@ -25,7 +25,7 @@ export const BottomNavBar: React.FC = () => {
         to="/templates"
         className={`flex flex-col items-center justify-center gap-[2px] min-w-[64px] min-h-[48px] py-1 ${isActive('/templates') ? 'text-[#001639]' : 'text-gray-400'} transition-colors cursor-pointer`}
       >
-        <LayoutTemplate size={22} className={isActive('/templates') ? 'fill-current' : ''} />
+        <LayoutTemplate size={20} strokeWidth={2} />
         <span className="text-[10px] font-medium">{isRtl ? 'القوالب' : 'Templates'}</span>
       </Link>
       
@@ -33,7 +33,7 @@ export const BottomNavBar: React.FC = () => {
         to="/pricing"
         className={`flex flex-col items-center justify-center gap-[2px] min-w-[64px] min-h-[48px] py-1 ${isActive('/pricing') ? 'text-[#001639]' : 'text-gray-400'} transition-colors cursor-pointer`}
       >
-        <Tag size={22} className={isActive('/pricing') ? 'fill-current' : ''} />
+        <Tag size={20} strokeWidth={2} />
         <span className="text-[10px] font-medium">{isRtl ? 'الأسعار' : 'Pricing'}</span>
       </Link>
 
@@ -45,7 +45,7 @@ export const BottomNavBar: React.FC = () => {
           <Plus size={20} strokeWidth={2.5} />
         </div>
         <span className="text-[10px] font-medium text-[#001639] -mt-1">
-          {isRtl ? 'ابدأ' : 'Start'}
+          {isRtl ? 'ابدأ سيرتك' : 'Start Resume'}
         </span>
       </button>
     </nav>

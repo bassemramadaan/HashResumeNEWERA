@@ -240,7 +240,7 @@ export default function PaymentSuccessPage() {
                 </div>
                 <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200/50 p-0.5">
                   <div 
-                    className="h-full bg-gradient-to-r from-orange-500 to-[#001639] rounded-full transition-all duration-1000"
+                    className="h-full bg-gradient-to-r from-[#001639] to-[#000a1b] rounded-full transition-all duration-1000"
                     style={{ width: `${verificationProgress}%` }}
                   />
                 </div>
@@ -383,7 +383,7 @@ export default function PaymentSuccessPage() {
               <div className="pt-6 border-t border-slate-100 max-w-md mx-auto space-y-3">
                 <Link
                   to="/editor?download=pdf"
-                  className="w-full bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:scale-98"
+                  className="w-full bg-gradient-to-r from-[#001639] to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] text-white py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:scale-98"
                 >
                   <Download size={16} className="animate-bounce" />
                   <span>{isAr ? "تحميل السيرة الذاتية PDF الآن 🚀" : "Download Resume PDF Now 🚀"}</span>

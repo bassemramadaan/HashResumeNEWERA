@@ -23,8 +23,8 @@ export default function TermsOfServicePage() {
 
       <main className="flex-1 max-w-4xl mx-auto px-6 sm:px-6 lg:px-8 py-24 md:py-32">
         <div className="text-center mb-16">
-          <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <Scale className="w-10 h-10 text-indigo-600" />
+          <div className="w-20 h-20 bg-brand-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Scale className="w-10 h-10 text-brand-600" />
           </div>
           <h1 className="text-4xl md:text-5xl font-black font-display mb-6">
             {isAr ? "شروط الخدمة" : "Terms of Service"}

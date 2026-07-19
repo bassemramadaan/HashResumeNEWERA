@@ -37,7 +37,7 @@ export function CTASection({ lang }: { lang: AppLang }) {
         <div className="bg-slate-900 rounded-[3rem] p-6 xs:p-10 sm:p-16 lg:p-20 text-center relative overflow-hidden shadow-2xl">
           
           <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-[500px] h-[500px] bg-[#001639] rounded-full blur-[100px] opacity-30 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/3 w-[400px] h-[400px] bg-indigo-500 rounded-full blur-[100px] opacity-20 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/3 w-[400px] h-[400px] bg-brand-500 rounded-full blur-[100px] opacity-20 pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-bold text-white uppercase tracking-widest backdrop-blur-md mb-8">
@@ -55,7 +55,7 @@ export function CTASection({ lang }: { lang: AppLang }) {
 
             <div className="flex flex-col items-center gap-3">
               <Link
-                to="/editor"
+                to="/templates"
                 className="bg-[#001639] hover:bg-blue-700 active:scale-95 text-white inline-flex items-center justify-center gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg transition-all shadow-xl shadow-blue-500/25 w-full sm:w-auto"
               >
                 <span>{c.cta}</span>

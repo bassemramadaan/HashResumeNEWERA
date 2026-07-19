@@ -13,40 +13,40 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="bg-zinc-900 text-slate-500 py-10 border-t border-zinc-800 pb-safe">
+      <footer className="bg-zinc-900 text-slate-300 pt-10 pb-24 lg:pb-10 border-t border-zinc-800 pb-safe">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-10">
-            <div className="sm:col-span-2 lg:col-span-4">
+          <div className="grid grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-10">
+            <div className="col-span-2 lg:col-span-4">
               <div className="flex flex-col items-start mb-4">
                 <Link to="/" className="inline-block transform origin-left rtl:origin-right hover:scale-105 transition-transform mb-2">
                   <img width="200" height="68" src="https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png" alt="Hash Resume" className="h-[55px] md:h-[68px] w-[auto] object-contain pointer-events-none brightness-100" loading="lazy" decoding="async" />
                 </Link>
               </div>
-              <p className="text-sm max-w-sm mb-4">{t.footerDesc}</p>
-              <div className="text-sm text-slate-500 space-y-1">
+              <p className="text-sm max-w-sm mb-4 text-slate-400">{t.footerDesc}</p>
+              <div className="text-sm text-slate-400 space-y-1">
                 <p>
-                  <span className="font-semibold text-slate-400">{t.emailLabel}</span> <span dir="ltr" className="inline-block text-slate-400 select-all">support@hashresume.com</span>
+                  <span className="font-semibold text-slate-300">{t.emailLabel}</span> <span dir="ltr" className="inline-block text-slate-300 select-all">support@hashresume.com</span>
                 </p>
                 <p>
-                  <span className="font-semibold text-slate-300">{t.phoneLabel}</span> <span dir="ltr" className="inline-block text-slate-400 select-all">+20 110 100 7965</span>
+                  <span className="font-semibold text-slate-300">{t.phoneLabel}</span> <span dir="ltr" className="inline-block text-slate-300 select-all">+20 110 100 7965</span>
                 </p>
               </div>
             </div>
 
-            <div className="flex flex-col lg:col-span-2">
+            <div className="flex flex-col col-span-1 lg:col-span-2">
               <h4 className="text-white font-semibold mb-4">{t.aboutUs}</h4>
               <p dir="auto" className="text-sm text-slate-400 leading-relaxed">
                 {t.aboutUsDesc}
               </p>
             </div>
 
-            <div className="flex flex-col lg:col-span-2">
+            <div className="flex flex-col col-span-1 lg:col-span-2">
               <h4 className="text-white font-semibold mb-4">{t.product}</h4>
               <ul className="space-y-2 text-sm">
                 <li>
                   <Link
                     to="/editor"
-                    className="hover:text-[#001639] transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {t.resumeBuilder || "Resume Builder"}
                   </Link>
@@ -54,7 +54,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/blog"
-                    className="hover:text-[#001639] transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {t.blog || "Blog"}
                   </Link>
@@ -62,7 +62,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/hash-hunt"
-                    className="hover:text-[#001639] transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {t.hashHuntJobs || "Hash Hunt"}
                   </Link>
@@ -73,7 +73,7 @@ export default function Footer() {
                       e.preventDefault();
                       setShowFeedbackModal(true);
                     }}
-                    className="hover:text-[#001639] transition-colors text-start w-full"
+                    className="text-slate-400 hover:text-white transition-colors text-start w-full cursor-pointer"
                   >
                     {t.feedback}
                   </button>
@@ -81,7 +81,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div className="flex flex-col lg:col-span-3">
+            <div className="flex flex-col col-span-1 lg:col-span-3">
               <h4 className="text-white font-semibold mb-4">
                 {t.trustAndSafety}
               </h4>
@@ -89,7 +89,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/trust"
-                    className="hover:text-[#001639] transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {t.trustAndTransparency}
                   </Link>
@@ -97,7 +97,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/privacy"
-                    className="hover:text-[#001639] transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {t.privacyPolicy}
                   </Link>
@@ -105,7 +105,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/terms"
-                    className="hover:text-[#001639] transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {t.termsOfService}
                   </Link>
@@ -113,7 +113,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/how-ats-works"
-                    className="hover:text-[#001639] transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {t.howAtsWorks}
                   </Link>
@@ -121,7 +121,7 @@ export default function Footer() {
                 <li>
                   <Link
                     to="/faq"
-                    className="hover:text-[#001639] transition-colors"
+                    className="text-slate-400 hover:text-white transition-colors"
                   >
                     {t.faq}
                   </Link>
@@ -129,14 +129,14 @@ export default function Footer() {
               </ul>
             </div>
 
-            <div className="flex flex-col lg:col-span-2">
+            <div className="flex flex-col col-span-1 lg:col-span-2">
               <h4 className="text-white font-semibold mb-4">{t.connect}</h4>
               <div className="flex flex-wrap gap-3 items-center">
                 <a
                   href="https://www.linkedin.com/company/hashresume"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
+                  className="p-2 inline-flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
                   aria-label="LinkedIn"
                 >
                   <Linkedin size={24} />
@@ -145,7 +145,7 @@ export default function Footer() {
                   href="https://twitter.com/hashresume"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
+                  className="p-2 inline-flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
                   aria-label="Twitter"
                 >
                   <Twitter size={24} />
@@ -154,7 +154,7 @@ export default function Footer() {
                   href="https://www.facebook.com/hashsocialmarketing"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
+                  className="p-2 inline-flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
                   aria-label="Facebook"
                 >
                   <Facebook size={24} />
@@ -163,7 +163,7 @@ export default function Footer() {
                   href="https://www.instagram.com/hashsocialmarketing/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
+                  className="p-2 inline-flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all"
                   aria-label="Instagram"
                 >
                   <Instagram size={24} />
@@ -172,7 +172,7 @@ export default function Footer() {
                   href="https://wa.me/201101007965"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 inline-flex items-center justify-center text-slate-450 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all relative group"
+                  className="p-2 inline-flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 border border-transparent hover:border-slate-700/50 rounded-xl transition-all relative group"
                   aria-label="WhatsApp"
                 >
                   <MessageCircle size={24} />
@@ -183,10 +183,10 @@ export default function Footer() {
               </div>
             </div>
           </div>
-          <div className="pt-6 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4 pb-20">
+          <div className="pt-6 border-t border-slate-800 text-sm flex flex-col md:flex-row justify-between items-center gap-4 pb-24 lg:pb-6 text-slate-400">
             <div className="flex flex-wrap items-center gap-4">
               <p>
-                © {new Date().getFullYear()}{" "}{t.rightsReserved}
+                {"© "}{new Date().getFullYear()}{" "}{t.rightsReserved}
               </p>
             </div>
             <div className="flex items-center gap-6">

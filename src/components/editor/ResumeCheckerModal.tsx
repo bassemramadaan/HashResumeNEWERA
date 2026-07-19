@@ -102,7 +102,33 @@ export default function ResumeCheckerModal({
   ];
 
   const failedChecks = checks.filter((c) => !c.passed);
-  const baseScore = Math.round(((checks.length - failedChecks.length) / checks.length) * 100);
+  
+  // 1. Keywords (out of 30)
+  const keywordsScore = Math.round(
+    ((skills?.length || 0) >= 5 ? 15 : (skills?.length || 0) * 3) +
+    ((personalInfo?.summary?.length || 0) > 40 ? 10 : 5) +
+    ((experience?.length || 0) > 0 ? 5 : 0)
+  ); // out of 30
+
+  // 2. Structure & Formatting (out of 25)
+  const structureScore = Math.round(
+    (personalInfo?.email ? 7 : 0) +
+    (personalInfo?.phone ? 7 : 0) +
+    ((experience && experience.length > 0) ? 6 : 0) +
+    ((education && education.length > 0) ? 5 : 0)
+  ); // out of 25
+
+  // 3. Length (out of 20)
+  const totalLength = (personalInfo?.summary?.length || 0) + 
+                      (experience || []).reduce((acc, e) => acc + (e.description?.length || 0), 0);
+  const lengthScore = totalLength > 300 ? 20 : totalLength > 100 ? 12 : 5; // out of 20
+
+  // 4. Skills (out of 25)
+  const skillsScore = Math.round(
+    Math.min(25, ((skills?.length || 0) * 2.5) + ((skills?.length || 0) >= 8 ? 5 : 0))
+  ); // out of 25
+
+  const baseScore = Math.min(100, keywordsScore + structureScore + lengthScore + skillsScore);
 
   const displayScore = aiResult ? aiResult.score : baseScore;
 
@@ -304,6 +330,61 @@ Skills: ${(skills || []).map(s => s.name).join(", ")}
                       ? "فحص فوري ذكي لعناصر سيرتك الذاتية لضمان تفوقها وتجاوزها لفلترة أنظمة التوظيف بنجاح." 
                       : "A smart diagnostic evaluating your layout structure and contents to bypass typical applicant screen systems."}
                   </p>
+                </div>
+              </div>
+
+              {/* ATS Score Breakdown with animated progress bars */}
+              <div className="bg-white p-5 rounded-2xl border border-neutral-100 shadow-xs space-y-4" style={{ direction: isAr ? "rtl" : "ltr" }}>
+                <h3 className="text-xs font-black text-neutral-800 uppercase tracking-wider">
+                  {isAr ? "تفاصيل تقييم الـ ATS" : "ATS Score Breakdown"}
+                </h3>
+                <div className="grid grid-cols-1 gap-3.5">
+                  {[
+                    { 
+                      label: isAr ? "الكلمات المفتاحية" : "Keywords", 
+                      score: keywordsScore, 
+                      max: 30, 
+                      pct: Math.round((keywordsScore / 30) * 100),
+                      color: "from-blue-500 to-indigo-500"
+                    },
+                    { 
+                      label: isAr ? "البنية والتنسيق" : "Structure & Formatting", 
+                      score: structureScore, 
+                      max: 25, 
+                      pct: Math.round((structureScore / 25) * 100),
+                      color: "from-emerald-500 to-teal-500"
+                    },
+                    { 
+                      label: isAr ? "طول السيرة الذاتية" : "Resume Length", 
+                      score: lengthScore, 
+                      max: 20, 
+                      pct: Math.round((lengthScore / 20) * 100),
+                      color: "from-purple-500 to-pink-500"
+                    },
+                    { 
+                      label: isAr ? "قسم المهارات" : "Skills Section", 
+                      score: skillsScore, 
+                      max: 25, 
+                      pct: Math.round((skillsScore / 25) * 100),
+                      color: "from-amber-500 to-orange-500"
+                    }
+                  ].map((item, idx) => (
+                    <div key={idx} className="space-y-1.5">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="font-bold text-neutral-700">{item.label}</span>
+                        <span className="font-extrabold text-neutral-900 font-mono">{item.score}/{item.max} ({item.pct}%)</span>
+                      </div>
+                      <div className="h-2 w-full bg-neutral-100 rounded-full overflow-hidden relative">
+                        <motion.div
+                          className={`absolute top-0 bottom-0 bg-gradient-to-r ${item.color} rounded-full`}
+                          style={{ left: isAr ? "auto" : 0, right: isAr ? 0 : "auto" }}
+                          initial={{ width: 0 }}
+                          animate={{ width: `${item.pct}%` }}
+                          transition={{ duration: 0.8, delay: idx * 0.1 }}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 

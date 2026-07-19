@@ -8,7 +8,8 @@ import {
   ChevronDown, 
   Globe, 
   FileText, 
-  Search
+  Search,
+  MessageCircle
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
@@ -25,7 +26,7 @@ interface NavbarProps {
 export function Navbar({ onStartClick }: NavbarProps = {}) {
   const { language: lang, setLanguage: onLangChange } = useLanguageStore()
   const navigate = useNavigate()
-  const handleStart = onStartClick || (() => navigate('/editor'))
+  const handleStart = onStartClick || (() => navigate('/templates'))
   const [mobileOpen, setMobileOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -87,7 +88,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         desc: lang === 'ar' ? 'متابعة التقديمات، الإحالات، والأكواد المدفوعة' : 'Track resume slots, application stages & free reward exports'
       },
       {
-        label: lang === 'ar' ? 'فرص العمل (هاش هانت)' : lang === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
+        label: lang === 'ar' ? 'احصل على وظيفتك التالية' : lang === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
         href: '/hash-hunt',
         badge: lang === 'ar' ? 'جديد' : 'NEW',
         color: 'brand',
@@ -117,11 +118,11 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         : "bg-white/95 border-slate-100 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between relative h-24 sm:h-28">
+        <div className="flex items-center justify-between relative h-14 sm:h-20">
 
           {/* Left: Nav items */}
           <div className="hidden lg:flex flex-1 items-center justify-end gap-6">
-            <Link to="/editor" className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-all">
+            <Link to="/templates" className="text-sm font-bold text-slate-700 hover:text-brand-600 transition-all">
               {lang === 'ar' ? 'إنشاء سيرة' : 'Create Resume'}
             </Link>
 
@@ -136,7 +137,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <img
                 src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
                 alt="Hash Resume"
-                className="h-[96px] sm:h-[112px] w-auto object-contain"
+                className="h-[36px] sm:h-[48px] md:h-[64px] w-auto object-contain"
               />
             </Link>
           </div>
@@ -167,6 +168,18 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 </div>
               </div>
             </div>
+
+            {/* WhatsApp Contact */}
+            <a
+              href="https://wa.me/201101007965"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:bg-emerald-50 border border-emerald-100/40 px-3 py-2 rounded-xl font-bold text-emerald-600 hover:text-emerald-700 transition-all flex items-center gap-1.5 text-xs sm:text-sm cursor-pointer"
+              title={lang === 'ar' ? 'تواصل معنا عبر واتساب' : 'Contact us on WhatsApp'}
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span className="hidden sm:inline">WhatsApp</span>
+            </a>
 
             {/* Language Switcher */}
             <div className="relative">

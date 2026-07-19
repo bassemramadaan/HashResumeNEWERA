@@ -282,7 +282,7 @@ function doPost(e) {
       author: isRtl ? "أحمد حسين" : "Ahmed Hassan",
       role: isRtl ? "مطور واجهات · القاهرة" : "Frontend Developer · Cairo",
       av: "أح",
-      avBg: "from-orange-400 to-[#001639]",
+      avBg: "from-[#001639] to-[#000a1b]",
     },
     {
       stars: 5,
@@ -303,10 +303,9 @@ function doPost(e) {
   ];
 
   const stats = [
-    { num: "2,400+", label: isRtl ? "مرشح تم توظيفه" : "Candidates placed" },
-    { num: "50+", label: isRtl ? "شركة شريكة" : "Partner companies" },
-    { num: "48hr", label: isRtl ? "متوسط أول رد" : "Avg. first response" },
-    { num: "15", label: isRtl ? "دولة عربية مغطاة" : "Arab countries covered" }
+    { num: "2,400+", label: isRtl ? "مترشح تم توظيفه" : "Candidates placed", icon: Users2 },
+    { num: "85+", label: isRtl ? "شركة شريكة" : "Partner companies", icon: Target },
+    { num: "120+", label: isRtl ? "وظيفة شاغرة" : "Active job roles", icon: Briefcase }
   ];
 
   // Auto-populate form states if the user already has a built resume in their local store
@@ -531,13 +530,21 @@ function doPost(e) {
             </a>
           </div>
 
-          <div className="flex gap-8 flex-wrap justify-center lg:justify-start">
-            {stats.map((s, i) => (
-              <div key={i} className="flex flex-col text-center lg:text-start bg-white/50 backdrop-blur-xs px-5 py-3.5 rounded-2xl border border-slate-200/40 shadow-3xs min-w-[120px]">
-                <span className="text-3xl font-extrabold text-slate-900 tracking-tight">{s.num}</span>
-                <span className="text-xs text-slate-500 font-bold mt-1 tracking-wide">{s.label}</span>
-              </div>
-            ))}
+          <div className="flex gap-4 sm:gap-6 flex-wrap justify-center lg:justify-start">
+            {stats.map((s, i) => {
+              const IconComponent = s.icon;
+              return (
+                <div key={i} className="flex items-center gap-3.5 bg-white/90 backdrop-blur-md px-5 py-4 rounded-2xl border border-slate-200/80 shadow-md min-w-[170px] hover:border-orange-500/30 transition-all duration-300">
+                  <div className="w-12 h-12 rounded-xl bg-[#001639]/5 text-[#001639] flex items-center justify-center shrink-0">
+                    <IconComponent size={22} strokeWidth={2} />
+                  </div>
+                  <div className="flex flex-col text-start">
+                    <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-none">{s.num}</span>
+                    <span className="text-xs text-slate-600 font-bold mt-1.5 tracking-wide uppercase leading-none">{s.label}</span>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </motion.div>
 
@@ -896,24 +903,25 @@ function doPost(e) {
         </section>
       )}
 
-      {/* ── HOW IT WORKS SECTION ── */}
+      {/* ── UNIFIED JOURNEY SECTION ── */}
       <section id="how-it-works" className="py-24 bg-white border-b border-slate-200/50 relative scroll-mt-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16 max-w-2xl mx-auto">
             <span className="inline-flex bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
-              {isRtl ? "منهجية العمل المتكاملة" : "Matching Methodology"}
+              {isRtl ? "رحلتك المباشرة" : "Your Direct Journey"}
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight mb-4 tracking-tight">
-              {isRtl ? "3 خطوات بسيطة لوظيفتك القادمة" : "3 steps to your dream role"}
+              {isRtl ? "كيف تعمل المنصة وسر الحصول على رد سريع" : "How it works & the secret of fast response"}
             </h2>
             <p className="text-slate-500 text-sm font-medium max-w-xl mx-auto leading-relaxed">
               {isRtl 
-                ? "تجنب تمامًا خطابات التغطية الطويلة والتقديمات المرهقة في المنصات العادية، اترك سيرتك والذكاء الاصطناعي يقوم بالمهمة."
-                : "No cover letters, no standard ghosting job boards. Just upload your verified CV and let employers target you."}
+                ? "بـ 3 خطوات فقط، نضع ملفك المهني مباشرة أمام صانعي القرار ونضمن لك ردوداً فائقة السرعة بخصوص مقابلتك القادمة."
+                : "In just 3 simple steps, we place your professional profile directly in front of decision-makers for guaranteed fast responses."}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          {/* The 3 Steps Cards */}
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
             {steps.map((s, i) => {
               const IconComp = s.icon;
               return (
@@ -937,39 +945,29 @@ function doPost(e) {
               );
             })}
           </div>
-        </div>
-      </section>
 
-      {/* ── BENEFITS SECTION ── */}
-      <section className="py-24 bg-slate-50 border-b border-slate-200/40">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-12 max-w-3xl mx-auto text-center mb-10">
-            <span className="inline-flex bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
-              {isRtl ? "مزايا لم تجدها في مكان آخر" : "Unique advantages"}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight tracking-tight mb-4">
-              {isRtl ? "سر الرد ومقابلات العمل السريعة" : "The secret behind fast interviews"}
-            </h2>
-            <p className="text-slate-500 font-medium max-w-xl mx-auto text-sm leading-relaxed">
-              {isRtl ? "نحن نضع مهاراتك بشكل منسق مباشرة تحت أنظار صانعي القرار لرفع فرصة المقابلة." : "We connect your expertise directly in front of real hiring decision makers."}
-            </p>
-          </div>
-
-          <div className="lg:col-span-12 grid md:grid-cols-3 gap-8">
-            {benefits.map((b, i) => {
-              const BenefIcon = b.icon;
-              return (
-                <div key={i} className="flex flex-col gap-4 p-6 bg-white border border-slate-200/50 rounded-2xl hover:border-slate-300 transition-all">
-                  <div className="w-10 h-10 bg-[#001639]/5 rounded-xl flex items-center justify-center text-[#001639] shrink-0">
-                    <BenefIcon size={18} className="stroke-[1.5]" />
+          {/* Unique Advantages Sub-grid */}
+          <div className="border-t border-slate-100 pt-16">
+            <div className="text-center mb-10">
+              <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">{isRtl ? "مزايا حصرية لمضاعفة فرص الرد" : "Exclusive advantages to double your response rates"}</h3>
+              <p className="text-slate-500 text-xs sm:text-sm">{isRtl ? "لماذا يفضل مهندسو البرمجيات والشركات منصة هاش هانت؟" : "Why engineers and tech companies prefer Hash Hunt?"}</p>
+            </div>
+            <div className="grid md:grid-cols-3 gap-8">
+              {benefits.map((b, i) => {
+                const BenefIcon = b.icon;
+                return (
+                  <div key={i} className="flex flex-col gap-4 p-6 bg-[#FAFAF6]/60 border border-slate-200/50 rounded-2xl hover:border-slate-300 transition-all">
+                    <div className="w-10 h-10 bg-[#001639]/5 rounded-xl flex items-center justify-center text-[#001639] shrink-0">
+                      <BenefIcon size={18} className="stroke-[1.5]" />
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900 mb-1 leading-snug">{b.title}</h4>
+                      <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">{b.desc}</p>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-sm font-bold text-slate-900 mb-1 leading-snug">{b.title}</h4>
-                    <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed">{b.desc}</p>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -1321,9 +1319,9 @@ function doPost(e) {
               </div>
 
               {/* Unique drag/drop uploader */}
-              <div className="space-y-1">
-                <label className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block">
-                  {isRtl ? "تحميل ملف السيرة الذاتية المبنية بالذكاء الاصطناعي (PDF/Word) *" : "Your AI-Optimized Resume (PDF/Word) *"}
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-555 uppercase tracking-wider block">
+                  {isRtl ? "تحميل ملف السيرة الذاتية *" : "Upload Resume File *"}
                 </label>
                 
                 <div 
@@ -1332,10 +1330,10 @@ function doPost(e) {
                   onDragLeave={handleDrag}
                   onDrop={handleDrop}
                   onClick={triggerFileInput}
-                  className={`border-2 border-dashed rounded-xl py-6 px-4 text-center cursor-pointer transition-all duration-300 group bg-white ${
+                  className={`border-2 border-dashed rounded-xl py-5 px-4 text-center cursor-pointer transition-all duration-300 group bg-white ${
                     dragActive 
                       ? "border-[#001639] bg-[#001639]/5 scale-[0.99]" 
-                      : "border-slate-200 hover:border-[#001639]/30 hover:bg-[#001639]/[0.01]"
+                      : "border-slate-200 hover:border-[#001639]/40 hover:bg-slate-50/50"
                   }`}
                 >
                   <input 
@@ -1347,11 +1345,11 @@ function doPost(e) {
                   />
                   
                   {resumeFile ? (
-                    <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2">
-                        <FileText size={20} />
+                    <div className="flex flex-col items-center py-2">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2 shadow-sm">
+                        <CheckCircle2 size={20} />
                       </div>
-                      <div className="text-xs font-semibold text-slate-800 mb-1 max-w-full truncate px-4">
+                      <div className="text-xs font-bold text-slate-800 mb-1 max-w-full truncate px-4">
                         {resumeFile.name}
                       </div>
                       <div className="text-[10px] text-slate-400 font-medium flex items-center gap-1">
@@ -1364,23 +1362,20 @@ function doPost(e) {
                           e.stopPropagation();
                           setResumeFile(null);
                         }}
-                        className="mt-2 text-xs font-bold text-[#001639] hover:underline"
+                        className="text-xs text-rose-500 hover:text-rose-600 font-bold mt-1.5 underline"
                       >
-                        {isRtl ? "حذف وتغيير الملف" : "Remove & change file"}
+                        {isRtl ? "تغيير الملف ✕" : "Change file ✕"}
                       </button>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center">
-                      <div className="w-10 h-10 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-center mb-2 group-hover:scale-105 transition-transform text-lg shadow-2xs">
-                        📎
+                    <div className="flex flex-col items-center py-3">
+                      <span className="text-2xl mb-1.5 select-none animate-pulse">⚡</span>
+                      <div className="text-xs font-bold text-slate-800 leading-snug">
+                        {isRtl ? "اختر أو اسحب ملف السيرة الذاتية هنا" : "Choose or drag your resume file here"}
                       </div>
-                      <div className="text-xs font-semibold text-slate-700 mb-1 leading-snug">
-                        {isRtl ? "اسحب سيرتك المتوافقة هنا أو" : "Drop your optimized file here, or"}{" "}
-                        <span className="text-[#001639] group-hover:underline">{isRtl ? "تصفح جهازك" : "click to browse"}</span>
-                      </div>
-                      <div className="text-[10px] text-slate-400 font-normal leading-relaxed">
-                        PDF or WORD &bull; {isRtl ? "الحجم الأقصى 5 ميجابايت" : "Maximum file size: 5MB"}
-                      </div>
+                      <p className="text-[10px] text-slate-400 font-medium mt-1">
+                        {isRtl ? "الفرز الفوري مدعوم لـ PDF و Word" : "Instant extraction supports PDF & Word"}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -1420,47 +1415,49 @@ function doPost(e) {
       </section>
 
       {/* ── REAL TESTIMONIALS SLIDER SECTION  ── */}
-      <section className="py-24 bg-slate-50 border-t border-slate-200/40">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16 max-w-2xl mx-auto">
-            <span className="inline-flex bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
-              {isRtl ? "مراجعات وقصص مستخدمينا" : "Social proof"}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight tracking-tight mb-4">
-              {isRtl ? "أعضاء تجاوزوا محرك الـ ATS وحصلوا على عروض" : "Users who bypassed ATS and secured offers"}
-            </h2>
-          </div>
+      {testimonials && testimonials.length > 0 && testimonials.some(t => t.text && t.author) && (
+        <section className="py-24 bg-slate-50 border-t border-slate-200/40">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="text-center mb-16 max-w-2xl mx-auto">
+              <span className="inline-flex bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
+                {isRtl ? "مراجعات وقصص مستخدمينا" : "Social proof"}
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight tracking-tight mb-4">
+                {isRtl ? "أعضاء تجاوزوا محرك الـ ATS وحصلوا على عروض" : "Users who bypassed ATS and secured offers"}
+              </h2>
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((t, i) => (
-              <div key={i} className="bg-white border border-slate-200/40 rounded-2xl p-7 flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-300">
-                <div className="flex items-center gap-1 text-amber-550 mb-4 text-sm">
-                  {[...Array(t.stars)].map((_, idx) => (
-                    <span key={idx}>★</span>
-                  ))}
-                </div>
-                <p className="text-slate-600 text-xs sm:text-sm leading-relaxed italic mb-6 flex-1">
-                  {t.text}
-                </p>
-                <div className="flex items-center gap-3 border-t border-slate-100 pt-5">
-                  <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${t.avBg} text-white flex items-center justify-center font-bold text-xs shrink-0`}>
-                    {t.av}
+            <div className="grid md:grid-cols-3 gap-8">
+              {testimonials.map((t, i) => (
+                <div key={i} className="bg-white border border-slate-200/40 rounded-2xl p-7 flex flex-col justify-between shadow-xs hover:shadow-lg transition-all duration-300">
+                  <div className="flex items-center gap-1 text-amber-550 mb-4 text-sm">
+                    {[...Array(t.stars)].map((_, idx) => (
+                      <span key={idx}>★</span>
+                    ))}
                   </div>
-                  <div>
-                    <h5 className="text-sm font-bold text-slate-800 leading-none">{t.author}</h5>
-                    <span className="text-[10px] text-slate-400 font-semibold mt-1 block">{t.role}</span>
+                  <p className="text-slate-600 text-xs sm:text-sm leading-relaxed italic mb-6 flex-1">
+                    {t.text}
+                  </p>
+                  <div className="flex items-center gap-3 border-t border-slate-100 pt-5">
+                    <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${t.avBg} text-white flex items-center justify-center font-bold text-xs shrink-0`}>
+                      {t.av}
+                    </div>
+                    <div>
+                      <h5 className="text-sm font-bold text-slate-800 leading-none">{t.author}</h5>
+                      <span className="text-[10px] text-slate-400 font-semibold mt-1 block">{t.role}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── FOOTER INTERACTIVE INJECTION SECTION ── */}
       <section className="py-20 bg-slate-950 text-center px-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#001639]/5 blur-[130px] rounded-full translate-x-1/3 -translate-y-1/3" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-500/5 blur-[120px] rounded-full -translate-x-1/3 translate-y-1/3" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-500/5 blur-[120px] rounded-full -translate-x-1/3 translate-y-1/3" />
         
         <div className="relative z-10 max-w-2xl mx-auto">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-tight mb-5">

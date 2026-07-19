@@ -148,7 +148,7 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
         <div>
           <h4 className="font-bold text-slate-800 flex items-center gap-2">
-            <TrendingUp size={18} className="text-indigo-600" />
+            <TrendingUp size={18} className="text-brand-600" />
             {language === "ar" ? "مؤشر فجوة المهارات الفعلي (ATS)" : "Real-time Skill Gap Mirror & ATS Analysis"}
           </h4>
           <p className="text-xs text-slate-500 mt-1">
@@ -161,7 +161,7 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
         <button
           onClick={runAnalysisSteps}
           disabled={loading || !jobDescription.trim()}
-          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-colors disabled:opacity-50 font-bold text-xs"
+          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-colors disabled:opacity-50 font-bold text-xs"
         >
           {loading ? (
             <Loader2 className="animate-spin" size={14} />
@@ -179,11 +179,11 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="p-5 bg-indigo-50/50 rounded-xl border border-indigo-100 space-y-4"
+            className="p-5 bg-brand-50/50 rounded-xl border border-brand-100 space-y-4"
           >
             <div className="flex items-center gap-3">
-              <Loader2 className="animate-spin text-indigo-600" size={18} />
-              <span className="text-xs font-bold text-indigo-900 uppercase tracking-wider">
+              <Loader2 className="animate-spin text-brand-600" size={18} />
+              <span className="text-xs font-bold text-brand-900 uppercase tracking-wider">
                 {language === "ar" ? "جاري محاكاة وتحليل قارئات الـ ATS..." : "Analyzing with AI..."}
               </span>
             </div>
@@ -199,8 +199,8 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
                 const isPassed = currentStep > step.id;
                 return (
                   <div key={step.id} className="flex items-center gap-2 text-xs">
-                    <span className={`w-2 h-2 rounded-full ${isPassed ? "bg-emerald-500" : isActive ? "bg-indigo-600 animate-ping" : "bg-slate-300"}`} />
-                    <span className={isPassed ? "text-slate-400 line-through" : isActive ? "text-indigo-900 font-bold" : "text-slate-500"}>
+                    <span className={`w-2 h-2 rounded-full ${isPassed ? "bg-emerald-500" : isActive ? "bg-brand-600 animate-ping" : "bg-slate-300"}`} />
+                    <span className={isPassed ? "text-slate-400 line-through" : isActive ? "text-brand-900 font-bold" : "text-slate-500"}>
                       {language === "ar" ? step.ar : step.en}
                     </span>
                   </div>
@@ -259,7 +259,7 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
                     <button
                       key={i}
                       onClick={() => handleAddSkill(kw)}
-                      className="px-2 py-1 bg-slate-50 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-300 transition-colors text-slate-600 text-[10px] font-bold rounded-lg border border-slate-200 flex items-center gap-1 cursor-pointer"
+                      className="px-2 py-1 bg-slate-50 hover:bg-brand-50 hover:text-brand-700 hover:border-brand-300 transition-colors text-slate-600 text-[10px] font-bold rounded-lg border border-slate-200 flex items-center gap-1 cursor-pointer"
                       title={language === "ar" ? "إضافة هذه المهارة لسيرتك الذاتية" : "Click to inject this keyword as a skill"}
                     >
                       <Plus size={10} />
@@ -283,20 +283,20 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             
             {/* Score & Seniority */}
-            <div className="p-5 bg-indigo-50/30 rounded-2xl border border-indigo-100 flex flex-col justify-between">
+            <div className="p-5 bg-brand-50/30 rounded-2xl border border-brand-100 flex flex-col justify-between">
               <div>
                 <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-1">
                   {language === "ar" ? "درجة التقييم النهائي للـ ATS" : "Final AI ATS Check Score"}
                 </span>
-                <div className="text-5xl font-black text-indigo-600">
+                <div className="text-5xl font-black text-brand-600">
                   {result.score}/100
                 </div>
               </div>
-              <div className="mt-4 pt-4 border-t border-indigo-100 flex items-center justify-between">
+              <div className="mt-4 pt-4 border-t border-brand-100 flex items-center justify-between">
                 <span className="text-xs text-slate-500 font-medium">
                   {language === "ar" ? "التقييم التقريبي للمستوى:" : "Audited Role Compatibility:"}
                 </span>
-                <span className="px-2.5 py-1 bg-indigo-100 text-indigo-800 text-xs font-black rounded-lg">
+                <span className="px-2.5 py-1 bg-brand-100 text-brand-800 text-xs font-black rounded-lg">
                   {result.seniorityFit}
                 </span>
               </div>
@@ -332,7 +332,7 @@ export const ATSAnalyzer: React.FC<ATSAnalyzerProps> = ({
                     className="px-3 py-1.5 bg-white hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-300 text-slate-600 text-xs font-bold rounded-xl border border-slate-200 transition-all flex items-center gap-1.5 shadow-xs cursor-pointer active:scale-95"
                     title={language === "ar" ? "إضافة هذه المهارة لسيرتك الذاتية" : "Incorporate instantly into skills"}
                   >
-                    <Plus size={12} className="text-indigo-500" />
+                    <Plus size={12} className="text-brand-500" />
                     {kw}
                   </button>
                 ))

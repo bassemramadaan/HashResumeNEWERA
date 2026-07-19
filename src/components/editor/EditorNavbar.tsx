@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Loader2, RotateCcw, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Loader2, RotateCcw, AlertCircle, Eye, EyeOff, MessageCircle } from "lucide-react";
 import type { AppLang } from "../../hooks/useDirection";
 import { cn } from "../../lib/utils";
 
@@ -135,8 +135,19 @@ export default function EditorNavbar({
           </div>
         </div>
         
-        {/* Right side: Focus Mode Toggle */}
+        {/* Right side: Focus Mode Toggle & WhatsApp */}
         <div className="flex-1 hidden md:flex items-center justify-end gap-3">
+          <a
+            href="https://wa.me/201101007965"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:bg-emerald-50 border border-emerald-100/40 px-3 py-1.5 rounded-full font-bold text-emerald-600 hover:text-emerald-700 transition-all flex items-center gap-1.5 text-xs cursor-pointer shadow-xs bg-white"
+            title={lang === 'ar' ? 'تواصل معنا عبر واتساب' : 'Contact us on WhatsApp'}
+          >
+            <MessageCircle className="w-3.5 h-3.5" />
+            <span>WhatsApp</span>
+          </a>
+
           <motion.button
             whileHover={{ scale: 1.02, y: -1 }}
             whileTap={{ scale: 0.98 }}

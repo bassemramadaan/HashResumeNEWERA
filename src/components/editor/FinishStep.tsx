@@ -17,7 +17,6 @@ import {
   Compass,
   ChevronDown,
   ChevronUp,
-  AlertCircle,
   Check,
   Wand2
 } from "lucide-react";
@@ -70,7 +69,7 @@ export default function FinishStep({
       desc: isAr 
         ? "حضّر سؤالين أو ثلاثة للمحاورين يُظهران عمق فهمك للوظيفة، مثل: 'ما هو التحدي الأكبر الذي سيواجه من يستلم هذا الدور في أول 90 يوماً؟'"
         : "Ask back strategic questions: 'What does success look like for this role in the first 90 days?' to show proactivity.",
-      icon: <Compass className="w-5 h-5 text-indigo-500" />
+      icon: <Compass className="w-5 h-5 text-brand-500" />
     },
     {
       title: isAr ? "4. لغة جسد مهنية بثقة" : "4. Radiant Body Language",
@@ -407,7 +406,7 @@ export default function FinishStep({
               to="/hash-hunt"
               className="flex items-center gap-2 h-10 px-6 bg-[#001639] hover:bg-[#E64528] active:scale-95 transition-all text-white rounded-xl text-xs font-bold cursor-pointer select-none"
             >
-              <span>{isAr ? "دخول مستكشف الفرص الذكي (هاش هانت)" : "Explore Jobs (Hash Hunt)"}</span>
+              <span>{isAr ? "احصل على وظيفتك التالية" : "Get Your Next Job"}</span>
               <ArrowRight size={12} className="rtl:rotate-180" />
             </Link>
           </div>

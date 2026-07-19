@@ -64,9 +64,9 @@ const BADGES: Badge[] = [
     descEn: "Superb! Your resume easily parses through applicant tracking systems.",
     minScore: 85,
     icon: Star,
-    color: "bg-indigo-650",
-    borderColor: "border-indigo-600",
-    glowColor: "shadow-indigo-500/40",
+    color: "bg-brand-650",
+    borderColor: "border-brand-600",
+    glowColor: "shadow-brand-500/40",
   },
   {
     id: "royal",

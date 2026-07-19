@@ -45,31 +45,22 @@ const STEP_ICONS: Record<string, React.ElementType> = {
 // ── Steps definition ──────────────────────────────────────
 const STEPS: Record<Locale, Step[]> = {
   ar: [
-    { id: "basics",         label: "البيانات الأساسية",  shortLabel: "البيانات",  emoji: "👤" },
-    { id: "experience",     label: "الخبرات المهنية",   shortLabel: "الخبرات",   emoji: "💼" },
-    { id: "education",      label: "التعليم والدراسة",   shortLabel: "التعليم",   emoji: "🎓" },
-    { id: "skills",         label: "المهارات والقدرات",  shortLabel: "المهارات",  emoji: "⭐" },
-    { id: "projects",       label: "المشاريع المنجزة",  shortLabel: "المشاريع",  emoji: "🚀" },
-    { id: "certifications", label: "الشهادات والجوائز",  shortLabel: "الشهادات",  emoji: "🏅" },
-    { id: "finish",          label: "التدقيق والتحميل",     shortLabel: "تحميل",     emoji: "📄" },
+    { id: "basics",         label: "المعلومات الشخصية + الملخص",  shortLabel: "المعلومات",  emoji: "👤" },
+    { id: "experience",     label: "الخبرة والتعليم",   shortLabel: "الخبرة والتعليم",   emoji: "💼" },
+    { id: "skills",         label: "المهارات والمشاريع والشهادات",  shortLabel: "المهارات",  emoji: "⭐" },
+    { id: "finish",          label: "المعاينة والتحميل",     shortLabel: "تحميل",     emoji: "📄" },
   ],
   en: [
-    { id: "basics",         label: "Personal Info",      shortLabel: "Basics",  emoji: "👤" },
-    { id: "experience",     label: "Work Experience",  shortLabel: "Exp",     emoji: "💼" },
-    { id: "education",      label: "Education",   shortLabel: "Edu",     emoji: "🎓" },
-    { id: "skills",         label: "Skills & Stack",      shortLabel: "Skills",  emoji: "⭐" },
-    { id: "projects",       label: "Key Projects",    shortLabel: "Proj",    emoji: "🚀" },
-    { id: "certifications", label: "Certifications",       shortLabel: "Certs",   emoji: "🏅" },
-    { id: "finish",          label: "Download Resume",    shortLabel: "Done",    emoji: "📄" },
+    { id: "basics",         label: "Personal Info & Summary",      shortLabel: "Basics",  emoji: "👤" },
+    { id: "experience",     label: "Experience & Education",  shortLabel: "Exp & Edu",     emoji: "💼" },
+    { id: "skills",         label: "Skills, Projects & Certs",      shortLabel: "Skills",  emoji: "⭐" },
+    { id: "finish",          label: "Preview & Download",    shortLabel: "Download",    emoji: "📄" },
   ],
   fr: [
-    { id: "basics",         label: "Infos Personnelles",       shortLabel: "Infos",   emoji: "👤" },
-    { id: "experience",     label: "Expérience Pro",  shortLabel: "Exp",     emoji: "💼" },
-    { id: "education",      label: "Formation et Études",   shortLabel: "Form",    emoji: "🎓" },
-    { id: "skills",         label: "Compétences", shortLabel: "Comp",    emoji: "⭐" },
-    { id: "projects",       label: "Projets Clés",     shortLabel: "Proj",    emoji: "🚀" },
-    { id: "certifications", label: "Certifications",     shortLabel: "Cert",    emoji: "🏅" },
-    { id: "finish",          label: "Téléchargement", shortLabel: "Fin",     emoji: "📄" },
+    { id: "basics",         label: "Infos Personnelles & Résumé",       shortLabel: "Infos",   emoji: "👤" },
+    { id: "experience",     label: "Expérience & Formation",  shortLabel: "Exp & Form",     emoji: "💼" },
+    { id: "skills",         label: "Compétences, Projets & Certifs", shortLabel: "Comp",    emoji: "⭐" },
+    { id: "finish",          label: "Aperçu & Téléchargement", shortLabel: "Fin",     emoji: "📄" },
   ],
 };
 

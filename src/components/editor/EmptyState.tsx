@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Plus } from 'lucide-react';
+import { Plus, FileEdit } from 'lucide-react';
 
 interface EmptyStateProps {
   icon?: React.ReactNode;
@@ -24,7 +24,7 @@ const EmptyState = ({ icon, title, description, buttonText, onAdd }: EmptyStateP
       <motion.div 
         className="w-16 h-16 sm:w-20 sm:h-20 bg-slate-50 border border-slate-100 rounded-2xl flex items-center justify-center text-slate-400 group-hover:text-[#001639] group-hover:scale-110 group-active:scale-95 transition-all duration-500 shadow-sm mb-5 relative z-10"
       >
-        {icon || <div className="text-3xl text-slate-300 group-hover:text-[#001639] transition-colors font-black">+</div>}
+        {icon || <FileEdit size={28} strokeWidth={1.75} className="text-slate-300 group-hover:text-[#001639] transition-colors" />}
       </motion.div>
 
       <h3 className="text-base sm:text-lg font-bold text-slate-900 mb-2 relative z-10 tracking-tight">

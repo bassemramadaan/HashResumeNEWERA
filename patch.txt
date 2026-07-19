@@ -1,0 +1,18 @@
+--- src/pages/Landing/index.tsx
++++ src/pages/Landing/index.tsx
+@@ -9,4 +9,2 @@
+ import LandingAtsTester from '@/components/landing/LandingAtsTester'
+-import SimpleSteps from '@/components/SimpleSteps'
+ import Footer from '@/components/Footer'
+-import FAQ from '@/components/FAQ'
+ import { CTASection } from '@/components/CTASection'
+@@ -58,9 +56,5 @@
+           <HeroSection lang={lang as AppLang} onStart={goToEditor} />
+-          <SimpleSteps />
+           <FeaturesSection lang={lang as AppLang} />
+           <LandingAtsTester lang={lang as AppLang} onStartClick={goToEditor} />
+-          <TestimonialsSection lang={lang as AppLang} />
+-          <PricingSection lang={lang as AppLang} onPaidClick={goToEditor} />
+-          <FAQ />
+           <CTASection lang={lang as AppLang} />
+         </main>

@@ -86,7 +86,7 @@ export function TestimonialsSection({ lang }: { lang: AppLang }) {
               className="bg-white rounded-2xl p-6 shadow-xs border border-slate-200/60 hover:border-[#001639]/30 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col relative overflow-hidden group"
             >
               {/* Ambient micro border glow line */}
-              <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-orange-400 to-[#001639] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#001639] to-[#000a1b] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
               <div className="flex items-center justify-between mb-4">
                 <div className="flex text-amber-500 gap-0.5">

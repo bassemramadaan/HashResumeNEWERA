@@ -2,11 +2,11 @@ import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-route
 import React, { Suspense, useEffect } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { HelmetProvider, Helmet } from "react-helmet-async";
+import { MotionConfig } from "motion/react";
 import PageLoader from "./components/PageLoader";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
 import { BottomNavBar } from "./components/BottomNavBar";
-import { WhatsAppWidget } from "./components/WhatsAppWidget";
 
 const LandingPage = React.lazy(() => import("./pages/Landing/index"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
@@ -62,7 +62,7 @@ function AppContent() {
   const baseUrl = "https://hashresume.com";
 
   return (
-    <div className={isEditor ? "" : "pb-24 lg:pb-0"}>
+    <div className={isEditor ? "" : "pb-[calc(6.5rem+env(safe-area-inset-bottom,0px))] lg:pb-0"}>
       <Helmet>
         <link rel="alternate" hrefLang="x-default" href={`${baseUrl}${currentPath}`} />
         <link rel="alternate" hrefLang="en" href={`${baseUrl}${currentPath}`} />
@@ -94,8 +94,21 @@ function AppContent() {
         </Routes>
         {!isEditor && <BottomNavBar />}
         <Analytics />
-        <WhatsAppWidget />
       </Suspense>
+
+      {/* Floating WhatsApp FAB */}
+      <a
+        href="https://wa.me/201101007965"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`fixed ${isEditor ? 'bottom-24 lg:bottom-6' : 'bottom-[76px] lg:bottom-6'} right-4 lg:right-6 z-[9999] w-12 h-12 rounded-full bg-[#128C7E] hover:bg-[#0a5249] text-white flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer border border-white/10`}
+        title="WhatsApp Support"
+        aria-label="WhatsApp Support"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+          <path d="M12.012 2c-5.506 0-9.988 4.482-9.988 9.988 0 1.76.459 3.473 1.332 4.988L2 22l5.178-1.332a9.923 9.923 0 004.834 1.32c5.506 0 10-4.494 10-10.012C22.012 6.482 17.518 2 12.012 2zm6.208 14.154c-.255.723-1.47 1.326-2.03 1.385-.56.06-1.12.12-3.61-.884-2.484-1.002-4.085-3.535-4.205-3.695-.12-.16-.97-1.285-.97-2.447 0-1.162.603-1.733.82-1.97.22-.238.48-.3.639-.3s.322-.012.46-.012c.14 0 .326.012.5.422.18.423.616 1.503.67 1.61.054.108.09.23.018.374-.072.144-.108.23-.217.35-.108.12-.228.275-.326.37-.11.11-.223.23-.09.46.13.23.58.956 1.246 1.55.857.765 1.577.995 1.8.104.22-.11.482-.47.61-.63.12-.16.24-.13.41-.07.17.06 1.07.505 1.25.596.18.09.3.132.343.21.043.078.043.452-.21 1.175z" />
+        </svg>
+      </a>
     </div>
   );
 }
@@ -113,9 +126,11 @@ export default function App() {
   }, [language, dir]);
 
   const reCaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // Using test key as fallback
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <HelmetProvider>
+      <MotionConfig reducedMotion={isMobile ? "always" : "user"}>
         <BrowserRouter>
           <GAListener />
           <ScrollToTop />
@@ -123,6 +138,7 @@ export default function App() {
             <AppContent />
           </ErrorBoundary>
         </BrowserRouter>
-      </HelmetProvider>
+      </MotionConfig>
+    </HelmetProvider>
   );
 }

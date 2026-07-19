@@ -121,9 +121,9 @@
 
   /* Border radius */
   --radius-sm:   8px;
-  --radius-md:   16px;
-  --radius-lg:   24px;
-  --radius-xl:   32px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
   --radius-full: 9999px;
 
   /* Blue Override - Mapping to #001639 palette */
@@ -195,7 +195,7 @@ select,
 textarea {
   background-color: #ffffff !important;
   border: 1px solid #D1D5DB !important;
-  border-radius: 12px !important;
+  border-radius: 8px !important;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02) !important;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
   min-height: 48px;
@@ -283,12 +283,16 @@ textarea:focus {
   outline-offset: 4px;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 800; /* ExtraBold */
+body, p, span, div {
+  font-weight: 400; /* Regular for normal text */
 }
 
-p, span, div {
-  font-weight: 500; /* Medium for regular text */
+h1, h2, h3 {
+  font-weight: 700; /* Bold */
+}
+
+h4, h5, h6 {
+  font-weight: 600; /* SemiBold */
 }
 
 input, button, textarea, select {
@@ -604,7 +608,7 @@ body.printing-resume-active #resume-print-capture-area * {
   padding-top: 0.72rem !important;
   padding-bottom: 0.72rem !important;
   transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  border-radius: 0.75rem !important; /* Elegant 12px rounded-xl look */
+  border-radius: 8px !important; /* Elegant 8px look */
 }
 
 /* Intelligent glow focus state using brand-500 theme color */

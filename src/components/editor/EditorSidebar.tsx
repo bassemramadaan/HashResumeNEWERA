@@ -22,8 +22,7 @@ export default function EditorSidebar({
   const isRtl = language === "ar";
   
   const stepIds = [
-    "basics", "experience", "education", "skills", "projects", 
-    "certifications", "finish"
+    "basics", "experience", "skills", "finish"
   ];
   const currentIndex = stepIds.indexOf(activeTab);
 

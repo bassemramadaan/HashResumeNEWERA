@@ -215,6 +215,17 @@ const templates: Template[] = [
 const categories = ["All", "Technology", "Business", "Creative", "Healthcare", "Academic", "Engineering", "Finance"] as const;
 type Category = (typeof categories)[number];
 
+const CATEGORY_TRANSLATIONS: Record<string, { ar: string, en: string, fr: string }> = {
+  All: { ar: "الكل", en: "All", fr: "Tout" },
+  Technology: { ar: "برمجيات وتقنية", en: "Technology", fr: "Technologie" },
+  Business: { ar: "إدارة وأعمال", en: "Business", fr: "Affaires" },
+  Creative: { ar: "فنون وإبداع", en: "Creative", fr: "Créatif" },
+  Healthcare: { ar: "صحة وطب", en: "Healthcare", fr: "Santé" },
+  Academic: { ar: "تعليم وأكاديمي", en: "Academic", fr: "Académique" },
+  Engineering: { ar: "هندسة", en: "Engineering", fr: "Ingénierie" },
+  Finance: { ar: "مالية ومحاسبة", en: "Finance", fr: "Finance" }
+};
+
 // ── i18n helpers ──────────────────────────────────────────
 function getTemplateName(t: Template, lang: string) {
   if (lang === "ar") return t.nameAr;
@@ -306,9 +317,7 @@ export default function TemplatesPage() {
             </Link>
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-500">
-            <span className="hidden sm:block">{labels.templatesCount(templates.length)}</span>
-            <span className="hidden sm:block">·</span>
-            <span className="hidden sm:block text-[#001639] font-medium">Preview free — pay to download</span>
+            <span className="hidden sm:block text-[#001639] font-medium">Build & preview for free — pay only when you download</span>
           </div>
         </div>
       </header>
@@ -399,32 +408,41 @@ export default function TemplatesPage() {
           </div>
 
           {/* Category filters */}
-          <div className="flex flex-wrap justify-center sm:justify-start gap-2 flex-1">
-            {categories.map(cat => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={cn(
-                  "px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all border",
-                  activeCategory === cat
-                    ? "bg-[#0D0D0B] text-white border-[#0D0D0B] shadow-sm"
-                    : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
-                )}
+          <div className="flex-1 w-full flex items-center gap-2">
+            {/* Mobile Dropdown */}
+            <div className="sm:hidden w-full relative">
+              <select
+                value={activeCategory}
+                onChange={(e) => setActiveCategory(e.target.value as Category)}
+                className="w-full appearance-none bg-white border border-slate-200 text-slate-700 py-2.5 px-4 pe-10 rounded-xl text-sm font-semibold outline-none focus:border-[#001639] transition-colors"
               >
-                {cat}
-                {cat !== "All" && (
-                  <span className="ms-1 opacity-50">
-                    {templates.filter(t => t.categories.includes(cat)).length}
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
+                {categories.map(cat => (
+                  <option key={cat} value={cat}>{CATEGORY_TRANSLATIONS[cat]?.[language] || cat}</option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 end-3 flex items-center pointer-events-none">
+                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+              </div>
+            </div>
 
-          {/* Count */}
-          <span className="text-xs text-slate-400 whitespace-nowrap">
-            {labels.templatesCount(filtered.length)}
-          </span>
+            {/* Desktop Buttons */}
+            <div className="hidden sm:flex flex-wrap justify-start gap-2">
+              {categories.map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={cn(
+                    "px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all border",
+                    activeCategory === cat
+                      ? "bg-[#0D0D0B] text-white border-[#0D0D0B] shadow-sm"
+                      : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
+                  )}
+                >
+                  {CATEGORY_TRANSLATIONS[cat]?.[language] || cat}
+                </button>
+              ))}
+            </div>
+          </div>
         </motion.div>
 
         {/* ── Grid ── */}
@@ -456,12 +474,12 @@ export default function TemplatesPage() {
                     )}
                   >
                     {/* Badges */}
-                    <div className="absolute top-3 start-3 z-20 flex gap-1.5">
+                    <div className="absolute top-3 start-3 z-20 flex flex-wrap gap-1 max-w-[calc(100%-36px)]">
                       {template.isNew && (
                         <span className="bg-[#001639] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{labels.new_}</span>
                       )}
                       {template.isPopular && (
-                        <span className="bg-amber-400 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full">⭐ {labels.popular}</span>
+                        <span className="bg-amber-400 whitespace-nowrap text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full">⭐ {labels.popular}</span>
                       )}
                     </div>
 
@@ -529,7 +547,7 @@ export default function TemplatesPage() {
                       <div className="flex gap-1 flex-wrap mt-2">
                         {template.categories.slice(0, 2).map(cat => (
                           <span key={cat} className="text-[10px] font-semibold px-1.5 py-0.5 bg-slate-100 text-slate-500 rounded">
-                            {cat}
+                            {CATEGORY_TRANSLATIONS[cat]?.[language] || cat}
                           </span>
                         ))}
                       </div>
@@ -585,7 +603,7 @@ export default function TemplatesPage() {
                   <div className="flex flex-wrap gap-1.5">
                     {previewTemplate.categories.map(cat => (
                       <span key={cat} className="px-3 py-1 bg-orange-50 text-[#001639] rounded-full text-xs font-semibold border border-orange-100">
-                        {cat}
+                        {CATEGORY_TRANSLATIONS[cat]?.[language] || cat}
                       </span>
                     ))}
                   </div>

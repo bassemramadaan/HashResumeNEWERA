@@ -24,7 +24,7 @@ const DATA = {
     exp2Date: '2019 - 2022',
     exp2Bullet1: '• تطوير وتحديث لوحات تحكم متقدمة باستخدام React و TypeScript مما رفع تفاعل المستخدم بنسبة 50%',
     skillsTitle: 'المهارات التقنية',
-    skills: ['React / Next.js', 'Node.js', 'Cloud Architecture', 'TypeScript', 'SQL / NoSQL', 'System Design', 'CI/CD Pipelines', 'ATS-Friendly Formats'],
+    skills: ['React / Next.js', 'Node.js', 'TypeScript', 'Cloud', 'ATS Formats'],
     atsScore: 'معدل التوافق مع ATS: 98%',
     atsTip: 'تم تحسين الكلمات المفتاحية بذكاء'
   },
@@ -45,7 +45,7 @@ const DATA = {
     exp2Date: '2019 - 2022',
     exp2Bullet1: '• Redesigned dynamic single-page applications using React & NestJS, boosting performance by 40%',
     skillsTitle: 'Core Competencies',
-    skills: ['React / Next.js', 'Node.js', 'Cloud Computing', 'TypeScript', 'PostgreSQL', 'System Architecture', 'CI/CD Pipelines', 'ATS Optimization'],
+    skills: ['React / Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'ATS Friendly'],
     atsScore: 'ATS Compatibility: 98%',
     atsTip: 'Keywords optimized with AI suggestions'
   },
@@ -66,7 +66,7 @@ const DATA = {
     exp2Date: '2019 - 2022',
     exp2Bullet1: '• Refonte d’applications monopages dynamiques avec React & NestJS, améliorant les performances de 40%',
     skillsTitle: 'Compétences Clés',
-    skills: ['React / Next.js', 'Node.js', 'Cloud Computing', 'TypeScript', 'PostgreSQL', 'Architecture Système', 'Pipelines CI/CD', 'Optimisation ATS'],
+    skills: ['React / Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Optimisé ATS'],
     atsScore: 'Compatibilité ATS : 98%',
     atsTip: 'Mots-clés optimisés par l’IA'
   }
@@ -84,7 +84,7 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
       className="w-full max-w-3xl mx-auto px-4 mt-6 mb-6 md:mt-12 md:mb-12"
     >
       {/* Outer Floating Card Container */}
-      <div className="relative group bg-slate-50/50 p-1.5 md:p-3 rounded-3xl border border-slate-250/60 shadow-2xl shadow-slate-200/50 hover:shadow-orange-500/10 transition-all duration-500">
+      <div className="relative group bg-slate-50/50 p-3 rounded-3xl border border-slate-200/60 shadow-2xl shadow-slate-200/50 hover:shadow-orange-500/10 transition-all duration-500">
         
         {/* ATS Score Floating Badge */}
         <div className={`absolute -top-3 ${isAr ? '-left-2 md:-left-4' : '-right-2 md:-right-4'} z-20 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-emerald-500/30 flex items-center gap-1.5 animate-bounce`} style={{ animationDuration: '4s' }}>
@@ -93,13 +93,13 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
         </div>
 
         {/* AI Optimization Tip Floating Badge */}
-        <div className={`absolute -bottom-3 ${isAr ? '-right-2 md:-right-4' : '-left-2 md:-left-4'} z-20 bg-gradient-to-r from-orange-500 to-amber-600 text-white text-[9px] md:text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-orange-500/30 flex items-center gap-1.5`}>
+        <div className={`absolute -bottom-3 ${isAr ? '-right-2 md:-right-4' : '-left-2 md:-left-4'} z-20 bg-gradient-to-r from-[#001639] to-[#000a1b] text-white text-[9px] md:text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-orange-500/30 flex items-center gap-1.5`}>
           <Sparkles className="w-3.5 h-3.5 text-amber-200 animate-pulse" />
           <span>{data.atsTip}</span>
         </div>
 
         {/* The Mock CV Card Body */}
-        <div className="bg-white rounded-2xl border border-slate-150 p-5 md:p-8 text-start select-none relative overflow-hidden transition-all duration-300">
+        <div className="bg-white rounded-2xl border border-slate-150 p-6 md:p-8 text-start select-none relative overflow-hidden transition-all duration-300">
           
           {/* Subtle Document Gridline Effect */}
           <div className="absolute inset-0 bg-grid-slate-50/30 [mask-image:linear-gradient(0deg,#fff,rgba(255,255,255,0.6))] pointer-events-none -z-10" />
@@ -113,7 +113,7 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
             </p>
             
             {/* Quick Contact Row */}
-            <div className="mt-3 text-[10px] md:text-xs text-slate-500 font-medium flex flex-wrap gap-x-2 gap-y-1 items-center">
+            <div className="mt-4 text-[10px] md:text-xs text-slate-500 font-medium flex flex-wrap gap-x-4 gap-y-2 items-center">
               <span>{data.phone}</span>{" "}
               <span className="opacity-40 hidden sm:inline">|</span>{" "}
               <span>{data.email}</span>{" "}
@@ -126,30 +126,30 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* Left/Right Column: Personal Summary & Experience (Col span 2) */}
-            <div className="md:col-span-2 space-y-5">
+            <div className="md:col-span-2 space-y-6">
               
               {/* Summary Section */}
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <h3 className="text-xs md:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
                   <FileText className="w-3.5 h-3.5 text-orange-500" />
                   {data.summaryTitle}
                 </h3>
-                <p className="text-[11px] md:text-xs text-slate-600 leading-relaxed font-medium bg-orange-50/20 p-2.5 rounded-lg border border-orange-100/30">
+                <p className="text-[11px] md:text-xs text-slate-600 leading-relaxed font-medium bg-orange-50/20 p-3 rounded-lg border border-orange-100/30">
                   {data.summaryText}
                 </p>
               </div>
 
               {/* Experience Section */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <h3 className="text-xs md:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
                   <Briefcase className="w-3.5 h-3.5 text-orange-500" />
                   {data.experienceTitle}
                 </h3>
                 
                 {/* Job 1 */}
-                <div className="space-y-1.5 relative border-s border-slate-150 ps-3.5">
+                <div className="space-y-2 relative border-s border-slate-150 ps-4">
                   <div className="absolute w-2 h-2 rounded-full bg-orange-500 -start-[4.5px] top-1" />
-                  <div className="flex justify-between items-center flex-wrap gap-1">
+                  <div className="flex justify-between items-start sm:items-center flex-wrap gap-2">
                     <h4 className="text-[11px] md:text-xs font-bold text-slate-900 leading-tight">{data.exp1Title}</h4>
                     <span className="text-[9px] md:text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{data.exp1Date}</span>
                   </div>
@@ -158,9 +158,9 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
                 </div>
 
                 {/* Job 2 */}
-                <div className="space-y-1.5 relative border-s border-slate-150 ps-3.5">
+                <div className="space-y-2 relative border-s border-slate-150 ps-4">
                   <div className="absolute w-2 h-2 rounded-full bg-slate-300 -start-[4.5px] top-1" />
-                  <div className="flex justify-between items-center flex-wrap gap-1">
+                  <div className="flex justify-between items-start sm:items-center flex-wrap gap-2">
                     <h4 className="text-[11px] md:text-xs font-bold text-slate-900 leading-tight">{data.exp2Title}</h4>
                     <span className="text-[9px] md:text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{data.exp2Date}</span>
                   </div>
@@ -177,11 +177,11 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
                 <Code className="w-3.5 h-3.5 text-orange-500" />
                 {data.skillsTitle}
               </h3>
-              <div className="flex flex-wrap gap-2 md:gap-2.5">
+              <div className="flex flex-wrap gap-3 md:gap-4">
                 {data.skills.map((skill, idx) => (
                   <span 
                     key={idx}
-                    className="text-[10px] md:text-[11px] font-bold text-slate-800 bg-slate-50 hover:bg-orange-50 hover:text-orange-700 border border-slate-200 hover:border-orange-200 px-2.5 py-1 rounded-xl transition-all duration-250 cursor-default shadow-3xs whitespace-nowrap text-center"
+                    className="text-[10px] md:text-[11px] font-bold text-slate-800 bg-slate-50 hover:bg-orange-50 hover:text-orange-700 border border-slate-200 hover:border-orange-200 px-3 py-1.5 rounded-xl transition-all duration-250 cursor-default shadow-3xs whitespace-nowrap text-center"
                   >
                     {skill}
                   </span>

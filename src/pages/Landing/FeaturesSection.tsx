@@ -41,8 +41,8 @@ const FEATURES = {
 }
 
 const HEADINGS = {
-  ar: { label: 'تصميم للمستقبل', title: 'خلف الكواليس', subtitle: 'مجموعة من أفضل المعايير التقنية صُممت خصيصاً لضمان القبول والتألق في الشركات.' },
-  en: { label: 'Distinctive Features', title: 'Technical Excellence', subtitle: 'A cohesive ecosystem of advanced tools designed to help you land premium corporate jobs.' },
+  ar: { label: 'تصميم للمستقبل', title: 'كيف تعمل Hash Resume', subtitle: 'مجموعة من أفضل المعايير التقنية صُممت خصيصاً لضمان القبول والتألق في الشركات.' },
+  en: { label: 'Distinctive Features', title: 'How Hash Resume Works', subtitle: 'A cohesive ecosystem of advanced tools designed to help you land premium corporate jobs.' },
   fr: { label: 'Avantages Professionnels', title: 'Excellence Technique', subtitle: 'Une suite complète pour façonner, polir et propulser votre carrière de manière optimale.' },
 }
 

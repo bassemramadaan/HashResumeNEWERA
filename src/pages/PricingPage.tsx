@@ -76,18 +76,18 @@ export default function PricingPage() {
             {/* Clear Free vs Paid notice */}
             <div className="max-w-xl mx-auto mt-6 bg-blue-50/70 border border-blue-100 rounded-2xl p-4 text-sm font-semibold text-blue-800 shadow-sm">
               💡 {isAr 
-                ? "كتابة السيرة الذاتية، التعديل عليها، وفحص توافقها مع الـ ATS مجاني 100% وبدون حدود. الدفع يكون فقط عند رغبتك في تصدير وتحميل النسخة النهائية الـ PDF الاحترافية الخالية من أي علامات مائية."
-                : "Building, editing, and ATS checking your resume is 100% free with no limits. You pay a small fee only when you choose to export and download your watermark-free professional PDF."}
+                ? "أنشئ واستعرض مجاناً — ادفع فقط عند التحميل"
+                : "Build & preview for free — pay only when you download"}
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto px-4">
             {/* Single Package */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white dark:bg-neutral-0 rounded-3xl p-8 border border-slate-200 dark:border-neutral-200 shadow-sm hover:shadow-md transition-all flex flex-col"
+              className="bg-white dark:bg-neutral-0 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-neutral-200 shadow-sm hover:shadow-md transition-all flex flex-col"
             >
               <h3 className="text-xl font-bold text-slate-800 dark:text-neutral-800 mb-2">{isAr ? "كود تحميل واحد" : "Single Code"}</h3>
               <p className="text-slate-500 dark:text-neutral-500 text-sm mb-6 min-h-[40px]">
@@ -124,9 +124,9 @@ export default function PricingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-gradient-to-b from-blue-50/50 to-white dark:from-blue-950/10 dark:to-neutral-100 rounded-3xl p-8 border-2 border-blue-500/80 shadow-lg relative flex flex-col scale-[1.02]"
+              className="bg-gradient-to-b from-blue-50/50 to-white dark:from-blue-950/10 dark:to-neutral-100 rounded-3xl p-6 sm:p-8 border-2 border-blue-500/80 shadow-lg relative flex flex-col md:scale-[1.02]"
             >
-              <div className="absolute top-0 right-8 -translate-y-1/2 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-3 py-1 rounded-full text-xs font-black shadow-sm shadow-orange-500/15">
+              <div className="absolute top-0 right-8 -translate-y-1/2 bg-gradient-to-r from-[#001639] to-[#000a1b] text-white px-3 py-1 rounded-full text-xs font-black shadow-sm shadow-orange-500/15">
                 {isAr ? "توفير ٦٠٪ - الأكثر شعبية" : "SAVE 60% - MOST POPULAR"}
               </div>
               
@@ -155,7 +155,7 @@ export default function PricingPage() {
               </ul>
               <Link 
                 to="/editor?plan=bundle"
-                className="w-full py-4 rounded-xl font-black text-center text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 rounded-xl font-black text-center text-white bg-gradient-to-r from-[#001639] to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
               >
                 {isAr ? "شراء الباقة — ١٢٠ ج.م" : "Buy Bundle — 120 EGP"}
               </Link>
@@ -168,7 +168,7 @@ export default function PricingPage() {
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-3xs hover:shadow-xs transition-shadow">
-                <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center mb-2">
+                <div className="w-10 h-10 rounded-full bg-brand-50 flex items-center justify-center mb-2">
                   <span className="text-base">⚡</span>
                 </div>
                 <span className="font-extrabold text-slate-800 text-xs">InstaPay</span>
