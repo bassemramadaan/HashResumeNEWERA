@@ -2671,7 +2671,7 @@ export default function EditorPage() {
         </AnimatePresence>
 
         {showConfetti && <FrictionlessConfetti />}
-        <div className="text-center text-xs text-slate-400 pb-4">version 2.0.8</div>
+        <div className="text-center text-xs text-slate-400 pb-4">version 2.7.19</div>
     </div>
   );
 }

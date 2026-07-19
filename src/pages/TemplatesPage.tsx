@@ -91,124 +91,44 @@ type Template = {
 // ── templates data ────────────────────────────────────────
 const templates: Template[] = [
   {
-    id: "modern",
-    name: "Modern", nameAr: "عصري", nameFr: "Moderne",
-    description: "Clean and contemporary design with a focus on readability.",
-    descriptionAr: "تصميم عصري ونظيف مع التركيز على سهولة القراءة.",
-    descriptionFr: "Design épuré et contemporain axé sur la lisibilité.",
-    color: "#001639", categories: ["Technology", "Business"], isPopular: true,
-  },
-  {
     id: "classic",
     name: "Classic", nameAr: "كلاسيك", nameFr: "Classique",
-    description: "Traditional format perfect for corporate and formal roles.",
-    descriptionAr: "تنسيق تقليدي مثالي للأدوار المؤسسية والرسمية.",
-    descriptionFr: "Format traditionnel parfait pour les rôles corporate.",
-    color: "#1E293B", categories: ["Business", "Healthcare", "Academic"],
+    description: "Traditional format perfect for corporate, legal, and banking roles.",
+    descriptionAr: "تنسيق تقليدي كلاسيكي مثالي للأدوار المؤسسية، القانونية، والقطاعات الرسمية.",
+    descriptionFr: "Format traditionnel parfait pour les rôles d'entreprise et formels.",
+    color: "#1E293B", categories: ["Business", "Academic", "Finance"], isPopular: true,
   },
   {
-    id: "classic-professional",
-    name: "Classic Professional", nameAr: "الكلاسيكي الاحترافي", nameFr: "Classique Professionnel",
-    description: "Elegant serif headings with thick bottom borders, single column, best for banking and law.",
-    descriptionAr: "تصميم كلاسيكي مميز بخلفية بيضاء وخط Serif الفاخر للعناوين وعمود واحد فقط، متوافق مع أنظمة الـ ATS ومناسب للبنوك، القانون، والقطاع الحكومي.",
-    descriptionFr: "Mise en page épurée avec en-têtes serif et bordures épaisses, idéale pour la banque et le droit.",
-    color: "#111111", categories: ["Business", "Legal", "Finance"], isNew: true,
-  },
-  {
-    id: "creative",
-    name: "Creative", nameAr: "إبداعي", nameFr: "Créatif",
-    description: "Stand out with a unique layout designed for creative fields.",
-    descriptionAr: "تميّز بتخطيط فريد مصمم للمجالات الإبداعية.",
-    descriptionFr: "Démarquez-vous avec une mise en page unique.",
-    color: "#F97316", categories: ["Creative"],
-  },
-  {
-    id: "minimal",
-    name: "Minimal", nameAr: "بسيط", nameFr: "Minimaliste",
-    description: "Simple, elegant, and straight to the point.",
-    descriptionAr: "بسيط وأنيق ومباشر.",
-    descriptionFr: "Simple, élégant et direct.",
-    color: "#475569", categories: ["Business", "Academic"],
-  },
-  {
-    id: "tech",
-    name: "Tech", nameAr: "تقني", nameFr: "Tech",
-    description: "Optimized for software engineers and IT professionals.",
-    descriptionAr: "مُحسَّن لمهندسي البرمجيات ومتخصصي تكنولوجيا المعلومات.",
-    descriptionFr: "Optimisé pour les ingénieurs logiciels.",
-    color: "#10B981", categories: ["Technology"], isPopular: true,
+    id: "modern",
+    name: "Modern", nameAr: "عصري", nameFr: "Moderne",
+    description: "Clean and contemporary design with a focus on readability and tech roles.",
+    descriptionAr: "تصميم عصري ونظيف مع التركيز على سهولة القراءة وملائم جداً للمجالات التقنية والبرمجة.",
+    descriptionFr: "Design épuré et contemporain axé sur la lisibilité et la technologie.",
+    color: "#001639", categories: ["Technology", "Creative"], isPopular: true,
   },
   {
     id: "executive",
     name: "Executive", nameAr: "تنفيذي", nameFr: "Exécutif",
-    description: "Premium layout for senior management and leadership roles.",
-    descriptionAr: "تخطيط متميز للإدارة العليا وأدوار القيادة.",
-    descriptionFr: "Mise en page premium pour la direction.",
-    color: "#8B5CF6", categories: ["Business"],
+    description: "Premium layout with a prominent header for senior management and leadership roles.",
+    descriptionAr: "تخطيط متميز بلمسات قيادية وهيدر بارز للإدارة العليا وأدوار القيادة والاستشارات.",
+    descriptionFr: "Mise en page premium pour la direction et les postes de leadership.",
+    color: "#8B5CF6", categories: ["Business", "Finance"], isNew: true,
   },
   {
-    id: "medical",
-    name: "Medical", nameAr: "طبي", nameFr: "Médical",
-    description: "Specialized format for healthcare professionals.",
-    descriptionAr: "تنسيق متخصص للمهنيين الصحيين والأطباء.",
-    descriptionFr: "Format spécialisé pour les professionnels de santé.",
-    color: "#0EA5E9", categories: ["Healthcare"],
+    id: "minimal",
+    name: "Minimal", nameAr: "مبسط", nameFr: "Minimaliste",
+    description: "Simple, elegant, and straight to the point.",
+    descriptionAr: "تصميم بسيط، أنيق ومباشر يركز كلياً على انسيابية عرض النص.",
+    descriptionFr: "Simple, élégant et direct, centré sur le contenu.",
+    color: "#475569", categories: ["Academic", "Healthcare"],
   },
   {
-    id: "academic",
-    name: "Academic", nameAr: "أكاديمي", nameFr: "Académique",
-    description: "Multi-page optimized CV for researchers and educators.",
-    descriptionAr: "سيرة ذاتية متعددة الصفحات للباحثين والمعلمين.",
-    descriptionFr: "CV multi-pages pour chercheurs et enseignants.",
-    color: "#64748B", categories: ["Academic"],
-  },
-  {
-    id: "arabic",
-    name: "Arabic (RTL)", nameAr: "عربي (RTL)", nameFr: "Arabe (RTL)",
-    description: "Optimized for Arabic language with full RTL support.",
-    descriptionAr: "مُحسَّن للغة العربية مع دعم كامل للكتابة من اليمين لليسار.",
-    descriptionFr: "Optimisé pour l'arabe avec support RTL complet.",
-    color: "#059669", categories: ["Business", "Technology"], isNew: true,
-  },
-  {
-    id: "engineering",
-    name: "Engineering", nameAr: "هندسي", nameFr: "Ingénierie",
-    description: "Technical and structured layout for engineers.",
-    descriptionAr: "تخطيط تقني ومنظم للمهندسين.",
-    descriptionFr: "Mise en page technique et structurée pour ingénieurs.",
-    color: "#0284C7", categories: ["Engineering", "Technology"],
-  },
-  {
-    id: "finance",
-    name: "Finance", nameAr: "مالي", nameFr: "Finance",
-    description: "Professional and data-focused layout for finance roles.",
-    descriptionAr: "تخطيط احترافي ومرتكز على البيانات للأدوار المالية.",
-    descriptionFr: "Mise en page axée sur les données pour la finance.",
-    color: "#0F766E", categories: ["Finance", "Business"],
-  },
-  {
-    id: "elegant",
-    name: "Elegant", nameAr: "أنيق", nameFr: "Élégant",
-    description: "Sophisticated design with refined typography.",
-    descriptionAr: "تصميم راقٍ مع طباعة مصقولة.",
-    descriptionFr: "Design sophistiqué avec une typographie raffinée.",
-    color: "#BE185D", categories: ["Creative", "Business"],
-  },
-  {
-    id: "legal",
-    name: "Legal", nameAr: "قانوني", nameFr: "Juridique",
-    description: "Formal and authoritative design for legal professionals.",
-    descriptionAr: "تصميم رسمي وموثوق لمتخصصي القانون.",
-    descriptionFr: "Design formel et autoritaire pour les juristes.",
-    color: "#0F172A", categories: ["Business"],
-  },
-  {
-    id: "professional",
-    name: "Professional", nameAr: "احترافي", nameFr: "Professionnel",
-    description: "Versatile and polished layout for any industry.",
-    descriptionAr: "تخطيط متعدد الاستخدامات ومصقول لأي صناعة.",
-    descriptionFr: "Mise en page polyvalente pour tous les secteurs.",
-    color: "#334155", categories: ["Business", "Technology"],
+    id: "two-column",
+    name: "Two-Column", nameAr: "ثنائي الأعمدة", nameFr: "Deux Colonnes",
+    description: "Modern layout with a distinct sidebar for skills and contact information.",
+    descriptionAr: "تخطيط كلاسيكي وعصري من عمودين لتنظيم المهارات ومعلومات الاتصال بشكل جانبي مميز.",
+    descriptionFr: "Mise en page moderne à deux colonnes avec une barre latérale pour les compétences.",
+    color: "#0EA5E9", categories: ["Technology", "Creative", "Healthcare"], isNew: true,
   },
 ];
 
@@ -239,7 +159,7 @@ function getTemplateDesc(t: Template, lang: string) {
 }
 
 // ── Color swatch ──────────────────────────────────────────
-const THEME_COLORS = ["#001639", "#001639", "#10B981", "#8B5CF6", "#F97316", "#0EA5E9", "#BE185D", "#0F766E"];
+const THEME_COLORS = ["#001639", "#1E293B", "#10B981", "#8B5CF6", "#F97316", "#0EA5E9", "#BE185D", "#0F766E"];
 
 // ── main component ────────────────────────────────────────
 export default function TemplatesPage() {
@@ -625,11 +545,11 @@ export default function TemplatesPage() {
                 <div className="mb-6">
                   <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">{labels.colorLabel}</div>
                   <div className="flex gap-2.5 flex-wrap">
-                    {THEME_COLORS.map(c => {
+                    {THEME_COLORS.map((c, idx) => {
                       const isActive = (previewColor || previewTemplate.color) === c;
                       return (
                         <button
-                          key={c}
+                          key={`${c}-${idx}`}
                           onClick={() => setPreviewColor(c)}
                           className={cn(
                             "w-8 h-8 rounded-full transition-all flex items-center justify-center cursor-pointer relative",
