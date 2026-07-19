@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Sparkles, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { X, Sparkles, CheckCircle2, Loader2 } from "lucide-react";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { useResumeStore } from "../../store/useResumeStore";
 import { aiService } from "../../services/aiService";
@@ -191,7 +191,7 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
         setPastedText('');
         onClose();
       }, 2000);
-    } catch (error) {
+    } catch {
       setImportError({
         title: language === 'ar' ? 'حدث خطأ أثناء التحليل' : 'Error during parsing',
         description: language === 'ar' ? 'تأكد من لصق نص واضح يحتوي على بياناتك' : 'Make sure to paste clear text containing your data',

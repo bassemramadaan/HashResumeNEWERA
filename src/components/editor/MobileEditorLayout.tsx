@@ -5,7 +5,7 @@ import {
   User, Briefcase, GraduationCap, Award, FolderHeart, Trophy, CheckCircle,
   Edit3, Eye, Grid, Download, 
   FileText, ChevronRight, Share2, AlertTriangle,
-  ArrowUp, ArrowDown, Layers, ArrowLeft, ArrowRight, Settings, RotateCcw
+  ArrowUp, ArrowDown, Layers, Settings, RotateCcw
 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 

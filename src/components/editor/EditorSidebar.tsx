@@ -16,7 +16,7 @@ export default function EditorSidebar({
   activeTab = "basics",
   onTabChange = () => {},
   completionMap = {},
-  onImportClick = () => {},
+  _onImportClick = () => {},
 }: EditorSidebarProps) {
   const { language } = useLanguageStore();
   const isRtl = language === "ar";
@@ -51,11 +51,11 @@ export default function EditorSidebar({
 
       <div className="p-4 mt-auto border-t border-slate-100">
         <button
-          onClick={onImportClick}
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-colors shadow-sm font-semibold text-sm group"
+          disabled
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-100 text-slate-400 border border-slate-200 font-semibold text-sm cursor-not-allowed"
         >
-          <FileUp size={16} className="text-slate-400 group-hover:text-white transition-colors" />
-          {language === "ar" ? "استيراد السيرة الذاتية" : "Import CV / LinkedIn"}
+          <FileUp size={16} className="text-slate-300" />
+          {language === "ar" ? "قريباً - استيراد البيانات" : "Coming Soon - Import"}
         </button>
       </div>
     </aside>

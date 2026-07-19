@@ -166,18 +166,11 @@ const PersonalInfoForm = () => {
           <div className="relative w-full z-10">
             <button
               type="button"
-              onClick={() => window.dispatchEvent(new Event('open-import-modal'))}
-              className="w-full px-5 py-2.5 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-brand-500 hover:shadow-lg hover:shadow-brand-500/20 transition-all duration-300 whitespace-nowrap active:scale-[0.98] cursor-pointer"
+              disabled
+              className="w-full px-5 py-2.5 bg-slate-100 text-slate-400 border border-slate-200 text-xs font-bold rounded-xl whitespace-nowrap cursor-not-allowed"
             >
-              {language === "ar" ? "استيراد السيرة الذاتية" : "Import CV / LinkedIn"}
+              {language === "ar" ? "قريباً - استيراد السيرة الذاتية" : "Coming Soon - Import CV"}
             </button>
-            
-            {/* Contextual Onboarding Tooltip */}
-            {(!personalInfo.fullName || personalInfo.fullName.length === 0) && (
-              <div className="absolute -top-12 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-[10px] sm:text-xs font-bold px-3 py-2 rounded-lg shadow-lg whitespace-nowrap animate-bounce pointer-events-none z-10 before:content-[''] before:absolute before:-bottom-2 before:left-1/2 before:-translate-x-1/2 before:border-4 before:border-transparent before:border-t-brand-500">
-                {language === "ar" ? "ابدأ برفع ملف LinkedIn هنا 🚀" : "Start by importing LinkedIn 🚀"}
-              </div>
-            )}
           </div>
         </div>
 
