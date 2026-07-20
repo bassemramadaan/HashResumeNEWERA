@@ -10,6 +10,10 @@ export interface Job {
   url?: string;
   logo?: string;
   code?: string;
+  dept?: string;
+  exp?: string;
+  arabicTitle?: string;
+  bullets?: string[];
 }
 
 export const mockJobs: Job[] = [

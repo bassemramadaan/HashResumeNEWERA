@@ -7,8 +7,11 @@ import {
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore } from "../store/useResumeStore";
+import { translations } from "../i18n/translations";
+
 export default function PaymentPage() {
   const { language } = useLanguageStore();
+  const t = (translations[language as keyof typeof translations] || translations.en).payment;
   const isAr = language === "ar";
   const isFr = language === "fr";
   const navigate = useNavigate();
@@ -220,7 +223,7 @@ export default function PaymentPage() {
             <div className="flex items-center gap-2">
               <span className="text-sm font-bold text-slate-400">🛍️</span>
               <h3 className="text-xs sm:text-sm font-black text-slate-850">
-                {isAr ? "ملخص طلبك (اضغط للتفاصيل)" : "Order Summary (Tap to expand)"}
+                {t.orderSummaryMobile}
               </h3>
             </div>
             <div className="flex items-center gap-2">
@@ -239,8 +242,8 @@ export default function PaymentPage() {
                 <div className="flex justify-between items-center text-xs font-medium">
                   <span className="text-slate-500">
                     {selectedPlan === "single" 
-                      ? (isAr ? "كود تفعيل واحد" : "Single Code Activation") 
-                      : (isAr ? "باقة ٣ أكواد تفعيل" : "3-Codes Value Bundle")}
+                      ? t.singleCodeActivation
+                      : t.threeCodesBundle}
                   </span>
                   <span className="font-extrabold text-slate-800">
                     {selectedPlan === "single" ? "50 EGP" : "120 EGP"}
@@ -249,7 +252,7 @@ export default function PaymentPage() {
 
                 {promoApplied && (
                   <div className="flex justify-between items-center text-xs text-emerald-600 font-bold">
-                    <span>{isAr ? "خصم ترويجي مفعّل" : "Promo discount applied"}</span>
+                    <span>{t.promoDiscountApplied}</span>
                     <span>-{discountAmount} EGP</span>
                   </div>
                 )}
@@ -264,13 +267,13 @@ export default function PaymentPage() {
                     className="inline-flex text-xs font-semibold text-slate-400 hover:text-[#001639] items-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <Ticket size={12} />
-                    <span>{isAr ? "هل لديك كوبون خصم؟" : "Have a coupon?"}</span>
+                    <span>{t.haveCoupon}</span>
                   </button>
                 ) : (
                   <div className="text-start">
                     <div className="flex items-center justify-between mb-2">
                       <label className="block text-[11px] font-bold text-slate-500">
-                        {isAr ? "كود الخصم:" : "Promo code:"}
+                        {t.promoCodeLabel}
                       </label>
                       {!promoApplied && (
                         <button
@@ -278,7 +281,7 @@ export default function PaymentPage() {
                           onClick={() => setShowPromoForm(false)}
                           className="text-[10px] font-bold text-slate-400 hover:text-slate-600 cursor-pointer"
                         >
-                          {isAr ? "إلغاء" : "Cancel"}
+                          {t.cancel}
                         </button>
                       )}
                     </div>
@@ -289,7 +292,7 @@ export default function PaymentPage() {
                         disabled={promoApplied}
                         value={promoCode}
                         onChange={(e) => setPromoCode(e.target.value)}
-                        placeholder={isAr ? "مثال: START20" : "e.g. START20"}
+                        placeholder={t.promoPlaceholder}
                         className="flex-1 font-bold font-mono px-3 py-2 rounded-xl border border-slate-200 text-xs uppercase bg-white"
                       />
                       <button
@@ -298,7 +301,7 @@ export default function PaymentPage() {
                         onClick={handleApplyPromo}
                         className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black hover:bg-slate-800 transition-colors disabled:bg-slate-100 disabled:text-slate-400 cursor-pointer"
                       >
-                        {promoApplied ? (isAr ? "مفعّل" : "Applied") : (isAr ? "تطبيق" : "Apply")}
+                        {promoApplied ? t.applied : t.apply}
                       </button>
                     </div>
                   </div>
@@ -307,7 +310,7 @@ export default function PaymentPage() {
                 {promoApplied && (
                   <p className="text-[10px] text-emerald-600 font-bold mt-1.5 flex items-center gap-1">
                     <Sparkles size={12} />
-                    <span>{isAr ? "تم تطبيق كود الخصم ٢٠٪ بنجاح!" : "20% discount applied successfully!"}</span>
+                    <span>{t.discountApplied}</span>
                   </p>
                 )}
                 {promoError && (
@@ -323,15 +326,15 @@ export default function PaymentPage() {
     return (
       <div className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs hidden lg:block text-start">
         <h3 className="text-lg font-extrabold mb-5 text-slate-900 border-b border-slate-100 pb-3">
-          {isAr ? "ملخص طلبك" : "Order Summary"}
+          {t.orderSummaryTitle}
         </h3>
 
         <div className="space-y-4">
           <div className="flex justify-between items-center text-sm font-medium">
             <span className="text-slate-500">
               {selectedPlan === "single" 
-                ? (isAr ? "كود تفعيل واحد" : "Single Code Activation") 
-                : (isAr ? "باقة ٣ أكواد تفعيل" : "3-Codes Value Bundle")}
+                ? t.singleCodeActivation
+                : t.threeCodesBundle}
             </span>
             <span className="font-extrabold text-slate-850">
               {selectedPlan === "single" ? "50 EGP" : "120 EGP"}
@@ -340,13 +343,13 @@ export default function PaymentPage() {
 
           {promoApplied && (
             <div className="flex justify-between items-center text-sm text-emerald-600 font-bold">
-              <span>{isAr ? "خصم ترويجي مفعّل" : "Promo discount applied"}</span>
+              <span>{t.promoDiscountApplied}</span>
               <span>-{discountAmount} EGP</span>
             </div>
           )}
 
           <div className="border-t border-slate-100 pt-3 flex justify-between items-end">
-            <span className="font-black text-slate-800 text-base">{isAr ? "الإجمالي الكلي:" : "Grand Total:"}</span>
+            <span className="font-black text-slate-800 text-base">{t.grandTotal}</span>
             <span className="text-3xl font-black text-[#001639] font-mono leading-none">
               {getPrice()} EGP
             </span>
@@ -362,13 +365,13 @@ export default function PaymentPage() {
               className="inline-flex text-xs font-semibold text-slate-400 hover:text-[#001639] items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Ticket size={12} />
-              <span>{isAr ? "هل لديك كوبون؟" : "Have a coupon?"}</span>
+              <span>{t.haveCoupon}</span>
             </button>
           ) : (
             <div className="text-start">
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-xs font-bold text-slate-500">
-                  {isAr ? "كود الخصم:" : "Promo code:"}
+                  {t.promoCodeLabel}
                 </label>
                 {!promoApplied && (
                   <button
@@ -376,7 +379,7 @@ export default function PaymentPage() {
                     onClick={() => setShowPromoForm(false)}
                     className="text-[10px] font-bold text-slate-400 hover:text-slate-600 cursor-pointer"
                   >
-                    {isAr ? "إلغاء" : "Cancel"}
+                    {t.cancel}
                   </button>
                 )}
               </div>
@@ -387,7 +390,7 @@ export default function PaymentPage() {
                   disabled={promoApplied}
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
-                  placeholder={isAr ? "مثال: START20" : "e.g. START20"}
+                  placeholder={t.promoPlaceholder}
                   className="flex-1 font-bold font-mono px-3 py-2 rounded-xl border border-slate-200 text-xs uppercase"
                 />
                 <button
@@ -396,7 +399,7 @@ export default function PaymentPage() {
                   onClick={handleApplyPromo}
                   className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-black hover:bg-slate-800 transition-colors disabled:bg-slate-100 disabled:text-slate-400 cursor-pointer"
                 >
-                  {promoApplied ? (isAr ? "مفعّل" : "Applied") : (isAr ? "تطبيق" : "Apply")}
+                  {promoApplied ? t.applied : t.apply}
                 </button>
               </div>
             </div>
@@ -405,7 +408,7 @@ export default function PaymentPage() {
           {promoApplied && (
             <p className="text-[10px] text-emerald-600 font-bold mt-1.5 flex items-center gap-1">
               <Sparkles size={12} />
-              <span>{isAr ? "تم تطبيق كود الخصم ٢٠٪ بنجاح!" : "20% discount applied successfully!"}</span>
+              <span>{t.discountApplied}</span>
             </p>
           )}
           {promoError && (
@@ -426,8 +429,8 @@ export default function PaymentPage() {
               <ShieldCheck className="text-[#001639]" size={20} />
             </div>
             <div>
-              <h4 className="font-extrabold text-sm">{isAr ? "دفع رقمي آمن بنسبة ١٠٠٪" : "100% Secure Digital Payments"}</h4>
-              <p className="text-[10px] text-slate-300 font-medium">{isAr ? "لا يتم حفظ معلومات تحويلاتك مطلقاً" : "Your payment info is never stored"}</p>
+              <h4 className="font-extrabold text-sm">{t.paymentSecureTitle}</h4>
+              <p className="text-[10px] text-slate-300 font-medium">{t.paymentSecureDesc}</p>
             </div>
           </div>
 
@@ -436,8 +439,8 @@ export default function PaymentPage() {
               <Sparkles className="text-amber-400" size={18} />
             </div>
             <div>
-              <h4 className="font-extrabold text-sm">{isAr ? "تنشيط فوري للأكواد" : "Instant Activation Codes"}</h4>
-              <p className="text-[10px] text-slate-300 font-medium">{isAr ? "تتم مراجعة الدفع تلقائياً خلال دقائق معدودة" : "Submissions reviewed in real-time within minutes"}</p>
+              <h4 className="font-extrabold text-sm">{t.instantActivationTitle}</h4>
+              <p className="text-[10px] text-slate-300 font-medium">{t.instantActivationDesc}</p>
             </div>
           </div>
 
@@ -446,8 +449,8 @@ export default function PaymentPage() {
               <HelpCircle className="text-sky-400" size={18} />
             </div>
             <div>
-              <h4 className="font-extrabold text-sm">{isAr ? "دعم مستمر ٢٤/٧" : "Continuous Support"}</h4>
-              <p className="text-[10px] text-slate-300 font-medium">{isAr ? "تواصل معنا مباشرة عبر واتساب للمساعدة الفورية" : "Contact support via WhatsApp for any issues"}</p>
+              <h4 className="font-extrabold text-sm">{t.continuousSupportTitle}</h4>
+              <p className="text-[10px] text-slate-300 font-medium">{t.continuousSupportDesc}</p>
             </div>
           </div>
         </div>
@@ -458,13 +461,7 @@ export default function PaymentPage() {
   return (
     <>
       <Helmet>
-        <title>
-          {isAr 
-            ? "إتمام الدفع الآمن | Hash Resume" 
-            : isFr 
-              ? "Paiement Sécurisé | Hash Resume" 
-              : "Secure Payment Checkout | Hash Resume"}
-        </title>
+        <title>{t.pageTitle}</title>
         <meta name="robots" content="noindex, follow" />
       </Helmet>
 
@@ -476,7 +473,7 @@ export default function PaymentPage() {
               to="/pricing" 
               className="text-xs sm:text-sm font-extrabold text-neutral-500 hover:text-neutral-950 transition-colors flex items-center gap-1.5"
             >
-              {isAr ? <><ArrowRight size={16} /> <span>الرجوع للأسعار</span></> : <><ArrowLeft size={16} /> <span>Back to Pricing</span></>}
+              {isAr ? <><ArrowRight size={16} /> <span>{t.backToPricing}</span></> : <><ArrowLeft size={16} /> <span>{t.backToPricing}</span></>}
             </Link>
 
             <div className="absolute left-1/2 -translate-x-1/2">
@@ -492,7 +489,7 @@ export default function PaymentPage() {
             <div className="hidden sm:flex items-center gap-2">
               <ShieldCheck className="text-emerald-500" size={18} />
               <span className="text-xs font-bold text-slate-500">
-                {isAr ? "تشفير SSL آمن 100%" : "100% SSL Secure Encryption"}
+                {t.sslEncryption}
               </span>
             </div>
           </div>
@@ -504,10 +501,10 @@ export default function PaymentPage() {
           <div className="text-center mt-6 mb-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-black mb-3.5">
               <ShieldCheck size={14} />
-              <span>{isAr ? "دفع رقمي آمن ومباشر" : "Direct & Secure Digital Checkout"}</span>
+              <span>{t.directCheckout}</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              {isAr ? "إتمام عملية الشراء" : isFr ? "Finaliser votre achat" : "Secure Checkout"}
+              {t.secureCheckout}
             </h1>
           </div>
 
@@ -519,7 +516,7 @@ export default function PaymentPage() {
               <div className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs">
                 <h3 className="text-lg font-extrabold mb-4 flex items-center gap-2 text-slate-900">
                   <span className="w-2 h-2 rounded-full bg-[#001639]" />
-                  {isAr ? "اختر باقة التفعيل:" : "Select your plan:"}
+                  {t.selectPlan}
                 </h3>
 
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -534,13 +531,13 @@ export default function PaymentPage() {
                   >
                     <div>
                       <div className="flex justify-between items-center mb-1">
-                        <span className="font-extrabold text-slate-900">{isAr ? "كود تفعيل واحد" : "Single Code"}</span>
+                        <span className="font-extrabold text-slate-900">{t.singleCodeTitle}</span>
                         <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "single" ? "border-[#001639]" : "border-slate-300"}`}>
                           {selectedPlan === "single" && <div className="w-2 h-2 rounded-full bg-[#001639]" />}
                         </div>
                       </div>
                       <p className="text-[11px] text-slate-500 font-medium leading-relaxed mb-4">
-                        {isAr ? "تحميل ملف PDF واحد خالي من العلامة المائية." : "1 watermark-free PDF download."}
+                        {t.singleCodeDesc}
                       </p>
                     </div>
                     <span className="text-lg font-black text-slate-900 font-mono">50 EGP</span>
@@ -556,17 +553,17 @@ export default function PaymentPage() {
                     }`}
                   >
                     <div className="absolute -top-2.5 right-4 bg-gradient-to-r from-orange-500 to-rose-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-xs">
-                      {isAr ? "الأكثر توفيراً" : "Best Value"}
+                      {t.bestValue}
                     </div>
                     <div>
                       <div className="flex justify-between items-center mb-1">
-                        <span className="font-extrabold text-slate-900">{isAr ? "باقة ٣ أكواد" : "3-Codes Bundle"}</span>
+                        <span className="font-extrabold text-slate-900">{t.bundleCodeTitle}</span>
                         <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "bundle" ? "border-[#001639]" : "border-slate-300"}`}>
                           {selectedPlan === "bundle" && <div className="w-2 h-2 rounded-full bg-[#001639]" />}
                         </div>
                       </div>
                       <p className="text-[11px] text-slate-500 font-medium leading-relaxed mb-4">
-                        {isAr ? "٣ أكواد تحميل منفصلة تمنحك مرونة لتحديث سيرتك لاحقاً." : "3 unique codes to update or build multiple resumes."}
+                        {t.bundleCodeDesc}
                       </p>
                     </div>
                     <span className="text-lg font-black text-[#001639] font-mono">120 EGP</span>
@@ -578,7 +575,7 @@ export default function PaymentPage() {
               <div className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs">
                 <h3 className="text-lg font-extrabold mb-4 flex items-center gap-2 text-slate-900">
                   <span className="w-2 h-2 rounded-full bg-[#001639]" />
-                  {isAr ? "اختر وسيلة الدفع المناسبة:" : "Select Payment Method:"}
+                  {t.selectPaymentMethod}
                 </h3>
 
                 {/* Tabs view of payment methods */}
@@ -629,41 +626,39 @@ export default function PaymentPage() {
                     <div className="space-y-3.5">
                       <div className="flex items-center gap-2 text-brand-950 font-black text-sm">
                         <CheckCircle2 size={16} className="text-brand-500" />
-                        <span>{isAr ? "الدفع الفوري عبر إنستاباي (InstaPay):" : "Instant payment via InstaPay:"}</span>
+                        <span>{t.instapayTitle}</span>
                       </div>
                       <p className="text-xs leading-relaxed text-slate-600 font-medium">
-                        {isAr 
-                          ? "افتح تطبيق إنستاباي على هاتفك، وقم بتحويل قيمة الباقة للعنوان الموضح أدناه:" 
-                          : "Open the InstaPay app on your phone, then transfer the package price to the address below:"}
+                        {t.instapayDesc}
                       </p>
                       
                       <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
                         <div className="min-w-0 flex-1">
-                          <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "عنوان الدفع الرياضي (IPA)" : "InstaPay Address (IPA)"}</span>
+                          <span className="text-[10px] text-slate-400 block font-bold">{t.ipaLabel}</span>
                           <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all font-mono break-all block">hashresume@instapay</span>
                         </div>
                         <button
                           type="button"
                           onClick={() => handleCopy("hashresume@instapay", "instapay")}
                           className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
-                          title={isAr ? "نسخ" : "Copy"}
+                          title={t.copy}
                         >
-                          {copiedText === "instapay" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
+                          {copiedText === "instapay" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
                         </button>
                       </div>
 
                       <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
                         <div className="min-w-0 flex-1">
-                          <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "اسم الحساب المستلم" : "Receiver Name"}</span>
-                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all break-words block">{isAr ? "باسم رمضان عبده" : "Bassem Ramadan Abdo"}</span>
+                          <span className="text-[10px] text-slate-400 block font-bold">{t.receiverNameLabel}</span>
+                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all break-words block">{t.bassemName}</span>
                         </div>
                         <button
                           type="button"
-                          onClick={() => handleCopy(isAr ? "باسم رمضان عبده" : "Bassem Ramadan Abdo", "receiverName")}
+                          onClick={() => handleCopy(t.bassemName, "receiverName")}
                           className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
-                          title={isAr ? "نسخ" : "Copy"}
+                          title={t.copy}
                         >
-                          {copiedText === "receiverName" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
+                          {copiedText === "receiverName" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
                         </button>
                       </div>
                     </div>
@@ -673,41 +668,39 @@ export default function PaymentPage() {
                     <div className="space-y-3.5">
                       <div className="flex items-center gap-2 text-red-950 font-black text-sm">
                         <CheckCircle2 size={16} className="text-red-500" />
-                        <span>{isAr ? "تحويل كاش (فودافون كاش ومحافظ المحمول):" : "Transfer via Vodafone Cash / Mobile Wallets:"}</span>
+                        <span>{t.vodafoneTitle}</span>
                       </div>
                       <p className="text-xs leading-relaxed text-slate-600 font-medium">
-                        {isAr 
-                          ? "قم بتحويل قيمة الباقة من محفظتك الإلكترونية إلى رقم المحفظة التالي:" 
-                          : "Transfer the plan price from your electronic wallet to the following wallet number:"}
+                        {t.vodafoneDesc}
                       </p>
                       
                       <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
                         <div className="min-w-0 flex-1">
-                          <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "رقم المحفظة" : "Wallet Number"}</span>
+                          <span className="text-[10px] text-slate-400 block font-bold">{t.walletNumberLabel}</span>
                           <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all font-mono break-all block">01027136006</span>
                         </div>
                         <button
                           type="button"
                           onClick={() => handleCopy("01027136006", "vodafone")}
                           className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
-                          title={isAr ? "نسخ" : "Copy"}
+                          title={t.copy}
                         >
-                          {copiedText === "vodafone" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
+                          {copiedText === "vodafone" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
                         </button>
                       </div>
 
                       <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
                         <div className="min-w-0 flex-1">
-                          <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "الاسم للتأكيد" : "Receiver Name"}</span>
-                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all break-words block">{isAr ? "باسم رمضان" : "Bassem Ramadan"}</span>
+                          <span className="text-[10px] text-slate-400 block font-bold">{t.receiverConfirmLabel}</span>
+                          <span className="font-extrabold text-xs sm:text-sm text-slate-800 select-all break-words block">{t.bassemConfirm}</span>
                         </div>
                         <button
                           type="button"
-                          onClick={() => handleCopy(isAr ? "باسم رمضان" : "Bassem Ramadan", "vodafoneReceiver")}
+                          onClick={() => handleCopy(t.bassemConfirm, "vodafoneReceiver")}
                           className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
-                          title={isAr ? "نسخ" : "Copy"}
+                          title={t.copy}
                         >
-                          {copiedText === "vodafoneReceiver" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
+                          {copiedText === "vodafoneReceiver" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
                         </button>
                       </div>
                     </div>
@@ -717,41 +710,39 @@ export default function PaymentPage() {
                     <div className="space-y-3.5">
                       <div className="flex items-center gap-2 text-amber-950 font-black text-sm">
                         <CheckCircle2 size={16} className="text-amber-500" />
-                        <span>{isAr ? "الدفع عبر فوري (Fawry Pay):" : "Pay via Fawry Pay:"}</span>
+                        <span>{t.fawryTitle}</span>
                       </div>
                       <p className="text-xs leading-relaxed text-slate-600 font-medium">
-                        {isAr 
-                          ? "توجه لأي منفذ فوري أو استخدم تطبيق مصرفي، واطلب الدفع برقم كود الخدمة:" 
-                          : "Go to any Fawry outlet or mobile banking app, and request payment using the service code:"}
+                        {t.fawryDesc}
                       </p>
                       
                       <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
                         <div className="min-w-0 flex-1">
-                          <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "رقم خدمة فوري" : "Fawry Service Code"}</span>
+                          <span className="text-[10px] text-slate-400 block font-bold">{t.fawryServiceCodeLabel}</span>
                           <span className="font-extrabold text-xs sm:text-sm text-slate-800 font-mono break-all block">78921</span>
                         </div>
                         <button
                           type="button"
                           onClick={() => handleCopy("78921", "fawrycode")}
                           className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
-                          title={isAr ? "نسخ" : "Copy"}
+                          title={t.copy}
                         >
-                          {copiedText === "fawrycode" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
+                          {copiedText === "fawrycode" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
                         </button>
                       </div>
 
                       <div className="p-3 bg-white rounded-xl border border-slate-200 flex flex-row items-center justify-between gap-2">
                         <div className="min-w-0 flex-1">
-                          <span className="text-[10px] text-slate-400 block font-bold">{isAr ? "الرقم المرجعي المباشر للطلب" : "Direct Reference Number"}</span>
+                          <span className="text-[10px] text-slate-400 block font-bold">{t.directReferenceNumberLabel}</span>
                           <span className="font-extrabold text-xs sm:text-sm text-slate-800 font-mono break-all block">928104829</span>
                         </div>
                         <button
                           type="button"
                           onClick={() => handleCopy("928104829", "fawryref")}
                           className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
-                          title={isAr ? "نسخ" : "Copy"}
+                          title={t.copy}
                         >
-                          {copiedText === "fawryref" ? <span className="text-xs text-emerald-500 font-bold">{isAr ? "تم!" : "Copied!"}</span> : <Copy size={16} className="shrink-0" />}
+                          {copiedText === "fawryref" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
                         </button>
                       </div>
                     </div>
@@ -767,14 +758,14 @@ export default function PaymentPage() {
               <form onSubmit={handleSubmitPayment} className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
                 <h3 className="text-lg font-extrabold flex items-center gap-2 text-slate-900">
                   <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                  {isAr ? "بيانات إرسال الأكواد والتحقق:" : "Activation & Verification Info:"}
+                  {t.verificationInfoTitle}
                 </h3>
 
                 <div className="space-y-3">
                   {/* Email block */}
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
-                      <span>{isAr ? "البريد الإلكتروني (لتلقي كود التفعيل):" : "Email Address (to receive activation codes):"}</span>
+                      <span>{t.emailLabel}</span>
                       <span className="text-[#001639] font-extrabold">*</span>
                     </label>
                     <input 
@@ -790,13 +781,13 @@ export default function PaymentPage() {
                   {/* Sender Info name/phone */}
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
-                      <span>{isAr ? "اسم المحول أو هاتف المحفظة المرسلة:" : "Sender Name or Mobile Wallet Phone:"}</span>
+                      <span>{t.senderInfoLabel}</span>
                     </label>
                     <input 
                       type="text"
                       value={senderName}
                       onChange={(e) => setSenderName(e.target.value)}
-                      placeholder={isAr ? "الاسم ثلاثي أو الرقم الذي تم التحويل منه" : "Your name or mobile number transferred from"}
+                      placeholder={t.senderPlaceholder}
                       className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm"
                     />
                   </div>
@@ -804,7 +795,7 @@ export default function PaymentPage() {
                   {/* Transaction reference */}
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
-                      <span>{isAr ? "رقم التحويل المرجعي / معرّف المعاملة:" : "Transaction Reference / TxID:"}</span>
+                      <span>{t.txIdLabel}</span>
                       <span className="text-[#001639] font-extrabold">*</span>
                     </label>
                     <input 
@@ -812,7 +803,7 @@ export default function PaymentPage() {
                       required
                       value={refNum}
                       onChange={(e) => setRefNum(e.target.value)}
-                      placeholder={isAr ? "أدخل الـ Ref أو الرقم المرجعي للمعاملة" : "Enter reference number or transaction ID"}
+                      placeholder={t.txIdPlaceholder}
                       className="w-full font-mono font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm"
                     />
                   </div>
@@ -835,12 +826,12 @@ export default function PaymentPage() {
                     {isSubmitting ? (
                       <>
                         <Loader2 size={20} className="animate-spin" />
-                        <span>{isAr ? "جاري إرسال المعاملة للتدقيق..." : "Submitting Transaction..."}</span>
+                        <span>{t.submittingTransaction}</span>
                       </>
                     ) : (
                       <>
                         <ShieldCheck size={20} />
-                        <span>{isAr ? `تأكيد الدفع وإصدار الأكواد — ${getPrice()} ج.م` : `Verify & Issue Codes — ${getPrice()} EGP`}</span>
+                        <span>{t.verifyButtonText} {getPrice()} {language === "ar" ? "ج.م" : "EGP"}</span>
                       </>
                     )}
                   </button>
@@ -849,24 +840,24 @@ export default function PaymentPage() {
                   <div className="flex justify-center mt-3">
                     <a
                       href={`https://wa.me/201101007965?text=${encodeURIComponent(
-                        isAr 
+                        language === "ar"
                           ? `مرحباً! لقد قمت بتحويل مبلغ ${getPrice()} ج.م لخط محفظة Hash Resume لتفعيل الباقة.\nالبريد الإلكتروني: ${email || "[اكتب بريدك هنا]"}\nالرقم المرجعي للمعاملة: ${refNum || "[اكتب رقم المعاملة هنا]"}`
-                          : `Hi! I just transferred ${getPrice()} EGP to Hash Resume wallet for code activation.\nMy Email: ${email || "[Your Email]"}\nTransaction Ref: ${refNum || "[Transaction Reference]"}`
+                          : language === "fr"
+                            ? `Bonjour! Je viens de transférer ${getPrice()} EGP vers le portefeuille Hash Resume pour l'activation du code.\nMon e-mail: ${email || "[Votre e-mail]"}\nRéf de transaction: ${refNum || "[Référence de transaction]"}`
+                            : `Hi! I just transferred ${getPrice()} EGP to Hash Resume wallet for code activation.\nMy Email: ${email || "[Your Email]"}\nTransaction Ref: ${refNum || "[Transaction Reference]"}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-emerald-600 hover:text-emerald-700 py-1 font-bold text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <span>💬</span>
-                      <span className="underline underline-offset-2">{isAr ? "أو إرسال الإثبات عبر واتساب للتفعيل السريع" : "Or send proof via WhatsApp for fast activation"}</span>
+                      <span className="underline underline-offset-2">{t.whatsappDisclaimer}</span>
                     </a>
                   </div>
 
                   {/* Manual verification disclaimer message */}
                   <p className="text-[11px] text-slate-500 text-center leading-relaxed font-bold px-2">
-                    {isAr 
-                      ? "🔒 سنراجع عملية الدفع وتفاصيل المعاملة يدوياً خلال دقائق معدودة، وسيتم إرسال كود التفعيل فور تأكيد التحويل إلى بريدك الإلكتروني الموضح أعلاه." 
-                      : "🔒 We will manually review the payment details within minutes, and send your activation codes directly to your email address listed above as soon as the transfer is confirmed."}
+                    {t.reviewDisclaimer}
                   </p>
                 </div>
               </form>

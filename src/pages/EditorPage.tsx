@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, Suspense, lazy, useCallback } from "react";
+import React, { useState, useRef, useEffect, Suspense, lazy } from "react";
 import { Helmet } from "react-helmet-async";
 import { trackEvent, FUNNEL_EVENTS } from "../utils/analytics";
 import { motion, AnimatePresence } from "motion/react";
@@ -46,6 +46,8 @@ import EditorSidebar from "../components/editor/EditorSidebar";
 import ResumePreview from "../components/preview/ResumePreview";
 import { JobMatchAdvisor } from "../components/editor/JobMatchAdvisor";
 import { FrictionlessConfetti } from "../components/FrictionlessConfetti";
+import { useResumeExport } from "../hooks/useResumeExport";
+import { RESUME_TEMPLATES } from "../constants/templates";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -87,7 +89,7 @@ const FormLoader = () => (
   </div>
 );
 
-import { Tab, TabItem } from "../types/editor.types";
+import { Tab } from "../types/editor.types";
 import { ATS_SECTION_TIPS } from "../constants/editor.constants";
 import { ProgressTrackerModal } from "../components/editor/ProgressTrackerModal";
 
@@ -315,20 +317,11 @@ export default function EditorPage() {
     setShowScrollTop(e.currentTarget.scrollTop > 300);
   };
   const [showExitModal, setShowExitModal] = useState(false);
-  const [hasExported, setHasExported] = useState(false); // Track if user exported session
   const [showFullPreview, setShowFullPreview] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [showPostDownloadModal, setShowPostDownloadModal] = useState(false);
   const [currentPurchasedCodes, setCurrentPurchasedCodes] = useState<string[]>([]);
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
-  const [showResumeChecker, setShowResumeChecker] = useState(false);
   const [showProgressTracker, setShowProgressTracker] = useState(false);
   const [previewFocusMode, setPreviewFocusMode] = useState(false);
-  const [exportStatus, setExportStatus] = useState<{
-    show: boolean;
-    step: number;
-    format: "pdf" | "docx" | "txt";
-  } | null>(null);
   const [overflowLines, setOverflowLines] = useState(0);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
@@ -353,13 +346,29 @@ export default function EditorPage() {
     }
   }, []);
 
-  const fullName = useResumeStore((state) => state.data.personalInfo.fullName);
   const data = useResumeStore((state) => state.data);
   const isStarted = useResumeStore((state) => state.isStarted);
   const setIsStarted = useResumeStore((state) => state.setIsStarted);
   
   const { isPremium, isEmpty, atsScore, breakdown } = useResumeValidation(data);
   const { saveStatus } = useAutoSave(data);
+
+  const {
+    exportStatus,
+    showPostDownloadModal,
+    setShowPostDownloadModal,
+    showPaymentModal,
+    setShowPaymentModal,
+    showResumeChecker,
+    setShowResumeChecker,
+    handleExportClick,
+    handleProceedToExport
+  } = useResumeExport({
+    language,
+    data,
+    isPremium,
+    showToast
+  });
 
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
   const resetData = useResumeStore((state) => state.resetData);
@@ -524,264 +533,6 @@ export default function EditorPage() {
   const componentRef = useRef<HTMLDivElement>(null);
   const isLocked = data.isLocked || false;
 
-  const generateFingerprint = useCallback((cvData: typeof data): string => {
-    const str = JSON.stringify({
-      personalInfo: cvData.personalInfo,
-      workExperience: cvData.experience,
-      education: cvData.education,
-      skills: cvData.skills,
-    });
-    // Simple hash
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash;
-    }
-    return hash.toString(36);
-  }, []);
-
-  // بعد كل Download ناجح
-  const onSuccessfulDownload = () => {
-    const fingerprint = generateFingerprint(data);
-    const snapshot = JSON.stringify(data);
-    localStorage.setItem('cv-last-download-fingerprint', fingerprint);
-    localStorage.setItem('cv-last-download-snapshot', snapshot);
-  };
-
-  // قبل كل Download
-  const checkCanDownload = (): 'free' | 'needs-code' | 'first-time' => {
-    const savedFingerprint = localStorage.getItem('cv-last-download-fingerprint');
-    if (!savedFingerprint) return 'first-time';
-    
-    const currentFingerprint = generateFingerprint(data);
-    if (currentFingerprint === savedFingerprint) return 'free';
-    
-    return 'needs-code';
-  };
-
-  const handlePrint = () => {
-    try {
-      const resumeElement = document.getElementById("resume-capture-area");
-      if (!resumeElement) {
-        console.error("Resume capture area not found for print");
-        window.print();
-        return;
-      }
-
-      // Check if already exists
-      let printContainer = document.getElementById("resume-print-container");
-      if (!printContainer) {
-        printContainer = document.createElement("div");
-        printContainer.id = "resume-print-container";
-        const clone = resumeElement.cloneNode(true) as HTMLElement;
-        clone.id = "resume-print-capture-area";
-        printContainer.appendChild(clone);
-        document.body.appendChild(printContainer);
-      }
-      
-      document.body.classList.add("printing-resume-active");
-
-      setTimeout(() => {
-        window.print();
-        
-        // Clean up
-        const pc = document.getElementById("resume-print-container");
-        if (pc) pc.remove();
-        document.body.classList.remove("printing-resume-active");
-      }, 50);
-    } catch (err) {
-      console.error("Print failed:", err);
-      window.print();
-    }
-  };
-
-  // في الـ useEffect عند load الصفحة
-  useEffect(() => {
-    localStorage.removeItem('cv-locked');
-    localStorage.removeItem('cv-is-locked');
-    useResumeStore.getState().unlockResume();
-
-    const handleBeforePrint = () => {
-      if (!document.getElementById("resume-print-container")) {
-        const resumeElement = document.getElementById("resume-capture-area");
-        if (resumeElement) {
-          const printContainer = document.createElement("div");
-          printContainer.id = "resume-print-container";
-          const clone = resumeElement.cloneNode(true) as HTMLElement;
-          clone.id = "resume-print-capture-area";
-          printContainer.appendChild(clone);
-          document.body.appendChild(printContainer);
-          document.body.classList.add("printing-resume-active");
-        }
-      }
-    };
-
-    const handleAfterPrint = () => {
-      const printContainer = document.getElementById("resume-print-container");
-      if (printContainer) {
-        printContainer.remove();
-      }
-      document.body.classList.remove("printing-resume-active");
-    };
-
-    window.addEventListener("beforeprint", handleBeforePrint);
-    window.addEventListener("afterprint", handleAfterPrint);
-
-    return () => {
-      window.removeEventListener("beforeprint", handleBeforePrint);
-      window.removeEventListener("afterprint", handleAfterPrint);
-    };
-  }, []);
-
-  const handleExportClick = () => {
-    setShowResumeChecker(true);
-  };
-
-  const handleProceedToExport = async (
-    formatInput: "pdf" | "docx" | "txt" | any = "pdf",
-    forceAllow = false,
-  ) => {
-    const format: "pdf" | "docx" | "txt" = (typeof formatInput === "string" && ["pdf", "docx", "txt"].includes(formatInput))
-      ? formatInput
-      : "pdf";
-
-    setShowResumeChecker(false);
-
-    const canDownloadState = checkCanDownload();
-    const isFreeDownload = canDownloadState === "free";
-
-    const allowed = forceAllow || isPremium || isFreeDownload;
-
-    if (!allowed) {
-      setShowPaymentModal(true);
-      return;
-    }
-
-    setExportStatus({ show: true, step: 0, format });
-    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-    if (format === "pdf") {
-      try {
-        setExportStatus({ show: true, step: 1, format }); 
-        await sleep(1000);
-        setExportStatus({ show: true, step: 2, format }); 
-        await sleep(1000);
-        setExportStatus({ show: true, step: 3, format }); 
-        
-        setExportStatus(null);
-        await handlePrint();
-        
-        setHasExported(true);
-        onSuccessfulDownload();
-        
-        setTimeout(() => setShowPostDownloadModal(true), 300);
-      } catch (err: any) {
-        console.error("Export failed:", err);
-        showToast(language === "ar" ? "حدث خطأ أثناء التصدير. يرجى المحاولة مرة أخرى." : "Export failed. Please try again.", "error");
-        setExportStatus(null);
-      }
-    } else if (format === "docx") {
-      try {
-        setExportStatus({ show: true, step: 1, format });
-        await sleep(800);
-        setExportStatus({ show: true, step: 3, format });
-        await sleep(800);
-        
-        const resumeElement = document.getElementById('resume-capture-area');
-        if (!resumeElement) throw new Error("Resume element not found");
-
-        // Get all active styles to inject into exported document
-        const styles = Array.from(document.styleSheets)
-          .map(sheet => {
-            try {
-              return Array.from(sheet.cssRules || [])
-                .map(rule => rule.cssText)
-                .join('\n');
-            } catch {
-              return '';
-            }
-          })
-          .join('\n');
-
-        const htmlContent = `
-          <!DOCTYPE html>
-          <html dir="${document.documentElement.dir || 'ltr'}" xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-            <head>
-              <meta charset="UTF-8">
-              <style>
-                ${styles}
-                /* Force proper rendering */
-                * {
-                  word-wrap: break-word !important;
-                  overflow-wrap: break-word !important;
-                  white-space: normal !important;
-                  box-sizing: border-box !important;
-                }
-                body {
-                  margin: 0;
-                  padding: 0;
-                  width: 794px;
-                  font-family: Arial, sans-serif;
-                }
-              </style>
-            </head>
-            <body>
-              ${resumeElement.outerHTML}
-            </body>
-          </html>
-        `;
-        
-        // Use standard MS Word Blob application type
-        const converted = new Blob(['\ufeff', htmlContent], {
-            type: 'application/msword'
-        });
-        
-        const url = URL.createObjectURL(converted);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `${fullName || 'CV'}_HashResume.doc`;
-        a.click();
-        URL.revokeObjectURL(url);
-
-        onSuccessfulDownload();
-        setExportStatus({ show: true, step: 5, format });
-        // Trigger confetti celebration!
-        (window as any).triggerFrictionlessConfetti?.();
-        await sleep(1000);
-        setExportStatus(null);
-        setHasExported(true);
-        setShowPostDownloadModal(true);
-      } catch (e) {
-        console.error("Word gen err:", e);
-        setExportStatus(null);
-      }
-    } else if (format === "txt") {
-      try {
-        setExportStatus({ show: true, step: 1, format });
-        await sleep(550);
-        const data = useResumeStore.getState().data;
-        const text = `${data.personalInfo.fullName}\n${data.personalInfo.email}\n${data.personalInfo.phone}\n\nEXPERIENCE\n${data.experience
-          .map((exp) => `${exp.role} at ${exp.company}\n${exp.description}`)
-          .join("\n\n")}`;
-        const blob = new Blob([text], { type: "text/plain" });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `${data.personalInfo.fullName || "resume"}.txt`;
-        link.click();
-        onSuccessfulDownload();
-        setExportStatus({ show: true, step: 5, format });
-        await sleep(1000);
-        setExportStatus(null);
-        setHasExported(true);
-      } catch (e) {
-        console.error("Txt gen err:", e);
-        setExportStatus(null);
-      }
-    }
-  };
-
   // Auto-download resume when redirected from payment success page
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -802,39 +553,6 @@ export default function EditorPage() {
       return () => clearTimeout(timeout);
     }
   }, [setActiveTab]);
-
-  const tabs: TabItem[] = [
-    {
-      id: "basics",
-      label: String(language === "ar" ? "المعلومات الأساسية" : "Basics"),
-      shortLabel: String(language === "ar" ? "البيانات" : "Basics"),
-      icon: User,
-      tourId: "personal-info",
-    },
-    {
-      id: "experience",
-      label: String(language === "ar" ? "الخبرة والتعليم" : "Experience & Education"),
-      shortLabel: String(language === "ar" ? "خبرة/تعليم" : "Exp & Edu"),
-      icon: Briefcase,
-      tourId: "experience-section",
-    },
-    {
-      id: "skills",
-      label: String(language === "ar" ? "المهارات والمشاريع والشهادات" : "Skills, Projects & Certs"),
-      shortLabel: String(language === "ar" ? "مهارات/مشاريع" : "Skills & More"),
-      icon: Wrench,
-      tourId: "skills-section",
-    },
-    {
-      id: "finish",
-      label: String(language === "ar" ? "المعاينة والتحميل" : "Preview & Download"),
-      shortLabel: String(language === "ar" ? "معاينة" : "Preview"),
-      icon: Download,
-      tourId: "review-section",
-    },
-  ];
-
-
 
   const sidebarCompletionMap: Record<string, number> = {
     basics: data.personalInfo.fullName && data.personalInfo.email && data.personalInfo.jobTitle ? 100 : (data.personalInfo.fullName || data.personalInfo.email ? 50 : 0),
@@ -2049,15 +1767,9 @@ export default function EditorPage() {
                     {language === "ar" ? "القالب:" : "Template:"}
                   </span>
                   <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
-                    {[
-                      { id: "classic", name: language === "ar" ? "🏛️ كلاسيكي" : "🏛️ Classic" },
-                      { id: "modern", name: language === "ar" ? "💼 حديث" : "💼 Modern" },
-                      { id: "executive", name: language === "ar" ? "👑 تنفيذي" : "👑 Executive" },
-                      { id: "minimal", name: language === "ar" ? "✨ بسيط" : "✨ Minimal" },
-                      { id: "timeline", name: language === "ar" ? "⏱️ زمني" : "⏱️ Timeline" },
-                      { id: "two-column", name: language === "ar" ? "📑 عمودين" : "📑 Two-Col" },
-                    ].map((temp) => {
+                    {RESUME_TEMPLATES.map((temp) => {
                       const isSelected = settings.template === temp.id;
+                      const displayName = language === "ar" ? temp.nameAr : temp.nameEn;
                       return (
                         <button
                           key={temp.id}
@@ -2069,7 +1781,7 @@ export default function EditorPage() {
                               : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
                           )}
                         >
-                          {temp.name}
+                          {displayName}
                         </button>
                       );
                     })}

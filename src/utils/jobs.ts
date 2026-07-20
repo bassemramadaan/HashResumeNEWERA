@@ -49,43 +49,61 @@ export async function fetchJobsFromSheet(): Promise<Job[]> {
 function getMockJobs(): Job[] {
   return [
     {
-      jobId: "1",
-      title: "Senior Frontend Developer",
-      company: "TechFlow Solutions",
-      location: "Remote / Dubai, UAE",
+      jobId: "it-support",
+      title: "Officer - IT Support Egypt",
+      company: "Almosafer",
+      location: "Cairo, Egypt",
       type: "Full-time",
-      salary: "$80k - $120k",
-      description: "We are looking for a Senior Frontend Developer with expertise in React, TypeScript, and Tailwind CSS to join our growing team.",
-      postedAt: "2 days ago",
-      logo: "https://picsum.photos/seed/techflow/100/100",
-      url: "https://example.com/apply/1",
-      code: "TF-2024-001"
+      dept: "IT Support Egypt & Tech",
+      exp: "1-3 Years",
+      arabicTitle: "مسؤول - الدعم الفني وتكنولوجيا المعلومات",
+      bullets: [
+        "Provide daily desktop & infrastructure technical support to Cairo office staff.",
+        "Troubleshoot local hardware, software, security setups, and local network issues.",
+        "Provision new equipment, accounts, software access, and workstations.",
+        "Maintain office IT assets, inventory records, and support internal SLA guidelines."
+      ],
+      logo: "https://ui-avatars.com/api/?name=Almosafer&background=001639&color=fff",
+      url: "https://jobs.almosafer.com/job/Cairo-Officer-IT-Support-Egypt/1401870033/",
+      code: "AM-IT-01"
     },
     {
-      jobId: "2",
-      title: "Product Designer",
-      company: "CreativePulse",
-      location: "Hybrid / Riyadh, Saudi Arabia",
+      jobId: "revenue-assurance",
+      title: "Officer - Revenue Assurance",
+      company: "Almosafer",
+      location: "Cairo, Egypt",
       type: "Full-time",
-      salary: "$60k - $90k",
-      description: "Join our design team to create beautiful and intuitive user experiences for our global client base.",
-      postedAt: "1 week ago",
-      logo: "https://picsum.photos/seed/creative/100/100",
-      url: "https://example.com/apply/2",
-      code: "CP-2024-042"
+      dept: "Finance & Commercial Audit",
+      exp: "2-4 Years",
+      arabicTitle: "مسؤول - تدقيق ومراقبة صحة الإيرادات",
+      bullets: [
+        "Audit daily transactions and bookings to find and prevent leakage early.",
+        "Perform routine reconciliations between core systems and tourist travel vendors.",
+        "Identify commercial pricing deviations, incorrect commissions or chargebacks.",
+        "Validate payment gateway settlement workflows and reconcile differences."
+      ],
+      logo: "https://ui-avatars.com/api/?name=Almosafer&background=001639&color=fff",
+      url: "https://jobs.almosafer.com/job/Cairo-Officer-Revenue-Assurance/1399488333/",
+      code: "AM-RA-02"
     },
     {
-      jobId: "3",
-      title: "Backend Engineer (Node.js)",
-      company: "DataStream Systems",
-      location: "Remote",
-      type: "Contract",
-      salary: "$70k - $100k",
-      description: "We need a Backend Engineer to help us build and scale our real-time data processing platform.",
-      postedAt: "3 days ago",
-      logo: "https://picsum.photos/seed/datastream/100/100",
-      url: "https://example.com/apply/3",
-      code: "DS-2024-007"
+      jobId: "order-to-cash",
+      title: "Sr.Officer - Order-to-Cash",
+      company: "Almosafer",
+      location: "Cairo, Egypt",
+      type: "Full-time",
+      dept: "Finance & Accounts Receivable (O2C)",
+      exp: "3-5 Years",
+      arabicTitle: "مسؤول أول - دورة الطلب وسداد الفواتير حتى التحصيل",
+      bullets: [
+        "Lead the Order-to-Cash (O2C) accounting lifecycle for corporate high-value partners.",
+        "Audit corporate booking sales, manage credit lines, and produce flawless active invoices.",
+        "Track customer aging reports, manage active collections, and maintain healthy cash flow.",
+        "Post incoming payments in Oracle/SAP ERP and clear open invoices accurately."
+      ],
+      logo: "https://ui-avatars.com/api/?name=Almosafer&background=001639&color=fff",
+      url: "https://jobs.almosafer.com/job/Cairo-Sr_Officer-Order-to-Cash/1400535133/",
+      code: "AM-OC-03"
     }
   ];
 }

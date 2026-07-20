@@ -8,6 +8,7 @@ import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
 import puppeteer from "puppeteer";
+import { fetchJobsFromSheet } from "./src/utils/jobs";
 
 dotenv.config();
 
@@ -355,6 +356,17 @@ Tone: ${tone || "professional"}
     } catch (error: unknown) {
       console.error("Feedback Submission Error:", error);
       res.status(500).json({ success: false, message: "Submission failed due to server error" });
+    }
+  });
+
+  // Get Hash Hunt Jobs (from Google Sheets or fallbacks)
+  app.get("/api/jobs", async (req, res) => {
+    try {
+      const jobs = await fetchJobsFromSheet();
+      res.json(jobs);
+    } catch (error) {
+      console.error("Error in /api/jobs endpoint:", error);
+      res.status(500).json({ error: "Failed to retrieve jobs" });
     }
   });
 
