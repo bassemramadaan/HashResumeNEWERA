@@ -2,6 +2,8 @@ import { motion, AnimatePresence } from "motion/react";
 import { Loader2, RotateCcw, AlertCircle, Eye, EyeOff, MessageCircle } from "lucide-react";
 import type { AppLang } from "../../hooks/useDirection";
 import { cn } from "../../lib/utils";
+import { LogoImage } from "../LogoImage";
+import { LOGO_ICON_URL } from "../../constants";
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 
@@ -121,8 +123,8 @@ export default function EditorNavbar({
             className="w-10 h-10 flex items-center justify-center shrink-0 cursor-pointer"
             title="Back to Home"
           >
-            <img 
-              src="/logo.png" 
+            <LogoImage 
+              src={LOGO_ICON_URL} 
               alt="HashResume" 
               className="w-full h-full object-contain drop-shadow-sm" 
             />

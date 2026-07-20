@@ -1,5 +1,8 @@
-export const LOGO_URL = '/logo.png';
-export const HERO_LOGO_URL = '/logo.png';
+export const LOGO_WHITE_URL = "/logos/hash-resume-white.png";
+export const LOGO_BLACK_URL = "/logos/hash-resume-black.png";
+export const LOGO_ICON_URL = "/logos/hash-resume-icon.png";
+export const LOGO_URL = LOGO_BLACK_URL;
+export const HERO_LOGO_URL = LOGO_BLACK_URL;
 
 export const DEFAULT_BREAKDOWN = [
   {

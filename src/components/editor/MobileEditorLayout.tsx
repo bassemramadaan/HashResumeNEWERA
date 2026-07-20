@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
+import { LogoImage } from "../LogoImage";
+import { LOGO_ICON_URL } from "../../constants";
 import { 
   User, Briefcase, GraduationCap, Award, FolderHeart, Trophy, CheckCircle,
   Eye, Grid, Download, 
@@ -643,8 +645,8 @@ export default function MobileEditorLayout({
               title={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
               aria-label={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
             >
-              <img 
-                src="/logo.png" 
+              <LogoImage 
+                src={LOGO_ICON_URL} 
                 alt="HashResume App" 
                 className="w-full h-full object-contain drop-shadow-sm" 
               />

@@ -4,6 +4,8 @@ import { ResumeData, useResumeStore } from "../store/useResumeStore";
 import ResumePreview from "../components/preview/ResumePreview";
 import { Loader2, Copy, Check, Edit, AlertTriangle } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import { LogoImage } from "../components/LogoImage";
+import { LOGO_BLACK_URL } from "../constants";
 
 export default function SharePage() {
   const { id } = useParams<{ id: string }>();
@@ -217,9 +219,9 @@ export default function SharePage() {
       <header className="w-full bg-white/80 backdrop-blur-md border-b border-slate-200/60 sticky top-0 z-40 px-4 py-3 sm:py-4 shadow-3xs flex justify-center">
         <div className="w-full max-w-5xl flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2">
-            <img 
-              src="/logo.png" 
-              alt="HashResume" 
+            <LogoImage 
+              src={LOGO_BLACK_URL}
+              alt="HashResume"
               className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded-lg" 
             />
             <span className="text-sm sm:text-base font-black text-slate-900 tracking-tight">

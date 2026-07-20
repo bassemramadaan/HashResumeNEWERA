@@ -8,6 +8,8 @@ import {
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore } from "../store/useResumeStore";
 import { translations } from "../i18n/translations";
+import { LogoImage } from "../components/LogoImage";
+import { LOGO_BLACK_URL } from "../constants";
 
 export default function PaymentPage() {
   const { language } = useLanguageStore();
@@ -478,8 +480,8 @@ export default function PaymentPage() {
 
             <div className="absolute left-1/2 -translate-x-1/2">
               <Link to="/" className="flex items-center">
-                <img
-                  src="/logo.png"
+                <LogoImage
+                  src={LOGO_BLACK_URL}
                   alt="Hash Resume"
                   className="h-[55px] sm:h-[65px] w-auto object-contain"
                 />

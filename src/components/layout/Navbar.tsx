@@ -14,6 +14,8 @@ import { cn } from '@/lib/utils'
 import type { AppLang } from '@/hooks/useDirection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import { useNavigate, Link } from 'react-router-dom'
+import { LogoImage } from '@/components/LogoImage';
+import { LOGO_BLACK_URL, LOGO_ICON_URL } from '@/constants';
 
 const LANG_LABELS = { ar: 'العربية', en: 'English', fr: 'Français' }
 const LANGS: AppLang[] = ['ar', 'en', 'fr']
@@ -140,15 +142,26 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
              </div>
           </div>
 
-          {/* Logo (Centered absolutely in lg) */}
-          <div className="flex items-center gap-2 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 z-10">
-            <Link to="/" className="flex items-center transform hover:scale-105 transition-all duration-300">
-              <img
-                src="/logo.png"
+          {/* Mobile Logo */}
+          <div className="lg:hidden flex h-14 w-14 shrink-0 items-center justify-center overflow-visible relative z-20">
+            <Link to="/" className="flex items-center">
+              <LogoImage
+                src={LOGO_ICON_URL}
                 alt="Hash Resume"
-                className="h-[40px] sm:h-[50px] md:h-[60px] w-auto object-contain select-none"
+                className="block h-12 w-12 shrink-0 object-contain max-w-none"
               />
             </Link>
+          </div>
+          
+          {/* Desktop Logo */}
+          <div className="hidden lg:flex absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
+             <Link to="/" className="flex items-center transform hover:scale-105 transition-all duration-300">
+               <LogoImage
+                 src={LOGO_BLACK_URL}
+                 alt="Hash Resume"
+                 className="block h-16 xl:h-20 w-auto max-w-[260px] object-contain select-none"
+               />
+             </Link>
           </div>
 
           {/* Right: Actions */}
@@ -209,162 +222,172 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
       {/* Mobile Menu Panel */}
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="lg:hidden overflow-hidden border-t border-slate-100 bg-white"
-          >
-            <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col gap-4 max-h-[75vh] overflow-y-auto">
-              
-              {/* 1. Resume & Templates Group */}
-              <div>
-                <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
-                  {resumeMenu.label}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileOpen(false)}
+              className="fixed inset-0 z-30 bg-black/20 lg:hidden"
+            />
+            {/* Panel */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+              className="lg:hidden fixed inset-x-0 top-[64px] sm:top-[80px] z-40 bg-white/95 backdrop-blur shadow-xl border-b border-slate-100"
+            >
+              <div className="max-h-[calc(100vh-64px)] sm:max-h-[calc(100vh-80px)] overflow-y-auto px-4 py-4 flex flex-col gap-4">
+                {/* 1. Resume & Templates Group */}
+                <div>
+                  <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
+                    {resumeMenu.label}
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    {resumeMenu.items.map((item, idx) => {
+                      const IconComponent = item.icon;
+                      const content = (
+                        <div className="flex items-center justify-between w-full">
+                          <div className="flex items-center gap-2.5">
+                            <IconComponent className="w-4.5 h-4.5 text-emerald-500 shrink-0" />
+                            <span className="text-slate-700">{item.label}</span>
+                          </div>
+                          {item.badge && (
+                            <span className={cn(
+                              "text-[8px] uppercase font-bold px-2 py-0.5 rounded-md leading-none border",
+                              item.color === 'emerald'
+                                ? "bg-emerald-50 border-emerald-100 text-emerald-600"
+                                : "bg-[#001639]/5 border-[#001639]/15 text-[#001639]"
+                            )}>
+                              {item.badge}
+                            </span>
+                          )}
+                        </div>
+                      );
+
+                      return item.onClickAction ? (
+                        <div
+                          key={idx}
+                          onClick={() => { handleStart(); setMobileOpen(false); }}
+                          className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5 cursor-pointer"
+                        >
+                          {content}
+                        </div>
+                      ) : (
+                        <Link
+                          key={item.href || idx}
+                          to={item.href || '/'}
+                          onClick={() => setMobileOpen(false)}
+                          className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5"
+                        >
+                          {content}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
-                <div className="flex flex-col gap-1">
-                  {resumeMenu.items.map((item, idx) => {
-                    const IconComponent = item.icon;
-                    const content = (
-                      <div className="flex items-center justify-between w-full">
+
+                {/* 2. Tools Group in Mobile Menu */}
+                <div className="pt-2 border-t border-slate-100">
+                  <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
+                    {toolsMenu.label}
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    {toolsMenu.items.map((item) => {
+                      const isItemInternal = item.href.startsWith('/') && !item.href.includes('#');
+                      const IconComponent = item.icon;
+                      const linkClass = "px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5 cursor-pointer";
+
+                      const badgeEl = item.badge && (
+                        <span className={cn(
+                          "text-[8px] uppercase font-bold px-2 py-0.5 rounded-md leading-none border",
+                          item.color === 'emerald'
+                            ? "bg-emerald-50 border-emerald-100 text-emerald-600"
+                            : "bg-orange-50 border-orange-100 text-[#001639]"
+                        )}>
+                          {item.badge}
+                        </span>
+                      );
+
+                      const content = (
                         <div className="flex items-center gap-2.5">
-                          <IconComponent className="w-4.5 h-4.5 text-emerald-500 shrink-0" />
+                          <IconComponent className="w-4.5 h-4.5 text-[#001639] shrink-0" />
                           <span className="text-slate-700">{item.label}</span>
                         </div>
-                        {item.badge && (
-                          <span className={cn(
-                            "text-[8px] uppercase font-bold px-2 py-0.5 rounded-md leading-none border",
-                            item.color === 'emerald' 
-                              ? "bg-emerald-50 border-emerald-100 text-emerald-600" 
-                              : "bg-[#001639]/5 border-[#001639]/15 text-[#001639]"
-                          )}>
-                            {item.badge}
-                          </span>
-                        )}
-                      </div>
-                    );
+                      );
 
-                    return item.onClickAction ? (
-                      <div
-                        key={idx}
-                        onClick={() => { handleStart(); setMobileOpen(false); }}
-                        className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5 cursor-pointer"
-                      >
-                        {content}
-                      </div>
-                    ) : (
-                      <Link
-                        key={item.href || idx}
-                        to={item.href || '/'}
-                        onClick={() => setMobileOpen(false)}
-                        className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5"
-                      >
-                        {content}
-                      </Link>
-                    );
-                  })}
+                      return isItemInternal ? (
+                        <Link
+                          key={item.href}
+                          to={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={linkClass}
+                        >
+                          {content}
+                          {badgeEl}
+                        </Link>
+                      ) : (
+                        <a
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          className={linkClass}
+                        >
+                          {content}
+                          {badgeEl}
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 3. Info & Pricing Group */}
+                <div className="pt-2 border-t border-slate-100">
+                  <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
+                    {infoMenu.label}
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    {infoMenu.items.map((item, idx) => {
+                      const IconComponent = item.icon;
+                      return (
+                        <Link
+                          key={idx}
+                          to={item.href}
+                          onClick={() => setMobileOpen(false)}
+                          className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5"
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <IconComponent className="w-4.5 h-4.5 text-slate-400 shrink-0" />
+                            <span className="text-slate-700">{item.label}</span>
+                          </div>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Language toggler for Mobile */}
+                <div className="grid grid-cols-3 gap-2 mt-2 pt-3 border-t border-slate-100">
+                  {LANGS.map((l) => (
+                    <button
+                      key={l}
+                      onClick={() => { onLangChange(l); setMobileOpen(false) }}
+                      className={cn(
+                        'text-xs font-bold py-2.5 rounded-xl border transition-all text-center uppercase',
+                        lang === l
+                          ? 'border-[#001639]/60 bg-[#001639]/5 text-[#001639] font-black'
+                          : 'border-slate-100 text-slate-500 hover:bg-slate-50'
+                      )}
+                    >
+                      {LANG_LABELS[l]}
+                    </button>
+                  ))}
                 </div>
               </div>
-
-              {/* 2. Tools Group in Mobile Menu */}
-              <div className="pt-2 border-t border-slate-100">
-                <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
-                  {toolsMenu.label}
-                </div>
-                <div className="flex flex-col gap-1">
-                  {toolsMenu.items.map((item) => {
-                    const isItemInternal = item.href.startsWith('/') && !item.href.includes('#');
-                    const IconComponent = item.icon;
-                    const linkClass = "px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5 cursor-pointer";
-                    
-                    const badgeEl = item.badge && (
-                      <span className={cn(
-                        "text-[8px] uppercase font-bold px-2 py-0.5 rounded-md leading-none border",
-                        item.color === 'emerald' 
-                          ? "bg-emerald-50 border-emerald-100 text-emerald-600" 
-                          : "bg-orange-50 border-orange-100 text-[#001639]"
-                      )}>
-                        {item.badge}
-                      </span>
-                    );
-
-                    const content = (
-                      <div className="flex items-center gap-2.5">
-                        <IconComponent className="w-4.5 h-4.5 text-[#001639] shrink-0" />
-                        <span className="text-slate-700">{item.label}</span>
-                      </div>
-                    );
-
-                    return isItemInternal ? (
-                      <Link
-                        key={item.href}
-                        to={item.href}
-                        onClick={() => setMobileOpen(false)}
-                        className={linkClass}
-                      >
-                        {content}
-                        {badgeEl}
-                      </Link>
-                    ) : (
-                      <a
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setMobileOpen(false)}
-                        className={linkClass}
-                      >
-                        {content}
-                        {badgeEl}
-                      </a>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* 3. Info & Pricing Group */}
-              <div className="pt-2 border-t border-slate-100">
-                <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
-                  {infoMenu.label}
-                </div>
-                <div className="flex flex-col gap-1">
-                  {infoMenu.items.map((item, idx) => {
-                    const IconComponent = item.icon;
-                    return (
-                      <Link
-                        key={idx}
-                        to={item.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5"
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <IconComponent className="w-4.5 h-4.5 text-slate-400 shrink-0" />
-                          <span className="text-slate-700">{item.label}</span>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Language toggler for Mobile */}
-              <div className="grid grid-cols-3 gap-2 mt-2 pt-3 border-t border-slate-100">
-                {LANGS.map((l) => (
-                  <button
-                    key={l}
-                    onClick={() => { onLangChange(l); setMobileOpen(false) }}
-                    className={cn(
-                      'text-xs font-bold py-2.5 rounded-xl border transition-all text-center uppercase', 
-                      lang === l 
-                        ? 'border-[#001639]/60 bg-[#001639]/5 text-[#001639] font-black' 
-                        : 'border-slate-100 text-slate-500 hover:bg-slate-50'
-                    )}
-                  >
-                    {LANG_LABELS[l]}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </nav>

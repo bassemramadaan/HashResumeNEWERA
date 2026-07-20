@@ -1,4 +1,5 @@
 import { LOGO_URL } from '@/constants'
+import { LogoImage } from "../LogoImage";
 
 interface HashResumeLogoProps {
   showText?: boolean
@@ -22,7 +23,7 @@ export function HashResumeLogo({
       className={className}
       style={{ display: 'flex', alignItems: 'center', gap: 8, height, ...style }}
     >
-      <img
+      <LogoImage
         src={LOGO_URL}
         alt="Hash Resume"
         className="h-full w-auto"

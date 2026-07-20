@@ -3,6 +3,8 @@ import { Check, Zap, Smartphone, CreditCard, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useLanguageStore } from "../store/useLanguageStore";
+import { LogoImage } from "../components/LogoImage";
+import { LOGO_BLACK_URL } from "../constants";
 
 export default function PricingPage() {
   const { language } = useLanguageStore();
@@ -42,8 +44,8 @@ export default function PricingPage() {
             {/* Logo Link centered absolutely */}
             <div className="absolute left-1/2 -translate-x-1/2 flex justify-center items-center pointer-events-none">
               <Link to="/" className="pointer-events-auto flex justify-center items-center">
-                <img
-                  src="/logo.png"
+                <LogoImage
+                  src={LOGO_BLACK_URL}
                   alt="Hash Resume"
                   className="h-[60px] sm:h-[75px] w-auto object-contain transition-all duration-300 hover:scale-105 active:scale-95"
                 />
