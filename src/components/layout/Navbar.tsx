@@ -79,7 +79,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         desc: lang === 'ar' ? 'متابعة التقديمات، الإحالات، والأكواد المدفوعة' : 'Track resume slots, application stages & free reward exports'
       },
       {
-        label: lang === 'ar' ? 'احصل على وظيفتك التالية' : lang === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
+        label: lang === 'ar' ? 'وظائف هاش' : lang === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
         href: '/hash-hunt',
         badge: lang === 'ar' ? 'جديد' : 'NEW',
         color: 'brand',
@@ -110,8 +110,38 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between relative h-16 sm:h-20">
-          {/* Logo */}
-          <div className="flex items-center justify-start shrink-0">
+          {/* Left: Hash Hunt + More */}
+          <div className="hidden lg:flex items-center gap-4 shrink-0">
+             {/* Hash Hunt Link (Desktop only) */}
+             <Link 
+               to="/hash-hunt" 
+               className="hidden lg:flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-brand-600 transition-all shrink-0"
+             >
+               <span>{lang === 'ar' ? 'وظائف هاش 💼' : 'Hash Hunt 💼'}</span>
+             </Link>
+
+             <div className="hidden lg:flex relative group">
+               <button className="text-sm font-bold text-slate-700 hover:text-brand-600 flex items-center gap-1">
+                 {lang === 'ar' ? 'المزيد' : 'More'}
+                 <ChevronDown className="w-4 h-4" />
+               </button>
+               {/* More Menu */}
+               <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto z-50">
+                   <a href="/#ats-check" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                     {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
+                   </a>
+                   <Link to="/pricing" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                     {lang === 'ar' ? 'الأسعار' : 'Pricing'}
+                   </Link>
+                   <Link to="/templates" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                     {lang === 'ar' ? 'القوالب' : 'Templates'}
+                   </Link>
+               </div>
+             </div>
+          </div>
+
+          {/* Logo (Centered absolutely in lg) */}
+          <div className="flex items-center gap-2 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 z-10">
             <Link to="/" className="flex items-center transform hover:scale-105 transition-all duration-300">
               <img
                 src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png"
@@ -122,27 +152,9 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
           </div>
 
           {/* Right: Actions */}
-          <div className="flex items-center justify-end gap-2 sm:gap-4 shrink-0">
-            <div className="hidden lg:flex relative group">
-              <button className="text-sm font-bold text-slate-700 hover:text-brand-600 flex items-center gap-1">
-                {lang === 'ar' ? 'المزيد' : 'More'}
-                <ChevronDown className="w-4 h-4" />
-              </button>
-              <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto z-50">
-                  <a href="/#ats-check" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                    {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
-                  </a>
-                  <Link to="/pricing" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                    {lang === 'ar' ? 'الأسعار' : 'Pricing'}
-                  </Link>
-                  <Link to="/templates" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                    {lang === 'ar' ? 'القوالب' : 'Templates'}
-                  </Link>
-              </div>
-            </div>
-
-            {/* Language Switcher */}
-            <div className="relative">
+          <div className="flex items-center justify-end gap-2 sm:gap-4 shrink-0 w-full lg:w-auto">
+            {/* Language Switcher (Desktop only) */}
+            <div className="hidden lg:block relative">
               <button
                 onClick={() => setLangOpen(!langOpen)}
                 className="hover:bg-slate-50 border border-slate-100/40 px-3 py-2 rounded-xl font-bold text-slate-500 hover:text-slate-800 transition-all flex items-center gap-1.5 text-xs sm:text-sm cursor-pointer"
@@ -151,7 +163,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 <span>{LANG_LABELS[lang]}</span>
                 <ChevronDown className="w-3 h-3 opacity-60" />
               </button>
-              
+              {/* Lang Menu */}
               <AnimatePresence>
                 {langOpen && (
                   <>
