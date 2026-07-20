@@ -112,8 +112,22 @@ export default function EditorNavbar({
             </button>
         </div>
 
-        {/* ── Center group: Auto-save ── */}
+        {/* ── Center group: Logo & Auto-save ── */}
         <div className="flex items-center justify-center select-none transition-all gap-4">
+           <motion.div 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={onBackToHome}
+            className="w-10 h-10 flex items-center justify-center shrink-0 cursor-pointer"
+            title="Back to Home"
+          >
+            <img 
+              src="/logo.png" 
+              alt="HashResume" 
+              className="w-full h-full object-contain drop-shadow-sm" 
+            />
+          </motion.div>
+          
           <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-full px-3 py-1.5 hidden sm:flex">
              <AnimatePresence mode="wait">
                {renderStatus()}
