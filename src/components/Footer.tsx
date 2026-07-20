@@ -19,7 +19,7 @@ export default function Footer() {
             <div className="col-span-2 lg:col-span-4">
               <div className="flex flex-col items-start mb-4">
                 <Link to="/" className="inline-block transform origin-left rtl:origin-right hover:scale-105 transition-transform mb-2">
-                  <img width="200" height="68" src="https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png" alt="Hash Resume" className="h-[55px] md:h-[68px] w-[auto] object-contain pointer-events-none brightness-100" loading="lazy" decoding="async" />
+                  <img width="200" height="68" src="/logo.png" alt="Hash Resume" className="h-[55px] md:h-[68px] w-[auto] object-contain pointer-events-none brightness-100" loading="lazy" decoding="async" />
                 </Link>
               </div>
               <p className="text-sm max-w-sm mb-4 text-slate-400">{t.footerDesc}</p>

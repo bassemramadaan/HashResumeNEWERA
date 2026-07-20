@@ -153,6 +153,15 @@ export default function EditorPage() {
     handlePrevTab,
   } = useResumeEditorState();
 
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" | "info" } | null>(null);
+
+  const showToast = (message: string, type: "success" | "error" | "info" = "info") => {
+    setToast({ message, type });
+    setTimeout(() => {
+      setToast(prev => prev?.message === message ? null : prev);
+    }, 4000);
+  };
+
   const [isTipsOpen, setIsTipsOpen] = useState(true);
   const [showAIBanner, setShowAIBanner] = useState(true);
   const [showMicroSpacingPanel, setShowMicroSpacingPanel] = useState(false);
@@ -669,7 +678,7 @@ export default function EditorPage() {
         setTimeout(() => setShowPostDownloadModal(true), 300);
       } catch (err: any) {
         console.error("Export failed:", err);
-        alert(language === "ar" ? "حدث خطأ أثناء التصدير. يرجى المحاولة مرة أخرى." : "Export failed. Please try again.");
+        showToast(language === "ar" ? "حدث خطأ أثناء التصدير. يرجى المحاولة مرة أخرى." : "Export failed. Please try again.", "error");
         setExportStatus(null);
       }
     } else if (format === "docx") {
@@ -1296,7 +1305,7 @@ export default function EditorPage() {
     const domain = window.location.origin;
     const shareUrl = `${domain}/share/${shareId}`;
     navigator.clipboard.writeText(shareUrl);
-    alert(language === 'ar' ? 'تم نسخ الرابط! (يجب ترقية الحساب للتفعيل)' : 'Link copied to clipboard! (Premium feature)');
+    showToast(language === 'ar' ? 'تم نسخ الرابط! (يجب ترقية الحساب للتفعيل)' : 'Link copied to clipboard! (Premium feature)', "success");
   };
 
   return (
@@ -2665,6 +2674,29 @@ export default function EditorPage() {
                     {language === "ar" ? "خليني أكمل" : "Keep editing"}
                   </button>
                 </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
+        <AnimatePresence>
+          {toast && (
+            <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[200] max-w-sm w-full px-4 pointer-events-none">
+              <motion.div
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                className={cn(
+                  "p-4 rounded-2xl shadow-xl border flex items-center gap-3 pointer-events-auto",
+                  toast.type === "success" ? "bg-emerald-50 border-emerald-100 text-emerald-800" :
+                  toast.type === "error" ? "bg-rose-50 border-rose-100 text-rose-800" :
+                  "bg-slate-900 border-slate-800 text-white"
+                )}
+              >
+                <span className="text-lg">
+                  {toast.type === "success" ? "✅" : toast.type === "error" ? "⚠️" : "ℹ️"}
+                </span>
+                <p className="text-xs font-bold leading-normal">{toast.message}</p>
               </motion.div>
             </div>
           )}

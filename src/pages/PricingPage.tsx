@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Check } from "lucide-react";
+import { Check, Zap, Smartphone, CreditCard, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -43,7 +43,7 @@ export default function PricingPage() {
             <div className="absolute left-1/2 -translate-x-1/2 flex justify-center items-center pointer-events-none">
               <Link to="/" className="pointer-events-auto flex justify-center items-center">
                 <img
-                  src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                  src="/logo.png"
                   alt="Hash Resume"
                   className="h-[60px] sm:h-[75px] w-auto object-contain transition-all duration-300 hover:scale-105 active:scale-95"
                 />
@@ -94,9 +94,9 @@ export default function PricingPage() {
                 {isAr ? "مثالي لشخص يبحث عن وظيفة واحدة ويريد سيرة ذاتية مثالية." : "Perfect for a single application or update."}
               </p>
               <div className="mb-8 flex items-baseline gap-2">
-                <span className="text-5xl font-black text-slate-900 dark:text-neutral-900" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>50</span>
+                <span className="text-5xl font-black text-slate-900 dark:text-neutral-900">50</span>
                 {" "}
-                <span className="text-slate-500 dark:text-neutral-500 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
+                <span className="text-slate-500 dark:text-neutral-500 font-bold">{isAr ? "ج.م" : "EGP"}</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
@@ -135,9 +135,9 @@ export default function PricingPage() {
                 {isAr ? "شارك الباقة مع أصدقائك أو أنشئ أكثر من سيرة ذاتية لمجالات مختلفة." : "Share with friends or create multiple versions of your resume."}
               </p>
               <div className="mb-8 flex items-baseline gap-2">
-                <span className="text-5xl font-black text-[#001639]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>120</span>
+                <span className="text-5xl font-black text-[#001639]">120</span>
                 {" "}
-                <span className="text-slate-500 dark:text-slate-400 font-bold" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{isAr ? "ج.م" : "EGP"}</span>
+                <span className="text-slate-500 dark:text-slate-400 font-bold">{isAr ? "ج.م" : "EGP"}</span>
               </div>
               <ul className="space-y-4 mb-8 flex-1">
                 {[
@@ -169,28 +169,28 @@ export default function PricingPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-3xs hover:shadow-xs transition-shadow">
                 <div className="w-10 h-10 rounded-full bg-brand-50 flex items-center justify-center mb-2">
-                  <span className="text-base">⚡</span>
+                  <Zap className="w-5 h-5 text-brand-500" />
                 </div>
                 <span className="font-extrabold text-slate-800 text-xs">InstaPay</span>
                 <span className="text-[10px] text-slate-400 font-semibold mt-0.5">{isAr ? "تحويل فوري" : "Instant Transfer"}</span>
               </div>
               <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-3xs hover:shadow-xs transition-shadow">
                 <div className="w-10 h-10 rounded-full bg-rose-50 flex items-center justify-center mb-2">
-                  <span className="text-base">🔴</span>
+                  <Smartphone className="w-5 h-5 text-rose-500" />
                 </div>
                 <span className="font-extrabold text-slate-800 text-xs">Vodafone Cash</span>
                 <span className="text-[10px] text-slate-400 font-semibold mt-0.5">{isAr ? "وجميع المحافظ" : "All Mobile Wallets"}</span>
               </div>
               <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-3xs hover:shadow-xs transition-shadow">
                 <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center mb-2">
-                  <span className="text-base">💳</span>
+                  <CreditCard className="w-5 h-5 text-blue-500" />
                 </div>
                 <span className="font-extrabold text-slate-800 text-xs">Visa / MasterCard</span>
                 <span className="text-[10px] text-slate-400 font-semibold mt-0.5">{isAr ? "بطاقات الدفع" : "Credit & Debit Cards"}</span>
               </div>
               <div className="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-slate-200 shadow-3xs hover:shadow-xs transition-shadow">
                 <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center mb-2">
-                  <span className="text-base">🔒</span>
+                  <Lock className="w-5 h-5 text-emerald-500" />
                 </div>
                 <span className="font-extrabold text-slate-800 text-xs">SSL Secure</span>
                 <span className="text-[10px] text-slate-400 font-semibold mt-0.5">{isAr ? "اتصال مشفر وآمن" : "Encrypted Gateway"}</span>

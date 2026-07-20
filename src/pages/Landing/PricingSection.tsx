@@ -135,7 +135,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
             <div className="mb-8 text-center md:text-start">
               <div className="text-[11px] font-black text-slate-400 mb-2 tracking-[0.2em] uppercase">{c.planSingle.name}</div>
               <div className="flex items-baseline justify-center md:justify-start gap-2">
-                <span className="text-5xl font-extrabold text-slate-950 tracking-tighter" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{c.planSingle.price}</span>
+                <span className="text-5xl font-extrabold text-slate-950 tracking-tighter">{c.planSingle.price}</span>
                 <span className="text-sm font-medium text-slate-500">{c.planSingle.period}</span>
               </div>
             </div>
@@ -174,7 +174,7 @@ export function PricingSection({ lang, onPaidClick }: PricingSectionProps) {
             <div className="mb-8 text-center md:text-start">
               <div className="text-[11px] font-black text-[#001639] mb-2 tracking-[0.2em] uppercase">{c.planBundle.name}</div>
               <div className="flex items-baseline justify-center md:justify-start gap-2">
-                <span className="text-5xl font-extrabold text-slate-950 tracking-tighter" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>{c.planBundle.price}</span>
+                <span className="text-5xl font-extrabold text-slate-950 tracking-tighter">{c.planBundle.price}</span>
                 <span className="text-sm font-medium text-slate-500">{c.planBundle.period}</span>
               </div>
             </div>

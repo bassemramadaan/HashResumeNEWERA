@@ -24,10 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
-    let scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
-    if (!scriptUrl || !scriptUrl.includes("AKfycbxEwZA")) {
-      scriptUrl = "https://script.google.com/macros/s/AKfycbxEwZAiv_ja3Tlpno6HWp-OL1ur2WPkRq_9V4BTqquWsfX1gAEacB9vu-iRowF9FxDI-A/exec";
-    }
+    const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
     if (!scriptUrl) {
       throw new Error("Payment script URL not configured");
     }
@@ -68,7 +65,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
                           (responseText.includes("<html") && responseText.includes("Google Apps Script"));
 
       if (isGoogleError) {
-        console.warn("[Vercel Serverless Payment] Google Apps Script permission/authorization error detected. Falling back to Sandbox auto-approval Mode.");
+        console.warn("[Vercel Serverless Payment] Google Apps Script permission/authorization error detected.");
+        if (process.env.NODE_ENV === "production") {
+          return res.status(400).json({ success: false, message: "Payment verification failed: Google Apps Script verification error." });
+        }
         if (action === "submitPayment") {
           result = { success: true, status: "approved", message: "Recorded successfully (Sandbox Auto-Approved)" };
         } else if (action === "checkStatus") {
@@ -80,7 +80,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         try {
           result = JSON.parse(responseText);
         } catch (parseErr) {
-          console.warn("[Vercel Serverless Payment] Failed to parse JSON response. Falling back to Sandbox auto-approval mode to prevent blocking user.");
+          console.warn("[Vercel Serverless Payment] Failed to parse JSON response.");
+          if (process.env.NODE_ENV === "production") {
+            return res.status(400).json({ success: false, message: "Payment verification failed: Failed to parse verification server response." });
+          }
           if (action === "submitPayment") {
             result = { success: true, status: "approved", message: "Recorded successfully (Sandbox Auto-Approved)" };
           } else if (action === "checkStatus") {
@@ -94,7 +97,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.json(result);
     } catch (fetchError: any) {
       clearTimeout(timeoutId);
-      console.error("[Vercel Serverless Payment] Error in fetch. Falling back to Sandbox Mode:", fetchError);
+      console.error("[Vercel Serverless Payment] Error in fetch:", fetchError);
+      
+      if (process.env.NODE_ENV === "production") {
+        return res.status(400).json({ 
+          success: false, 
+          message: fetchError.name === 'AbortError' 
+            ? "Payment verification failed: Request timed out." 
+            : "Payment verification failed: Failed to connect to verification server." 
+        });
+      }
       
       let result;
       if (action === "submitPayment") {

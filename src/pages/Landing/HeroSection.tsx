@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import { 
   Sparkles, 
   ArrowLeft, 
@@ -54,6 +54,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
   const isAr = lang === 'ar'
   const words = ROTATING_WORDS[lang] || ROTATING_WORDS['en']
   const [wordIndex, setWordIndex] = useState(0)
+  const shouldReduceMotion = useReducedMotion()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -62,6 +63,23 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
     return () => clearInterval(interval)
   }, [words])
 
+  // Motion reduction configuration
+  const motionTransition = shouldReduceMotion 
+    ? { duration: 0.1 } 
+    : { duration: 0.4, ease: "easeOut" }
+
+  const motionInitial = shouldReduceMotion 
+    ? { opacity: 0 } 
+    : { y: 25, opacity: 0 }
+
+  const motionAnimate = shouldReduceMotion 
+    ? { opacity: 1 } 
+    : { y: 0, opacity: 1 }
+
+  const motionExit = shouldReduceMotion 
+    ? { opacity: 0 } 
+    : { y: -25, opacity: 0 }
+
   return (
     <section 
       className="relative pt-6 pb-20 md:pt-24 md:pb-32 lg:pt-40 lg:pb-40 overflow-hidden bg-white" 
@@ -69,15 +87,15 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
     >
       {/* Background decoration */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-blue-200/30 to-blue-100/40 rounded-full blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute top-12 left-1/4 w-[300px] h-[300px] bg-blue-200/10 rounded-full blur-[80px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '6s' }} />
-      <div className="absolute top-36 right-1/4 w-[250px] h-[250px] bg-amber-100/15 rounded-full blur-[70px] pointer-events-none -z-10 animate-pulse" style={{ animationDuration: '10s' }} />
+      <div className="absolute top-12 left-1/4 w-[300px] h-[300px] bg-blue-200/10 rounded-full blur-[80px] pointer-events-none -z-10" />
+      <div className="absolute top-36 right-1/4 w-[250px] h-[250px] bg-amber-100/15 rounded-full blur-[70px] pointer-events-none -z-10" />
 
       <div className="container relative z-10 mx-auto px-6 max-w-7xl">
         <div className="flex flex-col items-center text-center space-y-10">
           
           <div className="flex justify-center">
             <img
-              src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+              src="/logo.png"
               alt="Hash Resume"
               className="h-[80px] sm:h-[100px] md:h-[120px] w-auto object-contain select-none"
             />
@@ -97,14 +115,14 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             className="hero-title text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
           >
             {copy.titleMain}{" "}
-            <span className="hero-highlight-text text-blue-600 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center">
+            <span className={`hero-highlight-text text-blue-600 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center ${isAr ? 'mr-3' : 'ml-3'}`}>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={wordIndex}
-                  initial={{ y: 25, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -25, opacity: 0 }}
-                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  initial={motionInitial}
+                  animate={motionAnimate}
+                  exit={motionExit}
+                  transition={motionTransition}
                   className="inline-block max-w-full break-words text-center px-1"
                 >
                   {words[wordIndex]}

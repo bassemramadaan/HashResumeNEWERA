@@ -2,13 +2,11 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { 
-  ArrowRight, ArrowLeft, CreditCard, Smartphone, ShieldCheck, 
+  ArrowRight, ArrowLeft, Smartphone, ShieldCheck, 
   Copy, Sparkles, Loader2, Info, CheckCircle2, Ticket, HelpCircle
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore } from "../store/useResumeStore";
-import { validatePromoCode } from "../data/promoCodes";
-
 export default function PaymentPage() {
   const { language } = useLanguageStore();
   const isAr = language === "ar";
@@ -20,19 +18,13 @@ export default function PaymentPage() {
   const initialPlan = searchParams.get("plan") === "single" ? "single" : "bundle";
   const [selectedPlan, setSelectedPlan] = useState<"single" | "bundle">(initialPlan);
   
-  // Payment methods: instapay, vodafone, fawry, card
-  const [paymentMethod, setPaymentMethod] = useState<"instapay" | "vodafone" | "fawry" | "card">("instapay");
+  // Payment methods: instapay, vodafone, fawry
+  const [paymentMethod, setPaymentMethod] = useState<"instapay" | "vodafone" | "fawry">("instapay");
   
   // Contact and verification info
   const [email, setEmail] = useState("");
   const [senderName, setSenderName] = useState("");
   const [refNum, setRefNum] = useState("");
-  
-  // Card details
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardExpiry, setCardExpiry] = useState("");
-  const [cardCvv, setCardCvv] = useState("");
-  const [cardName, setCardName] = useState("");
 
   // Promo Code
   const [promoCode, setPromoCode] = useState("");
@@ -72,27 +64,73 @@ export default function PaymentPage() {
     return base;
   };
 
-  const handleApplyPromo = () => {
+  const handleApplyPromo = async () => {
     setPromoError("");
     const code = promoCode.trim().toUpperCase();
     if (!code) return;
 
-    const discountPercent = validatePromoCode(code);
-    if (discountPercent !== null) {
-      const base = selectedPlan === "single" ? 50 : 120;
-      const discount = Math.round(base * (discountPercent / 100));
-      setDiscountAmount(discount);
-      setPromoApplied(true);
-    } else {
+    try {
+      const response = await fetch("/api/payment/apply-promo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          promoCode: code,
+          plan: selectedPlan
+        })
+      });
+
+      const result = await response.ok ? await response.json() : null;
+      if (result && result.success) {
+        setDiscountAmount(result.discountAmount);
+        setPromoApplied(true);
+      } else {
+        setPromoError(
+          isAr 
+            ? "كود الخصم غير صحيح أو منتهي الصلاحية" 
+            : isFr 
+              ? "Code promo invalide ou expiré" 
+              : (result && result.message) || "Invalid or expired promo code"
+        );
+      }
+    } catch (err) {
+      console.error("Error applying promo:", err);
       setPromoError(
         isAr 
-          ? "كود الخصم غير صحيح أو منتهي الصلاحية" 
-          : isFr 
-            ? "Code promo invalide ou expiré" 
-            : "Invalid or expired promo code"
+          ? "حدث خطأ أثناء تطبيق كود الخصم" 
+          : "An error occurred while applying the promo code"
       );
     }
   };
+
+  // Reactively re-validate promo code server-side when selected plan changes, keeping calculations on backend
+  useEffect(() => {
+    if (promoApplied) {
+      const reapplyPromo = async () => {
+        try {
+          const response = await fetch("/api/payment/apply-promo", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              promoCode,
+              plan: selectedPlan
+            })
+          });
+          const result = await response.ok ? await response.json() : null;
+          if (result && result.success) {
+            setDiscountAmount(result.discountAmount);
+          } else {
+            setPromoApplied(false);
+            setDiscountAmount(0);
+          }
+        } catch (err) {
+          console.error(err);
+          setPromoApplied(false);
+          setDiscountAmount(0);
+        }
+      };
+      reapplyPromo();
+    }
+  }, [selectedPlan, promoApplied, promoCode]);
 
   const handleSubmitPayment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -444,7 +482,7 @@ export default function PaymentPage() {
             <div className="absolute left-1/2 -translate-x-1/2">
               <Link to="/" className="flex items-center">
                 <img
-                  src="https://i.ibb.co/p6bMBFQT/IN-LOGO-icon-with-tag-1.png"
+                  src="/logo.png"
                   alt="Hash Resume"
                   className="h-[55px] sm:h-[65px] w-auto object-contain"
                 />
@@ -718,61 +756,6 @@ export default function PaymentPage() {
                       </div>
                     </div>
                   )}
-
-                  {paymentMethod === "card" && (
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-2 text-slate-900 font-black text-sm">
-                        <CreditCard size={16} className="text-brand-500" />
-                        <span>{isAr ? "الدفع بالبطاقة الائتمانية / الخصم المباشر:" : "Credit / Debit Card Checkout:"}</span>
-                      </div>
-
-                      <div className="grid sm:grid-cols-2 gap-3 text-start">
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">{isAr ? "اسم صاحب البطاقة" : "Cardholder Name"}</label>
-                          <input 
-                            type="text" 
-                            value={cardName} 
-                            onChange={(e) => setCardName(e.target.value)} 
-                            placeholder={isAr ? "باسم رمضان" : "Bassem Ramadan"}
-                            className="w-full text-xs font-bold !bg-white px-3 py-2.5 rounded-lg border border-slate-200"
-                          />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">{isAr ? "رقم البطاقة" : "Card Number"}</label>
-                          <input 
-                            type="text" 
-                            maxLength={19}
-                            value={cardNumber} 
-                            onChange={(e) => setCardNumber(e.target.value.replace(/\s?/g, '').replace(/(\d{4})/g, '$1 ').trim())} 
-                            placeholder="0000 0000 0000 0000"
-                            className="w-full text-xs font-mono font-bold !bg-white px-3 py-2.5 rounded-lg border border-slate-200"
-                          />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">{isAr ? "تاريخ الانتهاء" : "Expiry Date"}</label>
-                          <input 
-                            type="text" 
-                            maxLength={5}
-                            value={cardExpiry} 
-                            onChange={(e) => setCardExpiry(e.target.value)} 
-                            placeholder="MM/YY"
-                            className="w-full text-xs font-mono font-bold !bg-white px-3 py-2.5 rounded-lg border border-slate-200"
-                          />
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">CVV</label>
-                          <input 
-                            type="password" 
-                            maxLength={3}
-                            value={cardCvv} 
-                            onChange={(e) => setCardCvv(e.target.value)} 
-                            placeholder="•••"
-                            className="w-full text-xs font-mono font-bold !bg-white px-3 py-2.5 rounded-lg border border-slate-200"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -804,39 +787,35 @@ export default function PaymentPage() {
                     />
                   </div>
 
-                  {paymentMethod !== "card" && (
-                    <>
-                      {/* Sender Info name/phone */}
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
-                          <span>{isAr ? "اسم المحول أو هاتف المحفظة المرسلة:" : "Sender Name or Mobile Wallet Phone:"}</span>
-                        </label>
-                        <input 
-                          type="text"
-                          value={senderName}
-                          onChange={(e) => setSenderName(e.target.value)}
-                          placeholder={isAr ? "الاسم ثلاثي أو الرقم الذي تم التحويل منه" : "Your name or mobile number transferred from"}
-                          className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm"
-                        />
-                      </div>
+                  {/* Sender Info name/phone */}
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
+                      <span>{isAr ? "اسم المحول أو هاتف المحفظة المرسلة:" : "Sender Name or Mobile Wallet Phone:"}</span>
+                    </label>
+                    <input 
+                      type="text"
+                      value={senderName}
+                      onChange={(e) => setSenderName(e.target.value)}
+                      placeholder={isAr ? "الاسم ثلاثي أو الرقم الذي تم التحويل منه" : "Your name or mobile number transferred from"}
+                      className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm"
+                    />
+                  </div>
 
-                      {/* Transaction reference */}
-                      <div className="space-y-1">
-                        <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
-                          <span>{isAr ? "رقم التحويل المرجعي / معرّف المعاملة:" : "Transaction Reference / TxID:"}</span>
-                          <span className="text-[#001639] font-extrabold">*</span>
-                        </label>
-                        <input 
-                          type="text"
-                          required
-                          value={refNum}
-                          onChange={(e) => setRefNum(e.target.value)}
-                          placeholder={isAr ? "أدخل الـ Ref أو الرقم المرجعي للمعاملة" : "Enter reference number or transaction ID"}
-                          className="w-full font-mono font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm"
-                        />
-                      </div>
-                    </>
-                  )}
+                  {/* Transaction reference */}
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
+                      <span>{isAr ? "رقم التحويل المرجعي / معرّف المعاملة:" : "Transaction Reference / TxID:"}</span>
+                      <span className="text-[#001639] font-extrabold">*</span>
+                    </label>
+                    <input 
+                      type="text"
+                      required
+                      value={refNum}
+                      onChange={(e) => setRefNum(e.target.value)}
+                      placeholder={isAr ? "أدخل الـ Ref أو الرقم المرجعي للمعاملة" : "Enter reference number or transaction ID"}
+                      className="w-full font-mono font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm"
+                    />
+                  </div>
                 </div>
 
                 {errorMessage && (
@@ -867,23 +846,21 @@ export default function PaymentPage() {
                   </button>
 
                   {/* Instant WhatsApp release link */}
-                  {paymentMethod !== "card" && (
-                    <div className="flex justify-center mt-3">
-                      <a
-                        href={`https://wa.me/201027136006?text=${encodeURIComponent(
-                          isAr 
-                            ? `مرحباً! لقد قمت بتحويل مبلغ ${getPrice()} ج.م لخط محفظة Hash Resume لتفعيل الباقة.\nالبريد الإلكتروني: ${email || "[اكتب بريدك هنا]"}\nالرقم المرجعي للمعاملة: ${refNum || "[اكتب رقم المعاملة هنا]"}`
-                            : `Hi! I just transferred ${getPrice()} EGP to Hash Resume wallet for code activation.\nMy Email: ${email || "[Your Email]"}\nTransaction Ref: ${refNum || "[Transaction Reference]"}`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-emerald-600 hover:text-emerald-700 py-1 font-bold text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                      >
-                        <span>💬</span>
-                        <span className="underline underline-offset-2">{isAr ? "أو إرسال الإثبات عبر واتساب للتفعيل السريع" : "Or send proof via WhatsApp for fast activation"}</span>
-                      </a>
-                    </div>
-                  )}
+                  <div className="flex justify-center mt-3">
+                    <a
+                      href={`https://wa.me/201101007965?text=${encodeURIComponent(
+                        isAr 
+                          ? `مرحباً! لقد قمت بتحويل مبلغ ${getPrice()} ج.م لخط محفظة Hash Resume لتفعيل الباقة.\nالبريد الإلكتروني: ${email || "[اكتب بريدك هنا]"}\nالرقم المرجعي للمعاملة: ${refNum || "[اكتب رقم المعاملة هنا]"}`
+                          : `Hi! I just transferred ${getPrice()} EGP to Hash Resume wallet for code activation.\nMy Email: ${email || "[Your Email]"}\nTransaction Ref: ${refNum || "[Transaction Reference]"}`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-emerald-600 hover:text-emerald-700 py-1 font-bold text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>💬</span>
+                      <span className="underline underline-offset-2">{isAr ? "أو إرسال الإثبات عبر واتساب للتفعيل السريع" : "Or send proof via WhatsApp for fast activation"}</span>
+                    </a>
+                  </div>
 
                   {/* Manual verification disclaimer message */}
                   <p className="text-[11px] text-slate-500 text-center leading-relaxed font-bold px-2">

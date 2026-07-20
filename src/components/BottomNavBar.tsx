@@ -15,7 +15,7 @@ export const BottomNavBar: React.FC = () => {
     home: isRtl ? 'الرئيسية' : language === 'fr' ? 'Accueil' : 'Home',
     templates: isRtl ? 'القوالب' : language === 'fr' ? 'Modèles' : 'Templates',
     start: isRtl ? 'إنشاء ✨' : language === 'fr' ? 'Créer ✨' : 'Build ✨',
-    hashHunt: isRtl ? 'هاش هانت' : language === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
+    hashHunt: isRtl ? 'وظائف هاش' : language === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
     pricing: isRtl ? 'الأسعار' : language === 'fr' ? 'Tarifs' : 'Pricing',
   };
 
@@ -27,7 +27,7 @@ export const BottomNavBar: React.FC = () => {
       {/* 1. Home Link */}
       <Link
         to="/"
-        className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative ${
+        className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative min-w-[72px] min-h-[72px] ${
           isActive('/') ? 'text-[#001639] scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
         }`}
       >
@@ -41,7 +41,7 @@ export const BottomNavBar: React.FC = () => {
       {/* 2. Templates Link */}
       <Link
         to="/templates"
-        className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative ${
+        className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative min-w-[72px] min-h-[72px] ${
           isActive('/templates') ? 'text-[#001639] scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
         }`}
       >
@@ -56,7 +56,7 @@ export const BottomNavBar: React.FC = () => {
       <div className="flex-1 flex justify-center -mt-5 relative z-10">
         <button
           onClick={() => navigate('/editor')}
-          className="flex flex-col items-center justify-center cursor-pointer select-none group"
+          className="flex flex-col items-center justify-center cursor-pointer select-none group min-w-[72px] min-h-[72px]"
         >
           <div className="bg-gradient-to-br from-[#001639] to-[#01255c] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md shadow-[#001639]/30 group-hover:scale-105 group-active:scale-95 transition-all duration-200">
             <Plus size={24} strokeWidth={3} />
@@ -70,7 +70,7 @@ export const BottomNavBar: React.FC = () => {
       {/* 4. Hash Hunt Link */}
       <Link
         to="/hash-hunt"
-        className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative ${
+        className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative min-w-[72px] min-h-[72px] ${
           isActive('/hash-hunt') ? 'text-[#001639] scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
         }`}
       >
@@ -84,7 +84,7 @@ export const BottomNavBar: React.FC = () => {
       {/* 5. Pricing Link */}
       <Link
         to="/pricing"
-        className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative ${
+        className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative min-w-[72px] min-h-[72px] ${
           isActive('/pricing') ? 'text-[#001639] scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
         }`}
       >

@@ -17,7 +17,9 @@ import {
   Info,
   Briefcase,
   RefreshCw,
-  Check
+  Check,
+  Folder,
+  Table
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore } from "../store/useResumeStore";
@@ -183,63 +185,12 @@ export default function HashHuntPage() {
   const [showDevGuide] = useState(() => false);
   const [copiedCode, setCopiedCode] = useState(false);
 
-  const FOLDER_ID = import.meta.env.VITE_GOOGLE_DRIVE_FOLDER_ID || "1C0vT4ERPy9SCyXULssVE6NKo5l9_IpqPap5tUNgkZt84-JsqLNuf6lsz5R9rRG56pODHzYHV";
-  const SHEET_ID = import.meta.env.VITE_GOOGLE_DRIVE_SHEET_ID || "1nMu87iuJF9jSdSokpvZENrkSsJ7mFjyrvsxvTYCN4wk";
-  const driveFolderUrl = `https://drive.google.com/drive/folders/${FOLDER_ID}`;
-  const driveSheetUrl = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit`;
+  const FOLDER_ID = import.meta.env.VITE_GOOGLE_DRIVE_FOLDER_ID || "";
+  const SHEET_ID = import.meta.env.VITE_GOOGLE_DRIVE_SHEET_ID || "";
+  const driveFolderUrl = import.meta.env.VITE_GOOGLE_DRIVE_FOLDER_URL || (FOLDER_ID ? `https://drive.google.com/drive/folders/${FOLDER_ID}` : "");
+  const driveSheetUrl = import.meta.env.VITE_GOOGLE_DRIVE_SHEET_URL || (SHEET_ID ? `https://docs.google.com/spreadsheets/d/${SHEET_ID}/edit` : "");
 
-  const googleAppsScriptCode = `/**
- * Google Apps Script for Hash Hunt Form Submission
- * Deployed under your account as "Web App" (Execute as: Me, Access: Anyone)
- */
-function doPost(e) {
-  try {
-    var data = JSON.parse(e.postData.contents);
-    
-    // Bound IDs based on user's workspace target
-    var folderId = "${FOLDER_ID}";
-    var sheetId = "${SHEET_ID}";
-    
-    var fileUrl = "";
-    if (data.resumeFile && data.resumeFile.data) {
-      var folder = DriveApp.getFolderById(folderId);
-      var base64Part = data.resumeFile.data;
-      if (base64Part.indexOf(",") !== -1) {
-        base64Part = base64Part.split(",")[1];
-      }
-      var fileData = Utilities.base64Decode(base64Part);
-      var blob = Utilities.newBlob(fileData, data.resumeFile.type, data.resumeFile.name);
-      var file = folder.createFile(blob);
-      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      fileUrl = file.getUrl();
-    }
-    
-    var sheet = SpreadsheetApp.openById(sheetId).getSheets()[0];
-    sheet.appendRow([
-      new Date(),                             // A: Timestamp
-      data.fullName || "",                    // B: Name
-      data.phoneNumber || "",                 // C: Phone number
-      data.email || "",                       // D: Email
-      data.jobTitle || "",                    // E: Job/Career
-      fileUrl || "",                          // F: Submit Your CV – Hash Resume
-      data.email || "",                       // G: Email Address
-      data.experience || "",                  // H: Job Code / Experience
-      (data.location + " - " + data.openTo) || "" // I: Column 7 / Additional Details
-    ]);
-    
-    return ContentService.createTextOutput(JSON.stringify({
-      success: true,
-      fileUrl: fileUrl,
-      message: "Synchronized to Drive folder and Google Sheets successfully."
-    })).setMimeType(ContentService.MimeType.JSON);
-    
-  } catch (err) {
-    return ContentService.createTextOutput(JSON.stringify({
-      success: false,
-      error: err.toString()
-    })).setMimeType(ContentService.MimeType.JSON);
-  }
-}`;
+  const googleAppsScriptCode = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_CODE || "";
 
   const handleCopyCode = async () => {
     try {
@@ -286,7 +237,7 @@ function doPost(e) {
     },
     {
       stars: 5,
-      text: isRtl ? "\"بصفتي مديرة موارد بشرية، وفرت لنا هاش هانت أسابيع من الفحص. المرشحون الذين نستقبلهم مطابقون مسبقاً وسيرهم الذاتية محسنة بالفعل.\"" : "\"As an HR manager, Hash Hunt saved us weeks of screening. The candidates we receive are pre-matched and their CVs are already ATS-optimized.\"",
+      text: isRtl ? "\"بصفتي مديرة موارد بشرية، وفرت لنا وظائف هاش أسابيع من الفحص. المرشحون الذين نستقبلهم مطابقون مسبقاً وسيرهم الذاتية محسنة بالفعل.\"" : "\"As an HR manager, Hash Hunt saved us weeks of screening. The candidates we receive are pre-matched and their CVs are already ATS-optimized.\"",
       author: isRtl ? "سارة رمضان" : "Sara Ramadan",
       role: "HR Lead · Noon.com",
       av: "SR",
@@ -394,7 +345,6 @@ function doPost(e) {
 
       // 1st Attempt: Node Backend / Vercel Serverless proxy API route
       try {
-        console.log("Submitting form through server API endpoint...");
         const response = await fetch("/api/hashhunt/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -406,21 +356,15 @@ function doPost(e) {
           if (apiResult && apiResult.success !== false) {
             result = apiResult;
             hasSucceeded = true;
-            console.log("Successful submission via Server API!");
-          } else {
-            console.warn("Server API returned unsuccessful response:", apiResult);
           }
-        } else {
-          console.warn(`Server API responded with HTTP status ${response.status}`);
         }
-      } catch (apiErr) {
-        console.warn("Server API route failed or timed out. Moving directly to Apps Script sandbox fallback...", apiErr);
+      } catch {
+        // Silent catch for robust fallback
       }
 
       // 2nd Attempt (FALLBACK): Direct client-side CORS simple-request to Apps Script.
       // We use text/plain;charset=utf-8 to bypass CORS preflight OPTIONS blockages by browsers (simple request rule)
       if (!hasSucceeded) {
-        console.log("Using direct Apps Script client-side fallback...");
         const fallbackUrl = import.meta.env.VITE_GAS_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbyl7ro7BiwATXekxNHoO79D1DyVGfQEIfQGY5_nodXMu0KeZA2kXUxTSbqK7wlg3xGyHw/exec";
         
         const directResp = await fetch(fallbackUrl, {
@@ -439,18 +383,15 @@ function doPost(e) {
           if (parsedResult && parsedResult.success !== false) {
             result = parsedResult;
             hasSucceeded = true;
-            console.log("Successful submission via direct browser fallback connection!");
           } else {
             throw new Error(parsedResult?.error || (isRtl ? "فشل حفظ البيانات بالكامل" : "Apps Script failed to write line"));
           }
-        } catch (jsonErr) {
-          console.warn("Direct JSON parsing skipped/failed. Error detail:", jsonErr, "Response snippet:", directText.slice(0, 300));
+        } catch {
           // If the apps script wrote successfully but returned text or redirection page,
           // as long as HTTP status is 200, the data was successfully synced into Sheets & Drive.
           if (directText.includes("success") || directResp.status === 200) {
             hasSucceeded = true;
             result = { success: true, isSimulated: false };
-            console.log("Synchronized successfully based on status code 200 / success text");
           } else {
             throw new Error(isRtl ? "استجابة غير صالحة من نظام جوجل" : "Invalid response from Google Apps Script");
           }
@@ -475,7 +416,7 @@ function doPost(e) {
   return (
     <div id="hashhunt-page-root" className="min-h-screen bg-slate-50 text-slate-900 font-sans overflow-x-hidden select-none pb-36" dir={dir}>
       <Helmet>
-        <title>{isRtl ? "هاش هانت — دع الوظائف والشركات تجدك تلقائيًا" : "Hash Hunt — Let the Jobs Find You"}</title>
+        <title>{isRtl ? "وظائف هاش — دع الوظائف والشركات تجدك تلقائيًا" : "Hash Hunt — Let the Jobs Find You"}</title>
         <script type="application/ld+json">
           {`
             {
@@ -652,7 +593,7 @@ function doPost(e) {
             </h2>
             <p className="text-slate-500 text-xs sm:text-sm font-medium max-w-xl mx-auto leading-relaxed">
               {isRtl 
-                ? "تصفح الفرص والوظائف القيادية النشطة. اضغط على 'قدّم الآن عبر هاش هانت' لتعبئة استمارة التقديم والبدء فوراً."
+                ? "تصفح الفرص والوظائف القيادية النشطة. اضغط على 'قدّم الآن عبر وظائف هاش' لتعبئة استمارة التقديم والبدء فوراً."
                 : "Explore verified competitive positions. Click 'Apply Via Hash Hunt' to auto-populate the profile form below and fast-track your submission."}
             </p>
           </div>
@@ -771,7 +712,7 @@ function doPost(e) {
                     className="w-full bg-[#001639] hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-[#001639]/15 active:scale-98 cursor-pointer"
                   >
                     <span>⚡</span>
-                    <span>{isRtl ? "قدّم الآن عبر هاش هانت" : "Apply Via Hash Hunt"}</span>
+                    <span>{isRtl ? "قدّم الآن عبر وظائف هاش" : "Apply Via Hash Hunt"}</span>
                   </button>
                   
                   <a
@@ -950,7 +891,7 @@ function doPost(e) {
           <div className="border-t border-slate-100 pt-16">
             <div className="text-center mb-10">
               <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">{isRtl ? "مزايا حصرية لمضاعفة فرص الرد" : "Exclusive advantages to double your response rates"}</h3>
-              <p className="text-slate-500 text-xs sm:text-sm">{isRtl ? "لماذا يفضل مهندسو البرمجيات والشركات منصة هاش هانت؟" : "Why engineers and tech companies prefer Hash Hunt?"}</p>
+              <p className="text-slate-500 text-xs sm:text-sm">{isRtl ? "لماذا يفضل مهندسو البرمجيات والشركات منصة وظائف هاش؟" : "Why engineers and tech companies prefer Hash Hunt?"}</p>
             </div>
             <div className="grid md:grid-cols-3 gap-8">
               {benefits.map((b, i) => {
@@ -991,8 +932,8 @@ function doPost(e) {
 
             <div className="space-y-6">
               <div className="flex gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="w-10 h-10 bg-[#001639]/10 text-[#001639] rounded-lg flex items-center justify-center font-bold shrink-0">
-                  📂
+                <div className="w-10 h-10 bg-[#001639]/10 text-[#001639] rounded-lg flex items-center justify-center shrink-0">
+                  <Folder className="w-5 h-5 text-[#001639]" />
                 </div>
                 <div>
                   <h4 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">{isRtl ? "مجلد Google Drive آمن ومباشر" : "Direct Google Drive Storage"}</h4>
@@ -1005,8 +946,8 @@ function doPost(e) {
               </div>
 
               <div className="flex gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100">
-                <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center font-bold shrink-0">
-                  📊
+                <div className="w-10 h-10 bg-emerald-50 text-emerald-650 rounded-lg flex items-center justify-center shrink-0">
+                  <Table className="w-5 h-5 text-emerald-650" />
                 </div>
                 <div>
                   <h4 className="text-xs sm:text-sm font-bold text-slate-900 mb-1">{isRtl ? "تزامن فوري مع جدول Google Sheets" : "Direct Sheets Sync"}</h4>

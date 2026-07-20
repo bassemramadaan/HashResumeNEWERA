@@ -122,7 +122,7 @@ export default function EditorNavbar({
             title="Back to Home"
           >
             <img 
-              src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
+              src="/logo.png" 
               alt="HashResume" 
               className="w-full h-full object-contain drop-shadow-sm" 
             />

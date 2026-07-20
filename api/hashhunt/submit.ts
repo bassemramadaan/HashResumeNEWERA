@@ -20,7 +20,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const submissionData = req.body;
-    const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL || "https://script.google.com/macros/s/AKfycbyl7ro7BiwATXekxNHoO79D1DyVGfQEIfQGY5_nodXMu0KeZA2kXUxTSbqK7wlg3xGyHw/exec";
+    const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_HASHHUNT_URL || "";
+    if (!scriptUrl) {
+      throw new Error("Hash Hunt script URL not configured");
+    }
     
     console.log("[Vercel Serverless] Sending submission to Google Apps Script Web App url:", scriptUrl);
 

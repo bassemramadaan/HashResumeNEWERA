@@ -283,7 +283,7 @@ export default function PaymentSuccessPage() {
                   <span>{isAr ? "تحديث الحالة يدوياً" : "Check for Status Update"}</span>
                 </button>
                 <a
-                  href={`https://wa.me/201027136006?text=${encodeURIComponent(isAr ? `أهلاً، أريد الاستفسار عن كود تفعيل المعاملة رقم: ${refNum}` : `Hi, I want to inquire about activation code for transaction: ${refNum}`)}`}
+                  href={`https://wa.me/201101007965?text=${encodeURIComponent(isAr ? `أهلاً، أريد الاستفسار عن كود تفعيل المعاملة رقم: ${refNum}` : `Hi, I want to inquire about activation code for transaction: ${refNum}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto px-6 py-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-colors cursor-pointer"

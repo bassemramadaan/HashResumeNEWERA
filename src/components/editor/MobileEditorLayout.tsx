@@ -644,7 +644,7 @@ export default function MobileEditorLayout({
               aria-label={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
             >
               <img 
-                src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
+                src="/logo.png" 
                 alt="HashResume App" 
                 className="w-full h-full object-contain drop-shadow-sm" 
               />

@@ -137,6 +137,43 @@ Tone: ${tone || "professional"}
     }
   });
 
+  // Validate Promo Codes Server-side
+  app.post("/api/payment/apply-promo", async (req, res) => {
+    try {
+      const { promoCode, plan } = req.body;
+      if (!promoCode) {
+        return res.status(400).json({ success: false, message: "Promo code is required" });
+      }
+
+      const PROMO_CODES = [
+        { code: "START20", discountPercent: 20 },
+        { code: "WELCOME20", discountPercent: 20 },
+        { code: "HASH20", discountPercent: 20 },
+      ];
+
+      const code = promoCode.trim().toUpperCase();
+      const match = PROMO_CODES.find(p => p.code === code);
+
+      if (!match) {
+        return res.status(400).json({ success: false, message: "Invalid or expired promo code" });
+      }
+
+      const basePrice = plan === "single" ? 50 : 120;
+      const discountAmount = Math.round(basePrice * (match.discountPercent / 100));
+      const finalPrice = Math.max(10, basePrice - discountAmount);
+
+      res.json({
+        success: true,
+        discountPercent: match.discountPercent,
+        discountAmount,
+        finalPrice,
+      });
+    } catch (error: any) {
+      console.error("[ApplyPromo Server Error]", error);
+      res.status(500).json({ success: false, message: "Server error occurred while validating promo code" });
+    }
+  });
+
   // Payment Verification & Manual InstaPay Flow Proxy
   app.post("/api/payment/verify", async (req, res) => {
     try {
@@ -146,10 +183,7 @@ Tone: ${tone || "professional"}
       const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout for slow Google Apps Script runs
 
       // Proxy the verification to the actual Google Apps Script privately
-      let scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
-      if (!scriptUrl || !scriptUrl.includes("AKfycbwnnZ5")) {
-          scriptUrl = "https://script.google.com/macros/s/AKfycbwnnZ5RzPxDXeuPDIL1oIOka0SCfZ7SwZEx1mT23sUB8klZXcE4KEbDRNraU42Jp_-qUA/exec";
-      }
+      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
       if (!scriptUrl) {
           throw new Error("Payment script URL not configured");
       }
@@ -170,13 +204,10 @@ Tone: ${tone || "professional"}
       }
       
       try {
-        console.log(`[PaymentProxy] Sending request to URL: ${url}`);
         const response = await fetch(url, fetchOptions);
         clearTimeout(timeoutId);
         
-        console.log(`[PaymentProxy] Received status: ${response.status}`);
         const responseText = await response.text();
-        console.log(`[PaymentProxy] Raw response length: ${responseText.length}`);
 
         // Detect clean Google Apps Script error / warning or un-auth/HTML page
         const isGoogleError = responseText.includes("Exception:") || 
@@ -185,11 +216,9 @@ Tone: ${tone || "professional"}
                             (responseText.includes("<html") && responseText.includes("Google Apps Script"));
 
         let result;
-        const PAYMENT_MODE = process.env.PAYMENT_MODE || "sandbox";
         if (isGoogleError) {
-          console.warn(`[PaymentProxy] Google Apps Script error detected. Mode: ${PAYMENT_MODE}`);
-          if (PAYMENT_MODE === "production") {
-            return res.status(400).json({ success: false, message: "Payment verification error." });
+          if (process.env.NODE_ENV === "production") {
+            return res.status(400).json({ success: false, message: "Payment verification failed: Google Apps Script verification error." });
           }
           if (action === "submitPayment") {
             result = { success: true, status: "approved", message: "Recorded successfully (Sandbox Auto-Approved)" };
@@ -202,9 +231,8 @@ Tone: ${tone || "professional"}
           try {
             result = JSON.parse(responseText);
           } catch (parseErr) {
-            console.warn(`[PaymentProxy] Failed to parse JSON response. Mode: ${PAYMENT_MODE}`);
-            if (PAYMENT_MODE === "production") {
-              return res.status(400).json({ success: false, message: "Payment verification error." });
+            if (process.env.NODE_ENV === "production") {
+              return res.status(400).json({ success: false, message: "Payment verification failed: Failed to parse verification server response." });
             }
             if (action === "submitPayment") {
               result = { success: true, status: "approved", message: "Recorded successfully (Sandbox Auto-Approved)" };
@@ -219,15 +247,17 @@ Tone: ${tone || "professional"}
         res.json(result);
       } catch (fetchError: any) {
         clearTimeout(timeoutId);
-        if (fetchError.name === 'AbortError') {
-          console.warn("[PaymentProxy] Request aborted due to 45-second timeout limit. Falling back to Sandbox mode.");
-        } else {
-          console.error("[PaymentProxy] Error in fetch. Falling back to Sandbox Mode:", fetchError);
+        if (fetchError.name !== 'AbortError') {
+          console.error("[PaymentProxy] Error in fetch:", fetchError);
         }
         
-        const PAYMENT_MODE = process.env.PAYMENT_MODE || "sandbox";
-        if (PAYMENT_MODE === "production") {
-          return res.status(400).json({ success: false, message: "Payment verification error." });
+        if (process.env.NODE_ENV === "production") {
+          return res.status(400).json({ 
+            success: false, 
+            message: fetchError.name === 'AbortError' 
+              ? "Payment verification failed: Request timed out." 
+              : "Payment verification failed: Failed to connect to verification server." 
+          });
         }
         // Return a successful fallback response in Sandbox mode so they are never blocked!
         let result;
@@ -251,10 +281,7 @@ Tone: ${tone || "professional"}
     try {
       const { reference, senderInfo, email, amount } = req.method === "POST" ? req.body : req.query;
 
-      let scriptUrl = process.env.GOOGLE_SCRIPT_URL || process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
-      if (!scriptUrl || !scriptUrl.includes("AKfycbwnnZ5")) {
-        scriptUrl = "https://script.google.com/macros/s/AKfycbwnnZ5RzPxDXeuPDIL1oIOka0SCfZ7SwZEx1mT23sUB8klZXcE4KEbDRNraU42Jp_-qUA/exec";
-      }
+      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || process.env.GOOGLE_SCRIPT_URL || "";
 
       const params = new URLSearchParams({
         action: "submitPayment",
@@ -264,7 +291,6 @@ Tone: ${tone || "professional"}
         amount: (amount || "50 EGP").toString(),
       });
 
-      console.log(`[PaymentSubmitProxy] Submitting payment to script: ${scriptUrl}`);
       try {
         const response = await fetch(`${scriptUrl}?${params}`);
         const responseText = await response.text();
@@ -274,11 +300,9 @@ Tone: ${tone || "professional"}
                             responseText.includes("goog-ws-error") || 
                             (responseText.includes("<html") && responseText.includes("Google Apps Script"));
                             
-        const PAYMENT_MODE = process.env.PAYMENT_MODE || "sandbox";
         if (isGoogleError) {
-          console.warn(`[PaymentSubmitProxy] Google Apps Script authorization issue. Mode: ${PAYMENT_MODE}`);
-          if (PAYMENT_MODE === "production") {
-            return res.status(400).json({ success: false, message: "Payment authorization error." });
+          if (process.env.NODE_ENV === "production") {
+            return res.status(400).json({ success: false, message: "Payment verification failed: Google Apps Script authorization error." });
           }
           return res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
         }
@@ -287,23 +311,22 @@ Tone: ${tone || "professional"}
           const data = JSON.parse(responseText);
           res.json(data);
         } catch (parseErr) {
-          console.warn(`[PaymentSubmitProxy] Parse error. Mode: ${PAYMENT_MODE}`);
-          if (PAYMENT_MODE === "production") {
-            return res.status(400).json({ success: false, message: "Payment verification error." });
+          if (process.env.NODE_ENV === "production") {
+            return res.status(400).json({ success: false, message: "Payment verification failed: Failed to parse verification server response." });
           }
           res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
         }
       } catch (fetchErr) {
         console.error("[PaymentSubmitProxy] Fetch error.", fetchErr);
-        if (process.env.PAYMENT_MODE === "production") {
-          return res.status(400).json({ success: false, message: "Payment verification error." });
+        if (process.env.NODE_ENV === "production") {
+          return res.status(400).json({ success: false, message: "Payment verification failed: Failed to connect to verification server." });
         }
         res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
       }
     } catch (error) {
       console.error("[PaymentSubmitProxy] Outer error.", error);
-      if (process.env.PAYMENT_MODE === "production") {
-        return res.status(400).json({ success: false, message: "Payment verification error." });
+      if (process.env.NODE_ENV === "production") {
+        return res.status(400).json({ success: false, message: "Payment verification failed due to internal server error." });
       }
       res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
     }
@@ -344,8 +367,6 @@ Tone: ${tone || "professional"}
         throw new Error("Hash Hunt script URL not configured (GAS_HASHHUNT_URL)");
       }
       
-      console.log("Sending submission to Google Apps Script Web App url:", scriptUrl);
-
       const response = await fetch(scriptUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -353,7 +374,6 @@ Tone: ${tone || "professional"}
       });
 
       const responseText = await response.text();
-      console.log(`Apps Script response status: ${response.status}. Length: ${responseText.length}`);
 
       if (!response.ok) {
         throw new Error(`HTTP error from Google Apps Script provider: ${response.status} ${response.statusText}`);

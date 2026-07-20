@@ -218,7 +218,7 @@ export default function SharePage() {
         <div className="w-full max-w-5xl flex items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2">
             <img 
-              src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png" 
+              src="/logo.png" 
               alt="HashResume" 
               className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded-lg" 
             />

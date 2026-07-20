@@ -109,7 +109,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         : "bg-white/95 border-slate-100 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between relative h-16 sm:h-20">
+        <div className="flex items-center justify-between relative h-16 sm:h-20 lg:[direction:ltr]">
           {/* Left: Hash Hunt + More */}
           <div className="hidden lg:flex items-center gap-4 shrink-0">
              {/* Hash Hunt Link (Desktop only) */}
@@ -144,7 +144,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
           <div className="flex items-center gap-2 lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:top-1/2 lg:-translate-y-1/2 z-10">
             <Link to="/" className="flex items-center transform hover:scale-105 transition-all duration-300">
               <img
-                src="https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png"
+                src="/logo.png"
                 alt="Hash Resume"
                 className="h-[40px] sm:h-[50px] md:h-[60px] w-auto object-contain select-none"
               />
