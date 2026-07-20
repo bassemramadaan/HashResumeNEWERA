@@ -28,7 +28,7 @@
       "destination": "/api/$1"
     },
     {
-      "source": "/((?!api/|sitemap\.xml|robots\.txt|logos/|favicon).*)",
+      "source": "/((?!api|sitemap.xml|robots.txt|logos|favicon).*)",
       "destination": "/index.html"
     }
   ]
