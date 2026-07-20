@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeft, LayoutTemplate, CheckCircle2, Eye, X, Sparkles, Search } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-import Logo from "../components/Logo";
+
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import ResumePreview from "../components/preview/ResumePreview";
@@ -228,14 +228,9 @@ export default function TemplatesPage() {
       {/* ── Header ── */}
       <header className="bg-[#FAFAF8]/90 border-b border-slate-200/80 sticky top-0 z-40 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link to="/" className="p-2 text-slate-400 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100">
-              <ArrowLeft size={18} className="rtl:rotate-180" />
-            </Link>
-            <Link to="/" className="flex items-center gap-2">
-              <Logo className="w-32 sm:w-36 h-auto" variant="gradient" />
-            </Link>
-          </div>
+          <Link to="/" className="p-2 text-slate-400 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100">
+            <ArrowLeft size={18} className="rtl:rotate-180" />
+          </Link>
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <span className="hidden sm:block text-[#001639] font-medium">Build & preview for free — pay only when you download</span>
           </div>
