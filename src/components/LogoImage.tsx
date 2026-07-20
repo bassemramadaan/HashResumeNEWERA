@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { cn } from "../lib/utils";
 
 interface LogoImageProps {
@@ -7,29 +7,19 @@ interface LogoImageProps {
   className?: string;
 }
 
-const FALLBACK_SRC = "https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png";
-
 export const LogoImage: React.FC<LogoImageProps> = ({ src, alt, className }) => {
-  const [imgSrc, setImgSrc] = useState(src);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
-    setImgSrc(src);
-  }, [src]);
-
-  if (!src) {
+  if (error || !src) {
     return null;
   }
 
   return (
     <img
-      src={imgSrc}
+      src={src}
       alt={alt}
       className={cn("object-contain", className)}
-      onError={() => {
-        if (imgSrc !== FALLBACK_SRC) {
-          setImgSrc(FALLBACK_SRC);
-        }
-      }}
+      onError={() => setError(true)}
     />
   );
 };
