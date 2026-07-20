@@ -142,7 +142,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <LogoImage
                 src={LOGO_ICON_URL}
                 alt="Hash Resume"
-                className="block h-8 w-auto shrink-0 object-contain max-w-none"
+                className="block h-12 w-12 shrink-0 object-contain max-w-none"
               />
             </Link>
           </div>
@@ -153,7 +153,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                <LogoImage
                  src={LOGO_BLACK_URL}
                  alt="Hash Resume"
-                 className="block h-10 w-auto max-w-[200px] object-contain select-none"
+                 className="block h-20 w-auto max-w-[300px] object-contain select-none"
                />
              </Link>
           </div>
@@ -217,53 +217,53 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
           />
           <nav
             id="mobile-navigation-menu"
-            className="fixed inset-0 z-[110] w-full h-full overflow-y-auto bg-white p-6 pt-24 text-slate-900 lg:hidden"
+            className="fixed inset-0 z-[110] w-full h-full overflow-y-auto bg-white p-8 pt-28 text-slate-900 lg:hidden"
           >
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center rounded-lg border"
+              className="absolute right-6 top-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200"
               aria-label="Close navigation menu"
             >
-              <X className="h-6 w-6" />
+              <X className="h-8 w-8" />
             </button>
 
-            <div className="flex flex-col gap-2">
-                {/* Links copied from previous implementation */}
-                <div className="text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">{resumeMenu.label}</div>
+            <div className="flex flex-col gap-6">
+                {/* Links */}
+                <div className="text-xs font-black text-slate-400 tracking-wider uppercase mb-2">{resumeMenu.label}</div>
                 {resumeMenu.items.map((item, idx) => (
                   <div
                     key={idx}
                     onClick={() => { handleStart(); setIsMobileMenuOpen(false); }}
-                    className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5 cursor-pointer"
+                    className="px-4 py-4 text-lg font-bold hover:text-slate-900 rounded-2xl hover:bg-slate-100 flex items-center justify-between gap-4 cursor-pointer"
                   >
-                    <span className="text-slate-700">{item.label}</span>
+                    <span className="text-slate-800">{item.label}</span>
                   </div>
                 ))}
                 
-                <div className="pt-2 border-t border-slate-100 mt-2">
-                  <div className="text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">{toolsMenu.label}</div>
+                <div className="pt-6 border-t border-slate-200 mt-4">
+                  <div className="text-xs font-black text-slate-400 tracking-wider uppercase mb-2">{toolsMenu.label}</div>
                   {toolsMenu.items.map((item) => (
                     <Link
                       key={item.href}
                       to={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center gap-2.5"
+                      className="px-4 py-4 text-lg font-bold hover:text-slate-900 rounded-2xl hover:bg-slate-100 flex items-center gap-4"
                     >
-                      <span className="text-slate-700">{item.label}</span>
+                      <span className="text-slate-800">{item.label}</span>
                     </Link>
                   ))}
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 mt-2">
+                <div className="pt-6 border-t border-slate-200 mt-4">
                   {infoMenu.items.map((item, idx) => (
                     <Link
                       key={idx}
                       to={item.href}
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center gap-2.5"
+                      className="px-4 py-4 text-lg font-bold hover:text-slate-900 rounded-2xl hover:bg-slate-100 flex items-center gap-4"
                     >
-                      <span className="text-slate-700">{item.label}</span>
+                      <span className="text-slate-800">{item.label}</span>
                     </Link>
                   ))}
                 </div>
