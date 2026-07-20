@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { cn } from "../lib/utils";
 
-const FALLBACK_SRC = "/logos/hash-resume-black.png";
+const FALLBACK_SRC = "https://raw.githubusercontent.com/bassemramadaan/HashResumeNEWERA/main/public/logos/hash-resume-black.png";
 
 interface LogoImageProps {
   src: string;
