@@ -143,7 +143,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <LogoImage
                 src={LOGO_ICON_URL}
                 alt="Hash Resume"
-                className="block h-8 w-auto shrink-0 object-contain max-w-none"
+                className="block h-8 w-8 shrink-0 object-contain"
               />
             </Link>
           </div>
@@ -154,7 +154,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                <LogoImage
                  src={LOGO_BLACK_URL}
                  alt="Hash Resume"
-                 className="block h-10 w-auto max-w-[200px] object-contain select-none"
+                 className="block h-10 w-auto max-w-[180px] max-h-[36px] object-contain select-none"
                />
              </Link>
           </div>
