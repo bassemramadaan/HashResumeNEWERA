@@ -7,19 +7,25 @@ interface LogoImageProps {
   className?: string;
 }
 
-export const LogoImage: React.FC<LogoImageProps> = ({ src, alt, className }) => {
-  const [error, setError] = useState(false);
+const FALLBACK_SRC = "/logos/hashresume-icon.svg";
 
-  if (error || !src) {
+export const LogoImage: React.FC<LogoImageProps> = ({ src, alt, className }) => {
+  const [imgSrc, setImgSrc] = useState(src);
+
+  if (!src) {
     return null;
   }
 
   return (
     <img
-      src={src}
+      src={imgSrc}
       alt={alt}
       className={cn("object-contain", className)}
-      onError={() => setError(true)}
+      onError={() => {
+        if (imgSrc !== FALLBACK_SRC) {
+          setImgSrc(FALLBACK_SRC);
+        }
+      }}
     />
   );
 };
