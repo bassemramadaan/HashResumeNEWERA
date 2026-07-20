@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from "motion/react"
 import { 
   Menu, 
   X, 
@@ -14,7 +15,7 @@ import type { AppLang } from '@/hooks/useDirection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import { useNavigate, Link } from 'react-router-dom'
 import { LogoImage } from '@/components/LogoImage';
-import { LOGO_BLACK_URL, LOGO_ICON_URL } from '@/constants';
+import { LOGO_BLACK_URL, LOGO_ICON_URL, LOGO_WHITE_URL } from '@/constants';
 
 const LANG_LABELS = { ar: 'العربية', en: 'English', fr: 'Français' }
 const LANGS: AppLang[] = ['ar', 'en', 'fr']
@@ -142,7 +143,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <LogoImage
                 src={LOGO_ICON_URL}
                 alt="Hash Resume"
-                className="block h-12 w-12 shrink-0 object-contain max-w-none"
+                className="block h-8 w-auto shrink-0 object-contain max-w-none"
               />
             </Link>
           </div>
@@ -153,7 +154,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                <LogoImage
                  src={LOGO_BLACK_URL}
                  alt="Hash Resume"
-                 className="block h-20 w-auto max-w-[300px] object-contain select-none"
+                 className="block h-10 w-auto max-w-[200px] object-contain select-none"
                />
              </Link>
           </div>
@@ -207,70 +208,68 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         </div>
       </div>
 
-      {isMobileMenuOpen && (
-        <>
-          <button
-            type="button"
-            aria-label="Close navigation menu"
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="fixed inset-0 z-[90] bg-black/40 lg:hidden"
-          />
-          <nav
-            id="mobile-navigation-menu"
-            className="fixed inset-0 z-[110] w-full h-full overflow-y-auto bg-white p-8 pt-28 text-slate-900 lg:hidden"
-          >
-            <button
-              type="button"
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="absolute right-6 top-6 flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-200"
-              aria-label="Close navigation menu"
+              className="fixed inset-0 z-[105] bg-black/50 backdrop-blur-sm lg:hidden"
+            />
+            <motion.div
+              initial={{ x: lang === 'ar' ? '100%' : '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: lang === 'ar' ? '100%' : '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed inset-y-0 start-0 z-[110] w-[85%] max-w-sm bg-[#001639] text-white p-6 pt-10 overflow-y-auto"
             >
-              <X className="h-8 w-8" />
-            </button>
-
-            <div className="flex flex-col gap-6">
-                {/* Links */}
-                <div className="text-xs font-black text-slate-400 tracking-wider uppercase mb-2">{resumeMenu.label}</div>
-                {resumeMenu.items.map((item, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => { handleStart(); setIsMobileMenuOpen(false); }}
-                    className="px-4 py-4 text-lg font-bold hover:text-slate-900 rounded-2xl hover:bg-slate-100 flex items-center justify-between gap-4 cursor-pointer"
-                  >
-                    <span className="text-slate-800">{item.label}</span>
-                  </div>
-                ))}
-                
-                <div className="pt-6 border-t border-slate-200 mt-4">
-                  <div className="text-xs font-black text-slate-400 tracking-wider uppercase mb-2">{toolsMenu.label}</div>
-                  {toolsMenu.items.map((item) => (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-4 py-4 text-lg font-bold hover:text-slate-900 rounded-2xl hover:bg-slate-100 flex items-center gap-4"
-                    >
-                      <span className="text-slate-800">{item.label}</span>
-                    </Link>
-                  ))}
+                <div className="flex items-center justify-between mb-10">
+                  <LogoImage src={LOGO_WHITE_URL} alt="Hash Resume" className="h-8 w-auto object-contain" />
+                  <button type="button" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-full hover:bg-white/10">
+                    <X className="w-8 h-8" />
+                  </button>
                 </div>
 
-                <div className="pt-6 border-t border-slate-200 mt-4">
-                  {infoMenu.items.map((item, idx) => (
-                    <Link
-                      key={idx}
-                      to={item.href}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="px-4 py-4 text-lg font-bold hover:text-slate-900 rounded-2xl hover:bg-slate-100 flex items-center gap-4"
-                    >
-                      <span className="text-slate-800">{item.label}</span>
-                    </Link>
-                  ))}
+                <div className="flex flex-col gap-6">
+                    {/* Resume & Templates */}
+                    <div>
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{resumeMenu.label}</div>
+                        {resumeMenu.items.map((item, idx) => (
+                           <div key={idx} onClick={() => { handleStart(); setIsMobileMenuOpen(false); }} className="flex items-center justify-between py-3 cursor-pointer group">
+                             <span className="text-xl font-semibold group-hover:text-emerald-400 transition-colors">{item.label}</span>
+                             {item.badge && <span className="bg-emerald-500 text-white text-[10px] px-2 py-0.5 rounded-md font-bold">{item.badge}</span>}
+                           </div>
+                        ))}
+                    </div>
+
+                    {/* Tools */}
+                    <div className="border-t border-white/10 pt-6">
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{toolsMenu.label}</div>
+                        {toolsMenu.items.map((item) => (
+                          <Link key={item.href} to={item.href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between py-3 group">
+                              <span className="text-xl font-semibold group-hover:text-brand-400 transition-colors">{item.label}</span>
+                              {item.badge && <span className={cn("text-[10px] px-2 py-0.5 rounded-md font-bold", item.color === 'emerald' ? 'bg-emerald-500 text-white' : 'bg-brand-500 text-white')}>{item.badge}</span>}
+                          </Link>
+                        ))}
+                    </div>
                 </div>
-            </div>
-          </nav>
-        </>
-      )}
+
+                <div className="absolute bottom-6 start-6 end-6 flex flex-col gap-4">
+                     <button onClick={() => { onLangChange(lang === 'ar' ? 'en' : 'ar'); setIsMobileMenuOpen(false); }} className="flex items-center gap-2 text-sm font-bold text-slate-300">
+                         <Globe className="w-4 h-4" />
+                         {LANG_LABELS[lang === 'ar' ? 'en' : 'ar']}
+                     </button>
+                     <button onClick={handleStart} className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 rounded-2xl text-lg transition-all">
+                        {lang === 'ar' ? 'ابدأ مجاناً' : 'Start for Free'}
+                     </button>
+                </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </nav>
   )
 }
+
