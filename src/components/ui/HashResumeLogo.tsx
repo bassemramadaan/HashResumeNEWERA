@@ -11,7 +11,7 @@ interface HashResumeLogoProps {
 
 export function HashResumeLogo({ 
   showText = true, 
-  height = 64, 
+  height = 80, 
   dark = false,
   className,
   style
