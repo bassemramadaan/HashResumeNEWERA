@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from "motion/react"
 import { 
   Menu, 
   X, 
@@ -28,7 +27,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
   const { language: lang, setLanguage: onLangChange } = useLanguageStore()
   const navigate = useNavigate()
   const handleStart = onStartClick || (() => navigate('/templates'))
-  const [mobileOpen, setMobileOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [langOpen, setLangOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -56,7 +55,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         icon: FileText,
         badge: lang === 'ar' ? 'سريع' : 'FAST',
         color: 'brand',
-        desc: lang === 'ar' ? 'ابدأ كتابة سيرتك مهنيًا خطوة بخطوة بالذكاء الاصطناعي' : 'Build your resume step-by-step with AI support'
       }
     ]
   };
@@ -70,7 +68,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         badge: lang === 'ar' ? 'مجاني' : 'FREE', 
         color: 'emerald',
         icon: Search,
-        desc: lang === 'ar' ? 'تحسين السيرة لمحركات الفحص' : 'Optimize your resume for ATS systems'
       },
       {
         label: lang === 'ar' ? 'لوحة التحكم والمكافآت' : lang === 'fr' ? 'Mon Tableau de Bord' : 'Rewards Dashboard',
@@ -78,7 +75,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         badge: lang === 'ar' ? 'نشط' : 'LIVE',
         color: 'emerald',
         icon: CreditCard,
-        desc: lang === 'ar' ? 'متابعة التقديمات، الإحالات، والأكواد المدفوعة' : 'Track resume slots, application stages & free reward exports'
       },
       {
         label: lang === 'ar' ? 'وظائف هاش' : lang === 'fr' ? 'Hash Hunt' : 'Hash Hunt',
@@ -86,7 +82,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         badge: lang === 'ar' ? 'جديد' : 'NEW',
         color: 'brand',
         icon: Briefcase,
-        desc: lang === 'ar' ? 'تصفح وقدم لفرص العمل المتوافقة' : 'Explore and apply to matched job opportunities'
       }
     ]
   };
@@ -98,7 +93,6 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         label: lang === 'ar' ? 'خطط الأسعار والاشتراك' : lang === 'fr' ? 'Tarifs' : 'Pricing Plans',
         href: '/pricing',
         icon: CreditCard,
-        desc: lang === 'ar' ? 'اشترِك بأسعار مرنة وعادلة لجميع الباحثين عن عمل' : 'Fair and flexible plans for your transition'
       }
     ]
   };
@@ -148,7 +142,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               <LogoImage
                 src={LOGO_ICON_URL}
                 alt="Hash Resume"
-                className="block h-12 w-12 shrink-0 object-contain max-w-none"
+                className="block h-8 w-auto shrink-0 object-contain max-w-none"
               />
             </Link>
           </div>
@@ -159,7 +153,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                <LogoImage
                  src={LOGO_BLACK_URL}
                  alt="Hash Resume"
-                 className="block h-16 xl:h-20 w-auto max-w-[260px] object-contain select-none"
+                 className="block h-10 w-auto max-w-[200px] object-contain select-none"
                />
              </Link>
           </div>
@@ -176,220 +170,107 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 <span>{LANG_LABELS[lang]}</span>
                 <ChevronDown className="w-3 h-3 opacity-60" />
               </button>
-              {/* Lang Menu */}
-              <AnimatePresence>
-                {langOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
-                    <motion.div
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
-                      transition={{ duration: 0.15 }}
-                      className="absolute end-0 mt-2 bg-white border border-slate-200/80 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.06)] overflow-hidden w-36 z-50 p-1"
-                    >
-                      {LANGS.map((l) => (
-                        <button
-                          key={l}
-                          onClick={() => { onLangChange(l); setLangOpen(false) }}
-                          className={cn(
-                            'w-full text-start px-3 py-2 text-xs rounded-xl hover:bg-slate-50 transition-all font-bold',
-                            lang === l ? 'text-[#001639] bg-[#001639]/5 font-black' : 'text-slate-600'
-                          )}
-                        >
-                          {LANG_LABELS[l]}
-                        </button>
-                      ))}
-                    </motion.div>
-                  </>
-                )}
-              </AnimatePresence>
+              {langOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
+                  <div
+                    className="absolute end-0 mt-2 bg-white border border-slate-200/80 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.06)] overflow-hidden w-36 z-50 p-1"
+                  >
+                    {LANGS.map((l) => (
+                      <button
+                        key={l}
+                        onClick={() => { onLangChange(l); setLangOpen(false) }}
+                        className={cn(
+                          'w-full text-start px-3 py-2 text-xs rounded-xl hover:bg-slate-50 transition-all font-bold',
+                          lang === l ? 'text-[#001639] bg-[#001639]/5 font-black' : 'text-slate-600'
+                        )}
+                      >
+                        {LANG_LABELS[l]}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Mobile Menu Button toggle */}
             <button
-              onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden p-2.5 rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
-              aria-label="Toggle menu"
+              type="button"
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden relative z-[100] flex h-12 w-12 items-center justify-center rounded-lg border bg-white text-slate-900 shadow-sm"
+              aria-label="Open navigation menu"
             >
-              {mobileOpen ? <X className="w-5.5 h-5.5 text-slate-700" /> : <Menu className="w-5.5 h-5.5 text-slate-700" />}
+              <Menu className="h-6 w-6" />
             </button>
           </div>
 
         </div>
       </div>
 
-      {/* Mobile Menu Panel */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 z-30 bg-black/20 lg:hidden"
-            />
-            {/* Panel */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden fixed inset-x-0 top-[64px] sm:top-[80px] z-40 bg-white/95 backdrop-blur shadow-xl border-b border-slate-100"
+      {isMobileMenuOpen && (
+        <>
+          <button
+            type="button"
+            aria-label="Close navigation menu"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="fixed inset-0 z-[90] bg-black/40 lg:hidden"
+          />
+          <nav
+            id="mobile-navigation-menu"
+            className="fixed inset-0 z-[110] w-full h-full overflow-y-auto bg-white p-6 pt-24 text-slate-900 lg:hidden"
+          >
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="absolute right-4 top-4 flex h-12 w-12 items-center justify-center rounded-lg border"
+              aria-label="Close navigation menu"
             >
-              <div className="max-h-[calc(100vh-64px)] sm:max-h-[calc(100vh-80px)] overflow-y-auto px-4 py-4 flex flex-col gap-4">
-                {/* 1. Resume & Templates Group */}
-                <div>
-                  <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
-                    {resumeMenu.label}
+              <X className="h-6 w-6" />
+            </button>
+
+            <div className="flex flex-col gap-2">
+                {/* Links copied from previous implementation */}
+                <div className="text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">{resumeMenu.label}</div>
+                {resumeMenu.items.map((item, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => { handleStart(); setIsMobileMenuOpen(false); }}
+                    className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5 cursor-pointer"
+                  >
+                    <span className="text-slate-700">{item.label}</span>
                   </div>
-                  <div className="flex flex-col gap-1">
-                    {resumeMenu.items.map((item, idx) => {
-                      const IconComponent = item.icon;
-                      const content = (
-                        <div className="flex items-center justify-between w-full">
-                          <div className="flex items-center gap-2.5">
-                            <IconComponent className="w-4.5 h-4.5 text-emerald-500 shrink-0" />
-                            <span className="text-slate-700">{item.label}</span>
-                          </div>
-                          {item.badge && (
-                            <span className={cn(
-                              "text-[8px] uppercase font-bold px-2 py-0.5 rounded-md leading-none border",
-                              item.color === 'emerald'
-                                ? "bg-emerald-50 border-emerald-100 text-emerald-600"
-                                : "bg-[#001639]/5 border-[#001639]/15 text-[#001639]"
-                            )}>
-                              {item.badge}
-                            </span>
-                          )}
-                        </div>
-                      );
-
-                      return item.onClickAction ? (
-                        <div
-                          key={idx}
-                          onClick={() => { handleStart(); setMobileOpen(false); }}
-                          className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5 cursor-pointer"
-                        >
-                          {content}
-                        </div>
-                      ) : (
-                        <Link
-                          key={item.href || idx}
-                          to={item.href || '/'}
-                          onClick={() => setMobileOpen(false)}
-                          className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5"
-                        >
-                          {content}
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* 2. Tools Group in Mobile Menu */}
-                <div className="pt-2 border-t border-slate-100">
-                  <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
-                    {toolsMenu.label}
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    {toolsMenu.items.map((item) => {
-                      const isItemInternal = item.href.startsWith('/') && !item.href.includes('#');
-                      const IconComponent = item.icon;
-                      const linkClass = "px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5 cursor-pointer";
-
-                      const badgeEl = item.badge && (
-                        <span className={cn(
-                          "text-[8px] uppercase font-bold px-2 py-0.5 rounded-md leading-none border",
-                          item.color === 'emerald'
-                            ? "bg-emerald-50 border-emerald-100 text-emerald-600"
-                            : "bg-orange-50 border-orange-100 text-[#001639]"
-                        )}>
-                          {item.badge}
-                        </span>
-                      );
-
-                      const content = (
-                        <div className="flex items-center gap-2.5">
-                          <IconComponent className="w-4.5 h-4.5 text-[#001639] shrink-0" />
-                          <span className="text-slate-700">{item.label}</span>
-                        </div>
-                      );
-
-                      return isItemInternal ? (
-                        <Link
-                          key={item.href}
-                          to={item.href}
-                          onClick={() => setMobileOpen(false)}
-                          className={linkClass}
-                        >
-                          {content}
-                          {badgeEl}
-                        </Link>
-                      ) : (
-                        <a
-                          key={item.href}
-                          href={item.href}
-                          onClick={() => setMobileOpen(false)}
-                          className={linkClass}
-                        >
-                          {content}
-                          {badgeEl}
-                        </a>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* 3. Info & Pricing Group */}
-                <div className="pt-2 border-t border-slate-100">
-                  <div className="px-3 text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">
-                    {infoMenu.label}
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    {infoMenu.items.map((item, idx) => {
-                      const IconComponent = item.icon;
-                      return (
-                        <Link
-                          key={idx}
-                          to={item.href}
-                          onClick={() => setMobileOpen(false)}
-                          className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center justify-between gap-2.5"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <IconComponent className="w-4.5 h-4.5 text-slate-400 shrink-0" />
-                            <span className="text-slate-700">{item.label}</span>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Language toggler for Mobile */}
-                <div className="grid grid-cols-3 gap-2 mt-2 pt-3 border-t border-slate-100">
-                  {LANGS.map((l) => (
-                    <button
-                      key={l}
-                      onClick={() => { onLangChange(l); setMobileOpen(false) }}
-                      className={cn(
-                        'text-xs font-bold py-2.5 rounded-xl border transition-all text-center uppercase',
-                        lang === l
-                          ? 'border-[#001639]/60 bg-[#001639]/5 text-[#001639] font-black'
-                          : 'border-slate-100 text-slate-500 hover:bg-slate-50'
-                      )}
+                ))}
+                
+                <div className="pt-2 border-t border-slate-100 mt-2">
+                  <div className="text-[10px] font-black text-slate-400 tracking-wider uppercase mb-1.5">{toolsMenu.label}</div>
+                  {toolsMenu.items.map((item) => (
+                    <Link
+                      key={item.href}
+                      to={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center gap-2.5"
                     >
-                      {LANG_LABELS[l]}
-                    </button>
+                      <span className="text-slate-700">{item.label}</span>
+                    </Link>
                   ))}
                 </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+
+                <div className="pt-2 border-t border-slate-100 mt-2">
+                  {infoMenu.items.map((item, idx) => (
+                    <Link
+                      key={idx}
+                      to={item.href}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="px-3 py-2.5 text-sm font-semibold hover:text-slate-900 rounded-xl hover:bg-slate-50 flex items-center gap-2.5"
+                    >
+                      <span className="text-slate-700">{item.label}</span>
+                    </Link>
+                  ))}
+                </div>
+            </div>
+          </nav>
+        </>
+      )}
     </nav>
   )
 }
