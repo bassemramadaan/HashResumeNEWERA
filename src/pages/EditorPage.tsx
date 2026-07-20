@@ -355,6 +355,7 @@ export default function EditorPage() {
 
   const {
     exportStatus,
+    hasExported,
     showPostDownloadModal,
     setShowPostDownloadModal,
     showPaymentModal,
