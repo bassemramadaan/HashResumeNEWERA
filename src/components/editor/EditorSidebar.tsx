@@ -48,15 +48,7 @@ export default function EditorSidebar({
         />
       </div>
 
-      <div className="p-4 mt-auto border-t border-slate-100">
-        <button
-          disabled
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-100 text-slate-400 border border-slate-200 font-semibold text-sm cursor-not-allowed"
-        >
-          <FileUp size={16} className="text-slate-300" />
-          {language === "ar" ? "قريباً - استيراد البيانات" : "Coming Soon - Import"}
-        </button>
-      </div>
+
     </aside>
   );
 }

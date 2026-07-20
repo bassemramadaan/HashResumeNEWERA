@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeft, LayoutTemplate, CheckCircle2, Eye, X, Sparkles, Search } from "lucide-react";
 import { Helmet } from "react-helmet-async";
-import Logo from "../components/Logo";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore, ResumeData } from "../store/useResumeStore";
 import ResumePreview from "../components/preview/ResumePreview";
@@ -231,9 +230,6 @@ export default function TemplatesPage() {
           <div className="flex items-center gap-3">
             <Link to="/" className="p-2 text-slate-400 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100">
               <ArrowLeft size={18} className="rtl:rotate-180" />
-            </Link>
-            <Link to="/" className="flex items-center gap-2">
-              <Logo className="w-32 sm:w-36 h-auto" variant="gradient" />
             </Link>
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-500">

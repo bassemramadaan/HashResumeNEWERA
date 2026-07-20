@@ -112,22 +112,8 @@ export default function EditorNavbar({
             </button>
         </div>
 
-        {/* ── Center group: Floating Logo & Auto-save ── */}
+        {/* ── Center group: Auto-save ── */}
         <div className="flex items-center justify-center select-none transition-all gap-4">
-           <motion.div 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onBackToHome}
-            className="w-10 h-10 flex items-center justify-center shrink-0 cursor-pointer"
-            title="Back to Home"
-          >
-            <img 
-              src="/logo.png" 
-              alt="HashResume" 
-              className="w-full h-full object-contain drop-shadow-sm" 
-            />
-          </motion.div>
-          
           <div className="flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-full px-3 py-1.5 hidden sm:flex">
              <AnimatePresence mode="wait">
                {renderStatus()}
@@ -136,7 +122,7 @@ export default function EditorNavbar({
         </div>
         
         {/* Right side: Focus Mode Toggle & WhatsApp */}
-        <div className="flex-1 hidden md:flex items-center justify-end gap-3">
+        <div className="flex-1 flex items-center justify-end gap-3">
           <a
             href="https://wa.me/201101007965"
             target="_blank"
@@ -145,7 +131,7 @@ export default function EditorNavbar({
             title={lang === 'ar' ? 'تواصل معنا عبر واتساب' : 'Contact us on WhatsApp'}
           >
             <MessageCircle className="w-3.5 h-3.5" />
-            <span>WhatsApp</span>
+            <span className="hidden sm:inline">WhatsApp</span>
           </a>
 
           <motion.button
@@ -169,7 +155,7 @@ export default function EditorNavbar({
             {focusMode ? (
               <>
                 <Eye className="w-3.5 h-3.5" />
-                <span>
+                <span className="hidden sm:inline">
                   {lang === "ar"
                     ? "نمط التركيز: نشط"
                     : lang === "fr"
@@ -180,7 +166,7 @@ export default function EditorNavbar({
             ) : (
               <>
                 <EyeOff className="w-3.5 h-3.5" />
-                <span>
+                <span className="hidden sm:inline">
                   {lang === "ar"
                     ? "نمط التركيز"
                     : lang === "fr"
