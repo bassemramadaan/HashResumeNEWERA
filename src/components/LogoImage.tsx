@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { cn } from "../lib/utils";
 
 interface LogoImageProps {
@@ -7,10 +7,14 @@ interface LogoImageProps {
   className?: string;
 }
 
-const FALLBACK_SRC = "/logos/hashresume-icon.svg";
+const FALLBACK_SRC = "https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png";
 
 export const LogoImage: React.FC<LogoImageProps> = ({ src, alt, className }) => {
   const [imgSrc, setImgSrc] = useState(src);
+
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
 
   if (!src) {
     return null;
