@@ -50,10 +50,10 @@ export function CTASection({ lang }: { lang: AppLang }) {
             {/* Social Proof Avatar Pile */}
             <div className="flex items-center gap-2 mb-6 bg-slate-50/90 hover:bg-slate-50 px-4 py-1.5 rounded-full border border-slate-100/80 backdrop-blur-sm shadow-sm transition-all duration-300">
               <div className="flex -space-x-2 overflow-hidden select-none [direction:ltr]">
-                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100" alt="User 1" referrerpolicy="no-referrer" />
-                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100" alt="User 2" referrerpolicy="no-referrer" />
-                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100" alt="User 3" referrerpolicy="no-referrer" />
-                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100&h=100" alt="User 4" referrerpolicy="no-referrer" />
+                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100" alt="User 1" referrerPolicy="no-referrer" />
+                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100" alt="User 2" referrerPolicy="no-referrer" />
+                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100" alt="User 3" referrerPolicy="no-referrer" />
+                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100&h=100" alt="User 4" referrerPolicy="no-referrer" />
               </div>
               <span className="text-xs font-semibold text-slate-600">
                 {isAr ? 'انضم إلى +١٥,٠٠٠ محترف' : lang === 'fr' ? 'Rejoignez plus de 15 000+ professionnels' : 'Join over 15,000+ professionals'}
