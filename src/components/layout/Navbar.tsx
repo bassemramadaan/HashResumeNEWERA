@@ -100,7 +100,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
 
   return (
     <nav className={cn(
-      "sticky top-0 z-50 transition-all duration-300 border-b", 
+      "sticky top-0 z-[120] transition-all duration-300 border-b", 
       scrolled 
         ? "bg-white/70 backdrop-blur-[12px] shadow-[0_8px_32px_rgba(0,0,0,0.03)] border-slate-200/40 py-1" 
         : "bg-white/95 border-slate-100 py-2"
@@ -197,8 +197,8 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
             {/* Mobile Menu Button toggle */}
             <button
               type="button"
-              onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden relative z-[100] flex h-12 w-12 items-center justify-center rounded-lg border bg-white text-slate-900 shadow-sm"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden relative z-[100] flex h-12 w-12 items-center justify-center rounded-lg border bg-white text-slate-900 shadow-sm cursor-pointer"
               aria-label="Open navigation menu"
             >
               <Menu className="h-6 w-6" />
@@ -223,7 +223,10 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               animate={{ x: 0 }}
               exit={{ x: lang === 'ar' ? '100%' : '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed inset-y-0 start-0 z-[110] w-[85%] max-w-sm bg-[#001639] text-white p-6 pt-10 overflow-y-auto"
+              className={cn(
+                "fixed inset-y-0 z-[110] w-[85%] max-w-sm bg-[#001639] text-white p-6 pt-10 overflow-y-auto",
+                lang === 'ar' ? "right-0" : "left-0"
+              )}
             >
                 <div className="flex items-center justify-between mb-10">
                   <LogoImage src={LOGO_WHITE_URL} alt="Hash Resume" className="h-8 w-auto object-contain" />
