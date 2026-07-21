@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Zap } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'lucide-react'
 import type { AppLang } from '@/hooks/useDirection'
 
 export function CTASection({ lang }: { lang: AppLang }) {
@@ -7,62 +7,86 @@ export function CTASection({ lang }: { lang: AppLang }) {
 
   const copy = {
     ar: {
-      badge: "ابدأ الآن",
-      title: "جاهز لانطلاقة مسيرتك المهنية؟",
-      subtitle: "صمم سيرتك الذاتية في دقائق وانضم لآلاف المحترفين الذين حصلوا على وظائف أحلامهم.",
-      cta: "ابدأ التصميم مجاناً",
-      noCreditCard: "لا حاجة لبطاقة ائتمان للبدء"
+      badge: "ابدأ مجاناً",
+      title: "جاهز لتصميم سيرتك المهنية الجديدة؟",
+      subtitle: "صمّم سيرتك الذاتية الاحترافية والذكية في أقل من 5 دقائق، لتجتاز أنظمة الفرز (ATS) وتلفت انتباه مدراء التوظيف.",
+      cta: "ابدأ الآن مجاناً",
+      noCreditCard: "بدون تسجيل • مجاني تماماً للبدء"
     },
     en: {
-      badge: "Start Now",
-      title: "Ready to Accelerate Your Career?",
-      subtitle: "Build your resume in minutes and join thousands of professionals landing their dream jobs.",
-      cta: "Start Building for Free",
-      noCreditCard: "No credit card required to start"
+      badge: "Get Started Free",
+      title: "Ready to Build Your New Career?",
+      subtitle: "Design your professional, ATS-friendly resume in less than 5 minutes and stand out to hiring managers.",
+      cta: "Create Your Resume Now",
+      noCreditCard: "No registration required • Start completely free"
     },
     fr: {
-      badge: "Commencer",
-      title: "Prêt à propulser votre carrière ?",
-      subtitle: "Créez votre CV en quelques minutes et rejoignez des milliers de professionnels.",
-      cta: "Créer Gratuitement",
-      noCreditCard: "Pas de carte de crédit requise"
+      badge: "Démarrer Gratuitement",
+      title: "Prêt à booster votre avenir professionnel ?",
+      subtitle: "Créez votre CV professionnel et compatible ATS en moins de 5 minutes pour impressionner les recruteurs.",
+      cta: "Créer mon CV maintenant",
+      noCreditCard: "Sans inscription • Démarrage gratuit"
     }
   }
 
   const c = copy[lang] || copy['en']
 
   return (
-    <section className="py-24 sm:py-32 bg-white relative overflow-hidden" dir={isAr ? 'rtl' : 'ltr'}>
+    <section className="py-20 sm:py-28 bg-slate-50/50 relative overflow-hidden" dir={isAr ? 'rtl' : 'ltr'}>
+      {/* Background elegant grid pattern and blurs */}
+      <div className="absolute inset-0 pointer-events-none select-none">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:3rem_3rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-[0.25]" />
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 -translate-x-1/2 w-[350px] h-[350px] bg-blue-100/40 rounded-full blur-[80px]" />
+        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 translate-x-1/2 w-[350px] h-[350px] bg-indigo-100/30 rounded-full blur-[80px]" />
+      </div>
+
       <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
-        <div className="bg-slate-900 rounded-[3rem] p-6 xs:p-10 sm:p-16 lg:p-20 text-center relative overflow-hidden shadow-2xl">
-          
-          <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-[500px] h-[500px] bg-[#001639] rounded-full blur-[100px] opacity-30 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/3 w-[400px] h-[400px] bg-brand-500 rounded-full blur-[100px] opacity-20 pointer-events-none" />
+        <div className="bg-white rounded-[2.5rem] border border-slate-100/80 p-8 sm:p-14 md:p-16 lg:p-20 text-center relative overflow-hidden shadow-xl shadow-slate-100/40">
+          {/* Internal gradients */}
+          <div className="absolute -top-10 -right-10 w-[200px] h-[200px] bg-blue-50/40 rounded-full blur-[40px] pointer-events-none" />
+          <div className="absolute -bottom-10 -left-10 w-[200px] h-[200px] bg-slate-50/60 rounded-full blur-[40px] pointer-events-none" />
 
           <div className="relative z-10 flex flex-col items-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-bold text-white uppercase tracking-widest backdrop-blur-md mb-8">
-              <Zap size={14} className="text-amber-400" fill="currentColor" />
+            {/* Social Proof Avatar Pile */}
+            <div className="flex items-center gap-2 mb-6 bg-slate-50/90 hover:bg-slate-50 px-4 py-1.5 rounded-full border border-slate-100/80 backdrop-blur-sm shadow-sm transition-all duration-300">
+              <div className="flex -space-x-2 overflow-hidden select-none [direction:ltr]">
+                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100&h=100" alt="User 1" referrerpolicy="no-referrer" />
+                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=100&h=100" alt="User 2" referrerpolicy="no-referrer" />
+                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100&h=100" alt="User 3" referrerpolicy="no-referrer" />
+                <img className="inline-block h-6 w-6 rounded-full ring-2 ring-white object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=100&h=100" alt="User 4" referrerpolicy="no-referrer" />
+              </div>
+              <span className="text-xs font-semibold text-slate-600">
+                {isAr ? 'انضم إلى +١٥,٠٠٠ محترف' : lang === 'fr' ? 'Rejoignez plus de 15 000+ professionnels' : 'Join over 15,000+ professionals'}
+              </span>
+            </div>
+
+            {/* Badge */}
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-600 border border-blue-100/50 text-xs font-semibold uppercase tracking-wider mb-5">
+              <Sparkles size={12} className="text-blue-500 animate-pulse" />
               <span>{c.badge}</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight leading-[1.1]">
+            {/* Title */}
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 mb-5 tracking-tight leading-[1.25] max-w-3xl">
               {c.title}
             </h2>
 
-            <p className="text-base sm:text-lg text-slate-300 mb-10 max-w-2xl leading-relaxed font-medium">
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg text-slate-600 mb-8 max-w-2xl leading-relaxed">
               {c.subtitle}
             </p>
 
-            <div className="flex flex-col items-center gap-3">
+            {/* CTA Container */}
+            <div className="flex flex-col items-center gap-4 w-full sm:w-auto">
               <Link
                 to="/templates"
-                className="bg-[#001639] hover:bg-blue-700 active:scale-95 text-white inline-flex items-center justify-center gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-2xl font-black text-base sm:text-lg transition-all shadow-xl shadow-blue-500/25 w-full sm:w-auto"
+                className="bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white inline-flex items-center justify-center gap-2.5 px-8 py-4 sm:py-4.5 rounded-xl font-bold text-base transition-all shadow-md shadow-slate-900/10 hover:shadow-lg hover:shadow-slate-900/15 w-full sm:w-auto group"
               >
                 <span>{c.cta}</span>
-                <ArrowRight size={20} className={isAr ? "rotate-180" : ""} />
+                <ArrowRight size={18} className={`transition-transform duration-200 ${isAr ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
               </Link>
-              <p className="text-xs text-slate-400 font-medium">
-                ✨ {c.noCreditCard}
+              <p className="text-xs text-slate-400 font-medium tracking-wide">
+                {c.noCreditCard}
               </p>
             </div>
           </div>
@@ -71,3 +95,4 @@ export function CTASection({ lang }: { lang: AppLang }) {
     </section>
   )
 }
+
