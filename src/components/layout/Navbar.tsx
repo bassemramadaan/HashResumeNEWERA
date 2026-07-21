@@ -15,7 +15,7 @@ import type { AppLang } from '@/hooks/useDirection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import { useNavigate, Link } from 'react-router-dom'
 import { LogoImage } from '@/components/LogoImage';
-import { LOGO_BLACK_URL, LOGO_ICON_URL, LOGO_WHITE_URL } from '@/constants';
+import { LOGO_BLACK_URL, LOGO_WHITE_URL } from '@/constants';
 
 const LANG_LABELS = { ar: 'العربية', en: 'English', fr: 'Français' }
 const LANGS: AppLang[] = ['ar', 'en', 'fr']
@@ -106,7 +106,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
         : "bg-white/95 border-slate-100 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between relative h-16 sm:h-20 lg:[direction:ltr]">
+        <div className="flex items-center justify-between relative h-20 sm:h-24 lg:h-[115px] lg:[direction:ltr]">
           {/* Left: Hash Hunt + More */}
           <div className="hidden lg:flex items-center gap-4 shrink-0">
              {/* Hash Hunt Link (Desktop only) */}
@@ -131,19 +131,19 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                      {lang === 'ar' ? 'الأسعار' : 'Pricing'}
                    </Link>
                    <Link to="/templates" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                     {lang === 'ar' ? 'القوالب' : 'Templates'}
-                   </Link>
-               </div>
-             </div>
-          </div>
+                      {lang === 'ar' ? 'القوالب' : 'Templates'}
+                    </Link>
+                </div>
+              </div>
+           </div>
 
           {/* Mobile Logo */}
-          <div className="lg:hidden flex h-14 w-14 shrink-0 items-center justify-center overflow-visible relative z-20">
+          <div className="lg:hidden flex items-center shrink-0 relative z-20">
             <Link to="/" className="flex items-center">
               <LogoImage
-                src={LOGO_ICON_URL}
+                src={LOGO_BLACK_URL}
                 alt="Hash Resume"
-                className="block h-8 w-8 shrink-0 object-contain"
+                className="block h-16 w-auto object-contain select-none"
               />
             </Link>
           </div>
@@ -151,16 +151,16 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
           {/* Desktop Logo */}
           <div className="hidden lg:flex absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
              <Link to="/" className="flex items-center transform hover:scale-105 transition-all duration-300">
-               <LogoImage
-                 src={LOGO_BLACK_URL}
-                 alt="Hash Resume"
-                 className="block h-10 w-auto max-w-[180px] max-h-[36px] object-contain select-none"
-               />
+                <LogoImage
+                  src={LOGO_BLACK_URL}
+                  alt="Hash Resume"
+                  className="block h-24 sm:h-28 lg:h-[110px] w-auto max-w-[420px] object-contain select-none"
+                />
              </Link>
           </div>
 
           {/* Right: Actions */}
-          <div className="flex items-center justify-end gap-2 sm:gap-4 shrink-0 w-full lg:w-auto">
+          <div className="flex items-center justify-end gap-2 sm:gap-4 shrink-0 lg:w-auto">
             {/* Language Switcher (Desktop only) */}
             <div className="hidden lg:block relative">
               <button
@@ -251,6 +251,16 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                           <Link key={item.href} to={item.href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between py-3 group">
                               <span className="text-xl font-semibold group-hover:text-brand-400 transition-colors">{item.label}</span>
                               {item.badge && <span className={cn("text-[10px] px-2 py-0.5 rounded-md font-bold", item.color === 'emerald' ? 'bg-emerald-500 text-white' : 'bg-brand-500 text-white')}>{item.badge}</span>}
+                          </Link>
+                        ))}
+                    </div>
+
+                    {/* Info & Pricing */}
+                    <div className="border-t border-white/10 pt-6">
+                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{infoMenu.label}</div>
+                        {infoMenu.items.map((item, idx) => (
+                          <Link key={idx} to={item.href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between py-3 group">
+                              <span className="text-xl font-semibold group-hover:text-brand-400 transition-colors">{item.label}</span>
                           </Link>
                         ))}
                     </div>

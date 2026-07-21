@@ -1,6 +1,6 @@
-export const LOGO_WHITE_URL = "https://cdn.jsdelivr.net/gh/bassemramadaan/HashResumeNEWERA@main/public/logos/hash-resume-white.png";
-export const LOGO_BLACK_URL = "https://cdn.jsdelivr.net/gh/bassemramadaan/HashResumeNEWERA@main/public/logos/hash-resume-black.png";
-export const LOGO_ICON_URL = "https://cdn.jsdelivr.net/gh/bassemramadaan/HashResumeNEWERA@main/public/logos/hash-resume-icon.png";
+export const LOGO_WHITE_URL = "https://i.ibb.co/tPN2Wtwd/IN-LOGO-icon-with-tag-3.png";
+export const LOGO_BLACK_URL = "https://i.ibb.co/hFgBfbD9/IN-LOGO-icon-with-tag.png";
+export const LOGO_ICON_URL = "https://i.ibb.co/qFFjyH8V/IN-LOGO-icon-3.png";
 export const LOGO_URL = LOGO_BLACK_URL;
 export const HERO_LOGO_URL = LOGO_BLACK_URL;
 

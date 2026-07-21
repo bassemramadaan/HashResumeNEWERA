@@ -2,7 +2,6 @@ import React from "react";
 import ProgressStepper from "./ProgressStepper";
 import { useLanguageStore } from "../../store/useLanguageStore";
 import { cn } from "../../lib/utils";
-import { FileUp } from "lucide-react";
 
 interface EditorSidebarProps {
   activeTab?: string;
