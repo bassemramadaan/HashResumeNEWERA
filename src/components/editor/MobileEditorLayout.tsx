@@ -155,10 +155,54 @@ const SECTIONS: Record<string, { id: string; label: string; emoji: string; desc:
   ],
 };
 
+const FINE_SECTIONS = [
+  "basics",
+  "summary",
+  "experience",
+  "education",
+  "skills",
+  "projects",
+  "certifications",
+  "finish"
+];
+
+const FINE_LABELS: Record<string, Record<string, string>> = {
+  ar: {
+    basics: "المعلومات",
+    summary: "الملخص",
+    experience: "الخبرات",
+    education: "التعليم",
+    skills: "المهارات",
+    projects: "المشاريع",
+    certifications: "الشهادات",
+    finish: "التحميل"
+  },
+  en: {
+    basics: "Info",
+    summary: "Summary",
+    experience: "Work",
+    education: "Education",
+    skills: "Skills",
+    projects: "Projects",
+    certifications: "Certs",
+    finish: "Export"
+  },
+  fr: {
+    basics: "Infos",
+    summary: "Résumé",
+    experience: "Expérience",
+    education: "Éducation",
+    skills: "Savoir-faire",
+    projects: "Projets",
+    certifications: "Certifs",
+    finish: "Télécharger"
+  }
+};
+
 // ── Completion Mini Indicator Widget ──────────────────────────
 function InteractiveRing({ pct }: { pct: number }) {
   const size = 32, R = 12, C = 2 * Math.PI * R, dash = (pct / 100) * C;
-  const col = pct === 100 ? "#10b981" : pct > 40 ? "#001639" : "#f59e0b";
+  const col = pct === 100 ? "#10b981" : pct > 40 ? "#2563FF" : "#f59e0b";
   return (
     <div className="relative flex items-center justify-center select-none" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90 shrink-0">
@@ -213,7 +257,7 @@ function ExportScreen({ lang, onPDF, onWord, atsScore }: { lang: string; onPDF: 
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 155, damping: 15 }}
-          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 via-[#001639]/20 to-amber-100 mb-4 text-4xl shadow-[0_8px_20px_rgba(251,191,36,0.18)]"
+          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-gradient-to-br from-amber-400 via-brand-600/20 to-amber-100 mb-4 text-4xl shadow-[0_8px_20px_rgba(251,191,36,0.18)]"
         >
           🎓
         </motion.div>
@@ -225,7 +269,7 @@ function ExportScreen({ lang, onPDF, onWord, atsScore }: { lang: string; onPDF: 
       {/* Mini ATS Score Meter Card */}
       <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-2xl p-4 shadow-xl border border-slate-800 relative overflow-hidden">
         {/* Ambient colored background circle glow */}
-        <div className="absolute -top-10 -right-10 w-24 h-24 bg-[#001639]/15 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute -top-10 -right-10 w-24 h-24 bg-brand-600/15 rounded-full blur-xl pointer-events-none" />
         <div className="absolute -bottom-10 -left-10 w-24 h-24 bg-emerald-500/15 rounded-full blur-xl pointer-events-none" />
 
         <div className="flex items-center justify-between relative z-10">
@@ -245,7 +289,7 @@ function ExportScreen({ lang, onPDF, onWord, atsScore }: { lang: string; onPDF: 
           <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
             <svg width="48" height="48" className="-rotate-90">
               <circle cx="24" cy="24" r="18" fill="none" stroke="#1e293b" strokeWidth="4" />
-              <circle cx="24" cy="24" r="18" fill="none" stroke={isHighATS ? "#10b981" : "#001639"} strokeWidth="4" 
+              <circle cx="24" cy="24" r="18" fill="none" stroke={isHighATS ? "#10b981" : "#2563FF"} strokeWidth="4" 
                 strokeLinecap="round"
                 strokeDasharray={`${(atsScore / 100) * 2 * Math.PI * 18} ${2 * Math.PI * 18}`}
               />
@@ -272,7 +316,7 @@ function ExportScreen({ lang, onPDF, onWord, atsScore }: { lang: string; onPDF: 
             onClick={item.action}
             className="w-full flex items-center gap-4 p-4.5 bg-white border border-slate-200/90 rounded-2.5xl cursor-pointer text-right ltr:text-left transition-all hover:border-slate-300 shadow-[0_4px_12px_rgba(0,0,0,0.02)] relative group"
           >
-            <div className={`w-12 h-12 ${item.bg} border rounded-2xl flex items-center justify-center shrink-0 shadow-sm transition-all group-hover:scale-105`}>
+            <div className={`w-12 h-12 ${item.bg} border rounded-2xl flex items-center justify-center shrink-0 shadow-3xs transition-all group-hover:scale-105`}>
               {item.icon}
             </div>
             
@@ -361,11 +405,11 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
       </div>
 
       {/* Reordering view toggle selector */}
-      <div className="flex bg-slate-100 p-1 rounded-2xl border border-slate-200/60 shadow-sm">
+      <div className="flex bg-slate-100 p-1 rounded-2xl border border-slate-200/60 shadow-3xs">
         <button
           onClick={() => setIsSorting(false)}
           className={`flex-1 py-2 text-xs font-black rounded-xl transition-all ${
-            !isSorting ? "bg-white text-[#001639] shadow-sm" : "text-slate-500 hover:text-slate-700"
+            !isSorting ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-700"
           }`}
         >
           {_lang === "ar" ? "📍 خطوات البناء" : _lang === "fr" ? "📍 Étapes" : "📍 Edit Steps"}
@@ -373,7 +417,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
         <button
           onClick={() => setIsSorting(true)}
           className={`flex-1 py-2 text-xs font-black rounded-xl transition-all flex items-center justify-center gap-1.5 ${
-            isSorting ? "bg-white text-[#001639] shadow-sm" : "text-slate-500 hover:text-slate-700"
+            isSorting ? "bg-white text-brand-600 shadow-3xs" : "text-slate-500 hover:text-slate-700"
           }`}
         >
           <Layers size={13} />
@@ -433,7 +477,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                     })()}
                     <div className="text-right ltr:text-left">
                       <h4 className="text-xs font-black text-slate-800 leading-none">{label}</h4>
-                      <p className="text-[10px] text-[#001639] font-bold uppercase tracking-wider mt-1.5 leading-none">
+                      <p className="text-[10px] text-brand-600 font-bold uppercase tracking-wider mt-1.5 leading-none">
                         {_lang === "ar" ? `موضع: ${index + 1}` : `Pos: ${index + 1}`}
                       </p>
                     </div>
@@ -483,14 +527,14 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                   onClick={() => onSectionChange(s.id)}
                   className={`p-3.5 rounded-2.5xl border cursor-pointer transition-all flex items-center gap-3.5 relative overflow-hidden group select-none ${
                     isActive 
-                      ? "bg-white border-[#001639]/30 ring-4 ring-[#001639]/5 shadow-[0_12px_28px_rgba(255,77,45,0.08)] text-slate-900" 
-                      : "bg-white border-slate-200 hover:border-slate-350 shadow-sm text-slate-700 hover:bg-slate-50"
+                      ? "bg-white border-brand-600/30 ring-4 ring-brand-600/5 shadow-[0_12px_28px_rgba(255,77,45,0.08)] text-slate-900" 
+                      : "bg-white border-slate-200 hover:border-slate-350 shadow-3xs text-slate-700 hover:bg-slate-50"
                   }`}
                 >
                   {/* Highlight background indicator */}
                   {isActive && (
                     <div 
-                      className="absolute top-0 bottom-0 w-1 bg-gradient-to-b from-[#001639] to-orange-500 rounded-full"
+                      className="absolute top-0 bottom-0 w-1 bg-gradient-to-b from-brand-600 to-orange-500 rounded-full"
                       style={{ [isRtl ? "right" : "left"]: 0 }}
                     />
                   )}
@@ -498,7 +542,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                   {/* Number indicator count circles */}
                   <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black transition-colors shrink-0 ${
                     isActive
-                      ? "bg-[#001639]/10 text-[#001639]"
+                      ? "bg-brand-600/10 text-brand-600"
                       : "bg-slate-50 border border-slate-150 text-slate-400 group-hover:bg-slate-100"
                   }`}>
                     {idx + 1}
@@ -510,7 +554,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
                     const colors = SECTION_COLORS[s.id] || { bg: "bg-slate-50", text: "text-slate-500", border: "border-slate-100" };
                     return (
                       <div className={cn("w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-all group-hover:scale-105 border", 
-                        isActive ? "bg-[#001639]/10 text-[#001639] border-[#001639]/20 animate-pulse" : `${colors.bg} ${colors.text} ${colors.border}`
+                        isActive ? "bg-brand-600/10 text-brand-600 border-brand-600/20 animate-pulse" : `${colors.bg} ${colors.text} ${colors.border}`
                       )}>
                         <Icon className="w-5 h-5" strokeWidth={2.2} />
                       </div>
@@ -543,7 +587,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
             className="w-full flex items-center gap-3.5 p-4 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2.5xl cursor-pointer text-white shadow-[0_10px_25px_rgba(15,23,42,0.15)] relative overflow-hidden group"
           >
             {/* Soft accent glow overlay */}
-            <div className="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-br from-[#001639]/20 to-orange-500/0 rounded-full blur-xl pointer-events-none transition-transform group-hover:scale-110" />
+            <div className="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-br from-brand-600/20 to-orange-500/0 rounded-full blur-xl pointer-events-none transition-transform group-hover:scale-110" />
 
             <div className="w-11 h-11 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 border border-white/5">
               <CheckCircle className="w-5 h-5 text-amber-400" strokeWidth={2.4} />
@@ -554,7 +598,7 @@ function SectionsScreen({ _lang, sections, activeSection, onSectionChange, compl
               <p className="text-[10px] text-slate-300 font-semibold mt-0.5 truncate">{auditSection.desc}</p>
             </div>
 
-            <span className="bg-[#001639] text-white text-[9px] font-black px-3 py-1.5 rounded-full shadow-md leading-none tracking-wider">
+            <span className="bg-brand-600 text-white text-[9px] font-black px-3 py-1.5 rounded-full shadow-xs leading-none tracking-wider">
               {_lang === "ar" ? "تحميل" : "DOWNLOAD"}
             </span>
           </motion.button>
@@ -618,16 +662,15 @@ export default function MobileEditorLayout({
     }, 45);
   };
 
-  const currentSection = sections.find(s => s.id === activeSection);
-  const currentSectionIndex = sections.findIndex(s => s.id === activeSection);
+  const currentFineSectionIndex = FINE_SECTIONS.indexOf(activeSection);
   const handlePrevSection = () => {
-    if (currentSectionIndex > 0) {
-      handleSectionChange(sections[currentSectionIndex - 1].id);
+    if (currentFineSectionIndex > 0) {
+      handleSectionChange(FINE_SECTIONS[currentFineSectionIndex - 1]);
     }
   };
   const handleNextSection = () => {
-    if (currentSectionIndex < sections.length - 1) {
-      handleSectionChange(sections[currentSectionIndex + 1].id);
+    if (currentFineSectionIndex < FINE_SECTIONS.length - 1) {
+      handleSectionChange(FINE_SECTIONS[currentFineSectionIndex + 1]);
     }
   };
 
@@ -648,19 +691,24 @@ export default function MobileEditorLayout({
               <LogoImage 
                 src={LOGO_ICON_URL} 
                 alt="HashResume App" 
-                className="w-full h-full object-contain drop-shadow-sm" 
+                className="w-full h-full object-contain drop-shadow-3xs" 
               />
             </motion.div>
             
             <div className="flex flex-col items-start leading-none">
-              <span className="text-[8.5px] font-black text-[#001639] tracking-wider uppercase leading-none">HashResume</span>
-              <span className="text-[12px] font-extrabold text-slate-900 mt-0.5 flex items-center gap-1.5 leading-none">
-                {currentSection && (() => {
-                  const Icon = SECTION_ICONS[currentSection.id] || User;
-                  const colors = SECTION_COLORS[currentSection.id] || { text: "text-slate-500" };
-                  return <Icon className={cn("w-3.5 h-3.5 shrink-0", colors.text)} strokeWidth={2.5} />;
+              <span className="text-[8.5px] font-black text-brand-600 tracking-wider uppercase leading-none font-mono">HashResume</span>
+              <span className="text-[11px] font-black text-slate-950 mt-0.5 flex items-center gap-1 leading-none">
+                {(() => {
+                  const Icon = SECTION_ICONS[activeSection] || User;
+                  const colors = SECTION_COLORS[activeSection] || { text: "text-slate-500" };
+                  const labels = FINE_LABELS[lang] || FINE_LABELS.en;
+                  return (
+                    <>
+                      <Icon className={cn("w-3.5 h-3.5 shrink-0", colors.text)} strokeWidth={2.5} />
+                      <span className="font-black">{labels[activeSection] || activeSection}</span>
+                    </>
+                  );
                 })()}
-                <span className="font-extrabold">{currentSection?.label}</span>
               </span>
             </div>
           </div>
@@ -681,7 +729,7 @@ export default function MobileEditorLayout({
             <motion.button
               whileTap={{ scale: 0.94 }}
               onClick={onOpenPreview}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-[#001639]/10 hover:bg-[#001639]/20 text-[#001639] border border-[#001639]/20 shadow-xs font-black text-[10px] cursor-pointer transition-all shrink-0 active:scale-95"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-brand-600/10 hover:bg-brand-600/20 text-brand-600 border border-brand-600/20 shadow-xs font-black text-[10px] cursor-pointer transition-all shrink-0 active:scale-95"
             >
               <Eye size={12} strokeWidth={2.5} />
               <span>{lang === "ar" ? "المعاينة" : "Preview"}</span>
@@ -690,8 +738,8 @@ export default function MobileEditorLayout({
             {/* Floating Glassmorphic ATS Badge */}
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full font-black text-[10px] bg-slate-950 text-white shadow-[0_4px_10px_rgba(15,23,42,0.12)] border border-slate-900">
               <span className="relative flex h-1.5 w-1.5 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#001639] opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#001639]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-600 opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-600" />
               </span>
               <span className="tracking-tight">ATS {atsScore}%</span>
             </div>
@@ -699,17 +747,40 @@ export default function MobileEditorLayout({
         </header>
       </div>
 
-      {/* Sleek Gradient completeness progress micro-line */}
-      <div className="w-full h-[6px] bg-transparent relative overflow-visible shrink-0 select-none px-5 pt-1 pb-1">
-        <div className="w-full bg-slate-200/80 h-1 rounded-full overflow-hidden relative shadow-inner">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#001639] via-orange-500 to-amber-500 rounded-full"
-            style={{ [isRtl ? "right" : "left"]: 0 }}
-          />
-        </div>
+      {/* Horizontal Section Stepper Navigation on Mobile */}
+      <div className="w-full bg-white border-b border-slate-200/40 px-3 py-2 shrink-0 overflow-x-auto scrollbar-none flex items-center justify-start gap-2 select-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        {FINE_SECTIONS.map((stepId, idx) => {
+          const isActive = activeSection === stepId;
+          const pct = completionMap[stepId] ?? 0;
+          const isCompleted = pct === 100;
+          const label = (FINE_LABELS[lang] || FINE_LABELS.en)[stepId];
+          
+          return (
+            <button
+              id={`m-tab-${stepId}`}
+              key={stepId}
+              onClick={() => handleSectionChange(stepId)}
+              className={cn(
+                "flex items-center gap-1 px-3 py-1.5 rounded-full text-[10.5px] font-bold transition-all shrink-0 cursor-pointer border",
+                isActive
+                  ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                  : "bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900"
+              )}
+            >
+              <div className={cn(
+                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-black shrink-0",
+                isActive 
+                  ? "bg-white text-slate-950" 
+                  : isCompleted 
+                    ? "bg-emerald-500 text-white" 
+                    : "bg-slate-200 text-slate-500"
+              )}>
+                {isCompleted ? "✓" : idx + 1}
+              </div>
+              <span className="whitespace-nowrap leading-none">{label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* ── Main content area ── */}
@@ -738,7 +809,7 @@ export default function MobileEditorLayout({
 
               /* Elegant mobile form spacing and padding coordination overrides */
               .editor-form-scrollable {
-                padding: 12px 12px 76px 12px !important;
+                padding: 12px 12px 90px 12px !important;
               }
               .editor-form-scrollable .bg-white {
                 padding: 16px !important;
@@ -747,32 +818,86 @@ export default function MobileEditorLayout({
                 box-shadow: 0 4px 14px rgba(15, 23, 42, 0.015) !important;
               }
               .editor-form-scrollable .space-y-6 > * + * {
-                margin-top: 14px !important;
+                margin-top: 16px !important;
               }
               .editor-form-scrollable .space-y-4 > * + * {
-                margin-top: 10px !important;
+                margin-top: 14px !important;
               }
               .editor-form-scrollable .grid {
-                gap: 12px !important;
+                gap: 16px !important;
               }
+              
+              /* Bigger inputs with clear touch friendly spacing and 44px+ touch targets */
               .editor-form-scrollable input, 
               .editor-form-scrollable select, 
               .editor-form-scrollable textarea {
-                padding-top: 8px !important;
-                padding-bottom: 8px !important;
+                padding-top: 11px !important;
+                padding-bottom: 11px !important;
                 font-size: 16px !important;
-                border-radius: 10px !important;
+                border-radius: 12px !important;
+                min-height: 48px !important; /* Touch target minimum height */
+                margin-top: 4px !important;
+                border-color: #cbd5e1 !important;
+                background-color: #fafbfd !important;
               }
               .editor-form-scrollable label {
-                font-size: 10.5px !important;
-                margin-bottom: 3px !important;
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                color: #475569 !important;
+                margin-bottom: 4px !important;
+                display: block !important;
               }
               .editor-form-scrollable .mt-8 {
-                margin-top: 16px !important;
+                margin-top: 20px !important;
               }
               .editor-form-scrollable h3 {
                 font-size: 14px !important;
-                margin-bottom: 8px !important;
+                margin-bottom: 10px !important;
+                font-weight: 800 !important;
+              }
+
+              /* Add Buttons / Interaction targets on mobile - wide, clear and easy to tap */
+              .editor-form-scrollable button.border-dashed,
+              .editor-form-scrollable button[class*="dashed"],
+              .editor-form-scrollable button[class*="add"],
+              .editor-form-scrollable button[class*="Add"],
+              .editor-form-scrollable button.w-full {
+                width: 100% !important;
+                padding-top: 12px !important;
+                padding-bottom: 12px !important;
+                font-size: 13.5px !important;
+                font-weight: 800 !important;
+                border-radius: 14px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                min-height: 48px !important; /* Touch friendly target */
+                background-color: rgba(99, 102, 241, 0.05) !important;
+                color: rgb(79, 70, 229) !important;
+                border: 2px dashed rgb(165, 180, 252) !important;
+              }
+
+              /* Subtitles / Tips / Instructions - Reduced length and clutter on mobile */
+              .editor-form-scrollable p.text-slate-500,
+              .editor-form-scrollable p.text-gray-500,
+              .editor-form-scrollable .text-xs.text-slate-500,
+              .editor-form-scrollable .text-xs.text-gray-500 {
+                font-size: 11px !important;
+                line-height: 1.4 !important;
+                display: -webkit-box !important;
+                -webkit-line-clamp: 2 !important; /* Cap at 2 lines to save premium space */
+                -webkit-box-orient: vertical !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+              }
+
+              /* Completely hide unneeded extra promotional boxes / duplicate helper sections on mobile */
+              .editor-form-scrollable .bg-gradient-to-br.from-white,
+              .editor-form-scrollable .bg-gradient-to-br.from-white.to-brand-50-25,
+              .editor-form-scrollable [class*="to-brand-50"],
+              .editor-form-scrollable .tip-box,
+              .editor-form-scrollable .helper-card {
+                display: none !important;
               }
             `}</style>
             
@@ -787,20 +912,20 @@ export default function MobileEditorLayout({
                 <button
                   type="button"
                   onClick={handlePrevSection}
-                  disabled={currentSectionIndex <= 0}
-                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                  disabled={currentFineSectionIndex <= 0}
+                  className="flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
-                  <ArrowLeft size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
+                  <ArrowLeft size={13} className={cn("shrink-0", isRtl && "rotate-180")} />
                   <span>{lang === "ar" ? "السابق" : "Prev"}</span>
                 </button>
 
                 <div className="flex flex-col items-center leading-tight">
                   <div className="text-[9px] text-slate-400 font-extrabold tracking-widest uppercase">
-                    {lang === "ar" ? `الخطوة ${currentSectionIndex + 1} من ${sections.length}` : `STEP ${currentSectionIndex + 1} OF ${sections.length}`}
+                    {lang === "ar" ? `الخطوة ${currentFineSectionIndex + 1} من ${FINE_SECTIONS.length}` : `STEP ${currentFineSectionIndex + 1} OF ${FINE_SECTIONS.length}`}
                   </div>
-                  {currentSectionIndex < sections.length - 1 && (
-                    <div className="text-[10px] text-[#001639] font-bold mt-0.5 max-w-[120px] truncate text-center">
-                      {lang === "ar" ? `${sections[currentSectionIndex + 1].label}` : `${sections[currentSectionIndex + 1].label}`}
+                  {currentFineSectionIndex < FINE_SECTIONS.length - 1 && (
+                    <div className="text-[10px] text-brand-600 font-bold mt-0.5 max-w-[120px] truncate text-center">
+                      {(FINE_LABELS[lang] || FINE_LABELS.en)[FINE_SECTIONS[currentFineSectionIndex + 1]]}
                     </div>
                   )}
                 </div>
@@ -808,15 +933,15 @@ export default function MobileEditorLayout({
                 <button
                   type="button"
                   onClick={handleNextSection}
-                  disabled={currentSectionIndex >= sections.length - 1}
-                  className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-xs font-black bg-[#001639] hover:bg-slate-850 text-white shadow-sm disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                  disabled={currentFineSectionIndex >= FINE_SECTIONS.length - 1}
+                  className="flex items-center gap-1 px-4 py-2 rounded-xl text-xs font-black bg-brand-600 hover:bg-slate-850 text-white shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
                   <span>
-                    {currentSectionIndex === sections.length - 1 
+                    {currentFineSectionIndex === FINE_SECTIONS.length - 1 
                       ? (lang === "ar" ? "الأخير" : "Final")
                       : (lang === "ar" ? "التالي" : "Next")}
                   </span>
-                  <ArrowRight size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
+                  <ArrowRight size={13} className={cn("shrink-0", isRtl && "rotate-180")} />
                 </button>
               </div>
               {/* END Dynamic Step-by-Step Mini Stepper Navigation */}
@@ -825,8 +950,20 @@ export default function MobileEditorLayout({
         </div>
 
         {/* EXPORT TAB */}
-        <div className={`h-full w-full pb-6 ${activeTab === "export" ? "block" : "hidden"} bg-[#fafafa]`}>
-          <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} atsScore={atsScore} />
+        <div className={`h-full w-full ${activeTab === "export" ? "flex flex-col" : "hidden"} bg-[#fafafa] relative overflow-hidden pb-12`}>
+          <div className="flex-1 overflow-y-auto">
+            <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} atsScore={atsScore} />
+          </div>
+          {/* Beautiful Sticky CTA at the bottom of Export Tab */}
+          <div className="px-4 py-3 bg-white border-t border-slate-150 shadow-[0_-8px_30px_rgba(0,0,0,0.03)] z-10 select-none flex flex-col gap-2 shrink-0">
+            <button
+              onClick={onExportPDF}
+              className="w-full h-11 rounded-xl bg-brand-600 hover:bg-slate-950 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer active:scale-98 transition-all"
+            >
+              <FileText size={14} strokeWidth={2.5} />
+              <span>{lang === "ar" ? "تحميل السيرة الذاتية (PDF)" : "Download Resume (PDF)"}</span>
+            </button>
+          </div>
         </div>
       </main>
 
@@ -838,7 +975,7 @@ export default function MobileEditorLayout({
             initial={{ width: 0 }}
             animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="absolute top-0 bottom-0 bg-gradient-to-r from-[#001639] via-orange-500 to-emerald-500"
+            className="absolute top-0 bottom-0 bg-gradient-to-r from-brand-600 via-orange-500 to-emerald-500"
             style={{ [isRtl ? "right" : "left"]: 0 }}
           />
         </div>
@@ -854,7 +991,7 @@ export default function MobileEditorLayout({
               }}
               className="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer text-start text-xs sm:text-sm font-bold"
             >
-              <Settings size={18} strokeWidth={2} className="text-[#001639]" />
+              <Settings size={18} strokeWidth={2} className="text-brand-600" />
               <span>{lang === "ar" ? "الإعدادات والسمات" : "Settings & Themes"}</span>
             </button>
 
@@ -867,7 +1004,7 @@ export default function MobileEditorLayout({
               className="w-full flex items-center justify-between gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer text-start text-xs sm:text-sm font-bold border-t border-slate-100"
             >
               <div className="flex items-center gap-3">
-                <CheckCircle size={18} strokeWidth={2} className="text-[#001639]" />
+                <CheckCircle size={18} strokeWidth={2} className="text-brand-600" />
                 <span>{lang === "ar" ? "فحص وتحليل ATS" : "ATS Audit & Analysis"}</span>
               </div>
               <span className={cn(
@@ -890,7 +1027,7 @@ export default function MobileEditorLayout({
               setShowMoreMenu(false);
             }}
             className={cn(
-              "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer text-gray-400 hover:text-[#001639]"
+              "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer text-gray-400 hover:text-brand-600"
             )}
             title={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
             aria-label={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
@@ -905,7 +1042,7 @@ export default function MobileEditorLayout({
               onOpenPreview();
               setShowMoreMenu(false);
             }}
-            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-[#001639] transition-colors cursor-pointer"
+            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-brand-600 transition-colors cursor-pointer"
             title={lang === "ar" ? "المعاينة" : "Preview"}
             aria-label={lang === "ar" ? "المعاينة" : "Preview"}
           >
@@ -923,10 +1060,10 @@ export default function MobileEditorLayout({
             title={lang === "ar" ? "تحميل PDF" : "Download PDF"}
             aria-label={lang === "ar" ? "تحميل PDF" : "Download PDF"}
           >
-            <div className="bg-[#001639] rounded-full p-1.5 text-white transform -translate-y-1 shadow-md">
+            <div className="bg-brand-600 rounded-full p-1.5 text-white transform -translate-y-1 shadow-xs">
               <Download size={18} strokeWidth={2.5} />
             </div>
-            <span className="text-[10px] font-medium text-[#001639] -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
+            <span className="text-[10px] font-medium text-brand-600 -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
           </button>
 
           {/* Tab 4: More */}
@@ -934,7 +1071,7 @@ export default function MobileEditorLayout({
             onClick={() => setShowMoreMenu(!showMoreMenu)}
             className={cn(
               "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer",
-              showMoreMenu ? "text-[#001639]" : "text-gray-400 hover:text-gray-600"
+              showMoreMenu ? "text-brand-600" : "text-gray-400 hover:text-gray-600"
             )}
             title={lang === "ar" ? "المزيد" : "More"}
             aria-label={lang === "ar" ? "المزيد" : "More"}

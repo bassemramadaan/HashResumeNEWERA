@@ -33,7 +33,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
   };
 
   return (
-    <div className="bg-white border border-slate-150 rounded-2xl overflow-hidden shadow-sm transition-all">
+    <div className="bg-white border border-slate-150 rounded-2xl overflow-hidden shadow-3xs transition-all">
       <div className="flex items-center px-4 md:px-6 py-4 bg-white/50 border-b border-slate-100 justify-between">
         <div className="flex items-center flex-1 min-w-0 mr-3 rtl:ml-3">
           <DragHandle />

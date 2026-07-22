@@ -45,7 +45,7 @@ export const JobMatchAdvisor: React.FC<JobMatchAdvisorProps> = ({ language }) =>
     <div className="flex flex-col h-full bg-white p-5 space-y-5 overflow-y-auto select-none font-sans" dir={isRtl ? "rtl" : "ltr"}>
       {/* Header */}
       <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-        <div className="p-2 bg-[#001639]/10 rounded-xl text-[#001639]">
+        <div className="p-2 bg-brand-600/10 rounded-xl text-brand-600">
           <Sparkles className="w-5 h-5 animate-pulse" />
         </div>
         <div className="text-start">
@@ -74,7 +74,7 @@ export const JobMatchAdvisor: React.FC<JobMatchAdvisorProps> = ({ language }) =>
                 ? "ألصق متطلبات الوظيفة الشاغرة أو الوصف الوظيفي هنا (مثال: مطلوب مهندس برمجيات يمتلك خبرة في React و Node.js)..."
                 : "Paste the hiring requirement, responsibilities, or skills list here (e.g., Seeking a frontend developer proficient in React, Tailwind)..."
             }
-            className="w-full h-36 p-3 text-xs border border-slate-200 rounded-2xl focus:outline-none focus:border-[#001639] focus:ring-1 focus:ring-[#001639]/20 resize-none leading-relaxed transition-all font-medium text-slate-700 bg-slate-50/50"
+            className="w-full h-36 p-3 text-xs border border-slate-200 rounded-2xl focus:outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-600/20 resize-none leading-relaxed transition-all font-medium text-slate-700 bg-slate-50/50"
           />
           {jdInput && (
             <button
@@ -109,7 +109,7 @@ export const JobMatchAdvisor: React.FC<JobMatchAdvisorProps> = ({ language }) =>
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="flex-1 flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-200 rounded-3xl bg-slate-50/50 text-center space-y-3"
+            className="flex-1 flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50 text-center space-y-3"
           >
             <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
               <HelpCircle className="w-6 h-6" />

@@ -115,7 +115,7 @@ const SkillsForm = () => {
       {/* Job Description Matcher Input Card */}
       <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-3.5 text-start">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-[#001639]/5 text-[#001639] rounded-xl shrink-0">
+          <div className="p-1.5 bg-brand-600/5 text-brand-600 rounded-xl shrink-0">
             <Sparkles size={14} className="animate-pulse" />
           </div>
           <div>
@@ -140,7 +140,7 @@ const SkillsForm = () => {
                 ? "الصق الوصف الوظيفي هنا (مثال: مطلوب مهندس برمجيات لديه خبرة في React و TypeScript و Tailwind CSS)..."
                 : "Paste target job description here (e.g., Seeking a software engineer with React, TypeScript, and Tailwind CSS experience)..."
             }
-            className="w-full h-24 p-3 text-xs border border-slate-200 rounded-xl focus:outline-none focus:border-[#001639] focus:ring-1 focus:ring-[#001639]/20 resize-none leading-relaxed transition-all font-medium text-slate-700 bg-slate-50/50"
+            className="w-full h-24 p-3 text-xs border border-slate-200 rounded-xl focus:outline-none focus:border-brand-600 focus:ring-1 focus:ring-brand-600/20 resize-none leading-relaxed transition-all font-medium text-slate-700 bg-slate-50/50"
           />
           {jobDescription && (
             <div className="flex justify-between items-center text-[10px] font-bold text-slate-400">
@@ -181,7 +181,7 @@ const SkillsForm = () => {
                 key={missingKey}
                 type="button"
                 onClick={() => addSkill(missingKey)}
-                className="bg-white/80 backdrop-blur-sm hover:bg-brand-500 text-slate-700 hover:text-white border border-slate-200/80 hover:border-brand-500 rounded-xl px-3 py-1.5 text-xs font-black transition-all cursor-pointer shadow-sm flex items-center gap-1.5 active:scale-95 group/btn"
+                className="bg-white/80 backdrop-blur-sm hover:bg-brand-500 text-slate-700 hover:text-white border border-slate-200/80 hover:border-brand-500 rounded-xl px-3 py-1.5 text-xs font-black transition-all cursor-pointer shadow-3xs flex items-center gap-1.5 active:scale-95 group/btn"
               >
                 <Plus size={12} className="text-brand-500 group-hover/btn:text-white transition-colors" />
                 <span>{missingKey}</span>
@@ -191,7 +191,7 @@ const SkillsForm = () => {
         </div>
       )}
 
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 transition-colors">
+      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-3xs border border-slate-150 transition-colors">
         <form onSubmit={handleAdd} className="mb-6">
           <div className="flex items-center justify-between mb-2">
             <div className="flex items-center gap-2 flex-wrap sm:flex-nowrap">
@@ -267,7 +267,7 @@ const SkillsForm = () => {
             <button
               type="submit"
               disabled={!inputValue.trim()}
-              className="bg-slate-900 hover:bg-slate-950 disabled:bg-slate-200 text-white px-5 py-3 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-95 shadow-sm cursor-pointer"
+              className="bg-slate-900 hover:bg-slate-950 disabled:bg-slate-200 text-white px-5 py-3 rounded-xl font-bold transition-all flex items-center gap-2 hover:scale-[1.01] active:scale-95 shadow-3xs cursor-pointer"
             >
               <Plus size={18} />
               <span className="hidden sm:inline">{String(t.skills?.add || "")}</span>

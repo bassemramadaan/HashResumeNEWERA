@@ -60,7 +60,7 @@ export default function PostDownloadModal({
   // Initialize confetti particles on mount
   useEffect(() => {
     if (isOpen) {
-      const colors = ["#001639", "#10B981", "#3B82F6", "#F59E0B", "#EC4899", "#8B5CF6", "#06B6D4"];
+      const colors = ["#2563FF", "#10B981", "#3B82F6", "#F59E0B", "#EC4899", "#8B5CF6", "#06B6D4"];
       const particles: ConfettiParticle[] = Array.from({ length: 45 }).map((_, i) => ({
         id: i,
         x: Math.random() * 100, // percentage-based width
@@ -160,7 +160,7 @@ export default function PostDownloadModal({
               initial={{ scale: 0.5, rotate: -20 }}
               animate={{ scale: [1.2, 1], rotate: [0, 0] }}
               transition={{ delay: 0.15, type: "spring", stiffness: 200 }}
-              className="w-16 h-16 bg-brand-50 text-[#001639] rounded-2xl flex items-center justify-center mb-5 relative"
+              className="w-16 h-16 bg-brand-50 text-brand-600 rounded-2xl flex items-center justify-center mb-5 relative"
             >
               <PartyPopper size={32} className="stroke-[2.2]" />
               <Sparkles className="absolute -top-1.5 -right-1.5 w-5 h-5 text-amber-500 animate-pulse" />
@@ -246,7 +246,7 @@ export default function PostDownloadModal({
             {bundleCodes.length > 1 && (
               <div className="w-full mb-8 bg-orange-50/50 border border-orange-100 rounded-2xl p-5 text-start relative overflow-hidden">
                 <h4 className="font-black text-sm flex items-center gap-1.5 mb-2.5 text-orange-950">
-                  <Sparkles size={16} className="text-[#001639] animate-pulse" />
+                  <Sparkles size={16} className="text-brand-600 animate-pulse" />
                   <span>{isRtl ? "أكواد تفعيل الباقة الخاصة بك" : "Your Bundle Activation Codes"}</span>
                 </h4>
                 <p className="text-[11px] font-semibold text-slate-500 mb-4 leading-normal">
@@ -258,7 +258,7 @@ export default function PostDownloadModal({
                   {bundleCodes.map((codeStr, idx) => (
                     <div 
                       key={idx} 
-                      className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-2xs hover:border-[#001639]/35 transition-colors group"
+                      className="flex items-center justify-between gap-3 bg-white border border-slate-200/80 p-3 rounded-xl shadow-2xs hover:border-brand-600/35 transition-colors group"
                     >
                       <div className="flex items-center gap-2">
                         <span className="text-[10px] font-black text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100">
@@ -268,14 +268,14 @@ export default function PostDownloadModal({
                       </div>
                       <button
                         onClick={() => handleCopyCode(codeStr)}
-                        className="p-1.5 bg-slate-50 text-slate-400 hover:text-[#001639] border border-slate-100 rounded-lg transition-all cursor-pointer flex items-center justify-center min-w-[70px]"
+                        className="p-1.5 bg-slate-50 text-slate-400 hover:text-brand-600 border border-slate-100 rounded-lg transition-all cursor-pointer flex items-center justify-center min-w-[70px]"
                       >
                         {copiedCode === codeStr ? (
-                          <span className="flex items-center gap-0.5 text-[9px] font-black text-[#001639] px-1">
+                          <span className="flex items-center gap-0.5 text-[9px] font-black text-brand-600 px-1">
                             <Check size={12} /> {isRtl ? "نسخ" : "Copied"}
                           </span>
                         ) : (
-                          <span className="text-[10px] font-extrabold text-slate-500 group-hover:text-[#001639] flex items-center gap-1 px-1">
+                          <span className="text-[10px] font-extrabold text-slate-500 group-hover:text-brand-600 flex items-center gap-1 px-1">
                             {isRtl ? "نسخ الكود" : "Copy"}
                           </span>
                         )}
@@ -300,7 +300,7 @@ export default function PostDownloadModal({
 
                 <div className="flex-1 mb-4 sm:mb-0 text-center sm:text-right ltr:sm:text-left z-10">
                   <h4 className="font-black text-sm flex items-center justify-center sm:justify-start gap-1.5 mb-1.5 text-white">
-                    <Target size={15} className="text-[#001639]" />
+                    <Target size={15} className="text-brand-600" />
                     <span>{isRtl ? "توظيف فوري عبر منصة Hash Hunt" : "Direct Hiring with Hash Hunt"}</span>
                   </h4>
                   <p className="text-[11px] font-medium text-slate-300 max-w-sm leading-relaxed">
@@ -313,7 +313,7 @@ export default function PostDownloadModal({
                 <Link
                   to="/hash-hunt"
                   onClick={onClose}
-                  className="w-full sm:w-auto inline-flex items-center gap-2 px-5 py-3 rounded-xl font-extrabold text-xs transition-all justify-center bg-[#001639] hover:bg-[#E64528] text-white shadow-md shadow-orange-500/10 active:scale-98 z-10 shrink-0 cursor-pointer"
+                  className="w-full sm:w-auto inline-flex items-center gap-2 px-5 py-3 rounded-xl font-extrabold text-xs transition-all justify-center bg-brand-600 hover:bg-[#E64528] text-white shadow-md shadow-orange-500/10 active:scale-98 z-10 shrink-0 cursor-pointer"
                 >
                   <span>{isRtl ? "مزامنة والانضمام مجاناً" : "Join Talent Pool"}</span>
                   <ArrowRight size={13} className={isRtl ? "rotate-180" : ""} />

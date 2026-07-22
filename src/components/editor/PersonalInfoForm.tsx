@@ -148,10 +148,10 @@ const PersonalInfoForm = () => {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
-        <div className="relative overflow-hidden bg-gradient-to-br from-white to-brand-50/25 p-5 rounded-2xl shadow-sm border border-slate-200 hover:border-brand-200 transition-all duration-300 group flex flex-col justify-between gap-4">
+        <div className="relative overflow-hidden bg-gradient-to-br from-white to-brand-50/25 p-5 rounded-2xl shadow-3xs border border-slate-200 hover:border-brand-200 transition-all duration-300 group flex flex-col justify-between gap-4">
           <div className="absolute top-0 right-0 w-32 h-32 bg-brand-500/5 rounded-full blur-2xl pointer-events-none -z-10" />
           <div className="flex items-center gap-3 relative z-10">
-            <div className="w-10 h-10 bg-[#001639]/10 text-[#001639] rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-10 h-10 bg-brand-600/10 text-brand-600 rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
               <Sparkles size={20} className="animate-pulse" />
             </div>
             <div>
@@ -177,9 +177,9 @@ const PersonalInfoForm = () => {
 
       </div>
 
-      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-slate-150 font-sans transition-colors">
+      <div className="bg-white p-6 md:p-8 rounded-2xl shadow-3xs border border-slate-150 font-sans transition-colors">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="space-y-2 stagger-item">
+        <div className="space-y-3 stagger-item">
           <label
             htmlFor="fullName"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -218,7 +218,7 @@ const PersonalInfoForm = () => {
           )}
         </div>
 
-        <div className="space-y-2 stagger-item">
+        <div className="space-y-3 stagger-item">
           <label
             htmlFor="jobTitle"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -256,7 +256,7 @@ const PersonalInfoForm = () => {
           )}
         </div>
 
-        <div className="space-y-2 stagger-item">
+        <div className="space-y-3 stagger-item">
           <label htmlFor="email" className="text-[11px] font-semibold text-slate-500 block mb-1">
             {t.email} <span className="text-rose-500">*</span>
           </label>
@@ -293,7 +293,7 @@ const PersonalInfoForm = () => {
           )}
         </div>
  
-        <div className="space-y-2 stagger-item">
+        <div className="space-y-3 stagger-item">
           <label htmlFor="phone" className="text-[11px] font-semibold text-slate-500 block mb-1">
             {t.phone}
           </label>
@@ -316,7 +316,7 @@ const PersonalInfoForm = () => {
           </div>
         </div>
 
-        <div className="space-y-2 stagger-item">
+        <div className="space-y-3 stagger-item">
           <label
             htmlFor="address"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -339,7 +339,7 @@ const PersonalInfoForm = () => {
           </div>
         </div>
 
-        <div className="space-y-2 stagger-item">
+        <div className="space-y-3 stagger-item">
           <label
             htmlFor="linkedin"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -362,7 +362,7 @@ const PersonalInfoForm = () => {
           </div>
         </div>
 
-        <div className="space-y-2 stagger-item">
+        <div className="space-y-3 stagger-item">
           <label
             htmlFor="github"
             className="text-[11px] font-semibold text-slate-500 block mb-1"
@@ -490,7 +490,7 @@ const PersonalInfoForm = () => {
         </div>
 
         {/* Middle East & GCC Recruitment Fields Collapsible */}
-        <div className="col-span-1 md:col-span-2 border border-dashed border-slate-200 hover:border-[#001639]/35 rounded-2xl p-4 transition-all bg-white shadow-3xs mt-2">
+        <div className="col-span-1 md:col-span-2 border border-dashed border-slate-200 hover:border-brand-600/35 rounded-2xl p-4 transition-all bg-white shadow-3xs mt-2">
           <button
             type="button"
             onClick={() => setShowGCCFields(!showGCCFields)}
@@ -505,7 +505,7 @@ const PersonalInfoForm = () => {
                 </p>
               </div>
             </div>
-            <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${showGCCFields ? "rotate-180 text-[#001639]" : "text-slate-400"}`} />
+            <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${showGCCFields ? "rotate-180 text-brand-600" : "text-slate-400"}`} />
           </button>
 
           {showGCCFields && (

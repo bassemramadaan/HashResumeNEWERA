@@ -58,7 +58,7 @@ const dummyData: ResumeData = {
   customSections: [],
   settings: {
     template: "modern",
-    themeColor: "#001639",
+    themeColor: "#2563FF",
     language: "en",
     isFreshGrad: false,
     sectionOrder: ["summary", "experience", "education", "skills", "projects", "certifications"],
@@ -85,6 +85,9 @@ type Template = {
   categories: string[];
   isNew?: boolean;
   isPopular?: boolean;
+  bestFor: string;
+  bestForAr: string;
+  bestForFr: string;
 };
 
 // ── templates data ────────────────────────────────────────
@@ -93,9 +96,10 @@ const templates: Template[] = [
     id: "classic",
     name: "Classic", nameAr: "كلاسيك", nameFr: "Classique",
     description: "Traditional format perfect for corporate, legal, and banking roles.",
-    descriptionAr: "تنسيق تقليدي كلاسيكي مثالي للأدوار المؤسسية، القانونية، والقطاعات الرسمية.",
+    descriptionAr: "تنسيق تقليدي كلاسيكي مثالي للأدوار المؤسسية، القانونية، والقطاعات الرسمية والمالية.",
     descriptionFr: "Format traditionnel parfait pour les rôles d'entreprise et formels.",
     color: "#1E293B", categories: ["Business", "Academic", "Finance"], isPopular: true,
+    bestFor: "Corporate, HR & Finance", bestForAr: "الشركات، الموارد البشرية والمالية", bestForFr: "Entreprise, RH & Finance"
   },
   {
     id: "modern",
@@ -103,7 +107,8 @@ const templates: Template[] = [
     description: "Clean and contemporary design with a focus on readability and tech roles.",
     descriptionAr: "تصميم عصري ونظيف مع التركيز على سهولة القراءة وملائم جداً للمجالات التقنية والبرمجة.",
     descriptionFr: "Design épuré et contemporain axé sur la lisibilité et la technologie.",
-    color: "#001639", categories: ["Technology", "Creative"], isPopular: true,
+    color: "#2563FF", categories: ["Technology", "Creative"], isPopular: true,
+    bestFor: "Tech, Software & Startups", bestForAr: "التقنية، البرمجة والشركات الناشئة", bestForFr: "Tech, Logiciels & Startups"
   },
   {
     id: "executive",
@@ -112,6 +117,7 @@ const templates: Template[] = [
     descriptionAr: "تخطيط متميز بلمسات قيادية وهيدر بارز للإدارة العليا وأدوار القيادة والاستشارات.",
     descriptionFr: "Mise en page premium pour la direction et les postes de leadership.",
     color: "#8B5CF6", categories: ["Business", "Finance"], isNew: true,
+    bestFor: "Executives & Managers", bestForAr: "المدراء التنفيذيين والإدارة العليا", bestForFr: "Cadres & Direction"
   },
   {
     id: "minimal",
@@ -120,6 +126,7 @@ const templates: Template[] = [
     descriptionAr: "تصميم بسيط، أنيق ومباشر يركز كلياً على انسيابية عرض النص.",
     descriptionFr: "Simple, élégant et direct, centré sur le contenu.",
     color: "#475569", categories: ["Academic", "Healthcare"],
+    bestFor: "Freshers & Academics", bestForAr: "الخريجين الجدد والأكاديميين", bestForFr: "Nouveaux diplômés & Académiques"
   },
   {
     id: "two-column",
@@ -128,6 +135,7 @@ const templates: Template[] = [
     descriptionAr: "تخطيط كلاسيكي وعصري من عمودين لتنظيم المهارات ومعلومات الاتصال بشكل جانبي مميز.",
     descriptionFr: "Mise en page moderne à deux colonnes avec une barre latérale pour les compétences.",
     color: "#0EA5E9", categories: ["Technology", "Creative", "Healthcare"], isNew: true,
+    bestFor: "Creatives & Designers", bestForAr: "المبدعين، التسويق والتصميم", bestForFr: "Créatifs, Marketing & Design"
   },
 ];
 
@@ -158,7 +166,7 @@ function getTemplateDesc(t: Template, lang: string) {
 }
 
 // ── Color swatch ──────────────────────────────────────────
-const THEME_COLORS = ["#001639", "#1E293B", "#10B981", "#8B5CF6", "#F97316", "#0EA5E9", "#BE185D", "#0F766E"];
+const THEME_COLORS = ["#2563FF", "#1E293B", "#10B981", "#8B5CF6", "#F97316", "#0EA5E9", "#BE185D", "#0F766E"];
 
 // ── main component ────────────────────────────────────────
 export default function TemplatesPage() {
@@ -183,7 +191,7 @@ export default function TemplatesPage() {
     (data.certifications || []).length > 0;
 
   const handleSelectTemplate = (templateId: ResumeData["settings"]["template"], color?: string) => {
-    updateSettings({ template: templateId, themeColor: color ?? templates.find(t => t.id === templateId)?.color ?? "#001639" });
+    updateSettings({ template: templateId, themeColor: color ?? templates.find(t => t.id === templateId)?.color ?? "#2563FF" });
     navigate("/editor");
   };
 
@@ -225,7 +233,7 @@ export default function TemplatesPage() {
       </Helmet>
 
       {/* ── Header ── */}
-      <header className="bg-[#FAFAF8]/90 border-b border-slate-200/80 sticky top-0 z-40 backdrop-blur-md">
+      <header className="bg-white/90 border-b border-slate-200/80 sticky top-0 z-40 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link to="/" className="p-2 text-slate-400 hover:text-slate-900 transition-colors rounded-full hover:bg-slate-100">
@@ -233,7 +241,10 @@ export default function TemplatesPage() {
             </Link>
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-500">
-            <span className="hidden sm:block text-[#001639] font-medium">Build & preview for free — pay only when you download</span>
+            <span className="hidden sm:block text-brand-600 font-black flex items-center gap-1.5 bg-brand-50/50 px-3 py-1 rounded-full text-xs border border-brand-100/50">
+              <Sparkles size={12} className="animate-pulse" />
+              {language === "ar" ? "ابنِ وعاين مجاناً بالكامل — ادفع فقط عند التصدير" : "Build & preview for free — pay only when you download"}
+            </span>
           </div>
         </div>
       </header>
@@ -241,11 +252,11 @@ export default function TemplatesPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
 
         {/* ── Hero ── */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="text-center max-w-2xl mx-auto mb-16">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 text-[#001639] font-semibold text-xs mb-5 uppercase tracking-wider"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-50 border border-brand-100 text-brand-600 font-black text-xs mb-5 uppercase tracking-wider shadow-2xs"
           >
             <LayoutTemplate size={14} />
             {labels.libraryBadge}
@@ -255,29 +266,35 @@ export default function TemplatesPage() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.08 }}
-            className="text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight"
+            className="text-4xl md:text-5xl font-black tracking-tight mb-4 leading-tight text-slate-900"
           >
             {labels.title}
           </motion.h1>
 
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.14 }}
-            className="text-slate-500 text-lg"
+            className="flex flex-col items-center gap-2.5"
           >
-            {labels.sub}
-          </motion.p>
+            <p className="text-slate-600 text-lg font-bold leading-relaxed">
+              {language === "ar" ? "5 قوالب احترافية مصممة لاجتياز أنظمة الفرز الآلي (ATS)" : "5 professional, battle-tested templates optimized for ATS algorithms"}
+            </p>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full font-black text-xs border border-emerald-200/60 shadow-xs">
+              <CheckCircle2 size={12} className="stroke-[2.5]" />
+              <span>{language === "ar" ? "100% مجانية وبدون علامات مائية" : "100% Free — No Watermarks"}</span>
+            </div>
+          </motion.div>
 
           {hasActiveDraft && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="mt-6 inline-flex flex-col sm:flex-row gap-3 justify-center items-center p-3.5 px-5 rounded-2xl bg-orange-50 border border-orange-100/80 text-slate-700 text-xs sm:text-sm font-semibold max-w-lg mx-auto relative overflow-hidden"
+              className="mt-8 inline-flex flex-col sm:flex-row gap-4 justify-center items-center p-4 px-6 rounded-2xl bg-orange-50 border border-orange-100 text-slate-700 text-xs sm:text-sm font-semibold max-w-xl mx-auto relative overflow-hidden shadow-2xs"
             >
-              <div className="absolute top-0 start-0 w-1 h-full bg-[#001639]" />
-              <span className="text-start leading-normal text-slate-600">
+              <div className="absolute top-0 start-0 w-1.5 h-full bg-brand-600" />
+              <span className="text-start leading-normal text-slate-600 font-bold">
                 {language === "ar" 
                   ? "لديك مسودة نشطة محفوظة. سيتم تطبيق التصميم واللون فوراً دون فقدان أي بيانات !" 
                   : language === "fr"
@@ -297,7 +314,7 @@ export default function TemplatesPage() {
                     navigate("/editor");
                   }
                 }}
-                className="bg-white hover:bg-[#001639] hover:text-white border border-slate-200 hover:border-transparent text-slate-800 px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-3xs hover:shadow-xs"
+                className="bg-white hover:bg-brand-600 hover:text-white border border-slate-200 hover:border-transparent text-slate-800 px-3.5 py-2 rounded-xl font-black transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-sm active:scale-95"
               >
                 {language === "ar" ? "بدء مسودة جديدة 🗑️" : language === "fr" ? "Nouveau brouillon 🗑️" : "Start Fresh Draft 🗑️"}
               </button>
@@ -310,27 +327,27 @@ export default function TemplatesPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18 }}
-          className="flex flex-col sm:flex-row gap-4 items-center mb-10"
+          className="flex flex-col md:flex-row gap-4 items-center justify-between mb-12 max-w-6xl mx-auto"
         >
           {/* Search */}
-          <div className="relative w-full sm:w-64">
-            <Search size={15} className="absolute start-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <div className="relative w-full md:w-80">
+            <Search size={15} className="absolute start-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder={labels.searchPlaceholder}
-              className="w-full ps-9 pe-4 py-2.5 text-sm border border-slate-200 rounded-xl bg-white outline-none focus:border-[#001639] transition-colors"
+              className="w-full ps-10 pe-4 py-3 text-xs border border-slate-200 rounded-xl bg-white outline-none focus:border-brand-600 focus:ring-4 focus:ring-brand-500/10 transition-all font-semibold shadow-xs text-slate-800"
             />
           </div>
 
           {/* Category filters */}
-          <div className="flex-1 w-full flex items-center gap-2">
+          <div className="w-full md:w-auto flex items-center justify-end">
             {/* Mobile Dropdown */}
             <div className="sm:hidden w-full relative">
               <select
                 value={activeCategory}
                 onChange={(e) => setActiveCategory(e.target.value as Category)}
-                className="w-full appearance-none bg-white border border-slate-200 text-slate-700 py-2.5 px-4 pe-10 rounded-xl text-sm font-semibold outline-none focus:border-[#001639] transition-colors"
+                className="w-full appearance-none bg-white border border-slate-200 text-slate-700 py-3 px-4 pe-10 rounded-xl text-xs font-bold outline-none focus:border-brand-600 transition-colors shadow-xs"
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>{CATEGORY_TRANSLATIONS[cat]?.[language] || cat}</option>
@@ -342,16 +359,16 @@ export default function TemplatesPage() {
             </div>
 
             {/* Desktop Buttons */}
-            <div className="hidden sm:flex flex-wrap justify-start gap-2">
+            <div className="hidden sm:flex flex-wrap justify-end gap-2">
               {categories.map(cat => (
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
                   className={cn(
-                    "px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all border",
+                    "px-4 py-2 rounded-xl text-xs font-bold transition-all border shadow-xs cursor-pointer active:scale-95",
                     activeCategory === cat
-                      ? "bg-[#0D0D0B] text-white border-[#0D0D0B] shadow-sm"
-                      : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
+                      ? "bg-[#0D0D0B] text-white border-[#0D0D0B]"
+                      : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                   )}
                 >
                   {CATEGORY_TRANSLATIONS[cat]?.[language] || cat}
@@ -365,7 +382,7 @@ export default function TemplatesPage() {
         {filtered.length === 0 ? (
           <div className="text-center py-20 text-slate-400">{labels.noResults}</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <AnimatePresence mode="popLayout">
               {filtered.map((template, idx) => {
                 const isSelected = data.settings.template === template.id;
@@ -383,32 +400,32 @@ export default function TemplatesPage() {
                     onMouseLeave={() => setHoveredId(null)}
                     onClick={() => { setPreviewTemplate(template); setPreviewColor(template.color); }}
                     className={cn(
-                      "group relative bg-white rounded-2xl overflow-hidden border-2 transition-all duration-300 flex flex-col cursor-pointer w-full max-w-[340px] sm:max-w-none mx-auto",
+                      "group relative bg-white rounded-2xl overflow-hidden border-2 transition-all duration-300 flex flex-col cursor-pointer w-full max-w-[380px] md:max-w-none mx-auto",
                       isSelected
-                        ? "border-[#001639] shadow-lg shadow-orange-500/10"
-                        : "border-slate-200 hover:border-slate-300 hover:shadow-lg"
+                        ? "border-brand-600 shadow-xl shadow-brand-500/10"
+                        : "border-slate-200 hover:border-slate-300 hover:shadow-2xl hover:-translate-y-1"
                     )}
                   >
                     {/* Badges */}
-                    <div className="absolute top-3 start-3 z-20 flex flex-wrap gap-1 max-w-[calc(100%-36px)]">
+                    <div className="absolute top-4 start-4 z-20 flex flex-wrap gap-1 max-w-[calc(100%-36px)]">
                       {template.isNew && (
-                        <span className="bg-[#001639] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">{labels.new_}</span>
+                        <span className="bg-brand-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase shadow-xs">{labels.new_}</span>
                       )}
                       {template.isPopular && (
-                        <span className="bg-amber-400 whitespace-nowrap text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full">⭐ {labels.popular}</span>
+                        <span className="bg-amber-400 text-amber-950 text-[10px] font-black px-2.5 py-1 rounded-full uppercase shadow-xs">⭐ {labels.popular}</span>
                       )}
                     </div>
 
                     {/* Selected badge */}
                     {isSelected && (
-                      <div className="absolute top-3 end-3 z-20 bg-[#001639] text-white p-1.5 rounded-full shadow">
-                        <CheckCircle2 size={14} />
+                      <div className="absolute top-4 end-4 z-20 bg-brand-600 text-white p-2 rounded-full shadow-lg">
+                        <CheckCircle2 size={16} />
                       </div>
                     )}
 
                     {/* Preview area */}
                     <div
-                      className="aspect-[1/1.3] relative overflow-hidden bg-slate-100 @container"
+                      className="aspect-[1/1.3] relative overflow-hidden bg-slate-100 border-b border-slate-100 @container"
                       onClick={() => { setPreviewTemplate(template); setPreviewColor(template.color); }}
                     >
                       {/* Resume scaled preview */}
@@ -426,46 +443,72 @@ export default function TemplatesPage() {
                       </div>
 
                       {/* Bottom fade */}
-                      <div className="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-white/80 to-transparent z-10" />
+                      <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-white/90 to-transparent z-10 pointer-events-none" />
 
                       {/* Hover overlay */}
                       <div className={cn(
                         "absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 transition-all duration-300",
-                        isHovered ? "opacity-100 bg-slate-900/25 backdrop-blur-[2px]" : "opacity-0"
+                        isHovered ? "opacity-100 bg-slate-900/40 backdrop-blur-[2px]" : "opacity-0"
                       )}>
                         <button
                           onClick={e => { e.stopPropagation(); handleSelectTemplate(template.id); }}
-                          className="bg-[#001639] text-white px-5 py-2.5 rounded-full font-bold shadow-lg text-sm hover:bg-[#e63e1d] transition-colors"
+                          className="bg-brand-600 text-white px-6 py-3 rounded-xl font-black shadow-lg text-xs tracking-wider uppercase hover:bg-brand-700 transition-all cursor-pointer transform hover:scale-105 active:scale-95"
                         >
                           {isSelected ? labels.selected : labels.useTemplate}
                         </button>
                         <button
                           onClick={e => { e.stopPropagation(); setPreviewTemplate(template); setPreviewColor(template.color); }}
-                          className="bg-white text-slate-800 px-5 py-2.5 rounded-full font-semibold text-sm shadow hover:bg-slate-50 transition-colors flex items-center gap-2"
+                          className="bg-white text-slate-800 px-5 py-2.5 rounded-xl font-black text-xs shadow hover:bg-slate-50 transition-colors flex items-center gap-1.5 cursor-pointer"
                         >
-                          <Eye size={14} /> {labels.preview}
+                          <Eye size={13} /> {labels.preview}
                         </button>
                       </div>
                     </div>
 
                     {/* Card footer */}
-                    <div className="p-4 border-t border-slate-100 flex-1">
-                      <div className="flex items-start justify-between gap-2 mb-1">
-                        <h3 className="font-bold text-slate-900 text-sm">{getTemplateName(template, language)}</h3>
-                        <div
-                          className="w-4 h-4 rounded-full flex-shrink-0 mt-0.5 ring-2 ring-white shadow"
-                          style={{ background: template.color }}
-                        />
-                      </div>
-                      <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
-                        {getTemplateDesc(template, language)}
-                      </p>
-                      <div className="flex gap-1 flex-wrap mt-2">
-                        {template.categories.slice(0, 2).map(cat => (
-                          <span key={cat} className="text-[10px] font-semibold px-1.5 py-0.5 bg-slate-100 text-slate-500 rounded">
-                            {CATEGORY_TRANSLATIONS[cat]?.[language] || cat}
+                    <div className="p-5 flex-1 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-start justify-between gap-2 mb-1.5">
+                          <h3 className="font-black text-slate-900 text-base">{getTemplateName(template, language)}</h3>
+                          <div
+                            className="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 ring-2 ring-white shadow-md border border-slate-100"
+                            style={{ background: template.color }}
+                          />
+                        </div>
+                        
+                        {/* Target audience badge - Mini Labels */}
+                        <div className="mb-3 flex items-center gap-1 text-[11px] font-black text-brand-600 bg-brand-50/50 px-2.5 py-1 rounded-lg w-fit border border-brand-100/30">
+                          <Sparkles size={11} className="shrink-0 animate-pulse text-brand-500" />
+                          <span className="truncate">
+                            {language === "ar" ? `${labels.bestFor}: ${template.bestForAr}` : `${labels.bestFor}: ${template.bestFor}`}
                           </span>
-                        ))}
+                        </div>
+
+                        <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                          {getTemplateDesc(template, language)}
+                        </p>
+                      </div>
+
+                      {/* Card Action Button pair */}
+                      <div className="mt-5 pt-4 border-t border-slate-100 flex items-center gap-2">
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleSelectTemplate(template.id); }}
+                          className={cn(
+                            "flex-1 py-3 rounded-xl text-xs font-black transition-all cursor-pointer text-center active:scale-98 shadow-xs border",
+                            isSelected 
+                              ? "bg-slate-100 text-slate-800 border-slate-200" 
+                              : "bg-[#0D0D0B] hover:bg-brand-600 hover:border-brand-600 text-white border-[#0D0D0B] hover:shadow-md"
+                          )}
+                        >
+                          {isSelected ? labels.selected : labels.useTemplate}
+                        </button>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); setPreviewTemplate(template); setPreviewColor(template.color); }}
+                          className="px-3.5 py-3 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-xl transition-all cursor-pointer active:scale-95 flex items-center justify-center shadow-2xs"
+                          title={labels.preview}
+                        >
+                          <Eye size={14} />
+                        </button>
                       </div>
                     </div>
                   </motion.div>
@@ -518,7 +561,7 @@ export default function TemplatesPage() {
                   <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">{labels.bestFor}</div>
                   <div className="flex flex-wrap gap-1.5">
                     {previewTemplate.categories.map(cat => (
-                      <span key={cat} className="px-3 py-1 bg-orange-50 text-[#001639] rounded-full text-xs font-semibold border border-orange-100">
+                      <span key={cat} className="px-3 py-1 bg-orange-50 text-brand-600 rounded-full text-xs font-semibold border border-orange-100">
                         {CATEGORY_TRANSLATIONS[cat]?.[language] || cat}
                       </span>
                     ))}
@@ -571,7 +614,7 @@ export default function TemplatesPage() {
                 <div className="mt-auto space-y-2">
                   <button
                     onClick={() => { handleSelectTemplate(previewTemplate.id, previewColor || previewTemplate.color); setPreviewTemplate(null); }}
-                    className="w-full bg-[#001639] hover:bg-[#e63e1d] text-white py-3 rounded-xl font-bold shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                    className="w-full bg-brand-600 hover:bg-[#e63e1d] text-white py-3 rounded-xl font-bold shadow-md transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
                   >
                     <Sparkles size={16} />
                     {labels.useTemplate}

@@ -34,7 +34,7 @@ export const FrictionlessConfetti: React.FC = () => {
     }
 
     let particles: Particle[] = [];
-    const colors = ["#001639", "#FFA07A", "#FFD700", "#FF69B4", "#20B2AA", "#87CEFA", "#BA55D3", "#4CAF50"];
+    const colors = ["#2563FF", "#FFA07A", "#FFD700", "#FF69B4", "#20B2AA", "#87CEFA", "#BA55D3", "#4CAF50"];
 
     const spawnParticles = () => {
       for (let i = 0; i < 150; i++) {

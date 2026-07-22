@@ -18,7 +18,7 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
         <div className="max-w-4xl mx-auto text-center">
 
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-[#001639] to-[#000a1b] border border-primary-200 text-primary-700 rounded-full px-4 py-2 text-sm font-medium mb-6 shadow-sm">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-brand-600 to-[#000a1b] border border-primary-200 text-primary-700 rounded-full px-4 py-2 text-sm font-medium mb-6 shadow-sm">
             <Sparkles className="w-4 h-4 text-primary-500" />
             <span>مُشغَّل بالذكاء الاصطناعي Gemini</span>
             <span className="bg-primary-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">NEW</span>

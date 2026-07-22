@@ -325,7 +325,7 @@ export default function DashboardPage() {
 
       <div className="min-h-screen bg-slate-50 pb-24" dir={isAr ? "rtl" : "ltr"}>
         {/* Upper Brand Jumbotron Banner */}
-        <div className="bg-[#001639] text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div className="bg-brand-600 text-white pt-16 pb-28 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
           <div className="absolute inset-0 bg-radial from-brand-600/20 via-transparent to-transparent opacity-60" />
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
             <div className="space-y-2">
@@ -371,7 +371,7 @@ export default function DashboardPage() {
                   onClick={() => setActiveTab(tab.id as any)}
                   className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-black transition-all cursor-pointer select-none ${
                     isActive 
-                      ? "bg-[#001639] text-white shadow-md shadow-slate-900/10" 
+                      ? "bg-brand-600 text-white shadow-md shadow-slate-900/10" 
                       : "bg-slate-50 hover:bg-slate-100 text-slate-600 hover:text-slate-800"
                   }`}
                 >
@@ -507,7 +507,7 @@ export default function DashboardPage() {
 
                   <button
                     type="submit"
-                    className="w-full py-3 bg-[#001639] hover:bg-slate-800 text-white rounded-xl text-xs font-black transition-colors"
+                    className="w-full py-3 bg-brand-600 hover:bg-slate-800 text-white rounded-xl text-xs font-black transition-colors"
                   >
                     {isAr ? "تحقق وتفعيل الكود" : "Verify & Activate Code"}
                   </button>
@@ -544,7 +544,7 @@ export default function DashboardPage() {
                     {codes.map((code, idx) => (
                       <div key={idx} className="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-xl bg-brand-50 text-[#001639] flex items-center justify-center">
+                          <div className="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center">
                             <Award size={18} />
                           </div>
                           <div>
@@ -580,7 +580,7 @@ export default function DashboardPage() {
                 </div>
                 <button
                   onClick={() => setShowAddJobModal(true)}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-[#001639] text-white hover:bg-slate-800 rounded-xl text-xs font-bold cursor-pointer shadow-xs"
+                  className="flex items-center gap-1.5 px-4 py-2 bg-brand-600 text-white hover:bg-slate-800 rounded-xl text-xs font-bold cursor-pointer shadow-xs"
                 >
                   <PlusCircle size={14} />
                   <span>{isAr ? "إضافة وظيفة جديدة" : "Add Job Application"}</span>
@@ -729,12 +729,12 @@ export default function DashboardPage() {
                     <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider block">
                       {isAr ? "كود الخصم الشخصي الخاص بك (20%خصم)" : "Your Personal Discount Key (20% Off)"}
                     </span>
-                    <div className="font-mono text-xl sm:text-2xl font-black text-[#001639] bg-white border border-slate-200 py-3 rounded-xl tracking-widest shadow-inner inline-block px-6 relative select-all">
+                    <div className="font-mono text-xl sm:text-2xl font-black text-brand-600 bg-white border border-slate-200 py-3 rounded-xl tracking-widest shadow-inner inline-block px-6 relative select-all">
                       {referralCode}
                     </div>
                     <button
                       onClick={handleCopyReferralText}
-                      className="w-full py-3 bg-[#001639] hover:bg-slate-800 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
+                      className="w-full py-3 bg-brand-600 hover:bg-slate-800 text-white rounded-xl text-xs font-black flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
                     >
                       <Copy size={13} />
                       <span>{isAr ? "نسخ رابط وكود الخصم المباشر" : "Copy Discount Link & Text"}</span>
@@ -920,7 +920,7 @@ export default function DashboardPage() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-3 bg-[#001639] hover:bg-slate-800 text-white rounded-xl text-xs font-black"
+                  className="flex-1 py-3 bg-brand-600 hover:bg-slate-800 text-white rounded-xl text-xs font-black"
                 >
                   {isAr ? "إضافة وحفظ" : "Add & Save"}
                 </button>

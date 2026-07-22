@@ -71,7 +71,7 @@ export function DragHandle() {
     <div
       {...attributes}
       {...listeners}
-      className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-[#001639]/10 text-slate-500 hover:text-[#001639] hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-[#001639]/15 transition-all shadow-3xs flex items-center justify-center shrink-0 mr-2 ml-2 touch-none"
+      className="cursor-grab active:cursor-grabbing p-1.5 rounded-lg bg-slate-50 hover:bg-brand-600/10 text-slate-500 hover:text-brand-600 hover:scale-105 active:scale-95 border border-slate-200/60 hover:border-brand-600/15 transition-all shadow-3xs flex items-center justify-center shrink-0 mr-2 ml-2 touch-none"
       title="Drag to reorder"
     >
       <GripVertical size={16} style={{ strokeWidth: 2.2 }} />

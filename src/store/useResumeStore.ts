@@ -682,7 +682,7 @@ export const useResumeStore = create<ResumeStore>()(
               ],
               settings: {
                 template: "modern",
-                themeColor: "#001639",
+                themeColor: "#2563FF",
                 language: "en",
                 isFreshGrad: false,
                 sectionOrder: defaultSectionOrder,
@@ -755,7 +755,7 @@ export const useResumeStore = create<ResumeStore>()(
               })),
               settings: {
                 template: "modern",
-                themeColor: roleId === "developer" ? "#001639" : roleId === "accountant" ? "#1E293B" : "#001639",
+                themeColor: roleId === "developer" ? "#2563FF" : roleId === "accountant" ? "#1E293B" : "#2563FF",
                 language: lang,
                 isFreshGrad: false,
                 sectionOrder: defaultSectionOrder,

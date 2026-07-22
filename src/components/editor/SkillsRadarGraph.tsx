@@ -164,7 +164,7 @@ export default function SkillsRadarGraph({
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
             <linearGradient id="poly-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#001639" stopOpacity="0.4" />
+              <stop offset="0%" stopColor="#2563FF" stopOpacity="0.4" />
               <stop offset="100%" stopColor="#FF7A60" stopOpacity="0.1" />
             </linearGradient>
           </defs>
@@ -214,7 +214,7 @@ export default function SkillsRadarGraph({
             <motion.polygon
               points={pointsString}
               fill="url(#poly-grad)"
-              stroke="#001639"
+              stroke="#2563FF"
               strokeWidth="2.5"
               filter="url(#radar-glow)"
               className="transition-all duration-700 ease-out"
@@ -239,7 +239,7 @@ export default function SkillsRadarGraph({
                   cx={x}
                   cy={y}
                   r="6"
-                  fill="#001639"
+                  fill="#2563FF"
                   className="transition-all hover:scale-150 duration-200"
                 />
                 <circle
@@ -247,7 +247,7 @@ export default function SkillsRadarGraph({
                   cy={y}
                   r="12"
                   fill="transparent"
-                  className="hover:stroke-[#001639]/20 hover:stroke-[3px]"
+                  className="hover:stroke-brand-600/20 hover:stroke-[3px]"
                 />
               </g>
             );
@@ -274,7 +274,7 @@ export default function SkillsRadarGraph({
                 y={y + 4}
                 textAnchor={textAnchor}
                 className={`text-[10px] font-black fill-slate-300 hover:fill-brand-400 cursor-pointer transition-colors ${
-                  hoveredIndex === i ? "fill-[#001639] scale-102 font-extrabold" : ""
+                  hoveredIndex === i ? "fill-brand-600 scale-102 font-extrabold" : ""
                 }`}
                 onMouseEnter={() => setHoveredIndex(i)}
                 onMouseLeave={() => setHoveredIndex(null)}
@@ -337,7 +337,7 @@ export default function SkillsRadarGraph({
           </motion.div>
         ) : (
           <div className="space-y-3.5 text-center md:text-start flex flex-col items-center md:items-start justify-center">
-            <div className="p-2 bg-[#001639]/10 rounded-xl text-[#001639] shrink-0">
+            <div className="p-2 bg-brand-600/10 rounded-xl text-brand-600 shrink-0">
               <Sparkles size={18} className="animate-pulse" />
             </div>
             <div>

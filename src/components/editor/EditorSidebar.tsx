@@ -28,7 +28,7 @@ export default function EditorSidebar({
   return (
     <aside 
       className={cn(
-        "w-64 min-w-64 h-[calc(100%-24px)] my-3 bg-white border border-slate-200 shadow-sm flex flex-col overflow-y-auto select-none rounded-[20px] transition-all duration-300 relative z-20 scrollbar-none",
+        "w-56 min-w-56 h-[calc(100%-24px)] my-3 bg-white border border-slate-200 shadow-3xs flex flex-col overflow-y-auto select-none rounded-[20px] transition-all duration-300 relative z-20 scrollbar-none",
         isRtl ? "mr-3 ml-2" : "ml-3 mr-2"
       )}
       style={{ direction: isRtl ? "rtl" : "ltr" }}

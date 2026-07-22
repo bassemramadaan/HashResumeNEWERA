@@ -35,7 +35,7 @@ export function JobCard({ job, language, onApply }: JobCardProps) {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -15 }}
-      className="bg-white border border-slate-200/70 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:border-[#001639]/20 hover:shadow-xl hover:shadow-slate-100/60 transition-all duration-300"
+      className="bg-white border border-slate-200/70 rounded-3xl p-6 sm:p-7 flex flex-col justify-between hover:border-brand-600/20 hover:shadow-xl hover:shadow-slate-100/60 transition-all duration-300"
       id={`job-card-${job.jobId}`}
     >
       <div>
@@ -48,7 +48,7 @@ export function JobCard({ job, language, onApply }: JobCardProps) {
             referrerPolicy="no-referrer"
           />
           <div className="min-w-0">
-            <h4 className="font-extrabold text-[#001639] text-xs sm:text-sm tracking-wide uppercase">
+            <h4 className="font-extrabold text-brand-600 text-xs sm:text-sm tracking-wide uppercase">
               {job.company}
             </h4>
             <h3 className="font-black text-slate-900 text-sm sm:text-base leading-snug truncate">
@@ -80,7 +80,7 @@ export function JobCard({ job, language, onApply }: JobCardProps) {
           <div className="space-y-2 mb-6 bg-[#FAFAF6]/40 p-4 rounded-2xl border border-slate-100">
             {bullets.slice(0, 4).map((bullet, idx) => (
               <div key={idx} className="flex items-start gap-2">
-                <span className="text-[#001639] text-xs font-black select-none mt-0.5 shrink-0">›</span>
+                <span className="text-brand-600 text-xs font-black select-none mt-0.5 shrink-0">›</span>
                 <p className="text-xs text-slate-600 font-normal leading-relaxed select-text flex-1">
                   {bullet}
                 </p>
@@ -94,7 +94,7 @@ export function JobCard({ job, language, onApply }: JobCardProps) {
       <div className="space-y-2.5 pt-4 border-t border-slate-100 mt-auto">
         <button
           onClick={() => onApply(job.title)}
-          className="w-full bg-[#001639] hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-[#001639]/15 active:scale-98 cursor-pointer"
+          className="w-full bg-brand-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-brand-600/15 active:scale-98 cursor-pointer"
         >
           <span>⚡</span>
           <span>{applyText}</span>

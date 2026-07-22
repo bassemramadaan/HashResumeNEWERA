@@ -159,7 +159,7 @@ const EducationItem = ({
                           const separator = currentDesc ? "\n" : "";
                           updateEducation(edu.id, { description: currentDesc + separator + suggestion });
                         }}
-                        className="text-start text-xs text-slate-700 bg-slate-50 hover:bg-[#001639]/10 hover:text-[#001639] hover:border-[#001639]/20 px-3 py-1.5 rounded-xl border border-slate-200/60 transition-all font-medium cursor-pointer"
+                        className="text-start text-xs text-slate-700 bg-slate-50 hover:bg-brand-600/10 hover:text-brand-600 hover:border-brand-600/20 px-3 py-1.5 rounded-xl border border-slate-200/60 transition-all font-medium cursor-pointer"
                       >
                         {suggestion}
                       </button>

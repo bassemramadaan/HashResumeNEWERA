@@ -89,7 +89,7 @@ export default function ATSVerbAssistant({ onSelectWord, isAr }: ATSVerbAssistan
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-600 to-amber-600 text-white px-3 py-1.5 rounded-xl text-[10px] md:text-xs font-black cursor-pointer hover:shadow-lg hover:from-brand-650 hover:to-amber-650 transition-all active:scale-95 shadow-md shadow-brand-500/10"
+        className="inline-flex items-center gap-1.5 bg-gradient-to-r from-brand-600 to-amber-600 text-white px-3 py-1.5 rounded-xl text-[10px] md:text-xs font-black cursor-pointer hover:shadow-lg hover:from-brand-650 hover:to-amber-650 transition-all active:scale-95 shadow-xs shadow-brand-500/10"
       >
         <Sparkles size={12} className="animate-pulse" />
         <span>{isAr ? "⚡ قاموس أفعال ATS وصياغة STAR" : "⚡ ATS Verbs & STAR Companion"}</span>
@@ -146,7 +146,7 @@ export default function ATSVerbAssistant({ onSelectWord, isAr }: ATSVerbAssistan
                 className={cn(
                   "py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer",
                   activeSegment === "verbs"
-                    ? "bg-white text-[#001639] shadow-sm"
+                    ? "bg-white text-brand-600 shadow-3xs"
                     : "text-slate-500 hover:text-slate-700 hover:bg-white/30"
                 )}
               >
@@ -159,7 +159,7 @@ export default function ATSVerbAssistant({ onSelectWord, isAr }: ATSVerbAssistan
                 className={cn(
                   "py-2.5 rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer",
                   activeSegment === "star"
-                    ? "bg-white text-[#001639] shadow-sm"
+                    ? "bg-white text-brand-600 shadow-3xs"
                     : "text-slate-500 hover:text-slate-700 hover:bg-white/30"
                 )}
               >
@@ -188,7 +188,7 @@ export default function ATSVerbAssistant({ onSelectWord, isAr }: ATSVerbAssistan
                         className={cn(
                           "py-1.5 px-3 rounded-lg text-[10px] font-bold cursor-pointer transition-all",
                           activeTab === cat.id
-                            ? "bg-[#001639] text-white shadow-sm"
+                            ? "bg-brand-600 text-white shadow-3xs"
                             : "bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700"
                         )}
                       >
@@ -211,7 +211,7 @@ export default function ATSVerbAssistant({ onSelectWord, isAr }: ATSVerbAssistan
                             <span className="text-xs font-black text-slate-900 group-hover:text-brand-650 transition-colors font-mono">
                               {verb.en}
                             </span>
-                            <span className="text-[10px] font-black text-[#001639]">
+                            <span className="text-[10px] font-black text-brand-600">
                               {verb.ar}
                             </span>
                           </div>
@@ -238,7 +238,7 @@ export default function ATSVerbAssistant({ onSelectWord, isAr }: ATSVerbAssistan
                   {/* STAR Explanation Card */}
                   <div className="space-y-4">
                     <div className="flex gap-2 items-center text-xs font-black text-slate-800">
-                      <BookOpen size={16} className="text-[#001639]" />
+                      <BookOpen size={16} className="text-brand-600" />
                       <span>{isAr ? "ما هي طريقة STAR في الكتابة؟" : "What is the STAR Method?"}</span>
                     </div>
                     <p className="text-xs text-slate-600 leading-relaxed font-normal">
@@ -248,29 +248,29 @@ export default function ATSVerbAssistant({ onSelectWord, isAr }: ATSVerbAssistan
                     </p>
 
                     <div className="space-y-2">
-                      <div className="p-3 bg-red-50/40 rounded-xl border-l-[3px] border-[#001639] space-y-1">
-                        <span className="text-xs font-black text-[#001639] block">S - Situation (الموقف)</span>
+                      <div className="p-3 bg-red-50/40 rounded-xl border-l-[3px] border-brand-600 space-y-1">
+                        <span className="text-xs font-black text-brand-600 block">S - Situation (الموقف)</span>
                         <p className="text-[10px] text-slate-500 leading-relaxed font-medium">
                           {isAr ? "تحديد السياق أو المشكلة التي عانى منها فريقك." : "Describe the background context or the problem."}
                         </p>
                       </div>
 
-                      <div className="p-3 bg-red-50/40 rounded-xl border-l-[3px] border-[#001639] space-y-1">
-                        <span className="text-xs font-black text-[#001639] block">T - Task (المهمة)</span>
+                      <div className="p-3 bg-red-50/40 rounded-xl border-l-[3px] border-brand-600 space-y-1">
+                        <span className="text-xs font-black text-brand-600 block">T - Task (المهمة)</span>
                         <p className="text-[10px] text-slate-500 leading-relaxed font-medium">
                           {isAr ? "توضيح الأهداف أو المطلوب تغييره لمعالجة الموقف." : "Explain what challenges needed to be addressed."}
                         </p>
                       </div>
 
-                      <div className="p-3 bg-red-50/40 rounded-xl border-l-[3px] border-[#001639] space-y-1">
-                        <span className="text-xs font-black text-[#001639] block">A - Action (الإجراء)</span>
+                      <div className="p-3 bg-red-50/40 rounded-xl border-l-[3px] border-brand-600 space-y-1">
+                        <span className="text-xs font-black text-brand-600 block">A - Action (الإجراء)</span>
                         <p className="text-[10px] text-slate-500 leading-relaxed font-medium">
                           {isAr ? "كيف تصرفت ووظفت خبرتك لحل الأزمة (استعمل الفعل القوي)." : "Detail the exact professional solutions you devised."}
                         </p>
                       </div>
 
-                      <div className="p-3 bg-red-50/40 rounded-xl border-l-[3px] border-[#001639] space-y-1">
-                        <span className="text-xs font-black text-[#001639] block">R - Result (النتيجة)</span>
+                      <div className="p-3 bg-red-50/40 rounded-xl border-l-[3px] border-brand-600 space-y-1">
+                        <span className="text-xs font-black text-brand-600 block">R - Result (النتيجة)</span>
                         <p className="text-[10px] text-slate-500 leading-relaxed font-medium">
                           {isAr ? "النتائج النهائية المدعومة بالأرقام والنسب المئوية." : "Highlight direct quantitative success (revenue, speed, ratios)."}
                         </p>
@@ -281,7 +281,7 @@ export default function ATSVerbAssistant({ onSelectWord, isAr }: ATSVerbAssistan
                   {/* Concrete Formulas comparison template */}
                   <div className="pt-4 border-t border-slate-100 space-y-3">
                     <span className="text-xs font-black text-slate-800 flex items-center gap-2">
-                      <MessageSquare size={14} className="text-[#001639]" />
+                      <MessageSquare size={14} className="text-brand-600" />
                       {isAr ? "صياغة المبتدئ ❌ مقابل صياغة الخبير بالنظام ✅" : "Beginner Writing ❌ vs STAR Pro Writing ✅"}
                     </span>
 

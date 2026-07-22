@@ -93,7 +93,7 @@ export default function FinishStep({
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 p-2 sm:p-4 max-w-4xl mx-auto relative overflow-hidden" dir={isAr ? "rtl" : "ltr"}>
       
       {/* ── 1. Immediate Premium Downloads (خلي التحميل يبقي في البدايه) ── */}
-      <div className="bg-white rounded-3xl border border-neutral-100 p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.02)] space-y-6 text-center">
+      <div className="bg-white rounded-2xl border border-neutral-100 p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.02)] space-y-6 text-center">
         
         {/* Subtle Check Badge */}
         <div className="flex flex-col items-center justify-center space-y-3">
@@ -141,7 +141,7 @@ export default function FinishStep({
               onClick={onPrint}
               className="w-full py-3 bg-neutral-950 hover:bg-neutral-900 text-white rounded-xl font-bold text-xs shadow-xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
             >
-              <Download size={14} className="animate-bounce text-[#001639]" />
+              <Download size={14} className="animate-bounce text-brand-600" />
               <span>{isAr ? "تحميل ملف PDF" : "Download PDF file"}</span>
             </button>
           </div>
@@ -172,7 +172,7 @@ export default function FinishStep({
               onClick={onExportWord}
               className="w-full py-3 bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-250 rounded-xl font-bold text-xs shadow-3xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
             >
-              <Download size={14} className="text-[#001639]" />
+              <Download size={14} className="text-brand-600" />
               <span>{isAr ? "تصدير بصيغة Word (.docx)" : "Export to Word DOCX"}</span>
             </button>
           </div>
@@ -181,7 +181,7 @@ export default function FinishStep({
       </div>
 
       {/* ── 2. Collapsible ATS Review Card (مربع تحت كده لو حد عايز يعرف تفاصيل الي محتاجه تطوير او تحسين) ── */}
-      <div className="border border-neutral-200/80 bg-white rounded-3xl overflow-hidden shadow-xs">
+      <div className="border border-neutral-200/80 bg-white rounded-2xl overflow-hidden shadow-xs">
         {/* Toggle Panel Header */}
         <button
           onClick={() => setShowDetails(!showDetails)}
@@ -227,7 +227,7 @@ export default function FinishStep({
               <div className="p-5 sm:p-6 space-y-6 bg-white">
                 
                 {/* Visual score horizontal progress bar */}
-                <div className="bg-gradient-to-r from-slate-900 to-slate-850 rounded-2xl p-5 sm:p-6 text-white shadow-md flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <div className="bg-gradient-to-r from-slate-900 to-slate-850 rounded-2xl p-5 sm:p-6 text-white shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                   <div className="space-y-2 flex-1">
                     <div className="flex justify-between items-end">
                       <div className="space-y-0.5">
@@ -254,7 +254,7 @@ export default function FinishStep({
                   
                   {/* Score Verdict Tag */}
                   <div className={cn(
-                    "px-4 py-2.5 rounded-xl text-xs font-black border text-center shrink-0 min-w-[150px] shadow-sm",
+                    "px-4 py-2.5 rounded-xl text-xs font-black border text-center shrink-0 min-w-[150px] shadow-3xs",
                     score >= 80 
                       ? "text-emerald-400 bg-emerald-950/40 border-emerald-500/30" 
                       : score >= 50 
@@ -338,7 +338,7 @@ export default function FinishStep({
       </div>
 
       {/* Standalone Job Description Matcher (Moved outside so it's always visible!) */}
-      <div className="border border-neutral-200/80 bg-white rounded-3xl overflow-hidden shadow-xs p-5 sm:p-6 space-y-4">
+      <div className="border border-neutral-200/80 bg-white rounded-2xl overflow-hidden shadow-xs p-5 sm:p-6 space-y-4">
         <div className="flex items-center gap-2">
           <div className="p-1.5 bg-orange-50 shadow-3xs rounded-lg text-orange-500">
             <Wand2 size={16} />
@@ -384,13 +384,13 @@ export default function FinishStep({
       </div>
 
       {/* ── 3. Next Recommended Steps: Job Match & roadmap ── */}
-      <div className="bg-gradient-to-tr from-neutral-900 via-neutral-850 to-neutral-950 text-white rounded-3xl p-6 sm:p-8 shadow-sm relative overflow-hidden group">
-        <div className="absolute inset-0 bg-radial from-[#001639]/[0.06] to-transparent pointer-events-none" />
+      <div className="bg-gradient-to-tr from-neutral-900 via-neutral-850 to-neutral-950 text-white rounded-2xl p-6 sm:p-8 shadow-3xs relative overflow-hidden group">
+        <div className="absolute inset-0 bg-radial from-brand-600/[0.06] to-transparent pointer-events-none" />
         <div className="absolute top-2 right-2 text-neutral-700/20 animate-pulse">
           <Flame size={60} />
         </div>
         <div className="space-y-4 relative z-10 text-center">
-          <div className="mx-auto p-2.5 bg-white/10 rounded-2xl text-[#001639] w-fit font-bold">
+          <div className="mx-auto p-2.5 bg-white/10 rounded-2xl text-brand-600 w-fit font-bold">
             <Sparkles className="w-4 h-4" />
           </div>
           <h3 className="text-lg font-black tracking-tight">
@@ -404,7 +404,7 @@ export default function FinishStep({
           <div className="pt-2 flex justify-center">
             <Link
               to="/hash-hunt"
-              className="flex items-center gap-2 h-10 px-6 bg-[#001639] hover:bg-[#E64528] active:scale-95 transition-all text-white rounded-xl text-xs font-bold cursor-pointer select-none"
+              className="flex items-center gap-2 h-10 px-6 bg-brand-600 hover:bg-[#E64528] active:scale-95 transition-all text-white rounded-xl text-xs font-bold cursor-pointer select-none"
             >
               <span>{isAr ? "احصل على وظيفتك التالية" : "Get Your Next Job"}</span>
               <ArrowRight size={12} className="rtl:rotate-180" />

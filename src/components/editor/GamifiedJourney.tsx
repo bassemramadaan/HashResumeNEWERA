@@ -193,7 +193,7 @@ export default function GamifiedJourney() {
       </div>
 
       {/* 2. Interactive SVG Journey Path Map */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm relative overflow-hidden flex flex-col items-center">
+      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-3xs relative overflow-hidden flex flex-col items-center">
         <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 self-start">
           🧭 {isRtl ? "مسار خريطة الإنجاز" : "Journey Trail Map"}
         </h4>
@@ -203,7 +203,7 @@ export default function GamifiedJourney() {
             {/* Defs for gradients */}
             <defs>
               <linearGradient id="glow-line" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#001639" stopOpacity="0.8" />
+                <stop offset="0%" stopColor="#2563FF" stopOpacity="0.8" />
                 <stop offset="100%" stopColor="#10B981" stopOpacity="0.8" />
               </linearGradient>
             </defs>
@@ -277,7 +277,7 @@ export default function GamifiedJourney() {
                     cy={step.y}
                     r="12"
                     fill={isLocked ? "#F1F5F9" : isCompleted ? "#10B981" : "#FFFFFF"}
-                    stroke={isLocked ? "#CBD5E1" : isCompleted ? "#10B981" : "#001639"}
+                    stroke={isLocked ? "#CBD5E1" : isCompleted ? "#10B981" : "#2563FF"}
                     strokeWidth="3"
                     className="transition-colors duration-300 group-hover:scale-110"
                     style={{ transformOrigin: `${step.x}px ${step.y}px` }}

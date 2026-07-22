@@ -191,16 +191,16 @@ export function ApplicationForm({
         
         {/* Progress Bar */}
         <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden flex gap-1 mb-4">
-          <div className={`h-full flex-1 rounded-full transition-all duration-300 ${activeStep >= 1 ? "bg-[#001639]" : "bg-slate-100"}`} />
-          <div className={`h-full flex-1 rounded-full transition-all duration-300 ${activeStep >= 2 ? "bg-[#001639]" : "bg-slate-100"}`} />
-          <div className={`h-full flex-1 rounded-full transition-all duration-300 ${activeStep >= 3 ? "bg-[#001639]" : "bg-slate-100"}`} />
+          <div className={`h-full flex-1 rounded-full transition-all duration-300 ${activeStep >= 1 ? "bg-brand-600" : "bg-slate-100"}`} />
+          <div className={`h-full flex-1 rounded-full transition-all duration-300 ${activeStep >= 2 ? "bg-brand-600" : "bg-slate-100"}`} />
+          <div className={`h-full flex-1 rounded-full transition-all duration-300 ${activeStep >= 3 ? "bg-brand-600" : "bg-slate-100"}`} />
         </div>
 
         {/* Labels below bar */}
         <div className="flex justify-between text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-          <span className={activeStep === 1 ? "text-[#001639]" : ""}>{stepTitles[0]}</span>
-          <span className={activeStep === 2 ? "text-[#001639]" : ""}>{stepTitles[1]}</span>
-          <span className={activeStep === 3 ? "text-[#001639]" : ""}>{stepTitles[2]}</span>
+          <span className={activeStep === 1 ? "text-brand-600" : ""}>{stepTitles[0]}</span>
+          <span className={activeStep === 2 ? "text-brand-600" : ""}>{stepTitles[1]}</span>
+          <span className={activeStep === 3 ? "text-brand-600" : ""}>{stepTitles[2]}</span>
         </div>
       </div>
 
@@ -216,7 +216,7 @@ export function ApplicationForm({
               onDragLeave={handleDrag}
               onDrop={handleDrop}
               className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all ${
-                dragActive ? "border-[#001639] bg-[#001639]/5 scale-[1.01]" : "border-slate-200 hover:border-slate-300"
+                dragActive ? "border-brand-600 bg-brand-600/5 scale-[1.01]" : "border-slate-200 hover:border-slate-300"
               }`}
             >
               <input 
@@ -280,7 +280,7 @@ export function ApplicationForm({
                     onAutoFill();
                     setActiveStep(2);
                   }}
-                  className="bg-[#001639] hover:bg-blue-700 text-white font-extrabold text-xs px-4 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1 shrink-0 cursor-pointer"
+                  className="bg-brand-600 hover:bg-blue-700 text-white font-extrabold text-xs px-4 py-2 rounded-xl transition-all shadow-sm flex items-center gap-1 shrink-0 cursor-pointer"
                 >
                   <Sparkles size={13} />
                   <span>{isAr ? "تعبئة البيانات تلقائياً ⚡" : "Auto-fill ⚡"}</span>
@@ -298,7 +298,7 @@ export function ApplicationForm({
               <button
                 type="button"
                 onClick={onAutoFill}
-                className="w-full bg-[#001639]/5 hover:bg-[#001639]/10 text-[#001639] font-extrabold text-xs py-3 rounded-xl transition-all border border-dashed border-[#001639]/20 flex items-center justify-center gap-1.5 cursor-pointer"
+                className="w-full bg-brand-600/5 hover:bg-brand-600/10 text-brand-600 font-extrabold text-xs py-3 rounded-xl transition-all border border-dashed border-brand-600/20 flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <Sparkles size={13} />
                 <span>{isAr ? "تعبئة البيانات من السيرة بالمحرر ⚡" : "Auto-fill from Editor Resume ⚡"}</span>
@@ -316,7 +316,7 @@ export function ApplicationForm({
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder={isAr ? "احمد كمال" : "Ahmed Kamal"} 
-                className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-[#001639] focus:ring-1 focus:ring-[#001639] outline-none"
+                className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600 outline-none"
               />
             </div>
 
@@ -331,7 +331,7 @@ export function ApplicationForm({
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder={isAr ? "01000791165" : "+201000791165"} 
-                className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-[#001639] focus:ring-1 focus:ring-[#001639] outline-none font-mono"
+                className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600 outline-none font-mono"
               />
             </div>
 
@@ -346,7 +346,7 @@ export function ApplicationForm({
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="ahmed.kamal@example.com" 
-                className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-[#001639] focus:ring-1 focus:ring-[#001639] outline-none"
+                className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600 outline-none"
               />
             </div>
           </div>
@@ -368,7 +368,7 @@ export function ApplicationForm({
                 value={jobTitle}
                 onChange={(e) => setJobTitle(e.target.value)}
                 placeholder={isAr ? "مطور برمجيات واجهات" : "Senior Software Engineer"} 
-                className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-[#001639] focus:ring-1 focus:ring-[#001639] outline-none"
+                className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600 outline-none"
               />
             </div>
 
@@ -381,7 +381,7 @@ export function ApplicationForm({
                 <select 
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
-                  className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-[#001639] focus:ring-1 focus:ring-[#001639] outline-none appearance-none"
+                  className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600 outline-none appearance-none"
                 >
                   <option>0–1 {isAr ? "سنة" : isFr ? "an" : "year"}</option>
                   <option>1–3 {isAr ? "سنوات" : isFr ? "ans" : "years"}</option>
@@ -401,7 +401,7 @@ export function ApplicationForm({
                 <select 
                   value={userLocation}
                   onChange={(e) => setUserLocation(e.target.value)}
-                  className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-[#001639] focus:ring-1 focus:ring-[#001639] outline-none appearance-none"
+                  className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600 outline-none appearance-none"
                 >
                   <option>{isAr ? "مصر" : "Egypt"}</option>
                   <option>{isAr ? "السعودية" : "Saudi Arabia"}</option>
@@ -422,7 +422,7 @@ export function ApplicationForm({
                 <select 
                   value={openTo}
                   onChange={(e) => setOpenTo(e.target.value)}
-                  className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-[#001639] focus:ring-1 focus:ring-[#001639] outline-none appearance-none"
+                  className="w-full font-bold px-4 py-3 rounded-xl border border-slate-200 text-sm focus:border-brand-600 focus:ring-1 focus:ring-brand-600 outline-none appearance-none"
                 >
                   <option>{isAr ? "عن بعد فقط" : isFr ? "Télétravail uniquement" : "Remote only"}</option>
                   <option>{isAr ? "عن بعد أو من المكتب" : isFr ? "Hybride" : "Remote or On-site"}</option>
@@ -458,7 +458,7 @@ export function ApplicationForm({
               type="button"
               onClick={handleNextStep}
               disabled={activeStep === 1 && !resumeFile}
-              className="flex-1 bg-[#001639] hover:bg-blue-700 disabled:bg-slate-250 text-white font-bold py-3.5 px-6 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              className="flex-1 bg-brand-600 hover:bg-blue-700 disabled:bg-slate-250 text-white font-bold py-3.5 px-6 rounded-xl text-sm transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <span>{btnNext}</span>
               <ChevronRight size={16} />

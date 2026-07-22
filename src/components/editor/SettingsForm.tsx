@@ -140,7 +140,7 @@ export default React.memo(function SettingsForm() {
         currentTemplateId={settings.template || "classic"}
       />
 
-      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-sm border border-slate-100 space-y-8 transition-colors">
+      <div className="bg-slate-50 p-6 md:p-8 rounded-2xl shadow-3xs border border-slate-100 space-y-8 transition-colors">
         {/* Template Selection */}
         <div className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -153,9 +153,9 @@ export default React.memo(function SettingsForm() {
               whileTap={{ scale: 0.98 }}
               type="button"
               onClick={() => setShowComparison(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black shadow-md cursor-pointer transition-all self-start sm:self-auto"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-black shadow-xs cursor-pointer transition-all self-start sm:self-auto"
             >
-              <Eye size={14} className="text-[#001639]" />
+              <Eye size={14} className="text-brand-600" />
               <span>{language === "ar" ? "🔍 مقارنة القوالب الفورية" : "🔍 Instant Template Side-by-Side"}</span>
             </motion.button>
           </div>
@@ -212,7 +212,7 @@ export default React.memo(function SettingsForm() {
                 switch (id) {
                   case 'classic':
                     return (
-                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-sm mx-auto mb-3">
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-3xs mx-auto mb-3">
                         <div className="h-1.5 w-8 bg-slate-800 mx-auto mb-0.5"></div>
                         <div className="h-0.5 w-12 bg-slate-400 mx-auto mb-1.5"></div>
                         <div className="h-0.5 w-full bg-slate-800 mb-1"></div>
@@ -226,7 +226,7 @@ export default React.memo(function SettingsForm() {
                     );
                   case 'modern':
                     return (
-                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-sm mx-auto mb-3">
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-3xs mx-auto mb-3">
                         <div className="h-2 w-10 bg-slate-800 mb-0.5"></div>
                         <div className="h-[0.5px] w-full bg-slate-300 mb-0.5"></div>
                         <div className="h-0.5 w-12 bg-slate-400 mb-1.5"></div>
@@ -239,7 +239,7 @@ export default React.memo(function SettingsForm() {
                     );
                   case 'executive':
                     return (
-                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col shadow-sm mx-auto mb-3">
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col shadow-3xs mx-auto mb-3">
                         <div className="bg-slate-100 p-1 border-b border-slate-800 mb-1">
                           <div className="h-1.5 w-10 bg-slate-800 mb-0.5"></div>
                           <div className="h-0.5 w-6 bg-slate-600 mb-0.5"></div>
@@ -266,7 +266,7 @@ export default React.memo(function SettingsForm() {
                     );
                   case 'minimal':
                     return (
-                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-sm mx-auto mb-3">
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-3xs mx-auto mb-3">
                         <div className="h-1 w-8 bg-slate-800 mx-auto mb-0.5 tracking-widest uppercase"></div>
                         <div className="h-0.5 w-10 bg-slate-400 mx-auto mb-2"></div>
                         <div className="h-0.5 w-6 bg-slate-600 mx-auto mb-1"></div>
@@ -282,7 +282,7 @@ export default React.memo(function SettingsForm() {
                     );
                   case 'timeline':
                     return (
-                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-sm mx-auto mb-3">
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex flex-col p-1.5 shadow-3xs mx-auto mb-3">
                         <div className="h-1.5 w-10 bg-slate-800 mb-0.5"></div>
                         <div className="h-0.5 w-12 bg-slate-400 mb-1"></div>
                         <div className="h-0.5 w-full bg-slate-800 mb-1.5"></div>
@@ -306,7 +306,7 @@ export default React.memo(function SettingsForm() {
                     );
                   case 'two-column':
                     return (
-                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex shadow-sm mx-auto mb-3 overflow-hidden">
+                      <div className="w-16 h-20 bg-white border border-slate-200 rounded flex shadow-3xs mx-auto mb-3 overflow-hidden">
                         <div className="w-1/3 bg-slate-100 h-full p-1 border-r border-slate-200">
                           <div className="h-2 w-full bg-slate-800 rounded-sm mb-1"></div>
                           <div className="h-1 w-full bg-slate-400 mb-1 rounded-sm"></div>
@@ -339,7 +339,7 @@ export default React.memo(function SettingsForm() {
                   className={cn(
                     "p-4.5 rounded-xl border text-start transition-all relative overflow-hidden group flex flex-col justify-between h-auto min-h-[160px] cursor-pointer",
                     settings.template === template.id
-                      ? "border-brand-500 bg-brand-50/50 shadow-sm font-black"
+                      ? "border-brand-500 bg-brand-50/50 shadow-3xs font-black"
                       : "border-slate-200 hover:border-slate-300 hover:bg-slate-50",
                   )}
                 >
@@ -410,7 +410,7 @@ export default React.memo(function SettingsForm() {
                       "flex-1 py-1.5 text-xs sm:text-sm rounded-lg transition-all",
                       option.font,
                       (settings.fontFamily || "sans") === option.id
-                        ? "bg-white text-slate-900 shadow-sm font-bold"
+                        ? "bg-white text-slate-900 shadow-3xs font-bold"
                         : "text-slate-600 hover:text-slate-900 font-medium"
                     )}
                   >
@@ -437,7 +437,7 @@ export default React.memo(function SettingsForm() {
                     className={cn(
                       "flex-1 py-1.5 text-xs sm:text-sm rounded-lg transition-all font-medium",
                       (settings.sectionSpacing || "normal") === option.id
-                        ? "bg-white text-slate-900 shadow-sm font-bold"
+                        ? "bg-white text-slate-900 shadow-3xs font-bold"
                         : "text-slate-600 hover:text-slate-900"
                     )}
                   >
@@ -539,7 +539,7 @@ export default React.memo(function SettingsForm() {
               >
                 <div
                   className={cn(
-                    "absolute top-1 left-1 bg-slate-50 w-4 h-4 rounded-full transition-transform shadow-sm",
+                    "absolute top-1 left-1 bg-slate-50 w-4 h-4 rounded-full transition-transform shadow-3xs",
                     settings.isFreshGrad ? "translate-x-5" : "translate-x-0",
                   )}
                 />
@@ -706,7 +706,7 @@ export default React.memo(function SettingsForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             {/* Fit to 1 Page Button */}
-            <div className="bg-gradient-to-r from-brand-500 to-amber-500 rounded-2xl p-0.5 shadow-xs hover:shadow-sm transition-all active:scale-98">
+            <div className="bg-gradient-to-r from-brand-500 to-amber-500 rounded-2xl p-0.5 shadow-xs hover:shadow-3xs transition-all active:scale-98">
               <button
                 type="button"
                 onClick={() => {
@@ -760,7 +760,7 @@ export default React.memo(function SettingsForm() {
             </div>
 
             {/* Fit to 2 Pages Button */}
-            <div className="bg-gradient-to-r from-slate-300 to-slate-400 rounded-2xl p-0.5 shadow-xs hover:shadow-sm transition-all active:scale-98">
+            <div className="bg-gradient-to-r from-slate-300 to-slate-400 rounded-2xl p-0.5 shadow-xs hover:shadow-3xs transition-all active:scale-98">
               <button
                 type="button"
                 onClick={() => {

@@ -128,7 +128,7 @@ export default function PricingPage() {
               transition={{ delay: 0.2 }}
               className="bg-gradient-to-b from-blue-50/50 to-white dark:from-blue-950/10 dark:to-neutral-100 rounded-3xl p-6 sm:p-8 border-2 border-blue-500/80 shadow-lg relative flex flex-col md:scale-[1.02]"
             >
-              <div className="absolute top-0 right-8 -translate-y-1/2 bg-gradient-to-r from-[#001639] to-[#000a1b] text-white px-3 py-1 rounded-full text-xs font-black shadow-sm shadow-orange-500/15">
+              <div className="absolute top-0 right-8 -translate-y-1/2 bg-gradient-to-r from-brand-600 to-[#000a1b] text-white px-3 py-1 rounded-full text-xs font-black shadow-sm shadow-orange-500/15">
                 {isAr ? "توفير ٦٠٪ - الأكثر شعبية" : "SAVE 60% - MOST POPULAR"}
               </div>
               
@@ -137,7 +137,7 @@ export default function PricingPage() {
                 {isAr ? "شارك الباقة مع أصدقائك أو أنشئ أكثر من سيرة ذاتية لمجالات مختلفة." : "Share with friends or create multiple versions of your resume."}
               </p>
               <div className="mb-8 flex items-baseline gap-2">
-                <span className="text-5xl font-black text-[#001639]">120</span>
+                <span className="text-5xl font-black text-brand-600">120</span>
                 {" "}
                 <span className="text-slate-500 dark:text-slate-400 font-bold">{isAr ? "ج.م" : "EGP"}</span>
               </div>
@@ -157,7 +157,7 @@ export default function PricingPage() {
               </ul>
               <Link 
                 to="/editor?plan=bundle"
-                className="w-full py-4 rounded-xl font-black text-center text-white bg-gradient-to-r from-[#001639] to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
+                className="w-full py-4 rounded-xl font-black text-center text-white bg-gradient-to-r from-brand-600 to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
               >
                 {isAr ? "شراء الباقة — ١٢٠ ج.م" : "Buy Bundle — 120 EGP"}
               </Link>

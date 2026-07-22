@@ -18,34 +18,34 @@ interface HeroSectionProps {
 const COPY = {
   ar: {
     badge: 'ثورة في إنشاء السير الذاتية',
-    titleMain: 'اكتب مستقبلك',
-    subtitle: 'اصنع سيرة ذاتية استثنائية ومتوافقة تماماً مع أنظمة الفرز (ATS) خلال دقائق، مدعومة بإرشادات ذكاء اصطناعي ذكية تبرز مهاراتك وتسرّع توظيفك.',
-    cta: 'ابدأ سيرتك الذاتية مجاناً',
+    titleMain: 'سيرتك الاحترافية متوافقة مع الـ ATS في 5 دقائق',
+    subtitle: 'العربية • الإنجليزية • الفرنسية. بدون تسجيل حساب.',
+    cta: 'ابدأ الآن مجاناً',
     ctaSec: 'استكشف الأمثلة',
     noCreditCard: 'لا حاجة لبطاقة ائتمان للبدء',
   },
   en: {
     badge: 'Revolutionizing Resume Creation',
-    titleMain: 'Write Your Professional Resume',
-    subtitle: 'Create an outstanding, ATS-optimized resume in minutes with intelligent AI guidance that showcases your true potential and gets you hired faster.',
-    cta: 'Start Building Free',
-    ctaSec: 'Explore Examples',
+    titleMain: 'Build an ATS-ready CV in 5 minutes',
+    subtitle: 'Arabic • English • French. No signup required.',
+    cta: 'Build Your CV Free',
+    ctaSec: 'Explore Templates',
     noCreditCard: 'No credit card required to start',
   },
   fr: {
     badge: 'Révolution dans la création de CV',
-    titleMain: 'Écrivez Votre Avenir',
-    subtitle: 'Créez un CV exceptionnel et optimisé pour l\'ATS en quelques minutes grâce à des conseils d\'IA intelligents qui propulsent votre carrière.',
+    titleMain: 'Votre CV optimisé ATS en 5 minutes',
+    subtitle: 'Arabe • Anglais • Français. Sans inscription.',
     cta: 'Créer Gratuitement',
-    ctaSec: 'Explorer les exemples',
+    ctaSec: 'Découvrir les modèles',
     noCreditCard: 'Pas de carte de crédit requise',
   }
 }
 
 const ROTATING_WORDS = {
-  ar: ['بثقة واحترافية', 'بذكاء اصطناعي', 'لتخطي الـ ATS', 'لتأمين وظيفة أحلامك'],
-  en: ['with total confidence', 'with smart AI power', 'to beat the ATS filters', 'for your dream job'],
-  fr: ['avec une confiance totale', 'avec la puissance de l\'IA', 'pour passer les filtres ATS', 'pour le job de vos rêves']
+  ar: ['بثقة واحترافية', 'بذكاء اصطناعي واعد', 'لتتخطى مرشحات الفرز', 'لتأمين وظيفة أحلامك'],
+  en: ['with total confidence', 'with powerful AI tools', 'to clear ATS systems', 'for your dream job'],
+  fr: ['avec assurance', 'grâce à l\'IA intelligente', 'pour passer l\'ATS', 'pour décrocher votre job']
 }
 
 export function HeroSection({ lang, onStart }: HeroSectionProps) {
@@ -82,32 +82,32 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
   return (
     <section 
-      className="relative pt-6 pb-20 md:pt-24 md:pb-32 lg:pt-40 lg:pb-40 overflow-hidden bg-white" 
+      className="relative pt-6 pb-20 md:pt-24 md:pb-32 lg:pt-36 lg:pb-36 overflow-hidden bg-white" 
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* Background decoration */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-blue-200/30 to-blue-100/40 rounded-full blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute top-12 left-1/4 w-[300px] h-[300px] bg-blue-200/10 rounded-full blur-[80px] pointer-events-none -z-10" />
-      <div className="absolute top-36 right-1/4 w-[250px] h-[250px] bg-amber-100/15 rounded-full blur-[70px] pointer-events-none -z-10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-brand-200/20 to-brand-100/30 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-12 left-1/4 w-[300px] h-[300px] bg-brand-200/10 rounded-full blur-[80px] pointer-events-none -z-10" />
+      <div className="absolute top-36 right-1/4 w-[250px] h-[250px] bg-brand-100/15 rounded-full blur-[70px] pointer-events-none -z-10" />
 
       <div className="container relative z-10 mx-auto px-6 max-w-7xl">
-        <div className="flex flex-col items-center text-center space-y-10">
+        <div className="flex flex-col items-center text-center space-y-8">
           
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 md:gap-3 px-3 py-1 md:px-6 md:py-2 rounded-full bg-blue-50 text-blue-600 border border-blue-100 text-[10px] md:text-xs font-bold uppercase tracking-[0.1em] whitespace-nowrap"
+            className="inline-flex items-center gap-2 md:gap-3 px-4 py-1.5 rounded-full bg-brand-50 text-brand-600 border border-brand-100/60 text-[10px] md:text-xs font-black uppercase tracking-[0.08em] whitespace-nowrap shadow-3xs"
           >
-            <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
+            <Sparkles className="w-3.5 h-3.5" />
             <span>{copy.badge}</span>
           </motion.div>
 
           <h1 
-            className="hero-title text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-slate-950 md:tracking-tighter md:leading-[1] max-w-5xl"
+            className="hero-title text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-slate-950 md:tracking-tight md:leading-[1.1] max-w-5xl"
           >
             {copy.titleMain}{" "}
-            <span className={`hero-highlight-text text-blue-600 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center ${isAr ? 'mr-3' : 'ml-3'}`}>
+            <span className={`hero-highlight-text text-brand-600 inline-flex min-h-[1.15em] items-center justify-center max-w-full text-center ${isAr ? 'mr-3' : 'ml-3'}`}>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={wordIndex}
@@ -127,11 +127,12 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.7 }}
-            className="text-sm sm:text-base md:text-lg text-slate-500 font-normal max-w-2xl leading-relaxed px-4 md:px-0 mt-4 md:mt-6 mb-8"
+            className="text-xs sm:text-sm md:text-base font-bold text-slate-600 max-w-2xl leading-relaxed px-5 py-2.5 rounded-full bg-slate-50 border border-slate-150 inline-flex items-center gap-2 shadow-3xs"
           >
-            {copy.subtitle}
-            <span className="block text-xs md:text-sm text-slate-400 mt-3 font-medium tracking-wide">
-              {isAr ? "أنشئ واستعرض مجاناً — ادفع فقط عند التحميل" : "Build & preview for free — pay only when you download"}
+            <span className="text-brand-500 text-xs animate-pulse">✦</span>
+            <span>{copy.subtitle}</span>
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-brand-100/50 text-brand-700 text-[10px] font-black tracking-tight">
+              {isAr ? "مجاني للمعاينة" : "Free Preview"}
             </span>
           </motion.p>
 
@@ -141,25 +142,26 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             transition={{ delay: 0.6, duration: 0.7 }}
             className="flex flex-col items-center gap-3 w-full max-w-md mx-auto"
           >
-            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-5 w-full justify-center px-4">
+            <div className="flex flex-col sm:flex-row items-center gap-3.5 md:gap-4 w-full justify-center px-4">
               <button
                 onClick={() => {
                   trackEvent('hero_started', { component: 'cta_primary' })
                   onStart()
                 }}
-                className="group hidden sm:flex w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98] text-white px-8 py-4 sm:px-10 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all duration-300 shadow-xl shadow-blue-500/25 items-center justify-center gap-2.5 min-h-[56px] cursor-pointer border border-white/10"
+                className="group flex w-full sm:w-auto bg-gradient-to-r from-brand-600 to-blue-600 hover:from-brand-500 hover:to-blue-500 active:scale-[0.98] text-white px-8 py-3.5 rounded-xl font-black text-sm sm:text-base transition-all duration-300 shadow-xl shadow-brand-500/20 items-center justify-center gap-2 min-h-[48px] cursor-pointer border border-white/10"
               >
                 <span>{copy.cta}</span>
-                {isAr ? <ArrowLeft size={18} className="transition-transform duration-300 group-hover:-translate-x-1" /> : <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />}
+                {isAr ? <ArrowLeft size={16} className="transition-transform duration-300 group-hover:-translate-x-1 stroke-[2.5]" /> : <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1 stroke-[2.5]" />}
               </button>
+              
               <button
-                onClick={() => navigate('/editor')}
-                className="w-full sm:w-auto bg-white/80 backdrop-blur-sm border border-slate-200 hover:border-slate-300 hover:bg-white text-slate-700 hover:text-slate-900 px-8 py-4 sm:px-10 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all duration-300 active:scale-[0.98] shadow-sm hover:shadow-md flex items-center justify-center min-h-[56px] cursor-pointer"
+                onClick={() => navigate('/templates')}
+                className="w-full sm:w-auto bg-transparent hover:bg-slate-50 text-slate-500 hover:text-slate-800 border border-transparent hover:border-slate-200 px-6 py-3.5 rounded-xl font-bold text-sm transition-all duration-200 active:scale-95 flex items-center justify-center min-h-[48px] cursor-pointer"
               >
                 <span>{copy.ctaSec}</span>
               </button>
             </div>
-            <p className="hidden sm:block text-xs sm:text-sm text-slate-400 font-medium mt-2">
+            <p className="text-[11px] sm:text-xs text-slate-400 font-bold mt-1.5">
               ✨ {copy.noCreditCard}
             </p>
           </motion.div>

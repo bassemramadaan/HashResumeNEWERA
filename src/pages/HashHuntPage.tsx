@@ -19,7 +19,7 @@ import { StatsSection } from "../components/hashhunt/StatsSection";
 import { TestimonialsSection } from "../components/hashhunt/TestimonialsSection";
 import { JobCard } from "../components/hashhunt/JobCard";
 import { ApplicationForm } from "../components/hashhunt/ApplicationForm";
-import { Job } from "../data/jobs";
+import { Job, mockJobs } from "../data/jobs";
 
 export default function HashHuntPage() {
   const { language, dir } = useLanguageStore();
@@ -231,12 +231,12 @@ export default function HashHuntPage() {
         <title>{pageTitle}</title>
       </Helmet>
       
-      <div className="min-h-screen bg-[#FAFAF6] text-slate-800 antialiased selection:bg-[#001639]/10 selection:text-[#001639]" dir={dir}>
+      <div className="min-h-screen bg-[#FAFAF6] text-slate-800 antialiased selection:bg-brand-600/10 selection:text-brand-600" dir={dir}>
         <Navbar />
 
         {/* HERO SECTION */}
         <header className="relative pt-32 pb-20 overflow-hidden bg-white border-b border-slate-200/50">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#001639]/5 blur-[120px] rounded-full translate-x-1/3 -translate-y-1/3" />
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-600/5 blur-[120px] rounded-full translate-x-1/3 -translate-y-1/3" />
           
           <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
             <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-600 text-xs font-black mb-6">
@@ -254,7 +254,7 @@ export default function HashHuntPage() {
 
             <a
               href="#upload-profile"
-              className="inline-flex bg-[#001639] hover:bg-blue-700 text-white font-black text-sm px-8 py-4 rounded-2xl shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-98 transition-all"
+              className="inline-flex bg-brand-600 hover:bg-blue-700 text-white font-black text-sm px-8 py-4 rounded-2xl shadow-lg shadow-blue-500/10 hover:shadow-blue-500/20 active:scale-98 transition-all"
             >
               {isAr ? "ارفع سيرتك الذاتية مجاناً" : isFr ? "Déposer mon CV gratuitement" : "Upload Your CV Free"}
             </a>
@@ -328,12 +328,45 @@ export default function HashHuntPage() {
           {/* Jobs Listing */}
           {loadingJobs ? (
             <div className="py-20 text-center flex flex-col items-center justify-center gap-3">
-              <RefreshCw size={36} className="text-[#001639] animate-spin" />
+              <RefreshCw size={36} className="text-brand-600 animate-spin" />
               <p className="text-sm text-slate-500 font-extrabold">{loadingJobsText}</p>
             </div>
           ) : filteredJobs.length === 0 ? (
-            <div className="py-20 text-center bg-white border border-slate-200/50 rounded-3xl">
-              <p className="text-sm text-slate-500 font-bold">{noJobsFoundText}</p>
+            <div className="space-y-12">
+              {/* Friendly Zero State Notice */}
+              <div className="py-12 px-6 text-center bg-white border border-slate-200/50 rounded-3xl max-w-2xl mx-auto shadow-xs">
+                <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mx-auto mb-4">
+                  🔍
+                </div>
+                <h3 className="text-base font-bold text-slate-900 mb-2">
+                  {isAr ? "لم نجد نتائج مطابقة لخيارات التصفية الحالية" : "No exact matches found for your active filters"}
+                </h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">
+                  {isAr 
+                    ? "جرّب تغيير كلمات البحث أو تصفية الأقسام. بالأسفل، قمنا بجمع باقة من الفرص المميزة والنشطة حالياً التي قد تلائم مهاراتك:" 
+                    : "Try adjusting your search terms or filters. In the meantime, here are some of our popular open roles that might fit your profile:"}
+                </p>
+              </div>
+
+              {/* Recommended Featured Jobs Grid */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-2 border-b border-slate-200/40 pb-3">
+                  <Sparkles className="text-brand-600 animate-pulse" size={18} />
+                  <h4 className="text-xs font-black text-slate-900 uppercase tracking-widest">
+                    {isAr ? "فرص عمل مميزة مقترحة لك" : "RECOMMENDED FEATURED ROLES"}
+                  </h4>
+                </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {(jobs.length > 0 ? jobs : mockJobs).slice(0, 3).map((job) => (
+                    <JobCard
+                      key={job.jobId}
+                      job={job}
+                      language={language}
+                      onApply={handleApplyToJob}
+                    />
+                  ))}
+                </div>
+              </div>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -357,7 +390,7 @@ export default function HashHuntPage() {
           <div className="max-w-7xl mx-auto px-6">
             
             <div className="text-center mb-16 max-w-2xl mx-auto">
-              <span className="inline-flex bg-[#001639]/5 border border-[#001639]/15 text-[#001639] text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
+              <span className="inline-flex bg-brand-600/5 border border-brand-600/15 text-brand-600 text-xs font-semibold px-4 py-1.5 rounded-full uppercase tracking-wider mb-4">
                 {journeyTitle}
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight mb-4 tracking-tight">
@@ -376,16 +409,31 @@ export default function HashHuntPage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ delay: idx * 0.1 }}
-                    className="group relative bg-[#FAFAF6] border border-slate-200/50 rounded-3xl p-7 hover:border-[#001639]/20 hover:-translate-y-0.5 transition-all duration-300 text-start"
+                    className="group relative bg-[#FAFAF6] border border-slate-200/50 rounded-3xl p-7 hover:border-brand-600/20 hover:-translate-y-0.5 transition-all duration-300 text-start flex flex-col justify-between"
                   >
-                    <div className="font-sans text-5xl font-black text-[#001639]/5 leading-none mb-6 group-hover:text-[#001639]/10 transition-colors absolute end-6 top-6 font-mono">
-                      {s.num}
+                    <div>
+                      <div className="font-sans text-5xl font-black text-brand-600/5 leading-none mb-6 group-hover:text-brand-600/10 transition-colors absolute end-6 top-6 font-mono">
+                        {s.num}
+                      </div>
+                      <div className="w-11 h-11 bg-brand-600/10 rounded-xl flex items-center justify-center text-brand-600 mb-5 group-hover:scale-105 transition-transform duration-300 shrink-0">
+                        <Icon size={20} className="stroke-[1.5]" />
+                      </div>
+                      <h3 className="text-base font-extrabold text-slate-900 mb-2 leading-snug">{s.title}</h3>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">{s.desc}</p>
                     </div>
-                    <div className="w-11 h-11 bg-[#001639]/10 rounded-xl flex items-center justify-center text-[#001639] mb-5 group-hover:scale-105 transition-transform duration-300 shrink-0">
-                      <Icon size={20} className="stroke-[1.5]" />
-                    </div>
-                    <h3 className="text-base font-extrabold text-slate-900 mb-2 leading-snug">{s.title}</h3>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">{s.desc}</p>
+
+                    {/* Step 1 direct CTA upload anchor */}
+                    {idx === 0 && (
+                      <div className="mt-5 pt-4 border-t border-slate-200/50">
+                        <a 
+                          href="#upload-profile" 
+                          className="inline-flex items-center gap-1.5 text-xs font-black text-brand-600 hover:text-blue-700 transition-colors group/link"
+                        >
+                          <span>{isAr ? "اضغط لرفع سيرتك الآن" : "Upload your resume now"}</span>
+                          <span className="transition-transform group-hover/link:translate-x-1 rtl:group-hover/link:-translate-x-1 rtl:-scale-x-100">&rarr;</span>
+                        </a>
+                      </div>
+                    )}
                   </motion.div>
                 );
               })}
@@ -431,7 +479,7 @@ export default function HashHuntPage() {
 
         {/* FOOTER CALL-TO-ACTION */}
         <section className="py-20 bg-slate-950 text-center px-6 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#001639]/5 blur-[130px] rounded-full translate-x-1/3 -translate-y-1/3" />
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-brand-600/5 blur-[130px] rounded-full translate-x-1/3 -translate-y-1/3" />
           <div className="relative z-10 max-w-2xl mx-auto">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white leading-tight mb-5">
               {isAr ? "جرّب التوظيف الصامت" : "Stop applying blindly."} <br /> {isAr ? "ودع الفرص تتدفق إليك." : "Start getting hunted."}
@@ -441,7 +489,7 @@ export default function HashHuntPage() {
                 ? "انضم الآن لأكثر من 2,400 باحث عن عمل تجاوزوا تصفية المقابلات وحصلوا على تصفية حرة ومباشرة." 
                 : "Let target matches automatically populate with hiring managers directly from your Drive updates."}
             </p>
-            <a href="#upload-profile" className="inline-flex bg-white hover:bg-slate-50 text-[#001639] font-sans font-extrabold text-xs sm:text-sm px-8 py-3.5 rounded-xl hover:scale-102 transition-all text-center">
+            <a href="#upload-profile" className="inline-flex bg-white hover:bg-slate-50 text-brand-600 font-sans font-extrabold text-xs sm:text-sm px-8 py-3.5 rounded-xl hover:scale-102 transition-all text-center">
               {isAr ? "انضم الآن مجاناً وابدأ بالتزامن" : "Join the Talent Loop →"}
             </a>
           </div>
@@ -477,7 +525,7 @@ export default function HashHuntPage() {
                   <div className="w-full space-y-2.5">
                     <button
                       onClick={() => { window.location.href = "/editor"; }}
-                      className="w-full bg-[#001639] hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs sm:text-sm active:scale-98 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-md"
+                      className="w-full bg-brand-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl text-xs sm:text-sm active:scale-98 transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow-md"
                     >
                       <span>✨</span>
                       <span>{isAr ? "أنشئ سيرتك الذاتية الذكية الآن" : "Create My AI Resume Now"}</span>
@@ -499,7 +547,7 @@ export default function HashHuntPage() {
         <div className="md:hidden fixed bottom-5 left-0 right-0 px-5 z-40">
           <a 
             href="#upload-profile" 
-            className="flex items-center justify-center w-full bg-[#001639] text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_30px_rgba(0,22,57,0.25)] hover:scale-[1.02] active:scale-95 transition-all text-sm gap-2 border border-white/20 backdrop-blur-md"
+            className="flex items-center justify-center w-full bg-brand-600 text-white font-bold py-3.5 rounded-2xl shadow-[0_8px_30px_rgba(0,22,57,0.25)] hover:scale-[1.02] active:scale-95 transition-all text-sm gap-2 border border-white/20 backdrop-blur-md"
           >
             {isAr ? "ارفع سيرتك الذاتية مجاناً" : "Upload Your Resume Now"}
             <span className="rtl:-scale-x-100">→</span>

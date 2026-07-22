@@ -42,7 +42,7 @@ export function TestimonialsSection({ language }: TestimonialsSectionProps) {
       author: isAr ? "أحمد حسين" : "Ahmed Hassan",
       role: isAr ? "مطور واجهات · القاهرة" : isFr ? "Développeur Frontend · Le Caire" : "Frontend Developer · Cairo",
       av: isAr ? "أح" : "AH",
-      avBg: "from-[#001639] to-[#000a1b]",
+      avBg: "from-brand-600 to-[#000a1b]",
     },
     {
       stars: 5,
@@ -90,7 +90,7 @@ export function TestimonialsSection({ language }: TestimonialsSectionProps) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ delay: idx * 0.1 }}
-              className="bg-white border border-slate-200/50 p-8 rounded-3xl flex flex-col justify-between hover:border-[#001639]/15 hover:shadow-lg hover:shadow-slate-100/40 transition-all duration-300"
+              className="bg-white border border-slate-200/50 p-8 rounded-3xl flex flex-col justify-between hover:border-brand-600/15 hover:shadow-lg hover:shadow-slate-100/40 transition-all duration-300"
               id={`testimonial-card-${idx}`}
             >
               <div>

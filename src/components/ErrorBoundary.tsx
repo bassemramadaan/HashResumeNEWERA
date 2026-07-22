@@ -83,7 +83,7 @@ export class ErrorBoundary extends Component<Props, State> {
             <div className="flex gap-4 justify-center">
               <button
                 onClick={() => window.location.reload()}
-                className="bg-[#001639] text-white px-6 py-3 rounded-2xl font-bold hover:bg-[#E64528] transition-colors cursor-pointer text-sm shadow-md hover:shadow-orange-500/10 active:scale-95 duration-150"
+                className="bg-brand-600 text-white px-6 py-3 rounded-2xl font-bold hover:bg-[#E64528] transition-colors cursor-pointer text-sm shadow-md hover:shadow-orange-500/10 active:scale-95 duration-150"
               >
                 {isAr ? "إعادة تحميل الصفحة" : "Refresh Page"}
               </button>

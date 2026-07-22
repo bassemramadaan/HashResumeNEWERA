@@ -211,7 +211,7 @@ Skills: ${(skills || []).map(s => s.name).join(", ")}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 15 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
-            className="relative w-full max-w-[500px] bg-white/90 backdrop-blur-md rounded-3xl shadow-2xl shadow-neutral-100 border border-white/20 overflow-hidden flex flex-col max-h-[85vh] z-10 font-sans"
+            className="relative w-full max-w-[500px] bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl shadow-neutral-100 border border-white/20 overflow-hidden flex flex-col max-h-[85vh] z-10 font-sans"
           >
             {/* Minimal Brand Gradient Top Decorator */}
             <div className="absolute top-0 inset-x-0 h-[4px] bg-gradient-to-r from-brand-500 via-brand-600 to-amber-500" />
@@ -529,7 +529,7 @@ Skills: ${(skills || []).map(s => s.name).join(", ")}
                 <div className="flex w-full sm:w-auto p-1 bg-neutral-50 rounded-xl gap-1 shrink-0 border border-neutral-100">
                   <button
                     onClick={() => onProceed("pdf")}
-                    className="flex-grow sm:flex-none h-8.5 px-3.5 rounded-lg flex items-center justify-center gap-1.5 text-[11px] font-bold bg-brand-500 hover:bg-brand-600 text-white shadow-sm shadow-brand-500/10 leading-none transition-all active:scale-95 cursor-pointer"
+                    className="flex-grow sm:flex-none h-8.5 px-3.5 rounded-lg flex items-center justify-center gap-1.5 text-[11px] font-bold bg-brand-500 hover:bg-brand-600 text-white shadow-3xs shadow-brand-500/10 leading-none transition-all active:scale-95 cursor-pointer"
                   >
                     <Download size={11} strokeWidth={2.5} />
                     <span>PDF</span>

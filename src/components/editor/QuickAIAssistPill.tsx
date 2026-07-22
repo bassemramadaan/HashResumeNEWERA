@@ -182,13 +182,13 @@ export default function QuickAIAssistPill({ section, onInject }: QuickAIAssistPi
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white rounded-3xl w-full max-w-lg shadow-[0_24px_70px_rgba(0,0,0,0.15)] border border-slate-150 overflow-hidden text-start"
+              className="bg-white rounded-2xl w-full max-w-lg shadow-[0_24px_70px_rgba(0,0,0,0.15)] border border-slate-150 overflow-hidden text-start"
               dir={language === "ar" ? "rtl" : "ltr"}
             >
               {/* Header with warm golden look */}
               <div className="bg-gradient-to-r from-amber-500/10 to-orange-400/5 p-6 border-b border-amber-100 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 shadow-sm">
+                  <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 shadow-3xs">
                     <Flame className="w-5 h-5" />
                   </div>
                   <div>
@@ -248,7 +248,7 @@ export default function QuickAIAssistPill({ section, onInject }: QuickAIAssistPi
                           <button
                             type="button"
                             onClick={() => handleInject(phrase)}
-                            className="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1.5 rounded-lg text-xs font-black shadow-xs hover:shadow-sm transition-all flex items-center gap-1 cursor-pointer"
+                            className="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1.5 rounded-lg text-xs font-black shadow-xs hover:shadow-3xs transition-all flex items-center gap-1 cursor-pointer"
                           >
                             <Sparkles size={12} />
                             <span>{dict.inject}</span>

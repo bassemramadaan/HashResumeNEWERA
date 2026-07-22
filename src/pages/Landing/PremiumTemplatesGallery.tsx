@@ -14,7 +14,7 @@ const TEMPLATE_HIGHLIGHTS = [
     descAr: "تصميم أنيق مزدوج العمود يبرز نقاط قوتك وإنجازاتك بتركيز بصري ممتاز وبأقصى درجات المقروئية.",
     descEn: "An elegant, clean two-column structure highlighting your strengths with outstanding focal points.",
     descFr: "Une mise en page moderne à double colonne, conçue pour souligner vos forces cliniques.",
-    color: "#001639",
+    color: "#2563FF",
     bgClass: "from-rose-50 to-orange-50",
     featuresAr: ["عمود مزدوج لحفظ المساحة", "مثالي لمجال التقنية والتسويق", "فحص ATS فائق السهولة"],
     featuresEn: ["Saves page height", "Perfect for tech/marketing", "Top ATS indexing rate"],
@@ -103,7 +103,7 @@ export function PremiumTemplatesGallery() {
         
         {/* Section Header */}
         <div className="text-center mb-16 max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#001639]/5 border border-[#001639]/10 text-[#001639] text-[10px] font-black uppercase tracking-widest mb-3.5">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-600/5 border border-brand-600/10 text-brand-600 text-[10px] font-black uppercase tracking-widest mb-3.5">
             <LayoutTemplate size={12} className="animate-spin-slow" />
             <span>{t.badge}</span>
           </div>
@@ -148,7 +148,7 @@ export function PremiumTemplatesGallery() {
                       </h3>
                     </div>
                     {tpl.id === "modern" && (
-                      <span className="text-[10px] bg-[#001639] text-white px-2.5 py-1 rounded-full font-black uppercase tracking-wider flex items-center gap-1">
+                      <span className="text-[10px] bg-brand-600 text-white px-2.5 py-1 rounded-full font-black uppercase tracking-wider flex items-center gap-1">
                         <Star size={10} className="fill-white" />
                         {isAr ? "الأكثر طلباً" : "Most Popular"}
                       </span>
@@ -206,7 +206,7 @@ export function PremiumTemplatesGallery() {
                 <div className="mt-8">
                   <button
                     onClick={() => handleSelect(tpl.id, tpl.color)}
-                    className="w-full bg-[#001639] hover:bg-blue-700 text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wider shadow-md hover:shadow-lg hover:shadow-blue-500/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full bg-brand-600 hover:bg-blue-700 text-white py-3.5 px-6 rounded-2xl font-black text-xs md:text-sm tracking-wider shadow-md hover:shadow-lg hover:shadow-blue-500/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <span>{t.cta}</span>
                     {isAr ? (

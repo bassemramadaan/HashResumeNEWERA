@@ -38,7 +38,7 @@ export function HashResumeLogo({
           fontFamily: 'Plus Jakarta Sans, Cairo, sans-serif',
           lineHeight: 1,
         }}>
-          Hash<span style={{ color: '#001639' }}>Resume</span>
+          Hash<span style={{ color: '#2563FF' }}>Resume</span>
         </span>
       )}
     </div>

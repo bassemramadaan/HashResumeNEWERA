@@ -31,7 +31,7 @@ function TypewriterText({ text, speed = 10 }: { text: string; speed?: number }) 
     <span className="relative">
       {displayedText}
       {isTyping && (
-        <span className="inline-block w-1.5 h-3.5 ml-0.5 bg-[#001639] animate-pulse" style={{ verticalAlign: 'middle' }} />
+        <span className="inline-block w-1.5 h-3.5 ml-0.5 bg-brand-600 animate-pulse" style={{ verticalAlign: 'middle' }} />
       )}
     </span>
   );
@@ -137,7 +137,7 @@ Provide ONLY the final improved sentence, with absolutely no notes, no chat/mess
   return (
     <div className="mt-3 p-4 rounded-2xl bg-slate-50 border border-slate-200 shadow-3xs">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-        <div className="flex items-center gap-1.5 text-[#001639]">
+        <div className="flex items-center gap-1.5 text-brand-600">
           <Sparkles size={14} className="animate-pulse" />
           <span className="text-[10px] font-black uppercase tracking-wider">
             {language === "ar" ? "مساعد الذكاء الاصطناعي السريع" : "AI Quick Assistant"}
@@ -162,7 +162,7 @@ Provide ONLY the final improved sentence, with absolutely no notes, no chat/mess
             <button
               key={chip.id}
               onClick={() => generateSuggestion(chip.id)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200/60 bg-white hover:bg-[#001639]/5 hover:border-[#001639]/20 text-[11px] font-bold text-slate-705 shadow-3xs transition-all cursor-pointer scale-100 active:scale-95 duration-150"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-slate-200/60 bg-white hover:bg-brand-600/5 hover:border-brand-600/20 text-[11px] font-bold text-slate-705 shadow-3xs transition-all cursor-pointer scale-100 active:scale-95 duration-150"
             >
               <span>{chip.emoji}</span>
               <span>{chip.label}</span>
@@ -174,7 +174,7 @@ Provide ONLY the final improved sentence, with absolutely no notes, no chat/mess
       {isGenerating && (
         <div className="space-y-3 py-2">
           <div className="flex items-center gap-2">
-            <Loader2 size={12} className="animate-spin text-[#001639]" />
+            <Loader2 size={12} className="animate-spin text-brand-600" />
             <span className="text-xs text-slate-500 italic font-medium">
                {language === "ar" ? "جاري الصياغة والتحسين..." : "Drafting & Polishing..."}
             </span>

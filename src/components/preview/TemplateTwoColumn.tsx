@@ -9,7 +9,7 @@ export default function TemplateTwoColumn({ data, isMini }: { data: ResumeData; 
   const { personalInfo, experience, education, skills, projects, certifications, settings } = data;
   const isRtl = detectIsArabic(data);
   
-  const themeColor = settings.themeColor || '#001639';
+  const themeColor = settings.themeColor || '#2563FF';
 
   const TitleTag = isMini ? "div" : "h1";
   const SectionTag = isMini ? "div" : "h2";

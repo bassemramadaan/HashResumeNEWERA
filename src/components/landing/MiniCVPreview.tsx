@@ -81,10 +81,10 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
       initial={{ opacity: 0, y: 40 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-      className="w-full max-w-3xl mx-auto px-4 mt-6 mb-6 md:mt-12 md:mb-12"
+      className="w-full max-w-4xl mx-auto px-4 mt-8 mb-8 md:mt-14 md:mb-14 scale-[1.03] sm:scale-105 md:scale-[1.07] origin-center"
     >
       {/* Outer Floating Card Container */}
-      <div className="relative group bg-slate-50/50 p-3 rounded-3xl border border-slate-200/60 shadow-2xl shadow-slate-200/50 hover:shadow-orange-500/10 transition-all duration-500">
+      <div className="relative group bg-slate-50/40 p-4 rounded-3xl border border-slate-200/60 shadow-2xl shadow-slate-200/50 hover:shadow-brand-500/5 transition-all duration-500">
         
         {/* ATS Score Floating Badge */}
         <div className={`absolute -top-3 ${isAr ? '-left-2 md:-left-4' : '-right-2 md:-right-4'} z-20 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-emerald-500/30 flex items-center gap-1.5 animate-bounce`} style={{ animationDuration: '4s' }}>
@@ -93,7 +93,7 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
         </div>
 
         {/* AI Optimization Tip Floating Badge */}
-        <div className={`absolute -bottom-3 ${isAr ? '-right-2 md:-right-4' : '-left-2 md:-left-4'} z-20 bg-gradient-to-r from-[#001639] to-[#000a1b] text-white text-[9px] md:text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-orange-500/30 flex items-center gap-1.5`}>
+        <div className={`absolute -bottom-3 ${isAr ? '-right-2 md:-right-4' : '-left-2 md:-left-4'} z-20 bg-gradient-to-r from-brand-600 to-indigo-950 text-white text-[9px] md:text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-brand-500/30 flex items-center gap-1.5`}>
           <Sparkles className="w-3.5 h-3.5 text-amber-200 animate-pulse" />
           <span>{data.atsTip}</span>
         </div>
@@ -106,9 +106,9 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
 
           {/* CV Header */}
           <div className="border-b border-slate-100 pb-5 mb-5">
-            <h2 className="text-lg md:text-2xl font-bold text-slate-900 tracking-tight">{data.name}</h2>
-            <p className="text-xs md:text-sm font-semibold text-orange-600 mt-1 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+            <h2 className="text-lg md:text-2xl font-black text-slate-900 tracking-tight">{data.name}</h2>
+            <p className="text-xs md:text-sm font-bold text-brand-600 mt-1 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-500 animate-pulse" />
               {data.title}
             </p>
             
@@ -131,10 +131,10 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
               {/* Summary Section */}
               <div className="space-y-3">
                 <h3 className="text-xs md:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                  <FileText className="w-3.5 h-3.5 text-orange-500" />
+                  <FileText className="w-3.5 h-3.5 text-brand-500" />
                   {data.summaryTitle}
                 </h3>
-                <p className="text-[11px] md:text-xs text-slate-600 leading-relaxed font-medium bg-orange-50/20 p-3 rounded-lg border border-orange-100/30">
+                <p className="text-[11px] md:text-xs text-slate-600 leading-relaxed font-medium bg-brand-50/20 p-3 rounded-lg border border-brand-100/30">
                   {data.summaryText}
                 </p>
               </div>
@@ -142,13 +142,13 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
               {/* Experience Section */}
               <div className="space-y-4">
                 <h3 className="text-xs md:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                  <Briefcase className="w-3.5 h-3.5 text-orange-500" />
+                  <Briefcase className="w-3.5 h-3.5 text-brand-500" />
                   {data.experienceTitle}
                 </h3>
                 
                 {/* Job 1 */}
                 <div className="space-y-2 relative border-s border-slate-150 ps-4">
-                  <div className="absolute w-2 h-2 rounded-full bg-orange-500 -start-[4.5px] top-1" />
+                  <div className="absolute w-2 h-2 rounded-full bg-brand-500 -start-[4.5px] top-1" />
                   <div className="flex justify-between items-start sm:items-center flex-wrap gap-2">
                     <h4 className="text-[11px] md:text-xs font-bold text-slate-900 leading-tight">{data.exp1Title}</h4>
                     <span className="text-[9px] md:text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">{data.exp1Date}</span>
@@ -174,14 +174,14 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
             {/* Right/Left Column: Skills & Badges */}
             <div className="space-y-4 border-t md:border-t-0 md:border-s border-slate-100 pt-4 md:pt-0 md:ps-6">
               <h3 className="text-xs md:text-sm font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                <Code className="w-3.5 h-3.5 text-orange-500" />
+                <Code className="w-3.5 h-3.5 text-brand-500" />
                 {data.skillsTitle}
               </h3>
               <div className="flex flex-wrap gap-3 md:gap-4">
                 {data.skills.map((skill, idx) => (
                   <span 
                     key={idx}
-                    className="text-[10px] md:text-[11px] font-bold text-slate-800 bg-slate-50 hover:bg-orange-50 hover:text-orange-700 border border-slate-200 hover:border-orange-200 px-3 py-1.5 rounded-xl transition-all duration-250 cursor-default shadow-3xs whitespace-nowrap text-center"
+                    className="text-[10px] md:text-[11px] font-bold text-slate-800 bg-slate-50 hover:bg-brand-50 hover:text-brand-700 border border-slate-200 hover:border-brand-200 px-3 py-1.5 rounded-xl transition-all duration-250 cursor-default shadow-3xs whitespace-nowrap text-center"
                   >
                     {skill}
                   </span>

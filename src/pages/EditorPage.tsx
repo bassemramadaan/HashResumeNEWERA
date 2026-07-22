@@ -14,7 +14,6 @@ import {
   Wrench,
   Download,
   LayoutTemplate,
-  Maximize2,
   X,
   SlidersHorizontal,
   CheckCircle2,
@@ -27,7 +26,7 @@ import {
   Lock,
   
   ExternalLink,
-  Info,
+  Info, ZoomIn, Globe,
 } from "lucide-react";
 import { useResumeStore, flushResumeStorage } from "../store/useResumeStore";
 import { useLanguageStore } from "../store/useLanguageStore";
@@ -47,7 +46,6 @@ import ResumePreview from "../components/preview/ResumePreview";
 import { JobMatchAdvisor } from "../components/editor/JobMatchAdvisor";
 import { FrictionlessConfetti } from "../components/FrictionlessConfetti";
 import { useResumeExport } from "../hooks/useResumeExport";
-import { RESUME_TEMPLATES } from "../constants/templates";
 
 // Lazy load heavy components
 const PersonalInfoForm = lazy(
@@ -164,7 +162,8 @@ export default function EditorPage() {
     }, 4000);
   };
 
-  const [isTipsOpen, setIsTipsOpen] = useState(true);
+  const [isTipsOpen, setIsTipsOpen] = useState(false);
+  const [showAutofill, setShowAutofill] = useState(false);
   const [showAIBanner, setShowAIBanner] = useState(true);
   const [showMicroSpacingPanel, setShowMicroSpacingPanel] = useState(false);
   const [aiNotice, setAiNotice] = useState<{ code: string; message: string } | null>(null);
@@ -198,11 +197,7 @@ export default function EditorPage() {
 
   const { isMobile, isDesktop } = useDeviceState();
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setIsTipsOpen(isDesktop);
-    }
-  }, [isDesktop]);
+
 
   // Keyboard-Aware dynamic focus auto-scrolling for mobile devices
   useEffect(() => {
@@ -271,10 +266,10 @@ export default function EditorPage() {
             element.scrollIntoView({ behavior: "smooth", block: "center" });
             
             // Premium visual feedback ring
-            element.classList.add("ring-2", "ring-[#001639]", "ring-offset-4");
+            element.classList.add("ring-2", "ring-brand-600", "ring-offset-4");
             if (ringTimeout) clearTimeout(ringTimeout);
             ringTimeout = setTimeout(() => {
-              element?.classList.remove("ring-2", "ring-[#001639]", "ring-offset-4");
+              element?.classList.remove("ring-2", "ring-brand-600", "ring-offset-4");
             }, 1800);
           }
         }, 180);
@@ -311,6 +306,14 @@ export default function EditorPage() {
 
   const [showMobilePreview, setShowMobilePreview] = useState(false);
   const [mobileZoom, setMobileZoom] = useState(0.45);
+
+  useEffect(() => {
+    if (showMobilePreview) {
+      const screenWidth = typeof window !== "undefined" ? window.innerWidth : 375;
+      const fitZoom = Math.min(Math.max((screenWidth - 32) / 794, 0.3), 1.0);
+      setMobileZoom(fitZoom);
+    }
+  }, [showMobilePreview]);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const handleFormScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -679,11 +682,11 @@ export default function EditorPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="mb-4 p-3.5 rounded-2xl bg-orange-50 border border-orange-200/70 flex items-start gap-3 shadow-xs text-start"
               >
-                <div className="p-2 bg-orange-100 rounded-xl text-[#001639] shrink-0 mt-0.5">
+                <div className="p-2 bg-orange-100 rounded-xl text-brand-600 shrink-0 mt-0.5">
                   <Sparkles className="w-4 h-4 animate-pulse" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-xs font-black text-[#001639] uppercase tracking-wider">
+                  <h4 className="text-xs font-black text-brand-600 uppercase tracking-wider">
                     {language === "ar" ? "تنبيه مساعد الذكاء الاصطناعي" : "AI Assistant Update"}
                   </h4>
                   <p className="text-[11px] text-slate-700 font-semibold leading-relaxed mt-0.5">
@@ -707,7 +710,7 @@ export default function EditorPage() {
                 className="mb-6 p-4 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-start relative shadow-xs"
               >
                 <div className="flex items-start gap-3">
-                  <div className="p-2 bg-[#001639]/10 rounded-xl text-[#001639] shrink-0 mt-0.5">
+                  <div className="p-2 bg-brand-600/10 rounded-xl text-brand-600 shrink-0 mt-0.5">
                     <Sparkles className="w-4 h-4 animate-pulse" />
                   </div>
                   <div>
@@ -726,7 +729,7 @@ export default function EditorPage() {
                 <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 self-end sm:self-center">
                   <Link
                     to="/hash-hunt"
-                    className="flex-1 sm:flex-none text-center text-[10px] font-black bg-[#001639] hover:bg-[#E64528] text-white py-2.5 px-3.5 rounded-xl shadow-xs transition-all cursor-pointer whitespace-nowrap"
+                    className="flex-1 sm:flex-none text-center text-[10px] font-black bg-brand-600 hover:bg-[#E64528] text-white py-2.5 px-3.5 rounded-xl shadow-xs transition-all cursor-pointer whitespace-nowrap"
                   >
                     {language === "ar" ? "💼 ابحث عن وظائف" : "💼 Find Jobs (Hash Hunt)"}
                   </Link>
@@ -802,51 +805,64 @@ export default function EditorPage() {
                             </div>
 
                             {/* Premium Quick Auto-Fill Roles / Smart Templates */}
-                            <div className="mb-6 p-4.5 bg-gradient-to-br from-brand-50/50 via-slate-50 to-orange-50/20 border border-brand-100 rounded-2xl shadow-[0_4px_20px_rgba(255,77,45,0.02)] relative overflow-hidden text-start">
-                              <div className="absolute top-0 right-0 w-32 h-32 bg-[#001639]/5 rounded-full blur-2xl pointer-events-none" />
-                              <div className="relative z-10">
-                                <div className="flex items-center gap-1.5 text-[#001639]">
-                                  <Sparkles size={14} className="animate-pulse" />
-                                  <span className="text-[11px] font-black uppercase tracking-wider">
-                                    {language === "ar" ? "ميزة التعبئة الذكية السريعة" : "Smart Auto-Fill Feature"}
-                                  </span>
+                            <div className="mb-6 bg-white border border-slate-200/95 rounded-2xl overflow-hidden shadow-3xs transition-all duration-300">
+                              <button
+                                type="button"
+                                onClick={() => setShowAutofill(!showAutofill)}
+                                className="w-full px-5 py-4 flex items-center justify-between text-start cursor-pointer hover:bg-slate-50/50 transition-colors"
+                              >
+                                <div className="flex items-center gap-2.5">
+                                  <div className="p-1.5 bg-brand-50 text-brand-600 rounded-lg">
+                                    <Sparkles size={14} className="animate-pulse" />
+                                  </div>
+                                  <div>
+                                    <h3 className="text-xs font-black text-slate-800 uppercase tracking-wider">
+                                      {language === "ar" ? "قوالب وتعبئة تلقائية ذكية" : "AI Role Templates & Smart Auto-Fill"}
+                                    </h3>
+                                    <p className="text-[10px] text-slate-400 font-semibold mt-0.5">
+                                      {language === "ar" ? "ابدأ بسرعة باستخدام عينة منسقة لمهنتك بنقرة واحدة" : "Instantly populate sample HR-vetted data for your profession"}
+                                    </p>
+                                  </div>
                                 </div>
-                                
-                                <h3 className="text-sm font-black text-slate-800 mt-1 leading-snug">
-                                  {language === "ar" 
-                                    ? "أنشئ سيرتك الذاتية فوراً باستخدام نموذج احترافي جاهز!" 
-                                    : "Pre-fill Your Resume instantly with a high-performance role template!"}
-                                </h3>
-                                <p className="text-[11px] text-slate-500 leading-relaxed mt-1 font-semibold">
-                                  {language === "ar"
-                                    ? "اختر مهنتك ليتم تعبئة السيرة الذاتية كاملة ببيانات نموذجية صاغها خبراء الموارد البشرية لتجتاز فحص الـ ATS وتفهم كيفية التعبير عن خبراتك:"
-                                    : "Select a professional template crafted by recruiting experts to instantly pass ATS scans and learn optimal experience phrasing:"}
-                                </p>
-                                
-                                <div className="grid grid-cols-3 gap-2.5 mt-4">
-                                  {[
-                                    { id: "developer", label: language === "ar" ? "💻 مبرمج" : "💻 Developer" },
-                                    { id: "accountant", label: language === "ar" ? "📊 محاسب" : "📊 Accountant" },
-                                    { id: "designer", label: language === "ar" ? "🎨 مصمم" : "🎨 Designer" }
-                                  ].map((role) => (
-                                    <button
-                                      key={role.id}
-                                      onClick={() => {
-                                        const confirmMsg = language === "ar"
-                                          ? "تنبيه: هذا الإجراء سيقوم باستبدال جميع البيانات الحالية ببيانات هذا النموذج النموذجي بالكامل. هل تريد الاستمرار؟"
-                                          : "Warning: This action will replace all your current resume entries with this template's data. Do you want to proceed?";
-                                        if (window.confirm(confirmMsg)) {
-                                          const loadRoleTemplate = useResumeStore.getState().loadRoleTemplate;
-                                          loadRoleTemplate(role.id as any, language === "ar" ? "ar" : "en");
-                                        }
-                                      }}
-                                      className="py-2.5 px-2 text-center rounded-xl bg-white hover:bg-slate-900 border border-slate-200/90 text-slate-700 hover:text-white font-black text-[11px] transition-all cursor-pointer shadow-sm hover:shadow active:scale-95 whitespace-nowrap"
-                                    >
-                                      {role.label}
-                                    </button>
-                                  ))}
+                                <span className="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg font-black transition-colors">
+                                  {showAutofill ? (language === "ar" ? "إغلاق" : "Collapse") : (language === "ar" ? "عرض الخيارات" : "Expand")}
+                                </span>
+                              </button>
+
+                              {showAutofill && (
+                                <div className="px-5 pb-5 border-t border-slate-100 pt-4 bg-slate-50/30">
+                                  <p className="text-xs text-slate-600 leading-relaxed font-medium mb-3.5">
+                                    {language === "ar"
+                                      ? "اختر مهنتك ليتم تعبئة السيرة الذاتية كاملة ببيانات نموذجية صاغها خبراء الموارد البشرية لتجتاز فحص الـ ATS وتفهم كيفية التعبير عن خبراتك:"
+                                      : "Select a professional template crafted by recruiting experts to instantly pass ATS scans and learn optimal experience phrasing:"}
+                                  </p>
+                                  <div className="grid grid-cols-3 gap-2.5">
+                                    {[
+                                      { id: "developer", label: language === "ar" ? "💻 مبرمج" : "💻 Developer" },
+                                      { id: "accountant", label: language === "ar" ? "📊 محاسب" : "📊 Accountant" },
+                                      { id: "designer", label: language === "ar" ? "🎨 مصمم" : "🎨 Designer" }
+                                    ].map((role) => (
+                                      <button
+                                        key={role.id}
+                                        type="button"
+                                        onClick={() => {
+                                          const confirmMsg = language === "ar"
+                                            ? "تنبيه: هذا الإجراء سيقوم باستبدال جميع البيانات الحالية ببيانات هذا النموذج النموذجي بالكامل. هل تريد الاستمرار؟"
+                                            : "Warning: This action will replace all your current resume entries with this template's data. Do you want to proceed?";
+                                          if (window.confirm(confirmMsg)) {
+                                            const loadRoleTemplate = useResumeStore.getState().loadRoleTemplate;
+                                            loadRoleTemplate(role.id as any, language === "ar" ? "ar" : "en");
+                                            setShowAutofill(false);
+                                          }
+                                        }}
+                                        className="py-2.5 px-2 text-center rounded-xl bg-white hover:bg-slate-900 border border-slate-200/90 text-slate-700 hover:text-white font-black text-[11px] transition-all cursor-pointer shadow-sm hover:shadow active:scale-95 whitespace-nowrap"
+                                      >
+                                        {role.label}
+                                      </button>
+                                    ))}
+                                  </div>
                                 </div>
-                              </div>
+                              )}
                             </div>
 
                             <PersonalInfoForm />
@@ -991,7 +1007,7 @@ export default function EditorPage() {
                                   scrollToFormTop();
                                   setActiveTab("finish");
                                 }}
-                                className="group flex items-center gap-3 bg-[#001639] hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all cursor-pointer"
+                                className="group flex items-center gap-3 bg-brand-600 hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all cursor-pointer"
                               >
                                 {language === "ar"
                                   ? "الذهاب للمراجعة والتحميل"
@@ -1132,11 +1148,7 @@ export default function EditorPage() {
 
       {/* Real-time Progress tracker moved to tabs and dock */}
 
-      <PanelGroup
-        orientation={isMobile ? "vertical" : "horizontal"}
-        className="flex-1 w-full h-full overflow-hidden relative editor-form"
-        dir="ltr"
-      >
+      <div className="flex-1 w-full h-full flex overflow-hidden relative bg-[#F9FAFB]">
         {!isMobile && !focusMode && (
            <EditorSidebar 
              activeTab={activeTab} 
@@ -1144,9 +1156,15 @@ export default function EditorPage() {
              completionMap={sidebarCompletionMap} 
            />
         )}
-        {/* Editor Area */}
-        {!previewFocusMode && (
-        <Panel defaultSize={65} minSize={30} className="block">
+
+        <PanelGroup
+          orientation={isMobile ? "vertical" : "horizontal"}
+          className="flex-1 h-full overflow-hidden relative editor-form"
+          dir="ltr"
+        >
+          {/* Editor Area */}
+          {!previewFocusMode && (
+          <Panel defaultSize={68} minSize={30} className="block">
           <div className={cn("flex flex-col h-full overflow-hidden relative transition-all duration-300", focusMode ? "bg-white" : "bg-[#F9FAFB]")} dir={dir}>
             
             {/* Real-time Progress Bar */}
@@ -1156,7 +1174,7 @@ export default function EditorPage() {
                 <span className="text-xs font-black text-slate-700">
                   {language === "ar" ? "نسبة اكتمال السيرة الذاتية:" : "Resume Completion Progress:"}
                 </span>
-                <span className="text-xs font-black text-[#001639] bg-[#001639]/5 px-2 py-0.5 rounded-lg font-mono">
+                <span className="text-xs font-black text-brand-600 bg-brand-600/5 px-2 py-0.5 rounded-lg font-mono">
                   {progressPercent}%
                 </span>
               </div>
@@ -1275,7 +1293,7 @@ export default function EditorPage() {
 
         {!isMobile && !focusMode && (
           <Panel
-            defaultSize={previewFocusMode ? 100 : 35}
+            defaultSize={previewFocusMode ? 100 : 32}
             minSize={25}
             className="w-full h-full"
           >
@@ -1294,7 +1312,7 @@ export default function EditorPage() {
               >
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                   <h4 className="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wider">
-                    <SlidersHorizontal size={13} className="text-[#001639]" />
+                    <SlidersHorizontal size={13} className="text-brand-600" />
                     {language === "ar" ? "خيارات المسافات" : "Spacing Options"}
                   </h4>
                   <button 
@@ -1359,338 +1377,59 @@ export default function EditorPage() {
               </span>
             </div>
             <div className="h-14 bg-white/95 backdrop-blur-sm border-b border-neutral-200/80 flex items-center justify-between px-4 sm:px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu shadow-xs">
-              <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200/50">
+              <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setRightPanelMode("preview")}
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer",
-                    rightPanelMode === "preview"
-                      ? "bg-white text-slate-900 shadow-xs"
-                      : "text-slate-500 hover:text-slate-900"
-                  )}
+                  onClick={() => setIsSettingsModalOpen(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
                 >
-                  <LayoutTemplate size={13} className={rightPanelMode === "preview" ? "text-brand-500" : ""} />
-                  <span>{language === "ar" ? "المعاينة التفاعلية" : "Live Preview"}</span>
+                  <LayoutTemplate size={14} />
+                  <span>{language === "ar" ? "القالب" : "Template"}</span>
                 </button>
                 <button
-                  onClick={() => setRightPanelMode("ats")}
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer relative",
-                    rightPanelMode === "ats"
-                      ? "bg-white text-slate-900 shadow-xs"
-                      : "text-slate-500 hover:text-slate-900"
-                  )}
+                  onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
                 >
-                  <Sparkles size={13} className={cn(rightPanelMode === "ats" ? "text-[#001639]" : "text-slate-400")} />
-                  <span>{language === "ar" ? "فاحص الوصف الوظيفي (ATS)" : "Job Match (ATS)"}</span>
-                  {data.jobDescription && (
-                    <span className="absolute -top-1 -right-1 flex h-1.5 w-1.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-orange-500"></span>
-                    </span>
-                  )}
+                  <Globe size={14} />
+                  <span>{language === "ar" ? "EN" : "عربي"}</span>
                 </button>
-
-                {/* ATS Live Icon/Pill Block */}
-                <div className="relative">
-                  <div
-                    onClick={() => setShowAtsAestheticPanel(!showAtsAestheticPanel)}
-                    className={cn(
-                      "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[10px] sm:text-xs font-extrabold cursor-pointer transition-all hover:scale-103 select-none",
-                      isEmpty
-                        ? "bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200/60 shadow-none"
-                        : atsScore >= 80 
-                        ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 shadow-xs shadow-emerald-100/50" 
-                        : atsScore >= 50
-                        ? "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100 shadow-xs shadow-amber-100/50"
-                        : "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100 shadow-xs shadow-rose-100/50"
-                    )}
-                    title={language === "ar" ? "تدقيق الـ ATS المباشر" : "ATS Live Audit"}
-                  >
-                    <span className={cn(
-                      "w-1.5 h-1.5 rounded-full z-10 shrink-0",
-                      isEmpty
-                        ? "bg-slate-400"
-                        : atsScore >= 80
-                        ? "bg-emerald-500 animate-pulse"
-                        : atsScore >= 50
-                        ? "bg-amber-500 animate-pulse"
-                        : "bg-rose-500"
-                    )} />
-                    <span className="font-semibold text-[10px] sm:text-xs hidden mini:inline">{language === "ar" ? "تطابق ATS:" : "ATS Match:"}</span>
-                    <span className="font-extrabold font-mono text-[11px] sm:text-xs z-10 shrink-0">{isEmpty ? "--%" : `${atsScore}%`}</span>
-                  </div>
-
-                  {showAtsAestheticPanel && (
-                    <div 
-                      className={cn(
-                        "absolute z-30 top-11 mt-1 w-72 sm:w-80 bg-white border border-slate-200 rounded-2xl shadow-xl p-4 text-slate-800 font-sans",
-                        language === "ar" ? "start-0" : "left-0"
-                      )}
-                      dir={language === "ar" ? "rtl" : "ltr"}
-                    >
-                      <div className="flex items-center justify-between pb-2.5 border-b border-slate-100">
-                        <span className="text-xs font-black text-slate-900">⚡ {language === "ar" ? "تحليل نقاط التطابق المباشر الـ ATS" : "ATS Live Extraction Audit"}</span>
-                        <button 
-                          onClick={(e) => { e.stopPropagation(); setShowAtsAestheticPanel(false); }}
-                          className="p-1 hover:bg-slate-100 rounded-lg text-slate-400 hover:text-slate-900 transition-colors cursor-pointer"
-                        >
-                          <X size={12} />
-                        </button>
-                      </div>
-
-                      <div className="mt-3 space-y-3 font-normal">
-                        {/* Interactive progress bar */}
-                        <div>
-                          <div className="flex justify-between text-[11px] mb-1 font-bold">
-                            <span className="text-slate-500">{language === "ar" ? "مؤشر تطابق المستخرجات" : "Overall Compatibility"}</span>
-                            <span className={isEmpty ? "text-slate-500 font-extrabold" : atsScore >= 80 ? "text-emerald-600 font-black" : atsScore >= 50 ? "text-amber-600 font-black" : "text-rose-600 font-black"}>{isEmpty ? "0%" : `${atsScore}%`}</span>
-                          </div>
-                          <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                            <div 
-                              className={cn(
-                                "h-full rounded-full transition-all duration-500",
-                                isEmpty ? "bg-slate-300" : atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
-                              )}
-                              style={{ width: `${isEmpty ? 0 : atsScore}%` }}
-                            />
-                          </div>
-                        </div>
-
-                        {/* Summary rating */}
-                        <p className="text-[10px] text-slate-500 leading-relaxed font-normal">
-                          {isEmpty
-                            ? (language === "ar"
-                              ? "ابدأ بإدخال بياناتك ومعلومات التواصل وخبراتك لتنشيط مؤشر الـ ATS ورؤية تقييم التوافق المباشر."
-                              : "Start building your resume by entering contact info and experience to see your ATS score.")
-                            : language === "ar"
-                            ? atsScore >= 80
-                              ? "تهانينا! سيرتك الذاتية ممتازة ومبنية بأقوى معايير التوظيف والفرز."
-                              : atsScore >= 50
-                              ? "سيرتك جيدة، لكن ننصح بإضافة بضعة أرقام لنتائج عملك وتفاصيل مهاراتك الفنية للارتقاء بها."
-                              : "تحتاج سيرتك لإضافة معلومات اتصال كاملة وخبرة مفصلة لتمكين مراجعتها وجذب المستخرج الآلي."
-                            : atsScore >= 80
-                            ? "Splendid work! Your resume matches industry-standard ATS extraction norms beautifully."
-                            : atsScore >= 50
-                            ? "Good start. We recommend adding quantitative metrics and professional social links to boost extraction score."
-                            : "Provide contact details, summary sentences, and experience items to activate extraction."}
-                        </p>
-
-                        {/* Section Breakdown Mini */}
-                        <div className="border-t border-slate-100 pt-3 space-y-1.5 max-h-36 overflow-y-auto pr-1">
-                          {calculateATSScore(data).sections.map((sect, idx) => (
-                            <div key={idx} className="flex items-center justify-between text-[10px] py-0.5">
-                              <span className="text-slate-500 font-medium">
-                                {sect.title === "Contact Info" 
-                                  ? (language === "ar" ? "بيانات التواصل" : "Contact Details") 
-                                  : sect.title === "Experience Bullet Points" 
-                                  ? (language === "ar" ? "صياغة نقاط وبروتوكولات الخبرة" : "Experience Verbs & Metrics") 
-                                  : sect.title === "Experience Formatting" 
-                                  ? (language === "ar" ? "تنسيق عناصر الخبرة" : "Experience Bullets") 
-                                  : sect.title === "Summary" 
-                                  ? (language === "ar" ? "الملخص المهني" : "Professional Summary") 
-                                  : sect.title === "Skills Section" 
-                                  ? (language === "ar" ? "قسم المهارات الفنية" : "Skills Range") 
-                                  : sect.title}
-                              </span>
-                              <span className="font-black font-mono text-slate-800">{sect.score} / {sect.maxScore}</span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {calculateATSScore(data).tips.length > 0 && (
-                          <div className="border-t border-slate-100 pt-2.5">
-                            <span className="text-[10px] font-black block mb-1 text-slate-800">💡 {language === "ar" ? "توصيات فورية لتحسين النسبة والبروز:" : "Key Recommendation:"}</span>
-                            <p className="text-[10px] text-slate-700 bg-slate-50/80 p-2 rounded-xl border border-slate-100 leading-normal font-sans">
-                              {calculateATSScore(data).tips[0]}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-                
-                {!data.isLocked && (
-                  <div className="hidden sm:flex items-center gap-2 border-s border-slate-200/80 ps-3">
-                    <button
-                      onClick={() => setIsSettingsModalOpen(true)}
-                      className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[11px] font-black uppercase tracking-wider bg-gradient-to-r from-brand-50 to-orange-50 border border-brand-200/60 text-brand-650 hover:shadow hover:-translate-y-px transition-all cursor-pointer"
-                    >
-                      <Sparkles size={13} className="animate-pulse text-orange-500" />
-                      {language === "ar" ? "السمات والقوالب" : "Theme Station"}
-                    </button>
-                  </div>
-                )}
+                <button
+                  onClick={() => setMobileZoom(prev => Math.min(prev + 0.1, 1.5))}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                >
+                  <ZoomIn size={14} />
+                  <span className="hidden sm:inline">Zoom</span>
+                </button>
               </div>
 
               <div className="flex items-center gap-2">
-                {/* Mobile specific settings button if hidden above */}
-                {!data.isLocked && (
-                  <button
-                    onClick={() => setIsSettingsModalOpen(true)}
-                    className="sm:hidden p-2 text-brand-600 bg-brand-50 hover:bg-brand-100 rounded-lg transition-colors border border-brand-200/50"
-                  >
-                    <Sparkles size={16} />
-                  </button>
-                )}
                 <button
-                  onClick={() => setPreviewFocusMode(!previewFocusMode)}
+                  onClick={() => setRightPanelMode(rightPanelMode === "preview" ? "ats" : "preview")}
                   className={cn(
-                    "flex items-center gap-1.5 p-2 sm:px-3 sm:py-1.5 hover:text-slate-900 border transition-all rounded-xl shadow-sm",
-                    previewFocusMode 
-                      ? "bg-brand-50 text-brand-700 border-brand-200 hover:bg-brand-100 shadow-brand-100/50" 
-                      : "bg-white text-slate-500 hover:bg-slate-50 border-slate-200"
+                    "flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer relative",
+                    rightPanelMode === "ats"
+                      ? "bg-brand-50 text-brand-700"
+                      : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
                   )}
-                  title={String(t.fullPreview || "")}
                 >
-                  <Maximize2 size={14} className={previewFocusMode ? "text-brand-500" : ""} />
-                  <span className="hidden sm:inline text-xs font-bold">{previewFocusMode ? (language === "ar" ? "تصغير" : "Shrink") : (language === "ar" ? "تكبير" : "Expand")}</span>
+                  <Sparkles size={13} className={cn(rightPanelMode === "ats" ? "text-brand-600" : "text-slate-400")} />
+                  <span>{language === "ar" ? "فاحص ATS" : "ATS Checker"}</span>
+                </button>
+                <button
+                  onClick={handleExportClick}
+                  className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-xs font-black bg-brand-600 hover:bg-brand-700 text-white shadow-sm transition-all cursor-pointer active:scale-95"
+                >
+                  <Download size={14} />
+                  <span>{language === "ar" ? "تصدير" : "Export"}</span>
                 </button>
               </div>
             </div>
-
-            {/* Page Overflow Indicator Alert banner */}
-            <AnimatePresence>
-              {overflowLines > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 30 }}
-                  className="absolute bottom-6 start-6 end-6 z-20 bg-amber-55/95 backdrop-blur-md border border-amber-200 text-amber-950 rounded-2xl p-4.5 shadow-[0_12px_40px_rgba(0,0,0,0.12)] flex items-center justify-between gap-4"
-                  dir={language === "ar" ? "rtl" : "ltr"}
-                >
-                  <div className="flex items-start gap-3">
-                    <span className="text-xl shrink-0">⚠️</span>
-                    <div className="space-y-0.5 animate-pulse">
-                      <p className="text-xs font-black">
-                        {language === "ar"
-                          ? `سيرتك الذاتية تتجاوز الصفحة الواحدة بحوالي ${overflowLines} أسطر!`
-                          : `Your CV exceeds one page by about ${overflowLines} lines!`}
-                      </p>
-                      <p className="text-[10px] text-amber-800 leading-normal font-medium">
-                        {language === "ar"
-                          ? "نوصي بتفعيل ميزة \"الاحتواء الموفر للمساحة\" لضغط الهوامش وتقليل الحجم ذكياً تلقائياً."
-                          : "Apply our compact custom margin and spacing configuration to seamlessly fit content into exactly 1 page."}
-                      </p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => {
-                      useResumeStore.getState().updateSettings({
-                        fontSize: "small",
-                        lineHeight: "compact",
-                        sectionSpacing: "compact",
-                        marginSize: "compact"
-                      });
-                    }}
-                    className="shrink-0 bg-amber-600 hover:bg-amber-700 hover:shadow text-white font-extrabold text-[10px] px-3 py-1.5 rounded-xl transition-all cursor-pointer shadow-sm active:scale-95 whitespace-nowrap"
-                  >
-                    {language === "ar" ? "احتواء ذكي ✨" : "Fit to 1 Page ✨"}
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            <div className="flex-1 overflow-x-hidden overflow-y-auto pt-14 flex flex-col bg-slate-50/60 backdrop-blur-xs relative border-l border-slate-200/40 h-full">
+            <div className="flex-1 overflow-x-hidden overflow-y-auto pt-14 flex flex-col bg-[#f4f4f3] relative border-l border-slate-200/50 h-full">
               {rightPanelMode === "preview" ? (
-                <div className="flex-1 p-4 md:p-12 flex flex-col items-center justify-start h-full">
-                  {/* Mini Format Layout Toolbar */}
-                  <div className="w-full max-w-[210mm] mb-5 bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-2xl px-5 py-3 flex flex-wrap items-center justify-between gap-4 select-none">
-                    <div className="flex items-center gap-2">
-                      <SlidersHorizontal size={14} className="text-[#001639]" />
-                      <span className="text-xs font-black text-slate-800">
-                        {language === "ar" ? "أدوات تنسيق الصفحة" : "Page Formatting Tools"}
-                      </span>
-                    </div>
-                    
-                    <div className="flex items-center gap-5 text-xs flex-wrap">
-                      {/* Font Size Selector */}
-                      <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-100">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider px-1">
-                          {language === "ar" ? "حجم الخط" : "Font Size"}
-                        </span>
-                        {[
-                          { id: "small", label: language === "ar" ? "صغير" : "Small" },
-                          { id: "medium", label: language === "ar" ? "وسط" : "Medium" },
-                          { id: "large", label: language === "ar" ? "كبير" : "Large" }
-                        ].map(opt => {
-                          const isSel = settings.fontSize === opt.id || (!settings.fontSize && opt.id === "medium");
-                          return (
-                            <button
-                              key={opt.id}
-                              onClick={() => updateSettings({ fontSize: opt.id as any })}
-                              className={cn(
-                                "px-2.5 py-1 rounded-lg text-[10.5px] font-bold cursor-pointer transition-all",
-                                isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500 hover:text-slate-900"
-                              )}
-                            >
-                              {opt.label}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Line Spacing Selector */}
-                      <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-100">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider px-1">
-                          {language === "ar" ? "تباعد الأسطر" : "Line Spacing"}
-                        </span>
-                        {[
-                          { id: "tight", label: language === "ar" ? "ضيق" : "Tight" },
-                          { id: "normal", label: language === "ar" ? "طبيعي" : "Normal" },
-                          { id: "relaxed", label: language === "ar" ? "واسع" : "Relaxed" }
-                        ].map(opt => {
-                          const isSel = settings.lineHeight === opt.id || (!settings.lineHeight && opt.id === "normal");
-                          return (
-                            <button
-                              key={opt.id}
-                              onClick={() => updateSettings({ lineHeight: opt.id as any })}
-                              className={cn(
-                                "px-2.5 py-1 rounded-lg text-[10.5px] font-bold cursor-pointer transition-all",
-                                isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500 hover:text-slate-900"
-                              )}
-                            >
-                              {opt.label}
-                            </button>
-                          );
-                        })}
-                      </div>
-
-                      {/* Margins Selector */}
-                      <div className="flex items-center gap-1.5 bg-slate-50 p-1 rounded-xl border border-slate-100">
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-wider px-1">
-                          {language === "ar" ? "الهوامش" : "Margins"}
-                        </span>
-                        {[
-                          { id: "compact", label: language === "ar" ? "ضيقة" : "Compact" },
-                          { id: "normal", label: language === "ar" ? "طبيعية" : "Normal" },
-                          { id: "relaxed", label: language === "ar" ? "واسعة" : "Relaxed" }
-                        ].map(opt => {
-                          const isSel = settings.marginSize === opt.id || (!settings.marginSize && opt.id === "normal");
-                          return (
-                            <button
-                              key={opt.id}
-                              onClick={() => updateSettings({ marginSize: opt.id as any })}
-                              className={cn(
-                                "px-2.5 py-1 rounded-lg text-[10.5px] font-bold cursor-pointer transition-all",
-                                isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500 hover:text-slate-900"
-                              )}
-                            >
-                              {opt.label}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-
+                <div className="flex-1 p-4 md:p-10 flex flex-col items-center justify-start min-h-full">
                   <div
                     className="origin-top transition-all duration-500 flex justify-center scale-[0.4] sm:scale-[0.6] md:scale-[0.75] lg:scale-[0.8] xl:scale-[0.9] h-[calc(297mm*0.4)] sm:h-[calc(297mm*0.6)] md:h-[calc(297mm*0.75)] lg:h-[calc(297mm*0.8)] xl:h-[calc(297mm*0.9)]"
                   >
-                    <div
-                      className="bg-white shadow-[0_20px_50px_rgba(0,0,0,0.04)] ring-1 ring-slate-100 rounded-md overflow-hidden w-[210mm] min-h-[297mm] shrink-0"
-                    >
+                    <div className="bg-white shadow-[0_24px_60px_rgba(0,0,0,0.12)] border border-stone-200/60 overflow-hidden shrink-0 w-[210mm] min-h-[297mm] rounded-xs">
                       <Suspense fallback={<FormLoader />}>
                         <ResumePreview ref={componentRef} />
                       </Suspense>
@@ -1707,263 +1446,10 @@ export default function EditorPage() {
         </Panel>
         )}
       </PanelGroup>
-      </>
+      </div>
+
+</>
       )}
-
-      {/* Mobile Live Preview Overlay */}
-      <AnimatePresence>
-        {showMobilePreview && (
-          <div key="mobile-preview-container" className="md:hidden fixed inset-0 z-[100] flex flex-col justify-end">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowMobilePreview(false)}
-              className="fixed inset-0 bg-neutral-950/60 backdrop-blur-sm z-[100]"
-            />
-            <motion.div
-              drag="y"
-              dragConstraints={{ top: 0 }}
-              dragElastic={{ top: 0.1, bottom: 0.8 }}
-              onDragEnd={(event, info) => {
-                if (info.offset.y > 150 || info.velocity.y > 600) {
-                  setShowMobilePreview(false);
-                }
-              }}
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 240 }}
-              className="fixed inset-x-0 bottom-0 h-[88dvh] bg-white rounded-t-[2rem] shadow-[0_-12px_40px_rgba(0,0,0,0.18)] z-[110] flex flex-col overflow-hidden"
-            >
-              {/* iOS Drag Handle */}
-              <div className="w-14 h-1.5 bg-slate-200 rounded-full mx-auto mt-3 mb-2 shrink-0 cursor-grab active:cursor-grabbing" />
-              
-              <div
-                className="flex items-center justify-between px-5 pb-3 pt-1 shrink-0 border-b border-slate-100"
-              >
-                <div className="flex items-center gap-2">
-                  <LayoutTemplate size={18} className="text-[#001639]" />
-                  <span className="text-sm font-black text-slate-900">
-                    {language === "ar" ? "درج المعاينة التفاعلي" : "Interactive Resume Preview"}
-                  </span>
-                  <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded-full text-slate-500 font-semibold">
-                    {language === "ar" ? "اسحب لأسفل للإغلاق" : "Swipe down to close"}
-                  </span>
-                </div>
-              
-                <button
-                  onClick={() => setShowMobilePreview(false)}
-                  className="w-8 h-8 flex items-center justify-center rounded-full transition-colors active:scale-95 bg-slate-100 text-slate-500 hover:bg-slate-200"
-                >
-                  <X size={16} />
-                </button>
-              </div>
-
-              {/* Dynamic Quick Template & Theme Switcher on Mobile Preview */}
-              <div className="bg-slate-50 border-b border-slate-100 px-4 py-2.5 shrink-0 flex flex-col gap-2 select-none">
-                {/* Horizontal scroll for templates */}
-                <div className="flex items-center gap-2 overflow-x-auto scrollbar-none pb-0.5">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">
-                    {language === "ar" ? "القالب:" : "Template:"}
-                  </span>
-                  <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
-                    {RESUME_TEMPLATES.map((temp) => {
-                      const isSelected = settings.template === temp.id;
-                      const displayName = language === "ar" ? temp.nameAr : temp.nameEn;
-                      return (
-                        <button
-                          key={temp.id}
-                          onClick={() => updateSettings({ template: temp.id as any })}
-                          className={cn(
-                            "px-3 py-1 rounded-full text-xs font-extrabold whitespace-nowrap transition-all border cursor-pointer",
-                            isSelected
-                              ? "bg-slate-900 border-slate-900 text-white shadow-xs font-black"
-                              : "bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
-                          )}
-                        >
-                          {displayName}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Horizontal row for Theme Colors */}
-                <div className="flex items-center gap-3">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider shrink-0">
-                    {language === "ar" ? "اللون المهني:" : "Color Theme:"}
-                  </span>
-                  <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-none">
-                    {[
-                      { hex: "#475569", name: language === "ar" ? "رمادي" : "Slate" },
-                      { hex: "#001639", name: language === "ar" ? "أزرق" : "Blue" },
-                      { hex: "#10B981", name: language === "ar" ? "أخضر" : "Emerald" },
-                      { hex: "#EF4444", name: language === "ar" ? "أحمر" : "Coral" },
-                      { hex: "#8B5CF6", name: language === "ar" ? "بنفسجي" : "Purple" },
-                      { hex: "#F97316", name: language === "ar" ? "برتقالي" : "Orange" },
-                      { hex: "#1E293B", name: language === "ar" ? "فحمي" : "Charcoal" },
-                    ].map((col) => {
-                      const isSelected = settings.themeColor === col.hex;
-                      return (
-                        <button
-                          key={col.hex}
-                          onClick={() => updateSettings({ themeColor: col.hex })}
-                          className={cn(
-                            "w-5.5 h-5.5 rounded-full border flex items-center justify-center transition-all relative cursor-pointer",
-                            isSelected
-                              ? "scale-110 border-slate-400 ring-2 ring-offset-1 ring-[#001639]"
-                              : "border-slate-200 hover:scale-105"
-                          )}
-                          style={{ backgroundColor: col.hex }}
-                          title={col.name}
-                        >
-                          {isSelected && (
-                            <div className="w-1.5 h-1.5 rounded-full bg-white shadow-xs" />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Horizontal row for Layout Quick Formatting Controls on Mobile */}
-                <div className="flex flex-wrap items-center gap-y-2 gap-x-4 pt-2 border-t border-slate-200/50">
-                  {/* Font Size Selector */}
-                  <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-slate-200">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider shrink-0 mr-1 ml-1">
-                      {language === "ar" ? "الخط:" : "Size:"}
-                    </span>
-                    {[
-                      { id: "small", label: language === "ar" ? "صغير" : "S" },
-                      { id: "medium", label: language === "ar" ? "وسط" : "M" },
-                      { id: "large", label: language === "ar" ? "كبير" : "L" }
-                    ].map(opt => {
-                      const isSel = settings.fontSize === opt.id || (!settings.fontSize && opt.id === "medium");
-                      return (
-                        <button
-                          key={opt.id}
-                          onClick={() => updateSettings({ fontSize: opt.id as any })}
-                          className={cn(
-                            "px-2 py-0.5 rounded-md text-[10px] font-bold cursor-pointer transition-all",
-                            isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500"
-                          )}
-                        >
-                          {opt.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Line Spacing Selector */}
-                  <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-slate-200">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider shrink-0 mr-1 ml-1">
-                      {language === "ar" ? "التباعد:" : "Height:"}
-                    </span>
-                    {[
-                      { id: "tight", label: language === "ar" ? "ضيق" : "T" },
-                      { id: "normal", label: language === "ar" ? "طبيعي" : "N" },
-                      { id: "relaxed", label: language === "ar" ? "واسع" : "R" }
-                    ].map(opt => {
-                      const isSel = settings.lineHeight === opt.id || (!settings.lineHeight && opt.id === "normal");
-                      return (
-                        <button
-                          key={opt.id}
-                          onClick={() => updateSettings({ lineHeight: opt.id as any })}
-                          className={cn(
-                            "px-2 py-0.5 rounded-md text-[10px] font-bold cursor-pointer transition-all",
-                            isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500"
-                          )}
-                        >
-                          {opt.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {/* Margins Selector */}
-                  <div className="flex items-center gap-1 bg-white px-2 py-1 rounded-xl border border-slate-200">
-                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-wider shrink-0 mr-1 ml-1">
-                      {language === "ar" ? "الهوامش:" : "Margin:"}
-                    </span>
-                    {[
-                      { id: "compact", label: language === "ar" ? "ضيقة" : "C" },
-                      { id: "normal", label: language === "ar" ? "طبيعية" : "M" },
-                      { id: "relaxed", label: language === "ar" ? "واسعة" : "R" }
-                    ].map(opt => {
-                      const isSel = settings.marginSize === opt.id || (!settings.marginSize && opt.id === "normal");
-                      return (
-                        <button
-                          key={opt.id}
-                          onClick={() => updateSettings({ marginSize: opt.id as any })}
-                          className={cn(
-                            "px-2 py-0.5 rounded-md text-[10px] font-bold cursor-pointer transition-all",
-                            isSel ? "bg-slate-900 text-white shadow-xs" : "text-slate-500"
-                          )}
-                        >
-                          {opt.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-
-              {/* Elegant Zoom Toolbar */}
-              <div className="bg-slate-100/60 border-b border-slate-200/50 px-4 py-2 flex items-center justify-between shrink-0 select-none">
-                <span className="text-[10px] font-black text-slate-500 uppercase tracking-wider flex items-center gap-1">
-                  🔍 {language === "ar" ? "حجم المعاينة والتكبير:" : "PREVIEW ZOOM & SCALE:"}
-                </span>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setMobileZoom(prev => Math.max(0.3, prev - 0.05))}
-                    disabled={mobileZoom <= 0.3}
-                    className="w-7 h-7 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 active:scale-95 disabled:opacity-40 cursor-pointer font-black text-sm"
-                  >
-                    -
-                  </button>
-                  <span className="text-xs font-black text-slate-800 min-w-[36px] text-center font-mono">
-                    {Math.round(mobileZoom * 200)}%
-                  </span>
-                  <button
-                    onClick={() => setMobileZoom(prev => Math.min(0.9, prev + 0.05))}
-                    disabled={mobileZoom >= 0.9}
-                    className="w-7 h-7 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 active:scale-95 disabled:opacity-40 cursor-pointer font-black text-sm"
-                  >
-                    +
-                  </button>
-                  <button
-                    onClick={() => setMobileZoom(0.45)}
-                    className="text-[9px] font-black uppercase text-[#001639] bg-orange-50 border border-orange-200/45 px-2 py-1 rounded-md active:scale-95 cursor-pointer ml-1"
-                  >
-                    {language === "ar" ? "إعادة تعيين" : "Reset"}
-                  </button>
-                </div>
-              </div>
- 
-              <div className="flex-1 overflow-x-hidden overflow-y-auto w-full p-2 sm:p-4 flex flex-col items-center bg-slate-50/60 scrollbar-none pb-12">
-                <div
-                  className="origin-top transition-all flex justify-center opacity-100"
-                  style={{ 
-                    width: "210mm",
-                    height: "297mm",
-                    transform: `scale(${mobileZoom})`,
-                    marginBottom: `-${297 * (1 - mobileZoom)}mm`
-                  }}
-                >
-                  <div
-                    className="bg-white shadow-[0_20px_50px_rgba(0,0,0,0.04)] ring-1 ring-slate-100 rounded-sm overflow-hidden shrink-0 w-[210mm] min-h-[297mm]"
-                  >
-                    <Suspense fallback={<FormLoader />}>
-                      <ResumePreview ref={componentRef} />
-                    </Suspense>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
 
       {/* Mobile ATS Info Panel Overlay */}
       <AnimatePresence>
@@ -2077,8 +1563,8 @@ export default function EditorPage() {
                     </div>
 
                     {calculateATSScore(data).tips.length > 0 && (
-                      <div className="bg-[#001639]/5 border border-[#001639]/20 rounded-2xl p-4 mb-4">
-                        <span className="text-xs font-black block mb-2 text-[#001639] uppercase tracking-wide">💡 {language === "ar" ? "توصيات فورية" : "Recommendation"}</span>
+                      <div className="bg-brand-600/5 border border-brand-600/20 rounded-2xl p-4 mb-4">
+                        <span className="text-xs font-black block mb-2 text-brand-600 uppercase tracking-wide">💡 {language === "ar" ? "توصيات فورية" : "Recommendation"}</span>
                         <p className="text-sm text-slate-700 leading-relaxed font-medium">
                           {calculateATSScore(data).tips[0]}
                         </p>
@@ -2144,7 +1630,7 @@ export default function EditorPage() {
                       onClick={handleExportClick}
                       className="bg-white hover:bg-neutral-100 text-neutral-950 px-6 py-4 rounded-full flex items-center gap-2 font-black transition-all text-xs shadow-premium hover:scale-105 active:scale-95 uppercase tracking-widest cursor-pointer"
                     >
-                      <Download size={18} className="text-[#001639] stroke-[2.5]" />
+                      <Download size={18} className="text-brand-600 stroke-[2.5]" />
                       {String(t.exportPdf || "")}
                     </button>
                     <button
@@ -2162,6 +1648,107 @@ export default function EditorPage() {
                   </Suspense>
                 </div>
               </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
+
+        {/* Full Page Mobile Preview Sheet */}
+        <AnimatePresence>
+          {showMobilePreview && (
+            <div className="fixed inset-0 z-[120] flex flex-col bg-[#FAF9F7]" style={{ direction: language === "ar" ? "rtl" : "ltr" }}>
+              {/* Header */}
+              <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 shrink-0 shadow-sm z-10">
+                <div className="flex items-center gap-2">
+                  <div className="p-2 bg-brand-50 text-brand-600 rounded-lg">
+                    <FileText size={18} />
+                  </div>
+                  <div className="text-right ltr:text-left">
+                    <h3 className="text-sm font-black text-slate-800 leading-tight">
+                      {language === "ar" ? "معاينة السيرة الذاتية" : "Live Resume Preview"}
+                    </h3>
+                    <p className="text-[10px] text-slate-500 font-semibold leading-none mt-0.5">
+                      {language === "ar" ? "اسحب للتصفح، أو استخدم شريط التكبير" : "Drag to view or use the zoom bar"}
+                    </p>
+                  </div>
+                </div>
+                
+                <button
+                  onClick={() => setShowMobilePreview(false)}
+                  className="p-2 text-slate-400 hover:text-slate-600 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
+                >
+                  <X size={18} strokeWidth={2.5} />
+                </button>
+              </div>
+
+              {/* Interactive Zoom Control Bar */}
+              <div className="bg-slate-50 border-b border-slate-200/60 px-4 py-2 flex items-center justify-between gap-4 shrink-0 select-none">
+                <span className="text-[11px] font-bold text-slate-500">
+                  {language === "ar" ? "تكبير/تصغير:" : "Zoom Level:"} {Math.round(mobileZoom * 100)}%
+                </span>
+                <div className="flex-1 flex items-center gap-2 max-w-xs">
+                  <button
+                    onClick={() => setMobileZoom(prev => Math.max(prev - 0.05, 0.3))}
+                    className="p-1.5 rounded bg-white border border-slate-200 text-slate-600 active:scale-95 transition-all text-xs font-black"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="range"
+                    min="0.30"
+                    max="1.20"
+                    step="0.05"
+                    value={mobileZoom}
+                    onChange={(e) => setMobileZoom(parseFloat(e.target.value))}
+                    className="flex-1 accent-brand-600 h-1 bg-slate-200 rounded-lg cursor-pointer"
+                  />
+                  <button
+                    onClick={() => setMobileZoom(prev => Math.min(prev + 0.05, 1.2))}
+                    className="p-1.5 rounded bg-white border border-slate-200 text-slate-600 active:scale-95 transition-all text-xs font-black"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Scrollable Preview Area */}
+              <div className="flex-1 overflow-auto bg-[#F4F3EF] p-4 flex flex-col items-center justify-start min-h-0 relative scrollbar-none">
+                <div
+                  className="origin-top transition-all duration-150 shadow-2xl"
+                  style={{
+                    width: "210mm",
+                    height: "297mm",
+                    transform: `scale(${mobileZoom})`,
+                    marginBottom: `-${297 * (1 - mobileZoom)}mm`,
+                  }}
+                >
+                  <div className="bg-white border border-slate-300 rounded-sm overflow-hidden shrink-0 w-[210mm] min-h-[297mm]">
+                    <Suspense fallback={<FormLoader />}>
+                      <ResumePreview />
+                    </Suspense>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Sticky Action CTAs */}
+              <div className="bg-white border-t border-slate-200 px-4 py-3 pb-[calc(12px+env(safe-area-inset-bottom,0px))] flex items-center gap-3 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] select-none">
+                <button
+                  onClick={() => setShowMobilePreview(false)}
+                  className="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all cursor-pointer text-center"
+                >
+                  {language === "ar" ? "الرجوع للتعديل" : "Back to Edit"}
+                </button>
+                
+                <button
+                  onClick={() => {
+                    setShowMobilePreview(false);
+                    handleExportClick();
+                  }}
+                  className="flex-1.5 py-3.5 bg-brand-600 hover:bg-slate-900 text-white font-black text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-premium cursor-pointer"
+                >
+                  <Download size={14} className="stroke-[2.5]" />
+                  <span>{language === "ar" ? "تحميل السيرة الذاتية (PDF)" : "Download PDF"}</span>
+                </button>
+              </div>
             </div>
           )}
         </AnimatePresence>
@@ -2283,7 +1870,7 @@ export default function EditorPage() {
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
-                    className="absolute inset-0 rounded-full border-4 border-[#001639] border-t-transparent"
+                    className="absolute inset-0 rounded-full border-4 border-brand-600 border-t-transparent"
                   />
                   <span className="text-xl font-black text-slate-900">
                     {Math.min(100, exportStatus.step * 20)}%
@@ -2296,7 +1883,7 @@ export default function EditorPage() {
                     initial={{ width: "0%" }}
                     animate={{ width: `${Math.min(100, exportStatus.step * 20)}%` }}
                     transition={{ type: "spring", stiffness: 60, damping: 15 }}
-                    className="h-full bg-gradient-to-r from-[#001639] to-orange-500 rounded-full"
+                    className="h-full bg-gradient-to-r from-brand-600 to-orange-500 rounded-full"
                   />
                 </div>
 

@@ -15,7 +15,7 @@ import type { AppLang } from '@/hooks/useDirection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import { useNavigate, Link } from 'react-router-dom'
 import { LogoImage } from '@/components/LogoImage';
-import { LOGO_BLACK_URL, LOGO_WHITE_URL } from '@/constants';
+import { LOGO_BLACK_URL } from '@/constants';
 
 const LANG_LABELS = { ar: 'العربية', en: 'English', fr: 'Français' }
 const LANGS: AppLang[] = ['ar', 'en', 'fr']
@@ -120,7 +120,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
              <div className="hidden lg:flex relative group">
                <button className="text-sm font-bold text-slate-700 hover:text-brand-600 flex items-center gap-1">
                  {lang === 'ar' ? 'المزيد' : 'More'}
-                 <ChevronDown className="w-4 h-4" />
+                 <ChevronDown className="w-[18px] h-[18px]" />
                </button>
                {/* More Menu */}
                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto z-50">
@@ -167,7 +167,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                 onClick={() => setLangOpen(!langOpen)}
                 className="hover:bg-slate-50 border border-slate-100/40 px-3 py-2 rounded-xl font-bold text-slate-500 hover:text-slate-800 transition-all flex items-center gap-1.5 text-xs sm:text-sm cursor-pointer"
               >
-                <Globe className="w-3.5 h-3.5 text-slate-400" />
+                <Globe className="w-[18px] h-[18px] text-slate-400" />
                 <span>{LANG_LABELS[lang]}</span>
                 <ChevronDown className="w-3 h-3 opacity-60" />
               </button>
@@ -183,7 +183,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
                         onClick={() => { onLangChange(l); setLangOpen(false) }}
                         className={cn(
                           'w-full text-start px-3 py-2 text-xs rounded-xl hover:bg-slate-50 transition-all font-bold',
-                          lang === l ? 'text-[#001639] bg-[#001639]/5 font-black' : 'text-slate-600'
+                          lang === l ? 'text-brand-600 bg-brand-600/5 font-black' : 'text-slate-600'
                         )}
                       >
                         {LANG_LABELS[l]}
@@ -201,7 +201,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               className="lg:hidden relative z-[100] flex h-12 w-12 items-center justify-center rounded-lg border bg-white text-slate-900 shadow-sm cursor-pointer"
               aria-label="Open navigation menu"
             >
-              <Menu className="h-6 w-6" />
+              <Menu className="w-[18px] h-[18px]" />
             </button>
           </div>
 
@@ -271,7 +271,7 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
 
                 <div className="fixed bottom-0 start-0 w-[85%] max-w-sm p-6 bg-white/90 backdrop-blur-md border-t border-slate-100 flex flex-col gap-4">
                      <button onClick={() => { onLangChange(lang === 'ar' ? 'en' : 'ar'); setIsMobileMenuOpen(false); }} className="flex items-center justify-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors bg-slate-50 py-3 rounded-xl border border-slate-100">
-                         <Globe className="w-4 h-4" />
+                         <Globe className="w-[18px] h-[18px]" />
                          {LANG_LABELS[lang === 'ar' ? 'en' : 'ar']}
                      </button>
                      <button onClick={handleStart} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl text-base transition-all shadow-md shadow-slate-900/10">

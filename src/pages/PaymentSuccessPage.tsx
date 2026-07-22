@@ -217,7 +217,7 @@ export default function PaymentSuccessPage() {
           {status !== "approved" ? (
             /* Pending state view */
             <div className="text-center space-y-6">
-              <div className="w-16 h-16 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto text-[#001639]">
+              <div className="w-16 h-16 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center mx-auto text-brand-600">
                 <Loader2 size={32} className="animate-spin" />
               </div>
 
@@ -240,7 +240,7 @@ export default function PaymentSuccessPage() {
                 </div>
                 <div className="w-full h-3 bg-slate-100 rounded-full overflow-hidden border border-slate-200/50 p-0.5">
                   <div 
-                    className="h-full bg-gradient-to-r from-[#001639] to-[#000a1b] rounded-full transition-all duration-1000"
+                    className="h-full bg-gradient-to-r from-brand-600 to-[#000a1b] rounded-full transition-all duration-1000"
                     style={{ width: `${verificationProgress}%` }}
                   />
                 </div>
@@ -339,7 +339,7 @@ export default function PaymentSuccessPage() {
                     <button
                       type="button"
                       onClick={() => handleCopyCode(codeStr, codeStr)}
-                      className="px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-black flex items-center gap-1 text-[#001639] transition-all cursor-pointer shadow-xs active:scale-95 me-4"
+                      className="px-4 py-2.5 bg-white hover:bg-slate-50 border border-slate-200 rounded-xl text-xs font-black flex items-center gap-1 text-brand-600 transition-all cursor-pointer shadow-xs active:scale-95 me-4"
                     >
                       {copiedText === codeStr ? (
                         <>
@@ -383,7 +383,7 @@ export default function PaymentSuccessPage() {
               <div className="pt-6 border-t border-slate-100 max-w-md mx-auto space-y-3">
                 <Link
                   to="/editor?download=pdf"
-                  className="w-full bg-gradient-to-r from-[#001639] to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] text-white py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:scale-98"
+                  className="w-full bg-gradient-to-r from-brand-600 to-[#000a1b] hover:from-[#000d23] hover:to-[#000612] text-white py-4 rounded-xl font-black text-sm flex items-center justify-center gap-2 cursor-pointer shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:scale-98"
                 >
                   <Download size={16} className="animate-bounce" />
                   <span>{isAr ? "تحميل السيرة الذاتية PDF الآن 🚀" : "Download Resume PDF Now 🚀"}</span>

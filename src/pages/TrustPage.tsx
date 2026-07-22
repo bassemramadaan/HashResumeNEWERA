@@ -38,134 +38,150 @@ export default function TrustPage() {
 
           <div className="space-y-12">
             {/* ATS Score Section */}
-            <section className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
+            <section className="bg-white rounded-3xl p-8 shadow-xs border border-slate-200/60">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-[#ff4d2d]">
-                  <Award size={28} />
+                <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-[#ff4d2d] border border-orange-100">
+                  <Award size={24} />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-900">
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">
                   {language === "ar" ? "كيف يتم حساب درجة الـ ATS؟" : "How is the ATS Score calculated?"}
                 </h2>
               </div>
-              <p className="text-slate-600 mb-4 leading-relaxed">
+              <p className="text-slate-600 mb-6 leading-relaxed text-sm">
                 {language === "ar"
-                  ? "لا تستخدم أي أداة في العالم خوارزميات ATS الدقيقة لكل الشركات لأنها أنظمة مغلقة، ولكننا نستخدم المعايير العالمية المعترف بها لضمان اجتياز سيرتك لهذه الأنظمة. نقوم بحساب الدرجة بناءً على 8 محاور أساسية:"
-                  : "No tool in the world has access to the exact proprietary algorithms of every ATS. However, we use globally recognized standards to ensure your resume passes. We calculate your score based on 8 core pillars:"}
+                  ? "لا توجد أداة منفردة تمتلك حق الوصول الحصري للخوارزميات المغلقة لكافة أنظمة تتبع المتقدمين العالمية، ولكننا نطبق المعايير الدولية المعتمدة لضمان مطابقة وفحص ملفك على 4 ركائز أساسية:"
+                  : "No single tool has proprietary access to the closed-door algorithms of every ATS. However, we audit your resume against internationally recognized guidelines across 4 critical pillars:"}
               </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6 text-sm">
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <span className="font-bold block mb-1 text-slate-900">{language === "ar" ? "اكتمال الأقسام" : "Section Completeness"}</span>
-                  <p className="text-slate-500">{language === "ar" ? "وجود الأقسام الخمسة الرئيسية المعيارية." : "Presence of the 5 standard core sections."}</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm">
+                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-3">
+                  <div className="text-xl font-black text-slate-300 font-mono leading-none">01</div>
+                  <div>
+                    <span className="font-extrabold block mb-1 text-slate-900">{language === "ar" ? "اكتمال الأقسام" : "Section Completeness"}</span>
+                    <p className="text-slate-500 text-xs font-semibold leading-relaxed">{language === "ar" ? "التحقق من تواجد الأقسام الخمسة الرئيسية والأساسية للملف." : "Ensuring presence and clear labeling of the 5 standard core sections."}</p>
+                  </div>
                 </div>
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <span className="font-bold block mb-1 text-slate-900">{language === "ar" ? "أفعال الحركة" : "Action Verbs"}</span>
-                  <p className="text-slate-500">{language === "ar" ? "بدء النقاط بأفعال قوية تدل على الإنجاز." : "Starting bullet points with powerful achievement verbs."}</p>
+                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-3">
+                  <div className="text-xl font-black text-slate-300 font-mono leading-none">02</div>
+                  <div>
+                    <span className="font-extrabold block mb-1 text-slate-900">{language === "ar" ? "أفعال الإنجاز والحركة" : "Action & Achievement Verbs"}</span>
+                    <p className="text-slate-500 text-xs font-semibold leading-relaxed">{language === "ar" ? "بدء الجمل بأفعال قوية تدل على القيادة والفاعلية المهنية." : "Starting each bullet point with powerful, goal-oriented verbs."}</p>
+                  </div>
                 </div>
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <span className="font-bold block mb-1 text-slate-900">{language === "ar" ? "القياس الكمي" : "Quantification"}</span>
-                  <p className="text-slate-500">{language === "ar" ? "تحويل المهام إلى أرقام ونسب مئوية." : "Translating tasks into metrics and percentages."}</p>
+                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-3">
+                  <div className="text-xl font-black text-slate-300 font-mono leading-none">03</div>
+                  <div>
+                    <span className="font-extrabold block mb-1 text-slate-900">{language === "ar" ? "القياس والنتائج الرقمية" : "Quantification & Metrics"}</span>
+                    <p className="text-slate-500 text-xs font-semibold leading-relaxed">{language === "ar" ? "تحويل الواجبات اليومية العادية إلى نسب مئوية وأرقام قياسية." : "Converting passive task logs into active, measured key results."}</p>
+                  </div>
                 </div>
-                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100">
-                  <span className="font-bold block mb-1 text-slate-900">{language === "ar" ? "التنسيق الهيكلي" : "Structural Parsing"}</span>
-                  <p className="text-slate-500">{language === "ar" ? "مدى سهولة استخراج البيانات بواسطة الأنظمة." : "How easily the text can be parsed by machines."}</p>
+                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100 flex items-start gap-3">
+                  <div className="text-xl font-black text-slate-300 font-mono leading-none">04</div>
+                  <div>
+                    <span className="font-extrabold block mb-1 text-slate-900">{language === "ar" ? "سهولة الاستخلاص البرمجي" : "Machine-Readable Formatting"}</span>
+                    <p className="text-slate-500 text-xs font-semibold leading-relaxed">{language === "ar" ? "تجنب التعقيدات الرسومية أو التداخل الذي يحجب النصوص عن الآلة." : "Avoiding graphics or nested layouts that break parsing scanners."}</p>
+                  </div>
                 </div>
               </div>
             </section>
 
             {/* Hash Hunt Privacy Section */}
-            <section className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
+            <section className="bg-white rounded-3xl p-8 shadow-xs border border-slate-200/60">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center text-brand-600">
-                  <BrainCircuit size={28} />
+                <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-brand-600 border border-orange-100">
+                  <BrainCircuit size={24} />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-900">
-                  {language === "ar" ? "خصوصية Hash Hunt" : "Hash Hunt Privacy & Opt-in"}
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+                  {language === "ar" ? "خصوصية Hash Hunt والتحكم المطلق" : "Hash Hunt Privacy & Opt-in"}
                 </h2>
               </div>
-              <p className="text-slate-600 mb-4 leading-relaxed">
+              <p className="text-slate-600 mb-6 leading-relaxed text-sm">
                 {language === "ar" 
-                  ? "على عكس المنصات الأخرى التي تبيع بياناتك، نحن لا نضيفك لقاعدة بيانات المواهب الخاصة بنا إلا بطلب صريح منك." 
-                  : "Unlike other platforms that sell your data, we never add you to our talent pool unless you explicitly opt-in."}
+                  ? "على نقيض المنصات البديلة التي تسرب بيانات الباحثين عن عمل، نحن لا ندرج معلوماتك المهنية في قاعدة بيانات المواهب إلا بموجب موافقة مسبقة وصريحة تماماً منك." 
+                  : "Unlike other candidate hubs that mine or resell contact lists, we never insert your bio into our public talent pool without your explicit permission."}
               </p>
-              <ul className="space-y-4">
-                <li className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 mt-1">✓</div>
-                  <p className="text-slate-700">
-                    <span className="font-bold">{language === "ar" ? "تحكم كامل:" : "Full Control:"}</span> {language === "ar" ? "يمكنك سحب سيرتك من Hash Hunt في أي لحظة بضغطة زر." : "You can withdraw your resume from Hash Hunt at any time with one click."}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-5 bg-emerald-50/40 border border-emerald-100/60 rounded-2xl">
+                  <span className="text-emerald-700 font-black text-sm block mb-1">{language === "ar" ? "تحكم وسحب فوري:" : "Instant Revocation:"}</span>
+                  <p className="text-slate-600 text-xs font-medium leading-relaxed">
+                    {language === "ar" ? "تستطيع إخفاء أو سحب سيرتك الذاتية من ترشيحات Hash Hunt بضغطة واحدة في أي وقت." : "You can completely hide or withdraw your resume from employer searches instantly with a single toggle."}
                   </p>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 mt-1">✓</div>
-                  <p className="text-slate-700">
-                    <span className="font-bold">{language === "ar" ? "تواصل مباشر:" : "Direct Contact:"}</span> {language === "ar" ? "التواصل يتم بينك وبين صاحب العمل مباشرة عبر بريدك الإلكتروني." : "Communication happens directly between you and the employer via your provided email."}
+                </div>
+                <div className="p-5 bg-emerald-50/40 border border-emerald-100/60 rounded-2xl">
+                  <span className="text-emerald-700 font-black text-sm block mb-1">{language === "ar" ? "قنوات تواصل مباشرة:" : "Direct Connection:"}</span>
+                  <p className="text-slate-600 text-xs font-medium leading-relaxed">
+                    {language === "ar" ? "تصلك عروض التوظيف وطلبات المقابلات بصورة مباشرة على بريدك المهني دون وسيط." : "All recruiter messages and interview invites route straight to your email inbox without annoying middlemen."}
                   </p>
-                </li>
-              </ul>
+                </div>
+              </div>
             </section>
 
             {/* Data & AI Section */}
-            <section className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
+            <section className="bg-white rounded-3xl p-8 shadow-xs border border-slate-200/60">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-brand-100 flex items-center justify-center text-brand-600">
-                  <BrainCircuit size={28} />
+                <div className="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center text-brand-600 border border-brand-100">
+                  <Database size={24} />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-900">
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">
                   {language === "ar" ? "دورة حياة البيانات والذكاء الاصطناعي" : "Data Lifecycle & AI Integration"}
                 </h2>
               </div>
-              <p className="text-slate-600 mb-4 leading-relaxed">
-                {language === "ar" ? "خصوصيتك هي أولويتنا القصوى. إليك كيف نتعامل مع بياناتك:" : "Your privacy is our highest priority. Here is exactly how we handle your data:"}
+              <p className="text-slate-600 mb-6 leading-relaxed text-sm">
+                {language === "ar" ? "أمانك وخصوصيتك خط أحمر. إليك التفاصيل التقنية الدقيقة لكيفية معالجة مدخلاتك:" : "Your file integrity is our highest priority. Here are the exact technical specifications of our pipelines:"}
               </p>
-              <div className="space-y-4">
-                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                  <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <Database size={20} className="text-emerald-500" />
-                    {language === "ar" ? "التخزين المحلي (الوضع الافتراضي)" : "Local Storage (Default Mode)"}
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    {language === "ar" 
-                      ? "بشكل افتراضي، لا تغادر نصوص سيرتك الذاتية جهازك أبدًا. يتم تخزين جميع البيانات في المتصفح المحلي (LocalStorage). هذا يعني أننا لا نملك وصولاً إلى محتوى سيرتك إلا إذا اخترت مشاركتها في Hash Hunt." 
-                      : "By default, your resume text never leaves your device. All data is stored in your browser's LocalStorage. This means we have zero access to your content unless you explicitly choose to share it in the Hash Hunt talent pool."}
-                  </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-extrabold text-slate-900 mb-2 flex items-center gap-2">
+                      <Database size={18} className="text-emerald-500" />
+                      {language === "ar" ? "التخزين المحلي بالكامل" : "Local-First Storage (By Default)"}
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed font-semibold">
+                      {language === "ar" 
+                        ? "بشكل افتراضي، لا تغادر نصوص سيرتك الذاتية متصفحك أو جهازك مطلقاً، بل يتم الاحتفاظ بها مؤقتاً في LocalStorage الخاص بالمتصفح، مما يعني استحالة تتبعنا لبياناتك الشخصية." 
+                        : "By default, your input text never leaves your device. Data is securely retained locally in your browser's LocalStorage, meaning we have zero baseline access to your contact fields."}
+                    </p>
+                  </div>
                 </div>
-                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                  <h3 className="font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <BrainCircuit size={20} className="text-brand-500" />
-                    {language === "ar" ? "معالجة الذكاء الاصطناعي (Gemini API)" : "AI Processing (Google Gemini API)"}
-                  </h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">
-                    {language === "ar" 
-                      ? "عند استخدام ميزات الذكاء الاصطناعي، يتم إرسال النص المحدد فقط عبر قناة مشفرة (SSL) إلى API الخاص بـ Google Gemini. النص يُستخدم فقط للتحسين الـ لحظي ولا يتم استخدامه لتدريب النماذج حسب اتفاقيات المطورين المتبعة." 
-                      : "When using AI features, only the specific selected text is sent via SSL encryption to the Google Gemini API. This data is used solely for real-time improvement and is not used for model training according to standard developer privacy agreements."}
-                  </p>
+                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 flex flex-col justify-between">
+                  <div>
+                    <h3 className="font-extrabold text-slate-900 mb-2 flex items-center gap-2">
+                      <BrainCircuit size={18} className="text-brand-500" />
+                      {language === "ar" ? "أمان الذكاء الاصطناعي (Gemini API)" : "Secure AI Optimization (Google Gemini)"}
+                    </h3>
+                    <p className="text-xs text-slate-600 leading-relaxed font-semibold">
+                      {language === "ar" 
+                        ? "عند تفعيل خيارات التحسين الذكي، يتم إرسال النص المعني فقط عبر تشفير SSL آمن لـ API الخاص بـ Google Gemini لتقديم تحسين فوري، ولا يدخل مطلقاً في تدريب النماذج." 
+                        : "When utilizing AI assist tools, only the designated target string is sent over a secure SSL channel to the Google Gemini API. This data is processed in-memory and never saved for model training."}
+                    </p>
+                  </div>
                 </div>
               </div>
             </section>
 
             {/* Survey Results Section */}
-            <section className="bg-white rounded-3xl p-8 shadow-sm border border-slate-200">
+            <section className="bg-white rounded-3xl p-8 shadow-xs border border-slate-200/60">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600">
-                   <ShieldCheck size={28} />
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 border border-emerald-100">
+                  <ShieldCheck size={24} />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-900">
-                  {language === "ar" ? "المصادر والأرقام" : "Sources & Metrics"}
+                <h2 className="text-2xl font-black text-slate-900 tracking-tight">
+                  {language === "ar" ? "المصادر ومصداقية الأرقام" : "Audit Integrity & Actual Metrics"}
                 </h2>
               </div>
-              <p className="text-slate-600 mb-6 leading-relaxed">
+              <p className="text-slate-600 mb-6 leading-relaxed text-sm">
                 {language === "ar" 
-                  ? "الأرقام التي نذكرها (مثل زيادة الرواتب أو الردود) ليست عشوائية، بل هي نتيجة دراسة ومتابعة:" 
-                  : "The numbers we mention (like salary increases or callback rates) are not random; they are the result of careful tracking and research:"}
+                  ? "لا ننشر نسباً عشوائية بهدف التسويق، الأرقام المعلنة مستقاة وموثقة بالكامل من إحصاءات حقيقية للمستخدمين:" 
+                  : "We reject arbitrary marketing numbers. Every percentage we share is derived from actual user studies and direct callback feedback:"}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                 <div className="border-s-4 border-emerald-500 ps-4">
-                    <div className="text-2xl font-bold text-slate-900">1,250+</div>
-                    <div className="text-sm text-slate-500">{language === "ar" ? "مشارك في استبانة نجاح المستخدمين لعام 2025" : "Participants in our 2025 User Success Survey"}</div>
-                 </div>
-                 <div className="border-s-4 border-brand-500 ps-4">
-                    <div className="text-2xl font-bold text-slate-900">35%</div>
-                    <div className="text-sm text-slate-500">{language === "ar" ? "متوسط الزيادة في نسبة الردود للمستخدمين" : "Avg. increase in callback rates for our users"}</div>
-                 </div>
+                <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 border-s-4 border-s-emerald-500">
+                  <div className="text-3xl font-black text-slate-950 font-mono">1,250+</div>
+                  <div className="text-xs text-slate-500 font-bold mt-1 leading-normal">{language === "ar" ? "مشارك مهني في استبيان نجاح المستخدمين السنوي لعام 2025" : "Active survey participants in our annual 2025 success follow-up"}</div>
+                </div>
+                <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 border-s-4 border-s-brand-500">
+                  <div className="text-3xl font-black text-slate-950 font-mono">35%</div>
+                  <div className="text-xs text-slate-500 font-bold mt-1 leading-normal">{language === "ar" ? "متوسط الزيادة المباشرة في استجابة مسؤولي التوظيف" : "Average increase in active callback invites for fully-optimized users"}</div>
+                </div>
               </div>
             </section>
 

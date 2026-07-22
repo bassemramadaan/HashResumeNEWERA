@@ -100,7 +100,7 @@ export default function OneClickMagicModal({ isOpen, onClose }: { isOpen: boolea
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden relative"
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative"
       >
         <button
           onClick={onClose}

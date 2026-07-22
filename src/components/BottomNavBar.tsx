@@ -28,13 +28,13 @@ export const BottomNavBar: React.FC = () => {
       <Link
         to="/"
         className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative min-w-[72px] min-h-[72px] ${
-          isActive('/') ? 'text-[#001639] scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
+          isActive('/') ? 'text-brand-600 scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
         }`}
       >
         <Home size={20} className="transition-transform duration-200" strokeWidth={isActive('/') ? 2.5 : 2} />
         <span className="text-[9.5px] tracking-tight leading-none">{labels.home}</span>
         {isActive('/') && (
-          <span className="absolute bottom-[-6px] w-1.5 h-1.5 rounded-full bg-[#001639]" />
+          <span className="absolute bottom-[-6px] w-1.5 h-1.5 rounded-full bg-brand-600" />
         )}
       </Link>
 
@@ -42,13 +42,13 @@ export const BottomNavBar: React.FC = () => {
       <Link
         to="/templates"
         className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative min-w-[72px] min-h-[72px] ${
-          isActive('/templates') ? 'text-[#001639] scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
+          isActive('/templates') ? 'text-brand-600 scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
         }`}
       >
         <LayoutTemplate size={20} className="transition-transform duration-200" strokeWidth={isActive('/templates') ? 2.5 : 2} />
         <span className="text-[9.5px] tracking-tight leading-none">{labels.templates}</span>
         {isActive('/templates') && (
-          <span className="absolute bottom-[-6px] w-1.5 h-1.5 rounded-full bg-[#001639]" />
+          <span className="absolute bottom-[-6px] w-1.5 h-1.5 rounded-full bg-brand-600" />
         )}
       </Link>
 
@@ -58,10 +58,10 @@ export const BottomNavBar: React.FC = () => {
           onClick={() => navigate('/editor')}
           className="flex flex-col items-center justify-center cursor-pointer select-none group min-w-[72px] min-h-[72px]"
         >
-          <div className="bg-gradient-to-br from-[#001639] to-[#01255c] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md shadow-[#001639]/30 group-hover:scale-105 group-active:scale-95 transition-all duration-200">
+          <div className="bg-gradient-to-br from-brand-600 to-[#01255c] text-white w-12 h-12 rounded-full flex items-center justify-center shadow-md shadow-brand-600/30 group-hover:scale-105 group-active:scale-95 transition-all duration-200">
             <Plus size={24} strokeWidth={3} />
           </div>
-          <span className="text-[10px] font-bold text-[#001639] mt-1 tracking-tight">
+          <span className="text-[10px] font-bold text-brand-600 mt-1 tracking-tight">
             {labels.start}
           </span>
         </button>
@@ -71,13 +71,13 @@ export const BottomNavBar: React.FC = () => {
       <Link
         to="/hash-hunt"
         className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative min-w-[72px] min-h-[72px] ${
-          isActive('/hash-hunt') ? 'text-[#001639] scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
+          isActive('/hash-hunt') ? 'text-brand-600 scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
         }`}
       >
         <Briefcase size={20} className="transition-transform duration-200" strokeWidth={isActive('/hash-hunt') ? 2.5 : 2} />
         <span className="text-[9.5px] tracking-tight leading-none text-center">{labels.hashHunt}</span>
         {isActive('/hash-hunt') && (
-          <span className="absolute bottom-[-6px] w-1.5 h-1.5 rounded-full bg-[#001639]" />
+          <span className="absolute bottom-[-6px] w-1.5 h-1.5 rounded-full bg-brand-600" />
         )}
       </Link>
 
@@ -85,13 +85,13 @@ export const BottomNavBar: React.FC = () => {
       <Link
         to="/pricing"
         className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 transition-all relative min-w-[72px] min-h-[72px] ${
-          isActive('/pricing') ? 'text-[#001639] scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
+          isActive('/pricing') ? 'text-brand-600 scale-105 font-bold' : 'text-slate-400 hover:text-slate-600'
         }`}
       >
         <Tag size={20} className="transition-transform duration-200" strokeWidth={isActive('/pricing') ? 2.5 : 2} />
         <span className="text-[9.5px] tracking-tight leading-none">{labels.pricing}</span>
         {isActive('/pricing') && (
-          <span className="absolute bottom-[-6px] w-1.5 h-1.5 rounded-full bg-[#001639]" />
+          <span className="absolute bottom-[-6px] w-1.5 h-1.5 rounded-full bg-brand-600" />
         )}
       </Link>
     </nav>

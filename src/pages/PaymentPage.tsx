@@ -229,7 +229,7 @@ export default function PaymentPage() {
               </h3>
             </div>
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-xs sm:text-sm text-[#001639] bg-[#001639]/5 px-2.5 py-1 rounded-lg font-mono">
+              <span className="font-extrabold text-xs sm:text-sm text-brand-600 bg-brand-600/5 px-2.5 py-1 rounded-lg font-mono">
                 {getPrice()} EGP
               </span>
               <span className="text-slate-400 text-[10px] transition-transform duration-200" style={{ transform: summaryCollapsed ? "rotate(0deg)" : "rotate(180deg)" }}>
@@ -266,7 +266,7 @@ export default function PaymentPage() {
                   <button
                     type="button"
                     onClick={() => setShowPromoForm(true)}
-                    className="inline-flex text-xs font-semibold text-slate-400 hover:text-[#001639] items-center gap-1.5 transition-colors cursor-pointer"
+                    className="inline-flex text-xs font-semibold text-slate-400 hover:text-brand-600 items-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <Ticket size={12} />
                     <span>{t.haveCoupon}</span>
@@ -352,7 +352,7 @@ export default function PaymentPage() {
 
           <div className="border-t border-slate-100 pt-3 flex justify-between items-end">
             <span className="font-black text-slate-800 text-base">{t.grandTotal}</span>
-            <span className="text-3xl font-black text-[#001639] font-mono leading-none">
+            <span className="text-3xl font-black text-brand-600 font-mono leading-none">
               {getPrice()} EGP
             </span>
           </div>
@@ -364,7 +364,7 @@ export default function PaymentPage() {
             <button
               type="button"
               onClick={() => setShowPromoForm(true)}
-              className="inline-flex text-xs font-semibold text-slate-400 hover:text-[#001639] items-center gap-1.5 transition-colors cursor-pointer"
+              className="inline-flex text-xs font-semibold text-slate-400 hover:text-brand-600 items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Ticket size={12} />
               <span>{t.haveCoupon}</span>
@@ -424,11 +424,11 @@ export default function PaymentPage() {
   const renderTrustBadges = (isMobile: boolean = false) => {
     return (
       <div className={`bg-gradient-to-br from-indigo-900 to-slate-900 text-white rounded-[2rem] p-6 sm:p-8 relative overflow-hidden ${isMobile ? "block lg:hidden" : "hidden lg:block"}`}>
-        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-32 h-32 bg-[#001639] rounded-full blur-2xl opacity-20 pointer-events-none" />
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-32 h-32 bg-brand-600 rounded-full blur-2xl opacity-20 pointer-events-none" />
         <div className="relative z-10 space-y-4">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-              <ShieldCheck className="text-[#001639]" size={20} />
+              <ShieldCheck className="text-brand-600" size={20} />
             </div>
             <div>
               <h4 className="font-extrabold text-sm">{t.paymentSecureTitle}</h4>
@@ -517,7 +517,7 @@ export default function PaymentPage() {
               {/* Box 1: Select/Toggle package */}
               <div className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs">
                 <h3 className="text-lg font-extrabold mb-4 flex items-center gap-2 text-slate-900">
-                  <span className="w-2 h-2 rounded-full bg-[#001639]" />
+                  <span className="w-2 h-2 rounded-full bg-brand-600" />
                   {t.selectPlan}
                 </h3>
 
@@ -527,15 +527,15 @@ export default function PaymentPage() {
                     onClick={() => setSelectedPlan("single")}
                     className={`p-4 rounded-2xl border-2 transition-all cursor-pointer relative flex flex-col justify-between ${
                       selectedPlan === "single" 
-                        ? "border-[#001639] bg-[#001639]/5" 
+                        ? "border-brand-600 bg-brand-600/5" 
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
                     <div>
                       <div className="flex justify-between items-center mb-1">
                         <span className="font-extrabold text-slate-900">{t.singleCodeTitle}</span>
-                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "single" ? "border-[#001639]" : "border-slate-300"}`}>
-                          {selectedPlan === "single" && <div className="w-2 h-2 rounded-full bg-[#001639]" />}
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "single" ? "border-brand-600" : "border-slate-300"}`}>
+                          {selectedPlan === "single" && <div className="w-2 h-2 rounded-full bg-brand-600" />}
                         </div>
                       </div>
                       <p className="text-[11px] text-slate-500 font-medium leading-relaxed mb-4">
@@ -550,7 +550,7 @@ export default function PaymentPage() {
                     onClick={() => setSelectedPlan("bundle")}
                     className={`p-4 rounded-2xl border-2 transition-all cursor-pointer relative flex flex-col justify-between ${
                       selectedPlan === "bundle" 
-                        ? "border-[#001639] bg-[#001639]/5" 
+                        ? "border-brand-600 bg-brand-600/5" 
                         : "border-slate-200 hover:border-slate-300"
                     }`}
                   >
@@ -560,15 +560,15 @@ export default function PaymentPage() {
                     <div>
                       <div className="flex justify-between items-center mb-1">
                         <span className="font-extrabold text-slate-900">{t.bundleCodeTitle}</span>
-                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "bundle" ? "border-[#001639]" : "border-slate-300"}`}>
-                          {selectedPlan === "bundle" && <div className="w-2 h-2 rounded-full bg-[#001639]" />}
+                        <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${selectedPlan === "bundle" ? "border-brand-600" : "border-slate-300"}`}>
+                          {selectedPlan === "bundle" && <div className="w-2 h-2 rounded-full bg-brand-600" />}
                         </div>
                       </div>
                       <p className="text-[11px] text-slate-500 font-medium leading-relaxed mb-4">
                         {t.bundleCodeDesc}
                       </p>
                     </div>
-                    <span className="text-lg font-black text-[#001639] font-mono">120 EGP</span>
+                    <span className="text-lg font-black text-brand-600 font-mono">120 EGP</span>
                   </div>
                 </div>
               </div>
@@ -576,7 +576,7 @@ export default function PaymentPage() {
               {/* Box 2: Payment methods selection */}
               <div className="bg-white rounded-[2rem] p-6 sm:p-8 border border-slate-200 shadow-xs">
                 <h3 className="text-lg font-extrabold mb-4 flex items-center gap-2 text-slate-900">
-                  <span className="w-2 h-2 rounded-full bg-[#001639]" />
+                  <span className="w-2 h-2 rounded-full bg-brand-600" />
                   {t.selectPaymentMethod}
                 </h3>
 
@@ -587,7 +587,7 @@ export default function PaymentPage() {
                     onClick={() => setPaymentMethod("instapay")}
                     className={`flex-1 py-3 px-2 rounded-xl flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer text-xs font-black ${
                       paymentMethod === "instapay"
-                        ? "bg-white text-[#001639] shadow-sm font-black scale-[1.01]"
+                        ? "bg-white text-brand-600 shadow-sm font-black scale-[1.01]"
                         : "text-slate-500 hover:text-slate-850"
                     }`}
                   >
@@ -642,7 +642,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy("hashresume@instapay", "instapay")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-brand-600 transition-colors shrink-0"
                           title={t.copy}
                         >
                           {copiedText === "instapay" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
@@ -657,7 +657,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy(t.bassemName, "receiverName")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-brand-600 transition-colors shrink-0"
                           title={t.copy}
                         >
                           {copiedText === "receiverName" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
@@ -684,7 +684,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy("01027136006", "vodafone")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-brand-600 transition-colors shrink-0"
                           title={t.copy}
                         >
                           {copiedText === "vodafone" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
@@ -699,7 +699,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy(t.bassemConfirm, "vodafoneReceiver")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-brand-600 transition-colors shrink-0"
                           title={t.copy}
                         >
                           {copiedText === "vodafoneReceiver" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
@@ -726,7 +726,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy("78921", "fawrycode")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-brand-600 transition-colors shrink-0"
                           title={t.copy}
                         >
                           {copiedText === "fawrycode" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
@@ -741,7 +741,7 @@ export default function PaymentPage() {
                         <button
                           type="button"
                           onClick={() => handleCopy("928104829", "fawryref")}
-                          className="p-2 hover:bg-slate-50 rounded-lg text-[#001639] transition-colors shrink-0"
+                          className="p-2 hover:bg-slate-50 rounded-lg text-brand-600 transition-colors shrink-0"
                           title={t.copy}
                         >
                           {copiedText === "fawryref" ? <span className="text-xs text-emerald-500 font-bold">{t.copied}</span> : <Copy size={16} className="shrink-0" />}
@@ -768,7 +768,7 @@ export default function PaymentPage() {
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
                       <span>{t.emailLabel}</span>
-                      <span className="text-[#001639] font-extrabold">*</span>
+                      <span className="text-brand-600 font-extrabold">*</span>
                     </label>
                     <input 
                       type="email"
@@ -798,7 +798,7 @@ export default function PaymentPage() {
                   <div className="space-y-1">
                     <label className="text-xs font-bold text-slate-500 flex items-center justify-between">
                       <span>{t.txIdLabel}</span>
-                      <span className="text-[#001639] font-extrabold">*</span>
+                      <span className="text-brand-600 font-extrabold">*</span>
                     </label>
                     <input 
                       type="text"
@@ -823,7 +823,7 @@ export default function PaymentPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-[#001639] hover:bg-blue-700 disabled:bg-slate-300 text-white py-4.5 rounded-2xl font-black text-base shadow-lg shadow-blue-500/20 active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                    className="w-full bg-brand-600 hover:bg-blue-700 disabled:bg-slate-300 text-white py-4.5 rounded-2xl font-black text-base shadow-lg shadow-blue-500/20 active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
                   >
                     {isSubmitting ? (
                       <>

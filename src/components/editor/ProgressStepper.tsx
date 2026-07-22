@@ -97,7 +97,7 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
       className={cn(
         "relative flex items-center justify-center rounded-full transition-all duration-300 shrink-0 select-none group focus:outline-hidden",
         isActive 
-          ? "scale-110 shadow-lg shadow-[#001639]/35" 
+          ? "scale-110 shadow-lg shadow-brand-600/35" 
           : "hover:scale-105"
       )}
       style={{ width: size, height: size }}
@@ -130,17 +130,17 @@ function ProgressNode({ index, id, isActive, isDone, completion, onClick, size =
       <div 
         className={cn(
           "w-full h-full rounded-full flex items-center justify-center font-bold text-xs border-2 transition-all duration-300",
-          completion === 100 || isDone
-            ? "bg-[#F3F4F6] border-[#F3F4F6] text-[#374151]"
-            : isActive
-              ? "bg-[#001639] border-[#001639] text-white shadow-md shadow-[#001639]/20"
+          isActive
+            ? "bg-brand-600 border-brand-600 text-white ring-4 ring-brand-500/15 shadow-md shadow-brand-500/20 scale-105"
+            : (completion === 100 || isDone)
+              ? "bg-[#F3F4F6] border-[#F3F4F6] text-[#374151]"
               : "bg-white border-neutral-200 text-neutral-500 group-hover:border-neutral-450 group-hover:text-neutral-800"
         )}
       >
-        {completion === 100 ? (
-          <Check size={13} className="stroke-[3]" />
+        {completion === 100 && !isActive ? (
+          <Check size={20} className="stroke-[3]" />
         ) : Icon ? (
-          <Icon size={12} className="stroke-[2.5]" />
+          <Icon size={20} className="stroke-[2.5]" />
         ) : (
           index + 1
         )}
@@ -205,7 +205,7 @@ function HorizontalStepper({
                   <Check size={11} className="stroke-[3.5]" />
                 </div>
               ) : Icon ? (
-                <Icon size={14} className={cn("stroke-[2.5]", isActive ? "text-white" : "text-slate-400 group-hover:text-slate-600")} />
+                <Icon size={20} className={cn("stroke-[2.5]", isActive ? "text-white" : "text-slate-400 group-hover:text-slate-600")} />
               ) : null}
             </div>
 
@@ -271,12 +271,9 @@ function VerticalStepper({
                 data-tour={step.id === "basics" ? "personal-info" : step.id === "experience" ? "experience-section" : step.id === "skills" ? "skills-section" : step.id === "finish" ? "review-section" : undefined}
                 onClick={() => onStepClick?.(i)}
                  className={cn(
-                  "flex-1 flex items-center justify-between text-start px-3 py-2 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden group",
+                  "flex-1 flex items-center justify-between text-start px-3.5 py-2.5 rounded-xl border transition-all duration-200 select-none cursor-pointer focus:outline-hidden group",
                   isActive
-                    ? (isRtl 
-                        ? "bg-[#F9FAFB] border-y-transparent border-l-transparent border-r-2 border-r-[#001639] rounded-r-none rounded-l-xl shadow-xs"
-                        : "bg-[#F9FAFB] border-y-transparent border-r-transparent border-l-2 border-l-[#001639] rounded-l-none rounded-r-xl shadow-xs"
-                      )
+                    ? "bg-brand-50/55 border-brand-100/60 shadow-3xs"
                     : "bg-transparent border-transparent hover:bg-slate-50"
                 )}
               >
@@ -285,8 +282,8 @@ function VerticalStepper({
                     className={cn(
                       "text-[13px] leading-tight transition-colors duration-200",
                       isActive 
-                        ? "text-[#111827] font-bold" 
-                        : "text-[#9CA3AF] group-hover:text-[#111827] font-medium"
+                        ? "text-brand-700 font-extrabold" 
+                        : "text-slate-500 group-hover:text-slate-800 font-medium"
                     )}
                   >
                     {step.label}
@@ -294,7 +291,10 @@ function VerticalStepper({
                   
                   {/* Subtle checklist stat helper */}
                   {completion > 0 ? (
-                    <span className="text-[9px] font-semibold text-neutral-400 mt-0.5">
+                    <span className={cn(
+                      "text-[10px] font-semibold mt-0.5",
+                      isActive ? "text-brand-600/80" : "text-slate-400"
+                    )}>
                       {completion === 100 ? (isRtl ? "مكتملة بالكامل" : "Completely Done") : `${completion}% ${isRtl ? "مكتمل" : "completed"}`}
                     </span>
                   ) : isDone ? (
@@ -304,8 +304,8 @@ function VerticalStepper({
                   ) : null}
                 </div>
 
-                {completion === 100 && (
-                  <Check size={14} className="text-emerald-600 shrink-0" />
+                {completion === 100 && !isActive && (
+                  <Check size={18} className="text-emerald-500 shrink-0 stroke-[2.5]" />
                 )}
               </button>
             </div>
@@ -369,7 +369,7 @@ function MiniStepper({
       <div className="flex-1 flex flex-col gap-1.5 min-w-0">
         <div className="flex items-center justify-between gap-2">
           <span className="text-xs font-black text-neutral-900 flex items-center gap-1.5 truncate">
-            {Icon && <Icon size={12} className="text-brand-500 shrink-0" />}
+            {Icon && <Icon size={20} className="text-brand-500 shrink-0" />}
             <span className="truncate">{step.label}</span>
             {completion > 0 && (
               <span className="text-[10px] text-emerald-600 font-extrabold shrink-0">({completion}%)</span>

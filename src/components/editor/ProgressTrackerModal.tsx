@@ -79,7 +79,7 @@ export const ProgressTrackerModal: React.FC<ProgressTrackerModalProps> = ({
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-lg bg-neutral-50 rounded-3xl shadow-2xl overflow-hidden border border-neutral-200"
+            className="relative w-full max-w-lg bg-neutral-50 rounded-2xl shadow-2xl overflow-hidden border border-neutral-200"
           >
             <div className="absolute top-0 right-0 p-4">
               <button
@@ -128,7 +128,7 @@ export const ProgressTrackerModal: React.FC<ProgressTrackerModalProps> = ({
                     isRtl ? "right-9" : "left-9"
                   )}>
                     <motion.div 
-                      className="w-full bg-gradient-to-b from-[#001639] to-orange-400 rounded-full origin-top"
+                      className="w-full bg-gradient-to-b from-brand-600 to-orange-400 rounded-full origin-top"
                       initial={{ height: "0%" }}
                       animate={{ height: `${linePercent}%` }}
                       transition={{ type: "spring", stiffness: 50, damping: 15 }}
@@ -149,7 +149,7 @@ export const ProgressTrackerModal: React.FC<ProgressTrackerModalProps> = ({
                           className={cn(
                             "flex items-center gap-4 p-4 rounded-2xl border transition-all text-start group relative z-10",
                             isActive
-                              ? "bg-white border-slate-300 shadow-md ring-1 ring-slate-100/50"
+                              ? "bg-white border-slate-300 shadow-xs ring-1 ring-slate-100/50"
                               : "bg-white/90 backdrop-blur-xs border-neutral-100 hover:bg-neutral-50 hover:border-neutral-200",
                           )}
                         >
