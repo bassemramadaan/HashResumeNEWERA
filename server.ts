@@ -180,159 +180,100 @@ Tone: ${tone || "professional"}
     try {
       const { code, action, reference, senderInfo, email, amount } = req.body;
 
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 second timeout for slow Google Apps Script runs
+      const scriptUrl =
+        process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL ||
+        process.env.GOOGLE_SCRIPT_URL ||
+        "";
 
-      // Proxy the verification to the actual Google Apps Script privately
-      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || "";
       if (!scriptUrl) {
-          throw new Error("Payment script URL not configured");
+        return res.status(500).json({
+          success: false,
+          message: "Payment script URL not configured",
+        });
       }
+
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 45000);
 
       let url = `${scriptUrl}?t=${Date.now()}`;
-      let fetchOptions: RequestInit = {
-        method: "GET",
-        signal: controller.signal,
-      };
 
       if (action === "submitPayment") {
-        url = `${scriptUrl}?action=submitPayment&reference=${encodeURIComponent(reference || "")}&senderInfo=${encodeURIComponent(senderInfo || "")}&email=${encodeURIComponent(email || "")}&amount=${encodeURIComponent(amount || "")}&t=${Date.now()}`;
+        url =
+          `${scriptUrl}?action=submitPayment` +
+          `&reference=${encodeURIComponent(reference || "")}` +
+          `&senderInfo=${encodeURIComponent(senderInfo || "")}` +
+          `&email=${encodeURIComponent(email || "")}` +
+          `&amount=${encodeURIComponent(amount || "")}` +
+          `&t=${Date.now()}`;
       } else if (action === "checkStatus") {
-        url = `${scriptUrl}?action=checkStatus&reference=${encodeURIComponent(reference || "")}&t=${Date.now()}`;
+        url =
+          `${scriptUrl}?action=checkStatus` +
+          `&reference=${encodeURIComponent(reference || "")}` +
+          `&t=${Date.now()}`;
       } else {
-        const verifyCode = code || reference;
-        url = `${scriptUrl}?action=verify&code=${encodeURIComponent(verifyCode || "")}&t=${Date.now()}`;
+        const verifyCode = code || reference || "";
+        url =
+          `${scriptUrl}?action=verify` +
+          `&code=${encodeURIComponent(verifyCode)}` +
+          `&t=${Date.now()}`;
       }
-      
-      try {
-        const response = await fetch(url, fetchOptions);
-        clearTimeout(timeoutId);
-        
-        const responseText = await response.text();
 
-        // Detect clean Google Apps Script error / warning or un-auth/HTML page
-        const isGoogleError = responseText.includes("Exception:") || 
-                            responseText.includes("does not have permission") || 
-                            responseText.includes("goog-ws-error") || 
-                            (responseText.includes("<html") && responseText.includes("Google Apps Script"));
-
-        let result;
-        if (isGoogleError) {
-          if (process.env.NODE_ENV === "production") {
-            return res.status(400).json({ success: false, message: "Payment verification failed: Google Apps Script verification error." });
-          }
-          if (action === "submitPayment") {
-            result = { success: true, status: "approved", message: "Recorded successfully (Sandbox Auto-Approved)" };
-          } else if (action === "checkStatus") {
-            result = { success: true, status: "approved" };
-          } else {
-            result = { success: true, message: "Code verified (Sandbox Sandbox Mode)" };
-          }
-        } else {
-          try {
-            result = JSON.parse(responseText);
-          } catch (parseErr) {
-            if (process.env.NODE_ENV === "production") {
-              return res.status(400).json({ success: false, message: "Payment verification failed: Failed to parse verification server response." });
-            }
-            if (action === "submitPayment") {
-              result = { success: true, status: "approved", message: "Recorded successfully (Sandbox Auto-Approved)" };
-            } else if (action === "checkStatus") {
-              result = { success: true, status: "approved" };
-            } else {
-              result = { success: true, message: "Code verified (Sandbox Sandbox Mode)" };
-            }
-          }
-        }
-        
-        res.json(result);
-      } catch (fetchError: any) {
-        clearTimeout(timeoutId);
-        if (fetchError.name !== 'AbortError') {
-          console.error("[PaymentProxy] Error in fetch:", fetchError);
-        }
-        
-        if (process.env.NODE_ENV === "production") {
-          return res.status(400).json({ 
-            success: false, 
-            message: fetchError.name === 'AbortError' 
-              ? "Payment verification failed: Request timed out." 
-              : "Payment verification failed: Failed to connect to verification server." 
-          });
-        }
-        // Return a successful fallback response in Sandbox mode so they are never blocked!
-        let result;
-        if (action === "submitPayment") {
-          result = { success: true, status: "approved", message: "Recorded successfully (Sandbox Auto-Approved)" };
-        } else if (action === "checkStatus") {
-          result = { success: true, status: "approved" };
-        } else {
-          result = { success: true, message: "Code verified (Sandbox Sandbox Mode)" };
-        }
-        return res.json(result);
-      }
-    } catch (error: unknown) {
-      console.error("Payment Verification Error:", error);
-      res.status(500).json({ success: false, message: "Verification failed due to server error" });
-    }
-  });
-
-  // Dedicated Payment Submission Endpoint
-  app.all("/api/payment/verify", async (req, res) => {
-    try {
-      const { reference, senderInfo, email, amount } = req.method === "POST" ? req.body : req.query;
-
-      const scriptUrl = process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL || process.env.GOOGLE_SCRIPT_URL || "";
-
-      const params = new URLSearchParams({
-        action: "submitPayment",
-        reference: (reference || "").toString(),
-        senderInfo: (senderInfo || "").toString(),
-        email: (email || "").toString(),
-        amount: (amount || "50 EGP").toString(),
+      const response = await fetch(url, {
+        method: "GET",
+        signal: controller.signal,
+        headers: {
+          Accept: "application/json,text/plain,*/*",
+        },
       });
 
+      clearTimeout(timeoutId);
+
+      const responseText = await response.text();
+
+      console.log("[PaymentProxy] URL:", url);
+      console.log("[PaymentProxy] Status:", response.status);
+      console.log("[PaymentProxy] Body:", responseText);
+
+      const isGoogleHtmlError =
+        responseText.includes("Exception:") ||
+        responseText.includes("does not have permission") ||
+        responseText.includes("goog-ws-error") ||
+        (responseText.includes("<html") &&
+          responseText.toLowerCase().includes("google apps script"));
+
+      if (!response.ok || isGoogleHtmlError) {
+        return res.status(502).json({
+          success: false,
+          message: "Payment verification provider failed",
+          upstreamStatus: response.status,
+        });
+      }
+
+      let result;
       try {
-        const response = await fetch(`${scriptUrl}?${params}`);
-        const responseText = await response.text();
-        
-        const isGoogleError = responseText.includes("Exception:") || 
-                            responseText.includes("does not have permission") || 
-                            responseText.includes("goog-ws-error") || 
-                            (responseText.includes("<html") && responseText.includes("Google Apps Script"));
-                            
-        if (isGoogleError) {
-          if (process.env.NODE_ENV === "production") {
-            return res.status(400).json({ success: false, message: "Payment verification failed: Google Apps Script authorization error." });
-          }
-          return res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
-        }
-        
-        try {
-          const data = JSON.parse(responseText);
-          res.json(data);
-        } catch (parseErr) {
-          if (process.env.NODE_ENV === "production") {
-            return res.status(400).json({ success: false, message: "Payment verification failed: Failed to parse verification server response." });
-          }
-          res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
-        }
-      } catch (fetchErr) {
-        console.error("[PaymentSubmitProxy] Fetch error.", fetchErr);
-        if (process.env.NODE_ENV === "production") {
-          return res.status(400).json({ success: false, message: "Payment verification failed: Failed to connect to verification server." });
-        }
-        res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
+        result = JSON.parse(responseText);
+      } catch {
+        return res.status(502).json({
+          success: false,
+          message: "Invalid response from payment provider",
+        });
       }
-    } catch (error) {
-      console.error("[PaymentSubmitProxy] Outer error.", error);
-      if (process.env.NODE_ENV === "production") {
-        return res.status(400).json({ success: false, message: "Payment verification failed due to internal server error." });
-      }
-      res.json({ success: true, status: "approved", message: "Success (Sandbox Auto-Approved)" });
+
+      return res.status(200).json(result);
+    } catch (error: any) {
+      console.error("[PaymentProxy] Fatal error:", error);
+
+      return res.status(
+        error?.name === "AbortError" ? 504 : 500
+      ).json({
+        success: false,
+        message:
+          error?.name === "AbortError"
+            ? "Payment verification request timed out"
+            : "Failed to connect to payment verification service",
+      });
     }
   });
-
   // Feedback Submission Endpoint
   app.post("/api/feedback/submit", async (req, res) => {
     try {
