@@ -621,6 +621,8 @@ export default function MobileEditorLayout({
   onOpenAts       = () => {},
   onOpenSettings  = () => {},
   onReset         = () => {},
+  focusMode       = false,
+  onToggleFocus   = () => {},
   children,
 }: {
   lang?: string;
@@ -634,10 +636,13 @@ export default function MobileEditorLayout({
   onOpenAts?: () => void;
   onOpenSettings?: () => void;
   onReset?: () => void;
+  focusMode?: boolean;
+  onToggleFocus?: () => void;
   children?: React.ReactNode;
 }) {
   const [activeTab, setActiveTab] = useState("edit");
   const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const [showTopMoreMenu, setShowTopMoreMenu] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const sections = SECTIONS[lang] ?? SECTIONS.en;
@@ -679,70 +684,102 @@ export default function MobileEditorLayout({
 
       {/* ── Visual Mobile Header (Floating Pill like Desktop) ── */}
       <div className="w-full z-50 pt-3 px-3 pb-1 bg-transparent pointer-events-none flex justify-center shrink-0 transform-gpu select-none">
-        <header className="pointer-events-auto bg-white/90 backdrop-blur-2xl border border-white shadow-[0_8px_30px_rgba(15,23,42,0.08)] rounded-2xl px-3 h-14 flex items-center justify-between w-full relative">
-          <div className="flex items-center gap-2.5">
-            <motion.div 
+        <header className="pointer-events-auto bg-white/95 backdrop-blur-2xl border border-slate-200/50 shadow-[0_4px_24px_rgba(15,23,42,0.06)] rounded-2xl px-3 h-14 flex items-center justify-between w-full relative">
+          <div className="flex items-center gap-2">
+            {/* Elegant Back Button */}
+            <motion.button
               whileTap={{ scale: 0.94 }}
               onClick={() => { window.location.href = "/"; }}
-              className="w-8 h-8 rounded-lg bg-slate-50 border border-slate-200/50 p-1 flex items-center justify-center shrink-0 cursor-pointer shadow-3xs"
-              title={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
-              aria-label={lang === "ar" ? "العودة للرئيسية" : "Back to Home"}
+              className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200/55 flex items-center justify-center text-slate-700 cursor-pointer hover:bg-slate-100 transition-colors shrink-0"
+              title={lang === "ar" ? "رجوع" : "Back"}
+              aria-label={lang === "ar" ? "رجوع" : "Back"}
             >
+              <ArrowLeft size={16} className="rtl:rotate-180" />
+            </motion.button>
+
+            {/* Logo image */}
+            <div className="w-7 h-7 flex items-center justify-center shrink-0">
               <LogoImage 
                 src={LOGO_ICON_URL} 
                 alt="HashResume App" 
-                className="w-full h-full object-contain drop-shadow-3xs" 
+                className="w-full h-full object-contain" 
               />
-            </motion.div>
-            
-            <div className="flex flex-col items-start leading-none">
-              <span className="text-[8.5px] font-black text-brand-600 tracking-wider uppercase leading-none font-mono">HashResume</span>
-              <span className="text-[11px] font-black text-slate-950 mt-0.5 flex items-center gap-1 leading-none">
-                {(() => {
-                  const Icon = SECTION_ICONS[activeSection] || User;
-                  const colors = SECTION_COLORS[activeSection] || { text: "text-slate-500" };
-                  const labels = FINE_LABELS[lang] || FINE_LABELS.en;
-                  return (
-                    <>
-                      <Icon className={cn("w-3.5 h-3.5 shrink-0", colors.text)} strokeWidth={2.5} />
-                      <span className="font-black">{labels[activeSection] || activeSection}</span>
-                    </>
-                  );
-                })()}
-              </span>
             </div>
+            
+            <span className="text-xs font-black text-slate-900 tracking-tight leading-none font-mono">HashResume</span>
           </div>
 
-          <div className="flex items-center gap-1.5">
-            {/* Elegant Header Reset Button */}
+          <div className="flex items-center gap-1.5 relative">
+            {/* Compact Three-Dots Button */}
             <motion.button
               whileTap={{ scale: 0.94 }}
-              onClick={onReset}
-              className="flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 hover:bg-red-50 text-slate-400 hover:text-red-500 transition-colors cursor-pointer shrink-0 active:scale-95"
-              title={lang === "ar" ? "مسح كل شيء" : "Start Over"}
-              aria-label={lang === "ar" ? "مسح كل شيء" : "Start Over"}
+              onClick={() => setShowTopMoreMenu(!showTopMoreMenu)}
+              className={cn(
+                "w-9 h-9 rounded-xl flex items-center justify-center text-slate-700 cursor-pointer transition-colors shrink-0 border",
+                showTopMoreMenu ? "bg-slate-100 border-slate-300 text-slate-900 shadow-sm" : "bg-slate-50 border-slate-200/55 hover:bg-slate-100"
+              )}
+              title={lang === "ar" ? "خيارات إضافية" : "More Options"}
             >
-              <RotateCcw size={12} strokeWidth={2.5} />
+              <MoreHorizontal size={18} strokeWidth={2.5} />
             </motion.button>
 
-            {/* Elegant Header Preview Button */}
-            <motion.button
-              whileTap={{ scale: 0.94 }}
-              onClick={onOpenPreview}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-brand-600/10 hover:bg-brand-600/20 text-brand-600 border border-brand-600/20 shadow-xs font-black text-[10px] cursor-pointer transition-all shrink-0 active:scale-95"
-            >
-              <Eye size={12} strokeWidth={2.5} />
-              <span>{lang === "ar" ? "المعاينة" : "Preview"}</span>
-            </motion.button>
+            {/* Compact Dropdown Menu */}
+            <AnimatePresence>
+              {showTopMoreMenu && (
+                <>
+                  <div 
+                    className="fixed inset-0 z-40 pointer-events-auto bg-transparent" 
+                    onClick={() => setShowTopMoreMenu(false)}
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: -5 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -5 }}
+                    transition={{ duration: 0.12 }}
+                    className={cn(
+                      "absolute top-11 end-0 w-48 bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl rounded-2xl p-1.5 flex flex-col gap-0.5 z-50 pointer-events-auto text-start",
+                      isRtl ? "text-right" : "text-left"
+                    )}
+                  >
+                    {/* Focus Mode */}
+                    <button
+                      onClick={() => {
+                        onToggleFocus();
+                        setShowTopMoreMenu(false);
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer text-start"
+                    >
+                      <Eye size={15} className="text-[#ff4d2d]" strokeWidth={2.5} />
+                      <span>{focusMode ? (lang === "ar" ? "وضع العرض العادي" : "Disable Focus Mode") : (lang === "ar" ? "وضع التركيز" : "Focus Mode")}</span>
+                    </button>
 
-            {/* Floating Glassmorphic ATS Badge */}
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full font-black text-[10px] bg-slate-950 text-white shadow-[0_4px_10px_rgba(15,23,42,0.12)] border border-slate-900">
-              <span className="relative flex h-1.5 w-1.5 shrink-0">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-600 opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-brand-600" />
-              </span>
-              <span className="tracking-tight">ATS {atsScore}%</span>
-            </div>
+                    {/* WhatsApp Support */}
+                    <a
+                      href="https://wa.me/201101007965?text=Hello,%20I%20need%20help%20with%20my%20Hash%20Resume."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setShowTopMoreMenu(false)}
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors cursor-pointer text-start"
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="text-emerald-500 shrink-0"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                      <span>{lang === "ar" ? "الدعم الفني عبر واتساب" : "WhatsApp Support"}</span>
+                    </a>
+
+                    {/* Start Over */}
+                    <button
+                      onClick={() => {
+                        onReset();
+                        setShowTopMoreMenu(false);
+                      }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-bold text-red-600 hover:bg-red-50 transition-colors cursor-pointer text-start border-t border-slate-100"
+                    >
+                      <RotateCcw size={14} className="text-red-500" strokeWidth={2.5} />
+                      <span>{lang === "ar" ? "مسح والبدء من جديد" : "Start Over"}</span>
+                    </button>
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
           </div>
         </header>
       </div>
@@ -763,14 +800,14 @@ export default function MobileEditorLayout({
               className={cn(
                 "flex items-center gap-1 px-3 py-1.5 rounded-full text-[10.5px] font-bold transition-all shrink-0 cursor-pointer border",
                 isActive
-                  ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                  ? "bg-[#001639] text-white border-[#001639] shadow-xs"
                   : "bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900"
               )}
             >
               <div className={cn(
                 "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-black shrink-0",
                 isActive 
-                  ? "bg-white text-slate-950" 
+                  ? "bg-white text-[#001639]" 
                   : isCompleted 
                     ? "bg-emerald-500 text-white" 
                     : "bg-slate-200 text-slate-500"
@@ -855,53 +892,6 @@ export default function MobileEditorLayout({
               .editor-form-scrollable h1 {
                 font-size: 14px !important;
                 margin-bottom: 10px !important;
-                font-weight: 800 !important;
-                line-height: 1.2 !important; /* Title line-height: slightly tighter */
-                letter-spacing: -0.01em !important;
-              }
-
-              /* Add Buttons / Interaction targets on mobile - wide, clear and easy to tap */
-              .editor-form-scrollable button.border-dashed,
-              .editor-form-scrollable button[class*="dashed"],
-              .editor-form-scrollable button[class*="add"],
-              .editor-form-scrollable button[class*="Add"],
-              .editor-form-scrollable button.w-full {
-                width: 100% !important;
-                padding-top: 12px !important;
-                padding-bottom: 12px !important;
-                font-size: 13.5px !important;
-                font-weight: 800 !important;
-                border-radius: 14px !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                min-height: 48px !important; /* Touch friendly target (48px-52px) */
-                background-color: rgba(0, 22, 57, 0.04) !important;
-                color: #001639 !important;
-                border: 2px dashed #cfd6df !important;
-              }
-
-              /* Subtitles / Tips / Instructions - Reduced length and clutter on mobile */
-              .editor-form-scrollable p.text-slate-500,
-              .editor-form-scrollable p.text-gray-500,
-              .editor-form-scrollable .text-xs.text-slate-500,
-              .editor-form-scrollable .text-xs.text-gray-500 {
-                font-size: 11px !important;
-                line-height: 1.35 !important;
-                display: -webkit-box !important;
-                -webkit-line-clamp: 2 !important; /* Cap at 2 lines to save premium space */
-                -webkit-box-orient: vertical !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-              }
-
-              /* Completely hide unneeded extra promotional boxes / duplicate helper sections on mobile */
-              .editor-form-scrollable .bg-gradient-to-br.from-white,
-              .editor-form-scrollable .bg-gradient-to-br.from-white.to-brand-50-25,
-              .editor-form-scrollable [class*="to-brand-50"],
-              .editor-form-scrollable .tip-box,
-              .editor-form-scrollable .helper-card {
-                display: none !important;
               }
             `}</style>
             
@@ -911,41 +901,40 @@ export default function MobileEditorLayout({
                 {children}
               </div>
 
-              {/* Dynamic Step-by-Step Mini Stepper Navigation */}
-              <div className="px-4 py-3 bg-white border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.03)] flex items-center justify-between gap-3 select-none shrink-0 z-10">
+              {/* Sticky bottom bar with Back, Preview & Next buttons at 48px height */}
+              <div className="w-full bg-white border-t border-slate-200/90 shadow-[0_-8px_30px_rgba(0,0,0,0.06)] flex items-center justify-between gap-2.5 px-4 py-2.5 select-none shrink-0 z-10">
                 <button
                   type="button"
                   onClick={handlePrevSection}
                   disabled={currentFineSectionIndex <= 0}
-                  className="flex items-center gap-1.5 h-12 px-4 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer shrink-0"
+                  className="flex-1 flex items-center justify-center gap-1.5 h-12 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
-                  <ArrowLeft size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
-                  <span>{lang === "ar" ? "السابق" : "Prev"}</span>
+                  <ArrowLeft size={15} className={cn("shrink-0", isRtl && "rotate-180")} />
+                  <span>{lang === "ar" ? "رجوع" : "Back"}</span>
                 </button>
 
-                <div className="flex flex-col items-center leading-tight min-w-0">
-                  <div className="text-[9px] text-slate-400 font-extrabold tracking-widest uppercase truncate max-w-full">
-                    {lang === "ar" ? `الخطوة ${currentFineSectionIndex + 1} من ${FINE_SECTIONS.length}` : `STEP ${currentFineSectionIndex + 1} OF ${FINE_SECTIONS.length}`}
-                  </div>
-                  {currentFineSectionIndex < FINE_SECTIONS.length - 1 && (
-                    <div className="text-[10px] text-brand-600 font-bold mt-0.5 max-w-[120px] truncate text-center">
-                      {(FINE_LABELS[lang] || FINE_LABELS.en)[FINE_SECTIONS[currentFineSectionIndex + 1]]}
-                    </div>
-                  )}
-                </div>
+                <button
+                  type="button"
+                  onClick={onOpenPreview}
+                  className="flex-1 flex items-center justify-center gap-1.5 h-12 rounded-xl text-xs font-bold bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-200/80 shadow-2xs transition-all cursor-pointer"
+                  title={lang === "ar" ? "معاينة السيرة الذاتية" : "Preview Resume"}
+                >
+                  <Eye size={15} className="text-amber-700 shrink-0" strokeWidth={2.5} />
+                  <span>{lang === "ar" ? "معاينة" : lang === "fr" ? "Aperçu" : "Preview"}</span>
+                </button>
 
                 <button
                   type="button"
                   onClick={handleNextSection}
                   disabled={currentFineSectionIndex >= FINE_SECTIONS.length - 1}
-                  className="flex items-center gap-1.5 h-12 px-5 rounded-xl text-xs font-black bg-brand-600 hover:bg-slate-850 text-white shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer shrink-0"
+                  className="flex-[1.25] flex items-center justify-center gap-1.5 h-12 rounded-xl text-xs font-black bg-[#001639] hover:bg-[#00112c] text-white shadow-md disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
                 >
                   <span>
                     {currentFineSectionIndex === FINE_SECTIONS.length - 1 
-                      ? (lang === "ar" ? "الأخير" : "Final")
+                      ? (lang === "ar" ? "إنهاء" : "Finish")
                       : (lang === "ar" ? "التالي" : "Next")}
                   </span>
-                  <ArrowRight size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
+                  <ArrowRight size={15} className={cn("shrink-0", isRtl && "rotate-180")} />
                 </button>
               </div>
               {/* END Dynamic Step-by-Step Mini Stepper Navigation */}
@@ -1040,21 +1029,7 @@ export default function MobileEditorLayout({
             <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
           </button>
 
-          {/* Tab 2: Live Preview */}
-          <button
-            onClick={() => {
-              onOpenPreview();
-              setShowMoreMenu(false);
-            }}
-            className="flex flex-col items-center gap-[2px] min-w-[64px] text-gray-400 hover:text-brand-600 transition-colors cursor-pointer"
-            title={lang === "ar" ? "المعاينة" : "Preview"}
-            aria-label={lang === "ar" ? "المعاينة" : "Preview"}
-          >
-            <Eye size={20} strokeWidth={2} />
-            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "المعاينة" : "Preview"}</span>
-          </button>
-
-          {/* Tab 3: Download */}
+          {/* Tab 2: Download */}
           <button
             onClick={() => {
               onExportPDF();
@@ -1064,13 +1039,13 @@ export default function MobileEditorLayout({
             title={lang === "ar" ? "تحميل PDF" : "Download PDF"}
             aria-label={lang === "ar" ? "تحميل PDF" : "Download PDF"}
           >
-            <div className="bg-brand-600 rounded-full p-1.5 text-white transform -translate-y-1 shadow-xs">
+            <div className="bg-[#001639] rounded-full p-1.5 text-white transform -translate-y-1 shadow-xs">
               <Download size={18} strokeWidth={2.5} />
             </div>
-            <span className="text-[10px] font-medium text-brand-600 -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
+            <span className="text-[10px] font-medium text-[#001639] -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
           </button>
 
-          {/* Tab 4: More */}
+          {/* Tab 3: More */}
           <button
             onClick={() => setShowMoreMenu(!showMoreMenu)}
             className={cn(
@@ -1142,6 +1117,8 @@ export default function MobileEditorLayout({
       </AnimatePresence>
       
       {/* Floating dynamic micro-hints disabled on mobile */}
+
+
 
     </div>
   );
