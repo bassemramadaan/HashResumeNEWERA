@@ -1733,7 +1733,7 @@ export default function EditorPage() {
               <div className="bg-white border-t border-slate-200 px-4 py-3 pb-[calc(12px+env(safe-area-inset-bottom,0px))] flex items-center gap-3 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] select-none">
                 <button
                   onClick={() => setShowMobilePreview(false)}
-                  className="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all cursor-pointer text-center"
+                  className="flex-1 h-12 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all cursor-pointer text-center flex items-center justify-center"
                 >
                   {language === "ar" ? "الرجوع للتعديل" : "Back to Edit"}
                 </button>
@@ -1743,7 +1743,7 @@ export default function EditorPage() {
                     setShowMobilePreview(false);
                     handleExportClick();
                   }}
-                  className="flex-1.5 py-3.5 bg-brand-600 hover:bg-slate-900 text-white font-black text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-premium cursor-pointer"
+                  className="flex-[1.5] h-12 bg-brand-600 hover:bg-slate-900 text-white font-black text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-premium cursor-pointer"
                 >
                   <Download size={14} className="stroke-[2.5]" />
                   <span>{language === "ar" ? "تحميل السيرة الذاتية (PDF)" : "Download PDF"}</span>

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Navbar }          from '@/components/layout/Navbar'
 import { Helmet } from "react-helmet-async"
@@ -8,11 +9,34 @@ import Footer from '@/components/Footer'
 import { CTASection } from '@/components/CTASection'
 import { useLanguageStore } from '@/store/useLanguageStore'
 import type { AppLang } from '@/hooks/useDirection'
+import { motion, AnimatePresence } from 'motion/react'
+import { FileText, LayoutGrid } from 'lucide-react'
 
 export default function LandingPage() {
   const navigate = useNavigate()
   const { language: lang } = useLanguageStore()
   const goToEditor = () => navigate('/templates')
+
+  const [showSticky, setShowSticky] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setShowSticky(true)
+      } else {
+        setShowSticky(false)
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const isAr = lang === 'ar'
+  const isFr = lang === 'fr'
+
+  // Translation copy for Sticky bar
+  const buildCvText = isAr ? 'أنشئ سيرتك الذاتية' : isFr ? 'Créer mon CV' : 'Build CV'
+  const templatesText = isAr ? 'عرض القوالب' : isFr ? 'Voir modèles' : 'See Templates'
 
   return (
     <>
@@ -66,6 +90,40 @@ export default function LandingPage() {
         </main>
 
         <Footer />
+
+        {/* ── Beautiful, Scroll-Aware Sticky Mobile CTA ── */}
+        <AnimatePresence>
+          {showSticky && (
+            <motion.div
+              initial={{ y: 100, opacity: 0, scale: 0.95 }}
+              animate={{ y: 0, opacity: 1, scale: 1 }}
+              exit={{ y: 100, opacity: 0, scale: 0.95 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 25 }}
+              className="fixed bottom-4 left-4 right-4 z-50 md:hidden pointer-events-auto"
+              dir={isAr ? 'rtl' : 'ltr'}
+            >
+              <div className="bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-[0_12px_40px_rgba(15,23,42,0.15)] p-2 rounded-2xl flex items-center justify-between gap-2.5">
+                {/* Secondary: Templates button */}
+                <button
+                  onClick={goToEditor}
+                  className="flex-1 h-12 flex items-center justify-center gap-1.5 bg-slate-50 active:bg-slate-100 hover:bg-slate-100/80 text-slate-700 font-bold text-xs rounded-xl border border-slate-200/70 cursor-pointer transition-all active:scale-[0.97]"
+                >
+                  <LayoutGrid size={14} className="opacity-80" />
+                  <span className="whitespace-nowrap">{templatesText}</span>
+                </button>
+
+                {/* Primary: Build CV button */}
+                <button
+                  onClick={goToEditor}
+                  className="flex-[1.4] h-12 flex items-center justify-center gap-1.5 bg-brand-600 active:bg-brand-700 hover:bg-brand-700 text-white font-extrabold text-xs rounded-xl shadow-md cursor-pointer transition-all active:scale-[0.97]"
+                >
+                  <FileText size={14} className="shrink-0" />
+                  <span className="whitespace-nowrap">{buildCvText}</span>
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </>
   )

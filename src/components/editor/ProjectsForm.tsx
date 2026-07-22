@@ -160,8 +160,8 @@ export const ProjectsForm: React.FC = () => {
 
   return (
     <div className="space-y-6 font-sans">
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div className="w-full md:w-auto">
           <h3 className="text-lg font-bold text-slate-900 tracking-tight leading-none">
             {String(t.projects?.title || "Projects")}
           </h3>
@@ -171,7 +171,7 @@ export const ProjectsForm: React.FC = () => {
         </div>
         <button
           onClick={addProject}
-          className="flex items-center gap-2 bg-slate-900 border border-slate-900 text-white hover:bg-slate-950 px-4 py-2.5 rounded-xl text-sm font-bold transition-all cursor-pointer shadow-3xs active:scale-95"
+          className="flex items-center justify-center gap-2 w-full md:w-auto bg-slate-900 border border-slate-900 text-white hover:bg-slate-950 px-5 h-12 md:h-11 rounded-xl text-sm font-bold transition-all cursor-pointer shadow-3xs active:scale-95"
         >
           <Plus size={18} />
           {String(t.projects?.add || "Add")}

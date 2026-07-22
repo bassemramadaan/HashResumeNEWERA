@@ -809,19 +809,19 @@ export default function MobileEditorLayout({
 
               /* Elegant mobile form spacing and padding coordination overrides */
               .editor-form-scrollable {
-                padding: 12px 12px 90px 12px !important;
+                padding: 16px 16px 100px 16px !important; /* General horizontal padding: 16px */
               }
               .editor-form-scrollable .bg-white {
                 padding: 16px !important;
-                border-radius: 20px !important;
+                border-radius: 16px !important; /* Card radius: 16px */
                 border-color: rgba(226, 232, 240, 0.7) !important;
                 box-shadow: 0 4px 14px rgba(15, 23, 42, 0.015) !important;
               }
               .editor-form-scrollable .space-y-6 > * + * {
-                margin-top: 16px !important;
+                margin-top: 20px !important; /* Gap between main blocks: 20-24px */
               }
               .editor-form-scrollable .space-y-4 > * + * {
-                margin-top: 14px !important;
+                margin-top: 16px !important;
               }
               .editor-form-scrollable .grid {
                 gap: 16px !important;
@@ -850,10 +850,14 @@ export default function MobileEditorLayout({
               .editor-form-scrollable .mt-8 {
                 margin-top: 20px !important;
               }
-              .editor-form-scrollable h3 {
+              .editor-form-scrollable h3,
+              .editor-form-scrollable h2,
+              .editor-form-scrollable h1 {
                 font-size: 14px !important;
                 margin-bottom: 10px !important;
                 font-weight: 800 !important;
+                line-height: 1.2 !important; /* Title line-height: slightly tighter */
+                letter-spacing: -0.01em !important;
               }
 
               /* Add Buttons / Interaction targets on mobile - wide, clear and easy to tap */
@@ -871,10 +875,10 @@ export default function MobileEditorLayout({
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                min-height: 48px !important; /* Touch friendly target */
-                background-color: rgba(99, 102, 241, 0.05) !important;
-                color: rgb(79, 70, 229) !important;
-                border: 2px dashed rgb(165, 180, 252) !important;
+                min-height: 48px !important; /* Touch friendly target (48px-52px) */
+                background-color: rgba(0, 22, 57, 0.04) !important;
+                color: #001639 !important;
+                border: 2px dashed #cfd6df !important;
               }
 
               /* Subtitles / Tips / Instructions - Reduced length and clutter on mobile */
@@ -883,7 +887,7 @@ export default function MobileEditorLayout({
               .editor-form-scrollable .text-xs.text-slate-500,
               .editor-form-scrollable .text-xs.text-gray-500 {
                 font-size: 11px !important;
-                line-height: 1.4 !important;
+                line-height: 1.35 !important;
                 display: -webkit-box !important;
                 -webkit-line-clamp: 2 !important; /* Cap at 2 lines to save premium space */
                 -webkit-box-orient: vertical !important;
@@ -913,14 +917,14 @@ export default function MobileEditorLayout({
                   type="button"
                   onClick={handlePrevSection}
                   disabled={currentFineSectionIndex <= 0}
-                  className="flex items-center gap-1 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                  className="flex items-center gap-1.5 h-12 px-4 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer shrink-0"
                 >
-                  <ArrowLeft size={13} className={cn("shrink-0", isRtl && "rotate-180")} />
+                  <ArrowLeft size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
                   <span>{lang === "ar" ? "السابق" : "Prev"}</span>
                 </button>
 
-                <div className="flex flex-col items-center leading-tight">
-                  <div className="text-[9px] text-slate-400 font-extrabold tracking-widest uppercase">
+                <div className="flex flex-col items-center leading-tight min-w-0">
+                  <div className="text-[9px] text-slate-400 font-extrabold tracking-widest uppercase truncate max-w-full">
                     {lang === "ar" ? `الخطوة ${currentFineSectionIndex + 1} من ${FINE_SECTIONS.length}` : `STEP ${currentFineSectionIndex + 1} OF ${FINE_SECTIONS.length}`}
                   </div>
                   {currentFineSectionIndex < FINE_SECTIONS.length - 1 && (
@@ -934,14 +938,14 @@ export default function MobileEditorLayout({
                   type="button"
                   onClick={handleNextSection}
                   disabled={currentFineSectionIndex >= FINE_SECTIONS.length - 1}
-                  className="flex items-center gap-1 px-4 py-2 rounded-xl text-xs font-black bg-brand-600 hover:bg-slate-850 text-white shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer"
+                  className="flex items-center gap-1.5 h-12 px-5 rounded-xl text-xs font-black bg-brand-600 hover:bg-slate-850 text-white shadow-xs disabled:opacity-30 disabled:pointer-events-none transition-all cursor-pointer shrink-0"
                 >
                   <span>
                     {currentFineSectionIndex === FINE_SECTIONS.length - 1 
                       ? (lang === "ar" ? "الأخير" : "Final")
                       : (lang === "ar" ? "التالي" : "Next")}
                   </span>
-                  <ArrowRight size={13} className={cn("shrink-0", isRtl && "rotate-180")} />
+                  <ArrowRight size={14} className={cn("shrink-0", isRtl && "rotate-180")} />
                 </button>
               </div>
               {/* END Dynamic Step-by-Step Mini Stepper Navigation */}
