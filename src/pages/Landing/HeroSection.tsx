@@ -127,10 +127,10 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.7 }}
-            className="text-[14px] mb-4 md:mb-0 md:text-xl md:text-2xl text-slate-600 font-medium max-w-3xl leading-relaxed px-2"
+            className="text-sm sm:text-base md:text-lg text-slate-500 font-normal max-w-2xl leading-relaxed px-4 md:px-0 mt-4 md:mt-6 mb-8"
           >
             {copy.subtitle}
-            <span className="block text-xs sm:text-sm text-slate-400 mt-2 font-semibold">
+            <span className="block text-xs md:text-sm text-slate-400 mt-3 font-medium tracking-wide">
               {isAr ? "أنشئ واستعرض مجاناً — ادفع فقط عند التحميل" : "Build & preview for free — pay only when you download"}
             </span>
           </motion.p>
@@ -141,25 +141,25 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
             transition={{ delay: 0.6, duration: 0.7 }}
             className="flex flex-col items-center gap-3 w-full max-w-md mx-auto"
           >
-            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-5 pt-2 md:pt-6 w-full justify-center px-4">
+            <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-5 w-full justify-center px-4">
               <button
                 onClick={() => {
                   trackEvent('hero_started', { component: 'cta_primary' })
                   onStart()
                 }}
-                className="flex w-full sm:w-auto bg-gradient-to-br from-[#001639] via-[#001639] to-[#002f7a] hover:shadow-xl hover:shadow-blue-500/20 text-white px-10 py-5 sm:px-12 sm:py-6 rounded-2xl font-bold text-lg transition-all active:scale-95 hover:scale-105 items-center justify-center gap-3 min-h-[56px] cursor-pointer"
+                className="group hidden sm:flex w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98] text-white px-8 py-4 sm:px-10 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all duration-300 shadow-xl shadow-blue-500/25 items-center justify-center gap-2.5 min-h-[56px] cursor-pointer border border-white/10"
               >
                 <span>{copy.cta}</span>
-                {isAr ? <ArrowLeft size={18} /> : <ArrowRight size={18} />}
+                {isAr ? <ArrowLeft size={18} className="transition-transform duration-300 group-hover:-translate-x-1" /> : <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />}
               </button>
               <button
                 onClick={() => navigate('/editor')}
-                className="w-full sm:w-auto bg-white border-2 border-slate-100 hover:border-blue-200 text-slate-900 px-8 py-4 sm:px-10 sm:py-6 rounded-2xl sm:rounded-3xl font-bold text-base sm:text-lg transition-all active:scale-95 shadow-sm flex items-center justify-center gap-3 min-h-[48px] cursor-pointer"
+                className="w-full sm:w-auto bg-white/80 backdrop-blur-sm border border-slate-200 hover:border-slate-300 hover:bg-white text-slate-700 hover:text-slate-900 px-8 py-4 sm:px-10 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all duration-300 active:scale-[0.98] shadow-sm hover:shadow-md flex items-center justify-center min-h-[56px] cursor-pointer"
               >
                 <span>{copy.ctaSec}</span>
               </button>
             </div>
-            <p className="text-xs sm:text-sm text-slate-400 font-medium">
+            <p className="hidden sm:block text-xs sm:text-sm text-slate-400 font-medium mt-2">
               ✨ {copy.noCreditCard}
             </p>
           </motion.div>

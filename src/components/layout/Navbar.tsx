@@ -224,57 +224,57 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               exit={{ x: lang === 'ar' ? '100%' : '-100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className={cn(
-                "fixed inset-y-0 z-[110] w-[85%] max-w-sm bg-[#001639] text-white p-6 pt-10 overflow-y-auto",
+                "fixed inset-y-0 z-[110] w-[85%] max-w-sm bg-white text-slate-900 p-6 pt-10 overflow-y-auto shadow-2xl",
                 lang === 'ar' ? "right-0" : "left-0"
               )}
             >
-                <div className="flex items-center justify-between mb-10">
-                  <LogoImage src={LOGO_WHITE_URL} alt="Hash Resume" className="h-8 w-auto object-contain" />
-                  <button type="button" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-full hover:bg-white/10">
-                    <X className="w-8 h-8" />
+                <div className="flex items-center justify-between mb-8 pb-6 border-b border-slate-100">
+                  <LogoImage src={LOGO_BLACK_URL} alt="Hash Resume" className="h-8 xs:h-10 w-auto object-contain" />
+                  <button type="button" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-full hover:bg-slate-100 bg-slate-50 text-slate-500 transition-colors">
+                    <X className="w-6 h-6" />
                   </button>
                 </div>
 
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col gap-6 pb-32">
                     {/* Resume & Templates */}
                     <div>
-                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{resumeMenu.label}</div>
+                        <div className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3">{resumeMenu.label}</div>
                         {resumeMenu.items.map((item, idx) => (
-                           <div key={idx} onClick={() => { handleStart(); setIsMobileMenuOpen(false); }} className="flex items-center justify-between py-3 cursor-pointer group">
-                             <span className="text-xl font-semibold group-hover:text-emerald-400 transition-colors">{item.label}</span>
-                             {item.badge && <span className="bg-emerald-500 text-white text-[10px] px-2 py-0.5 rounded-md font-bold">{item.badge}</span>}
+                           <div key={idx} onClick={() => { handleStart(); setIsMobileMenuOpen(false); }} className="flex items-center justify-between py-2.5 cursor-pointer group">
+                             <span className="text-lg font-bold text-slate-700 group-hover:text-blue-600 transition-colors">{item.label}</span>
+                             {item.badge && <span className="bg-blue-100 text-blue-700 text-[10px] px-2.5 py-0.5 rounded-full font-bold">{item.badge}</span>}
                            </div>
                         ))}
                     </div>
 
                     {/* Tools */}
-                    <div className="border-t border-white/10 pt-6">
-                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{toolsMenu.label}</div>
+                    <div className="border-t border-slate-100 pt-6">
+                        <div className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3">{toolsMenu.label}</div>
                         {toolsMenu.items.map((item) => (
-                          <Link key={item.href} to={item.href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between py-3 group">
-                              <span className="text-xl font-semibold group-hover:text-brand-400 transition-colors">{item.label}</span>
-                              {item.badge && <span className={cn("text-[10px] px-2 py-0.5 rounded-md font-bold", item.color === 'emerald' ? 'bg-emerald-500 text-white' : 'bg-brand-500 text-white')}>{item.badge}</span>}
+                          <Link key={item.href} to={item.href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between py-2.5 group">
+                              <span className="text-lg font-bold text-slate-700 group-hover:text-blue-600 transition-colors">{item.label}</span>
+                              {item.badge && <span className={cn("text-[10px] px-2.5 py-0.5 rounded-full font-bold", item.color === 'emerald' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700')}>{item.badge}</span>}
                           </Link>
                         ))}
                     </div>
 
                     {/* Info & Pricing */}
-                    <div className="border-t border-white/10 pt-6">
-                        <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{infoMenu.label}</div>
+                    <div className="border-t border-slate-100 pt-6">
+                        <div className="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-3">{infoMenu.label}</div>
                         {infoMenu.items.map((item, idx) => (
-                          <Link key={idx} to={item.href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between py-3 group">
-                              <span className="text-xl font-semibold group-hover:text-brand-400 transition-colors">{item.label}</span>
+                          <Link key={idx} to={item.href} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-between py-2.5 group">
+                              <span className="text-lg font-bold text-slate-700 group-hover:text-blue-600 transition-colors">{item.label}</span>
                           </Link>
                         ))}
                     </div>
                 </div>
 
-                <div className="absolute bottom-6 start-6 end-6 flex flex-col gap-4">
-                     <button onClick={() => { onLangChange(lang === 'ar' ? 'en' : 'ar'); setIsMobileMenuOpen(false); }} className="flex items-center gap-2 text-sm font-bold text-slate-300">
+                <div className="fixed bottom-0 start-0 w-[85%] max-w-sm p-6 bg-white/90 backdrop-blur-md border-t border-slate-100 flex flex-col gap-4">
+                     <button onClick={() => { onLangChange(lang === 'ar' ? 'en' : 'ar'); setIsMobileMenuOpen(false); }} className="flex items-center justify-center gap-2 text-sm font-bold text-slate-600 hover:text-slate-900 transition-colors bg-slate-50 py-3 rounded-xl border border-slate-100">
                          <Globe className="w-4 h-4" />
                          {LANG_LABELS[lang === 'ar' ? 'en' : 'ar']}
                      </button>
-                     <button onClick={handleStart} className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-4 rounded-2xl text-lg transition-all">
+                     <button onClick={handleStart} className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl text-base transition-all shadow-md shadow-slate-900/10">
                         {lang === 'ar' ? 'ابدأ مجاناً' : 'Start for Free'}
                      </button>
                 </div>

@@ -80,10 +80,10 @@ export function CTASection({ lang }: { lang: AppLang }) {
             <div className="flex flex-col items-center gap-4 w-full sm:w-auto">
               <Link
                 to="/templates"
-                className="bg-slate-900 hover:bg-slate-800 active:scale-[0.98] text-white inline-flex items-center justify-center gap-2.5 px-8 py-4 sm:py-4.5 rounded-xl font-bold text-base transition-all shadow-md shadow-slate-900/10 hover:shadow-lg hover:shadow-slate-900/15 w-full sm:w-auto group"
+                className="group flex w-full sm:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.98] text-white px-8 py-4 sm:px-10 sm:py-4 rounded-full font-bold text-base sm:text-lg transition-all duration-300 shadow-xl shadow-blue-500/25 items-center justify-center gap-2.5 min-h-[56px] border border-white/10"
               >
                 <span>{c.cta}</span>
-                <ArrowRight size={18} className={`transition-transform duration-200 ${isAr ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
+                <ArrowRight size={18} className={`transition-transform duration-300 ${isAr ? "rotate-180 group-hover:-translate-x-1" : "group-hover:translate-x-1"}`} />
               </Link>
               <p className="text-xs text-slate-400 font-medium tracking-wide">
                 {c.noCreditCard}
