@@ -529,8 +529,9 @@ svg.lucide, .lucide svg, svg[class*="lucide-"] {
 @media print {
   html,
   body {
-    width: 210mm !important;
-    min-height: 297mm !important;
+    width: 205mm !important;
+    min-height: 295.6mm !important;
+    max-height: 295.6mm !important;
     margin: 0 !important;
     padding: 0 !important;
     background: #ffffff !important;
@@ -565,8 +566,9 @@ svg.lucide, .lucide svg, svg[class*="lucide-"] {
     display: block !important;
     position: fixed !important;
     inset: 0 !important;
-    width: 210mm !important;
-    min-height: 297mm !important;
+    width: 205mm !important;
+    min-height: 295.6mm !important;
+    max-height: 295.6mm !important;
     margin: 0 auto !important;
     padding: 0 !important;
     background: #ffffff !important;
@@ -577,8 +579,9 @@ svg.lucide, .lucide svg, svg[class*="lucide-"] {
   body.printing-resume-active #resume-print-capture-area {
     display: block !important;
     position: relative !important;
-    width: 210mm !important;
-    min-height: 297mm !important;
+    width: 205mm !important;
+    min-height: 295.6mm !important;
+    max-height: 295.6mm !important;
     margin: 0 auto !important;
     padding: 0 !important;
     box-sizing: border-box !important;
@@ -610,6 +613,20 @@ svg.lucide, .lucide svg, svg[class*="lucide-"] {
   body.printing-resume-active #resume-print-capture-area .shadow-md,
   body.printing-resume-active #resume-print-capture-area .shadow-lg {
     box-shadow: none !important;
+  }
+
+  body.printing-resume-active #resume-print-container,
+  body.printing-resume-active #resume-print-capture-area,
+  body.printing-resume-active #resume-print-capture-area .cv-preview,
+  body.printing-resume-active #resume-print-capture-area section,
+  body.printing-resume-active #resume-print-capture-area div {
+    display: block !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+  body.printing-resume-active #resume-print-capture-area * {
+    float: none !important;
   }
 }
 
@@ -736,6 +753,9 @@ div[class*="focus-within:ring-orange-500"] {
     font-size: 2rem !important; /* ~32px */
     line-height: 1.2 !important;
   }
+
+
+
 }
 
 

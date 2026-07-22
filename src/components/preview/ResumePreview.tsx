@@ -335,8 +335,9 @@ const ResumePreview = memo(
               }
 
               #resume-capture-area {
-                width: 210mm !important;
-                min-height: 297mm !important;
+                width: 205mm !important;
+                min-height: 295.6mm !important;
+                max-height: 295.6mm !important;
                 background: #ffffff !important;
                 color: #000000 !important;
                 overflow: visible !important;
