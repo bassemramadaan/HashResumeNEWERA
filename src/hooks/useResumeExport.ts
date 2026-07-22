@@ -69,14 +69,16 @@ export function useResumeExport({
       }
 
       let printContainer = document.getElementById("resume-print-container");
-      if (!printContainer) {
-        printContainer = document.createElement("div");
-        printContainer.id = "resume-print-container";
-        const clone = resumeElement.cloneNode(true) as HTMLElement;
-        clone.id = "resume-print-capture-area";
-        printContainer.appendChild(clone);
-        document.body.appendChild(printContainer);
+      if (printContainer) {
+        printContainer.remove();
       }
+      
+      printContainer = document.createElement("div");
+      printContainer.id = "resume-print-container";
+      const clone = resumeElement.cloneNode(true) as HTMLElement;
+      clone.id = "resume-print-capture-area";
+      printContainer.appendChild(clone);
+      document.body.appendChild(printContainer);
       
       document.body.classList.add("printing-resume-active");
 

@@ -327,13 +327,34 @@ const ResumePreview = memo(
             .cv-preview[data-margin-size="relaxed"] .p-\\[28px\\] { padding: 40px 48px !important; }
 
             @media print {
-              .cv-preview section, .cv-preview .avoid-break {
-                page-break-inside: avoid;
-                break-inside: avoid;
+              #resume-capture-area,
+              #resume-capture-area.cv-preview,
+              #resume-capture-area * {
+                print-color-adjust: exact !important;
+                -webkit-print-color-adjust: exact !important;
               }
-              .cv-preview h1, .cv-preview h2, .cv-preview h3 {
-                page-break-after: avoid;
-                break-after: avoid;
+
+              #resume-capture-area {
+                width: 210mm !important;
+                min-height: 297mm !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                overflow: visible !important;
+                transform: none !important;
+                box-shadow: none !important;
+              }
+
+              #resume-capture-area section,
+              #resume-capture-area .avoid-break {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+              }
+
+              #resume-capture-area h1,
+              #resume-capture-area h2,
+              #resume-capture-area h3 {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
               }
             }
           `}} />
