@@ -59,7 +59,7 @@ export function useResumeExport({
     localStorage.setItem("cv-last-download-snapshot", snapshot);
   }, [data, generateFingerprint]);
 
-  const handlePrint = useCallback(() => {
+  const handlePrint = useCallback(async () => {
     try {
       const resumeElement = document.getElementById("resume-capture-area");
       if (!resumeElement) {
@@ -67,6 +67,8 @@ export function useResumeExport({
         window.print();
         return;
       }
+      
+      document.body.classList.add("printing-resume-active");
 
       let printContainer = document.getElementById("resume-print-container");
       if (printContainer) {
@@ -75,19 +77,21 @@ export function useResumeExport({
       
       printContainer = document.createElement("div");
       printContainer.id = "resume-print-container";
+      
       const clone = resumeElement.cloneNode(true) as HTMLElement;
       clone.id = "resume-print-capture-area";
+      
       printContainer.appendChild(clone);
       document.body.appendChild(printContainer);
       
-      document.body.classList.add("printing-resume-active");
-
-      setTimeout(() => {
-        window.print();
-        const pc = document.getElementById("resume-print-container");
-        if (pc) pc.remove();
-        document.body.classList.remove("printing-resume-active");
-      }, 50);
+      if ("fonts" in document) {
+        await (document as any).fonts.ready;
+      }
+      
+      await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      
+      window.print();
     } catch (err) {
       console.error("Print failed:", err);
       window.print();
@@ -95,6 +99,13 @@ export function useResumeExport({
   }, []);
 
   useEffect(() => {
+    const cleanupPrint = () => {
+      document.body.classList.remove("printing-resume-active");
+      const printContainer = document.getElementById("resume-print-container");
+      if (printContainer) printContainer.remove();
+    };
+    
+    window.addEventListener("afterprint", cleanupPrint);
     localStorage.removeItem("cv-locked");
     localStorage.removeItem("cv-is-locked");
     useResumeStore.getState().unlockResume();
@@ -126,6 +137,7 @@ export function useResumeExport({
     window.addEventListener("afterprint", handleAfterPrint);
 
     return () => {
+      window.removeEventListener("afterprint", cleanupPrint);
       window.removeEventListener("beforeprint", handleBeforePrint);
       window.removeEventListener("afterprint", handleAfterPrint);
     };
