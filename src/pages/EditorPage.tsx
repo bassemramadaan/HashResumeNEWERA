@@ -51,6 +51,7 @@ import { useResumeExport } from "../hooks/useResumeExport";
 const PersonalInfoForm = lazy(
   () => import("../components/editor/PersonalInfoForm"),
 );
+const SummaryForm = lazy(() => import("../components/editor/SummaryForm"));
 const ExperienceForm = lazy(
   () => import("../components/editor/ExperienceForm"),
 );
@@ -560,12 +561,27 @@ export default function EditorPage() {
 
   const sidebarCompletionMap: Record<string, number> = {
     basics: data.personalInfo.fullName && data.personalInfo.email && data.personalInfo.jobTitle ? 100 : (data.personalInfo.fullName || data.personalInfo.email ? 50 : 0),
-    experience: (data.experience && data.experience.length > 0) || (data.education && data.education.length > 0) ? 100 : 0,
-    skills: (data.skills && data.skills.length > 0) || (data.projects && data.projects.length > 0) || (data.certifications && data.certifications.length > 0) ? 100 : 0,
+    summary: data.personalInfo.summary ? 100 : 0,
+    experience: data.experience && data.experience.length > 0 ? 100 : 0,
+    education: data.education && data.education.length > 0 ? 100 : 0,
+    skills: data.skills && data.skills.length > 0 ? 100 : 0,
+    projects: data.projects && data.projects.length > 0 ? 100 : 0,
+    certifications: data.certifications && data.certifications.length > 0 ? 100 : 0,
     finish: atsScore,
   };
 
-  const progressPercent = Math.round((sidebarCompletionMap.basics + sidebarCompletionMap.experience + sidebarCompletionMap.skills) / 3);
+  const activeCompletionList = [
+    sidebarCompletionMap.basics,
+    sidebarCompletionMap.summary,
+    sidebarCompletionMap.experience,
+    sidebarCompletionMap.education,
+    sidebarCompletionMap.skills,
+    sidebarCompletionMap.projects,
+    sidebarCompletionMap.certifications,
+  ];
+  const progressPercent = Math.round(
+    activeCompletionList.reduce((acc, curr) => acc + curr, 0) / activeCompletionList.length
+  );
 
   const formContent = (
     <div 
@@ -748,7 +764,7 @@ export default function EditorPage() {
               <h1 className="text-xs font-black text-slate-800 uppercase tracking-wider">
                 {language === "ar" ? "منشئ السيرة الذاتية (Editor)" : "Resume Builder Editor"}
               </h1>
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="hidden md:flex items-center gap-2 shrink-0">
                 <button
                   onClick={handlePrevTab}
                   disabled={!hasPrevTab}
@@ -782,7 +798,7 @@ export default function EditorPage() {
                   <div className={cn(data.isLocked && "pointer-events-none opacity-50 select-none")}>
                     <Suspense fallback={<FormLoader />}>
                         {activeTab === "basics" && (
-                        <div className="space-y-12">
+                        <div className="space-y-6">
 
                           <section>
                             <div className="flex items-center gap-4 mb-6 text-start">
@@ -867,13 +883,19 @@ export default function EditorPage() {
 
                             <PersonalInfoForm />
 
-
                           </section>
                         </div>
                       )}
+
+                      {activeTab === "summary" && (
+                        <div className="space-y-6">
+                          <SummaryForm />
+                        </div>
+                      )}
+
                       {activeTab === "experience" && (
-                        <div className="space-y-16">
-                          <div className="space-y-12" data-form-section="experience">
+                        <div className="space-y-6">
+                          <div className="space-y-6" data-form-section="experience">
                             <section>
                               <div className="flex items-center gap-4 mb-6 text-start px-1">
                                 <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
@@ -898,8 +920,12 @@ export default function EditorPage() {
                               </div>
                             </section>
                           </div>
-                          
-                          <div className="space-y-12 pt-8 border-t border-slate-200/50" data-form-section="education">
+                        </div>
+                      )}
+
+                      {activeTab === "education" && (
+                        <div className="space-y-6">
+                          <div className="space-y-6" data-form-section="education">
                             <section>
                               <div className="flex items-center gap-4 mb-6 text-start px-1">
                                 <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
@@ -926,8 +952,9 @@ export default function EditorPage() {
                           </div>
                         </div>
                       )}
+
                       {activeTab === "skills" && (
-                        <div className="space-y-16">
+                        <div className="space-y-6">
                           <section data-form-section="skills">
                             <div className="flex items-center gap-4 mb-6 text-start">
                               <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
@@ -949,8 +976,12 @@ export default function EditorPage() {
                             </div>
                             <SkillsForm />
                           </section>
-                          
-                          <section data-form-section="projects" className="pt-8 border-t border-slate-200/50">
+                        </div>
+                      )}
+
+                      {activeTab === "projects" && (
+                        <div className="space-y-6">
+                          <section data-form-section="projects">
                             <div className="flex items-center gap-4 mb-6 text-start">
                               <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
                                 <LayoutTemplate
@@ -971,8 +1002,12 @@ export default function EditorPage() {
                             </div>
                             <ProjectsForm />
                           </section>
+                        </div>
+                      )}
 
-                          <section data-form-section="certifications" className="pt-8 border-t border-slate-200/50">
+                      {activeTab === "certifications" && (
+                        <div className="space-y-6">
+                          <section data-form-section="certifications">
                             <div className="flex items-center gap-4 mb-6 text-start">
                               <div className="w-12 h-12 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
                                 <Award
@@ -992,35 +1027,10 @@ export default function EditorPage() {
                               </div>
                             </div>
                             <CertificationsForm />
-
-                            <div className="mt-12 pt-8 border-t border-neutral-100 hidden md:flex justify-between gap-4">
-                              <button
-                                onClick={() => setActiveTab("experience")}
-                                className="text-neutral-500 font-bold px-6 py-4 rounded-2xl hover:bg-neutral-100 transition-colors"
-                              >
-                                {language === "ar" ? "السابق" : "Previous"}
-                              </button>
-                              <motion.button
-                                whileHover={{ y: -1 }}
-                                whileTap={{ scale: 0.985 }}
-                                onClick={() => {
-                                  scrollToFormTop();
-                                  setActiveTab("finish");
-                                }}
-                                className="group flex items-center gap-3 bg-brand-600 hover:bg-[#E03C1E] text-white px-8 py-4 rounded-2xl font-bold border border-transparent shadow-lg shadow-orange-500/15 hover:shadow-orange-500/25 transition-all cursor-pointer"
-                              >
-                                {language === "ar"
-                                  ? "الذهاب للمراجعة والتحميل"
-                                  : "Go to Review & Download"}
-                                <ArrowRight
-                                  size={20}
-                                  className="group-hover:translate-x-1 transition-transform rtl:rotate-180 group-hover:rtl:-translate-x-1"
-                                />
-                              </motion.button>
-                            </div>
                           </section>
                         </div>
                       )}
+
                       {activeTab === "finish" && (
                         <FinishStep
                           onPrint={() => handleProceedToExport("pdf")}

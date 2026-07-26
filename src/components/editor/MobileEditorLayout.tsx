@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "../../lib/utils";
 import { LogoImage } from "../LogoImage";
@@ -8,7 +8,7 @@ import {
   Eye, Grid, Download, 
   FileText, ChevronRight, Share2, AlertTriangle,
   ArrowUp, ArrowDown, Layers, Settings, RotateCcw, MoreHorizontal,
-  ArrowLeft, ArrowRight, X
+  ArrowLeft, ArrowRight, X, Check
 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 
@@ -223,12 +223,21 @@ function InteractiveRing({ pct }: { pct: number }) {
 }
 
 // ── ExportScreen ──────────────────────────────────────────
-function ExportScreen({ lang, onPDF, onWord, atsScore }: { lang: string; onPDF: () => void; onWord: () => void; atsScore: number }) {
+function ExportScreen({ lang, onPDF, onWord, onPreview, atsScore }: { lang: string; onPDF: () => void; onWord: () => void; onPreview: () => void; atsScore: number }) {
   const t = T[lang] ?? T.en;
 
   const isHighATS = atsScore >= 75;
 
   const items = [
+    { 
+      icon: <Eye className="w-5 h-5 text-indigo-600" />, 
+      label: lang === "ar" ? "معاينة السيرة كاملة" : "Preview Full CV",  
+      note: lang === "ar" ? "شاهد شكل سيرتك الذاتية النهائي في وضع ملء الشاشة قبل التصدير" : "Review your full resume layout and formatting before downloading",  
+      bg: "bg-indigo-50 border-indigo-100",  
+      badge: lang === "ar" ? "معاينة حية" : "Live Preview",
+      badgeColor: "bg-indigo-600 text-white",
+      action: onPreview 
+    },
     { 
       icon: <FileText className="w-5 h-5 text-rose-500" />, 
       label: t.exportPDF,  
@@ -679,6 +688,33 @@ export default function MobileEditorLayout({
     }
   };
 
+  // Touch Swipe Gesture Handling
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || touchStartY.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+    const deltaY = e.changedTouches[0].clientY - touchStartY.current;
+
+    if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
+      if (deltaX < 0) {
+        if (isRtl) handlePrevSection();
+        else handleNextSection();
+      } else {
+        if (isRtl) handleNextSection();
+        else handlePrevSection();
+      }
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
+
   return (
     <div className="mobile-editor-container fixed inset-0 flex flex-col bg-[#F9FAFB] text-slate-800 overflow-hidden pb-[calc(100px+env(safe-area-inset-bottom,0px))]" style={{ direction: isRtl ? "rtl" : "ltr" }}>
 
@@ -690,11 +726,12 @@ export default function MobileEditorLayout({
             <motion.button
               whileTap={{ scale: 0.94 }}
               onClick={() => { window.location.href = "/"; }}
-              className="w-9 h-9 rounded-xl bg-slate-50 border border-slate-200/55 flex items-center justify-center text-slate-700 cursor-pointer hover:bg-slate-100 transition-colors shrink-0"
+              className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200/55 flex items-center justify-center text-slate-700 cursor-pointer hover:bg-slate-100 transition-colors shrink-0 touch-manipulation"
+              style={{ touchAction: "manipulation" }}
               title={lang === "ar" ? "رجوع" : "Back"}
               aria-label={lang === "ar" ? "رجوع" : "Back"}
             >
-              <ArrowLeft size={16} className="rtl:rotate-180" />
+              <ArrowLeft size={18} className="rtl:rotate-180" />
             </motion.button>
 
             {/* Logo image */}
@@ -707,6 +744,12 @@ export default function MobileEditorLayout({
             </div>
             
             <span className="text-xs font-black text-slate-900 tracking-tight leading-none font-mono">HashResume</span>
+
+            {/* Live Autosave Indicator */}
+            <div className="hidden xs:flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-[10px] font-bold text-emerald-700">
+              <Check size={11} className="text-emerald-600" />
+              <span>{lang === "ar" ? "تم الحفظ" : "Saved"}</span>
+            </div>
           </div>
 
           <div className="flex items-center gap-1.5 relative">
@@ -897,7 +940,11 @@ export default function MobileEditorLayout({
             
             {/* Render active field step components */}
             <div className="flex-1 overflow-hidden relative flex flex-col justify-between">
-              <div className="flex-1 overflow-y-auto relative">
+              <div 
+                className="flex-1 overflow-y-auto relative"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+              >
                 {children}
               </div>
 
@@ -932,7 +979,7 @@ export default function MobileEditorLayout({
                   <span>
                     {currentFineSectionIndex === FINE_SECTIONS.length - 1 
                       ? (lang === "ar" ? "إنهاء" : "Finish")
-                      : (lang === "ar" ? "التالي" : "Next")}
+                      : (FINE_LABELS[lang]?.[FINE_SECTIONS[currentFineSectionIndex + 1]] || (lang === "ar" ? "التالي" : "Next"))}
                   </span>
                   <ArrowRight size={15} className={cn("shrink-0", isRtl && "rotate-180")} />
                 </button>
@@ -945,16 +992,25 @@ export default function MobileEditorLayout({
         {/* EXPORT TAB */}
         <div className={`h-full w-full ${activeTab === "export" ? "flex flex-col" : "hidden"} bg-[#fafafa] relative overflow-hidden pb-12`}>
           <div className="flex-1 overflow-y-auto">
-            <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} atsScore={atsScore} />
+            <ExportScreen lang={lang} onPDF={onExportPDF} onWord={onExportWord} onPreview={onOpenPreview} atsScore={atsScore} />
           </div>
           {/* Beautiful Sticky CTA at the bottom of Export Tab */}
-          <div className="px-4 py-3 bg-white border-t border-slate-150 shadow-[0_-8px_30px_rgba(0,0,0,0.03)] z-10 select-none flex flex-col gap-2 shrink-0">
+          <div className="px-4 py-3 bg-white border-t border-slate-150 shadow-[0_-8px_30px_rgba(0,0,0,0.03)] z-10 select-none flex items-center gap-2 shrink-0">
+            <button
+              onClick={onOpenPreview}
+              className="flex-1 h-11 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-98 transition-all border border-slate-200/80 touch-manipulation"
+              style={{ touchAction: "manipulation" }}
+            >
+              <Eye size={15} className="text-brand-600" />
+              <span>{lang === "ar" ? "معاينة السيرة" : "Preview CV"}</span>
+            </button>
             <button
               onClick={onExportPDF}
-              className="w-full h-11 rounded-xl bg-brand-600 hover:bg-slate-950 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer active:scale-98 transition-all"
+              className="flex-1 h-11 rounded-xl bg-brand-600 hover:bg-slate-950 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer active:scale-98 transition-all touch-manipulation"
+              style={{ touchAction: "manipulation" }}
             >
               <FileText size={14} strokeWidth={2.5} />
-              <span>{lang === "ar" ? "تحميل السيرة الذاتية (PDF)" : "Download Resume (PDF)"}</span>
+              <span>{lang === "ar" ? "تحميل (PDF)" : "Download (PDF)"}</span>
             </button>
           </div>
         </div>

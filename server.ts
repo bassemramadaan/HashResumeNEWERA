@@ -29,9 +29,18 @@ async function startServer() {
   app.set('trust proxy', 1);
 
   const allowedOrigins = ['https://hashresume.com', 'https://www.hashresume.com'];
+  if (process.env.ALLOWED_ORIGINS) {
+    allowedOrigins.push(...process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim()));
+  }
+
   app.use(cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:') || origin.endsWith('.run.app')) {
+      if (
+        !origin || 
+        allowedOrigins.includes(origin) || 
+        origin.startsWith('http://localhost:') || 
+        origin.endsWith('.run.app')
+      ) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'));
@@ -179,6 +188,15 @@ Tone: ${tone || "professional"}
   app.post("/api/payment/verify", async (req, res) => {
     try {
       const { code, action, reference, senderInfo, email, amount } = req.body;
+
+      if (action === "submitPayment") {
+        if (!reference || !email || !amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+          return res.status(400).json({
+            success: false,
+            message: "Invalid or missing payment details (reference, valid email, and positive amount are required)",
+          });
+        }
+      }
 
       const scriptUrl =
         process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL ||
@@ -368,9 +386,13 @@ Tone: ${tone || "professional"}
         return res.status(400).json({ error: "HTML content is required" });
       }
 
-      // Basic sanitization: remove <script> tags and javascript: pseudo-protocol
+      // Enhanced sanitization: remove script tags, event handlers, iframe, object, and dangerous protocols
       const sanitizedHtml = html
         .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+        .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
+        .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '')
+        .replace(/\son\w+\s*=\s*(?:'[^']*'|"[^"]*"|[^\s>]+)/gi, '')
         .replace(/javascript:/gi, 'about:blank');
 
       const browser = await puppeteer.launch({

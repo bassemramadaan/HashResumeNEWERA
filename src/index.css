@@ -62,7 +62,7 @@
   --space-12: 48px;
 
   /* Typography */
-  --font-ui: "Inter", "IBM Plex Sans Arabic", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-ui: "Cairo", "Tajawal", "IBM Plex Sans Arabic", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   --text-xs: 12px;
   --text-sm: 14px;

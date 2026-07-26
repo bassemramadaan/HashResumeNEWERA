@@ -7,6 +7,7 @@ import PageLoader from "./components/PageLoader";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 
 import { BottomNavBar } from "./components/BottomNavBar";
+import { OfflineIndicator } from "./components/ui/OfflineIndicator";
 
 const LandingPage = React.lazy(() => import("./pages/Landing/index"));
 const EditorPage = React.lazy(() => import("./pages/EditorPage"));
@@ -28,6 +29,7 @@ const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
 
 import { initGA, trackPageView } from "./services/analytics";
 import { useLanguageStore } from "./store/useLanguageStore";
+import { useDeviceState } from "./hooks/useDeviceState";
 
 function GAListener() {
   const location = useLocation();
@@ -91,7 +93,8 @@ function AppContent() {
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         {!isEditor && <BottomNavBar />}
-        <Analytics />
+        <OfflineIndicator />
+        {import.meta.env.PROD && <Analytics />}
       </Suspense>
     </div>
   );
@@ -99,6 +102,7 @@ function AppContent() {
 
 export default function App() {
   const { language, dir } = useLanguageStore();
+  const { isMobile } = useDeviceState();
 
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -108,9 +112,6 @@ export default function App() {
       document.documentElement.style.colorScheme = "light";
     }
   }, [language, dir]);
-
-  const reCaptchaKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"; // Using test key as fallback
-  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <HelmetProvider>

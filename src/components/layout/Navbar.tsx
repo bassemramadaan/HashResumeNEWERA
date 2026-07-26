@@ -107,48 +107,58 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between relative h-28 xs:h-32 sm:h-36 lg:h-[125px] lg:[direction:ltr]">
-          {/* Left: Hash Hunt + More */}
-          <div className="hidden lg:flex items-center gap-4 shrink-0">
-             {/* Hash Hunt Link (Desktop only) */}
-             <Link 
-               to="/hash-hunt" 
-               className="hidden lg:flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-brand-600 transition-all shrink-0"
-             >
-               <span>{lang === 'ar' ? 'وظائف هاش 💼' : 'Hash Hunt 💼'}</span>
-             </Link>
+          {/* Left: Egypt Flag + Hash Hunt + More */}
+          <div className="flex items-center gap-3 shrink-0 z-20">
+            {/* Egypt Flag Badge */}
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-50 border border-slate-200/80 rounded-2xl shadow-3xs">
+              <span className="text-xl leading-none">🇪🇬</span>
+              <span className="text-[11px] font-black text-slate-800 tracking-tight">
+                {lang === 'ar' ? 'مصر' : 'EG'}
+              </span>
+            </div>
 
-             <div className="hidden lg:flex relative group">
-               <button className="text-sm font-bold text-slate-700 hover:text-brand-600 flex items-center gap-1">
-                 {lang === 'ar' ? 'المزيد' : 'More'}
-                 <ChevronDown className="w-[18px] h-[18px]" />
-               </button>
-               {/* More Menu */}
-               <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto z-50">
-                   <a href="/#ats-check" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                     {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
-                   </a>
-                   <Link to="/pricing" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                     {lang === 'ar' ? 'الأسعار' : 'Pricing'}
-                   </Link>
-                   <Link to="/templates" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
-                      {lang === 'ar' ? 'القوالب' : 'Templates'}
+            {/* Desktop Only: Hash Hunt & More */}
+            <div className="hidden lg:flex items-center gap-4">
+              <Link 
+                to="/hash-hunt" 
+                className="flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-brand-600 transition-all shrink-0"
+              >
+                <span>{lang === 'ar' ? 'وظائف هاش 💼' : 'Hash Hunt 💼'}</span>
+              </Link>
+
+              <div className="relative group">
+                <button className="text-sm font-bold text-slate-700 hover:text-brand-600 flex items-center gap-1">
+                  {lang === 'ar' ? 'المزيد' : 'More'}
+                  <ChevronDown className="w-[18px] h-[18px]" />
+                </button>
+                {/* More Menu */}
+                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto z-50">
+                    <a href="/#ats-check" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                      {lang === 'ar' ? 'فحص ATS' : 'ATS Check'}
+                    </a>
+                    <Link to="/pricing" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                      {lang === 'ar' ? 'الأسعار' : 'Pricing'}
                     </Link>
-                </div>
+                    <Link to="/templates" className="block px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 rounded-lg">
+                       {lang === 'ar' ? 'القوالب' : 'Templates'}
+                     </Link>
+                 </div>
               </div>
-           </div>
+            </div>
+          </div>
 
-          {/* Mobile Logo */}
-          <div className="lg:hidden flex items-center shrink-0 relative z-20">
+          {/* Mobile Logo Centered */}
+          <div className="lg:hidden absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
             <Link to="/" className="flex items-center">
               <LogoImage
                 src={LOGO_BLACK_URL}
                 alt="Hash Resume"
-                className="block h-24 xs:h-28 sm:h-32 w-auto object-contain select-none"
+                className="block h-20 xs:h-24 sm:h-28 w-auto max-w-[220px] xs:max-w-[260px] object-contain select-none"
               />
             </Link>
           </div>
           
-          {/* Desktop Logo */}
+          {/* Desktop Logo Centered */}
           <div className="hidden lg:flex absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2">
              <Link to="/" className="flex items-center transform hover:scale-105 transition-all duration-300">
                 <LogoImage
@@ -229,8 +239,8 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
               )}
             >
                 <div className="flex items-center justify-between mb-8 pb-6 border-b border-slate-100">
-                  <LogoImage src={LOGO_BLACK_URL} alt="Hash Resume" className="h-8 xs:h-10 w-auto object-contain" />
-                  <button type="button" onClick={() => setIsMobileMenuOpen(false)} className="p-2 rounded-full hover:bg-slate-100 bg-slate-50 text-slate-500 transition-colors">
+                  <LogoImage src={LOGO_BLACK_URL} alt="Hash Resume" className="h-16 xs:h-20 sm:h-24 w-auto max-w-[260px] object-contain select-none" />
+                  <button type="button" onClick={() => setIsMobileMenuOpen(false)} className="p-2.5 rounded-2xl hover:bg-slate-100 bg-slate-50 text-slate-500 transition-colors">
                     <X className="w-6 h-6" />
                   </button>
                 </div>

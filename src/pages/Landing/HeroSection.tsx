@@ -180,7 +180,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
               
               <button
                 onClick={() => navigate('/templates')}
-                className="w-full md:w-auto bg-transparent text-slate-500 hover:text-slate-800 font-bold text-sm transition-all duration-200 active:scale-95 flex items-center justify-center py-1 cursor-pointer md:border md:border-transparent md:hover:border-slate-200 md:bg-transparent md:hover:bg-slate-50 md:px-6 md:py-3.5 md:rounded-xl md:min-h-[48px] underline md:no-underline"
+                className="w-full md:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm transition-all duration-200 active:scale-95 flex items-center justify-center min-h-[48px] py-3.5 px-6 rounded-xl cursor-pointer shadow-3xs border border-slate-200/80"
               >
                 <span>
                   <span className="md:hidden">

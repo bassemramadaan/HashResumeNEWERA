@@ -199,6 +199,8 @@ const PersonalInfoForm = () => {
               value={formState.fullName}
               onChange={handleChange}
               onBlur={handleBlur}
+              autoComplete="name"
+              enterKeyHint="next"
               style={inputStyle}
               className={`block w-full ps-10 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.fullName
@@ -272,6 +274,7 @@ const PersonalInfoForm = () => {
               value={formState.email}
               onChange={handleChange}
               onBlur={handleBlur}
+              inputMode="email"
               autoComplete="email"
               enterKeyHint="next"
               style={inputStyle}
@@ -306,6 +309,7 @@ const PersonalInfoForm = () => {
               value={formState.phone}
               onChange={handleChange}
               onBlur={handleBlur}
+              inputMode="tel"
               autoComplete="tel"
               pattern="[0-9]*"
               enterKeyHint="next"

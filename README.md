@@ -47,7 +47,7 @@ Hash Resume is a cutting-edge, AI-powered resume builder designed to help job se
 
 ## 🏗️ Architecture
 The application is built using a modern Full-Stack architecture:
-- **Frontend**: React 19, Vite, Tailwind CSS, Framer Motion, Zustand (State Management).
+- **Frontend**: React 18, Vite, Tailwind CSS, Framer Motion, Zustand (State Management).
 - **Backend**: Express.js (Node.js) serving API routes and Vite middleware for development.
 - **AI Integration**: `@google/genai` SDK for intelligent resume suggestions, ATS scoring, and cover letter generation.
 - **Export**: `jspdf`, `html2canvas`, and `docx` for high-fidelity document generation.
@@ -110,6 +110,12 @@ The application is designed to be deployed as a containerized Cloud Run service.
 - **Linting & Formatting**: ESLint and Prettier are configured.
 - **Pre-commit Hooks**: Husky and lint-staged ensure code quality before commits.
 - **Testing**: Vitest is used for unit and integration testing. Run tests with `npm test`.
+
+## 🎯 Hash Hunt & Talent Pool Privacy
+"Hash Hunt" allows job seekers to voluntarily opt-in to share their resume profile with verified recruiters and hiring partners.
+- **Opt-in & Voluntary**: Candidate profiles are only submitted when the user explicitly clicks submit.
+- **Data Protection**: Personal info is handled securely and stored with restricted access for recruitment matching.
+- **Local Privacy**: All regular resume drafting remains 100% local in the browser unless submitted to Hash Hunt.
 
 ## 🛡️ Operational Security
 - AI calls are routed through the backend or securely managed to prevent leaking `GEMINI_API_KEY`.
