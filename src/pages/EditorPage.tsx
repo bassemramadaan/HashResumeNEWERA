@@ -326,6 +326,7 @@ export default function EditorPage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showProgressTracker, setShowProgressTracker] = useState(false);
   const [previewFocusMode, setPreviewFocusMode] = useState(false);
+  const [overflowLines, setOverflowLines] = useState(0);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
   const [isMagicModalOpen, setIsMagicModalOpen] = useState(false);
@@ -1418,6 +1419,11 @@ export default function EditorPage() {
               </div>
 
               <div className="flex items-center gap-2">
+                {overflowLines > 0 && (
+                  <span className="text-[11px] font-bold text-amber-700 bg-amber-50 border border-amber-200/80 px-2.5 py-1 rounded-full animate-pulse shrink-0">
+                    {language === "ar" ? `تجاوز الصفحة (+${overflowLines} أسطر)` : `Exceeds 1 page (+${overflowLines} lines)`}
+                  </span>
+                )}
                 <button
                   onClick={() => setRightPanelMode(rightPanelMode === "preview" ? "ats" : "preview")}
                   className={cn(
