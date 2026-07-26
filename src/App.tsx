@@ -9,23 +9,44 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { BottomNavBar } from "./components/BottomNavBar";
 import { OfflineIndicator } from "./components/ui/OfflineIndicator";
 
-const LandingPage = React.lazy(() => import("./pages/Landing/index"));
-const EditorPage = React.lazy(() => import("./pages/EditorPage"));
-const HashHuntPage = React.lazy(() => import("./pages/HashHuntPage"));
-const PricingPage = React.lazy(() => import("./pages/PricingPage"));
-const PaymentPage = React.lazy(() => import("./pages/PaymentPage"));
-const PaymentSuccessPage = React.lazy(() => import("./pages/PaymentSuccessPage"));
-const BlogPage = React.lazy(() => import("./pages/BlogPage"));
-const BlogPostPage = React.lazy(() => import("./pages/BlogPostPage"));
-const TemplatesPage = React.lazy(() => import("./pages/TemplatesPage"));
-const SharePage = React.lazy(() => import("./pages/SharePage"));
-const PrivacyPage = React.lazy(() => import("./pages/PrivacyPage"));
-const TermsOfServicePage = React.lazy(() => import("./pages/TermsOfServicePage"));
-const HowAtsWorksPage = React.lazy(() => import("./pages/HowAtsWorksPage"));
-const TrustPage = React.lazy(() => import("./pages/TrustPage"));
-const FAQPage = React.lazy(() => import("./pages/FAQPage"));
-const NotFoundPage = React.lazy(() => import("./pages/NotFoundPage"));
-const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
+const lazyRetry = <T extends React.ComponentType<any>>(
+  componentImport: () => Promise<{ default: T }>
+) => {
+  return React.lazy(async () => {
+    const hasRefreshed = JSON.parse(
+      window.sessionStorage.getItem("lazy-retry-refreshed") || "false"
+    );
+    try {
+      const component = await componentImport();
+      window.sessionStorage.setItem("lazy-retry-refreshed", "false");
+      return component;
+    } catch (error) {
+      if (!hasRefreshed) {
+        window.sessionStorage.setItem("lazy-retry-refreshed", "true");
+        window.location.reload();
+      }
+      throw error;
+    }
+  });
+};
+
+const LandingPage = lazyRetry(() => import("./pages/Landing/index"));
+const EditorPage = lazyRetry(() => import("./pages/EditorPage"));
+const HashHuntPage = lazyRetry(() => import("./pages/HashHuntPage"));
+const PricingPage = lazyRetry(() => import("./pages/PricingPage"));
+const PaymentPage = lazyRetry(() => import("./pages/PaymentPage"));
+const PaymentSuccessPage = lazyRetry(() => import("./pages/PaymentSuccessPage"));
+const BlogPage = lazyRetry(() => import("./pages/BlogPage"));
+const BlogPostPage = lazyRetry(() => import("./pages/BlogPostPage"));
+const TemplatesPage = lazyRetry(() => import("./pages/TemplatesPage"));
+const SharePage = lazyRetry(() => import("./pages/SharePage"));
+const PrivacyPage = lazyRetry(() => import("./pages/PrivacyPage"));
+const TermsOfServicePage = lazyRetry(() => import("./pages/TermsOfServicePage"));
+const HowAtsWorksPage = lazyRetry(() => import("./pages/HowAtsWorksPage"));
+const TrustPage = lazyRetry(() => import("./pages/TrustPage"));
+const FAQPage = lazyRetry(() => import("./pages/FAQPage"));
+const NotFoundPage = lazyRetry(() => import("./pages/NotFoundPage"));
+const DashboardPage = lazyRetry(() => import("./pages/DashboardPage"));
 
 import { initGA, trackPageView } from "./services/analytics";
 import { useLanguageStore } from "./store/useLanguageStore";

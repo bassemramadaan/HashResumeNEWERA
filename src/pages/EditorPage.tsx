@@ -196,7 +196,7 @@ export default function EditorPage() {
 
   const { focusMode, setFocusMode } = useFocusMode();
 
-  const { isMobile, isDesktop } = useDeviceState();
+  const { isMobile } = useDeviceState();
 
 
 
@@ -326,11 +326,9 @@ export default function EditorPage() {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [showProgressTracker, setShowProgressTracker] = useState(false);
   const [previewFocusMode, setPreviewFocusMode] = useState(false);
-  const [overflowLines, setOverflowLines] = useState(0);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isLinkedInModalOpen, setIsLinkedInModalOpen] = useState(false);
   const [isMagicModalOpen, setIsMagicModalOpen] = useState(false);
-  const [showAtsAestheticPanel, setShowAtsAestheticPanel] = useState(false);
   const [showMobileAtsPanel, setShowMobileAtsPanel] = useState(false);
   const [rightPanelMode, setRightPanelMode] = useState<"preview" | "ats">("preview");
   const [mobileAtsTab, setMobileAtsTab] = useState<"audit" | "match">("audit");
@@ -377,8 +375,6 @@ export default function EditorPage() {
 
   const loadExampleData = useResumeStore((state) => state.loadExampleData);
   const resetData = useResumeStore((state) => state.resetData);
-  const settings = useResumeStore((state) => state.data.settings);
-  const updateSettings = useResumeStore((state) => state.updateSettings);
 
   const [showConfetti, setShowConfetti] = useState(false);
   const [hasCelebratedScore, setHasCelebratedScore] = useState(false);
