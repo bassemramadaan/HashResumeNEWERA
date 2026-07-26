@@ -184,13 +184,15 @@ Tone: ${tone || "professional"}
     }
   });
 
-  // Payment Verification & Manual InstaPay Flow Proxy
-  app.post("/api/payment/verify", async (req, res) => {
+  // Payment Verification & Manual InstaPay Flow Proxy (Accepts GET and POST)
+  app.all("/api/payment/verify", async (req, res) => {
     try {
-      const { code, action, reference, senderInfo, email, amount } = req.body;
+      const payload = { ...req.query, ...req.body };
+      const { code, action, reference, senderInfo, email, amount } = payload;
 
       if (action === "submitPayment") {
-        if (!reference || !email || !amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+        const parsedAmount = parseFloat(String(amount || "").replace(/[^0-9.]/g, ""));
+        if (!reference || !email || (!parsedAmount && !amount)) {
           return res.status(400).json({
             success: false,
             message: "Invalid or missing payment details (reference, valid email, and positive amount are required)",
@@ -206,7 +208,7 @@ Tone: ${tone || "professional"}
       if (!scriptUrl) {
         return res.status(500).json({
           success: false,
-          message: "Payment script URL not configured",
+          message: "Payment script URL not configured in environment variables",
         });
       }
 
@@ -218,21 +220,21 @@ Tone: ${tone || "professional"}
       if (action === "submitPayment") {
         url =
           `${scriptUrl}?action=submitPayment` +
-          `&reference=${encodeURIComponent(reference || "")}` +
-          `&senderInfo=${encodeURIComponent(senderInfo || "")}` +
-          `&email=${encodeURIComponent(email || "")}` +
-          `&amount=${encodeURIComponent(amount || "")}` +
+          `&reference=${encodeURIComponent(String(reference || ""))}` +
+          `&senderInfo=${encodeURIComponent(String(senderInfo || ""))}` +
+          `&email=${encodeURIComponent(String(email || ""))}` +
+          `&amount=${encodeURIComponent(String(amount || ""))}` +
           `&t=${Date.now()}`;
       } else if (action === "checkStatus") {
         url =
           `${scriptUrl}?action=checkStatus` +
-          `&reference=${encodeURIComponent(reference || "")}` +
+          `&reference=${encodeURIComponent(String(reference || ""))}` +
           `&t=${Date.now()}`;
       } else {
         const verifyCode = code || reference || "";
         url =
           `${scriptUrl}?action=verify` +
-          `&code=${encodeURIComponent(verifyCode)}` +
+          `&code=${encodeURIComponent(String(verifyCode))}` +
           `&t=${Date.now()}`;
       }
 

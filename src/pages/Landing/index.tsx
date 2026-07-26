@@ -4,6 +4,7 @@ import { Navbar }          from '@/components/layout/Navbar'
 import { Helmet } from "react-helmet-async"
 import { HeroSection }     from './HeroSection'
 import { FeaturesSection } from './FeaturesSection'
+import { TestimonialsSection } from './TestimonialsSection'
 import LandingAtsTester from '@/components/landing/LandingAtsTester'
 import Footer from '@/components/Footer'
 import { CTASection } from '@/components/CTASection'
@@ -86,6 +87,7 @@ export default function LandingPage() {
           <HeroSection lang={lang as AppLang} onStart={goToEditor} />
           <FeaturesSection lang={lang as AppLang} />
           <LandingAtsTester lang={lang as AppLang} onStartClick={goToEditor} />
+          <TestimonialsSection lang={lang as AppLang} />
           <CTASection lang={lang as AppLang} />
         </main>
 

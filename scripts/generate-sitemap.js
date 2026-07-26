@@ -4,7 +4,9 @@ import path from 'path';
 const pages = [
   { route: '', file: 'src/pages/Landing/index.tsx', priority: '1.0', changefreq: 'daily' },
   { route: 'templates', file: 'src/pages/TemplatesPage.tsx', priority: '0.9', changefreq: 'weekly' },
-  { route: 'blog', file: 'src/pages/BlogPage.tsx', priority: '0.8', changefreq: 'daily' },
+  { route: 'cover-letter', file: 'src/pages/EditorPage.tsx', priority: '0.8', changefreq: 'weekly' },
+  { route: 'interview-prep', file: 'src/pages/BlogPage.tsx', priority: '0.8', changefreq: 'weekly' },
+  { route: 'blog', file: 'src/pages/BlogPage.tsx', priority: '0.8', changefreq: 'monthly' },
   { route: 'hash-hunt', file: 'src/pages/HashHuntPage.tsx', priority: '0.8', changefreq: 'weekly' },
   { route: 'pricing', file: 'src/pages/PricingPage.tsx', priority: '0.8', changefreq: 'weekly' },
   { route: 'payment', file: 'src/pages/PaymentPage.tsx', priority: '0.7', changefreq: 'weekly' },

@@ -103,6 +103,8 @@ function AppContent() {
           <Route path="/payment-success" element={<PaymentSuccessPage />} />
           <Route path="/checkout" element={<Navigate to="/payment" replace />} />
           <Route path="/jobs" element={<Navigate to="/hash-hunt" replace />} />
+          <Route path="/cover-letter" element={<Navigate to="/editor" replace />} />
+          <Route path="/interview-prep" element={<Navigate to="/blog/interview-preparation-guide" replace />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/blog/:id" element={<BlogPostPage />} />
           <Route path="/share/:id" element={<SharePage />} />
