@@ -26,7 +26,7 @@ export default function SummaryForm() {
     }
   }, [personalInfo.summary]);
 
-  const debouncedUpdateRef = useRef<any>(null);
+  const debouncedUpdateRef = useRef<ReturnType<typeof debounce> | null>(null);
   useEffect(() => {
     debouncedUpdateRef.current = debounce((val: string) => {
       updatePersonalInfo({ summary: val });

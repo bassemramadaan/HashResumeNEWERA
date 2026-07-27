@@ -27,7 +27,12 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
   const [importError, setImportError] = useState<{ title: string; description: string } | null>(null);
   const [importSuccess, setImportSuccess] = useState(false);
 
-  const fillFormWithData = (parsedData: any) => {
+  const fillFormWithData = (parsedData: {
+    personalInfo?: Record<string, string>;
+    workExperience?: Array<{ company?: string; position?: string; startDate?: string; endDate?: string; current?: boolean; description?: string }>;
+    education?: Array<{ institution?: string; degree?: string; field?: string; startDate?: string; endDate?: string; gpa?: string }>;
+    skills?: Array<string>;
+  }) => {
     if (parsedData.personalInfo) {
       updatePersonalInfo({
         ...useResumeStore.getState().data.personalInfo,
@@ -45,7 +50,7 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
 
     if (parsedData.workExperience && parsedData.workExperience.length > 0) {
       clearExperience();
-      parsedData.workExperience.forEach((exp: any) => {
+      parsedData.workExperience.forEach((exp) => {
         const safeId = (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
         addExperience({
           id: safeId,
@@ -62,7 +67,7 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
 
     if (parsedData.education && parsedData.education.length > 0) {
       clearEducation();
-      parsedData.education.forEach((edu: any) => {
+      parsedData.education.forEach((edu) => {
         const safeId = (typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).substring(2, 11));
         addEducation({
           id: safeId,
@@ -77,7 +82,7 @@ export default function LinkedInImportModal({ isOpen, onClose }: Props) {
     }
 
     if (parsedData.skills && parsedData.skills.length > 0) {
-      parsedData.skills.forEach((skill: any) => {
+      parsedData.skills.forEach((skill) => {
         if (typeof skill === 'string' && skill.trim()) addSkill(skill);
       });
     }

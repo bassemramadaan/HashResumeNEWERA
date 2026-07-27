@@ -155,7 +155,7 @@ export default function HashHuntPage() {
       } else {
         throw new Error(result.message || "Failed to submit");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Submission error:", err);
       // Fallback submission dialog to still allow complete simulation
       setShowSuccess(true);
@@ -339,7 +339,7 @@ export default function HashHuntPage() {
                   🔍
                 </div>
                 <h3 className="text-base font-bold text-slate-900 mb-2">
-                  {isAr ? "لم نجد نتائج مطابقة لخيارات التصفية الحالية" : "No exact matches found for your active filters"}
+                  {noJobsFoundText}
                 </h3>
                 <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed font-medium">
                   {isAr 

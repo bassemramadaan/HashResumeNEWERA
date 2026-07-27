@@ -55,7 +55,7 @@ export function useResumeEditorState() {
 
   useEffect(() => {
     if (formRef.current) {
-      formRef.current.scrollTo({ top: 0, behavior: "instant" as any });
+      formRef.current.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
     }
   }, [activeTab]);
 

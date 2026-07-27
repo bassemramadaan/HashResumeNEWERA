@@ -288,7 +288,7 @@ const ResumePreview = memo(
             settings.fontFamily === 'serif' ? 'font-serif' : settings.fontFamily === 'mono' ? 'font-mono' : 'font-sans'
           )}
           style={{
-            ['--spacing-multiplier' as any]: settings.sectionSpacing === 'compact' ? 0.75 : settings.sectionSpacing === 'relaxed' ? 1.5 : 1
+            ['--spacing-multiplier' as keyof React.CSSProperties]: settings.sectionSpacing === 'compact' ? 0.75 : settings.sectionSpacing === 'relaxed' ? 1.5 : 1
           }}
         >
           <style dangerouslySetInnerHTML={{ __html: `

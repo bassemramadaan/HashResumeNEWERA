@@ -13,7 +13,7 @@ import {
 import { useResumeStore } from "../../store/useResumeStore";
 
 // Section Icon mapping for beautiful vector designs
-const SECTION_ICONS: Record<string, React.ComponentType<any>> = {
+const SECTION_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   basics: User,
   summary: User,
   experience: Briefcase,

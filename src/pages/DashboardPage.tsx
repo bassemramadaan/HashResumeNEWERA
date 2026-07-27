@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useResumeStore } from "../store/useResumeStore";
+import { ResumeData } from "../types/resume";
 
 interface SavedResumeSlot {
   id: string;
@@ -16,7 +17,7 @@ interface SavedResumeSlot {
   jobTitle: string;
   updatedAt: string;
   atsScore: number;
-  data: any;
+  data: ResumeData;
 }
 
 interface JobApplication {
@@ -161,7 +162,7 @@ export default function DashboardPage() {
       setReferrals(defaultRefs);
       localStorage.setItem("hashresume_referrals", JSON.stringify(defaultRefs));
     }
-  }, [isAr, currentResumeData.personalInfo?.fullName]);
+  }, [isAr, currentResumeData]);
 
   // Manage resume slots
   const handleSaveCurrentAsNewSlot = () => {
@@ -368,7 +369,7 @@ export default function DashboardPage() {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
+                  onClick={() => setActiveTab(tab.id as "resumes" | "jobs" | "referrals")}
                   className={`flex items-center gap-2 px-5 py-3 rounded-xl text-xs font-black transition-all cursor-pointer select-none ${
                     isActive 
                       ? "bg-brand-600 text-white shadow-md shadow-slate-900/10" 
@@ -651,7 +652,7 @@ export default function DashboardPage() {
                             {/* Update status selector widget */}
                             <select
                               value={app.status}
-                              onChange={(e) => handleUpdateJobStatus(app.id, e.target.value as any)}
+                              onChange={(e) => handleUpdateJobStatus(app.id, e.target.value as "Applied" | "Interviewing" | "Accepted" | "Rejected")}
                               className={`px-3 py-1.5 rounded-lg border text-[11px] font-black cursor-pointer outline-none ${
                                 app.status === "Accepted" 
                                   ? "bg-emerald-50 text-emerald-700 border-emerald-200" 
@@ -879,7 +880,7 @@ export default function DashboardPage() {
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">{isAr ? "الحالة الابتدائية" : "Initial Status"}</label>
                   <select
                     value={newJob.status}
-                    onChange={(e) => setNewJob({ ...newJob, status: e.target.value as any })}
+                    onChange={(e) => setNewJob({ ...newJob, status: e.target.value as "Applied" | "Interviewing" | "Accepted" | "Rejected" })}
                     className="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs focus:border-slate-800 outline-none bg-white"
                   >
                     <option value="Applied">{isAr ? "تم التقديم" : "Applied"}</option>

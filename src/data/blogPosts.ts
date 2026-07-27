@@ -647,4 +647,116 @@ Your summary statement is crucial when changing careers. It's your elevator pitc
       ar: "5 دقائق قراءة",
     },
   },
+  {
+    id: "saudi-market-cv-guide-2026",
+    title: {
+      en: "Navigating the Saudi Job Market & Vision 2030: CV Guidelines",
+      ar: "دليل التوظيف في سوق العمل السعودي ورؤية 2030: كيف تجهز سيرتك الذاتية",
+    },
+    excerpt: {
+      en: "Comprehensive guide to tailoring your resume for major Saudi Vision 2030 projects, Saudization requirements, and top recruiters in Riyadh and Jeddah.",
+      ar: "دليل شامل لتكييف سيرتك الذاتية للمشاريع الكبرى في رؤية المملكة 2030، ومتطلبات التوطين، وكبرى شركات التوظيف في الرياض وجدة.",
+    },
+    content: {
+      en: `
+## Saudi Vision 2030 and Career Opportunities
+
+The Kingdom of Saudi Arabia is experiencing an unprecedented boom across technology, tourism, mega-infrastructure, and finance. Standing out to recruiters in Saudi Arabia requires aligning your resume with key national initiatives and modern hiring standards.
+
+## 1. Highlight Saudi Experience & Regional Know-How
+If you have previously worked in the GCC or Saudi Arabia, prominently feature your familiarity with Saudi labor laws, Saudization metrics, or regional project management.
+
+## 2. ATS Alignment for Major Enterprises
+Large corporations like NEOM, Red Sea Global, Aramco, and top banks use state-of-the-art ATS tools. Ensure your resume contains exact technical terms and bilingual support where appropriate.
+
+## 3. Measurable Mega-Project Achievements
+Focus on project scale, budgets managed (in SAR or USD), and impact metrics. Numbers and percentages speak louder than generic descriptions.
+`,
+      ar: `
+## رؤية المملكة 2030 والفرص الوظيفية الكبرى
+
+تشهد المملكة العربية السعودية تحولاً اقتصاديًا وتقنيًا غير مسبوق في إطار رؤية 2030، مع إطلاق مشاريع عملاقة مثل نيوم (NEOM)، مشروع البحر الأحمر، القدية، وتوسع قطاعات التقنية والمالية والسياحة في الرياض وجدة والشرقية. لكي تجذب انتباه مسؤولي التوظيف في السعودية، يجب أن تكون سيرتك الذاتية مصممة بلغة موجهة ومستهدفة.
+
+## 1. إبراز الخبرة الإقليمية ومتطلبات التوطين
+إذا كانت لديك خبرة سابقة داخل المملكة أو دول الخليج العربي، ركّز على فهمك للأنظمة المحلية، إدارتك لمشاريع متوافقة مع متطلبات التوطين (نطاقات)، وقدرتك على قيادة فرق عمل متعددة الجنسيات.
+
+## 2. توافق السيرة مع أنظمة ATS للشركات السعودية الكبرى
+تعتمد المؤسسات والشركات العملاقة في السعودية (مثل أرامكو، سابك، البنوك، والمشاريع الكبرى) على أحدث برامج فلترة السير الذاتية بالذكاء الاصطناعي. استخدم كلمات مفتاحية دقيقة متطابقة مع المسمى الوظيفي المطلوب باللغتين العربية والإنجليزية.
+
+## 3. توثيق الإنجازات بالأرقام والميزانيات
+الشركات الكبرى تبحث عن نتائج ملموسة. اذكر حجم المشاريع التي أدرتها، الميزانيات المعتمدة (بالريال السعودي أو الدولار)، ونسبة النمّو أو التوفير الذي حققته في أدوارك السابقة.
+
+## 4. اللغة والثنائية اللغوية (Bilingual Resume)
+في غالبية القطاعات التقنية والهندسية والإدارية في السعودية، يُفضل تقديم السيرة الذاتية باللغة الإنجليزية مع الحفاظ على ملخص تنفيذي قوي، بينما تتطلب القطاعات الحكومية وشبه الحكومية سيرًا ذاتية باللغة العربية الاحترافية. يوفر لك Hash Resume قوالب متوافقة ثنائية اللغة لتلبية احتياجات كافة القطاعات.
+`,
+    },
+    date: "2026-07-10",
+    author: {
+      en: "Fahad Al-Otaibi",
+      ar: "فهد العتيبي",
+    },
+    image:
+      "https://images.unsplash.com/photo-1512632578888-169bbbc64f33?auto=format&fit=crop&q=80&w=800",
+    readTime: {
+      en: "6 min read",
+      ar: "6 دقائق قراءة",
+    },
+  },
+  {
+    id: "remote-work-arabic-cv",
+    title: {
+      en: "How to Build a Resume for Remote Jobs & Global Companies",
+      ar: "كيف تكتب سيرة ذاتية للعمل عن بُعد (Remote Jobs) مع الشركات العالمية",
+    },
+    excerpt: {
+      en: "Learn the secrets of standing out to global remote companies, showcasing self-management, asynchronous communication, and modern tech stacks.",
+      ar: "تعلم أسرار التميز للتقديم على الوظائف عن بُعد في الشركات العالمية والعربية، وكيفية إبراز مهارات التواصل غير المتزامن والتنظيم الذاتي.",
+    },
+    content: {
+      en: `
+## The Surge of Remote Hiring in MENA
+
+More professionals in Egypt, Saudi Arabia, UAE, and Jordan are securing remote tech and marketing roles with European, US, and regional startups paying in foreign currencies.
+
+## 1. Highlight Asynchronous Communication Skills
+Remote teams value clear written communication, Slack/Loom proficiency, and documentation habits above all else.
+
+## 2. Demonstrate Self-Management & Results
+Show that you are a self-starter. Mention tools like Jira, Notion, Trello, Git, or Figma and quantify your remote contributions.
+
+## 3. Optimize Time Zone Flexibility
+Indicate your local time zone (e.g., GMT+2 or GMT+3) and state your willingness to overlap with target company operating hours.
+`,
+      ar: `
+## انتشـار الوظائف عن بُعد في الشرق الأوسط
+
+أصبح العمل عن بُعد مع شركات عالمية وإقليمية حلمًا يتحقق للعديد من الكفاءات في مصر والسعودية والإمارات والأردن. الحصول على وظيفة عن بُعد يتطلب سيرة ذاتية تركز على مهارات تختلف عن الوظائف المكتبية التقليدية.
+
+## 1. التركيز على التواصل غير المتزامن (Asynchronous Communication)
+الفرق التي تعمل عن بُعد تبحث عن شخص يستطيع التعبير بوضوح عبر الكتابة، وتوثيق المهام، واستخدام أدوات مثل Slack, Notion, Loom. احرص على إبراز هذه المهارة في قسم المهارات والملخص المهني.
+
+## 2. إثبات التنظيم الذاتي والإنتاجية بالأرقام
+مدير العمل عن بُعد لا يقف فوق رأسك؛ لذا فهو يبحث عن "Self-Starter" ينجز مهامه بدقة. استشهد بمشاريع أدرتها عن بُعد من البداية للنهاية وحققت فيها نتائج ملموسة.
+
+## 3. إتقان الأدوات الحديثة (Modern Remote Tooling)
+اذكر الأدوات التي تتقنها في العمل اليومي مثل Jira, Trello, GitHub, Figma, Zoom, Asana. معرفتك بهذه الأدوات تمنح الانطباع بأنك جاهز للبدء من اليوم الأول بدون تدريب طويل.
+
+## 4. مرونة المنطقة الزمنية (Time Zones)
+تأكد من ذكر منطقتك الزمنية (مثلاً GMT+2 أو GMT+3) ومدى استعدادك للتداخل مع ساعات عمل الشركات الأوروبية أو الأمريكية أو الخليجية.
+
+في **Hash Resume**، نساعدك على صياغة نقاطك المهنية لتُظهر أفضل ما لديك في سوق العمل عن بُعد وتزيد فرص قبولك فورًا.
+`,
+    },
+    date: "2026-07-20",
+    author: {
+      en: "Nour El-Din",
+      ar: "نور الدين",
+    },
+    image:
+      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=800",
+    readTime: {
+      en: "5 min read",
+      ar: "5 دقائق قراءة",
+    },
+  },
 ];

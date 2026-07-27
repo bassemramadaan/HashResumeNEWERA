@@ -101,7 +101,7 @@ export default function ResumeCheckerModal({
     },
   ];
 
-  const failedChecks = checks.filter((c) => !c.passed);
+  const _failedChecks = checks.filter((c) => !c.passed);
   
   // 1. Keywords (out of 30)
   const keywordsScore = Math.round(

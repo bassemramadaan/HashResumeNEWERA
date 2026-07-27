@@ -21,7 +21,7 @@ export default function EditorNavbar({
   onReset?: () => void;
   focusMode?: boolean;
   onToggleFocus?: () => void;
-  [key: string]: any;
+  [key: string]: unknown;
 }) {
   const isRtl = lang === "ar";
 

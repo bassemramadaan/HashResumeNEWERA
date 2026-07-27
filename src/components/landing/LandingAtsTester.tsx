@@ -95,7 +95,7 @@ export default function LandingAtsTester({ lang, onStartClick }: Props) {
           const page = await pdf.getPage(i);
           const text = await page.getTextContent();
           const pageText = text.items
-            .map((item: any) => 'str' in item ? item.str : '')
+            .map((item: { str?: string } | unknown) => (item && typeof item === 'object' && 'str' in item && typeof item.str === 'string') ? item.str : '')
             .filter(str => str.trim().length > 0)
             .join(' ');
           textContent += pageText + "\n";

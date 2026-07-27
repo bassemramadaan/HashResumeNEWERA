@@ -80,9 +80,9 @@ const PersonalInfoForm = () => {
       Object.keys(prev).forEach((k) => {
         const key = k as keyof typeof prev;
         if (activeId === key) return; // Keep user's active cursor/field safe
-        const storeVal = (personalInfo as any)[key] || "";
+        const storeVal = (personalInfo as unknown as Record<string, string>)[key] || "";
         if (storeVal !== prev[key]) {
-          (next as any)[key] = storeVal;
+          (next as Record<string, string>)[key] = storeVal;
           changed = true;
         }
       });
@@ -91,7 +91,7 @@ const PersonalInfoForm = () => {
   }, [personalInfo]);
 
   // Debounced store updater
-  const debouncedUpdateRef = useRef<any>(null);
+  const debouncedUpdateRef = useRef<ReturnType<typeof debounce> | null>(null);
   useEffect(() => {
     debouncedUpdateRef.current = debounce((field: string, val: string) => {
       updatePersonalInfo({ [field]: val });

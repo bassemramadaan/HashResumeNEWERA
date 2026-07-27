@@ -201,7 +201,7 @@ export function HeroSection({ lang, onStart }: HeroSectionProps) {
 
           {/* Mini CV Preview component hidden on mobile to provide space and speed */}
           <div className="hidden sm:block w-full">
-            <MiniCVPreview lang={lang as any} />
+            <MiniCVPreview lang={lang} />
           </div>
         </div>
       </div>

@@ -170,7 +170,7 @@ export default function EditorPage() {
   const [aiNotice, setAiNotice] = useState<{ code: string; message: string } | null>(null);
 
   useEffect(() => {
-    let aiTimeout: any;
+    let aiTimeout: ReturnType<typeof setTimeout> | undefined;
     const handleAIErrorEvent = (e: Event) => {
       const customEvent = e as CustomEvent<{ code: string; message: string }>;
       if (customEvent && customEvent.detail) {
@@ -202,7 +202,7 @@ export default function EditorPage() {
 
   // Keyboard-Aware dynamic focus auto-scrolling for mobile devices
   useEffect(() => {
-    let focusTimeout: any;
+    let focusTimeout: ReturnType<typeof setTimeout> | undefined;
     const handleFocusIn = (e: FocusEvent) => {
       const target = e.target as HTMLElement;
       if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA")) {
@@ -225,13 +225,13 @@ export default function EditorPage() {
 
   useEffect(() => {
     if (formRef.current) {
-      formRef.current.scrollTo({ top: 0, behavior: "instant" as any });
+      formRef.current.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
     }
   }, [activeTab, formRef]);
   
   useEffect(() => {
-    let clickTimeout: any;
-    let ringTimeout: any;
+    let clickTimeout: ReturnType<typeof setTimeout> | undefined;
+    let ringTimeout: ReturnType<typeof setTimeout> | undefined;
     const handlePreviewSectionClick = (e: Event) => {
       const customEvent = e as CustomEvent<{ tab: Tab; field: string }>;
       if (customEvent && customEvent.detail) {
@@ -396,14 +396,14 @@ export default function EditorPage() {
   }, [atsScore, hasCelebratedScore]);
 
   useEffect(() => {
-    (window as any).triggerFrictionlessConfetti = () => {
+    (window as unknown as { triggerFrictionlessConfetti?: () => void }).triggerFrictionlessConfetti = () => {
       setShowConfetti(true);
       setTimeout(() => {
         setShowConfetti(false);
       }, 4000);
     };
     return () => {
-      delete (window as any).triggerFrictionlessConfetti;
+      delete (window as unknown as { triggerFrictionlessConfetti?: () => void }).triggerFrictionlessConfetti;
     };
   }, []);
 
@@ -427,7 +427,7 @@ export default function EditorPage() {
     if (activeTab === "finish" && !isPremium) {
       setShowPaymentModal(true);
     }
-  }, [activeTab, isPremium]);
+  }, [activeTab, isPremium, setShowPaymentModal]);
 
   useEffect(() => {
     if (data.settings?.template) {
@@ -554,7 +554,7 @@ export default function EditorPage() {
       
       return () => clearTimeout(timeout);
     }
-  }, [setActiveTab]);
+  }, [setActiveTab, handleProceedToExport]);
 
   const sidebarCompletionMap: Record<string, number> = {
     basics: data.personalInfo.fullName && data.personalInfo.email && data.personalInfo.jobTitle ? 100 : (data.personalInfo.fullName || data.personalInfo.email ? 50 : 0),
@@ -1072,7 +1072,7 @@ export default function EditorPage() {
           lang={language as "ar" | "en" | "fr"}
           atsScore={atsScore}
           activeSection={activeTab}
-          onSectionChange={(id: string) => setActiveTab(id as any)}
+          onSectionChange={(id: string) => setActiveTab(id as Tab)}
           completionMap={sidebarCompletionMap}
           onExportPDF={handleExportClick}
           onExportWord={() => handleProceedToExport("docx")}
@@ -1108,7 +1108,7 @@ export default function EditorPage() {
                 </AnimatePresence>
               </div>
               <div className="mt-8 px-4 py-4 border-t border-slate-100 flex items-center justify-end gap-3">
-                {Object.keys(sidebarCompletionMap).indexOf(activeTab as any) === Object.keys(sidebarCompletionMap).length - 1 && (
+                {Object.keys(sidebarCompletionMap).indexOf(activeTab) === Object.keys(sidebarCompletionMap).length - 1 && (
                   <motion.button
                     whileHover={{ y: -1 }}
                     whileTap={{ scale: 0.985 }}
@@ -1161,7 +1161,7 @@ export default function EditorPage() {
         {!isMobile && !focusMode && (
            <EditorSidebar 
              activeTab={activeTab} 
-             onTabChange={(id) => setActiveTab(id as any)} 
+             onTabChange={(id) => setActiveTab(id as Tab)} 
              completionMap={sidebarCompletionMap} 
            />
         )}

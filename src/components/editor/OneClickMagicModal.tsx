@@ -84,7 +84,7 @@ export default function OneClickMagicModal({ isOpen, onClose }: { isOpen: boolea
       });
 
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       setError(language === 'ar' ? 'حدث خطأ أثناء التوليد' : 'Error generating resume');
     } finally {

@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { useResumeStore } from "../store/useResumeStore";
+import { ResumeData } from "../types/resume";
 
 interface ExportStatus {
   show: boolean;
@@ -9,7 +10,7 @@ interface ExportStatus {
 
 interface UseResumeExportProps {
   language: string;
-  data: any;
+  data: ResumeData;
   isPremium: boolean;
   showToast: (msg: string, type?: "success" | "error" | "info") => void;
 }
@@ -26,7 +27,7 @@ export function useResumeExport({
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showResumeChecker, setShowResumeChecker] = useState(false);
 
-  const generateFingerprint = useCallback((cvData: any): string => {
+  const generateFingerprint = useCallback((cvData: ResumeData): string => {
     const str = JSON.stringify({
       personalInfo: cvData.personalInfo,
       workExperience: cvData.experience,
@@ -85,7 +86,7 @@ export function useResumeExport({
       document.body.appendChild(printContainer);
       
       if ("fonts" in document) {
-        await (document as any).fonts.ready;
+        await (document as unknown as { fonts?: { ready: Promise<void> } }).fonts?.ready;
       }
       
       await new Promise((resolve) => requestAnimationFrame(() => resolve(null)));
@@ -148,11 +149,11 @@ export function useResumeExport({
   }, []);
 
   const handleProceedToExport = useCallback(async (
-    formatInput: "pdf" | "docx" | "txt" | any = "pdf",
+    formatInput: "pdf" | "docx" | "txt" | string = "pdf",
     forceAllow = false
   ) => {
     const format: "pdf" | "docx" | "txt" = (typeof formatInput === "string" && ["pdf", "docx", "txt"].includes(formatInput))
-      ? formatInput
+      ? (formatInput as "pdf" | "docx" | "txt")
       : "pdf";
 
     setShowResumeChecker(false);
@@ -184,7 +185,7 @@ export function useResumeExport({
         onSuccessfulDownload();
         
         setTimeout(() => setShowPostDownloadModal(true), 300);
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Export failed:", err);
         showToast(language === "ar" ? "حدث خطأ أثناء التصدير. يرجى المحاولة مرة أخرى." : "Export failed. Please try again.", "error");
         setExportStatus(null);
@@ -251,7 +252,7 @@ export function useResumeExport({
 
         onSuccessfulDownload();
         setExportStatus({ show: true, step: 5, format });
-        (window as any).triggerFrictionlessConfetti?.();
+        (window as unknown as { triggerFrictionlessConfetti?: () => void }).triggerFrictionlessConfetti?.();
         await sleep(1000);
         setExportStatus(null);
         setHasExported(true);
@@ -265,7 +266,7 @@ export function useResumeExport({
         setExportStatus({ show: true, step: 1, format });
         await sleep(550);
         const text = `${data.personalInfo?.fullName || ""}\n${data.personalInfo?.email || ""}\n${data.personalInfo?.phone || ""}\n\nEXPERIENCE\n${(data.experience || [])
-          .map((exp: any) => `${exp.role || ""} at ${exp.company || ""}\n${exp.description || ""}`)
+          .map((exp: { role?: string; company?: string; description?: string }) => `${exp.role || ""} at ${exp.company || ""}\n${exp.description || ""}`)
           .join("\n\n")}`;
         const blob = new Blob([text], { type: "text/plain" });
         const url = URL.createObjectURL(blob);

@@ -43,7 +43,7 @@ export default function FinishStep({
 
   // Calculate ATS Score and recommendations
   const { score, sections } = useMemo(() => calculateATSScore(data, language), [data, language]);
-  const hasImprovements = sections.some(s => s.improvements.length > 0);
+  const _hasImprovements = sections.some(s => s.improvements.length > 0);
 
   // Toggle for collapsible details box
   const [showDetails, setShowDetails] = useState(true);

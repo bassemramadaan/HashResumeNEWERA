@@ -57,7 +57,7 @@ export const FrictionlessConfetti: React.FC = () => {
     spawnParticles();
 
     // Expose global trigger
-    (window as any).triggerPageConfetti = () => {
+    (window as unknown as { triggerPageConfetti?: () => void }).triggerPageConfetti = () => {
       spawnParticles();
     };
 
@@ -110,7 +110,7 @@ export const FrictionlessConfetti: React.FC = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
-      delete (window as any).triggerPageConfetti;
+      delete (window as unknown as { triggerPageConfetti?: () => void }).triggerPageConfetti;
     };
   }, []);
 

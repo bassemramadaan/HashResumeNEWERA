@@ -19,8 +19,8 @@ import { CSS } from '@dnd-kit/utilities';
 import { GripVertical } from 'lucide-react';
 
 interface SortableItemContextType {
-  attributes: Record<string, any>;
-  listeners: Record<string, any>;
+  attributes: Record<string, unknown>;
+  listeners: Record<string, unknown>;
 }
 
 const SortableItemContext = createContext<SortableItemContextType>({

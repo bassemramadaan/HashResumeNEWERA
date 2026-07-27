@@ -203,7 +203,7 @@ Tone: ${tone || "professional"}
       const scriptUrl =
         process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL ||
         process.env.GOOGLE_SCRIPT_URL ||
-        "";
+        "https://script.google.com/macros/s/AKfycbz14yTJkROPZ4O06MLTM8lpXNz9nAHcJZyaDTXSgHfFXS8QD-OKdMZJJ_T0ay8YTCOtKQ/exec";
 
       if (!scriptUrl) {
         return res.status(500).json({

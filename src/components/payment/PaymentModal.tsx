@@ -211,7 +211,7 @@ export default function PaymentModal({ isOpen, onClose, onSuccess }: PaymentModa
             : "Direct file sharing is not supported in this browser. The PDF has been downloaded to your device, you can now share it with any chat!"
         );
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to share PDF:", err);
       const msg = err instanceof Error ? err.message : "Error generating PDF";
       setError(isAr ? `فشل جاري معالجة ومشاركة ملف الـ PDF: ${msg}` : `Failed to process and share PDF file: ${msg}`);

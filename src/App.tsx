@@ -9,7 +9,7 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { BottomNavBar } from "./components/BottomNavBar";
 import { OfflineIndicator } from "./components/ui/OfflineIndicator";
 
-const lazyRetry = <T extends React.ComponentType<any>>(
+const lazyRetry = <T extends React.ComponentType<unknown>>(
   componentImport: () => Promise<{ default: T }>
 ) => {
   return React.lazy(async () => {
