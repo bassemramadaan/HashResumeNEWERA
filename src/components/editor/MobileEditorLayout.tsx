@@ -688,13 +688,21 @@ export default function MobileEditorLayout({
     }
   };
 
-  // Touch Swipe Gesture Handling
+  // Touch Swipe Gesture Handling with Step Wizard feedback
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
+  const [swipeToast, setSwipeToast] = useState<string | null>(null);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
+  };
+
+  const showSwipeFeedback = (stepName: string) => {
+    setSwipeToast(stepName);
+    setTimeout(() => {
+      setSwipeToast(prev => prev === stepName ? null : prev);
+    }, 1800);
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -702,13 +710,24 @@ export default function MobileEditorLayout({
     const deltaX = e.changedTouches[0].clientX - touchStartX.current;
     const deltaY = e.changedTouches[0].clientY - touchStartY.current;
 
-    if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.4) {
+    // Minimum swipe threshold of 40px with horizontal dominance ratio
+    if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
       if (deltaX < 0) {
-        if (isRtl) handlePrevSection();
-        else handleNextSection();
+        if (isRtl) {
+          handlePrevSection();
+          showSwipeFeedback(lang === "ar" ? "👈 الخطوة السابقة" : "👈 Previous Step");
+        } else {
+          handleNextSection();
+          showSwipeFeedback(lang === "ar" ? "👉 الخطوة التالية" : "👉 Next Step");
+        }
       } else {
-        if (isRtl) handleNextSection();
-        else handlePrevSection();
+        if (isRtl) {
+          handleNextSection();
+          showSwipeFeedback(lang === "ar" ? "👉 الخطوة التالية" : "👉 Next Step");
+        } else {
+          handlePrevSection();
+          showSwipeFeedback(lang === "ar" ? "👈 الخطوة السابقة" : "👈 Previous Step");
+        }
       }
     }
     touchStartX.current = null;
@@ -827,41 +846,99 @@ export default function MobileEditorLayout({
         </header>
       </div>
 
-      {/* Horizontal Section Stepper Navigation on Mobile */}
-      <div className="w-full bg-white border-b border-slate-200/40 px-3 py-2 shrink-0 overflow-x-auto scrollbar-none flex items-center justify-start gap-2 select-none" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-        {FINE_SECTIONS.map((stepId, idx) => {
-          const isActive = activeSection === stepId;
-          const pct = completionMap[stepId] ?? 0;
-          const isCompleted = pct === 100;
-          const label = (FINE_LABELS[lang] || FINE_LABELS.en)[stepId];
-          
-          return (
-            <button
-              id={`m-tab-${stepId}`}
-              key={stepId}
-              onClick={() => handleSectionChange(stepId)}
-              className={cn(
-                "flex items-center gap-1 px-3 py-1.5 rounded-full text-[10.5px] font-bold transition-all shrink-0 cursor-pointer border",
-                isActive
-                  ? "bg-[#001639] text-white border-[#001639] shadow-xs"
-                  : "bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900"
-              )}
-            >
-              <div className={cn(
-                "w-3.5 h-3.5 rounded-full flex items-center justify-center text-[8px] font-black shrink-0",
-                isActive 
-                  ? "bg-white text-[#001639]" 
-                  : isCompleted 
-                    ? "bg-emerald-500 text-white" 
-                    : "bg-slate-200 text-slate-500"
-              )}>
-                {isCompleted ? "✓" : idx + 1}
+      {/* ── 4-Step Wizard Stepper Header on Mobile ── */}
+      {(() => {
+        // Map 8 fine sections to 4 primary wizard steps
+        const WIZARD_STEPS = [
+          { step: 1, id: "basics", nameAr: "المعلومات والملخص", nameEn: "Info & Summary", subs: ["basics", "summary"] },
+          { step: 2, id: "experience", nameAr: "الخبرة والتعليم", nameEn: "Work & Education", subs: ["experience", "education"] },
+          { step: 3, id: "skills", nameAr: "المهارات والمشاريع", nameEn: "Skills & Projects", subs: ["skills", "projects", "certifications"] },
+          { step: 4, id: "finish", nameAr: "المعاينة والتحميل", nameEn: "Preview & Export", subs: ["finish"] },
+        ];
+
+        const currentWizardIndex = WIZARD_STEPS.findIndex(s => s.subs.includes(activeSection));
+        const currentWizardStep = WIZARD_STEPS[currentWizardIndex >= 0 ? currentWizardIndex : 0];
+
+        return (
+          <div className="w-full bg-white border-b border-slate-200/80 px-3 py-2 shrink-0 select-none flex flex-col gap-2 shadow-2xs">
+            {/* Step Header Title Bar */}
+            <div className="flex items-center justify-between px-1">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black uppercase tracking-wider text-brand-600 bg-brand-50 border border-brand-200/80 px-2 py-0.5 rounded-md">
+                  {lang === "ar" ? `الخطوة ${currentWizardStep.step} من 4` : `Step ${currentWizardStep.step} of 4`}
+                </span>
+                <h3 className="text-xs font-black text-slate-900">
+                  {lang === "ar" ? currentWizardStep.nameAr : currentWizardStep.nameEn}
+                </h3>
               </div>
-              <span className="whitespace-nowrap leading-none">{label}</span>
-            </button>
-          );
-        })}
-      </div>
+              <span className="text-[10px] font-bold text-slate-400">
+                {lang === "ar" ? "اسحب للتنقل ↔" : "Swipe ↔"}
+              </span>
+            </div>
+
+            {/* Stepper Progress Bar (4 Step Pills) */}
+            <div className="grid grid-cols-4 gap-1.5">
+              {WIZARD_STEPS.map((ws) => {
+                const isActiveStep = ws.step === currentWizardStep.step;
+                const isPassed = ws.step < currentWizardStep.step;
+                return (
+                  <button
+                    key={ws.step}
+                    onClick={() => handleSectionChange(ws.subs[0])}
+                    className={cn(
+                      "h-2 rounded-full transition-all cursor-pointer relative",
+                      isActiveStep
+                        ? "bg-brand-600 ring-2 ring-brand-600/30 shadow-xs"
+                        : isPassed
+                          ? "bg-emerald-500"
+                          : "bg-slate-200"
+                    )}
+                    title={lang === "ar" ? ws.nameAr : ws.nameEn}
+                  />
+                );
+              })}
+            </div>
+
+            {/* Sub-sections Pills (if multiple exist in current step) */}
+            {currentWizardStep.subs.length > 1 && (
+              <div className="flex items-center gap-1.5 pt-0.5 overflow-x-auto scrollbar-none">
+                {currentWizardStep.subs.map((subId) => {
+                  const isSubActive = activeSection === subId;
+                  const label = (FINE_LABELS[lang] || FINE_LABELS.en)[subId];
+                  return (
+                    <button
+                      key={subId}
+                      onClick={() => handleSectionChange(subId)}
+                      className={cn(
+                        "px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all cursor-pointer shrink-0 border",
+                        isSubActive
+                          ? "bg-slate-900 text-white border-slate-900"
+                          : "bg-slate-50 text-slate-600 border-slate-200/80 hover:bg-slate-100"
+                      )}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })()}
+
+      {/* Swipe Feedback Toast Notification */}
+      <AnimatePresence>
+        {swipeToast && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="fixed top-20 inset-x-0 mx-auto w-max z-[180] bg-slate-900/90 text-white backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bold shadow-xl border border-white/10 pointer-events-none"
+          >
+            {swipeToast}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ── Main content area ── */}
       <main className="flex-1 overflow-hidden w-full max-w-lg mx-auto relative bg-[#FAF9F7]">
@@ -1015,6 +1092,20 @@ export default function MobileEditorLayout({
           </div>
         </div>
       </main>
+
+      {/* ── Floating Action Button (FAB) for AI Assistant ── */}
+      <div className="fixed bottom-24 end-4 z-[90] lg:hidden">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.92 }}
+          onClick={() => window.dispatchEvent(new CustomEvent("open-magic-modal"))}
+          className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-600 via-brand-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-full shadow-2xl shadow-purple-600/40 border border-white/20 active:scale-95 transition-all cursor-pointer font-black text-xs min-h-[48px]"
+          title={lang === "ar" ? "المساعد الذكي للسيرة الذاتية" : "AI Assistant"}
+        >
+          <Sparkles className="w-5 h-5 text-amber-300 animate-pulse" />
+          <span>{lang === "ar" ? "المساعد الذكي ✨" : "AI Assistant ✨"}</span>
+        </motion.button>
+      </div>
 
       {/* ── Highly Polished Glassmorphic Mobile Dock ── */}
       <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-auto flex flex-col select-none lg:hidden">

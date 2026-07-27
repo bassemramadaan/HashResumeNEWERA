@@ -19,17 +19,43 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { code, action, reference, senderInfo, email, amount } = req.body;
+    const { code, action, reference, senderInfo, email, amount, plan, promoCode } = req.body || {};
+
+    let verifiedAmount = amount;
+    if (action === "submitPayment") {
+      const expectedBasePrice = plan === "bundle" || plan === "unlimited" ? 120 : 50;
+      let expectedPrice = expectedBasePrice;
+
+      if (promoCode && typeof promoCode === "string") {
+        const defaultPromos = [
+          { code: "START20", discountPercent: 20 },
+          { code: "WELCOME20", discountPercent: 20 },
+          { code: "HASH20", discountPercent: 20 },
+        ];
+        let promoList = defaultPromos;
+        if (process.env.PROMO_CODES) {
+          try { promoList = JSON.parse(process.env.PROMO_CODES); } catch {}
+        }
+        const match = promoList.find((p: { code: string; discountPercent: number }) => p.code === promoCode.trim().toUpperCase());
+        if (match) {
+          const discount = Math.round(expectedBasePrice * (match.discountPercent / 100));
+          expectedPrice = Math.max(10, expectedBasePrice - discount);
+        }
+      }
+      verifiedAmount = expectedPrice;
+    }
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
     const scriptUrl =
       process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL ||
-      process.env.GOOGLE_SCRIPT_URL ||
-      "https://script.google.com/macros/s/AKfycbz14yTJkROPZ4O06MLTM8lpXNz9nAHcJZyaDTXSgHfFXS8QD-OKdMZJJ_T0ay8YTCOtKQ/exec";
+      process.env.GOOGLE_SCRIPT_URL;
     if (!scriptUrl) {
-      throw new Error("Payment script URL not configured");
+      return res.status(500).json({
+        success: false,
+        message: "Payment script URL not configured in environment variables",
+      });
     }
 
     let url = `${scriptUrl}?t=${Date.now()}`;
@@ -39,7 +65,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     };
 
     if (action === "submitPayment") {
-      url = `${scriptUrl}?action=submitPayment&reference=${encodeURIComponent(reference || "")}&senderInfo=${encodeURIComponent(senderInfo || "")}&email=${encodeURIComponent(email || "")}&amount=${encodeURIComponent(amount || "")}&t=${Date.now()}`;
+      url = `${scriptUrl}?action=submitPayment&reference=${encodeURIComponent(reference || "")}&senderInfo=${encodeURIComponent(senderInfo || "")}&email=${encodeURIComponent(email || "")}&amount=${encodeURIComponent(verifiedAmount || amount || "")}&t=${Date.now()}`;
     } else if (action === "checkStatus") {
       url = `${scriptUrl}?action=checkStatus&reference=${encodeURIComponent(reference || "")}&t=${Date.now()}`;
     } else {

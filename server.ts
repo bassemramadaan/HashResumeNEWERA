@@ -32,22 +32,50 @@ async function startServer() {
   if (process.env.ALLOWED_ORIGINS) {
     allowedOrigins.push(...process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim()));
   }
+  if (process.env.APP_URL) {
+    allowedOrigins.push(process.env.APP_URL);
+  }
 
   app.use(cors({
     origin: function (origin, callback) {
-      if (
-        !origin || 
-        allowedOrigins.includes(origin) || 
-        origin.startsWith('http://localhost:') || 
-        origin.endsWith('.run.app')
-      ) {
+      // Allow requests with no origin (like mobile apps, curl, or same-origin SPA calls)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      const isAllowedDomain = allowedOrigins.some(allowed => origin === allowed || origin.startsWith(allowed));
+      const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
+      // Strictly match Cloud Run applet container domain format
+      const isAppletCloudRun = /^https:\/\/[a-z0-9-]+\.(europe-west1\.)?run\.app$/i.test(origin) || (process.env.APP_URL && origin.startsWith(process.env.APP_URL));
+
+      if (isAllowedDomain || isLocalhost || isAppletCloudRun) {
         callback(null, true);
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error('CORS policy: Access denied for origin'));
       }
-    }
+    },
+    credentials: true,
   }));
   app.use(express.json({ limit: "50mb" }));
+
+  // CSRF & Origin Validation Middleware for state-changing requests
+  app.use('/api/', (req, res, next) => {
+    if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(req.method)) {
+      const origin = req.get('origin');
+      const host = req.get('host');
+
+      if (origin) {
+        const isAllowedDomain = allowedOrigins.some(allowed => origin === allowed || origin.startsWith(allowed));
+        const isLocalhost = origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:');
+        const isAppletCloudRun = /^https:\/\/[a-z0-9-]+\.(europe-west1\.)?run\.app$/i.test(origin) || (host && origin.includes(host));
+
+        if (!isAllowedDomain && !isLocalhost && !isAppletCloudRun) {
+          return res.status(403).json({ success: false, message: 'CSRF Protection: Forbidden origin' });
+        }
+      }
+    }
+    next();
+  });
 
   // General Rate Limiter for all API routes
   const limiter = rateLimit({
@@ -56,6 +84,14 @@ async function startServer() {
     message: { error: 'Too many requests, please try again later.' }
   });
   app.use('/api/', limiter);
+
+  // Strict Rate Limiter for Payment Endpoints
+  const paymentLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 20,
+    message: { success: false, message: 'Too many payment requests, please try again after 15 minutes.' }
+  });
+  app.use('/api/payment/', paymentLimiter);
 
   // Rate Limiter for AI Endpoints
   const aiLimiter = rateLimit({
@@ -150,19 +186,27 @@ Tone: ${tone || "professional"}
   // Validate Promo Codes Server-side
   app.post("/api/payment/apply-promo", async (req, res) => {
     try {
-      const { promoCode, plan } = req.body;
-      if (!promoCode) {
-        return res.status(400).json({ success: false, message: "Promo code is required" });
+      const { promoCode, plan } = req.body || {};
+      if (!promoCode || typeof promoCode !== "string") {
+        return res.status(400).json({ success: false, message: "Valid promo code string is required" });
       }
 
-      const PROMO_CODES = [
+      const defaultPromos = [
         { code: "START20", discountPercent: 20 },
         { code: "WELCOME20", discountPercent: 20 },
         { code: "HASH20", discountPercent: 20 },
       ];
+      let promoList = defaultPromos;
+      if (process.env.PROMO_CODES) {
+        try {
+          promoList = JSON.parse(process.env.PROMO_CODES);
+        } catch {
+          console.warn("Could not parse PROMO_CODES env, using default promo list");
+        }
+      }
 
       const code = promoCode.trim().toUpperCase();
-      const match = PROMO_CODES.find(p => p.code === code);
+      const match = promoList.find((p: { code: string; discountPercent: number }) => p.code === code);
 
       if (!match) {
         return res.status(400).json({ success: false, message: "Invalid or expired promo code" });
@@ -188,7 +232,9 @@ Tone: ${tone || "professional"}
   app.all("/api/payment/verify", async (req, res) => {
     try {
       const payload = { ...req.query, ...req.body };
-      const { code, action, reference, senderInfo, email, amount } = payload;
+      const { code, action, reference, senderInfo, email, amount, plan, promoCode } = payload;
+
+      let verifiedAmount = amount;
 
       if (action === "submitPayment") {
         const parsedAmount = parseFloat(String(amount || "").replace(/[^0-9.]/g, ""));
@@ -198,12 +244,35 @@ Tone: ${tone || "professional"}
             message: "Invalid or missing payment details (reference, valid email, and positive amount are required)",
           });
         }
+
+        // Server-side calculation of expected amount to prevent client tampering
+        const expectedBasePrice = plan === "bundle" || plan === "unlimited" ? 120 : 50;
+        let expectedPrice = expectedBasePrice;
+
+        if (promoCode && typeof promoCode === "string") {
+          const defaultPromos = [
+            { code: "START20", discountPercent: 20 },
+            { code: "WELCOME20", discountPercent: 20 },
+            { code: "HASH20", discountPercent: 20 },
+          ];
+          let promoList = defaultPromos;
+          if (process.env.PROMO_CODES) {
+            try { promoList = JSON.parse(process.env.PROMO_CODES); } catch {}
+          }
+          const match = promoList.find((p: { code: string; discountPercent: number }) => p.code === promoCode.trim().toUpperCase());
+          if (match) {
+            const discount = Math.round(expectedBasePrice * (match.discountPercent / 100));
+            expectedPrice = Math.max(10, expectedBasePrice - discount);
+          }
+        }
+
+        // Standardize verified amount passed to accounting script
+        verifiedAmount = expectedPrice;
       }
 
       const scriptUrl =
         process.env.GOOGLE_APPS_SCRIPT_PAYMENT_URL ||
-        process.env.GOOGLE_SCRIPT_URL ||
-        "https://script.google.com/macros/s/AKfycbz14yTJkROPZ4O06MLTM8lpXNz9nAHcJZyaDTXSgHfFXS8QD-OKdMZJJ_T0ay8YTCOtKQ/exec";
+        process.env.GOOGLE_SCRIPT_URL;
 
       if (!scriptUrl) {
         return res.status(500).json({
@@ -223,7 +292,7 @@ Tone: ${tone || "professional"}
           `&reference=${encodeURIComponent(String(reference || ""))}` +
           `&senderInfo=${encodeURIComponent(String(senderInfo || ""))}` +
           `&email=${encodeURIComponent(String(email || ""))}` +
-          `&amount=${encodeURIComponent(String(amount || ""))}` +
+          `&amount=${encodeURIComponent(String(verifiedAmount || amount || ""))}` +
           `&t=${Date.now()}`;
       } else if (action === "checkStatus") {
         url =

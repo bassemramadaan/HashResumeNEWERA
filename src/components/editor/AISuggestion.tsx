@@ -172,23 +172,29 @@ Provide ONLY the final improved sentence, with absolutely no notes, no chat/mess
       )}
 
       {isGenerating && (
-        <div className="space-y-3 py-2">
+        <div className="space-y-3 py-3 px-3 bg-white border border-slate-150 rounded-2xl shadow-3xs animate-in fade-in duration-200">
           <div className="flex items-center gap-2">
-            <Loader2 size={12} className="animate-spin text-brand-600" />
-            <span className="text-xs text-slate-500 italic font-medium">
-               {language === "ar" ? "جاري الصياغة والتحسين..." : "Drafting & Polishing..."}
+            <Loader2 size={14} className="animate-spin text-brand-600" />
+            <span className="text-xs text-brand-700 font-black">
+               {language === "ar" ? "جاري تحليل النص وإعادة الصياغة بالذكاء الاصطناعي..." : "AI analyzing & drafting polished bullet point..."}
             </span>
           </div>
-          <div className="space-y-2">
+          {/* Skeleton Screen lines */}
+          <div className="space-y-2 pt-1">
             <motion.div 
-               animate={{ opacity: [0.3, 0.6, 0.3] }}
-               transition={{ repeat: Infinity, duration: 1.5 }}
-               className="h-2.5 bg-slate-200 rounded-full w-full" 
+               animate={{ opacity: [0.3, 0.7, 0.3] }}
+               transition={{ repeat: Infinity, duration: 1.2 }}
+               className="h-3 bg-slate-200/80 rounded-full w-full" 
             />
             <motion.div 
-               animate={{ opacity: [0.3, 0.6, 0.3] }}
-               transition={{ repeat: Infinity, duration: 1.5, delay: 0.2 }}
-               className="h-2.5 bg-slate-200 rounded-full w-5/6" 
+               animate={{ opacity: [0.3, 0.7, 0.3] }}
+               transition={{ repeat: Infinity, duration: 1.2, delay: 0.15 }}
+               className="h-3 bg-slate-200/80 rounded-full w-11/12" 
+            />
+            <motion.div 
+               animate={{ opacity: [0.3, 0.7, 0.3] }}
+               transition={{ repeat: Infinity, duration: 1.2, delay: 0.3 }}
+               className="h-3 bg-slate-200/80 rounded-full w-3/4" 
             />
           </div>
         </div>
