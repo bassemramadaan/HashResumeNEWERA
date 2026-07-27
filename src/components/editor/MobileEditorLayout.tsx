@@ -1006,17 +1006,17 @@ export default function MobileEditorLayout({
             </button>
             <button
               onClick={onExportPDF}
-              className="flex-1 h-11 rounded-xl bg-brand-600 hover:bg-slate-950 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-xs cursor-pointer active:scale-98 transition-all touch-manipulation"
+              className="flex-1 h-12 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-md shadow-orange-500/25 cursor-pointer active:scale-98 transition-all touch-manipulation min-h-[48px]"
               style={{ touchAction: "manipulation" }}
             >
-              <FileText size={14} strokeWidth={2.5} />
-              <span>{lang === "ar" ? "تحميل (PDF)" : "Download (PDF)"}</span>
+              <FileText size={15} strokeWidth={2.5} />
+              <span>{lang === "ar" ? "تحميل (PDF) الفوري" : "Download (PDF)"}</span>
             </button>
           </div>
         </div>
       </main>
 
-      {/* ── Highly Polished Flat Bottom Navigation ── */}
+      {/* ── Highly Polished Glassmorphic Mobile Dock ── */}
       <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-auto flex flex-col select-none lg:hidden">
         {/* Mini Progress Line above the bar */}
         <div className="w-full h-[3px] bg-slate-100 overflow-hidden relative">
@@ -1024,7 +1024,7 @@ export default function MobileEditorLayout({
             initial={{ width: 0 }}
             animate={{ width: `${Math.min(100, Math.max(0, atsScore))}%` }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="absolute top-0 bottom-0 bg-gradient-to-r from-brand-600 via-orange-500 to-emerald-500"
+            className="absolute top-0 bottom-0 bg-gradient-to-r from-orange-500 via-amber-500 to-emerald-500"
             style={{ [isRtl ? "right" : "left"]: 0 }}
           />
         </div>
@@ -1038,9 +1038,9 @@ export default function MobileEditorLayout({
                 onOpenSettings();
                 setShowMoreMenu(false);
               }}
-              className="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer text-start text-xs sm:text-sm font-bold"
+              className="w-full min-h-[44px] flex items-center gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer text-start text-xs sm:text-sm font-bold"
             >
-              <Settings size={18} strokeWidth={2} className="text-brand-600" />
+              <Settings size={18} strokeWidth={2} className="text-slate-800" />
               <span>{lang === "ar" ? "الإعدادات والسمات" : "Settings & Themes"}</span>
             </button>
 
@@ -1050,14 +1050,14 @@ export default function MobileEditorLayout({
                 onOpenAts();
                 setShowMoreMenu(false);
               }}
-              className="w-full flex items-center justify-between gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer text-start text-xs sm:text-sm font-bold border-t border-slate-100"
+              className="w-full min-h-[44px] flex items-center justify-between gap-3 px-3.5 py-3 rounded-xl hover:bg-slate-50 text-slate-700 hover:text-slate-900 transition-colors cursor-pointer text-start text-xs sm:text-sm font-bold border-t border-slate-100"
             >
               <div className="flex items-center gap-3">
-                <CheckCircle size={18} strokeWidth={2} className="text-brand-600" />
+                <CheckCircle size={18} strokeWidth={2} className="text-emerald-600" />
                 <span>{lang === "ar" ? "فحص وتحليل ATS" : "ATS Audit & Analysis"}</span>
               </div>
               <span className={cn(
-                "text-[10px] font-extrabold px-2 py-0.5 rounded-full text-white shadow-xs",
+                "text-[10px] font-black px-2.5 py-0.5 rounded-full text-white shadow-xs",
                 atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"
               )}>
                 {atsScore}%
@@ -1066,8 +1066,8 @@ export default function MobileEditorLayout({
           </div>
         )}
 
-        {/* The White Flat Dock Container */}
-        <div className="w-full bg-white border-t border-gray-200 shadow-[0_-2px_12px_rgba(0,0,0,0.06)] px-2 pt-2 pb-[calc(8px+env(safe-area-inset-bottom,0px))] flex items-center justify-around">
+        {/* Glassmorphic Bottom Dock Container */}
+        <div className="w-full bg-white/85 backdrop-blur-xl border-t border-slate-200/80 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] px-3 pt-2 pb-[calc(10px+env(safe-area-inset-bottom,0px))] flex items-center justify-around">
           
           {/* Tab 1: Sections Drawer Trigger */}
           <button
@@ -1076,13 +1076,13 @@ export default function MobileEditorLayout({
               setShowMoreMenu(false);
             }}
             className={cn(
-              "flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer text-gray-400 hover:text-brand-600"
+              "flex flex-col items-center gap-[2px] min-w-[64px] min-h-[44px] justify-center transition-colors cursor-pointer text-slate-500 hover:text-slate-900"
             )}
             title={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
             aria-label={lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}
           >
             <Grid size={20} strokeWidth={2} />
-            <span className="text-[10px] font-medium mt-0.5">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
+            <span className="text-[10px] font-extrabold mt-0.5">{lang === "ar" ? "الأقسام" : lang === "fr" ? "Rubriques" : "Sections"}</span>
           </button>
 
           {/* Tab 2: Download */}
@@ -1091,14 +1091,14 @@ export default function MobileEditorLayout({
               onExportPDF();
               setShowMoreMenu(false);
             }}
-            className="flex flex-col items-center gap-[2px] min-w-[64px] transition-colors cursor-pointer"
+            className="flex flex-col items-center gap-[2px] min-w-[64px] min-h-[44px] justify-center transition-colors cursor-pointer group"
             title={lang === "ar" ? "تحميل PDF" : "Download PDF"}
             aria-label={lang === "ar" ? "تحميل PDF" : "Download PDF"}
           >
-            <div className="bg-[#001639] rounded-full p-1.5 text-white transform -translate-y-1 shadow-xs">
-              <Download size={18} strokeWidth={2.5} />
+            <div className="bg-orange-500 hover:bg-orange-600 rounded-full p-2 text-white transform -translate-y-2 shadow-lg shadow-orange-500/30 group-active:scale-95 transition-all">
+              <Download size={20} strokeWidth={2.5} />
             </div>
-            <span className="text-[10px] font-medium text-[#001639] -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
+            <span className="text-[10px] font-black text-orange-600 -mt-1 uppercase tracking-wider">{lang === "ar" ? "تحميل" : "Download"}</span>
           </button>
 
           {/* Tab 3: More */}

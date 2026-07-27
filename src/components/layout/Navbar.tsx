@@ -102,8 +102,8 @@ export function Navbar({ onStartClick }: NavbarProps = {}) {
     <nav className={cn(
       "sticky top-0 z-[120] transition-all duration-300 border-b", 
       scrolled 
-        ? "bg-white/70 backdrop-blur-[12px] shadow-[0_8px_32px_rgba(0,0,0,0.03)] border-slate-200/40 py-1" 
-        : "bg-white/95 border-slate-100 py-2"
+        ? "bg-white/80 backdrop-blur-md shadow-[0_8px_32px_rgba(0,0,0,0.03)] border-slate-200/60 py-1" 
+        : "bg-white/90 backdrop-blur-sm border-slate-100/80 py-2"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between relative h-28 xs:h-32 sm:h-36 lg:h-[125px] lg:[direction:ltr]">

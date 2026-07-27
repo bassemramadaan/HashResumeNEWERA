@@ -248,9 +248,9 @@ export default function QuickAIAssistPill({ section, onInject }: QuickAIAssistPi
                           <button
                             type="button"
                             onClick={() => handleInject(phrase)}
-                            className="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1.5 rounded-lg text-xs font-black shadow-xs hover:shadow-3xs transition-all flex items-center gap-1 cursor-pointer"
+                            className="bg-gradient-to-r from-violet-600 via-indigo-600 to-brand-600 hover:from-violet-700 hover:to-brand-700 text-white px-3 py-1.5 rounded-xl text-xs font-black shadow-sm hover:shadow-md active:scale-98 transition-all flex items-center gap-1 cursor-pointer"
                           >
-                            <Sparkles size={12} />
+                            <Sparkles size={12} className="text-amber-300 animate-pulse" />
                             <span>{dict.inject}</span>
                           </button>
                         </div>

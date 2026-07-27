@@ -90,126 +90,156 @@ export default function FinishStep({
   const scoreVerdict = getScoreVerdict(score);
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 p-2 sm:p-4 max-w-4xl mx-auto relative overflow-hidden" dir={isAr ? "rtl" : "ltr"}>
+    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500 p-2 sm:p-4 max-w-4xl mx-auto relative overflow-hidden" dir={isAr ? "rtl" : "ltr"}>
       
-      {/* ── 1. Immediate Premium Downloads (خلي التحميل يبقي في البدايه) ── */}
-      <div className="bg-white rounded-2xl border border-neutral-100 p-6 sm:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.02)] space-y-6 text-center">
-        
-        {/* Subtle Check Badge */}
-        <div className="flex flex-col items-center justify-center space-y-3">
-          <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-500 shadow-inner">
-            <CheckCircle2 className="w-6 h-6" />
-          </div>
-          <div className="space-y-1">
-            <h2 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">
-              {isAr ? "سيرتك جاهزة للتحميل الفوري! 🚀" : "Your Resume is Ready to Launch!"}
-            </h2>
-            <p className="text-neutral-500 text-xs sm:text-sm font-medium max-w-lg mx-auto">
-              {isAr 
-                ? "انتهيت بامتياز! اختر التنسيق الأنسب لاحتياجك لبدء التقديم على الوظائف وحصد المقابلات."
-                : "Excellent work! Choose the preferred format to download and start applying directly."}
-            </p>
-          </div>
-        </div>
+      {/* ── 1. Hero Completion Banner & Download Action Center ── */}
+      <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 border border-slate-800/80 shadow-2xl shadow-slate-950/20 relative overflow-hidden">
+        {/* Subtle Ambient Glows */}
+        <div className="absolute -top-24 -end-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-24 -start-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
-        {/* Clean Responsive Side-by-Side Download Options */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        <div className="relative z-10 space-y-8">
           
-          {/* PDF Card (Official / ATS friendly) */}
-          <div className="bg-neutral-50 hover:bg-neutral-100/50 rounded-2xl p-5 border border-neutral-200/50 transition-all text-start flex flex-col justify-between group">
-            <div className="space-y-2 mb-4">
-              <div className="flex items-center justify-between">
-                <div className="p-2.5 bg-rose-100/60 text-rose-600 rounded-xl">
-                  <FileCheck2 className="w-5 h-5" />
-                </div>
-                <span className="text-[9px] font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-full">
-                  {isAr ? "النسخة الرسمية الحية" : "Official Copy"}
+          {/* Header & ATS Score Ring/Badge */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-6 border-b border-slate-800/80 text-center sm:text-start">
+            <div className="space-y-2 max-w-lg">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-black">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>{isAr ? "جاهزة للتحميل والتقديم الفوري" : "Ready for Instant Download & Application"}</span>
               </div>
-              <h3 className="text-sm font-bold text-neutral-800">
-                {isAr ? "تحميل بصيغة PDF الاحترافية" : "Standard PDF Document"}
-              </h3>
-              <p className="text-[11px] text-neutral-500 leading-normal">
-                {isAr
-                  ? "يحفظ التنسيق والمحاذاة بدقة فندقية %100 عبر جميع الأجهزة ومطابق لشروط فحص الـ ATS."
-                  : "Preserves exact layouts, fonts of record, margins and alignments consistently for hiring systems."}
+              <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                {isAr ? "سيرتك الذاتية في أبهى صورها 🚀" : "Your Resume is Ready to Launch!"}
+              </h2>
+              <p className="text-slate-300 text-xs sm:text-sm font-medium leading-relaxed">
+                {isAr 
+                  ? "تم فحص الهيكل والمحتوى والتوافق مع الـ ATS بنجاح. حمل النسخة الرسمية الآن لبدء حصد المقابلات."
+                  : "Validated for ATS readability, styling, and structural impact. Download your preferred format now."}
               </p>
             </div>
-            
-            <button
-              type="button"
-              onClick={onPrint}
-              className="w-full py-3 bg-neutral-950 hover:bg-neutral-900 text-white rounded-xl font-bold text-xs shadow-xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
-            >
-              <Download size={14} className="animate-bounce text-brand-600" />
-              <span>{isAr ? "تحميل ملف PDF" : "Download PDF file"}</span>
-            </button>
-          </div>
 
-          {/* Word Card (Editable) */}
-          <div className="bg-neutral-50 hover:bg-neutral-100/50 rounded-2xl p-5 border border-neutral-200/50 transition-all text-start flex flex-col justify-between group">
-            <div className="space-y-2 mb-4">
-              <div className="flex items-center justify-between">
-                <div className="p-2.5 bg-blue-100/60 text-blue-600 rounded-xl">
-                  <FileSpreadsheet className="w-5 h-5" />
-                </div>
-                <span className="text-[9px] font-bold text-blue-600 bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full">
-                  {isAr ? "قابلة للتعديل والنسخ" : "Editable Microsoft Word"}
-                </span>
+            {/* Visual ATS Score Circle Badge */}
+            <div className="shrink-0 bg-white/5 backdrop-blur-md p-4 rounded-2xl border border-white/10 flex flex-col items-center justify-center text-center min-w-[130px] shadow-lg">
+              <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 mb-1">
+                {isAr ? "معدل الـ ATS" : "ATS Score"}
+              </span>
+              <div className="flex items-baseline gap-0.5">
+                <span className="text-3xl sm:text-4xl font-black text-emerald-400 tracking-tight">{score}</span>
+                <span className="text-sm font-black text-emerald-400/80">%</span>
               </div>
-              <h3 className="text-sm font-bold text-neutral-800">
-                {isAr ? "تصدير بصيغة Word مخصصة" : "Editable Word DOCX format"}
-              </h3>
-              <p className="text-[11px] text-neutral-500 leading-normal">
-                {isAr
-                  ? "يتيح لك تعديل النص أو هيكل المستند لاحقاً يدوياً بحرية كاملة عبر برامج المكتب دون قيود."
-                  : "Provides fully customizable document model for native Word processors offline."}
-              </p>
+              <span className="mt-1 text-[9px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                {score >= 80 ? (isAr ? "ممتاز جداً" : "Optimal") : (isAr ? "جيد جداً" : "Good")}
+              </span>
             </div>
-            
-            <button
-              type="button"
-              onClick={onExportWord}
-              className="w-full py-3 bg-white hover:bg-neutral-50 text-neutral-800 border border-neutral-250 rounded-xl font-bold text-xs shadow-3xs flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer"
-            >
-              <Download size={14} className="text-brand-600" />
-              <span>{isAr ? "تصدير بصيغة Word (.docx)" : "Export to Word DOCX"}</span>
-            </button>
           </div>
 
+          {/* Action Download Cards (Primary PDF vs Secondary DOCX) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            {/* PDF Primary Card */}
+            <div className="bg-white/10 hover:bg-white/[0.14] backdrop-blur-md rounded-2xl p-5 border border-white/15 transition-all duration-300 text-start flex flex-col justify-between group">
+              <div className="space-y-2.5 mb-5">
+                <div className="flex items-center justify-between">
+                  <div className="p-2.5 bg-emerald-500/20 text-emerald-300 rounded-xl border border-emerald-500/30">
+                    <FileCheck2 className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-black text-emerald-300 bg-emerald-500/20 border border-emerald-500/30 px-2.5 py-0.5 rounded-full">
+                    {isAr ? "النسخة الرسمية %100" : "Recommended Official"}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-white">
+                    {isAr ? "تحميل ملف PDF المعتمد" : "Download Official PDF"}
+                  </h3>
+                  <p className="text-[11px] text-slate-300 leading-relaxed mt-1 font-medium">
+                    {isAr
+                      ? "يحفظ التنسيق والمحاذاة والخطوط بدقة 100% عبر كافة الأجهزة الشاشات ومطابق لأنظمة ATS."
+                      : "Preserves exact formatting, margins, typography, and structure for ATS scanners."}
+                  </p>
+                </div>
+              </div>
+              
+              <button
+                type="button"
+                onClick={onPrint}
+                className="group/btn w-full py-3.5 bg-orange-500 hover:bg-orange-400 text-white rounded-xl font-black text-xs shadow-lg shadow-orange-500/30 hover:shadow-xl hover:shadow-orange-500/40 hover:-translate-y-0.5 active:scale-98 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer border border-orange-400/30"
+              >
+                <Download size={15} className="text-white group-hover/btn:translate-y-0.5 transition-transform duration-200" />
+                <span>{isAr ? "تحميل ملف PDF النهائي" : "Download Official PDF"}</span>
+                <ArrowRight size={14} className="rtl:rotate-180 group-hover/btn:translate-x-1 transition-transform duration-200" />
+              </button>
+            </div>
+
+            {/* Word DOCX Card */}
+            <div className="bg-white/5 hover:bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/10 transition-all duration-300 text-start flex flex-col justify-between group">
+              <div className="space-y-2.5 mb-5">
+                <div className="flex items-center justify-between">
+                  <div className="p-2.5 bg-blue-500/20 text-blue-300 rounded-xl border border-blue-500/30">
+                    <FileSpreadsheet className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-bold text-blue-300 bg-blue-500/20 border border-blue-500/30 px-2.5 py-0.5 rounded-full">
+                    {isAr ? "قابل للتعديل" : "Editable DOCX"}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-white">
+                    {isAr ? "تصدير بصيغة Word (.docx)" : "Export Word Document"}
+                  </h3>
+                  <p className="text-[11px] text-slate-300 leading-relaxed mt-1 font-medium">
+                    {isAr
+                      ? "يتيح لك تعديل النص أو إضافة تفاصيل يدوياً بحرية كاملة عبر برنامج Microsoft Word."
+                      : "Generates an editable Word file for offline modifications and manual tweaks."}
+                  </p>
+                </div>
+              </div>
+              
+              <button
+                type="button"
+                onClick={onExportWord}
+                className="w-full py-3.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 rounded-xl font-extrabold text-xs shadow-2xs hover:-translate-y-0.5 active:scale-98 transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Download size={15} className="text-slate-200" />
+                <span>{isAr ? "تصدير بصيغة Word (.docx)" : "Export to Word DOCX"}</span>
+              </button>
+            </div>
+
+          </div>
         </div>
       </div>
 
-      {/* ── 2. Collapsible ATS Review Card (مربع تحت كده لو حد عايز يعرف تفاصيل الي محتاجه تطوير او تحسين) ── */}
-      <div className="border border-neutral-200/80 bg-white rounded-2xl overflow-hidden shadow-xs">
-        {/* Toggle Panel Header */}
+      {/* ── 2. Collapsible ATS Detailed Audit Report ── */}
+      <div className="border border-slate-200/80 bg-white/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-xs transition-all">
+        {/* Toggle Header */}
         <button
           onClick={() => setShowDetails(!showDetails)}
-          className="w-full p-5 flex items-center justify-between bg-neutral-50 hover:bg-neutral-100/60 transition-all text-start cursor-pointer select-none"
+          className="w-full p-5 flex items-center justify-between bg-slate-50/80 hover:bg-slate-100/70 transition-all text-start cursor-pointer select-none"
         >
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-orange-500/10 text-orange-600 flex items-center justify-center">
-              <Target size={18} className={cn(showDetails ? "" : "animate-pulse")} />
+            <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center shadow-xs">
+              <Target size={18} className={cn(showDetails ? "text-amber-400" : "animate-pulse")} />
             </div>
             <div>
-              <h3 className="text-sm font-bold text-neutral-850 flex items-center gap-2">
-                <span>{isAr ? "🔍 تقرير فحص وملاحظات الـ ATS الخاصة بك" : "🔍 Your ATS Quality Audit Report"}</span>
+              <h3 className="text-sm font-black text-slate-900 flex items-center gap-2">
+                <span>{isAr ? "🔍 تقرير فحص جودة السيرة الذاتية وملاحظات الـ ATS" : "🔍 ATS Quality Audit & Diagnostics"}</span>
                 <span className={cn(
-                  "px-2 py-0.5 rounded-md text-[10px] font-bold leading-none",
-                  score >= 80 ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"
+                  "px-2.5 py-0.5 rounded-full text-[10px] font-black leading-none border",
+                  score >= 80 ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-amber-50 text-amber-700 border-amber-200"
                 )}>
                   {score}%
                 </span>
               </h3>
-              <p className="text-[11px] text-neutral-500 mt-0.5">
+              <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
                 {isAr 
-                  ? "اضغط هنا لرؤية النقاط التي تحتاج تطوير أو الأقسام المفقودة بالتفصيل" 
-                  : "Click to explore dynamic guidelines, suggestions, and critical checklist errors."}
+                  ? "اضغط هنا لاستعراض الأقسام والتوصيات الخاصة بتحسين فرز السيرة الذاتية" 
+                  : "Click to reveal line-by-line section diagnostics and keyword enhancements."}
               </p>
             </div>
           </div>
           
-          <div className="text-neutral-500">
+          <div className="text-slate-400 p-1 rounded-lg bg-white border border-slate-200">
             {showDetails ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
           </div>
         </button>
@@ -222,26 +252,26 @@ export default function FinishStep({
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="border-t border-neutral-150 overflow-hidden"
+              className="border-t border-slate-200/80 overflow-hidden"
             >
               <div className="p-5 sm:p-6 space-y-6 bg-white">
                 
                 {/* Visual score horizontal progress bar */}
-                <div className="bg-gradient-to-r from-slate-900 to-slate-850 rounded-2xl p-5 sm:p-6 text-white shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                <div className="bg-slate-900 rounded-2xl p-5 sm:p-6 text-white shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                   <div className="space-y-2 flex-1">
                     <div className="flex justify-between items-end">
                       <div className="space-y-0.5">
-                        <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block">
-                          {isAr ? "مقياس جودة وتحسين الـ ATS" : "ATS Optimization Index"}
+                        <span className="text-[10px] text-slate-400 font-extrabold uppercase tracking-widest block">
+                          {isAr ? "مقياس مطابقة الـ ATS" : "ATS Readiness Index"}
                         </span>
-                        <h4 className="text-xl font-black">
-                          {isAr ? "التقييم العام المباشر" : "Overall Quality Index"}
+                        <h4 className="text-lg font-black">
+                          {isAr ? "التقييم الفني المباشر" : "Live Quality Score"}
                         </h4>
                       </div>
                       <span className="text-3xl font-black text-emerald-400">{score}%</span>
                     </div>
                     {/* Minimal Progress Line */}
-                    <div className="w-full h-2.5 bg-white/10 rounded-full overflow-hidden">
+                    <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700/50">
                       <div 
                         className={cn(
                           "h-full rounded-full transition-all duration-1000",
@@ -265,23 +295,23 @@ export default function FinishStep({
                   </div>
                 </div>
 
-                {/* Highly Polished Section-by-Section Breakdown */}
-                <div className="space-y-5">
+                {/* Section-by-Section Breakdown */}
+                <div className="space-y-4">
                   <h4 className="text-xs font-black text-slate-800 uppercase tracking-widest border-b border-slate-100 pb-2">
-                    {isAr ? "📂 تفصيل التقييم حسب أقسام السيرة الذاتية" : "📂 Section-by-Section Score Analysis"}
+                    {isAr ? "📂 تفصيل التقييم حسب أقسام السيرة الذاتية" : "📂 Section Score Breakdown"}
                   </h4>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                     {sections.map((section, idx) => {
                       const pointsLost = section.maxScore - section.score;
                       const hasPointsLost = pointsLost > 0;
                       
                       return (
-                        <div key={idx} className="p-4 border border-slate-150 rounded-2xl bg-slate-50/40 space-y-3 hover:border-slate-300 transition-colors">
+                        <div key={idx} className="p-4 border border-slate-200/80 rounded-2xl bg-slate-50/50 space-y-3 hover:border-slate-300 transition-colors">
                           <div className="flex items-center justify-between">
-                            <span className="text-xs font-black text-slate-800">{section.title}</span>
+                            <span className="text-xs font-black text-slate-900">{section.title}</span>
                             <div className="flex items-center gap-1.5">
-                              <span className="text-[10px] font-bold text-slate-500">
+                              <span className="text-[11px] font-black text-slate-600">
                                 {section.score}/{section.maxScore}
                               </span>
                               {hasPointsLost && (
@@ -309,18 +339,16 @@ export default function FinishStep({
 
                           {/* Improvements & Success Points toggle list */}
                           <div className="space-y-1.5 pt-1">
-                            {/* Point deduction cause & Actionable Tips */}
                             {section.improvements.map((imp, i) => (
-                              <div key={i} className="flex gap-2 p-2 rounded-xl bg-amber-50/70 border border-amber-100 text-[10px] sm:text-[11px] text-amber-900 leading-relaxed font-bold">
+                              <div key={i} className="flex gap-2 p-2 rounded-xl bg-amber-50/80 border border-amber-200/60 text-[10px] sm:text-[11px] text-amber-950 leading-relaxed font-bold">
                                 <span className="text-amber-500 shrink-0 font-black">⚠️</span>
                                 <span>{imp}</span>
                               </div>
                             ))}
 
-                            {/* Section successes */}
                             {section.goodPoints.map((gp, i) => (
-                              <div key={i} className="flex gap-2 p-2 rounded-xl bg-emerald-50/40 border border-emerald-100/60 text-[10px] sm:text-[11px] text-slate-650 leading-relaxed font-medium">
-                                <Check size={11} className="text-emerald-500 shrink-0 mt-0.5" />
+                              <div key={i} className="flex gap-2 p-2 rounded-xl bg-emerald-50/60 border border-emerald-100 text-[10px] sm:text-[11px] text-slate-700 leading-relaxed font-medium">
+                                <Check size={12} className="text-emerald-600 shrink-0 mt-0.5" />
                                 <span>{gp}</span>
                               </div>
                             ))}
@@ -337,20 +365,20 @@ export default function FinishStep({
         </AnimatePresence>
       </div>
 
-      {/* Standalone Job Description Matcher (Moved outside so it's always visible!) */}
-      <div className="border border-neutral-200/80 bg-white rounded-2xl overflow-hidden shadow-xs p-5 sm:p-6 space-y-4">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-orange-50 shadow-3xs rounded-lg text-orange-500">
-            <Wand2 size={16} />
+      {/* ── 3. Target Job Description Matcher Tool ── */}
+      <div className="border border-slate-200/80 bg-white/90 backdrop-blur-md rounded-2xl overflow-hidden shadow-xs p-5 sm:p-6 space-y-4">
+        <div className="flex items-center gap-2.5">
+          <div className="p-2 bg-indigo-50 border border-indigo-100 rounded-xl text-indigo-600">
+            <Wand2 size={18} />
           </div>
-          <div className="space-y-0.5">
-            <h4 className="text-sm font-bold text-neutral-800">
-              {isAr ? "مطابقة الوظيفة المستهدفة (Job Matcher)" : "Target Job Matcher"}
+          <div>
+            <h4 className="text-sm font-black text-slate-900">
+              {isAr ? "مطابقة الوصف الوظيفي (Job Description Matcher)" : "Target Job Description Matcher"}
             </h4>
-            <p className="text-[11px] text-neutral-500 leading-none">
+            <p className="text-[11px] text-slate-500 font-medium">
               {isAr
-                ? "الصق الوصف الوظيفي (Job Description)، ليقوم النظام باستخراج الكلمات المفتاحية لمطابقتها مع سيرتك لرفع نسبة الـ ATS!"
-                : "Paste Job Description to extract keywords and identify missing skills to boost ATS match rate!"}
+                ? "الصق متطلبات الوظيفة المستهدفة لاستخراج الكلمات المفتاحية ومقارنتها بسيرتك لرفع فرص القبول!"
+                : "Paste corporate job description terms to extract keywords and verify ATS alignment."}
             </p>
           </div>
         </div>
@@ -360,14 +388,14 @@ export default function FinishStep({
             value={data.jobDescription || ""}
             onChange={(e) => updateJobDescription(e.target.value)}
             placeholder={isAr ? "الصق متطلبات ومؤهلات الوظيفة المطلوبة هنا لحساب مطابقة الكلمات المفتاحية..." : "Paste corporate job description terms, requirements or specifications..."}
-            className="w-full h-24 p-3 border border-neutral-200 hover:border-neutral-300 focus:border-brand-500 rounded-xl transition-all text-xs resize-none bg-neutral-50 focus:bg-white outline-none"
+            className="w-full h-24 p-3.5 border border-slate-200 hover:border-slate-300 focus:border-slate-800 rounded-xl transition-all text-xs resize-none bg-slate-50/50 focus:bg-white outline-none font-medium"
           />
           {!data.jobDescription && (
             <div className={cn(
-              "absolute bottom-4 flex items-center gap-1.5 text-[10px] font-bold text-neutral-400 pointer-events-none",
+              "absolute bottom-4 flex items-center gap-1.5 text-[10px] font-bold text-slate-400 pointer-events-none",
               isAr ? "left-4" : "right-4"
             )}>
-              <Sparkles size={12} className="text-brand-500 animate-pulse" />
+              <Sparkles size={12} className="text-indigo-500 animate-pulse" />
               <span>{isAr ? "استخراج الكلمات المفتاحية الذكي متوفر" : "AI Keyword Extraction Ready"}</span>
             </div>
           )}
@@ -383,45 +411,46 @@ export default function FinishStep({
         )}
       </div>
 
-      {/* ── 3. Next Recommended Steps: Job Match & roadmap ── */}
-      <div className="bg-gradient-to-tr from-neutral-900 via-neutral-850 to-neutral-950 text-white rounded-2xl p-6 sm:p-8 shadow-3xs relative overflow-hidden group">
-        <div className="absolute inset-0 bg-radial from-brand-600/[0.06] to-transparent pointer-events-none" />
-        <div className="absolute top-2 right-2 text-neutral-700/20 animate-pulse">
-          <Flame size={60} />
+      {/* ── 4. Hash Hunt Recommended Opportunities Banner ── */}
+      <div className="bg-gradient-to-r from-slate-900 via-slate-850 to-indigo-950 text-white rounded-2xl p-6 sm:p-7 shadow-lg relative overflow-hidden group">
+        <div className="absolute top-2 right-2 text-slate-800/40 animate-pulse">
+          <Flame size={70} />
         </div>
-        <div className="space-y-4 relative z-10 text-center">
-          <div className="mx-auto p-2.5 bg-white/10 rounded-2xl text-brand-600 w-fit font-bold">
-            <Sparkles className="w-4 h-4" />
+        <div className="space-y-4 relative z-10 text-center sm:text-start flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="space-y-1.5 max-w-xl">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-400/10 text-amber-300 text-[10px] font-black border border-amber-400/20">
+              <Sparkles size={12} />
+              <span>{isAr ? "الفرصة القادمة بانتظارك" : "Next Career Opportunity"}</span>
+            </div>
+            <h3 className="text-lg font-black tracking-tight text-white">
+              {isAr ? "البحث عن وظائف متوافقة مع سيرتك الذاتية 🎯" : "Explore Matched Open Positions 🎯"}
+            </h3>
+            <p className="text-[11px] sm:text-xs text-slate-300 leading-relaxed font-medium">
+              {isAr
+                ? "سيرتك الذاتية أصبحت جاهزة! ابدأ التقديم على أحدث الوظائف الشاغرة المتوافقة مع خبراتك عبر منصة Hash Hunt."
+                : "Your resume is fully primed. Speed up your search and discover open positions tailored to your qualifications."}
+            </p>
           </div>
-          <h3 className="text-lg font-black tracking-tight">
-            {isAr ? "الخطوة التالية الموصى بها: البحث عن فرص عمل متطابقة 🎯" : "Next Recommended Step: Explore Matched Jobs 🎯"}
-          </h3>
-          <p className="text-[11px] sm:text-xs text-neutral-300 leading-relaxed max-w-lg mx-auto">
-            {isAr
-              ? "لقد صممت سيرة ذاتية ممتازة ومتكاملة للتقييم الآلي! تصفح أفضل الفرص المتاحة التي تتوافق مع خبراتك لتزيد من احتمال الاتصال بك."
-              : "You've crafted a powerful, ATS-optimized resume! Speed up your search and discover matched open positions tailored to your unique qualifications."}
-          </p>
-          <div className="pt-2 flex justify-center">
-            <Link
-              to="/hash-hunt"
-              className="flex items-center gap-2 h-10 px-6 bg-brand-600 hover:bg-[#E64528] active:scale-95 transition-all text-white rounded-xl text-xs font-bold cursor-pointer select-none"
-            >
-              <span>{isAr ? "احصل على وظيفتك التالية" : "Get Your Next Job"}</span>
-              <ArrowRight size={12} className="rtl:rotate-180" />
-            </Link>
-          </div>
+          
+          <Link
+            to="/hash-hunt"
+            className="group/link shrink-0 flex items-center gap-2 h-11 px-6 bg-amber-400 hover:bg-amber-300 active:scale-95 transition-all text-slate-950 rounded-xl text-xs font-black cursor-pointer select-none shadow-lg shadow-amber-400/20"
+          >
+            <span>{isAr ? "استكشف الوظائف المتاحة" : "Explore Jobs Now"}</span>
+            <ArrowRight size={14} className="rtl:rotate-180 group-hover/link:translate-x-1 transition-transform" />
+          </Link>
         </div>
       </div>
 
-      {/* Golden Success tips */}
-      <div className="space-y-4 pt-4 border-t border-neutral-100">
+      {/* ── 5. Interview Mastery Guidelines ── */}
+      <div className="space-y-4 pt-4 border-t border-slate-200/80">
         <div className="text-start space-y-0.5">
-          <h3 className="text-base font-black text-neutral-800">
-            {isAr ? "💡 خريطة ذهبية للتألق في المقابلة الوظيفية" : "💡 Interview Success Guidelines"}
+          <h3 className="text-base font-black text-slate-900">
+            {isAr ? "💡 خريطة النجاح في المقابلة الوظيفية" : "💡 Interview Preparation Guidelines"}
           </h3>
-          <p className="text-[11px] text-neutral-500">
+          <p className="text-[11px] text-slate-500 font-medium">
             {isAr 
-              ? "نصائح وإرشادات سريعة لتعزيز ثقتك وتجهيزك لاختصار طريق النجاح الوظيفي" 
+              ? "استعد للمقابلة باحترافية من خلال الإرشادات القيمة التي يقدمها خبراء التوظيف" 
               : "Core strategies and communication methods recommended by seasoned HR leaders."}
           </p>
         </div>
@@ -430,16 +459,16 @@ export default function FinishStep({
           {tips.map((tip, idx) => (
             <div 
               key={idx}
-              className="p-4 rounded-2xl bg-neutral-50/70 border border-neutral-200/50 flex gap-3 text-start"
+              className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs hover:border-slate-300 transition-all flex gap-3.5 text-start"
             >
-              <div className="w-9 h-9 bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.02)] flex items-center justify-center shrink-0 border border-neutral-100">
+              <div className="w-10 h-10 bg-slate-50 rounded-xl border border-slate-200/80 flex items-center justify-center shrink-0">
                 {tip.icon}
               </div>
-              <div className="space-y-0.5">
-                <h4 className="font-bold text-neutral-800 text-xs">
+              <div className="space-y-1">
+                <h4 className="font-black text-slate-900 text-xs">
                   {tip.title}
                 </h4>
-                <p className="text-[11px] text-neutral-500 leading-normal">
+                <p className="text-[11px] text-slate-500 leading-normal font-medium">
                   {tip.desc}
                 </p>
               </div>

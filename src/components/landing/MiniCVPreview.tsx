@@ -84,17 +84,27 @@ export default function MiniCVPreview({ lang }: MiniCVPreviewProps) {
       className="w-full max-w-4xl mx-auto px-4 mt-8 mb-8 md:mt-14 md:mb-14 scale-[1.03] sm:scale-105 md:scale-[1.07] origin-center"
     >
       {/* Outer Floating Card Container */}
-      <div className="relative group bg-slate-50/40 p-4 rounded-3xl border border-slate-200/60 shadow-2xl shadow-slate-200/50 hover:shadow-brand-500/5 transition-all duration-500">
+      <div className="relative group bg-white/70 backdrop-blur-md p-4 rounded-3xl border border-slate-200/80 shadow-2xl shadow-slate-200/60 hover:shadow-brand-500/10 transition-all duration-500">
         
         {/* ATS Score Floating Badge */}
-        <div className={`absolute -top-3 ${isAr ? '-left-2 md:-left-4' : '-right-2 md:-right-4'} z-20 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-emerald-500/30 flex items-center gap-1.5 animate-bounce`} style={{ animationDuration: '4s' }}>
-          <CheckCircle className="w-3.5 h-3.5" />
+        <div className={`absolute -top-3.5 ${isAr ? '-left-2 md:-left-5' : '-right-2 md:-right-5'} z-20 bg-slate-900 text-white text-[10px] md:text-xs font-black px-3.5 py-1.5 rounded-full shadow-xl shadow-slate-900/20 flex items-center gap-2 border border-slate-700/80 backdrop-blur-md`}>
+          <span className="relative flex h-2 w-2 shrink-0">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
           <span>{data.atsScore}</span>
         </div>
 
+        {/* Recruiter Approved Floating Badge */}
+        <div className={`absolute top-1/2 -translate-y-1/2 ${isAr ? '-right-3 md:-right-6' : '-left-3 md:-left-6'} z-20 hidden sm:flex bg-white/90 backdrop-blur-md text-slate-800 text-[10px] md:text-xs font-extrabold px-3 py-1.5 rounded-2xl shadow-lg border border-slate-200/80 items-center gap-1.5`}>
+          <span className="text-amber-500">✨</span>
+          <span>{isAr ? "معتمد لدى مسؤولي التوظيف" : "Recruiter Approved"}</span>
+        </div>
+
         {/* AI Optimization Tip Floating Badge */}
-        <div className={`absolute -bottom-3 ${isAr ? '-right-2 md:-right-4' : '-left-2 md:-left-4'} z-20 bg-gradient-to-r from-brand-600 to-indigo-950 text-white text-[9px] md:text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-brand-500/30 flex items-center gap-1.5`}>
-          <Sparkles className="w-3.5 h-3.5 text-amber-200 animate-pulse" />
+        <div className={`absolute -bottom-3.5 ${isAr ? '-right-2 md:-right-5' : '-left-2 md:-left-5'} z-20 bg-gradient-to-r from-violet-600 via-indigo-600 to-brand-600 text-white text-[9px] md:text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg shadow-indigo-500/25 flex items-center gap-1.5 border border-white/20`}>
+          <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
           <span>{data.atsTip}</span>
         </div>
 

@@ -40,15 +40,15 @@ export function HeroSection({ onOpenAuth }: HeroSectionProps) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
             <button
               onClick={onOpenAuth}
-              className="btn-primary btn-lg flex items-center gap-2 w-full sm:w-auto shadow-[0_0_20px_rgba(234,88,12,0.4),0_4px_15px_rgba(234,88,12,0.3)] hover:scale-105 transition-all duration-200"
+              className="group bg-slate-900 hover:bg-slate-800 text-white font-bold px-7 py-3.5 rounded-xl shadow-md hover:shadow-xl hover:-translate-y-0.5 active:scale-98 transition-all duration-200 flex items-center justify-center gap-2.5 cursor-pointer text-base w-full sm:w-auto"
             >
-              <Sparkles className="w-5 h-5" />
-              ابدأ تصميم سيرتك الآن
-              <ArrowLeft className="w-5 h-5 rtl:rotate-0 ltr:rotate-180" />
+              <Sparkles className="w-5 h-5 text-amber-300 animate-pulse" />
+              <span>ابدأ تصميم سيرتك الآن</span>
+              <ArrowLeft className="w-5 h-5 rtl:rotate-0 ltr:rotate-180 transition-transform duration-200 group-hover:-translate-x-1" />
             </button>
             <a
               href="#templates"
-              className="btn-ghost btn-lg w-full sm:w-auto"
+              className="bg-white border border-slate-200 hover:bg-slate-50 hover:border-slate-300 text-slate-700 font-bold px-6 py-3.5 rounded-xl transition-all duration-200 active:scale-98 cursor-pointer text-base w-full sm:w-auto text-center shadow-3xs"
             >
               القوالب المتاحة
             </a>

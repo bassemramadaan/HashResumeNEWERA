@@ -81,7 +81,7 @@ export default function EditorNavbar({
   };
 
   return (
-    <div className="w-full z-[100] bg-white border-b border-slate-200/80 shrink-0 transform-gpu" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="w-full z-[100] bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.02)] shrink-0 transform-gpu" style={{ direction: isRtl ? "rtl" : "ltr" }}>
       <nav className="h-14 px-4 sm:px-6 flex items-center justify-between w-full transition-all">
         
         {/* Left side: Logo and Back button */}
@@ -119,38 +119,40 @@ export default function EditorNavbar({
         
         {/* Right side: Quick Actions */}
         <div className="flex items-center gap-2.5">
-          <a
+          <motion.a
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.98 }}
             href="https://wa.me/201101007965"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:bg-emerald-50 border border-emerald-100/40 px-3 py-1.5 rounded-lg font-black text-emerald-600 hover:text-emerald-700 transition-all flex items-center gap-1 text-[11px] cursor-pointer bg-white"
+            className="bg-white hover:bg-emerald-50 border border-emerald-200/80 hover:border-emerald-300 px-3 py-1.5 rounded-xl font-extrabold text-emerald-600 hover:text-emerald-700 transition-all flex items-center gap-1.5 text-[11px] cursor-pointer shadow-3xs"
             title={lang === 'ar' ? 'تواصل معنا عبر واتساب' : 'Contact us on WhatsApp'}
           >
             <MessageCircle className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">WhatsApp</span>
-          </a>
+          </motion.a>
 
           <motion.button
-            whileHover={{ scale: 1.02 }}
+            whileHover={{ y: -1 }}
             whileTap={{ scale: 0.98 }}
             onClick={onToggleFocus}
             className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-[11px] font-black transition-all cursor-pointer",
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[11px] font-extrabold transition-all cursor-pointer shadow-3xs",
               focusMode
-                ? "bg-slate-900 border-slate-900 text-white"
-                : "bg-white border-slate-200 text-slate-500 hover:text-slate-700 hover:border-slate-300"
+                ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
+                : "bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50"
             )}
             title={
               lang === "ar"
-                ? "نمط التركيز"
-                : "Focus Mode"
+                ? "نمط التركيز الكامل"
+                : "Full Focus Mode"
             }
           >
-            {focusMode ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+            {focusMode ? <Eye className="w-3.5 h-3.5 text-amber-300" /> : <EyeOff className="w-3.5 h-3.5" />}
             <span className="hidden sm:inline">
               {focusMode 
                 ? (lang === "ar" ? "إلغاء التركيز" : "Exit Focus") 
-                : (lang === "ar" ? "تركيز" : "Focus")}
+                : (lang === "ar" ? "وضع التركيز 🎯" : "Focus Mode 🎯")}
             </span>
           </motion.button>
         </div>

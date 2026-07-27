@@ -1373,45 +1373,61 @@ export default function EditorPage() {
               </motion.div>
             )}
 
-            {/* ATS Trust Guard badge with Tooltip */}
+            {/* Floating Context Badges (الوسوم البصرية العائمة) */}
             <div 
-              className="absolute top-[68px] start-6 z-20 group pointer-events-auto select-none"
+              className="absolute top-[68px] start-6 z-20 flex items-center gap-2 pointer-events-auto select-none"
               dir={language === "ar" ? "rtl" : "ltr"}
             >
-              <div className="w-8 h-8 rounded-full bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 shadow-sm flex items-center justify-center text-emerald-600 transition-colors cursor-pointer">
-                <CheckCircle2 className="w-4 h-4 text-emerald-500 fill-emerald-100 animate-pulse" />
+              {/* ATS Trust Guard Badge */}
+              <div className="group relative">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-md text-slate-800 text-[11px] font-black cursor-pointer hover:border-emerald-300 transition-all">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />
+                  <span>{language === "ar" ? "ATS Score: 98%" : "ATS Score: 98%"}</span>
+                </div>
+                
+                {/* Tooltip */}
+                <div className={cn(
+                  "absolute opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none bg-slate-950 text-white text-[11px] px-3 py-2 rounded-xl shadow-xl z-50 font-bold border border-slate-800/80 whitespace-nowrap",
+                  "top-full mt-2",
+                  language === "ar" ? "right-0 origin-top-right" : "left-0 origin-top-left"
+                )}>
+                  {language === "ar" 
+                    ? "متوافقة ومكتوبة للفرز الوظيفي الآلي بنسبة 100%" 
+                    : "ATS Text-Extractable Guard Active (100% Readable)"}
+                </div>
               </div>
-              
-              {/* Tooltip */}
-              <div className={cn(
-                "absolute opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none bg-slate-950 text-white text-[11px] px-3 py-2 rounded-xl shadow-xl z-50 font-bold border border-slate-800/80 whitespace-nowrap",
-                "top-full mt-2",
-                language === "ar" ? "right-0 origin-top-right" : "left-0 origin-top-left"
-              )}>
-                {language === "ar" 
-                  ? "متوافقة ومكتوبة للفرز (ATS-Friendly 100%)" 
-                  : "ATS Text-Extractable Guard Active (100% Readable)"}
+
+              {/* Recruiter Approved Badge */}
+              <div className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-md text-slate-800 text-[11px] font-black">
+                <Sparkles className="w-3.5 h-3.5 text-amber-500 animate-pulse" />
+                <span>{language === "ar" ? "معتمد للتوظيف ✨" : "Recruiter Approved ✨"}</span>
               </div>
             </div>
-            <div className="h-14 bg-white/95 backdrop-blur-sm border-b border-neutral-200/80 flex items-center justify-between px-4 sm:px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu shadow-xs">
+
+            {/* Glassmorphism Preview Control Bar */}
+            <div className="h-14 bg-white/80 backdrop-blur-md border-b border-slate-200/60 flex items-center justify-between px-4 sm:px-6 shrink-0 absolute top-0 start-0 end-0 z-10 transition-colors duration-200 transform-gpu shadow-xs">
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setIsSettingsModalOpen(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-slate-700 hover:bg-slate-100/80 transition-all cursor-pointer border border-transparent hover:border-slate-200"
                 >
                   <LayoutTemplate size={14} />
                   <span>{language === "ar" ? "القالب" : "Template"}</span>
                 </button>
                 <button
                   onClick={() => setLanguage(language === "ar" ? "en" : "ar")}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-slate-700 hover:bg-slate-100/80 transition-all cursor-pointer border border-transparent hover:border-slate-200"
                 >
                   <Globe size={14} />
                   <span>{language === "ar" ? "EN" : "عربي"}</span>
                 </button>
                 <button
                   onClick={() => setMobileZoom(prev => Math.min(prev + 0.1, 1.5))}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black text-slate-700 hover:bg-slate-100/80 transition-all cursor-pointer border border-transparent hover:border-slate-200"
                 >
                   <ZoomIn size={14} />
                   <span className="hidden sm:inline">Zoom</span>
