@@ -202,7 +202,7 @@ const PersonalInfoForm = () => {
               autoComplete="name"
               enterKeyHint="next"
               style={inputStyle}
-              className={`block w-full ps-10 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
+              className={`block w-full ps-10 pe-3 py-3 border rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-base sm:text-xs min-h-[44px] transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.fullName
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -240,7 +240,7 @@ const PersonalInfoForm = () => {
               onChange={handleChange}
               onBlur={handleBlur}
               style={inputStyle}
-              className={`block w-full ps-10 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
+              className={`block w-full ps-10 pe-3 py-3 border rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-base sm:text-xs min-h-[44px] transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.jobTitle
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"
@@ -278,7 +278,7 @@ const PersonalInfoForm = () => {
               autoComplete="email"
               enterKeyHint="next"
               style={inputStyle}
-              className={`block w-full ps-10 pe-3 py-2.5 border rounded-lg focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-xs transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
+              className={`block w-full ps-10 pe-3 py-3 border rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 text-base sm:text-xs min-h-[44px] transition-all bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 placeholder-slate-400 font-medium ${
                 errors.email
                   ? "border-rose-300 focus:border-rose-500 focus:ring-rose-500/10"
                   : "border-slate-200 hover:border-slate-300"

@@ -1176,10 +1176,34 @@ div[class*="focus-within:ring-orange-500"] {
     font-size: 2rem !important; /* ~32px */
     line-height: 1.2 !important;
   }
-
-
-
 }
+
+/* Mobile Usability & Touch Target Optimizations */
+@media (max-width: 639px) {
+  /* Prevent iOS Safari auto-zoom on focus by enforcing 16px font-size for form inputs */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* Ensure interactive touch targets meet minimum 44px tap area */
+  button, 
+  a.btn,
+  .touch-target {
+    min-height: 44px;
+  }
+}
+
+/* Smooth momentum scrolling on iOS mobile drawers */
+.scrollbar-none {
+  -webkit-overflow-scrolling: touch;
+}
+
 
 
 

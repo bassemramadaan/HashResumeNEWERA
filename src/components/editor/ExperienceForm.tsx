@@ -92,7 +92,7 @@ const ExperienceItem = ({
                     value={exp.company || ""}
                     onChange={(e) => updateExperience(exp.id, { company: e.target.value })}
                     placeholder="e.g. Google"
-                    className="block w-full px-3 py-2 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all font-medium placeholder-slate-400 outline-none"
+                    className="block w-full px-3.5 py-3 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-xl focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-base sm:text-xs min-h-[44px] transition-all font-medium placeholder-slate-400 outline-none"
                   />
                 </div>
                 <div className="space-y-2">
@@ -104,7 +104,7 @@ const ExperienceItem = ({
                     value={exp.position || ""}
                     onChange={(e) => updateExperience(exp.id, { position: e.target.value })}
                     placeholder="e.g. Senior Frontend Developer"
-                    className="block w-full px-3 py-2 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all font-medium placeholder-slate-400 outline-none"
+                    className="block w-full px-3.5 py-3 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-xl focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-base sm:text-xs min-h-[44px] transition-all font-medium placeholder-slate-400 outline-none"
                   />
                 </div>
               </div>
@@ -119,7 +119,7 @@ const ExperienceItem = ({
                     value={exp.startDate || ""}
                     onChange={(e) => updateExperience(exp.id, { startDate: e.target.value })}
                     placeholder="e.g. Oct 2021"
-                    className="block w-full px-3 py-2 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all font-medium placeholder-slate-400 outline-none"
+                    className="block w-full px-3.5 py-3 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-xl focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-base sm:text-xs min-h-[44px] transition-all font-medium placeholder-slate-400 outline-none"
                   />
                 </div>
                 <div className="space-y-2">
@@ -132,7 +132,7 @@ const ExperienceItem = ({
                     disabled={exp.currentlyWorking}
                     onChange={(e) => updateExperience(exp.id, { endDate: e.target.value })}
                     placeholder={exp.currentlyWorking ? String(t.experience?.currentlyWorking || "Present") : "e.g. Present"}
-                    className="disabled:opacity-50 block w-full px-3 py-2 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-lg focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-xs transition-all font-medium placeholder-slate-400 outline-none"
+                    className="disabled:opacity-50 block w-full px-3.5 py-3 border border-slate-200/80 bg-slate-50/50 hover:bg-slate-50 focus:bg-white text-slate-900 rounded-xl focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 text-base sm:text-xs min-h-[44px] transition-all font-medium placeholder-slate-400 outline-none"
                   />
                 </div>
               </div>
