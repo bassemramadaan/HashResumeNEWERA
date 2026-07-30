@@ -40,6 +40,8 @@ const ExperienceItem = ({
   updateExperience,
   isAr
 }: ExperienceItemProps) => {
+  const [showAISuggestions, setShowAISuggestions] = useState(false);
+
   const toggleExpand = (id: string) => {
     setExpandedId(expandedId === id ? null : id);
   };
@@ -163,24 +165,13 @@ const ExperienceItem = ({
                       {String(t.experience?.description || "Description")}
                     </label>
                     <button
-                      onClick={() => {
-                        const currentVal = exp.description || "";
-                        if (currentVal.length < 10) return alert(isAr ? "اكتب بعض التفاصيل أولاً ليتمكن الذكاء الاصطناعي من صياغتها" : "Write some details first so the AI can enhance it");
-                        // Mock AI Enhancement with magical vibe
-                        const btn = document.getElementById(`magic-btn-${exp.id}`);
-                        if(btn) btn.classList.add("animate-pulse", "text-brand-500");
-                        setTimeout(() => {
-                           // This is where real API call goes. We'll do a string replacement for now
-                           updateExperience(exp.id, { description: currentVal + (isAr ? "\n• تم تحسين وإعادة صياغة النقاط لتعكس الاحترافية واستخدام أفعال مؤثرة." : "\n• Enhanced and rephrased using action verbs for higher impact.") });
-                           if(btn) btn.classList.remove("animate-pulse", "text-brand-500");
-                        }, 1200);
-                      }}
-                      id={`magic-btn-${exp.id}`}
-                      className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-brand-50 text-brand-600 hover:bg-brand-100 transition-colors text-[10px] font-bold cursor-pointer border border-brand-200/50"
-                      title={isAr ? "إعادة صياغة ذكية بالذكاء الاصطناعي 🪄" : "Smart Rewrite 🪄"}
+                      type="button"
+                      onClick={() => setShowAISuggestions(!showAISuggestions)}
+                      className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-[var(--surface-muted)] text-[var(--primary)] hover:bg-[var(--primary)]/10 transition-colors text-[10px] font-bold cursor-pointer border border-[var(--border)]"
+                      title={isAr ? "إعادة صياغة ذكية بالذكاء الاصطناعي 🪄" : "Improve with AI 🪄"}
                     >
-                      <Sparkles size={11} />
-                      {isAr ? "المحرر الذكي" : "Smart Rewrite"}
+                      <Sparkles size={11} className={showAISuggestions ? "animate-pulse" : ""} />
+                      {isAr ? "المحرر الذكي" : "Improve with AI"}
                     </button>
                   </div>
                   <ATSVerbAssistant 
@@ -199,11 +190,16 @@ const ExperienceItem = ({
                 />
               </div>
 
-              <AISuggestion
-                currentValue={exp.description || ""}
-                onApply={(newValue) => updateExperience(exp.id, { description: newValue })}
-                context={`Company: ${exp.company || ""}, Position: ${exp.position || ""}`}
-              />
+              {showAISuggestions && (
+                <AISuggestion
+                  currentValue={exp.description || ""}
+                  onApply={(newValue) => {
+                    updateExperience(exp.id, { description: newValue });
+                    setShowAISuggestions(false);
+                  }}
+                  context={`Company: ${exp.company || ""}, Position: ${exp.position || ""}`}
+                />
+              )}
             </div>
           </motion.div>
         )}

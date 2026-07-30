@@ -1,9 +1,12 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Loader2, RotateCcw, AlertCircle, Eye, EyeOff, MessageCircle } from "lucide-react";
+import { Loader2, RotateCcw, AlertCircle, Eye, EyeOff, MessageCircle, Undo2, Redo2, Download, ArrowRight, ArrowLeft } from "lucide-react";
 import type { AppLang } from "../../hooks/useDirection";
 import { cn } from "../../lib/utils";
 import { LogoImage } from "../LogoImage";
 import { LOGO_ICON_URL } from "../../constants";
+import { useStore } from "zustand";
+import { useResumeStore } from "../../store/useResumeStore";
+import { useResumeValidation } from "../../hooks/editor/useResumeValidation";
 
 export type SaveStatus = 'idle' | 'saving' | 'saved' | 'error';
 
@@ -14,6 +17,8 @@ export default function EditorNavbar({
   onReset = () => {},
   focusMode = false,
   onToggleFocus = () => {},
+  onExportPDF = () => {},
+  onNavigateToStep = () => {},
 }: {
   lang?: AppLang;
   saveStatus?: SaveStatus;
@@ -21,9 +26,43 @@ export default function EditorNavbar({
   onReset?: () => void;
   focusMode?: boolean;
   onToggleFocus?: () => void;
+  onExportPDF?: () => void;
+  onNavigateToStep?: (step: string) => void;
   [key: string]: unknown;
 }) {
   const isRtl = lang === "ar";
+  
+  // Undo/Redo state
+  const { undo, redo, pastStates, futureStates } = useStore(useResumeStore.temporal);
+  const canUndo = pastStates.length > 0;
+  const canRedo = futureStates.length > 0;
+
+  // Validation / Completion
+  const { data } = useResumeStore();
+  const { breakdown } = useResumeValidation(data);
+  const completedSteps = breakdown.filter(b => b.done).length;
+  const totalSteps = breakdown.length;
+  const percentage = Math.round((completedSteps / totalSteps) * 100);
+  const nextBestAction = breakdown.find(b => !b.done);
+
+  const getStepId = (index: number) => {
+    switch (index) {
+      case 0: return "basics";
+      case 1: return "summary";
+      case 2: return "experience";
+      case 3: return "skills";
+      case 4: return "education";
+      case 5: return "summary";
+      default: return "basics";
+    }
+  };
+
+  const handleNextActionClick = () => {
+    if (nextBestAction) {
+      const index = breakdown.findIndex(b => b.label === nextBestAction.label);
+      onNavigateToStep(getStepId(index));
+    }
+  };
 
   const renderStatus = () => {
     switch (saveStatus) {
@@ -34,9 +73,9 @@ export default function EditorNavbar({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="flex items-center gap-1.5 text-slate-400"
+            className="flex items-center gap-1.5 text-[var(--foreground-muted)]"
           >
-            <Loader2 className="w-3 h-3 animate-spin text-brand-600" />
+            <Loader2 className="w-3 h-3 animate-spin text-[var(--primary)]" />
             <span className="text-[10px] font-black tracking-wide uppercase">
               {lang === 'ar' ? 'جاري الحفظ...' : lang === 'fr' ? 'Enregistrement...' : 'Saving...'}
             </span>
@@ -51,13 +90,13 @@ export default function EditorNavbar({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="flex items-center gap-1.5 text-emerald-600 font-sans"
+            className="flex items-center gap-1.5 text-[var(--success)] font-sans"
           >
             <span className="relative flex h-1.5 w-1.5 shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-450 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--success)] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[var(--success)]"></span>
             </span>
-            <span className="text-[10px] font-black tracking-wide uppercase text-slate-400">
+            <span className="text-[10px] font-black tracking-wide uppercase text-[var(--foreground-muted)]">
               {lang === 'ar' ? 'تم الحفظ تلقائياً' : lang === 'fr' ? 'Enregistré' : 'Auto-saved'}
             </span>
           </motion.div>
@@ -69,7 +108,7 @@ export default function EditorNavbar({
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="flex items-center gap-1.5 text-rose-500 font-sans"
+            className="flex items-center gap-1.5 text-[var(--danger)] font-sans"
           >
             <AlertCircle className="w-3 h-3" />
             <span className="text-[10px] font-black tracking-wide uppercase">
@@ -81,7 +120,7 @@ export default function EditorNavbar({
   };
 
   return (
-    <div className="w-full z-[100] bg-white/80 backdrop-blur-md border-b border-slate-200/60 shadow-[0_4px_20px_rgba(0,0,0,0.02)] shrink-0 transform-gpu" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="w-full z-[100] bg-[var(--surface)]/80 backdrop-blur-md border-b border-[var(--border)]/60 shadow-sm shrink-0 transform-gpu sticky top-0" style={{ direction: isRtl ? "rtl" : "ltr" }}>
       <nav className="h-14 px-4 sm:px-6 flex items-center justify-between w-full transition-all">
         
         {/* Left side: Logo and Back button */}
@@ -90,7 +129,7 @@ export default function EditorNavbar({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onBackToHome}
-            className="w-8 h-8 flex items-center justify-center shrink-0 cursor-pointer bg-slate-50 border border-slate-100 rounded-lg p-1.5"
+            className="w-8 h-8 flex items-center justify-center shrink-0 cursor-pointer bg-[var(--surface-muted)] border border-[var(--border)] rounded-lg p-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]"
             title="Back to Home"
           >
             <LogoImage 
@@ -99,10 +138,38 @@ export default function EditorNavbar({
               className="w-full h-full object-contain" 
             />
           </motion.div>
-          <div className="h-4 w-px bg-slate-200 hidden md:block" />
+          <div className="h-4 w-px bg-[var(--border)] hidden md:block" />
+
+          <div className="hidden md:flex items-center bg-[var(--surface-muted)] rounded-lg border border-[var(--border)] p-0.5">
+            <button
+              onClick={() => undo()}
+              disabled={!canUndo}
+              className={cn(
+                "p-1.5 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]",
+                canUndo ? "text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface)]" : "text-[var(--foreground-muted)] opacity-50 cursor-not-allowed"
+              )}
+              title={lang === 'ar' ? 'تراجع (Ctrl+Z)' : 'Undo (Ctrl+Z)'}
+              aria-label="Undo"
+            >
+              <Undo2 className="w-3.5 h-3.5" />
+            </button>
+            <button
+              onClick={() => redo()}
+              disabled={!canRedo}
+              className={cn(
+                "p-1.5 rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]",
+                canRedo ? "text-[var(--foreground-muted)] hover:text-[var(--foreground)] hover:bg-[var(--surface)]" : "text-[var(--foreground-muted)] opacity-50 cursor-not-allowed"
+              )}
+              title={lang === 'ar' ? 'إعادة (Ctrl+Y)' : 'Redo (Ctrl+Y)'}
+              aria-label="Redo"
+            >
+              <Redo2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
           <button 
             onClick={onReset} 
-            className="hidden md:flex items-center gap-1.5 text-slate-400 hover:text-red-500 transition-colors bg-slate-50 hover:bg-red-50 px-2.5 py-1 rounded-lg cursor-pointer border border-transparent hover:border-red-100"
+            className="hidden md:flex items-center gap-1.5 text-[var(--foreground-muted)] hover:text-[var(--danger)] transition-colors bg-[var(--surface-muted)] hover:bg-[var(--danger)]/10 px-2.5 py-1 rounded-lg cursor-pointer border border-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--danger)]"
             title={lang === 'ar' ? 'مسح كل شيء' : 'Reset all'}
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -110,37 +177,59 @@ export default function EditorNavbar({
           </button>
         </div>
 
-        {/* ── Center group: Save status dot ── */}
-        <div className="flex items-center gap-2 bg-slate-50/55 border border-slate-100 rounded-full px-2.5 py-1 shrink-0">
-          <AnimatePresence mode="wait">
-            {renderStatus()}
-          </AnimatePresence>
+        {/* ── Center group: Save status dot & Progress ── */}
+        <div className="flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-2 bg-[var(--surface-muted)] border border-[var(--border)] rounded-full px-2.5 py-1 shrink-0">
+            <AnimatePresence mode="wait">
+              {renderStatus()}
+            </AnimatePresence>
+          </div>
+
+          <div className="hidden md:flex items-center gap-2 bg-[var(--surface-muted)] border border-[var(--border)] rounded-full pl-1.5 pr-3 py-1">
+            <div className="relative w-6 h-6 shrink-0 flex items-center justify-center">
+              <svg className="w-full h-full -rotate-90 transform" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" fill="none" className="stroke-[var(--border-strong)]" strokeWidth="2.5" />
+                <circle 
+                  cx="12" 
+                  cy="12" 
+                  r="10" 
+                  fill="none" 
+                  className={percentage === 100 ? "stroke-[var(--success)]" : "stroke-[var(--primary)]"} 
+                  strokeWidth="2.5"
+                  strokeDasharray="62.83"
+                  strokeDashoffset={62.83 - (62.83 * percentage) / 100}
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span className="absolute text-[8px] font-black">{percentage}%</span>
+            </div>
+            <div className="flex items-center gap-1 text-[11px] font-bold">
+              {percentage === 100 ? (
+                <span className="text-[var(--success)]">{lang === 'ar' ? 'مكتمل' : 'Complete'}</span>
+              ) : (
+                <button 
+                  onClick={handleNextActionClick}
+                  className="flex items-center gap-1 text-[var(--foreground)] hover:text-[var(--primary)] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--primary)] rounded px-1"
+                >
+                  <span className="truncate max-w-[120px]">{nextBestAction?.tip[lang as 'en'|'ar'|'fr']}</span>
+                  {isRtl ? <ArrowLeft className="w-3 h-3" /> : <ArrowRight className="w-3 h-3" />}
+                </button>
+              )}
+            </div>
+          </div>
         </div>
         
         {/* Right side: Quick Actions */}
         <div className="flex items-center gap-2.5">
-          <motion.a
-            whileHover={{ y: -1 }}
-            whileTap={{ scale: 0.98 }}
-            href="https://wa.me/201101007965"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white hover:bg-emerald-50 border border-emerald-200/80 hover:border-emerald-300 px-3 py-1.5 rounded-xl font-extrabold text-emerald-600 hover:text-emerald-700 transition-all flex items-center gap-1.5 text-[11px] cursor-pointer shadow-3xs"
-            title={lang === 'ar' ? 'تواصل معنا عبر واتساب' : 'Contact us on WhatsApp'}
-          >
-            <MessageCircle className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">WhatsApp</span>
-          </motion.a>
-
           <motion.button
             whileHover={{ y: -1 }}
             whileTap={{ scale: 0.98 }}
             onClick={onToggleFocus}
             className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[11px] font-extrabold transition-all cursor-pointer shadow-3xs",
+              "flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-[11px] font-extrabold transition-all cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]",
               focusMode
-                ? "bg-slate-900 border-slate-900 text-white shadow-md shadow-slate-900/10"
-                : "bg-white border-slate-200 text-slate-700 hover:text-slate-900 hover:border-slate-300 hover:bg-slate-50"
+                ? "bg-[var(--foreground)] border-[var(--foreground)] text-[var(--background)] shadow-md"
+                : "bg-[var(--surface)] border-[var(--border)] text-[var(--foreground)] hover:border-[var(--border-strong)] hover:bg-[var(--surface-muted)]"
             )}
             title={
               lang === "ar"
@@ -148,12 +237,22 @@ export default function EditorNavbar({
                 : "Full Focus Mode"
             }
           >
-            {focusMode ? <Eye className="w-3.5 h-3.5 text-amber-300" /> : <EyeOff className="w-3.5 h-3.5" />}
+            {focusMode ? <Eye className="w-3.5 h-3.5 text-[var(--warning)]" /> : <EyeOff className="w-3.5 h-3.5" />}
             <span className="hidden sm:inline">
               {focusMode 
                 ? (lang === "ar" ? "إلغاء التركيز" : "Exit Focus") 
                 : (lang === "ar" ? "وضع التركيز 🎯" : "Focus Mode 🎯")}
             </span>
+          </motion.button>
+
+          <motion.button
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={onExportPDF}
+            className="bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-[var(--primary-foreground)] px-4 py-1.5 rounded-xl font-bold transition-all flex items-center gap-1.5 text-[11px] sm:text-xs cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>{lang === 'ar' ? 'تصدير' : 'Export'}</span>
           </motion.button>
         </div>
       </nav>

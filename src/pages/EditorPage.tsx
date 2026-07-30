@@ -1141,6 +1141,7 @@ export default function EditorPage() {
         onTogglePreview={() => setShowFullPreview(!showFullPreview)}
         previewOpen={showFullPreview}
         isLocked={data.isLocked}
+        onNavigateToStep={(step: string) => setActiveTab(step as any)}
         onBackToHome={() => { window.location.href = "/"; }}
         onReset={async () => {
             if (confirm(language === "ar" ? "هل أنت متأكد من مسح جميع البيانات والبدء من جديد؟" : "Are you sure you want to start over? All data will be deleted.")) {
@@ -1174,35 +1175,8 @@ export default function EditorPage() {
           {/* Editor Area */}
           {!previewFocusMode && (
           <Panel defaultSize={68} minSize={30} className="block">
-          <div className={cn("flex flex-col h-full overflow-hidden relative transition-all duration-300", focusMode ? "bg-white" : "bg-[#F9FAFB]")} dir={dir}>
+          <div className={cn("flex flex-col h-full overflow-hidden relative transition-all duration-300", focusMode ? "bg-[var(--background)]" : "bg-[var(--surface-muted)]")} dir={dir}>
             
-            {/* Real-time Progress Bar */}
-            <div className="bg-white border-b border-slate-200/85 px-6 py-3 flex items-center justify-between gap-4 select-none shrink-0" style={{ direction: dir }}>
-              <div className="flex items-center gap-2 shrink-0">
-                <div className="w-2.5 h-2.5 rounded-full bg-brand-500 animate-pulse" />
-                <span className="text-xs font-black text-slate-700">
-                  {language === "ar" ? "نسبة اكتمال السيرة الذاتية:" : "Resume Completion Progress:"}
-                </span>
-                <span className="text-xs font-black text-brand-600 bg-brand-600/5 px-2 py-0.5 rounded-lg font-mono">
-                  {progressPercent}%
-                </span>
-              </div>
-              <div className="flex-1 max-w-md h-2 bg-slate-100 rounded-full overflow-hidden relative border border-slate-200/20">
-                <motion.div
-                  className="absolute top-0 bottom-0 bg-gradient-to-r from-brand-500 to-amber-500 rounded-full"
-                  style={{ left: dir === "rtl" ? "auto" : 0, right: dir === "rtl" ? 0 : "auto" }}
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progressPercent}%` }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                />
-              </div>
-              <div className="hidden md:block text-[11px] text-slate-400 font-bold shrink-0">
-                {progressPercent === 100 
-                  ? (language === "ar" ? "أداء ممتاز! جاهز للتحميل 🏆" : "Excellent performance! Ready to download 🏆")
-                  : (language === "ar" ? "أكمل بياناتك للحصول على سيرة قوية" : "Complete your details for a powerful resume")}
-              </div>
-            </div>
-
             <main
               ref={formRef}
               onScroll={handleFormScroll}
