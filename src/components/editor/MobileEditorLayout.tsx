@@ -8,7 +8,7 @@ import {
   Eye, Grid, Download, 
   FileText, ChevronRight, Share2, AlertTriangle,
   ArrowUp, ArrowDown, Layers, Settings, RotateCcw, MoreHorizontal,
-  ArrowLeft, ArrowRight, X, Check
+  ArrowLeft, ArrowRight, X, Check, Sparkles
 } from "lucide-react";
 import { useResumeStore } from "../../store/useResumeStore";
 

@@ -5,50 +5,60 @@
    DESIGN TOKENS
    ============================================================ */
 :root {
-  /* Brand Colors */
-  --brand-primary: #001639;
-  --brand-primary-hover: #0a224d;
-  --brand-primary-active: #081a3b;
-
-  --brand-accent: #ff4d2d;
-  --brand-accent-hover: #eb4324;
-  --brand-accent-active: #d83a1d;
-
-  /* Neutrals & Surfaces */
-  --bg: #f8f9fc;
-  --bg-muted: #eef2f7;
+  /* Colors - Light Theme (Warm-neutral base) */
+  --background: #fdfaf6;
   --surface: #ffffff;
-  --surface-soft: #f3f5f9;
   --surface-elevated: #ffffff;
+  --surface-muted: #f4f1ec;
 
-  /* Text */
-  --text: #111827;
-  --text-soft: #4b5563;
-  --text-faint: #6b7280;
-  --text-inverse: #ffffff;
+  --foreground: #1c1917; /* Warm dark gray */
+  --foreground-muted: #78716c;
 
-  /* Borders & Dividers */
-  --border: #e5e7eb;
-  --border-strong: #cfd6df;
-  --divider: rgba(17, 24, 39, 0.06);
+  --border: #e7e5e4;
+  --border-strong: #d6d3d1;
 
-  /* Status */
-  --success: #15803d;
-  --warning: #d97706;
-  --error: #dc2626;
-  --info: #2563eb;
+  /* Primary - Deep Indigo */
+  --primary: #312e81;
+  --primary-hover: #3730a3;
+  --primary-foreground: #ffffff;
+
+  /* Semantic */
+  --accent: #ea580c; /* Orange as optional limited accent */
+  --accent-foreground: #ffffff;
+  --success: #10b981; /* Emerald */
+  --warning: #f59e0b; /* Amber */
+  --danger: #ef4444; /* Red */
+  
+  --focus-ring: rgba(49, 46, 129, 0.4);
 
   /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 22, 57, 0.06);
-  --shadow-md: 0 8px 24px rgba(0, 22, 57, 0.08);
-  --shadow-lg: 0 18px 48px rgba(0, 22, 57, 0.12);
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(28, 25, 23, 0.1), 0 2px 4px -1px rgba(28, 25, 23, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(28, 25, 23, 0.1), 0 4px 6px -2px rgba(28, 25, 23, 0.05);
+  --shadow-focus: 0 0 0 3px var(--focus-ring);
+
+  /* Legacy aliases (to avoid breaking existing components) */
+  --brand-primary: var(--primary);
+  --brand-primary-hover: var(--primary-hover);
+  --brand-primary-active: var(--primary-hover);
+  --brand-accent: var(--accent);
+  --brand-accent-hover: #c2410c;
+  --brand-accent-active: #9a3412;
+  --bg: var(--background);
+  --bg-muted: var(--surface-muted);
+  --surface-soft: var(--surface-muted);
+  --text: var(--foreground);
+  --text-soft: var(--foreground-muted);
+  --text-faint: #a8a29e;
+  --text-inverse: var(--primary-foreground);
+  --divider: var(--border);
 
   /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-full: 999px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
 
   /* Spacing (4px scale) */
   --space-1: 4px;
@@ -62,13 +72,15 @@
   --space-12: 48px;
 
   /* Typography */
-  --font-ui: "Cairo", "Tajawal", "IBM Plex Sans Arabic", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-arabic: "IBM Plex Sans Arabic", "Cairo", system-ui, sans-serif;
+  --font-ui: var(--font-sans); /* Fallback */
 
   --text-xs: 12px;
   --text-sm: 14px;
   --text-base: 16px;
-  --text-lg: 20px;
-  --text-xl: 28px;
+  --text-lg: 18px;
+  --text-xl: 24px;
 
   /* Layout widths */
   --content-narrow: 640px;
@@ -120,8 +132,79 @@
   --gray-900: #111827;
 }
 
+.font-arabic {
+  --font-ui: var(--font-arabic);
+}
+
+.font-sans {
+  --font-ui: var(--font-sans);
+}
+
+.dark {
+  /* Colors - Dark Theme (Warm-neutral base) */
+  --background: #1c1917; /* Warm dark gray */
+  --surface: #292524;
+  --surface-elevated: #44403c;
+  --surface-muted: #292524;
+
+  --foreground: #f5f5f4;
+  --foreground-muted: #a8a29e;
+
+  --border: #44403c;
+  --border-strong: #57534e;
+
+  /* Primary - Deep Indigo adapted for dark mode */
+  --primary: #4f46e5;
+  --primary-hover: #6366f1;
+  --primary-foreground: #ffffff;
+
+  --accent: #f97316;
+  --accent-foreground: #ffffff;
+  
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+
+  --focus-ring: rgba(79, 70, 229, 0.5);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --shadow-focus: 0 0 0 3px var(--focus-ring);
+  
+  /* Legacy aliases for dark mode */
+  --brand-primary: var(--primary);
+  --brand-primary-hover: var(--primary-hover);
+  --brand-primary-active: var(--primary-hover);
+  --brand-accent: var(--accent);
+  --brand-accent-hover: #fdba74;
+  --brand-accent-active: #fb923c;
+  --bg: var(--background);
+  --bg-muted: var(--surface-muted);
+  --surface-soft: var(--surface-muted);
+  --text: var(--foreground);
+  --text-soft: var(--foreground-muted);
+  --text-faint: #78716c;
+  --text-inverse: var(--primary-foreground);
+  --divider: var(--border);
+}
+
 @theme {
-  /* Brand & Layout Custom Tokens */
+  /* Semantic Tokens */
+  --color-background: var(--background);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-muted: var(--surface-muted);
+  --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-danger: var(--danger);
+
+  /* Brand & Layout Custom Tokens (Legacy mapping) */
   --color-brand-primary: var(--brand-primary);
   --color-brand-primary-hover: var(--brand-primary-hover);
   --color-brand-accent: var(--brand-accent);

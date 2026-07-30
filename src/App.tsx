@@ -51,6 +51,7 @@ const DashboardPage = lazyRetry(() => import("./pages/DashboardPage"));
 import { initGA, trackPageView } from "./services/analytics";
 import { useLanguageStore } from "./store/useLanguageStore";
 import { useDeviceState } from "./hooks/useDeviceState";
+import { useThemeStore } from "./store/useThemeStore";
 
 function GAListener() {
   const location = useLocation();
@@ -126,15 +127,35 @@ function AppContent() {
 export default function App() {
   const { language, dir } = useLanguageStore();
   const { isMobile } = useDeviceState();
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     if (typeof document !== "undefined") {
       document.documentElement.dir = dir;
       document.documentElement.lang = language;
-      document.documentElement.classList.remove("dark");
-      document.documentElement.style.colorScheme = "light";
+      
+      const isDark = 
+        theme === "dark" || 
+        (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+        document.documentElement.style.colorScheme = "dark";
+      } else {
+        document.documentElement.classList.remove("dark");
+        document.documentElement.style.colorScheme = "light";
+      }
+
+      // Apply appropriate font family class based on language
+      if (language === "ar") {
+        document.documentElement.classList.add("font-arabic");
+        document.documentElement.classList.remove("font-sans");
+      } else {
+        document.documentElement.classList.add("font-sans");
+        document.documentElement.classList.remove("font-arabic");
+      }
     }
-  }, [language, dir]);
+  }, [language, dir, theme]);
 
   return (
     <HelmetProvider>
