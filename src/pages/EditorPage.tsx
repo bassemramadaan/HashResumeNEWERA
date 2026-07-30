@@ -8,7 +8,6 @@ import {
   Separator as PanelResizeHandle,
 } from "react-resizable-panels";
 import {
-  User,
   Briefcase,
   GraduationCap,
   Wrench,
@@ -24,11 +23,12 @@ import {
   ArrowLeft,
   Award,
   Lock,
-  
+  Target,
   ExternalLink,
   Info, ZoomIn, Globe,
 } from "lucide-react";
-import { useResumeStore, flushResumeStorage } from "../store/useResumeStore";
+import { useResumeStore, flushResumeStorage, hasMeaningfulResumeData } from "../store/useResumeStore";
+import LightweightOnboardingModal from "../components/editor/LightweightOnboardingModal";
 import { useLanguageStore } from "../store/useLanguageStore";
 import { useActiveSectionStore } from "../store/useActiveSectionStore";
 import { Link } from "react-router-dom";
@@ -89,7 +89,6 @@ const FormLoader = () => (
 );
 
 import { Tab } from "../types/editor.types";
-import { ATS_SECTION_TIPS } from "../constants/editor.constants";
 import { ProgressTrackerModal } from "../components/editor/ProgressTrackerModal";
 
 
@@ -163,34 +162,21 @@ export default function EditorPage() {
     }, 4000);
   };
 
-  const [isTipsOpen, setIsTipsOpen] = useState(false);
   const [showAutofill, setShowAutofill] = useState(false);
   const [showAIBanner, setShowAIBanner] = useState(true);
   const [showMicroSpacingPanel, setShowMicroSpacingPanel] = useState(false);
-  const [aiNotice, setAiNotice] = useState<{ code: string; message: string } | null>(null);
 
   useEffect(() => {
-    let aiTimeout: ReturnType<typeof setTimeout> | undefined;
     const handleAIErrorEvent = (e: Event) => {
       const customEvent = e as CustomEvent<{ code: string; message: string }>;
-      if (customEvent && customEvent.detail) {
-        setAiNotice({
-          code: customEvent.detail.code,
-          message: customEvent.detail.message,
-        });
-        
-        // Auto-dismiss after 8 seconds
-        if (aiTimeout) clearTimeout(aiTimeout);
-        aiTimeout = setTimeout(() => {
-          setAiNotice(prev => prev?.code === customEvent.detail.code ? null : prev);
-        }, 8000);
+      if (customEvent && customEvent.detail?.message) {
+        showToast(customEvent.detail.message, "info");
       }
     };
     
     window.addEventListener("ai:error", handleAIErrorEvent);
     return () => {
       window.removeEventListener("ai:error", handleAIErrorEvent);
-      if (aiTimeout) clearTimeout(aiTimeout);
     };
   }, []);
 
@@ -305,16 +291,7 @@ export default function EditorPage() {
   
 
 
-  const [showMobilePreview, setShowMobilePreview] = useState(false);
-  const [mobileZoom, setMobileZoom] = useState(0.45);
 
-  useEffect(() => {
-    if (showMobilePreview) {
-      const screenWidth = typeof window !== "undefined" ? window.innerWidth : 375;
-      const fitZoom = Math.min(Math.max((screenWidth - 32) / 794, 0.3), 1.0);
-      setMobileZoom(fitZoom);
-    }
-  }, [showMobilePreview]);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   const handleFormScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -339,7 +316,22 @@ export default function EditorPage() {
   } | null>(null);
   const [showKeyboardShortcuts, setShowKeyboardShortcuts] = useState(false);
   const [isIframe, setIsIframe] = useState(false);
-  const [showIframeBanner, setShowIframeBanner] = useState(true);
+  const [showIframeBanner, setShowIframeBanner] = useState(() => {
+    try {
+      return localStorage.getItem("dismissed_pdf_notice") !== "true";
+    } catch {
+      return true;
+    }
+  });
+
+  const dismissPdfNotice = () => {
+    try {
+      localStorage.setItem("dismissed_pdf_notice", "true");
+    } catch (err) {
+      console.warn("Could not persist PDF notice dismissal:", err);
+    }
+    setShowIframeBanner(false);
+  };
 
   useEffect(() => {
     try {
@@ -352,8 +344,18 @@ export default function EditorPage() {
   const data = useResumeStore((state) => state.data);
   const isStarted = useResumeStore((state) => state.isStarted);
   const setIsStarted = useResumeStore((state) => state.setIsStarted);
+  const hasCompletedOnboarding = useResumeStore((state) => state.hasCompletedOnboarding);
+
+  const [showOnboardingModal, setShowOnboardingModal] = useState(false);
+
+  useEffect(() => {
+    // Only show onboarding automatically for new users with no meaningful data
+    if (!hasCompletedOnboarding && !hasMeaningfulResumeData(data)) {
+      setShowOnboardingModal(true);
+    }
+  }, [hasCompletedOnboarding, data]);
   
-  const { isPremium, isEmpty, atsScore, breakdown } = useResumeValidation(data);
+  const { isPremium, isEmpty, atsScore, atsSections, breakdown } = useResumeValidation(data);
   const { saveStatus } = useAutoSave(data);
 
   const {
@@ -604,13 +606,13 @@ export default function EditorPage() {
         useActiveSectionStore.getState().setActiveField(null);
       }}
     >
-      {!isStarted ? (
+      {!isStarted && !hasMeaningfulResumeData(data) ? (
         <div className="h-[60vh] flex items-center justify-center">
             <EmptyState 
-                title={language === 'ar' ? 'ابدأ سيرتك الذاتية' : 'Start your Resume'}
-                description={language === 'ar' ? 'ابدأ ببناء سيرتك الذاتية بإدخال بياناتك' : 'Begin building your resume by entering your data'}
-                buttonText={language === 'ar' ? 'ابدأ الآن' : 'Start Now'}
-                onAdd={() => setIsStarted(true)}
+                title={language === 'ar' ? 'ابدأ سيرتك الذاتية' : language === 'fr' ? 'Commencez votre CV' : 'Start your Resume'}
+                description={language === 'ar' ? 'ابدأ باختيار القالب وتنسيق سيرتك الذاتية في خطوات بسيطة' : language === 'fr' ? 'Choisissez un modèle et créez votre CV en quelques étapes' : 'Begin building your resume by choosing a template and entering your info'}
+                buttonText={language === 'ar' ? 'اختر القالب وابدأ' : language === 'fr' ? 'Choisir le modèle & Commencer' : 'Choose Template & Start'}
+                onAdd={() => setShowOnboardingModal(true)}
             />
         </div>
       ) : (
@@ -651,104 +653,37 @@ export default function EditorPage() {
         </div>
       )}
 
-                {!focusMode && ATS_SECTION_TIPS[language === "ar" ? "ar" : "en"]?.[activeTab] && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: -8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mb-6"
-                  >
-                    <div className="bg-white rounded-2xl border border-slate-200 p-4 transition-all overflow-hidden shadow-xs">
-                      <button
-                        onClick={() => setIsTipsOpen(!isTipsOpen)}
-                        className="w-full flex items-center justify-between font-bold text-xs text-slate-900 hover:opacity-85 transition-opacity"
-                      >
-                        <span className="flex items-center gap-2">
-                          <span>{ATS_SECTION_TIPS[language === "ar" ? "ar" : "en"][activeTab].title}</span>
-                        </span>
-                        <span className="text-[10px] bg-slate-900/10 px-2.5 py-1 rounded-lg">
-                          {isTipsOpen ? (language === "ar" ? "إخلاق" : "Hide") : (language === "ar" ? "عرض النصائح" : "Show Tips")}
-                        </span>
-                      </button>
-                      
-                      {isTipsOpen && (
-                        <motion.ul 
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          className="mt-3.5 space-y-2 text-xs md:text-sm text-slate-800 list-none ltr:pl-0 rtl:pr-0 border-t border-slate-300/10 pt-3"
-                        >
-                          {ATS_SECTION_TIPS[language === "ar" ? "ar" : "en"][activeTab].tips.map((tip, idx) => (
-                            <li key={idx} className="flex items-start gap-2.5 leading-relaxed font-semibold text-slate-700">
-                              <span className="text-slate-900 shrink-0 mt-0.5">✓</span>
-                              <span>{tip}</span>
-                            </li>
-                          ))}
-                        </motion.ul>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-
-            {/* Intelligent AI Connection/Fallback Notification Banner */}
-            {aiNotice && (
+            {/* Compact optional job recommendations card shown only when resume is >= 80% complete */}
+            {showAIBanner && atsScore >= 80 && (
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-4 p-3.5 rounded-2xl bg-orange-50 border border-orange-200/70 flex items-start gap-3 shadow-xs text-start"
+                className="mb-4 p-3 rounded-xl bg-amber-50/70 border border-amber-200/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-start relative shadow-2xs"
               >
-                <div className="p-2 bg-orange-100 rounded-xl text-brand-600 shrink-0 mt-0.5">
-                  <Sparkles className="w-4 h-4 animate-pulse" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-xs font-black text-brand-600 uppercase tracking-wider">
-                    {language === "ar" ? "تنبيه مساعد الذكاء الاصطناعي" : "AI Assistant Update"}
-                  </h4>
-                  <p className="text-[11px] text-slate-700 font-semibold leading-relaxed mt-0.5">
-                    {aiNotice.message}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setAiNotice(null)}
-                  className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg cursor-pointer transition-colors"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
-              </motion.div>
-            )}
-
-            {/* Direct Flow AI Integrations Callout Banner */}
-            {showAIBanner && data.personalInfo.fullName && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-start relative shadow-xs"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-brand-600/10 rounded-xl text-brand-600 shrink-0 mt-0.5">
-                    <Sparkles className="w-4 h-4 animate-pulse" />
+                <div className="flex items-center gap-2.5">
+                  <div className="p-1.5 bg-amber-500/10 rounded-lg text-amber-600 shrink-0">
+                    <Sparkles className="w-3.5 h-3.5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-black text-slate-900">
-                      {language === "ar" 
-                        ? `مرحباً بك ${data.personalInfo.fullName}! تم حفظ بيانات سيرتك الذاتية بنجاح ✅` 
-                        : `Welcome back, ${data.personalInfo.fullName}! Your resume details are saved ✅`}
-                    </h4>
-                    <p className="text-[10px] text-slate-500 font-medium leading-relaxed mt-1">
+                    <h4 className="text-xs font-bold text-slate-800">
                       {language === "ar"
-                        ? "هل ترغب في البدء بالبحث عن فرص وتوصيات عمل ذكية متوافقة تماماً مع سيرتك الذاتية؟"
-                        : "Ready to explore live matches and job recommendation lists tailored to your resume?"}
-                    </p>
+                        ? "سيرتك جاهزة تقريبًا — اعثر على وظائف مناسبة في Hash Hunt 🎯"
+                        : language === "fr"
+                          ? "Votre CV est presque prêt — trouvez des emplois adaptés sur Hash Hunt 🎯"
+                          : "Your resume is almost ready — find matching jobs on Hash Hunt 🎯"}
+                    </h4>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 self-end sm:self-center">
                   <Link
                     to="/hash-hunt"
-                    className="flex-1 sm:flex-none text-center text-[10px] font-black bg-brand-600 hover:bg-[#E64528] text-white py-2.5 px-3.5 rounded-xl shadow-xs transition-all cursor-pointer whitespace-nowrap"
+                    className="flex-1 sm:flex-none text-center text-[11px] font-bold bg-amber-500 hover:bg-amber-600 text-white py-1.5 px-3 rounded-lg shadow-2xs transition-all cursor-pointer whitespace-nowrap"
                   >
-                    {language === "ar" ? "💼 ابحث عن وظائف" : "💼 Find Jobs (Hash Hunt)"}
+                    {language === "ar" ? "ابحث عن وظائف" : "Explore Jobs"}
                   </Link>
                   <button
                     onClick={() => setShowAIBanner(false)}
-                    className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg cursor-pointer transition-colors"
+                    className="p-1 hover:bg-amber-100 rounded-lg text-amber-600 transition-colors cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" />
                   </button>
@@ -756,20 +691,72 @@ export default function EditorPage() {
               </motion.div>
             )}
 
-            {/* Top Navigation Actions */}
-            <div className="flex items-center justify-between mb-4 w-full px-1">
-              <h1 className="text-xs font-black text-slate-800 uppercase tracking-wider">
-                {language === "ar" ? "منشئ السيرة الذاتية (Editor)" : "Resume Builder Editor"}
-              </h1>
+            {/* Top Navigation & Status Header */}
+            <div className="flex items-center justify-between mb-3 w-full px-1 gap-2 flex-wrap">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-sm font-black text-slate-900 tracking-tight">
+                  {language === "ar"
+                    ? (activeTab === "basics" || activeTab === "personal" ? "المعلومات الشخصية" : activeTab === "summary" ? "الملخص المهني" : activeTab === "experience" ? "الخبرات العملية" : activeTab === "education" ? "التعليم والشهادات" : activeTab === "skills" ? "المهارات والتخصصات" : activeTab === "projects" ? "المشاريع والإنجازات" : activeTab === "certifications" ? "الشهادات والاعتمادات" : "المعاينة والتصدير")
+                    : (activeTab === "basics" || activeTab === "personal" ? "Personal Information" : activeTab === "summary" ? "Professional Summary" : activeTab === "experience" ? "Work Experience" : activeTab === "education" ? "Education & Degrees" : activeTab === "skills" ? "Skills & Expertise" : activeTab === "projects" ? "Projects & Highlights" : activeTab === "certifications" ? "Certifications & Achievements" : "Preview & Export")}
+                </h1>
+
+                {/* Compact Clickable ATS Score Status Pill */}
+                <button
+                  type="button"
+                  onClick={() => setShowResumeChecker(true)}
+                  className={cn(
+                    "flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border shadow-3xs transition-all cursor-pointer hover:scale-105 active:scale-95",
+                    isEmpty
+                      ? "bg-slate-100 text-slate-600 border-slate-200"
+                      : atsScore >= 80
+                        ? "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100"
+                        : atsScore >= 50
+                          ? "bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100"
+                          : "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100"
+                  )}
+                  title={language === "ar" ? "اضغط لعرض فاحص الـ ATS والتوصيات" : "Click to view ATS score & tips"}
+                >
+                  <Target className="w-3.5 h-3.5 shrink-0" />
+                  <span>
+                    {isEmpty
+                      ? "ATS: --"
+                      : `ATS ${atsScore}% · ${calculateATSScore(data).tips.length} ${language === "ar" ? "تحسينات" : "tips"}`}
+                  </span>
+                </button>
+
+                {/* Contextual AI Assistant Pill */}
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent("open-magic-modal"))}
+                  className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 transition-all cursor-pointer active:scale-95 shadow-3xs"
+                  title={language === "ar" ? "المساعد الذكي للسيرة الذاتية" : "AI Assistant"}
+                >
+                  <Sparkles className="w-3 h-3 text-amber-600 animate-pulse shrink-0" />
+                  <span>{language === "ar" ? "مساعد AI" : "AI Assistant"}</span>
+                </button>
+
+                {/* Info Help Icon if PDF Notice is dismissed */}
+                {isIframe && !showIframeBanner && (
+                  <button
+                    type="button"
+                    onClick={() => setShowIframeBanner(true)}
+                    className="p-1 text-slate-400 hover:text-brand-600 hover:bg-brand-50 rounded-md transition-colors cursor-pointer"
+                    title={language === "ar" ? "تلميح تصدير PDF" : "PDF Export Info"}
+                  >
+                    <Info className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+
               <div className="hidden md:flex items-center gap-2 shrink-0">
                 <button
                   onClick={handlePrevTab}
                   disabled={!hasPrevTab}
                   title={language === "ar" ? "السابق" : "Previous"}
                   className={cn(
-                    "p-2 rounded-xl border transition-all flex items-center justify-center",
+                    "p-2 rounded-xl border transition-all flex items-center justify-center min-h-[36px]",
                     hasPrevTab 
-                      ? "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer shadow-sm active:scale-95" 
+                      ? "bg-white border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer shadow-xs active:scale-95" 
                       : "bg-transparent border-slate-100 text-slate-300 cursor-not-allowed opacity-50"
                   )}
                 >
@@ -780,7 +767,7 @@ export default function EditorPage() {
                   disabled={!hasNextTab}
                   title={language === "ar" ? "التالي" : "Next"}
                   className={cn(
-                    "p-2 py-2 px-4 rounded-xl border transition-all flex items-center gap-2 font-bold text-[11px] uppercase tracking-wider",
+                    "py-1.5 px-3.5 rounded-xl border transition-all flex items-center gap-2 font-bold text-[11px] uppercase tracking-wider min-h-[36px]",
                     hasNextTab 
                       ? "bg-neutral-900 border-neutral-900 text-white hover:bg-black cursor-pointer shadow-md active:scale-95" 
                       : "bg-neutral-100 border-neutral-100 text-neutral-400 cursor-not-allowed opacity-50"
@@ -795,61 +782,29 @@ export default function EditorPage() {
                   <div className={cn(data.isLocked && "pointer-events-none opacity-50 select-none")}>
                     <Suspense fallback={<FormLoader />}>
                         {activeTab === "basics" && (
-                        <div className="space-y-6">
-
+                        <div className="space-y-4">
                           <section>
-                            <div className="flex items-center gap-4 mb-6 text-start">
-                              <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#F3F4F6] text-[#374151] relative overflow-hidden shrink-0 border border-slate-200/50">
-                                <User
-                                  size={22}
-                                  className="relative z-10"
-                                />
-                              </div>
-                              <div>
-                                <h2 className="text-lg font-semibold text-[#111827] tracking-tight">
-                                  {String(typeof t.personalInfo === 'string' ? t.personalInfo : "Personal Information")}
-                                </h2>
-                                <p className="text-[12px] text-[#9CA3AF] font-medium">
-                                  {language === "ar"
-                                    ? "بياناتك الأساسية ومعلومات التواصل"
-                                    : "Basic details and contact info"}
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* Premium Quick Auto-Fill Roles / Smart Templates */}
-                            <div className="mb-6 bg-white border border-slate-200/95 rounded-2xl overflow-hidden shadow-3xs transition-all duration-300">
+                            {/* Optional Compact Quick Auto-Fill Roles */}
+                            <div className="mb-3 text-start">
                               <button
                                 type="button"
                                 onClick={() => setShowAutofill(!showAutofill)}
-                                className="w-full px-5 py-4 flex items-center justify-between text-start cursor-pointer hover:bg-slate-50/50 transition-colors"
+                                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-700 hover:text-brand-800 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                               >
-                                <div className="flex items-center gap-2.5">
-                                  <div className="p-1.5 bg-brand-50 text-brand-600 rounded-lg">
-                                    <Sparkles size={14} className="animate-pulse" />
-                                  </div>
-                                  <div>
-                                    <h3 className="text-xs font-black text-slate-800 uppercase tracking-wider">
-                                      {language === "ar" ? "قوالب وتعبئة تلقائية ذكية" : "AI Role Templates & Smart Auto-Fill"}
-                                    </h3>
-                                    <p className="text-[10px] text-slate-400 font-semibold mt-0.5">
-                                      {language === "ar" ? "ابدأ بسرعة باستخدام عينة منسقة لمهنتك بنقرة واحدة" : "Instantly populate sample HR-vetted data for your profession"}
-                                    </p>
-                                  </div>
-                                </div>
-                                <span className="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg font-black transition-colors">
-                                  {showAutofill ? (language === "ar" ? "إغلاق" : "Collapse") : (language === "ar" ? "عرض الخيارات" : "Expand")}
+                                <Sparkles size={13} className="animate-pulse" />
+                                <span>
+                                  {language === "ar" ? "تعبئة سريعة بقالب مهني" : "Quick Auto-Fill Role Template"}
                                 </span>
                               </button>
 
                               {showAutofill && (
-                                <div className="px-5 pb-5 border-t border-slate-100 pt-4 bg-slate-50/30">
-                                  <p className="text-xs text-slate-600 leading-relaxed font-medium mb-3.5">
+                                <div className="mt-2.5 p-3 bg-white border border-slate-200 rounded-xl shadow-xs">
+                                  <p className="text-xs text-slate-600 mb-2 font-medium">
                                     {language === "ar"
-                                      ? "اختر مهنتك ليتم تعبئة السيرة الذاتية كاملة ببيانات نموذجية صاغها خبراء الموارد البشرية لتجتاز فحص الـ ATS وتفهم كيفية التعبير عن خبراتك:"
-                                      : "Select a professional template crafted by recruiting experts to instantly pass ATS scans and learn optimal experience phrasing:"}
+                                      ? "اختر مهنتك ليتم تعبئة السيرة الذاتية كاملة ببيانات نموذجية:"
+                                      : "Select a professional template to populate sample data:"}
                                   </p>
-                                  <div className="grid grid-cols-3 gap-2.5">
+                                  <div className="grid grid-cols-3 gap-2">
                                     {[
                                       { id: "developer", label: language === "ar" ? "💻 مبرمج" : "💻 Developer" },
                                       { id: "accountant", label: language === "ar" ? "📊 محاسب" : "📊 Accountant" },
@@ -860,15 +815,15 @@ export default function EditorPage() {
                                         type="button"
                                         onClick={() => {
                                           const confirmMsg = language === "ar"
-                                            ? "تنبيه: هذا الإجراء سيقوم باستبدال جميع البيانات الحالية ببيانات هذا النموذج النموذجي بالكامل. هل تريد الاستمرار؟"
-                                            : "Warning: This action will replace all your current resume entries with this template's data. Do you want to proceed?";
+                                            ? "تنبيه: هذا الإجراء سيقوم باستبدال جميع البيانات الحالية ببيانات هذا النموذج. هل تريد الاستمرار؟"
+                                            : "Warning: This action will replace all current data with template sample data. Proceed?";
                                           if (window.confirm(confirmMsg)) {
                                             const loadRoleTemplate = useResumeStore.getState().loadRoleTemplate;
                                             loadRoleTemplate(role.id as any, language === "ar" ? "ar" : "en");
                                             setShowAutofill(false);
                                           }
                                         }}
-                                        className="py-2.5 px-2 text-center rounded-xl bg-white hover:bg-slate-900 border border-slate-200/90 text-slate-700 hover:text-white font-black text-[11px] transition-all cursor-pointer shadow-sm hover:shadow active:scale-95 whitespace-nowrap"
+                                        className="py-1.5 px-2 text-center rounded-lg bg-slate-50 hover:bg-slate-900 border border-slate-200 text-slate-700 hover:text-white font-bold text-[11px] transition-all cursor-pointer"
                                       >
                                         {role.label}
                                       </button>
@@ -879,7 +834,6 @@ export default function EditorPage() {
                             </div>
 
                             <PersonalInfoForm />
-
                           </section>
                         </div>
                       )}
@@ -1076,7 +1030,6 @@ export default function EditorPage() {
           completionMap={sidebarCompletionMap}
           onExportPDF={handleExportClick}
           onExportWord={() => handleProceedToExport("docx")}
-          onOpenPreview={() => setShowMobilePreview(true)}
           onOpenAts={() => setShowMobileAtsPanel(true)}
           onOpenSettings={() => setIsSettingsModalOpen(true)}
           onReset={async () => {
@@ -1088,6 +1041,13 @@ export default function EditorPage() {
           }}
           focusMode={focusMode}
           onToggleFocus={() => setFocusMode(!focusMode)}
+          previewContent={
+            <div className="bg-white border border-slate-300 rounded-sm overflow-hidden shrink-0 w-[210mm] min-h-[297mm]">
+              <Suspense fallback={<FormLoader />}>
+                <ResumePreview />
+              </Suspense>
+            </div>
+          }
         >
           <main ref={formRef} onScroll={handleFormScroll} className="w-full h-full overflow-y-auto pb-6 relative scrollbar-none editor-form-scrollable">
             {data.isLocked && <LockedOverlay lang={language} />}
@@ -1190,44 +1150,45 @@ export default function EditorPage() {
               <AnimatePresence>
                 {isIframe && showIframeBanner && (
                   <motion.div
-                    initial={{ opacity: 0, y: -20 }}
+                    initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    className="mb-6 bg-brand-50/95 backdrop-blur-md border border-brand-200/80 text-brand-950 rounded-2xl p-4.5 shadow-[0_4px_20px_rgba(99,102,241,0.08)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                    exit={{ opacity: 0, y: -10 }}
+                    className="mb-4 bg-brand-50/90 border border-brand-200/80 text-brand-950 rounded-xl p-3 shadow-2xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
                     dir={language === "ar" ? "rtl" : "ltr"}
                   >
-                    <div className="flex items-start gap-3">
-                      <div className="bg-brand-100 p-2 rounded-xl text-brand-600 shrink-0">
-                        <Info className="w-5 h-5" />
+                    <div className="flex items-center gap-2.5">
+                      <div className="bg-brand-100 p-1 rounded-lg text-brand-600 shrink-0">
+                        <Info className="w-4 h-4" />
                       </div>
-                      <div className="space-y-1">
-                        <h4 className="text-sm font-black tracking-tight">
+                      <div className="space-y-0.5">
+                        <h4 className="text-xs font-bold text-slate-900">
                           {language === "ar"
-                            ? "💡 الحل الموصى به لتصدير بأعلى جودة"
-                            : "💡 Recommended for Best PDF Quality"}
+                            ? "💡 يُفضل التصدير في نافذة مستقلة لضمان أعلى جودة ملف PDF"
+                            : "💡 Open in new window for optimal PDF export quality"}
                         </h4>
-                        <p className="text-xs text-brand-800 leading-relaxed font-medium">
+                        <p className="text-[11px] text-brand-800 font-medium leading-normal">
                           {language === "ar"
-                            ? "لتجنب أي قيود برمجية للمتصفح عند توليد ملف الـ PDF بأعلى جودة واحترافية، يُفضل دائماً فتح المحرر في نافذة مستقلة جديدة (عبر زر 'فتح في نافذة مستقلة' المتوفر في المتصفح). سيقوم نظام المزامنة التلقائية بعرض كافة بياناتك فوراً ويتيح لك تحميل السيرة بنقرة واحدة وبدون أي قيود طباعية."
-                            : "To avoid browser restrictions and ensure the absolute highest print quality, we highly recommend opening this editor in an independent window. Your work will auto-sync instantly, and you can download your PDF with a single click."}
+                            ? "لتجنب قيود العرض داخل الإطار، يمكنك فتح المحرر في نافذة جديدة."
+                            : "To avoid iframe printing limits, you can open the editor in a full browser tab."}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2.5 shrink-0 self-end sm:self-center">
+                    <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
                       <button
                         onClick={() => {
                           window.open(window.location.href, '_blank');
                         }}
-                        className="bg-brand-600 hover:bg-brand-700 text-white font-extrabold text-xs px-4 py-2.5 rounded-xl transition-all cursor-pointer shadow-sm active:scale-95 flex items-center gap-1.5"
+                        className="bg-brand-600 hover:bg-brand-700 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg transition-all cursor-pointer shadow-2xs flex items-center gap-1.5"
                       >
                         <span>{language === "ar" ? "فتح في نافذة جديدة" : "Open in New Window"}</span>
                         <ExternalLink className="w-3.5 h-3.5" />
                       </button>
                       <button
-                        onClick={() => setShowIframeBanner(false)}
-                        className="p-2 hover:bg-brand-100 rounded-xl text-brand-400 hover:text-brand-600 transition-colors cursor-pointer"
+                        onClick={dismissPdfNotice}
+                        className="p-1 hover:bg-brand-100 rounded-lg text-brand-400 hover:text-brand-600 transition-colors cursor-pointer"
+                        title={language === "ar" ? "إغلاق" : "Dismiss"}
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   </motion.div>
@@ -1664,102 +1625,124 @@ export default function EditorPage() {
           )}
         </AnimatePresence>
 
-        {/* Full Page Mobile Preview Sheet */}
         <AnimatePresence>
-          {showMobilePreview && (
-            <div className="fixed inset-0 z-[120] flex flex-col bg-[#FAF9F7]" style={{ direction: language === "ar" ? "rtl" : "ltr" }}>
-              {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-slate-200 shrink-0 shadow-sm z-10">
-                <div className="flex items-center gap-2">
-                  <div className="p-2 bg-brand-50 text-brand-600 rounded-lg">
-                    <FileText size={18} />
-                  </div>
-                  <div className="text-right ltr:text-left">
-                    <h3 className="text-sm font-black text-slate-800 leading-tight">
-                      {language === "ar" ? "معاينة السيرة الذاتية" : "Live Resume Preview"}
-                    </h3>
-                    <p className="text-[10px] text-slate-500 font-semibold leading-none mt-0.5">
-                      {language === "ar" ? "اسحب للتصفح، أو استخدم شريط التكبير" : "Drag to view or use the zoom bar"}
-                    </p>
-                  </div>
+          {showMobileAtsPanel && (
+            <div key="mobile-ats-container" className="md:hidden fixed inset-0 z-[100] flex flex-col justify-end">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setShowMobileAtsPanel(false)}
+                className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px]"
+              />
+              {/* ATS Mobile Content here */}
+              <div className="bg-white rounded-t-[2rem] w-full max-h-[85vh] overflow-hidden flex flex-col relative shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+                {/* Drag Handle */}
+                <div className="w-full flex justify-center pt-3 pb-1 shrink-0 absolute top-0 left-0 right-0 bg-white/80 backdrop-blur-sm z-10 rounded-t-[2rem]">
+                  <div className="w-12 h-1.5 bg-slate-200 rounded-full" />
                 </div>
                 
-                <button
-                  onClick={() => setShowMobilePreview(false)}
-                  className="p-2 text-slate-400 hover:text-slate-600 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors"
-                >
-                  <X size={18} strokeWidth={2.5} />
-                </button>
-              </div>
-
-              {/* Interactive Zoom Control Bar */}
-              <div className="bg-slate-50 border-b border-slate-200/60 px-4 py-2 flex items-center justify-between gap-4 shrink-0 select-none">
-                <span className="text-[11px] font-bold text-slate-500">
-                  {language === "ar" ? "تكبير/تصغير:" : "Zoom Level:"} {Math.round(mobileZoom * 100)}%
-                </span>
-                <div className="flex-1 flex items-center gap-2 max-w-xs">
-                  <button
-                    onClick={() => setMobileZoom(prev => Math.max(prev - 0.05, 0.3))}
-                    className="p-1.5 rounded bg-white border border-slate-200 text-slate-600 active:scale-95 transition-all text-xs font-black"
-                  >
-                    -
-                  </button>
-                  <input
-                    type="range"
-                    min="0.30"
-                    max="1.20"
-                    step="0.05"
-                    value={mobileZoom}
-                    onChange={(e) => setMobileZoom(parseFloat(e.target.value))}
-                    className="flex-1 accent-brand-600 h-1 bg-slate-200 rounded-lg cursor-pointer"
-                  />
-                  <button
-                    onClick={() => setMobileZoom(prev => Math.min(prev + 0.05, 1.2))}
-                    className="p-1.5 rounded bg-white border border-slate-200 text-slate-600 active:scale-95 transition-all text-xs font-black"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Scrollable Preview Area */}
-              <div className="flex-1 overflow-auto bg-[#F4F3EF] p-4 flex flex-col items-center justify-start min-h-0 relative scrollbar-none">
-                <div
-                  className="origin-top transition-all duration-150 shadow-2xl"
-                  style={{
-                    width: "210mm",
-                    height: "297mm",
-                    transform: `scale(${mobileZoom})`,
-                    marginBottom: `-${297 * (1 - mobileZoom)}mm`,
-                  }}
-                >
-                  <div className="bg-white border border-slate-300 rounded-sm overflow-hidden shrink-0 w-[210mm] min-h-[297mm]">
-                    <Suspense fallback={<FormLoader />}>
-                      <ResumePreview />
-                    </Suspense>
+                {/* Header Tabs */}
+                <div className="flex items-center px-4 pt-8 pb-3 border-b border-slate-100 shrink-0">
+                  <div className="flex items-center bg-slate-100 p-1 rounded-xl w-full">
+                    <button
+                      onClick={() => setMobileAtsTab("audit")}
+                      className={cn(
+                        "flex-1 py-2 text-xs font-bold rounded-lg transition-all",
+                        mobileAtsTab === "audit"
+                          ? "bg-white text-slate-800 shadow-sm"
+                          : "text-slate-500 hover:text-slate-700"
+                      )}
+                    >
+                      {language === "ar" ? "تحليل ATS" : "ATS Audit"}
+                    </button>
+                    <button
+                      onClick={() => setMobileAtsTab("match")}
+                      className={cn(
+                        "flex-1 py-2 text-xs font-bold rounded-lg transition-all",
+                        mobileAtsTab === "match"
+                          ? "bg-white text-slate-800 shadow-sm"
+                          : "text-slate-500 hover:text-slate-700"
+                      )}
+                    >
+                      {language === "ar" ? "مطابقة وظيفة" : "Job Match"}
+                    </button>
                   </div>
+                  <button
+                    onClick={() => setShowMobileAtsPanel(false)}
+                    className="p-2 ml-2 text-slate-400 hover:text-slate-600 rounded-full bg-slate-50"
+                  >
+                    <X size={16} strokeWidth={3} />
+                  </button>
                 </div>
-              </div>
 
-              {/* Bottom Sticky Action CTAs */}
-              <div className="bg-white border-t border-slate-200 px-4 py-3 pb-[calc(12px+env(safe-area-inset-bottom,0px))] flex items-center gap-3 shrink-0 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] select-none">
-                <button
-                  onClick={() => setShowMobilePreview(false)}
-                  className="flex-1 h-12 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition-all cursor-pointer text-center flex items-center justify-center"
-                >
-                  {language === "ar" ? "الرجوع للتعديل" : "Back to Edit"}
-                </button>
-                
-                <button
-                  onClick={() => {
-                    setShowMobilePreview(false);
-                    handleExportClick();
-                  }}
-                  className="flex-[1.5] h-12 bg-brand-600 hover:bg-slate-900 text-white font-black text-xs rounded-xl transition-all flex items-center justify-center gap-1.5 shadow-premium cursor-pointer"
-                >
-                  <Download size={14} className="stroke-[2.5]" />
-                  <span>{language === "ar" ? "تحميل السيرة الذاتية (PDF)" : "Download PDF"}</span>
-                </button>
+                {/* Content */}
+                <div className="flex-1 overflow-y-auto px-4 py-4 pb-[calc(24px+env(safe-area-inset-bottom,0px))]">
+                  {mobileAtsTab === "audit" ? (
+                    <div className="space-y-6">
+                      {/* Score Circle & Progress */}
+                      <div className="flex flex-col items-center justify-center py-6">
+                        <span className={`text-4xl font-black ${isEmpty ? "text-slate-400" : atsScore >= 80 ? "text-emerald-500" : atsScore >= 50 ? "text-amber-500" : "text-rose-500"}`}>{isEmpty ? "--%" : `${atsScore}%`}</span>
+                        <span className="text-xs font-bold text-slate-500 mt-1 uppercase tracking-widest">{language === "ar" ? "مؤشر التوافق" : "Match Score"}</span>
+                        <div className="w-48 h-2 bg-slate-100 rounded-full mt-4 overflow-hidden">
+                          <div 
+                            className={`h-full rounded-full transition-all duration-500 ${isEmpty ? "bg-slate-300" : atsScore >= 80 ? "bg-emerald-500" : atsScore >= 50 ? "bg-amber-500" : "bg-rose-500"}`}
+                            style={{ width: `${isEmpty ? 0 : atsScore}%` }}
+                          />
+                        </div>
+                      </div>
+                      
+                      <p className="text-sm text-slate-600 font-medium leading-relaxed mb-6 bg-slate-50 p-4 rounded-2xl">
+                        {isEmpty
+                          ? (language === "ar"
+                            ? "ابدأ بإدخال بياناتك ومعلومات التواصل وخبراتك لتنشيط مؤشر الـ ATS ورؤية تقييم التوافق المباشر."
+                            : "Start building your resume by entering contact info and experience to see your ATS score.")
+                          : language === "ar"
+                          ? atsScore >= 80
+                            ? "تهانينا! سيرتك الذاتية ممتازة ومبنية بأقوى معايير التوظيف والفرز."
+                            : atsScore >= 50
+                            ? "سيرتك جيدة، لكن ننصح بإضافة بضعة أرقام لنتائج عملك وتفاصيل مهاراتك الفنية للارتقاء بها."
+                            : "تحتاج سيرتك لإضافة معلومات اتصال كاملة وخبرة مفصلة لتمكين مراجعتها وجذب المستخرج الآلي."
+                          : atsScore >= 80
+                          ? "Splendid work! Your resume matches industry-standard ATS extraction norms beautifully."
+                          : atsScore >= 50
+                          ? "Good start. We recommend adding quantitative metrics and professional social links to boost extraction score."
+                          : "Provide contact details, summary sentences, and experience items to activate extraction."}
+                      </p>
+
+                      <h4 className="text-xs font-black uppercase tracking-wider text-slate-400 mb-4">{language === "ar" ? "تفصيل أقسام السيرة" : "Section Breakdown"}</h4>
+                      <div className="space-y-3 mb-8">
+                        {calculateATSScore(data).sections.map((sect, idx) => (
+                          <div key={idx} className="flex items-center justify-between text-sm py-2 border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors px-2 rounded-lg">
+                            <span className="text-slate-600 font-medium">
+                              {sect.title === "Contact Info" ? (language === "ar" ? "بيانات التواصل" : "Contact Details") 
+                                : sect.title === "Experience Bullet Points" ? (language === "ar" ? "صياغة نقاط وبروتوكولات الخبرة" : "Experience Verbs") 
+                                : sect.title === "Experience Formatting" ? (language === "ar" ? "تنسيق عناصر الخبرة" : "Experience Details") 
+                                : sect.title === "Summary" ? (language === "ar" ? "الملخص المهني" : "Summary") 
+                                : sect.title === "Skills Section" ? (language === "ar" ? "المهارات الفنية" : "Skills Range") 
+                                : sect.title === "Education Formatting" ? (language === "ar" ? "التعليم الأكاديمي" : "Education Format") 
+                                : sect.title}
+                            </span>
+                            <span className={`font-black ${sect.score === sect.maxScore ? "text-emerald-500" : "text-amber-500"}`}>
+                              {sect.score}/{sect.maxScore}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {calculateATSScore(data).tips.length > 0 && (
+                        <div className="bg-rose-50 border border-rose-100 rounded-xl p-4 flex gap-3">
+                          <AlertTriangle className="w-5 h-5 text-rose-500 shrink-0 mt-0.5" />
+                          <p className="text-xs font-medium text-rose-700 leading-relaxed">
+                            {calculateATSScore(data).tips[0]}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <JobMatchAdvisor language={language} isMobilePanel={true} />
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -2013,6 +1996,11 @@ export default function EditorPage() {
             </div>
           )}
         </AnimatePresence>
+
+        <LightweightOnboardingModal
+          isOpen={showOnboardingModal}
+          onClose={() => setShowOnboardingModal(false)}
+        />
 
         {showConfetti && <FrictionlessConfetti />}
         <div className="text-center text-xs text-slate-400 pb-4">version 2.7.19</div>

@@ -1,0 +1,61 @@
+--- src/components/ATSScoreWidget.tsx
++++ src/components/ATSScoreWidget.tsx
+@@ -107,31 +107,19 @@
+   return (
+     <div className="relative" style={{ width: size, height: size }}>
+       <svg width={size} height={size} className="-rotate-90 select-none">
+         <circle cx={size/2} cy={size/2} r={R} fill="none" stroke="#F1EFE8" strokeWidth={6} />
+         <motion.circle 
+           cx={size/2} 
+           cy={size/2} 
+           r={R} 
+           fill="none" 
+           stroke={ring}
+           strokeWidth={6} 
+           strokeLinecap="round"
+           strokeDasharray={`${C} ${C}`}
+-          initial={{ stexport default function ATSScoreWidget({
+-  score,
+-  breakdown = DEFAULT_BREAKDOWN,
+-  lang      = "ar",
+-  variant   = "default",
+-  onClick,
+-}: {
+-  score?: number;
+-  breakdown?: Record<string, unknown>[];
+-  lang?: "ar" | "en" | "fr";
+-  variant?: "default" | "heart";
+-  onClick?: () => void;
+-}) {
+-  const t = T[lang] ?? T.en;
+-  const isRtl = lang === "ar";
++          initial={{ strokeDashoffset: C }}
++          animate={{ strokeDashoffset: C - dash }}
++          transition={{ duration: 1, ease: "easeOut" }}
++        />
++      </svg>
++      <div className="absolute inset-0 flex flex-col items-center justify-center font-bold text-center" style={{ color: ring }}>
++        <span className="text-lg leading-none font-black">{val}%</span>
++      </div>
++    </div>
++  );
++}
+ 
+-  const { data } = useResumeStore();
++export default function ATSScoreWidget({
++  score,
++  breakdown = DEFAULT_BREAKDOWN,
++  lang      = "ar",
++  variant   = "default",
++  onClick,
++}: {
++  score?: number;
++  breakdown?: Record<string, unknown>[];
++  lang?: "ar" | "en" | "fr";
++  variant?: "default" | "heart";
++  onClick?: () => void;
++}) {
++  const t = T[lang] ?? T.en;
++  const isRtl = lang === "ar";
++  
++  const { data } = useResumeStore();

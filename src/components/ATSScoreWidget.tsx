@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { DEFAULT_BREAKDOWN } from "../constants";
 import { useResumeStore } from "../store/useResumeStore";
-import { Sparkles, Check } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 // ── Role Dictionary for Immediate Keywords ──
 const ROLE_KEYWORDS: Record<string, string[]> = {
@@ -128,20 +128,19 @@ function ScoreRing({ score, size = 88 }: { score: number; size?: number }) {
   );
 }
 
-// ── main ──────────────────────────────────────────────────
 export default function ATSScoreWidget({
   score,
   breakdown = DEFAULT_BREAKDOWN,
   lang      = "ar",
   variant   = "default",
+  onClick,
 }: {
   score?: number;
   breakdown?: Record<string, unknown>[];
   lang?: "ar" | "en" | "fr";
   variant?: "default" | "heart";
+  onClick?: () => void;
 }) {
-  const [open, setOpen] = useState(false);
-  const wrapRef = useRef<HTMLDivElement>(null);
   const t = T[lang] ?? T.en;
   const isRtl = lang === "ar";
   
@@ -196,16 +195,8 @@ export default function ATSScoreWidget({
     lastScoreRef.current = activeScore;
   }, [activeScore]);
 
-  useEffect(() => {
-    const h = (e: MouseEvent) => { 
-      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setOpen(false);
-    };
-    document.addEventListener("mousedown", h);
-    return () => document.removeEventListener("mousedown", h);
-  }, []);
-
   return (
-    <div ref={wrapRef} className="relative inline-block" style={{ direction: isRtl ? "rtl" : "ltr" }}>
+    <div className="relative inline-block" style={{ direction: isRtl ? "rtl" : "ltr" }}>
       {/* Confetti Explosion */}
       {confetti.map((c) => (
         <motion.span
@@ -239,11 +230,11 @@ export default function ATSScoreWidget({
         <motion.button
           whileHover={{ scale: 1.08 }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => setOpen(o => !o)}
+          onClick={onClick}
           title={t.title}
-          className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer text-slate-500 hover:bg-slate-100/80 hover:text-black ${open ? "bg-slate-100 text-black" : ""}`}
+          className={`relative w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer text-slate-500 hover:bg-slate-100/80 hover:text-black`}
         >
-          <Sparkles className={`w-5.5 h-5.5 transition-colors ${open ? "fill-amber-400 stroke-amber-500 text-amber-500" : "fill-none text-slate-500"}`} />
+          <Sparkles className={`w-5.5 h-5.5 transition-colors fill-none text-slate-500`} />
           <span className="absolute -top-1 -right-1.5 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-slate-950 border border-white text-white min-w-[18px] text-center leading-none shadow-sm scale-90">
             {displayScore}
           </span>
@@ -252,71 +243,13 @@ export default function ATSScoreWidget({
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          onClick={() => setOpen(o => !o)}
+          onClick={onClick}
           className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border text-xs font-bold leading-none cursor-pointer transition-colors shadow-xs ${fg} ${bg}`}
         >
           <Sparkles size={12} className="opacity-70" />
           ATS {displayScore}%
         </motion.button>
       )}
-
-      <AnimatePresence>
-        {open && (
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            transition={{ type: "spring", stiffness: 450, damping: 30 }}
-            className={`absolute top-full mt-2.5 w-[340px] bg-white border border-slate-200/80 rounded-2xl shadow-xl overflow-hidden z-[1100] ${variant === "heart" ? "left-1/2 -translate-x-1/2" : (isRtl ? "right-0" : "left-0")}`}
-          >
-            <div className="p-5 border-b border-slate-100 flex items-center gap-4 bg-gradient-to-b from-slate-50/50 to-white">
-              <ScoreRing score={activeScore} size={80} />
-              <div>
-                <div className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">{t.title}</div>
-                <div className="text-xl font-black mt-0.5" style={{ color: ring }}>
-                  {scoreLabel(activeScore, lang)}
-                </div>
-                <div className="text-xs text-slate-500 font-semibold mt-1">
-                  {t.done(doneChecklist + matched.length, totalChecklist + suggested.length)}
-                </div>
-              </div>
-            </div>
-
-            <div className="h-1 bg-slate-100 w-full relative">
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: `${activeScore}%` }}
-                transition={{ duration: 1, ease: "easeOut" }}
-                className="h-full"
-                style={{ backgroundColor: ring }}
-              />
-            </div>
-
-            <div className="p-5 max-h-[290px] overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-slate-200">
-              
-              <div className="space-y-2">
-                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2 block">{t.todo}</span>
-                {breakdown.map((item, i) => (
-                  <motion.div 
-                    key={i} 
-                    className={`flex items-start gap-2.5 p-2 rounded-xl transition-all ${item.done ? "opacity-60" : "bg-slate-50/50"}`}
-                  >
-                    <span className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 mt-0.5 text-white ${item.done ? "bg-emerald-500 border-emerald-500" : "border-slate-300"}`}>
-                      {item.done && <Check size={10} strokeWidth={4} />}
-                    </span>
-                    <div>
-                      <div className={`text-xs font-semibold ${item.done ? "line-through text-slate-500" : "text-slate-700"}`}>
-                        {getText(item.label, lang)}
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-              
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }

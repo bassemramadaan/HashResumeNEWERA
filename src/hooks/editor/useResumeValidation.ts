@@ -34,13 +34,13 @@ export function useResumeValidation(data: ResumeData) {
     (!data.education || data.education.length === 0) && 
     (!data.skills || data.skills.length === 0);
 
-  const { score: atsScore } = useMemo(() => {
-    if (isEmpty) return { score: 0, criticalFailures: [], tips: [] };
+  const { score: atsScore, sections: atsSections, tips: atsTips } = useMemo(() => {
+    if (isEmpty) return { score: 0, sections: [], criticalFailures: [], tips: [] };
     try {
       return calculateATSScore(data, language);
     } catch (e) {
       console.error("ATS Audit failed", e);
-      return { score: 0, criticalFailures: [], tips: [] };
+      return { score: 0, sections: [], criticalFailures: [], tips: [] };
     }
   }, [data, isEmpty, language]);
 
@@ -57,5 +57,5 @@ export function useResumeValidation(data: ResumeData) {
     });
   }, [data]);
 
-  return { isPremium, isEmpty, atsScore, breakdown };
+  return { isPremium, isEmpty, atsScore, atsSections, atsTips, breakdown };
 }

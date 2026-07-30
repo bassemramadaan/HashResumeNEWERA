@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { Loader2, RotateCcw, AlertCircle, Eye, EyeOff, MessageCircle, Undo2, Redo2, Download, ArrowRight, ArrowLeft } from "lucide-react";
+import { Loader2, RotateCcw, AlertCircle, Eye, EyeOff, Undo2, Redo2, Download, ArrowRight, ArrowLeft } from "lucide-react";
 import type { AppLang } from "../../hooks/useDirection";
 import { cn } from "../../lib/utils";
 import { LogoImage } from "../LogoImage";

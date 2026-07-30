@@ -137,6 +137,26 @@ export type ResumeData = {
   unlockedSignature?: string;
 };
 
+export function hasMeaningfulResumeData(data?: ResumeData | null): boolean {
+  if (!data) return false;
+  const p = data.personalInfo;
+  if (p?.fullName?.trim() || p?.jobTitle?.trim() || p?.email?.trim() || p?.phone?.trim() || p?.summary?.trim()) {
+    return true;
+  }
+  if (data.experience && data.experience.length > 0) {
+    const hasExp = data.experience.some(e => e.position?.trim() || e.company?.trim() || e.description?.trim());
+    if (hasExp) return true;
+  }
+  if (data.education && data.education.length > 0) {
+    const hasEdu = data.education.some(e => e.institution?.trim() || e.degree?.trim());
+    if (hasEdu) return true;
+  }
+  if (data.skills && data.skills.length > 0) {
+    return true;
+  }
+  return false;
+}
+
 export function getResumeSignature(data: ResumeData | Partial<ResumeData>): string {
   if (!data) return "";
   const parts = {
@@ -228,12 +248,14 @@ type ResumeStore = {
   isCheckingATS: boolean;
   isGeneratingMap: Record<string, boolean>;
   isStarted: boolean; // Add this
+  hasCompletedOnboarding: boolean;
   aiSuggestions: string[];
   atsResult: unknown;
   focusedSection: string | null;
 
   setHydrated: (isHydrated: boolean) => void;
   setIsStarted: (isStarted: boolean) => void; // Add this
+  setHasCompletedOnboarding: (completed: boolean) => void;
   setFocusedSection: (section: string | null) => void;
   updatePersonalInfo: (info: Partial<PersonalInfo>) => void;
   addExperience: (exp: Omit<Experience, "id">) => void;
@@ -306,12 +328,14 @@ export const useResumeStore = create<ResumeStore>()(
       isCheckingATS: false,
       isGeneratingMap: {},
       isStarted: false, // Add this
+      hasCompletedOnboarding: false,
       aiSuggestions: [],
       atsResult: null,
       focusedSection: null,
 
       setHydrated: (isHydrated) => set({ isHydrated }),
       setIsStarted: (isStarted) => set({ isStarted }), // Add this
+      setHasCompletedOnboarding: (hasCompletedOnboarding) => set({ hasCompletedOnboarding }),
       setFocusedSection: (section) => set({ focusedSection: section }),
       updatePersonalInfo: (info) =>
         set((state) => ({
@@ -589,7 +613,7 @@ export const useResumeStore = create<ResumeStore>()(
           safeLocalStorage.removeItem('cv-last-download-snapshot');
 
           await useResumeStore.persist.clearStorage();
-          set({ data: { ...initialData, isLocked: false }, isStarted: false });
+          set({ data: { ...initialData, isLocked: false }, isStarted: false, hasCompletedOnboarding: false });
 
           // Flush the storage immediately to ensure the clean state is saved to disk before any potential page reload
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
